@@ -1,0 +1,127 @@
+include::attributes.txt[]
+ifdef::manvolnum[]
+PVE({manvolnum})
+================
+
+NAME
+----
+
+pct - Tool to manage Linux Containers (LXC) on Proxmox VE
+
+
+SYNOPSYS
+--------
+
+include::pct.1-synopsis.adoc[]
+
+DESCRIPTION
+-----------
+endif::manvolnum[]
+
+ifndef::manvolnum[]
+Proxmox Container Toolkit
+=========================
+endif::manvolnum[]
+
+'pct' is a tool to manages Linux Containers (LXC). You can create and
+destroy containers, and control execution
+(start/stop/suspend/resume). Besides that, you can use pct to set
+parameters in the associated config file, like network configuration
+or memory.
+
+CLI Usage Examples
+------------------
+
+Create a container based on a Debian template (provided you downloaded
+the template via the webgui before)
+
+ pct create 100 /var/lib/vz/template/cache/debian-8.0-standard_8.0-1_amd64.tar.gz
+
+Start container 100
+
+ pct start 100
+
+Start a login session via getty
+
+ pct console 100
+
+Enter the LXC namespace and run a shell as root user
+
+ pct enter 100
+
+Display the configuration
+
+ pct config 100
+
+Add a network interface called eth0, bridged to the host bridge vmbr0,
+set the address and gateway, while it's running
+
+ pct set 100 -net0 name=eth0,bridge=vmbr0,ip=192.168.15.147/24,gw=192.168.15.1
+
+Reduce the memory of the container to 512MB
+
+ pct set -memory 512 100
+
+Files
+------
+
+'/etc/pve/lxc/<vmid>.conf'::
+
+Configuration file for the container <vmid>
+
+
+Container Advantages
+--------------------
+
+- Simple, and fully integrated into {pve}. Setup looks similar to a normal
+  VM setup. 
+
+  * Storage (ZFS, LVM, NFS, Ceph, ...)
+
+  * Network
+
+  * Authentification
+
+  * Cluster
+
+- Fast: minimal overhead, as fast as bare metal
+
+- High density (perfect for idle workloads)
+
+- REST API
+
+- Direct hardware access
+
+
+Technology Overview
+-------------------
+
+- Integrated into {pve} graphical user interface (GUI)
+
+- LXC (https://linuxcontainers.org/)
+
+- cgmanager for cgroup management
+
+- lxcfs to provive containerized /proc file system
+
+- apparmor
+
+- CRIU: for live migration (planned)
+
+- We use latest available kernels (4.2.X)
+
+- image based deployment (templates)
+
+- Container setup from host (Network, DNS, Storage, ...)
+
+
+ifdef::manvolnum[]
+include::pve-copyright.adoc[]
+endif::manvolnum[]
+
+
+
+
+
+
+
