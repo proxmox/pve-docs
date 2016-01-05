@@ -43,6 +43,7 @@ Command Line Interface
 
 :leveloffset: 1
 include::pvesm.1-synopsis.adoc[]
+
 :leveloffset: 0
 
 *qm* - Qemu/KVM Virtual Machine Manager
@@ -50,6 +51,7 @@ include::pvesm.1-synopsis.adoc[]
 
 :leveloffset: 1
 include::qm.1-synopsis.adoc[]
+
 :leveloffset: 0
 
 *pct* - Proxmox Container Toolkit
@@ -57,6 +59,7 @@ include::qm.1-synopsis.adoc[]
 
 :leveloffset: 1
 include::pct.1-synopsis.adoc[]
+
 :leveloffset: 0
 
 *pveum* - {pve} User Manager
@@ -64,6 +67,7 @@ include::pct.1-synopsis.adoc[]
 
 :leveloffset: 1
 include::pveum.1-synopsis.adoc[]
+
 :leveloffset: 0
 
 *vzdump* - Backup Utility for VMs and Containers
@@ -71,6 +75,7 @@ include::pveum.1-synopsis.adoc[]
 
 :leveloffset: 1
 include::vzdump.1-synopsis.adoc[]
+
 :leveloffset: 0
 
 *pve-firewall* - The {pve} Firewall Daemon
@@ -78,6 +83,7 @@ include::vzdump.1-synopsis.adoc[]
 
 :leveloffset: 1
 include::pve-firewall.8-synopsis.adoc[]
+
 :leveloffset: 0
 
 include::pve-bibliography.adoc[]
@@ -85,5 +91,6 @@ include::pve-bibliography.adoc[]
 :leveloffset: 1
 [appendix]
 include::GFDL.adoc[]
+
 :leveloffset: 0
 
