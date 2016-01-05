@@ -21,6 +21,8 @@ include::attributes.txt[]
 [width="100%",options="header"]
 |===========================================================
 | Command name |Download link
+| qm           | link:qm.1.html[qm.1]
+| pct          | link:pct.1.html[pct.1]
 | pvesm        | link:pvesm.1.html[pvesm.1]
 | pveum        | link:pveum.1.html[pveum.1]
 | vzdump       | link:vzdump.1.html[vzdump.1]
