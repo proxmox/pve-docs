@@ -1,0 +1,19 @@
+nwdiag {
+  network cluster {
+    address = "210.x.x.x/24"
+    eth0;
+  }
+  network vmbr0 {
+        address = "210.x.x.1"
+         eth0;
+         VM-100 [ address = "210.x.x.10"];
+	 VM-101 [ address = "210.x.x.11"];
+	 CT-200 [ address = "210.x.x.12"];
+         group node-01 {
+	   eth0;
+	   VM-100;
+	   VM-101;
+	   CT-200;
+	 }
+     }
+ }

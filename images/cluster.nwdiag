@@ -1,0 +1,14 @@
+nwdiag {
+  inet [shape = cloud];
+  inet -- router;
+
+  network cluster {
+    router;
+
+    address = "210.x.x.x/24"
+
+    node-01 [address = "210.x.x.1"];
+    node-02 [address = "210.x.x.2"];
+    node-03 [address = "210.x.x.2"];
+  }
+}

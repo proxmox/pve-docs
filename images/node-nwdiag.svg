@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg viewBox="0 0 760 444" xmlns="http://www.w3.org/2000/svg" xmlns:inkspace="http://www.inkscape.org/namespaces/inkscape" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs id="defs_block">
+    <filter height="1.504" id="filter_blur" inkspace:collect="always" width="1.1575" x="-0.07875" y="-0.252">
+      <feGaussianBlur id="feGaussianBlur3780" inkspace:collect="always" stdDeviation="4.2" />
+    </filter>
+  </defs>
+  <title>blockdiag</title>
+  <desc>nwdiag {
+  network cluster {
+    address = "210.x.x.x/24"
+    eth0;
+  }
+  network vmbr0 {
+        address = "210.x.x.1"
+         eth0;
+         VM-100 [ address = "210.x.x.10"];
+	 VM-101 [ address = "210.x.x.11"];
+	 CT-200 [ address = "210.x.x.12"];
+         group node-01 {
+	   eth0;
+	   VM-100;
+	   VM-101;
+	   CT-200;
+	 }
+     }
+ }
+</desc>
+  <rect fill="rgb(243,152,0)" height="236" style="filter:url(#filter_blur)" width="572" x="146" y="130" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="104" x="155" y="162" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="104" x="307" y="306" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="104" x="459" y="306" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="104" x="611" y="306" />
+  <path d="M 131 103 L 283 103 A2,4 0 0 1 283 111 L 131 111 A2,4 0 0 1 131 103" fill="rgb(0,0,0)" style="filter:url(#filter_blur)" />
+  <path d="M 131 247 L 739 247 A2,4 0 0 1 739 255 L 131 255 A2,4 0 0 1 131 247" fill="rgb(0,0,0)" style="filter:url(#filter_blur)" />
+  <path d="M 128 100 L 280 100 A2,4 0 0 1 280 108 L 128 108 A2,4 0 0 1 128 100" fill="rgb(185,203,228)" stroke="rgb(0,0,0)" />
+  <path d="M 280 108 A2,4 0 0 1 280 100" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 128 100 L 280 100" fill="none" stroke="none" />
+  <path d="M 204 35 L 204 100" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 128 244 L 736 244 A2,4 0 0 1 736 252 L 128 252 A2,4 0 0 1 128 244" fill="rgb(185,203,228)" stroke="rgb(0,0,0)" />
+  <path d="M 736 252 A2,4 0 0 1 736 244" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 128 244 L 736 244" fill="none" stroke="none" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="42" x="99" y="103">cluster</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="72" x="84" y="116">210.x.x.x/24</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="30" x="105" y="247">vmbr0</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="54" x="93" y="260">210.x.x.1</text>
+  <path d="M 204 108 L 204 156" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 204 196 L 204 244" fill="none" stroke="rgb(0,0,0)" />
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="104" x="152" y="156" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="24" x="204" y="182">eth0</text>
+  <path d="M 356 252 L 356 300" fill="none" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="60" x="398" y="280">210.x.x.10</text>
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="104" x="304" y="300" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="36" x="356" y="326">VM-100</text>
+  <path d="M 508 252 L 508 300" fill="none" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="60" x="550" y="280">210.x.x.11</text>
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="104" x="456" y="300" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="36" x="508" y="326">VM-101</text>
+  <path d="M 660 252 L 660 300" fill="none" stroke="rgb(0,0,0)" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="60" x="702" y="280">210.x.x.12</text>
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="104" x="608" y="300" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" textLength="36" x="660" y="326">CT-200</text>
+</svg>
