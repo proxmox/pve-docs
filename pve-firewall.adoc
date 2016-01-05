@@ -12,7 +12,7 @@ pve-firewall - The PVE Firewall Daemon
 SYNOPSYS
 --------
 
-include::pve-firewall.1-synopsis.adoc[]
+include::pve-firewall.8-synopsis.adoc[]
 
 
 DESCRIPTION
