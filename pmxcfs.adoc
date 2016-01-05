@@ -1,0 +1,170 @@
+Proxmox Cluster file system (pmxcfs)
+====================================
+
+The Proxmox Cluster file system (pmxcfs) is a database-driven file
+system for storing configuration files, replicated in real time to all
+cluster nodes using corosync. We use this to store all PVE related
+configuration files.
+
+Although the file system stores all data inside a persistent database
+on disk, a copy of the data resides in RAM. That imposes restriction
+on the maximal size, which is currently 30MB. This is still enough to
+store the configuration of several thousand virtual machines.
+
+Advantages
+----------
+
+* seamless replication of all configuration to all nodes in real time
+* provides strong consistency checks to avoid duplicate VM IDs
+* read-only when a node looses quorum
+* automatic updates of the corosync cluster configuration to all nodes
+* includes a distributed locking mechanism
+
+POSIX Compatibility
+~~~~~~~~~~~~~~~~~~~
+
+The file system is based on FUSE, so the behavior is POSIX like. But
+some feature are simply not implemented, because we do not need them:
+
+* you can just generate normal files and directories, but no symbolic
+  links, ...
+
+* you can't rename non-empty directories (because this makes it easier
+  to guarantee that VMIDs are unique).
+
+* you can't change file permissions (permissions are based on path)
+
+* `O_EXCL` creates were not atomic (like old NFS)
+
+* `O_TRUNC` creates are not atomic (FUSE restriction)
+
+
+File access rights
+~~~~~~~~~~~~~~~~~~
+
+All files and directories are owned by user 'root' and have group
+'www-data'. Only root has write permissions, but group 'www-data' can
+read most files. Files below the following paths:
+
+ /etc/pve/priv/
+ /etc/pve/nodes/${NAME}/priv/
+
+are only accessible by root.
+
+Technology
+----------
+
+We use the http://www.corosync.org[Corosync Cluster Engine] for
+cluster communication, and http://www.sqlite.org[SQlite] for the
+database file. The filesystem is implemented in user space using
+http://fuse.sourceforge.net[FUSE].
+
+File system layout
+------------------
+
+The file system is mounted at:
+
+ /etc/pve
+
+Files
+~~~~~
+
+[width="100%",cols="m,d"]
+|=======
+|corosync.conf  |corosync cluster configuration file (previous to {pve} 4.x this file was called cluster.conf)
+|storage.cfg   |{pve} storage configuration
+|user.cfg      |{pve} access control configuration (users/groups/...)
+|domains.cfg   |{pve} Authentication domains 
+|authkey.pub   | public key used by ticket system
+|priv/shadow.cfg  | shadow password file
+|priv/authkey.key | private key used by ticket system
+|nodes/<NAME>/pve-ssl.pem                 | public ssl key for web server
+|nodes/<NAME>/priv/pve-ssl.key            | private ssl key
+|nodes/<NAME>/qemu-server/<VMID>.conf    | VM configuration data for KVM VMs
+|nodes/<NAME>/lxc/<VMID>.conf         | VM configuration data for LXC containers
+|firewall/cluster.fw | Firewall config applied to all nodes
+|firewall/<NAME>.fw  | Firewall config for individual nodes
+|firewall/<VMID>.fw  | Firewall config for VMs and Containers
+|=======
+
+Symbolic links
+~~~~~~~~~~~~~~
+
+[width="100%",cols="m,m"]
+|=======
+|local         |nodes/<LOCAL_HOST_NAME>
+|qemu-server   |nodes/<LOCAL_HOST_NAME>/qemu-server/
+|lxc           |nodes/<LOCAL_HOST_NAME>/lxc/
+|=======
+
+Special status files for debugging (JSON)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[width="100%",cols="m,d"]
+|=======
+| .version    |file versions (to detect file modifications)
+| .members    |Info about cluster members
+| .vmlist     |List of all VMs
+| .clusterlog |Cluster log (last 50 entries)
+| .rrd        |RRD data (most recent entries)
+|=======
+
+Enable/Disable debugging
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can enable verbose syslog messages with:
+
+ echo "1" >/etc/pve/.debug 
+
+And disable verbose syslog messages with:
+
+ echo "0" >/etc/pve/.debug 
+
+
+Recovery
+--------
+
+If you have major problems with your Proxmox VE host, e.g. hardware
+issues, it could be helpful to just copy the pmxcfs database file
+/var/lib/pve-cluster/config.db and move it to a new Proxmox VE
+host. On the new host (with nothing running), you need to stop the
+pve-cluster service and replace the config.db file (needed permissions
+0600). Second, adapt '/etc/hostname' and '/etc/hosts' according to the
+lost Proxmox VE host, then reboot and check. (And don´t forget your
+VM/CT data)
+
+Remove Cluster configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The recommended way is to reinstall the node after you removed it from
+your cluster. This makes sure that all secret cluster/ssh keys and any
+shared configuration data is destroyed.
+
+In some cases, you might prefer to put a node back to local mode
+without reinstall, which is described here:
+
+* stop the cluster file system in '/etc/pve/'
+
+ # systemctl stop pve-cluster
+
+* start it again but forcing local mode
+
+ # pmxcfs -l
+
+* remove the cluster config
+
+ # rm /etc/pve/cluster.conf
+ # rm /etc/cluster/cluster.conf
+ # rm /var/lib/pve-cluster/corosync.authkey
+
+* stop the cluster file system again
+
+ # service pve-cluster stop
+
+* restart pve services (or reboot)
+
+ # service pve-cluster start
+ # service pvedaemon restart
+ # service pveproxy restart
+ # service pvestatd restart
+
