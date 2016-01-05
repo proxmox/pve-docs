@@ -1,0 +1,56 @@
+Frequently Asked Questions
+--------------------------
+
+NOTE: New FAQs are appended to the bottom of this section.
+
+/////////////////////////////////////////////////////////////////
+ADD NEW FAQS TO THE BOTTOM OF THIS SECTION TO MAINTAIN NUMBERING
+/////////////////////////////////////////////////////////////////
+
+[qanda]
+
+What distribution is Proxmox VE based on?::
+
+Proxmox VE is based on http://www.debian.org[Debian GNU/Linux]
+
+Will Proxmox VE run on a 32bit processor?::
+
+Proxmox VE works only on 64-bit CPU´s (AMD or Intel). There is no plan
+for 32-bit for the platform.
++
+NOTE: VMs and Containers can be bothe 32-bit and/or 64-bit.
+
+Does my CPU support virtualization?::
+
+To check if your CPU is virtualization compatible, check for the "vmx"
+or "svm" tag in this command output:
++
+----
+egrep '(vmx|svm)' /proc/cpuinfo
+----
+
+Supported Intel CPUs::
+
+64-bit processors with
+http://en.wikipedia.org/wiki/Virtualization_Technology#Intel_virtualization_.28VT-x.29[Intel
+Virtualization Technology (Intel VT-x)] support. (http://ark.intel.com/search/advanced/?s=t&VTX=true&InstructionSet=64-bit[List of processors with Intel VT and 64-bit])
+
+Supported AMD CPUs::
+
+64-bit processors with
+http://en.wikipedia.org/wiki/Virtualization_Technology#AMD_virtualization_.28AMD-V.29[AMD
+Virtualization Technology (AMD-V)] support.
+
+What is a container, CT, VE, Virtual Private Server, VPS?::
+
+Operating-system-level virtualization is a server-virtualization
+method where the kernel of an operating system allows for multiple
+isolated user-space instances, instead of just one. We call such
+instances containers.
+
+What is a KVM guest (KVM VM)?::
+
+A KVM guest or KVM VM is a guest system running virtualized under
+Proxmox VE with KVM.
+
+
