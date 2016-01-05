@@ -69,8 +69,8 @@ pve-admin-guide.html: ${PVE_ADMIN_GUIDE_SOURCES}
 	asciidoc -a "date=$(shell date)" pve-admin-guide.adoc 
 	test -z "$${NOVIEW}" && iceweasel $@ &
 
-pve-admin-guide.pdf: ${PVE_ADMIN_GUIDE_SOURCES} docinfo.xml
-	a2x -a docinfo1 -f pdf -L --dblatex-opts "-P latex.output.revhistory=0" pve-admin-guide.adoc
+pve-admin-guide.pdf: ${PVE_ADMIN_GUIDE_SOURCES} docinfo.xml pve-admin-guide-docinfo.xml
+	a2x -a docinfo -a docinfo1 -f pdf -L --dblatex-opts "-P latex.output.revhistory=0" pve-admin-guide.adoc
 	test -z "$${NOVIEW}" && iceweasel $@ &
 
 pve-admin-guide.epub: ${PVE_ADMIN_GUIDE_SOURCES}
