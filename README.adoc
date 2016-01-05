@@ -5,7 +5,14 @@ What is this?
 -------------
 
 This is an experimental project, trying to generate high quality
-documentation for http://www.proxmox.com[Proxmox VE].
+documentation for http://www.proxmox.com[Proxmox VE]. We choose to use
+http://www.methods.co.nz/asciidoc/[AsciiDoc] as base format.
+
+One idea is to generate high quality manual pages, and assemble them
+into a complete book, called link:pve-admin-guide.adoc[Proxmox VE
+Administration Guide].  So we have one source, and generate several
+documents from that. It is also possible to generate printable PDF
+files, or ebook formats ('.ebup').
 
 
 Copyright
