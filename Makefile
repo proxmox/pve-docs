@@ -22,6 +22,7 @@ PVE_ADMIN_GUIDE_SOURCES=		\
 	images/cluster-nwdiag.svg	\
 	images/node-nwdiag.svg		\
 	pve-bibliography.adoc		\
+	GFDL.adoc			\
 	attributes.txt
 
 ADOC_STDARG= -a icons -a data-uri -a "date=$(shell date)"
