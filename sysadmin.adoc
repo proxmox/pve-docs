@@ -226,13 +226,13 @@ Local Storage
 Logical Volume Manager (LVM)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-TODO: info abou LVM.
+TODO: info about LVM.
 
 
 ZFS on Linux
 ~~~~~~~~~~~~
 
-TODO: info abou ZFS.
+TODO: info about ZFS.
 
 
 Working with 'systemd'
