@@ -1,0 +1,30 @@
+include::attributes.txt[]
+{pve} Documentation Index
+=========================
+:data-uri:
+:icons:
+
+{pve} Administration Guide
+--------------------------
+
+[width="100%",options="header"]
+|===========================================================
+|Format               |Download link
+|Printable version    |link:pve-admin-guide.pdf[]
+|Online HTML version  |link:pve-admin-guide.html[]
+|E-Book version       |link:pve-admin-guide.epub[]
+|===========================================================
+
+{pve} Manual Pages
+------------------
+
+[width="100%",options="header"]
+|===========================================================
+| Command name |Download link
+| pvesm        | link:pvesm.1.html[pvesm.1]
+| pveum        | link:pveum.1.html[pveum.1]
+| vzdump       | link:vzdump.1.html[vzdump.1]
+| pve-firewall | link:pve-firewall.8.html[pve-firewall.8]
+|===========================================================
+
+
