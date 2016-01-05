@@ -1,0 +1,10 @@
+:proxmoxGmbh: Proxmox Server Solutions Gmbh
+:copyright:   {proxmoxGmbh}
+:pve:         Proxmox VE
+:website:     http://www.proxmox.com/
+:manmanual:   {pve} Documentation
+:max-width:   55em
+ifndef::docinfo1[]
+:author:      {proxmoxGmbh}
+:email:       support@proxmox.com
+endif::docinfo1[]
