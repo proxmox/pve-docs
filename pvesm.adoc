@@ -1,0 +1,328 @@
+include::attributes.txt[]
+[[chapter-storage]]
+ifdef::manvolnum[]
+PVE({manvolnum})
+================
+
+NAME
+----
+
+pvesm - Proxmox VE Storage Manager
+
+
+SYNOPSYS
+--------
+
+include::pvesm.1-synopsis.adoc[]
+
+DESCRIPTION
+-----------
+endif::manvolnum[]
+
+ifndef::manvolnum[]
+{pve} Storage
+=============
+endif::manvolnum[]
+
+The {pve} storage model is very flexible. Virtual machine images
+can either be stored on one or several local storages, or on shared
+storage like NFS or iSCSI (NAS, SAN). There are no limits, and you may
+configure as many storage pools as you like. You can use all
+storage technologies available for Debian Linux.
+
+One major benefit of storing VMs on shared storage is the ability to
+live-migrate running machines without any downtime, as all nodes in
+the cluster have direct access to VM disk images. There is no need to
+copy VM image data, so live migration is very fast in that case.
+
+The storage library (package 'libpve-storage-perl') uses a flexible
+plugin system to provide a common interface to all storage types. This
+can be easily adopted to include further storage types in future.
+
+
+Storage Types
+-------------
+
+There are basically two different classes of storage types:
+
+Block level storage::
+
+Allows to store large 'raw' images. It is usually not possible to store
+other files (ISO, backups, ..) on such storage types. Most modern
+block level storage implementations support snapshots and clones.
+RADOS, Sheepdog and DRBD are distributed systems, replicating storage
+data to different nodes.
+
+File level storage::
+
+They allow access to a full featured (POSIX) file system. They are
+more flexible, and allows you to store any content type. ZFS is
+probably the most advanced system, and it has full support for
+snapshots and clones.
+
+
+.Available storage types
+[width="100%",cols="<d,1*m,4*d",options="header"]
+|===========================================================
+|Description    |PVE type    |Level |Shared|Snapshots|Stable
+|ZFS (local)    |zfspool     |file  |no    |yes      |yes
+|Directory      |dir         |file  |no    |no       |yes
+|NFS            |nfs         |file  |yes   |no       |yes
+|GlusterFS      |glusterfs   |file  |yes   |no       |yes
+|LVM            |lvm         |block |no    |no       |yes
+|LVM-thin       |lvmthin     |block |no    |yes      |beta
+|iSCSI/kernel   |iscsi       |block |yes   |no       |yes
+|iSCSI/libiscsi |iscsidirect |block |yes   |no       |yes
+|Ceph/RBD       |rbd         |block |yes   |yes      |yes
+|Sheepdog       |sheepdog    |block |yes   |yes      |beta
+|DRBD9          |drbd        |block |yes   |yes      |beta
+|ZFS over iSCSI |zfs         |block |yes   |yes      |yes
+|=========================================================
+
+TIP: It is possible to use LVM on top of an iSCSI storage. That way
+you get a 'shared' LVM storage.
+
+Storage Configuration
+---------------------
+
+All {pve} related storage configuration is stored within a single text
+file at '/etc/pve/storage.cfg'. As this file is within '/etc/pve/', it
+gets automatically distributed to all cluster nodes. So all nodes
+share the same storage configuration.
+
+Sharing storage configuration make perfect sense for shared storage,
+because the same 'shared' storage is accessible from all nodes. But is
+also useful for local storage types. In this case such local storage
+is available on all nodes, but it is physically different and can have
+totally different content.
+
+Storage Pools
+~~~~~~~~~~~~~
+
+Each storage pool has a `<type>`, and is uniquely identified by its `<STORAGE_ID>`. A pool configuration looks like this:
+
+----
+<type>: <STORAGE_ID>
+	<property> <value>
+	<property> <value>
+	...
+----
+
+NOTE: There is one special local storage pool named `local`. It refers to
+directory '/var/lib/vz' and is automatically generated at installation
+time.
+
+The `<type>: <STORAGE_ID>` line starts the pool definition, which is then
+followed by a list of properties. Most properties have values, but some of them comes
+with reasonable default. In that case you can omit the value.
+
+.Default storage configuration ('/etc/pve/storage.cfg')
+====
+ dir: local
+	path /var/lib/vz
+	content backup,iso,vztmpl,images,rootdir
+	maxfiles 3
+====
+
+Common Storage Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A few storage properties are common among differenty storage types. 
+
+nodes::
+
+List of cluster node names where this storage is
+usable/accessible. One can use this property to restrict storage
+access to a limited set of nodes.
+
+content::
+
+A storage can support several content types, for example virtual disk
+images, cdrom iso images, container templates or container root
+directories. Not all storage types supports all content types. One can set
+this property to select for what this storage is used for.
+
+images:::
+
+KVM-Qemu VM images.
+
+rootdir:::
+
+Allow to store Container data.
+
+vztmpl:::
+
+Container templates.
+
+backup:::
+
+Backup files ('vzdump').
+
+iso:::
+
+ISO images
+
+shared::
+
+Mark storage as shared.
+
+disable::
+
+You can use this flag to disable the storage completely.
+
+maxfiles::
+
+Maximal number of backup files per VM. Use `0` for unlimted.
+
+format::
+
+Default image format (`raw|qcow2|vmdk`)
+
+
+WARNING: It is not advisable to use the same storage pool on different
+{pve} clusters. Some storage operation needs exclusive access to the
+storage, so proper locking is required. While this is implemented
+within an cluster, it does not work between different clusters.
+
+
+Volumes
+-------
+
+We use a special notation to address storage data. When you allocate
+data from a storage pool, it returns such volume identifier. A volume
+is identified by the `<STORAGE_ID>`, followed by a storage type
+dependent volume name, separated by colon. A valid `<VOLUME_ID>` looks
+like:
+
+ local:230/example-image.raw
+
+ local:iso/debian-501-amd64-netinst.iso
+
+ local:vztmpl/debian-5.0-joomla_1.5.9-1_i386.tar.gz
+
+ iscsi-storage:0.0.2.scsi-14f504e46494c4500494b5042546d2d646744372d31616d61
+
+To get the filesystem path for a `<VOLUME_ID>` use:
+
+ pvesm path <VOLUME_ID>
+
+Volume Ownership
+~~~~~~~~~~~~~~~~
+
+There exists an ownership relation for 'image' type volumes. Each such
+volume is owned by a VM or Container. For example volume
+`local:230/example-image.raw` is owned by VM 230. Most storage
+backends encodes this ownership information into the volume name.
+
+When you remove a VM or Container, the system also remove all
+associated volumes which are owned by that VM or Container.
+
+
+Using the Command Line Interface
+--------------------------------
+
+I think it is required to understand the concept behind storage pools
+and volume identifier, but in real life, you are not forced to do any
+of those low level operations on the command line. Normally,
+allocation and removal of volumes is done by the VM and Container
+management tools.
+
+Nevertheless, there is a command line tool called 'pvesm' ({pve}
+storage manager), which is able to perform common storage management
+tasks.
+
+
+Examples
+~~~~~~~~
+
+Add storage pools
+
+ pvesm add <TYPE> <STORAGE_ID> <OPTIONS>
+ pvesm add dir <STORAGE_ID> --path <PATH>
+ pvesm add nfs <STORAGE_ID> --path <PATH> --server <SERVER> --export <EXPORT>
+ pvesm add lvm <STORAGE_ID> --vgname <VGNAME>
+ pvesm add iscsi <STORAGE_ID> --portal <HOST[:PORT]> --target <TARGET>
+
+Disable storage pools
+
+ pvesm set <STORAGE_ID> --disable 1
+
+Enable storage pools
+
+ pvesm set <STORAGE_ID> --disable 0
+
+Change/set storage options
+
+ pvesm set <STORAGE_ID> <OPTIONS>
+ pvesm set <STORAGE_ID> --shared 1
+ pvesm set local --format qcow2
+ pvesm set <STORAGE_ID> --content iso
+
+Remove storage pools. This does not delete any data, and does not
+disconnect or unmount anything. It just removes the storage
+configuration.
+
+ pvesm remove <STORAGE_ID>
+
+Allocate volumes
+
+ pvesm alloc <STORAGE_ID> <VMID> <name> <size> [--format <raw|qcow2>]
+
+Allocate a 4G volume in local storage. The name is auto-generated if
+you pass an empty string as `<name>`
+
+ pvesm alloc local <VMID> '' 4G
+
+Free volumes 
+
+ pvesm free <VOLUME_ID>
+
+WARNING: This really destroys all volume data.
+
+List storage status
+
+ pvesm status
+
+List storage contents
+
+ pvesm list <STORAGE_ID> [--vmid <VMID>]
+
+List volumes allocated by VMID
+
+ pvesm list <STORAGE_ID> --vmid <VMID>
+
+List iso images
+
+ pvesm list <STORAGE_ID> --iso
+
+List container templates
+
+ pvesm list <STORAGE_ID> --vztmpl
+
+Show filesystem path for a volume
+
+ pvesm path <VOLUME_ID>
+
+// backend documentation
+
+include::pve-storage-dir.adoc[]
+
+include::pve-storage-nfs.adoc[]
+
+include::pve-storage-glusterfs.adoc[]
+
+include::pve-storage-zfspool.adoc[]
+
+include::pve-storage-lvm.adoc[]
+
+include::pve-storage-iscsi.adoc[]
+
+include::pve-storage-iscsidirect.adoc[]
+
+include::pve-storage-rbd.adoc[]
+
+
+ifdef::manvolnum[]
+include::pve-copyright.adoc[]
+endif::manvolnum[]
+

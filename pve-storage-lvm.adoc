@@ -1,0 +1,87 @@
+LVM Backend
+-----------
+
+Storage pool type: `lvm`
+
+LVM is a thin software layer on top of hard disks and partitions. It
+can be used to split available disk space into smaller logical
+volumes. LVM is widely used on Linux and makes managing hard drives
+easier.
+
+Another use case is to put LVM on top of a big iSCSI LUN. That way you
+can easily manage space on that iSCSI LUN, which would not be possible
+otherwise, because the iSCSI specification does not define a
+management interface for space allocation.
+
+Configuration
+~~~~~~~~~~~~~
+
+The LVM backend supports the common storage properties `content`, `nodes`,
+`disable`, and the following LVM specific properties:
+
+`vgname`::
+
+LVM volume group name. This must point to an existing volume group.
+
+`base`::
+
+Base volume. This volume is automatically activated before accessing
+the storage. This is mostly useful when the LVM volume group resides
+on a remote iSCSI server.
+
+`saferemove`::
+
+Zero-out data when removing LVs. When removing a volume, this makes
+sure that all data gets erased.
+
+`saferemove_throughput`::
+
+Wipe throughput ('cstream -t' parameter value).
+
+.Configuration Example ('/etc/pve/storage.cfg')
+----
+lvm: myspace
+	vgname myspace
+	content rootdir,images
+----
+
+File naming conventions
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The backend use basically the same naming conventions as the ZFS pool
+backend.
+
+ vm-<VMID>-<NAME>      // normal VM images
+
+Storage Features
+~~~~~~~~~~~~~~~~
+
+LVM is a typical block storage, but this backend does not support
+snapshot and clones. Unfortunately, normal LVM snapshots are quite
+inefficient, because they interfere all writes on the whole volume
+group during snapshot time.
+
+One big advantage is that you can use it on top of a shared storage,
+for example an iSCSI LUN. The backend itself implement proper cluster
+wide locking.
+
+TIP: The newer LVM-thin backend allows snapshot and clones, but does
+not support shared storage.
+
+
+.Storage features for backend `lvm`
+[width="100%",cols="m,m,3*d",options="header"]
+|==============================================================================
+|Content types  |Image formats  |Shared   |Snapshots |Clones
+|images rootdir |raw            |possible |no        |no
+|==============================================================================
+
+Examples
+~~~~~~~~
+
+List available volume groups:
+
+ # pvesm lvmscan
+
+
+

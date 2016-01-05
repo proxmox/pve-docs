@@ -1,0 +1,88 @@
+Ceph RADOS Block Devices (RBD)
+------------------------------
+
+Storage pool type: `rbd`
+
+http://ceph.com[Ceph] is a distributed object store and file system
+designed to provide excellent performance, reliability and
+scalability. RADOS block devices implement a feature rich block level
+storage, and you get the following advantages:
+
+* thin provisioning
+* resizable volumes
+* distributed and redundant (striped over multiple OSDs)
+* full snapshot and clone capabilities
+* self healing
+* no single point of failure
+* scalable to the exabyte level 
+* kernel and unser space implementation available
+
+NOTE: For smaller deployments, it is also possible to run Ceph
+services directly on your {pve} nodes. Recent hardware has plenty
+of CPU power and RAM, so running storage services and VMs on same node
+is possible.
+
+Configuration
+~~~~~~~~~~~~~
+
+This backend supports the common storage properties `nodes`,
+`disable`, `content`, and the following `rbd` specific properties:
+
+monhost::
+
+List of monitor daemon IPs.
+
+pool::
+
+Ceph pool name.
+
+username::
+
+RBD user Id.
+
+krbd::
+
+Access rbd through krbd kernel module. This is required if you want to
+use the storage for containers.
+
+.Configuration Example ('/etc/pve/storage.cfg')
+----
+rbd: ceph3
+        monhost 10.1.1.20 10.1.1.21 10.1.1.22
+        pool ceph3
+        content images
+        username admin
+----
+
+TIP: You can use the 'rbd' utility to do low-level management tasks.
+
+Authentication
+~~~~~~~~~~~~~~
+
+If you use cephx authentication, you need to copy the keyfile from
+Ceph to Proxmox VE host.
+
+Create the directory '/etc/pve/priv/ceph' with
+
+ mkdir /etc/pve/priv/ceph
+
+Then copy the keyring
+
+ scp <cephserver>:/etc/ceph/ceph.client.admin.keyring /etc/pve/priv/ceph/<STORAGE_ID>.keyring
+
+The keyring must be named to match your `<STORAGE_ID>`. Copying the
+keyring generally requires root privileges.
+
+Storage Features
+~~~~~~~~~~~~~~~~
+
+The `rbd` backend is a block level storage, and implements full
+snapshot and clone functionality.
+
+.Storage features for backend `rbd`
+[width="100%",cols="m,m,3*d",options="header"]
+|==============================================================================
+|Content types  |Image formats  |Shared |Snapshots |Clones
+|images rootdir |raw            |yes    |yes       |yes
+|==============================================================================
+

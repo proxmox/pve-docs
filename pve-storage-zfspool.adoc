@@ -1,0 +1,86 @@
+Local ZFS Pool Backend
+----------------------
+
+Storage pool type: `zfspool`
+
+This backend allows you to access local ZFS pools (or ZFS filesystems
+inside such pools).
+
+Configuration
+~~~~~~~~~~~~~
+
+The backend supports the common storage properties `content`, `nodes`,
+`disable`, and the following ZFS specific properties:
+
+pool::
+
+Select the ZFS pool/filesystem. All allocations are done within that
+pool.
+
+blocksize::
+
+Set ZFS blocksize parameter.
+
+sparse::
+
+Use ZFS thin-provisioning. A sparse volume is a volume whose
+reservation is not equal to the volume size.
+
+.Configuration Example ('/etc/pve/storage.cfg')
+----
+zfspool: vmdata
+        pool tank/vmdata
+        content rootdir,images
+        sparse
+----
+
+File naming conventions
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The backend uses the following naming scheme for VM images:
+
+ vm-<VMID>-<NAME>      // normal VM images
+ base-<VMID>-<NAME>    // template VM image (read-only)
+ subvol-<VMID>-<NAME>  // subvolumes (ZFS filesystem for containers)
+ 
+`<VMID>`::
+
+This specifies the owner VM.
+
+`<NAME>`::
+
+This scan be an arbitrary name (`ascii`) without white spaces. The
+backend uses `disk[N]` as default, where `[N]` is replaced by an
+integer to make the name unique.
+
+
+Storage Features
+~~~~~~~~~~~~~~~~
+
+ZFS is probably the most advanced storage type regarding snapshot and
+cloning. The backend uses ZFS datasets for both VM images (format
+`raw`) and container data (format `subvol`). ZFS properties are
+inherited from the parent dataset, so you can simply set defaults
+on the parent dataset.
+
+.Storage features for backend `zfs`
+[width="100%",cols="m,m,3*d",options="header"]
+|==============================================================================
+|Content types  |Image formats  |Shared |Snapshots |Clones
+|images rootdir |raw subvol     |no     |yes       |yes
+|==============================================================================
+
+Examples
+~~~~~~~~
+
+It is recommended to create and extra ZFS filesystem to store your VM images:
+
+ # zfs create tank/vmdata
+
+To enable compression on that newly allocated filesystem:
+
+ # zfs set compression=on tank/vmdata
+
+You can get a list of available ZFS filesystems with:
+
+ # pvesm zfsscan

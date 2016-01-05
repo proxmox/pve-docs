@@ -1,0 +1,40 @@
+User Mode iSCSI Backend
+-----------------------
+
+Storage pool type: `iscsidirect`
+
+This backend provides basically the same functionality as the
+Open-iSCSI backed, but uses a user-level library (package 'libiscsi2')
+to implement it.
+
+It should be noted that there are no kernel drivers involved, so this
+can be viewed as performance optimization. But this comes with the
+drawback that you cannot use LVM on top of such iSCSI LUN. So you need
+to manage all space allocations at the storage server side.
+
+Configuration
+~~~~~~~~~~~~~
+
+The user mode iSCSI backend uses the same configuration options as the
+Open-iSCSI backed.
+
+.Configuration Example ('/etc/pve/storage.cfg')
+----
+iscsidirect: faststore
+     portal 10.10.10.1
+     target iqn.2006-01.openfiler.com:tsn.dcb5aaaddd
+----
+
+Storage Features
+~~~~~~~~~~~~~~~~
+
+NOTE: This backend works with VMs only. Containers cannot use this
+driver.
+
+.Storage features for backend `iscsidirect`
+[width="100%",cols="m,m,3*d",options="header"]
+|==============================================================================
+|Content types  |Image formats  |Shared |Snapshots |Clones
+|images         |raw            |yes    |no        |no
+|==============================================================================
+

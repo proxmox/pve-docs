@@ -1,0 +1,127 @@
+Directory Backend
+-----------------
+
+Storage pool type: `dir`
+
+{pve} can use local directories or locally mounted shares for
+storage. A directory is a file level storage, so you can store any
+content type like virtual disk images, containers, templates, ISO images
+or backup files.
+
+NOTE: You can mount additional storages via standard linux '/etc/fstab',
+and then define a directory storage for that mount point. This way you
+can use any file system supported by Linux.
+
+This backend assumes that the underlying directory is POSIX
+compatible, but nothing else. This implies that you cannot create
+snapshots at the storage level. But there exists a woraround for VM
+images using the `qcow2` file format, because that format supports
+snapshots internally.
+
+TIP: Some storage types does not support `O_DIRECT`, so you can't use
+cache mode `none` with such storages. Simply use cache mode
+`writeback` instead.
+
+We use a predefined directory layout to store different content types
+into different sub-directories. This layout is use by all file level
+storage backends.
+
+.Directory layout
+[width="100%",cols="d,m",options="header"]
+|===========================================================
+|Content type        |Subdir
+|VM images           |images/<VMID>/
+|ISO images          |template/iso/
+|Container templates |template/cache
+|Backup files        |dump/
+|===========================================================
+
+Configuration
+~~~~~~~~~~~~~
+
+This backend supports all common storage properties, and adds an
+additional property called `path` to specify the directory. This
+needs to be an absolute file system path.
+
+.Configuration Example ('/etc/pve/storage.cfg')
+----
+dir: backup
+        path /mnt/backup
+        content backup
+        maxfiles 7
+----
+
+Above configuration defines a storage pool called `backup`. That pool
+can be used to store up to 7 backups (`maxfiles 7`) per VM. The real
+path for the backup files is '/mnt/backup/dump/...'.
+
+
+File naming conventions
+~~~~~~~~~~~~~~~~~~~~~~~
+
+This backend uses a well defined naming scheme for VM images:
+
+ vm-<VMID>-<NAME>.<FORMAT>
+ 
+`<VMID>`::
+
+This specifies the owner VM.
+
+`<NAME>`::
+
+This scan be an arbitrary name (`ascii`) without white spaces. The
+backend uses `disk[N]` as default, where `[N]` is replaced by an
+integer to make the name unique.
+
+`<FORMAT>`::
+
+Species the image format (`raw|qcow2|vmdk`).
+
+When you create a VM template, all VM images are renamed to indicate
+that they are now read-only, and can be uses as base image for clones:
+
+ base-<VMID>-<NAME>.<FORMAT>
+
+NOTE: Such base images are used to generate cloned images. So it is
+important that those files are read-only, and never gets modified. The
+backend changes access mode to `0444`, and sets the immutable flag
+(`chattr +i`) if the storage supports that.
+
+Storage Features
+~~~~~~~~~~~~~~~~
+
+As mentioned above, most file systems does not support snapshots out
+of the box. To workaround that problem, this backend is able to use
+`qcow2` internal snapshot capabilities.
+
+Same applies to clones. The backend uses the `qcow2` base image
+feature to create clones.
+
+.Storage features for backend `dir`
+[width="100%",cols="m,m,3*d",options="header"]
+|==============================================================================
+|Content types                     |Image formats         |Shared |Snapshots |Clones
+|images rootdir vztempl iso backup |raw qcow2 vmdk subvol |no     |qcow2     |qcow2
+|==============================================================================
+
+
+Examples
+~~~~~~~~
+
+Please use the following command to allocate a 4GB image on storage `local`:
+
+ # pvesm alloc local 100 vm-100-disk10.raw 4G
+ Formatting '/var/lib/vz/images/100/vm-100-disk10.raw', fmt=raw size=4294967296
+ sucessfuly created 'local:100/vm-100-disk10.raw'
+
+NOTE: The image name must conform to above naming conventions.
+
+The real file system path is shown with:
+
+ # pvesm path local:100/vm-100-disk10.raw
+ /var/lib/vz/images/100/vm-100-disk10.raw
+
+And you can remove the image with:
+
+ # pvesm free local:100/vm-100-disk10.raw
+

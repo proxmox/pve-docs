@@ -1,0 +1,81 @@
+http://www.open-iscsi.org/[Open-iSCSI] initiator
+------------------------------------------------
+
+Storage pool type: `iscsi`
+
+iSCSI is a widely employed technology used to connect to storage
+servers. Almost all storage vendors support iSCSI. There are also open
+source iSCSI target solutions available,
+e.g. http://www.openmediavault.org/[OpenMediaVault], which is based on
+Debian.
+
+To use this backend, you need to install the 'open-iscsi'
+package. This is a standard Debian package, but it is not installed by
+default to save resources.
+
+  # apt-get install open-iscsi
+
+Low-level iscsi management task can be done using the 'iscsiadm' tool.
+
+
+Configuration
+~~~~~~~~~~~~~
+
+The backend supports the common storage properties `content`, `nodes`,
+`disable`, and the following iSCSI specific properties:
+
+portal::
+
+iSCSI portal (IP or DNS name with optional port).
+
+target::
+
+iSCSI target.
+
+
+.Configuration Example ('/etc/pve/storage.cfg')
+----
+iscsi: mynas
+     portal 10.10.10.1
+     target iqn.2006-01.openfiler.com:tsn.dcb5aaaddd
+     content none
+----
+
+TIP: If you want to use LVM on top of iSCSI, it make sense to set
+`content none`. That way it is not possible to create VMs using iSCSI
+LUNs directly.
+
+File naming conventions
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The iSCSI protocol does not define an interface to allocate or delete
+data. Instead, that needs to be done on the target side and is vendor
+specific. The target simply exports them as numbered LUNs. So {pve}
+iSCSI volume names just encodes some information about the LUN as seen
+by the linux kernel.
+
+
+Storage Features
+~~~~~~~~~~~~~~~~
+
+iSCSI is a block level type storage, and provides no management
+interface.  So it is usually best to export one big LUN, and setup LVM
+on top of that LUN. You can then use the LVM plugin to manage the
+storage on that iSCSI LUN.
+
+.Storage features for backend `iscsi`
+[width="100%",cols="m,m,3*d",options="header"]
+|==============================================================================
+|Content types  |Image formats  |Shared |Snapshots |Clones
+|images none    |raw            |yes    |no        |no
+|==============================================================================
+
+
+Examples
+~~~~~~~~
+
+Scan a remote iSCSI portal, and returns a list of possible targets:
+
+ pvesm iscsiscan -portal <HOST[:PORT]>
+
+
