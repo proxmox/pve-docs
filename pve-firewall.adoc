@@ -1,0 +1,358 @@
+include::attributes.txt[]
+ifdef::manvolnum[]
+PVE({manvolnum})
+================
+
+NAME
+----
+
+pve-firewall - The PVE Firewall Daemon
+
+
+SYNOPSYS
+--------
+
+include::pve-firewall.1-synopsis.adoc[]
+
+
+DESCRIPTION
+-----------
+endif::manvolnum[]
+
+ifndef::manvolnum[]
+{pve} Firewall
+==============
+endif::manvolnum[]
+
+// Copied from pve wiki: Revision as of 08:45, 9 November 2015
+
+Proxmox VE Firewall provides an easy way to protect your IT
+infrastructure. You can easily setup firewall rules for all hosts
+inside a cluster, or define rules for virtual machines and
+containers. Features like firewall macros, security groups, IP sets
+and aliases help making that task easier.
+
+While all configuration is stored on the cluster file system, the
+iptables based firewall runs on each cluster node, and thus provides
+full isolation between virtual machines. The distributed nature of
+this system also provides much higher bandwidth than a central
+firewall solution.
+
+NOTE: If you enable the firewall, all traffic is blocked by default,
+except WebGUI(8006) and ssh(22) from your local network.
+
+
+Zones
+-----
+
+The Proxmox VE firewall groups the network into the following logical zones:
+
+Host::
+
+Traffic from/to a cluster node
+
+VM::
+
+Traffic from/to a specific VM
+
+For each zone, you can define firewall rules for incoming and/or
+outgoing traffic.
+
+
+Ports used by Proxmox VE
+------------------------
+
+* Web interface: 8006
+* VNC Web console: 5900-5999
+* SPICE proxy: 3128
+* sshd (used for cluster actions): 22
+* rpcbind: 111
+*  corosync multicast (if you run a cluster): 5404, 5405 UDP
+
+
+Configuration
+-------------
+
+All firewall related configuration is stored on the proxmox cluster
+file system. So those files are automatically distributed to all
+cluster nodes, and the 'pve-firewall' service updates the underlying
+iptables rules automatically on any change. Any configuration can be
+done using the GUI (i.e. Datacenter -> Firewall -> Options tab (tabs
+at the bottom of the page), or on a Node -> Firewall), so the
+following configuration file snippets are just for completeness.
+
+Cluster wide configuration is stored at:
+ 
+ /etc/pve/firewall/cluster.fw
+
+The firewall is completely disabled by default, so you need to set the
+enable option here:
+
+----
+[OPTIONS]
+# enable firewall (cluster wide setting, default is disabled)
+enable: 1
+----
+
+The cluster wide configuration can contain the following data:
+
+* IP set definitions
+* Alias definitions
+* Security group definitions
+* Cluster wide firewall rules for all nodes
+
+VM firewall configuration is read from:
+
+ /etc/pve/firewall/<VMID>.fw
+
+and contains the following data:
+
+* IP set definitions
+* Alias definitions
+* Firewall rules for this VM
+* VM specific options
+
+And finally, any host related configuration is read from:
+
+ /etc/pve/nodes/<nodename>/host.fw
+
+This is useful if you want to overwrite rules from 'cluster.fw'
+config. You can also increase log verbosity, and set netfilter related
+options.
+
+Enabling Firewall for VMs and Containers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You need to enable the firewall on the virtual network interface configuration.
+
+Firewall Rules
+~~~~~~~~~~~~~~
+
+Any firewall rule consists of a direction (`IN` or `OUT`) and an
+action (`ACCEPT`, `DENY`, `REJECT`). Additional options can be used to
+refine rule matches. Here are some examples:
+
+----
+[RULES]
+
+#TYPE ACTION [OPTIONS]
+#TYPE MACRO(ACTION) [OPTIONS]
+
+# -i      <INTERFACE>
+# -source <SOURCE>
+# -dest   <DEST>
+# -p      <PROTOCOL>
+# -dport  <DESTINATION_PORT>
+# -sport  <SOURCE_PORT>
+
+IN SSH(ACCEPT) -i net0
+IN SSH(ACCEPT) -i net0 # a comment
+IN SSH(ACCEPT) -i net0 -source 192.168.2.192  # only allow SSH from 192.168.2.192
+IN SSH(ACCEPT) -i net0 -source 10.0.0.1-10.0.0.10 # accept SSH for ip range
+IN SSH(ACCEPT) -i net0 -source 10.0.0.1,10.0.0.2,10.0.0.3 #accept ssh for ip list
+IN SSH(ACCEPT) -i net0 -source +mynetgroup   # accept ssh for ipset mynetgroup
+IN SSH(ACCEPT) -i net0 -source myserveralias   #accept ssh for alias myserveralias
+
+|IN SSH(ACCEPT) -i net0 # disabled rule
+----
+
+Security Groups
+~~~~~~~~~~~~~~~
+
+A security group is a group a rules, defined at cluster level, which
+can be used in all VMs rules. For example you can define a group named
+`webserver` with rules to open http and https ports.
+
+----
+# /etc/pve/firewall/cluster.fw
+
+[group webserver]
+IN  ACCEPT -p tcp -dport 80
+IN  ACCEPT -p tcp -dport 443
+----
+
+Then, you can add this group in a vm firewall
+
+----
+# /etc/pve/firewall/<VMID>.fw
+
+[RULES]
+GROUP webserver
+----
+
+
+IP Aliases
+~~~~~~~~~~
+
+IP Aliases allows you to associate IP addresses of Networks with a
+name. You can then refer to those names:
+
+* inside IP set definitions
+* in `source` and `dest` properties of firewall rules
+
+Standard IP alias `local_network`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This alias is automatically defined. Please use the following command
+to see assigned values:
+
+----
+# pve-firewall localnet
+local hostname: example
+local IP address: 192.168.2.100
+network auto detect: 192.168.0.0/20
+using detected local_network: 192.168.0.0/20
+----
+
+The firewall automatically sets up rules to allow everything needed
+for cluster communication (corosync, API, SSH).
+
+The user can overwrite these values in the cluster.fw alias
+section. If you use a single host on a public network, it is better to
+explicitly assign the local IP address
+
+----
+#  /etc/pve/firewall/cluster.fw
+[ALIASES]
+local_network 1.2.3.4 # use the single ip address
+----
+
+IP Sets
+~~~~~~~
+
+IP sets can be used to define groups of networks and hosts. You can
+refer to them with `+name` in firewall rules `source` and `dest`
+properties.
+
+The following example allows HTTP traffic from the `management` IP
+set.
+
+ IN HTTP(ACCEPT) -source +management
+
+Standard IP set `management`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This IP set applies only to host firewalls (not VM firewalls).  Those
+ips are allowed to do normal management tasks (PVE GUI, VNC, SPICE,
+SSH).
+
+The local cluster network is automatically added to this IP set (alias
+`cluster_network`), to enable inter-host cluster
+communication. (multicast,ssh,...)
+
+----
+# /etc/pve/firewall/cluster.fw
+
+[IPSET management] 
+192.168.2.10
+192.168.2.10/24
+----
+
+Standard IP set 'blacklist'
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Traffic from those ips is dropped in all hosts and VMs firewalls.
+
+----
+# /etc/pve/firewall/cluster.fw
+
+[IPSET blacklist] 
+77.240.159.182
+213.87.123.0/24
+----
+
+Standard IP set 'ipfilter'
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This ipset is used to prevent ip spoofing
+
+----
+/etc/pve/firewall/<VMID>.fw
+
+[IPSET ipfilter-net0] # only allow specified IPs on net0
+192.168.2.10
+----
+
+Services and Commands
+~~~~~~~~~~~~~~~~~~~~~
+
+The firewall runs two service daemons on each node:
+
+* pvefw-logger: NFLOG daemon (ulogd replacement).
+* pve-firewall: updates iptables rules
+
+There is also a CLI command named 'pve-firewall', which can be used to
+start and stop the firewall service:
+
+ # pve-firewall start
+ # pve-firewall stop
+
+To get the status use:
+
+ # pve-firewall status
+
+The above command reads and compiles all firewall rules, so you will
+see warnings if your firewall configuration contains any errors.
+
+If you want to see the generated iptables rules you can use:
+
+ # iptables-save
+
+Tips and Tricks
+~~~~~~~~~~~~~~~
+
+How to allow FTP
+^^^^^^^^^^^^^^^^
+
+FTP is an old style protocol which uses port 21 and several other dynamic ports. So you
+need a rule to accept port 21. In addition, you need to load the 'ip_conntrack_ftp' module.
+So please run: 
+
+ modprobe ip_conntrack_ftp
+
+and add `ip_conntrack_ftp` to '/etc/modules' (so that it works after a reboot) .
+
+Suricata IPS integration
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you want to use the http://suricata-ids.org/[Suricata IPS]
+(Intrusion Prevention System), it's possible.
+
+Packets will be forwarded to the IPS only after the firewall ACCEPTed
+them.
+
+Rejected/Dropped firewall packets don't go to the IPS.
+
+Install suricata on proxmox host:
+
+----
+# apt-get install suricata
+# modprobe nfnetlink_queue  
+----
+
+Don't forget to add `nfnetlink_queue` to '/etc/modules' for next reboot.
+
+Then, enable IPS for a specific VM with:
+
+----
+# /etc/pve/firewall/<VMID>.fw
+
+[OPTIONS]
+ips: 1
+ips_queues: 0
+----
+
+`ips_queues` will bind a specific cpu queue for this VM.
+
+Available queues are defined in
+
+----
+# /etc/default/suricata
+NFQUEUE=0
+----
+
+
+ifdef::manvolnum[]
+include::copyright.adoc[]
+endif::manvolnum[]
+
