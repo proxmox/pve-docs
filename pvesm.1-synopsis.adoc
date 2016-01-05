@@ -1,0 +1,428 @@
+*pvesm* `<COMMAND> [ARGS] [OPTIONS]`
+
+*pvesm add* `<type> <storage>` `[OPTIONS]`
+
+Create a new storage.
+
+`<type>` `(dir | drbd | glusterfs | iscsi | iscsidirect | lvm | lvmthin | nfs | rbd | sheepdog | zfs | zfspool)` ::
+
+Storage type.
+
+`<storage>` `string` ::
+
+The storage identifier.
+
+`-authsupported` `string` ::
+
+Authsupported.
+
+`-base` `string` ::
+
+Base volume. This volume is automatically activated.
+
+`-blocksize` `string` ::
+
+block size
+
+`-comstar_hg` `string` ::
+
+host group for comstar views
+
+`-comstar_tg` `string` ::
+
+target group for comstar views
+
+`-content` `string` ::
+
+Allowed content types. Note: value 'rootdir' is used for Containers, and
+value 'images' for KVM-Qemu VM's.
+
+`-disable` `boolean` ::
+
+Flag to disable the storage.
+
+`-export` `string` ::
+
+NFS export path.
+
+`-format` `string` ::
+
+Default Image format.
+
+`-iscsiprovider` `string` ::
+
+iscsi provider
+
+`-krbd` `boolean` ::
+
+Access rbd through krbd kernel module.
+
+`-maxfiles` `integer (0 - N)` ::
+
+Maximal number of backup files per VM. Use '0' for unlimted.
+
+`-monhost` `string` ::
+
+Monitors daemon ips.
+
+`-nodes` `string` ::
+
+List of cluster node names.
+
+`-nowritecache` `boolean` ::
+
+disable write caching on the target
+
+`-options` `string` ::
+
+NFS mount options (see 'man nfs')
+
+`-path` `string` ::
+
+File system path.
+
+`-pool` `string` ::
+
+Pool.
+
+`-portal` `string` ::
+
+iSCSI portal (IP or DNS name with optional port).
+
+`-redundancy` `integer (1 - 16)` (default=`2`)::
+
+The redundancy count specifies the number of nodes to which the resource
+should be deployed. It must be at least 1 and at most the number of nodes
+in the cluster.
+
+`-saferemove` `boolean` ::
+
+Zero-out data when removing LVs.
+
+`-saferemove_throughput` `string` ::
+
+Wipe throughput (cstream -t parameter value).
+
+`-server` `string` ::
+
+Server IP or DNS name.
+
+`-server[n]` `string` ::
+
+Backup volfile server IP or DNS name.
++
+NOTE: Requires option(s): `server`
+
+`-shared` `boolean` ::
+
+Mark storage as shared.
+
+`-sparse` `boolean` ::
+
+use sparse volumes
+
+`-target` `string` ::
+
+iSCSI target.
+
+`-thinpool` `string` ::
+
+LVM thin pool LV name.
+
+`-transport` `(rdma | tcp | unix)` ::
+
+Gluster transport: tcp or rdma
+
+`-username` `string` ::
+
+RBD Id.
+
+`-vgname` `string` ::
+
+Volume group name.
+
+`-volume` `string` ::
+
+Glusterfs Volume.
+
+
+
+
+*pvesm alloc* `<storage> <vmid> <filename> <size>` `[OPTIONS]`
+
+Allocate disk images.
+
+`<storage>` `string` ::
+
+The storage identifier.
+
+`<vmid>` `integer (1 - N)` ::
+
+Specify owner VM
+
+`<filename>` `string` ::
+
+The name of the file to create.
+
+`<size>` `\d+[MG]?` ::
+
+Size in kilobyte (1024 bytes). Optional suffixes 'M' (megabyte, 1024K) and
+'G' (gigabyte, 1024M)
+
+`-format` `(qcow2 | raw | subvol)` ::
+
+no description available
++
+NOTE: Requires option(s): `size`
+
+
+
+*pvesm free* `<volume>` `[OPTIONS]`
+
+Delete volume
+
+`<volume>` `string` ::
+
+Volume identifier
+
+`-storage` `string` ::
+
+The storage identifier.
+
+
+
+
+*pvesm glusterfsscan* `<server>`
+
+Scan remote GlusterFS server.
+
+`<server>` `string` ::
+
+no description available
+
+
+
+
+*pvesm help* `[<cmd>]` `[OPTIONS]`
+
+Get help about specified command.
+
+`<cmd>` `string` ::
+
+Command name
+
+`-verbose` `boolean` ::
+
+Verbose output format.
+
+
+
+
+*pvesm iscsiscan* `-portal <string>` `[OPTIONS]`
+
+Scan remote iSCSI server.
+
+`-portal` `string` ::
+
+no description available
+
+
+
+
+*pvesm list* `<storage>` `[OPTIONS]`
+
+List storage content.
+
+`<storage>` `string` ::
+
+The storage identifier.
+
+`-content` `string` ::
+
+Only list content of this type.
+
+`-vmid` `integer (1 - N)` ::
+
+Only list images for this VM
+
+
+
+
+*pvesm lvmscan*
+
+List local LVM volume groups.
+
+
+
+*pvesm nfsscan* `<server>`
+
+Scan remote NFS server.
+
+`<server>` `string` ::
+
+no description available
+
+
+
+
+*pvesm path* `<volume>`
+
+Get filesystem path for specified volume
+
+`<volume>` `string` ::
+
+Volume identifier
+
+
+
+
+*pvesm remove* `<storage>`
+
+Delete storage configuration.
+
+`<storage>` `string` ::
+
+The storage identifier.
+
+
+
+*pvesm set* `<storage>` `[OPTIONS]`
+
+Update storage configuration.
+
+`<storage>` `string` ::
+
+The storage identifier.
+
+`-blocksize` `string` ::
+
+block size
+
+`-comstar_hg` `string` ::
+
+host group for comstar views
+
+`-comstar_tg` `string` ::
+
+target group for comstar views
+
+`-content` `string` ::
+
+Allowed content types. Note: value 'rootdir' is used for Containers, and
+value 'images' for KVM-Qemu VM's.
+
+`-delete` `string` ::
+
+A list of settings you want to delete.
+
+`-digest` `string` ::
+
+Prevent changes if current configuration file has different SHA1 digest.
+This can be used to prevent concurrent modifications.
+
+`-disable` `boolean` ::
+
+Flag to disable the storage.
+
+`-format` `string` ::
+
+Default Image format.
+
+`-krbd` `boolean` ::
+
+Access rbd through krbd kernel module.
+
+`-maxfiles` `integer (0 - N)` ::
+
+Maximal number of backup files per VM. Use '0' for unlimted.
+
+`-nodes` `string` ::
+
+List of cluster node names.
+
+`-nowritecache` `boolean` ::
+
+disable write caching on the target
+
+`-options` `string` ::
+
+NFS mount options (see 'man nfs')
+
+`-pool` `string` ::
+
+Pool.
+
+`-redundancy` `integer (1 - 16)` (default=`2`)::
+
+The redundancy count specifies the number of nodes to which the resource
+should be deployed. It must be at least 1 and at most the number of nodes
+in the cluster.
+
+`-saferemove` `boolean` ::
+
+Zero-out data when removing LVs.
+
+`-saferemove_throughput` `string` ::
+
+Wipe throughput (cstream -t parameter value).
+
+`-server` `string` ::
+
+Server IP or DNS name.
+
+`-server[n]` `string` ::
+
+Backup volfile server IP or DNS name.
++
+NOTE: Requires option(s): `server`
+
+`-shared` `boolean` ::
+
+Mark storage as shared.
+
+`-sparse` `boolean` ::
+
+use sparse volumes
+
+`-transport` `(rdma | tcp | unix)` ::
+
+Gluster transport: tcp or rdma
+
+`-username` `string` ::
+
+RBD Id.
+
+
+
+
+*pvesm status* `[OPTIONS]`
+
+Get status for all datastores.
+
+`-content` `string` ::
+
+Only list stores which support this content type.
+
+`-enabled` `boolean` (default=`0`)::
+
+Only list stores which are enabled (not disabled in config).
+
+`-storage` `string` ::
+
+Only list status for  specified storage
+
+`-target` `string` ::
+
+If target is different to 'node', we only lists shared storages which
+content is accessible on this 'node' and the specified 'target' node.
+
+
+
+
+*pvesm zfsscan*
+
+Scan zfs pool list on local node.
+
+
+
+

@@ -1,0 +1,100 @@
+*pve-firewall* `<COMMAND> [ARGS] [OPTIONS]`
+
+*pve-firewall compile*
+
+Compile and print firewall rules. This is useful for testing.
+
+
+
+
+*pve-firewall help* `[<cmd>]` `[OPTIONS]`
+
+Get help about specified command.
+
+`<cmd>` `string` ::
+
+Command name
+
+`-verbose` `boolean` ::
+
+Verbose output format.
+
+
+
+
+*pve-firewall localnet*
+
+Print information about local network.
+
+
+
+*pve-firewall restart*
+
+Restart the Proxmox VE firewall service.
+
+
+
+*pve-firewall simulate* `[OPTIONS]`
+
+Simulate firewall rules. This does not simulate kernel 'routing' table.
+Instead, this simply assumes that routing from source zone to destination
+zone is possible.
+
+`-dest` `string` ::
+
+Destination IP address.
+
+`-dport` `integer` ::
+
+Destination port.
+
+`-from` `(host|outside|vm\d+|ct\d+|vmbr\d+/\S+)` (default=`outside`)::
+
+Source zone.
+
+`-protocol` `(tcp|udp)` (default=`tcp`)::
+
+Protocol.
+
+`-source` `string` ::
+
+Source IP address.
+
+`-sport` `integer` ::
+
+Source port.
+
+`-to` `(host|outside|vm\d+|ct\d+|vmbr\d+/\S+)` (default=`host`)::
+
+Destination zone.
+
+`-verbose` `boolean` (default=`0`)::
+
+Verbose output.
+
+
+
+*pve-firewall start* `[OPTIONS]`
+
+Start the Proxmox VE firewall service.
+
+`-debug` `boolean` (default=`0`)::
+
+Debug mode - stay in foreground
+
+
+
+*pve-firewall status*
+
+Get firewall status.
+
+
+
+*pve-firewall stop*
+
+Stop firewall. This removes all Proxmox VE related iptable rules. The host
+is unprotected afterwards.
+
+
+
+

@@ -1,0 +1,708 @@
+*pct* `<COMMAND> [ARGS] [OPTIONS]`
+
+*pct config* `<vmid>`
+
+Get container configuration.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+
+
+
+*pct console* `<vmid>`
+
+Launch a console for the specified container.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+
+
+
+*pct create* `<vmid> <ostemplate>` `[OPTIONS]`
+
+Create or restore a container.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`<ostemplate>` `string` ::
+
+The OS template or backup file.
+
+`-arch` `(amd64 | i386)` (default=`amd64`)::
+
+OS architecture type.
+
+`-cmode` `(console | shell | tty)` (default=`tty`)::
+
+Console mode. By default, the console command tries to open a connection to
+one of the available tty devices. By setting cmode to 'console' it tries to
+attach to /dev/console instead. If you set cmode to 'shell', it simply
+invokes a shell inside the container (no login).
+
+`-console` `boolean` (default=`1`)::
+
+Attach a console device (/dev/console) to the container.
+
+`-cpulimit` `number (0 - 128)` (default=`0`)::
+
+Limit of CPU usage. Note if the computer has 2 CPUs, it has total of '2'
+CPU time. Value '0' indicates no CPU limit.
+
+`-cpuunits` `integer (0 - 500000)` (default=`1024`)::
+
+CPU weight for a VM. Argument is used in the kernel fair scheduler. The
+larger the number is, the more CPU time this VM gets. Number is relative to
+weights of all the other running VMs.
+
+NOTE: You can disable fair-scheduler configuration by setting this to 0.
+
+`-description` `string` ::
+
+Container description. Only used on the configuration web interface.
+
+`-force` `boolean` ::
+
+Allow to overwrite existing container.
+
+`-hostname` `string` ::
+
+Set a host name for the container.
+
+`-ignore-unpack-errors` `boolean` ::
+
+Ignore errors when extracting the template.
+
+`-lock` `(backup | migrate | rollback | snapshot)` ::
+
+Lock/unlock the VM.
+
+`-memory` `integer (16 - N)` (default=`512`)::
+
+Amount of RAM for the VM in MB.
+
+`-mp[n]` `[volume=]<volume> [,backup=<[1|0]>] [,mp=<Path>] [,size=<DiskSize>]` ::
+
+Use volume as container mount point (experimental feature).
+
+`-nameserver` `string` ::
+
+Sets DNS server IP address for a container. Create will automatically use
+the setting from the host if you neither set searchdomain or nameserver.
+
+`-net[n]` `name=<String> [,bridge=<vmbr<Number>>] [,firewall=<[1|0]>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<MAC>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>] [,mtu=<Number>] [,tag=<VlanNo>]` ::
+
+Specifies network interfaces for the container.
+
+`-onboot` `boolean` (default=`0`)::
+
+Specifies whether a VM will be started during system bootup.
+
+`-ostype` `(archlinux | centos | debian | fedora | opensuse | ubuntu)` ::
+
+OS type. Corresponds to lxc setup scripts in
+/usr/share/lxc/config/<ostype>.common.conf.
+
+`-password` `string` ::
+
+Sets root password inside container.
+
+`-pool` `string` ::
+
+Add the VM to the specified pool.
+
+`-protection` `boolean` (default=`0`)::
+
+Sets the protection flag of the container. This will prevent the remove
+operation. This will prevent the CT or CT's disk remove/update operation.
+
+`-restore` `boolean` ::
+
+Mark this as restore task.
+
+`-rootfs` `[volume=]<volume> [,backup=<[1|0]>] [,size=<DiskSize>]` ::
+
+Use volume as container root.
+
+`-searchdomain` `string` ::
+
+Sets DNS search domains for a container. Create will automatically use the
+setting from the host if you neither set searchdomain or nameserver.
+
+`-startup` `[[order=]\d+] [,up=\d+] [,down=\d+] ` ::
+
+Startup and shutdown behavior. Order is a non-negative number defining the
+general startup order. Shutdown in done with reverse ordering. Additionally
+you can set the 'up' or 'down' delay in seconds, which specifies a delay to
+wait before the next VM is started or stopped.
+
+`-storage` `string` (default=`local`)::
+
+Default Storage.
+
+`-swap` `integer (0 - N)` (default=`512`)::
+
+Amount of SWAP for the VM in MB.
+
+`-template` `boolean` (default=`0`)::
+
+Enable/disable Template.
+
+`-tty` `integer (0 - 6)` (default=`2`)::
+
+Specify the number of tty available to the container
+
+`-unprivileged` `boolean` (default=`0`)::
+
+Makes the container run as unprivileged user. (Should not be modified
+manually.)
+
+`-unused[n]` `string` ::
+
+Reference to unused volumes.
+
+
+
+
+*pct delsnapshot* `<vmid> <snapname>` `[OPTIONS]`
+
+Delete a LXC snapshot.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`<snapname>` `string` ::
+
+The name of the snapshot.
+
+`-force` `boolean` ::
+
+For removal from config file, even if removing disk snapshots fails.
+
+
+
+
+*pct destroy* `<vmid>`
+
+Destroy the container (also delete all uses files).
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+
+
+
+*pct enter* `<vmid>`
+
+Launch a shell for the specified container.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+
+
+*pct exec* `<vmid> [<extra-args>]`
+
+Launch a command inside the specified container.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`<extra-args>` `array` ::
+
+Extra arguments as array
+
+
+
+*pct fsck* `<vmid>` `[OPTIONS]`
+
+Run a filesystem check (fsck) on a container volume.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`-device` `(mp0 | mp1 | mp2 | mp3 | mp4 | mp5 | mp6 | mp7 | mp8 | mp9 | rootfs)` ::
+
+A volume on which to run the filesystem check
+
+`-force` `boolean` (default=`0`)::
+
+Force checking, even if the filesystem seems clean
+
+
+
+
+*pct help* `[<cmd>]` `[OPTIONS]`
+
+Get help about specified command.
+
+`<cmd>` `string` ::
+
+Command name
+
+`-verbose` `boolean` ::
+
+Verbose output format.
+
+
+
+
+*pct list*
+
+LXC container index (per node).
+
+
+
+
+*pct listsnapshot* `<vmid>`
+
+List all snapshots.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+
+
+
+*pct migrate* `<vmid> <target>` `[OPTIONS]`
+
+Migrate the container to another node. Creates a new migration task.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`<target>` `string` ::
+
+Target node.
+
+`-online` `boolean` ::
+
+Use online/live migration.
+
+
+
+*pct resize* `<vmid> <disk> <size>` `[OPTIONS]`
+
+Resize a container mountpoint.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`<disk>` `(mp0 | mp1 | mp2 | mp3 | mp4 | mp5 | mp6 | mp7 | mp8 | mp9 | rootfs)` ::
+
+The disk you want to resize.
+
+`<size>` `\+?\d+(\.\d+)?[KMGT]?` ::
+
+The new size. With the '+' sign the value is added to the actual size of
+the volume and without it, the value is taken as an absolute one. Shrinking
+disk size is not supported.
+
+`-digest` `string` ::
+
+Prevent changes if current configuration file has different SHA1 digest.
+This can be used to prevent concurrent modifications.
+
+
+
+*pct restore* `<vmid> <ostemplate>` `[OPTIONS]`
+
+Create or restore a container.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`<ostemplate>` `string` ::
+
+The OS template or backup file.
+
+`-arch` `(amd64 | i386)` (default=`amd64`)::
+
+OS architecture type.
+
+`-cmode` `(console | shell | tty)` (default=`tty`)::
+
+Console mode. By default, the console command tries to open a connection to
+one of the available tty devices. By setting cmode to 'console' it tries to
+attach to /dev/console instead. If you set cmode to 'shell', it simply
+invokes a shell inside the container (no login).
+
+`-console` `boolean` (default=`1`)::
+
+Attach a console device (/dev/console) to the container.
+
+`-cpulimit` `number (0 - 128)` (default=`0`)::
+
+Limit of CPU usage. Note if the computer has 2 CPUs, it has total of '2'
+CPU time. Value '0' indicates no CPU limit.
+
+`-cpuunits` `integer (0 - 500000)` (default=`1024`)::
+
+CPU weight for a VM. Argument is used in the kernel fair scheduler. The
+larger the number is, the more CPU time this VM gets. Number is relative to
+weights of all the other running VMs.
+
+NOTE: You can disable fair-scheduler configuration by setting this to 0.
+
+`-description` `string` ::
+
+Container description. Only used on the configuration web interface.
+
+`-force` `boolean` ::
+
+Allow to overwrite existing container.
+
+`-hostname` `string` ::
+
+Set a host name for the container.
+
+`-ignore-unpack-errors` `boolean` ::
+
+Ignore errors when extracting the template.
+
+`-lock` `(backup | migrate | rollback | snapshot)` ::
+
+Lock/unlock the VM.
+
+`-memory` `integer (16 - N)` (default=`512`)::
+
+Amount of RAM for the VM in MB.
+
+`-mp[n]` `[volume=]<volume> [,backup=<[1|0]>] [,mp=<Path>] [,size=<DiskSize>]` ::
+
+Use volume as container mount point (experimental feature).
+
+`-nameserver` `string` ::
+
+Sets DNS server IP address for a container. Create will automatically use
+the setting from the host if you neither set searchdomain or nameserver.
+
+`-net[n]` `name=<String> [,bridge=<vmbr<Number>>] [,firewall=<[1|0]>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<MAC>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>] [,mtu=<Number>] [,tag=<VlanNo>]` ::
+
+Specifies network interfaces for the container.
+
+`-onboot` `boolean` (default=`0`)::
+
+Specifies whether a VM will be started during system bootup.
+
+`-ostype` `(archlinux | centos | debian | fedora | opensuse | ubuntu)` ::
+
+OS type. Corresponds to lxc setup scripts in
+/usr/share/lxc/config/<ostype>.common.conf.
+
+`-password` `string` ::
+
+Sets root password inside container.
+
+`-pool` `string` ::
+
+Add the VM to the specified pool.
+
+`-protection` `boolean` (default=`0`)::
+
+Sets the protection flag of the container. This will prevent the remove
+operation. This will prevent the CT or CT's disk remove/update operation.
+
+`-rootfs` `[volume=]<volume> [,backup=<[1|0]>] [,size=<DiskSize>]` ::
+
+Use volume as container root.
+
+`-searchdomain` `string` ::
+
+Sets DNS search domains for a container. Create will automatically use the
+setting from the host if you neither set searchdomain or nameserver.
+
+`-startup` `[[order=]\d+] [,up=\d+] [,down=\d+] ` ::
+
+Startup and shutdown behavior. Order is a non-negative number defining the
+general startup order. Shutdown in done with reverse ordering. Additionally
+you can set the 'up' or 'down' delay in seconds, which specifies a delay to
+wait before the next VM is started or stopped.
+
+`-storage` `string` (default=`local`)::
+
+Default Storage.
+
+`-swap` `integer (0 - N)` (default=`512`)::
+
+Amount of SWAP for the VM in MB.
+
+`-template` `boolean` (default=`0`)::
+
+Enable/disable Template.
+
+`-tty` `integer (0 - 6)` (default=`2`)::
+
+Specify the number of tty available to the container
+
+`-unprivileged` `boolean` (default=`0`)::
+
+Makes the container run as unprivileged user. (Should not be modified
+manually.)
+
+`-unused[n]` `string` ::
+
+Reference to unused volumes.
+
+
+
+
+*pct resume* `<vmid>`
+
+Resume the container.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+
+
+
+*pct rollback* `<vmid> <snapname>`
+
+Rollback LXC state to specified snapshot.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`<snapname>` `string` ::
+
+The name of the snapshot.
+
+
+
+
+*pct set* `<vmid>` `[OPTIONS]`
+
+Set container options.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`-arch` `(amd64 | i386)` (default=`amd64`)::
+
+OS architecture type.
+
+`-cmode` `(console | shell | tty)` (default=`tty`)::
+
+Console mode. By default, the console command tries to open a connection to
+one of the available tty devices. By setting cmode to 'console' it tries to
+attach to /dev/console instead. If you set cmode to 'shell', it simply
+invokes a shell inside the container (no login).
+
+`-console` `boolean` (default=`1`)::
+
+Attach a console device (/dev/console) to the container.
+
+`-cpulimit` `number (0 - 128)` (default=`0`)::
+
+Limit of CPU usage. Note if the computer has 2 CPUs, it has total of '2'
+CPU time. Value '0' indicates no CPU limit.
+
+`-cpuunits` `integer (0 - 500000)` (default=`1024`)::
+
+CPU weight for a VM. Argument is used in the kernel fair scheduler. The
+larger the number is, the more CPU time this VM gets. Number is relative to
+weights of all the other running VMs.
+
+NOTE: You can disable fair-scheduler configuration by setting this to 0.
+
+`-delete` `string` ::
+
+A list of settings you want to delete.
+
+`-description` `string` ::
+
+Container description. Only used on the configuration web interface.
+
+`-digest` `string` ::
+
+Prevent changes if current configuration file has different SHA1 digest.
+This can be used to prevent concurrent modifications.
+
+`-hostname` `string` ::
+
+Set a host name for the container.
+
+`-lock` `(backup | migrate | rollback | snapshot)` ::
+
+Lock/unlock the VM.
+
+`-memory` `integer (16 - N)` (default=`512`)::
+
+Amount of RAM for the VM in MB.
+
+`-mp[n]` `[volume=]<volume> [,backup=<[1|0]>] [,mp=<Path>] [,size=<DiskSize>]` ::
+
+Use volume as container mount point (experimental feature).
+
+`-nameserver` `string` ::
+
+Sets DNS server IP address for a container. Create will automatically use
+the setting from the host if you neither set searchdomain or nameserver.
+
+`-net[n]` `name=<String> [,bridge=<vmbr<Number>>] [,firewall=<[1|0]>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<MAC>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>] [,mtu=<Number>] [,tag=<VlanNo>]` ::
+
+Specifies network interfaces for the container.
+
+`-onboot` `boolean` (default=`0`)::
+
+Specifies whether a VM will be started during system bootup.
+
+`-ostype` `(archlinux | centos | debian | fedora | opensuse | ubuntu)` ::
+
+OS type. Corresponds to lxc setup scripts in
+/usr/share/lxc/config/<ostype>.common.conf.
+
+`-protection` `boolean` (default=`0`)::
+
+Sets the protection flag of the container. This will prevent the remove
+operation. This will prevent the CT or CT's disk remove/update operation.
+
+`-rootfs` `[volume=]<volume> [,backup=<[1|0]>] [,size=<DiskSize>]` ::
+
+Use volume as container root.
+
+`-searchdomain` `string` ::
+
+Sets DNS search domains for a container. Create will automatically use the
+setting from the host if you neither set searchdomain or nameserver.
+
+`-startup` `[[order=]\d+] [,up=\d+] [,down=\d+] ` ::
+
+Startup and shutdown behavior. Order is a non-negative number defining the
+general startup order. Shutdown in done with reverse ordering. Additionally
+you can set the 'up' or 'down' delay in seconds, which specifies a delay to
+wait before the next VM is started or stopped.
+
+`-swap` `integer (0 - N)` (default=`512`)::
+
+Amount of SWAP for the VM in MB.
+
+`-template` `boolean` (default=`0`)::
+
+Enable/disable Template.
+
+`-tty` `integer (0 - 6)` (default=`2`)::
+
+Specify the number of tty available to the container
+
+`-unprivileged` `boolean` (default=`0`)::
+
+Makes the container run as unprivileged user. (Should not be modified
+manually.)
+
+`-unused[n]` `string` ::
+
+Reference to unused volumes.
+
+
+
+
+*pct shutdown* `<vmid>` `[OPTIONS]`
+
+Shutdown the container.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`-forceStop` `boolean` (default=`0`)::
+
+Make sure the Container stops.
+
+`-timeout` `integer (0 - N)` (default=`60`)::
+
+Wait maximal timeout seconds.
+
+
+
+
+*pct snapshot* `<vmid> <snapname>` `[OPTIONS]`
+
+Snapshot a container.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`<snapname>` `string` ::
+
+The name of the snapshot.
+
+`-description` `string` ::
+
+A textual description or comment.
+
+
+
+
+*pct start* `<vmid>`
+
+Start the container.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+
+
+*pct stop* `<vmid>`
+
+Stop the container.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+
+
+*pct suspend* `<vmid>`
+
+Suspend the container.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+
+
+
+*pct template* `<vmid>`
+
+Create a Template.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+
+
+
+*pct unlock* `<vmid>`
+
+Unlock the VM.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+
+
+

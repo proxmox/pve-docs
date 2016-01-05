@@ -1,0 +1,304 @@
+*pveum* `<COMMAND> [ARGS] [OPTIONS]`
+
+*pveum acldel* `<path> -roles <string>` `[OPTIONS]`
+
+Update Access Control List (add or remove permissions).
+
+`<path>` `string` ::
+
+Access control path
+
+`-groups` `string` ::
+
+List of groups.
+
+`-propagate` `boolean` (default=`1`)::
+
+Allow to propagate (inherit) permissions.
+
+`-roles` `string` ::
+
+List of roles.
+
+`-users` `string` ::
+
+List of users.
+
+
+
+*pveum aclmod* `<path> -roles <string>` `[OPTIONS]`
+
+Update Access Control List (add or remove permissions).
+
+`<path>` `string` ::
+
+Access control path
+
+`-groups` `string` ::
+
+List of groups.
+
+`-propagate` `boolean` (default=`1`)::
+
+Allow to propagate (inherit) permissions.
+
+`-roles` `string` ::
+
+List of roles.
+
+`-users` `string` ::
+
+List of users.
+
+
+
+
+*pveum groupadd* `<groupid>` `[OPTIONS]`
+
+Create new group.
+
+`<groupid>` `string` ::
+
+no description available
+
+`-comment` `string` ::
+
+no description available
+
+
+
+*pveum groupdel* `<groupid>`
+
+Delete group.
+
+`<groupid>` `string` ::
+
+no description available
+
+
+
+*pveum groupmod* `<groupid>` `[OPTIONS]`
+
+Update group data.
+
+`<groupid>` `string` ::
+
+no description available
+
+`-comment` `string` ::
+
+no description available
+
+
+
+
+*pveum help* `[<cmd>]` `[OPTIONS]`
+
+Get help about specified command.
+
+`<cmd>` `string` ::
+
+Command name
+
+`-verbose` `boolean` ::
+
+Verbose output format.
+
+
+
+
+*pveum passwd* `<userid>`
+
+Change user password.
+
+`<userid>` `string` ::
+
+User ID
+
+
+
+
+*pveum roleadd* `<roleid>` `[OPTIONS]`
+
+Create new role.
+
+`<roleid>` `string` ::
+
+no description available
+
+`-privs` `string` ::
+
+no description available
+
+
+
+*pveum roledel* `<roleid>`
+
+Delete role.
+
+`<roleid>` `string` ::
+
+no description available
+
+
+
+*pveum rolemod* `<roleid> -privs <string>` `[OPTIONS]`
+
+Create new role.
+
+`<roleid>` `string` ::
+
+no description available
+
+`-append` `boolean` ::
+
+no description available
++
+NOTE: Requires option(s): `privs`
+
+`-privs` `string` ::
+
+no description available
+
+
+
+
+*pveum ticket* `<username>` `[OPTIONS]`
+
+Create or verify authentication ticket.
+
+`<username>` `string` ::
+
+User name
+
+`-otp` `string` ::
+
+One-time password for Two-factor authentication.
+
+`-path` `string` ::
+
+Verify ticket, and check if user have access 'privs' on 'path'
++
+NOTE: Requires option(s): `privs`
+
+`-privs` `string` ::
+
+Verify ticket, and check if user have access 'privs' on 'path'
++
+NOTE: Requires option(s): `path`
+
+`-realm` `string` ::
+
+You can optionally pass the realm using this parameter. Normally the realm
+is simply added to the username <username>@<relam>.
+
+
+
+
+*pveum useradd* `<userid>` `[OPTIONS]`
+
+Create new user.
+
+`<userid>` `string` ::
+
+User ID
+
+`-comment` `string` ::
+
+no description available
+
+`-email` `string` ::
+
+no description available
+
+`-enable` `boolean` (default=`1`)::
+
+Enable the account (default). You can set this to '0' to disable the accout
+
+`-expire` `integer (0 - N)` ::
+
+Account expiration date (seconds since epoch). '0' means no expiration
+date.
+
+`-firstname` `string` ::
+
+no description available
+
+`-groups` `string` ::
+
+no description available
+
+`-keys` `string` ::
+
+Keys for two factor auth (yubico).
+
+`-lastname` `string` ::
+
+no description available
+
+`-password` `` ::
+
+Initial password.
+
+
+
+*pveum userdel* `<userid>`
+
+Delete user.
+
+`<userid>` `string` ::
+
+User ID
+
+
+
+*pveum usermod* `<userid>` `[OPTIONS]`
+
+Update user configuration.
+
+`<userid>` `string` ::
+
+User ID
+
+`-append` `boolean` ::
+
+no description available
++
+NOTE: Requires option(s): `groups`
+
+`-comment` `string` ::
+
+no description available
+
+`-email` `string` ::
+
+no description available
+
+`-enable` `boolean` ::
+
+Enable/disable the account.
+
+`-expire` `integer (0 - N)` ::
+
+Account expiration date (seconds since epoch). '0' means no expiration
+date.
+
+`-firstname` `string` ::
+
+no description available
+
+`-groups` `string` ::
+
+no description available
+
+`-keys` `string` ::
+
+Keys for two factor auth (yubico).
+
+`-lastname` `string` ::
+
+no description available
+
+
+
+
