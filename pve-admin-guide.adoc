@@ -1,0 +1,78 @@
+Proxmox VE Administration Guide
+===============================
+include::attributes.txt[]
+:doctype:   book
+:toc:
+:numbered:
+:data-uri:
+:icons:
+
+// Push titles down one level.
+:leveloffset: 1
+
+[preface]
+include::pve-intro.txt[]
+
+include::sysadmin.txt[]
+
+include::pmxcfs.txt[]
+
+include::pvesm.txt[]
+
+include::qm.txt[]
+
+include::pve-firewall.txt[]
+
+include::pveum.txt[]
+
+include::pct.txt[]
+
+include::vzdump.txt[]
+
+// Return to normal title levels.
+:leveloffset: 0
+
+include::pve-faq.txt[]
+
+[appendix]
+
+Command Line Interface
+----------------------
+
+*pvesm* - {pve} Storage Manager
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:leveloffset: 1
+include::pvesm.1-synopsis.txt[]
+:leveloffset: 0
+
+*qm* - Qemu/KVM Virtual Machine Manager
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:leveloffset: 1
+include::qm.1-synopsis.txt[]
+:leveloffset: 0
+
+*pveum* - {pve} User Manager
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:leveloffset: 1
+include::pveum.1-synopsis.txt[]
+:leveloffset: 0
+
+*vzdump* - Backup Utility for VMs and Containers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:leveloffset: 1
+include::vzdump.1-synopsis.txt[]
+:leveloffset: 0
+
+*pve-firewall* - The {pve} Firewall Daemon
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:leveloffset: 1
+include::pve-firewall.8-synopsis.txt[]
+:leveloffset: 0
+
+
+include::pve-bibliography.txt[]
