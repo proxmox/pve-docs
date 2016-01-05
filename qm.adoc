@@ -1,0 +1,79 @@
+include::attributes.txt[]
+ifdef::manvolnum[]
+PVE({manvolnum})
+================
+
+NAME
+----
+
+qm - Qemu/KVM Virtual Machine Manager
+
+
+SYNOPSYS
+--------
+
+include::qm.1-synopsis.adoc[]
+
+DESCRIPTION
+-----------
+endif::manvolnum[]
+
+ifndef::manvolnum[]
+Qemu/KVM Virtual Machines
+=========================
+endif::manvolnum[]
+
+
+qm is a script to manage virtual machines with Qemu/Kvm. You can
+create and destroy virtual machines, and control execution
+(start/stop/suspend/resume). Besides that, you can use qm to set
+parameters in the associated config file. It is also possible to
+create and delete virtual disks.
+
+Configuration
+-------------
+
+All configuration files consists of lines in the form
+
+ PARAMETER: value
+
+See 'man vm.conf' for a complete list of options.
+
+Configuration files are stored inside the Proxmox configuration file
+system, and can be access at '/etc/pve/qemu-server/<VMID>.conf'.
+
+The default for option `keyboard` is read from
+'/etc/pve/datacenter.conf'.
+
+Locks
+-----
+
+Online migration and backups ('vzdump') set a lock to prevent
+unintentional action on such VMs. Sometimes you need remove such lock
+manually (power failure).
+
+ qm unlock <vmid>
+
+Examples
+--------
+
+Create a new VM with 4 GB IDE disk.
+
+ qm create 300 -ide0 4 -net0 e1000 -cdrom proxmox-mailgateway_2.1.iso
+
+Start the new VM
+
+ qm start 300
+
+Send a shutdown request, then wait until the VM is stopped.
+
+ qm shutdown 300 && qm wait 300
+
+Same as above, but only wait for 40 seconds.
+
+ qm shutdown 300 && qm wait 300 -timeout 40
+
+
+ifdef::manvolnum[]
+include::pve-copyright.adoc[]
+endif::manvolnum[]
