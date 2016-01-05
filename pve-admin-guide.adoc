@@ -11,28 +11,28 @@ include::attributes.txt[]
 :leveloffset: 1
 
 [preface]
-include::pve-intro.txt[]
+include::pve-intro.adoc[]
 
-include::sysadmin.txt[]
+include::sysadmin.adoc[]
 
-include::pmxcfs.txt[]
+include::pmxcfs.adoc[]
 
-include::pvesm.txt[]
+include::pvesm.adoc[]
 
-include::qm.txt[]
+include::qm.adoc[]
 
-include::pve-firewall.txt[]
+include::pve-firewall.adoc[]
 
-include::pveum.txt[]
+include::pveum.adoc[]
 
-include::pct.txt[]
+include::pct.adoc[]
 
-include::vzdump.txt[]
+include::vzdump.adoc[]
 
 // Return to normal title levels.
 :leveloffset: 0
 
-include::pve-faq.txt[]
+include::pve-faq.adoc[]
 
 [appendix]
 
@@ -43,36 +43,36 @@ Command Line Interface
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pvesm.1-synopsis.txt[]
+include::pvesm.1-synopsis.adoc[]
 :leveloffset: 0
 
 *qm* - Qemu/KVM Virtual Machine Manager
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::qm.1-synopsis.txt[]
+include::qm.1-synopsis.adoc[]
 :leveloffset: 0
 
 *pveum* - {pve} User Manager
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pveum.1-synopsis.txt[]
+include::pveum.1-synopsis.adoc[]
 :leveloffset: 0
 
 *vzdump* - Backup Utility for VMs and Containers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::vzdump.1-synopsis.txt[]
+include::vzdump.1-synopsis.adoc[]
 :leveloffset: 0
 
 *pve-firewall* - The {pve} Firewall Daemon
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pve-firewall.8-synopsis.txt[]
+include::pve-firewall.8-synopsis.adoc[]
 :leveloffset: 0
 
 
-include::pve-bibliography.txt[]
+include::pve-bibliography.adoc[]
