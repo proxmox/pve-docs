@@ -204,9 +204,55 @@ within a few minutes, including the following:
 NOTE: By default, the complete server is used and all existing data is
 removed.
 
+Installation Options
+~~~~~~~~~~~~~~~~~~~~
+
+Please insert the installation CD-ROM, then boot from that
+drive. Immediately afterwards you can choose the following menu
+options:
+
+Install Proxmox VE::
+
+Start normal installation.
+
+Install Proxmox VE (Debug mode)::
+
+Start installation in debug mode. It opens a shell console at several
+installation steps, so that you can debug things if something goes
+wrong. Please press `CTRL-D` to exit those debug consoles and continue
+installation. This option is mostly for developers and not meant for
+general use.
+
+Test Memory::
+
+Runs 'memtest86+'. This is useful to check if your memory if
+functional and error free.
+
+You normally select *Install Proxmox VE* to start the installation. 
+
+After that you get prompted to select the target hard disk(s). The
+`Options` button beside lets you select the target file system, and
+defaults to `ext4`.
+
+If you have more than one disk, you can also select ZFS here. ZFS
+supports several software RAID levels, so this is specially useful if
+you do not have a hardware RAID controller.
+
+The next pages just asks for basic configuration options like time
+zone and keyboard layout. You also need to specify your email address
+and select a superuser password.
+
+The last step is the network configuration. Please note that you can
+use either IPv4 or IPv6 here, but not both. If you want to configure a
+dual stack node, you can easily do that after installation.
+
+If you press `Next` now, installation starts to format disks, and
+copies packages to the target. Please wait until that is finished,
+then reboot the server.
+
 Further configuration is done via the Proxmox web interface. Just
 point your browser to the IP address given during installation
-(https://youripaddress:8006). Proxmox VE is tested for IE9, Firefox 10
+(https://youripaddress:8006). {pve} is tested for IE9, Firefox 10
 and higher, Google Chrome (latest).
 
 
