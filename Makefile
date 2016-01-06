@@ -71,6 +71,7 @@ pve-admin-guide.html: ${PVE_ADMIN_GUIDE_SOURCES}
 	test -z "$${NOVIEW}" && iceweasel $@ &
 
 pve-admin-guide.pdf: ${PVE_ADMIN_GUIDE_SOURCES} docinfo.xml pve-admin-guide-docinfo.xml
+	grep ">Release ${RELEASE}<" pve-admin-guide-docinfo.xml || (echo "wrong release in  pve-admin-guide-docinfo.xml" && false);
 	a2x -a docinfo -a docinfo1 -f pdf -L --dblatex-opts "-P latex.output.revhistory=0" pve-admin-guide.adoc
 	test -z "$${NOVIEW}" && iceweasel $@ &
 
