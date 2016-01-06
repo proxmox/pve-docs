@@ -23,7 +23,7 @@ While many people start with a single node, {pve} can scale out to a
 large set of clustered nodes. The cluster stack is fully integrated
 and ships with the default installation.
 
-.Unique Multi-master Design
+Unique Multi-master Design::
 
 The integrated web-based management interface gives you a clean
 overview of all your KVM guests and Linux containers and even of your
@@ -31,7 +31,7 @@ whole cluster. You can easily manage your VMs and containers, storage
 or cluster from the GUI. There is no need to install a separate,
 complex, and pricy management server.
 
-.Proxmox Cluster File System (pmxcfs)
+Proxmox Cluster File System (pmxcfs)::
 
 Proxmox VE uses the unique Proxmox Cluster file system (pmxcfs), a
 database-driven file system for storing configuration files. This
@@ -41,11 +41,11 @@ on all cluster nodes. The file system stores all data inside a
 persistent database on disk, nonetheless, a copy of the data resides
 in RAM which provides a maximum storage size is 30MB - more than
 enough for thousands of VMs.
-
++
 Proxmox VE is the only virtualization platform using this unique
 cluster file system.
 
-.Web-based Management Interface
+Web-based Management Interface::
 
 Proxmox VE is simple to use. Management tasks can be done via the
 included web based managment interface - there is no need to install a
@@ -57,7 +57,7 @@ you to control all functionalities from the GUI and overview history
 and syslogs of each single node. This includes running backup or
 restore jobs, live-migration or HA triggered activities.
 
-.Command Line
+Command Line::
 
 For advanced users who are used to the comfort of the Unix shell or
 Windows Powershell, Proxmox VE provides a command line interface to
@@ -65,14 +65,14 @@ manage all the components of your virtual environment. This command
 line interface has intelligent tab completion and full documentation
 in the form of UNIX man pages.
 
-.REST API
+REST API::
 
 Proxmox VE uses a RESTful API. We choose JSON as primary data format,
 and the whole API is formally defined using JSON Schema. This enables
 fast and easy integration for third party management tools like custom
 hosting environments.
 
-.Role-based Administration
+Role-based Administration::
 
 You can define granular access for all objects (like VM´s, storages,
 nodes, etc.) by using the role based user- and permission
@@ -81,7 +81,7 @@ control access to objects. This concept is also known as access
 control lists: Each permission specifies a subject (a user or group)
 and a role (set of privileges) on a specific path.
 
-.Authentication Realms
+Authentication Realms::
 
 Proxmox VE supports multiple authentication sources like Microsoft
 Active Directory, LDAP, Linux PAM standard authentication or the
