@@ -189,7 +189,7 @@ the base system, and you know how you want to configure and use the
 local storage. Network configuration is also completely up to you.
 
 In general, this is not trivial, especially when you use LVM or
-ZFS. This is why we provide an installation CDROM for {pve}. That
+ZFS. This is why we provide an installation CD-ROM for {pve}. That
 installer just ask you a few questions, then partitions the local
 disk(s), installs all required packages, and configures the system
 including a basic network setup. You can get a fully functional system
@@ -204,8 +204,8 @@ within a few minutes, including the following:
 NOTE: By default, the complete server is used and all existing data is
 removed.
 
-Installation Options
-~~~~~~~~~~~~~~~~~~~~
+Using the {pve} Installation CD-ROM
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Please insert the installation CD-ROM, then boot from that
 drive. Immediately afterwards you can choose the following menu
@@ -231,7 +231,7 @@ functional and error free.
 You normally select *Install Proxmox VE* to start the installation. 
 
 After that you get prompted to select the target hard disk(s). The
-`Options` button beside lets you select the target file system, and
+`Options` button aside lets you select the target file system, and
 defaults to `ext4`.
 
 If you have more than one disk, you can also select ZFS here. ZFS
