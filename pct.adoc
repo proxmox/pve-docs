@@ -1,7 +1,7 @@
-include::attributes.txt[]
 ifdef::manvolnum[]
 PVE({manvolnum})
 ================
+include::attributes.txt[]
 
 NAME
 ----
@@ -21,6 +21,7 @@ endif::manvolnum[]
 ifndef::manvolnum[]
 Proxmox Container Toolkit
 =========================
+include::attributes.txt[]
 endif::manvolnum[]
 
 'pct' is a tool to manages Linux Containers (LXC). You can create and

@@ -1,7 +1,6 @@
-include::attributes.txt[]
-
 {pve} Documentation Index
 =========================
+include::attributes.txt[]
 :data-uri:
 :icons:
 

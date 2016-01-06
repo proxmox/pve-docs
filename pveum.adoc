@@ -1,7 +1,7 @@
-include::attributes.txt[]
 ifdef::manvolnum[]
 PVE({manvolnum})
 ================
+include::attributes.txt[]
 
 NAME
 ----
@@ -22,6 +22,7 @@ endif::manvolnum[]
 ifndef::manvolnum[]
 User Management
 ===============
+include::attributes.txt[]
 endif::manvolnum[]
 
 // Copied from pve wiki: Revision as of 16:10, 27 October 2015

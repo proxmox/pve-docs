@@ -1,8 +1,8 @@
-include::attributes.txt[]
 [[chapter-storage]]
 ifdef::manvolnum[]
 PVE({manvolnum})
 ================
+include::attributes.txt[]
 
 NAME
 ----
@@ -22,6 +22,7 @@ endif::manvolnum[]
 ifndef::manvolnum[]
 {pve} Storage
 =============
+include::attributes.txt[]
 endif::manvolnum[]
 
 The {pve} storage model is very flexible. Virtual machine images

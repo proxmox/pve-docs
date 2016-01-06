@@ -1,7 +1,7 @@
-include::attributes.txt[]
 ifdef::manvolnum[]
 PVE({manvolnum})
 ================
+include::attributes.txt[]
 
 NAME
 ----
@@ -22,6 +22,7 @@ endif::manvolnum[]
 ifndef::manvolnum[]
 Backup and Restore
 ==================
+include::attributes.txt[]
 endif::manvolnum[]
 
 'vzdump' is an utility to make consistent snapshots of running virtual
