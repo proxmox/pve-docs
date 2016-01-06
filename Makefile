@@ -26,8 +26,8 @@ PVE_ADMIN_GUIDE_SOURCES=		\
 	attributes.txt
 
 ADOC_STDARG= -a icons -a data-uri -a "date=$(shell date)"
-ADOC_MAN1_HTML_ARGS=-a "manvolnum=1" ${ADOC_STDARG}
-ADOC_MAN8_HTML_ARGS=-a "manvolnum=8" ${ADOC_STDARG}
+ADOC_MAN1_HTML_ARGS=-a "manvolnum=1" ${ADOC_STDARG} -a "revnumber=${RELEASE}"
+ADOC_MAN8_HTML_ARGS=-a "manvolnum=8" ${ADOC_STDARG} -a "revnumber=${RELEASE}"
 
 %-nwdiag.svg: %.nwdiag
 	nwdiag -T svg $*.nwdiag -o $@;
@@ -37,7 +37,7 @@ ADOC_MAN8_HTML_ARGS=-a "manvolnum=8" ${ADOC_STDARG}
 	mv $@.tmp $@
 
 %.1: %.adoc %.1-synopsis.adoc docinfo.xml
-	a2x -a docinfo1 -a "manvolnum=1" -f manpage $*.adoc
+	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${RELEASE}" -f manpage $*.adoc
 	test -z "$${NOVIEW}" && man -l $@ 
 
 %.1.html: %.adoc %.1-synopsis.adoc docinfo.xml
@@ -50,7 +50,7 @@ ADOC_MAN8_HTML_ARGS=-a "manvolnum=8" ${ADOC_STDARG}
 	mv $@.tmp $@
 
 %.8: %.adoc %.8-synopsis.adoc docinfo.xml
-	a2x -a docinfo1 -a "manvolnum=1" -f manpage $*.adoc
+	a2x -a docinfo1 -a "manvolnum=8" -a "manversion=Release ${RELEASE}" -f manpage $*.adoc
 	test -z "$${NOVIEW}" && man -l $@ 
 
 %.8.html: %.adoc %.8-synopsis.adoc docinfo.xml
@@ -63,7 +63,7 @@ all: pve-admin-guide.html
 index.html: index.adoc ${PVE_ADMIN_GUIDE_SOURCES}
 	$(MAKE) NOVIEW=1 pve-admin-guide.pdf pve-admin-guide.html pve-admin-guide.epub
 	$(MAKE) NOVIEW=1 qm.1.html pct.1.html pvesm.1.html pveum.1.html vzdump.1.html pve-firewall.8.html
-	asciidoc -a "date=$(shell date)" index.adoc 
+	asciidoc -a "date=$(shell date)" -a "revnumber=${RELEASE}" index.adoc 
 	iceweasel index.html &
 
 pve-admin-guide.html: ${PVE_ADMIN_GUIDE_SOURCES}
