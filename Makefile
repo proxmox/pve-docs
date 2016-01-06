@@ -1,4 +1,4 @@
-
+RELEASE=4.1
 
 PVESM_SOURCES=attributes.txt pvesm.adoc pvesm.1-synopsis.adoc $(shell ls pve-storage-*.adoc)
 PVEUM_SOURCES=attributes.txt pveum.adoc pveum.1-synopsis.adoc
@@ -67,7 +67,7 @@ index.html: index.adoc ${PVE_ADMIN_GUIDE_SOURCES}
 	iceweasel index.html &
 
 pve-admin-guide.html: ${PVE_ADMIN_GUIDE_SOURCES}
-	asciidoc -a "date=$(shell date)" pve-admin-guide.adoc 
+	asciidoc -a "revnumber=${RELEASE}" -a "date=$(shell date)" pve-admin-guide.adoc 
 	test -z "$${NOVIEW}" && iceweasel $@ &
 
 pve-admin-guide.pdf: ${PVE_ADMIN_GUIDE_SOURCES} docinfo.xml pve-admin-guide-docinfo.xml
