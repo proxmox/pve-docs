@@ -232,11 +232,49 @@ You normally select *Install Proxmox VE* to start the installation.
 
 After that you get prompted to select the target hard disk(s). The
 `Options` button aside lets you select the target file system, and
-defaults to `ext4`.
+defaults to `ext4`. The installer uses LVM if you select 'ext3',
+'ext4' or 'xfs' as file system, and offers additional option to
+restrict LVM space.
 
-If you have more than one disk, you can also select ZFS here. ZFS
-supports several software RAID levels, so this is specially useful if
-you do not have a hardware RAID controller.
+
+.Advanced LVM configuration options
+****
+The installer creates a Volume Group (VG) called `pve`, and additional
+Logical Volumes (LVs) called `root`, `data` and `swap`. The size of
+those volumes can be controlled with:
+
+`hdsize`::
+
+Defines the total HD size to be used. This way you can save free
+space on the HD for further partitioning (i.e. for an additional PV
+and VG on the same hard disk that can be used for LVM storage).
+
+`swapsize`::
+
+To define the size of the `swap` volume. Default is the same size as
+installed RAM, with 4GB minimum and `hdsize/8` as maximum.
+
+`maxroot`::
+
+The `root` volume size. The `root` volume stores the whole operation
+system.
+
+`maxvz`::
+
+Define the size of the `data` volume, which is mounted at
+'/var/lib/vz'.
+
+`minfree`::
+
+To define the amount of free space left in LVM volume group `pve`.
+16GB is the default if storage available > 128GB, `hdsize/8` otherwise.
++
+NOTE: LVM requires free space for snapshot creation.
+****
+
+If you have more than one disk, you can also use ZFS as file system.
+ZFS supports several software RAID levels, so this is specially useful
+if you do not have a hardware RAID controller.
 
 TIP: ZFS uses a lot of memory, so it is best to add additional 8-16GB RAM
 if you want to use ZFS.
