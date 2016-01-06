@@ -276,8 +276,19 @@ If you have more than one disk, you can also use ZFS as file system.
 ZFS supports several software RAID levels, so this is specially useful
 if you do not have a hardware RAID controller.
 
-TIP: ZFS uses a lot of memory, so it is best to add additional 8-16GB RAM
+.ZFS Performance Tips
+****
+ZFS uses a lot of memory, so it is best to add additional 8-16GB RAM
 if you want to use ZFS.
+
+.Use fast SSD as write cache
+
+ZFS provides the feature to use a fast SSD drive as write cache. The
+write cache is called the ZFS Intent Log (ZIL). You can add that after
+installation using the following command:
+
+ zpool add <pool-name> log </dev/path_to_fast_ssd>
+****
 
 The next pages just asks for basic configuration options like time
 zone and keyboard layout. You also need to specify your email address
