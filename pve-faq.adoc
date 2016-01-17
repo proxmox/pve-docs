@@ -9,13 +9,18 @@ ADD NEW FAQS TO THE BOTTOM OF THIS SECTION TO MAINTAIN NUMBERING
 
 [qanda]
 
-What distribution is Proxmox VE based on?::
+What distribution is {pve} based on?::
 
-Proxmox VE is based on http://www.debian.org[Debian GNU/Linux]
+{pve} is based on http://www.debian.org[Debian GNU/Linux]
 
-Will Proxmox VE run on a 32bit processor?::
+What license does the {pve} project use?::
 
-Proxmox VE works only on 64-bit CPU´s (AMD or Intel). There is no plan
+{pve} code is licensed under the GNU Affero General Public License,
+version 3.
+
+Will {pve} run on a 32bit processor?::
+
+{pve} works only on 64-bit CPU´s (AMD or Intel). There is no plan
 for 32-bit for the platform.
 +
 NOTE: VMs and Containers can be bothe 32-bit and/or 64-bit.
@@ -48,9 +53,14 @@ method where the kernel of an operating system allows for multiple
 isolated user-space instances, instead of just one. We call such
 instances containers.
 
-What is a KVM guest (KVM VM)?::
+What is a QEMU/KVM guest (or VM)?::
 
-A KVM guest or KVM VM is a guest system running virtualized under
-Proxmox VE with KVM.
+A QEMU/KVM guest (or VM) is a guest system running virtualized under
+{pve} using QEMU and the Linux KVM kernel module.
 
+What is QEMU?::
 
+QEMU is a generic and open source machine emulator and
+virtualizer. QEMU uses the Linux KVM kernel module to achieve near
+native performance by executing the guest code directly on the host
+CPU.
