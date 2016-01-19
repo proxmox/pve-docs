@@ -1,0 +1,19 @@
+Getting Help
+------------
+
+There are basically two different support channels. {pve} itself if
+fully open source, so we always encourage our users to discuss and
+share their knowledge using the http://forum.proxmox.com/[Community
+Support Forum]. The forum is fully moderated by the Proxmox support
+team. Up to now, the forum has about 25.000 members, and more than
+120.000 messages. Needless to say that such a large forum is a great
+place to get information.
+
+The second channel is the commercial support provided by
+{proxmoxGmbh}. {pve} server subscriptions can be ordered online, see
+http://shop.maurer-it.com[{pve} Shop]. For all details see
+http://www.proxmox.com/proxmox-ve/pricing[{pve} Subscription Service
+Plans].
+
+Please contact the mailto:office@proxmox.com[Proxmox sales team] for
+commercial support requests or volume discounts.

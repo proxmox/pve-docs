@@ -7,8 +7,15 @@ PVEFW_SOURCES=attributes.txt pve-firewall.adoc pve-firewall.8-synopsis.adoc
 QM_SOURCES=attributes.txt qm.adoc qm.1-synopsis.adoc
 PCT_SOURCES=attributes.txt pct.adoc pct.1-synopsis.adoc
 
+SYSADMIN_SOURCES=			\
+	getting-help.adoc		\
+	pve-package-repos.adoc		\
+	pve-installation.adoc		\
+	system-software-updates.adoc	\
+	sysadmin.adoc
+
 PVE_ADMIN_GUIDE_SOURCES=		\
-	sysadmin.adoc			\
+	${SYSADMIN_SOURCES}		\
 	pve-admin-guide.adoc		\
 	pve-intro.adoc			\
 	pmxcfs.adoc 			\
