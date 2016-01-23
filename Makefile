@@ -36,6 +36,8 @@ ADOC_STDARG= -a icons -a data-uri -a "date=$(shell date)"
 ADOC_MAN1_HTML_ARGS=-a "manvolnum=1" ${ADOC_STDARG} -a "revnumber=${RELEASE}"
 ADOC_MAN8_HTML_ARGS=-a "manvolnum=8" ${ADOC_STDARG} -a "revnumber=${RELEASE}"
 
+BROWSER=xdg-open
+
 %-nwdiag.svg: %.nwdiag
 	nwdiag -T svg $*.nwdiag -o $@;
 
@@ -49,7 +51,7 @@ ADOC_MAN8_HTML_ARGS=-a "manvolnum=8" ${ADOC_STDARG} -a "revnumber=${RELEASE}"
 
 %.1.html: %.adoc %.1-synopsis.adoc docinfo.xml
 	asciidoc ${ADOC_MAN1_HTML_ARGS} -o $@ $*.adoc
-	test -z "$${NOVIEW}" && iceweasel $@ &
+	test -z "$${NOVIEW}" && $(BROWSER) $@ &
 
 
 %.8-synopsis.adoc:
@@ -62,7 +64,7 @@ ADOC_MAN8_HTML_ARGS=-a "manvolnum=8" ${ADOC_STDARG} -a "revnumber=${RELEASE}"
 
 %.8.html: %.adoc %.8-synopsis.adoc docinfo.xml
 	asciidoc ${ADOC_MAN8_HTML_ARGS} -o $@ $*.adoc
-	test -z "$${NOVIEW}" && iceweasel $@ &
+	test -z "$${NOVIEW}" && $(BROWSER) $@ &
 
 
 all: pve-admin-guide.html
@@ -71,20 +73,20 @@ index.html: index.adoc ${PVE_ADMIN_GUIDE_SOURCES}
 	$(MAKE) NOVIEW=1 pve-admin-guide.pdf pve-admin-guide.html pve-admin-guide.epub
 	$(MAKE) NOVIEW=1 qm.1.html pct.1.html pvesm.1.html pveum.1.html vzdump.1.html pve-firewall.8.html
 	asciidoc -a "date=$(shell date)" -a "revnumber=${RELEASE}" index.adoc 
-	iceweasel index.html &
+	$(BROWSER) index.html &
 
 pve-admin-guide.html: ${PVE_ADMIN_GUIDE_SOURCES}
 	asciidoc -a "revnumber=${RELEASE}" -a "date=$(shell date)" pve-admin-guide.adoc 
-	test -z "$${NOVIEW}" && iceweasel $@ &
+	test -z "$${NOVIEW}" && $(BROWSER) $@ &
 
 pve-admin-guide.pdf: ${PVE_ADMIN_GUIDE_SOURCES} docinfo.xml pve-admin-guide-docinfo.xml
 	grep ">Release ${RELEASE}<" pve-admin-guide-docinfo.xml || (echo "wrong release in  pve-admin-guide-docinfo.xml" && false);
 	a2x -a docinfo -a docinfo1 -f pdf -L --dblatex-opts "-P latex.output.revhistory=0" pve-admin-guide.adoc
-	test -z "$${NOVIEW}" && iceweasel $@ &
+	test -z "$${NOVIEW}" && $(BROWSER) $@ &
 
 pve-admin-guide.epub: ${PVE_ADMIN_GUIDE_SOURCES}
 	a2x -f epub pve-admin-guide.adoc
-	test -z "$${NOVIEW}" && iceweasel $@ &
+	test -z "$${NOVIEW}" && $(BROWSER) $@ &
 
 
 clean:
