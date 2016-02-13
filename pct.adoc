@@ -24,6 +24,83 @@ Proxmox Container Toolkit
 include::attributes.txt[]
 endif::manvolnum[]
 
+
+Containers are a lightweight alternative to fully virtualized
+VMs. Instead of emulating a complete Operating System (OS), containers
+simply use the OS of the host they run on. This implies that all
+containers use the same kernel, and that they can access resources
+from the host directly.
+
+This is great because containers do not waste CPU power nor memory due
+to kernel emulation. Container run-time costs are close to zero and
+usually negligible. But there are also some drawbacks you need to
+consider:
+
+* You can only run Linux based OS inside containers, i.e. it is not
+  possible to run Free BSD or MS Windows inside.
+
+* For security reasons, access to host resources need to be
+  restricted. This is done with AppArmor, SecComp filters and other
+  kernel feature. Be prepared that some syscalls are not allowed
+  inside containers.
+
+{pve} uses https://linuxcontainers.org/[LXC] as underlying container
+technology. We consider LXC as low-level library, which provides
+countless options. It would be to difficult to use those tools
+directly. Instead, we provide a small wrapper called `pct`, the
+"Proxmox Container Toolkit".
+
+The toolkit it tightly coupled with {pve}. That means that it is aware
+of the cluster setup, and it can use the same network and storage
+resources as fully virtualized VMs. You can even use the {pve}
+firewall, or manage containers using the HA framework.
+
+Our primary goal is to offer an environment as one would get from a
+VM, but without the additional overhead. We call this "System
+Containers".
+
+NOTE: If you want to run micro-containers with docker, it is best to
+run them inside a VM.
+
+
+Security Considerations
+-----------------------
+
+Containers use the same kernel as the host, so there is a big attack
+surface for malicious users. You should consider this fact if you
+provide containers to totally untrusted people. In general, fully
+virtualized VM provides better isolation.
+
+The good news is that LXC uses many kernel security features like
+AppArmor, CGroups and PID and user namespaces, which makes containers
+usage quite secure. We distinguish two types of containers:
+
+Privileged containers
+~~~~~~~~~~~~~~~~~~~~~
+
+Security is done by dropping capabilities, using mandatory access
+control (AppArmor), SecComp filters and namespaces. The LXC team
+considers this kind of container as unsafe, and they will not consider
+new container escape exploits to be security issues worthy of a CVE
+and quick fix. So you should use this kind of containers only inside a
+trusted environment, or when no untrusted task is running as root in
+the container.
+
+Unprivileged containers
+~~~~~~~~~~~~~~~~~~~~~~~
+
+This kind of containers use a new kernel feature, called user
+namespaces. The root uid 0 inside the container is mapped to an
+unprivileged user outside the container. This means that most security
+issues (container escape, resource abuse, ...) in those containers
+will affect a random unprivileged user, and so would be a generic
+kernel security bug rather than a LXC issue. LXC people think
+unprivileged containers are safe by design.
+
+
+Managing Containers with 'pct'
+------------------------------
+
 'pct' is a tool to manages Linux Containers (LXC). You can create and
 destroy containers, and control execution
 (start/stop/suspend/resume). Besides that, you can use pct to set
