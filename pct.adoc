@@ -171,11 +171,10 @@ also provides an easy way to share data between different containers.
 Managing Containers with 'pct'
 ------------------------------
 
-'pct' is a tool to manages Linux Containers (LXC). You can create and
-destroy containers, and control execution
-(start/stop/suspend/resume). Besides that, you can use pct to set
-parameters in the associated config file, like network configuration
-or memory.
+'pct' is the tool to manage Linux Containers on {pve}. You can create
+and destroy containers, and control execution (start, stop, migrate,
+...). You can use pct to set parameters in the associated config file,
+like network configuration or memory.
 
 CLI Usage Examples
 ------------------
@@ -213,9 +212,9 @@ Reduce the memory of the container to 512MB
 Files
 ------
 
-'/etc/pve/lxc/<vmid>.conf'::
+'/etc/pve/lxc/<CTID>.conf'::
 
-Configuration file for the container <vmid>
+Configuration file for the container '<CTID>'.
 
 
 Container Advantages
