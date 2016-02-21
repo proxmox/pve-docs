@@ -97,6 +97,46 @@ will affect a random unprivileged user, and so would be a generic
 kernel security bug rather than a LXC issue. LXC people think
 unprivileged containers are safe by design.
 
+
+Configuration
+-------------
+
+The '/etc/pve/lxc/<CTID>.conf' files stores container configuration,
+where '<CTID>' is the numeric ID of the given container. Note that
+CTIDs < 100 are reserved for internal purposes. CTIDs need to be
+unique - cluster wide. Files are stored inside '/etc/pve/', so they get
+automatically replicated to all other cluster nodes.
+
+Those configuration files are simple text files, and you can edit them
+using a normal text editor ('vi', 'nano', ...). But one can also use
+the 'pct' command to generate and modify those files, or do the whole
+thing using the GUI.
+
+
+File Format
+~~~~~~~~~~~
+
+Container configuration files use a simple colon separated key/value
+format. Each line has the following format:
+
+ # this is a comment
+ OPTION: value
+
+Blank lines in those files are ignored, and lines starting with a '#'
+character are treated as comments and are also ignored.
+
+It is possible to add low-level, LXC style configuration directly, for
+example:
+
+ lxc.init_cmd: /sbin/my_own_init
+
+or
+
+ lxc.init_cmd = /sbin/my_own_init
+
+Those settings are directly passed to the LXC low-level tools.
+
+
 Container Storage
 -----------------
 
