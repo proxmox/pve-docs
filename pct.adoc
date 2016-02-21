@@ -59,8 +59,8 @@ Our primary goal is to offer an environment as one would get from a
 VM, but without the additional overhead. We call this "System
 Containers".
 
-NOTE: If you want to run micro-containers with docker, it is best to
-run them inside a VM.
+NOTE: If you want to run micro-containers (with docker, rct, ...), it
+is best to run them inside a VM.
 
 
 Security Considerations
@@ -96,6 +96,36 @@ issues (container escape, resource abuse, ...) in those containers
 will affect a random unprivileged user, and so would be a generic
 kernel security bug rather than a LXC issue. LXC people think
 unprivileged containers are safe by design.
+
+Container Storage
+-----------------
+
+Traditional containers use a very simple storage model, only allowing
+a single mount point, the root file system. This was further
+restricted to specific file system types like 'ext4' and 'nfs'.
+Additional mounts are often done by user provided scripts. This turend
+out to be complex and error prone, so we trie to avoid that now.
+
+Our new LXC based container model is more flexible regarding
+storage. First, you can have more than a single mount point. This
+allows you to choose a suitable storage for each application. For
+example, you can use a relatively slow (and thus cheap) storage for
+the container root file system. Then you can use a second mount point
+to mount a very fast, distributed storage for your database
+application.
+
+The second big improvement is that you can use any storage type
+supported by the {pve} storage library. That means that you can store
+your containers on local 'lvmthin' or 'zfs', shared 'iSCSI' storage,
+or even on distributed storage systems like 'ceph'. And it enables us
+to use advanced storage features like snapshots and clones. 'vzdump'
+can also use the snapshots feature to provide consistent container
+backups.
+
+Last but not least, you can also mount local devices directly, or
+mount local directories using bind mounts. That way you can access
+local storage inside containers with zero overhead. Such bind mounts
+also provides an easy way to share data between different containers.
 
 
 Managing Containers with 'pct'
