@@ -108,9 +108,14 @@ unique - cluster wide. Files are stored inside '/etc/pve/', so they get
 automatically replicated to all other cluster nodes.
 
 Those configuration files are simple text files, and you can edit them
-using a normal text editor ('vi', 'nano', ...). But one can also use
-the 'pct' command to generate and modify those files, or do the whole
-thing using the GUI.
+using a normal text editor ('vi', 'nano', ...). This is sometimes
+useful to do small corrections, but keep in mind that you need to
+restart the container to apply such changes.
+
+For that reason, it is usually better to use the 'pct' command to
+generate and modify those files, or do the whole thing using the GUI.
+Our toolkit is smart enough to instantaneously apply most changes to
+running containers (hot plug).
 
 
 File Format
