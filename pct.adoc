@@ -142,6 +142,52 @@ or
 Those settings are directly passed to the LXC low-level tools.
 
 
+Guest Operating System Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We normally try to detect the operating system type inside the
+container, and then modify some files inside the container to make
+them work as expected. Here is a short list of things we do at
+container startup:
+
+set /etc/hostname:: to set the container name
+
+modify /etc/hosts:: allow to lookup the local hostname
+
+network setup:: pass the complete network setup to the container
+
+configure DNS:: pass information about DNS servers
+
+adopt the init system:: for example, fix the number os spawned getty processes
+
+set the root password:: when creating a new container
+
+rewrite ssh_host_keys:: so that each container has unique keys
+
+randomize crontab:: so that cron does not start at same time on all containers
+
+Above task depends on the OS type, so the implementation is different
+for each OS type. You can also disable any modifications by manually
+setting the 'ostype' to 'unmanaged'.
+
+OS type detection is done by testing for certain files inside the
+container:
+
+Ubuntu:: inspect /etc/lsb-release ('DISTRIB_ID=Ubuntu')
+
+Debian:: test /etc/debian_version
+
+Fedora:: test /etc/fedora-release
+
+RedHat or CentOS:: test /etc/redhat-release
+
+ArchLinux:: test /etc/arch-release
+
+Alpine:: test /etc/alpine-release
+
+NOTE: Container start fails is configured 'ostype' differs from auto
+detected type.
+
 Container Storage
 -----------------
 
