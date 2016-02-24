@@ -7,7 +7,7 @@ include::attributes.txt[]
 NAME
 ----
 
-ha-manager - Proxmox VE HA manager command line interface
+ha-manager - Proxmox VE HA Manager
 
 SYNOPSYS
 --------

@@ -87,7 +87,7 @@ include::pve-firewall.8-synopsis.adoc[]
 
 :leveloffset: 0
 
-*ha-manager* - Proxmox VE HA manager
+*ha-manager* - Proxmox VE HA Manager
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
