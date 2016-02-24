@@ -73,6 +73,7 @@ Files
 |=======
 |corosync.conf  |corosync cluster configuration file (previous to {pve} 4.x this file was called cluster.conf)
 |storage.cfg   |{pve} storage configuration
+|datacenter.cfg   |{pve} datacenter wide configuration (keyboard layout, proxy, ...)
 |user.cfg      |{pve} access control configuration (users/groups/...)
 |domains.cfg   |{pve} Authentication domains 
 |authkey.pub   | public key used by ticket system
