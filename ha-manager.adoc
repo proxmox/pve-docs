@@ -30,7 +30,7 @@ disable, service relocate, and service restart. The cluster resource
 manager daemon also handles restarting and relocating services in the
 event of failures.
 
-HOW IT WORKS
+How It Works
 ------------
 
 The local resource manager ('pve-ha-lrm') is started as a daemon on
@@ -54,7 +54,7 @@ quorum, the LRM waits for a new quorum to form. As long as there is no
 quorum the node cannot reset the watchdog. This will trigger a reboot
 after 60 seconds.
 
-CONFIGURATION
+Configuration
 -------------
 
 The HA stack is well integrated int the Proxmox VE API2. So, for
@@ -66,18 +66,18 @@ The resource configuration file can be located at
 '/etc/pve/ha/groups.cfg'. Use the provided tools to make changes,
 there shouldn't be any need to edit them manually.
 
-RESOURCES/SERVICES AGENTS
+Resource/Service Agents
 -------------------------
 
 A resource or also called service can be managed by the
 ha-manager. Currently we support virtual machines and container.
 
-GROUPS
+Groups
 ------
 
 A group is a collection of cluster nodes which a service may be bound to.
 
-GROUP SETTINGS
+Group Settings
 ~~~~~~~~~~~~~~
 
 nodes::
@@ -96,7 +96,7 @@ the resource won't automatically fail back when a more preferred node
 (re)joins the cluster.
 
 
-RECOVERY POLICY
+Recovery Policy
 ---------------
 
 There are two service recover policy settings which can be configured
@@ -118,7 +118,7 @@ service had at least one successful start. That means if a service is
 re-enabled without fixing the error only the restart policy gets
 repeated.
 
-ERROR RECOVERY
+Error Recovery
 --------------
 
 If after all tries the service state could not be recovered it gets
@@ -136,7 +136,7 @@ killing its process)
 * *after* you fixed all errors you may enable the service again
 
 
-SERVICE OPERATIONS
+Service Operations
 ------------------
 
 This are how the basic user-initiated service operations (via
@@ -167,7 +167,7 @@ start and stop commands can be issued to the resource specific tools
 service state (enabled, disabled).
 
 
-SERVICE STATES
+Service States
 --------------
 
 stopped::
