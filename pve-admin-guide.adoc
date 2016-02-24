@@ -26,6 +26,8 @@ include::pveum.adoc[]
 
 include::pct.adoc[]
 
+include::ha-manager.adoc[]
+
 include::vzdump.adoc[]
 
 // Return to normal title levels.
@@ -82,6 +84,14 @@ include::vzdump.1-synopsis.adoc[]
 
 :leveloffset: 1
 include::pve-firewall.8-synopsis.adoc[]
+
+:leveloffset: 0
+
+*ha-manager* - Proxmox VE HA manager
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:leveloffset: 1
+include::ha-manager.1-synopsis.adoc[]
 
 :leveloffset: 0
 

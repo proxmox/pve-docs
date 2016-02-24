@@ -26,6 +26,7 @@ include::attributes.txt[]
 | pvesm        | link:pvesm.1.html[pvesm.1]
 | pveum        | link:pveum.1.html[pveum.1]
 | vzdump       | link:vzdump.1.html[vzdump.1]
+| ha-manager   | link:ha-manager.1.html[ha-manager.1]
 | pve-firewall | link:pve-firewall.8.html[pve-firewall.8]
 |===========================================================
 

@@ -6,6 +6,7 @@ VZDUMP_SOURCES=attributes.txt vzdump.adoc vzdump.1-synopsis.adoc
 PVEFW_SOURCES=attributes.txt pve-firewall.adoc pve-firewall.8-synopsis.adoc
 QM_SOURCES=attributes.txt qm.adoc qm.1-synopsis.adoc
 PCT_SOURCES=attributes.txt pct.adoc pct.1-synopsis.adoc
+HA_SOURCES=attributes.txt ha-manager.1-synopsis.adoc ha-manager.adoc
 
 SYSADMIN_SOURCES=			\
 	getting-help.adoc		\
@@ -26,6 +27,7 @@ PVE_ADMIN_GUIDE_SOURCES=		\
 	${PVEUM_SOURCES}		\
 	${PVESM_SOURCES}		\
 	${VZDUMP_SOURCES}		\
+	${HA_SOURCES}			\
 	images/cluster-nwdiag.svg	\
 	images/node-nwdiag.svg		\
 	pve-bibliography.adoc		\
@@ -71,7 +73,7 @@ all: pve-admin-guide.html
 
 index.html: index.adoc ${PVE_ADMIN_GUIDE_SOURCES}
 	$(MAKE) NOVIEW=1 pve-admin-guide.pdf pve-admin-guide.html pve-admin-guide.epub
-	$(MAKE) NOVIEW=1 qm.1.html pct.1.html pvesm.1.html pveum.1.html vzdump.1.html pve-firewall.8.html
+	$(MAKE) NOVIEW=1 qm.1.html pct.1.html pvesm.1.html pveum.1.html vzdump.1.html pve-firewall.8.html ha-manager.1.html
 	asciidoc -a "date=$(shell date)" -a "revnumber=${RELEASE}" index.adoc 
 	$(BROWSER) index.html &
 

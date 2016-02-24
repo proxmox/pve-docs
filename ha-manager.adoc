@@ -1,0 +1,207 @@
+[[chapter-ha-manager]]
+ifdef::manvolnum[]
+PVE({manvolnum})
+================
+include::attributes.txt[]
+
+NAME
+----
+
+ha-manager - Proxmox VE HA manager command line interface
+
+SYNOPSYS
+--------
+
+include::ha-manager.1-synopsis.adoc[]
+
+DESCRIPTION
+-----------
+endif::manvolnum[]
+
+ifndef::manvolnum[]
+High Availability
+=================
+include::attributes.txt[]
+endif::manvolnum[]
+
+'ha-manager' handles management of user-defined cluster services. This
+includes handling of user requests including service start, service
+disable, service relocate, and service restart. The cluster resource
+manager daemon also handles restarting and relocating services in the
+event of failures.
+
+HOW IT WORKS
+------------
+
+The local resource manager ('pve-ha-lrm') is started as a daemon on
+each node at system start and waits until the HA cluster is quorate
+and locks are working.  After initialization, the LRM determines which
+services are enabled and starts them. Also the watchdog gets
+initialized.
+
+The cluster resource manager ('pve-ha-crm') starts on each node and
+waits there for the manager lock, which can only be held by one node
+at a time.  The node which successfully acquires the manager lock gets
+promoted to the CRM, it handles cluster wide actions like migrations
+and failures.
+
+When an node leaves the cluster quorum, its state changes to unknown.
+If the current CRM then can secure the failed nodes lock, the services
+will be 'stolen' and restarted on another node.
+
+When a cluster member determines that it is no longer in the cluster
+quorum, the LRM waits for a new quorum to form. As long as there is no
+quorum the node cannot reset the watchdog. This will trigger a reboot
+after 60 seconds.
+
+CONFIGURATION
+-------------
+
+The HA stack is well integrated int the Proxmox VE API2. So, for
+example, HA can be configured via 'ha-manager' or the PVE web
+interface, which both provide an easy to use tool.
+
+The resource configuration file can be located at
+'/etc/pve/ha/resources.cfg' and the group configuration file at
+'/etc/pve/ha/groups.cfg'. Use the provided tools to make changes,
+there shouldn't be any need to edit them manually.
+
+RESOURCES/SERVICES AGENTS
+-------------------------
+
+A resource or also called service can be managed by the
+ha-manager. Currently we support virtual machines and container.
+
+GROUPS
+------
+
+A group is a collection of cluster nodes which a service may be bound to.
+
+GROUP SETTINGS
+~~~~~~~~~~~~~~
+
+nodes::
+
+list of group node members
+
+restricted::
+
+resources bound to this group may only run on nodes defined by the
+group. If no group node member is available the resource will be
+placed in the stopped state.
+
+nofailback::
+
+the resource won't automatically fail back when a more preferred node
+(re)joins the cluster.
+
+
+RECOVERY POLICY
+---------------
+
+There are two service recover policy settings which can be configured
+specific for each resource.
+
+max_restart::
+
+maximal number of tries to restart an failed service on the actual
+node.  The default is set to one.
+
+max_relocate::
+
+maximal number of tries to relocate the service to a different node.
+A relocate only happens after the max_restart value is exceeded on the
+actual node. The default is set to one.
+
+Note that the relocate count state will only reset to zero when the
+service had at least one successful start. That means if a service is
+re-enabled without fixing the error only the restart policy gets
+repeated.
+
+ERROR RECOVERY
+--------------
+
+If after all tries the service state could not be recovered it gets
+placed in an error state. In this state the service won't get touched
+by the HA stack anymore.  To recover from this state you should follow
+these steps:
+
+* bring the resource back into an safe and consistent state (e.g:
+killing its process)
+
+* disable the ha resource to place it in an stopped state
+
+* fix the error which led to this failures
+
+* *after* you fixed all errors you may enable the service again
+
+
+SERVICE OPERATIONS
+------------------
+
+This are how the basic user-initiated service operations (via
+'ha-manager') work.
+
+enable::
+
+the service will be started by the LRM if not already running.
+
+disable::
+
+the service will be stopped by the LRM if running.
+
+migrate/relocate::
+
+the service will be relocated (live) to another node.
+
+remove::
+
+the service will be removed from the HA managed resource list. Its
+current state will not be touched.
+
+start/stop::
+
+start and stop commands can be issued to the resource specific tools
+(like 'qm' or 'pct'), they will forward the request to the
+'ha-manager' which then will execute the action and set the resulting
+service state (enabled, disabled).
+
+
+SERVICE STATES
+--------------
+
+stopped::
+
+Service is stopped (confirmed by LRM)
+
+request_stop::
+
+Service should be stopped. Waiting for confirmation from LRM.
+
+started::
+
+Service is active an LRM should start it ASAP if not already running.
+
+fence::
+
+Wait for node fencing (service node is not inside quorate cluster
+partition).
+
+freeze::
+
+Do not touch the service state. We use this state while we reboot a
+node, or when we restart the LRM daemon.
+
+migrate::
+
+Migrate service (live) to other node.
+
+error::
+
+Service disabled because of LRM errors. Needs manual intervention.
+
+
+ifdef::manvolnum[]
+include::pve-copyright.adoc[]
+endif::manvolnum[]
+
