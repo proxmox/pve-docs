@@ -116,14 +116,14 @@ File Exclusions
 First, this option is only available for container backups. 'vzdump'
 skips the following files with option `--stdexcludes`
 
- /var/log/.+
- /tmp/.+
- /var/tmp/.+
- /var/run/.+pid
+ /var/log/?*
+ /tmp/?*
+ /var/tmp/?*
+ /var/run/?*pid
 
 Or you can manually specify exclude paths, for example:
 
- # vzdump 777 --exclude-path '/tmp/.+' --exclude-path '/var/tmp/.+'
+ # vzdump 777 --exclude-path /tmp/ --exclude-path '/var/foo*'
 
 (only excludes tmp directories)
 
