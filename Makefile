@@ -38,7 +38,7 @@ ADOC_STDARG= -a icons -a data-uri -a "date=$(shell date)"
 ADOC_MAN1_HTML_ARGS=-a "manvolnum=1" ${ADOC_STDARG} -a "revnumber=${RELEASE}"
 ADOC_MAN8_HTML_ARGS=-a "manvolnum=8" ${ADOC_STDARG} -a "revnumber=${RELEASE}"
 
-BROWSER=xdg-open
+BROWSER?=xdg-open
 
 %-nwdiag.svg: %.nwdiag
 	nwdiag -T svg $*.nwdiag -o $@;
