@@ -1,0 +1,59 @@
+*pveam* `<COMMAND> [ARGS] [OPTIONS]`
+
+*pveam download* `<storage> <template>`
+
+Download appliance templates.
+
+`<storage>` `string` ::
+
+Only list status for  specified storage
+
+`<template>` `string` ::
+
+The template wich will downloaded
+
+
+
+
+*pveam help* `[<cmd>]` `[OPTIONS]`
+
+Get help about specified command.
+
+`<cmd>` `string` ::
+
+Command name
+
+`-verbose` `boolean` ::
+
+Verbose output format.
+
+
+
+
+*pveam list* `<storage>`
+
+Get list of all templates on storage
+
+`<storage>` `string` ::
+
+Only list status for specified storage
+
+
+
+*pveam remove* `<template_path>`
+
+Remove a template.
+
+`<template_path>` `string` ::
+
+The template to remove.
+
+
+
+*pveam update*
+
+Update Container Template Database.
+
+
+
+
