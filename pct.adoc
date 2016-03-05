@@ -103,9 +103,20 @@ Configuration
 
 The '/etc/pve/lxc/<CTID>.conf' files stores container configuration,
 where '<CTID>' is the numeric ID of the given container. Note that
-CTIDs < 100 are reserved for internal purposes. CTIDs need to be
-unique - cluster wide. Files are stored inside '/etc/pve/', so they get
+CTIDs < 100 are reserved for internal purposes, and CTIDs need to be
+cluster wide unique. Files are stored inside '/etc/pve/', so they get
 automatically replicated to all other cluster nodes.
+
+.Example Container Configuration
+----
+ostype: debian
+arch: amd64
+hostname: www
+memory: 512
+swap: 512
+net0: bridge=vmbr0,hwaddr=66:64:66:64:64:36,ip=dhcp,name=eth0,type=veth
+rootfs: local:107/vm-107-disk-1.raw,size=7G
+----
 
 Those configuration files are simple text files, and you can edit them
 using a normal text editor ('vi', 'nano', ...). This is sometimes
@@ -115,8 +126,8 @@ restart the container to apply such changes.
 For that reason, it is usually better to use the 'pct' command to
 generate and modify those files, or do the whole thing using the GUI.
 Our toolkit is smart enough to instantaneously apply most changes to
-running containers (hot plug).
-
+running containers. This feature is called "hot plug", and there is no
+need to restart the container in that case.
 
 File Format
 ~~~~~~~~~~~
@@ -141,6 +152,32 @@ or
 
 Those settings are directly passed to the LXC low-level tools.
 
+Snapshots
+~~~~~~~~~
+
+When you create a snapshot, 'pct' stores the configuration at snapshot
+time into a separate snapshot section within the same configuration
+file. For example, after creating a snapshot called 'testsnapshot',
+your configuration file will look like this:
+
+.Container Configuration with Snapshot
+----
+memory: 512
+swap: 512
+parent: testsnaphot
+...
+
+[testsnaphot]
+memory: 512
+swap: 512
+snaptime: 1457170803
+...
+----
+
+There are a view snapshot related properties like 'parent' and
+'snaptime'. They 'parent' property is used to store the parent/child
+relationship between snapshots. 'snaptime' is the snapshot creation
+time stamp (unix epoch).
 
 Guest Operating System Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
