@@ -1,0 +1,32 @@
+ifdef::manvolnum[]
+PVE({manvolnum})
+================
+include::attributes.txt[]
+
+NAME
+----
+
+pveam - {pve} Appliance Manager
+
+
+SYNOPSYS
+--------
+
+include::pveam.1-synopsis.adoc[]
+
+DESCRIPTION
+-----------
+endif::manvolnum[]
+
+ifndef::manvolnum[]
+Container Images
+================
+include::attributes.txt[]
+endif::manvolnum[]
+
+Command line tool to manage comtainer images. See 'man pct' for usage
+examples.
+
+ifdef::manvolnum[]
+include::pve-copyright.adoc[]
+endif::manvolnum[]

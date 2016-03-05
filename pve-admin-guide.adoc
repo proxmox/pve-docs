@@ -63,6 +63,14 @@ include::pct.1-synopsis.adoc[]
 
 :leveloffset: 0
 
+*pveam* -  {pve} Appliance Manager
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:leveloffset: 1
+include::pveam.1-synopsis.adoc[]
+
+:leveloffset: 0
+
 *pveum* - {pve} User Manager
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

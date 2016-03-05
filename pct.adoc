@@ -225,6 +225,25 @@ Alpine:: test /etc/alpine-release
 NOTE: Container start fails is configured 'ostype' differs from auto
 detected type.
 
+
+Container Images
+----------------
+
+Container Images, somtimes also referred as "templates" or
+"appliances", are 'tar' archives which contains everything to run a
+container. You can think of it as a tidy container backup. Like most
+modern container toolkits, 'pct' uses those images when you create a
+new container, for example:
+
+ pct create 999 local:vztmpl/debian-8.0-standard_8.0-1_amd64.tar.gz
+
+Proxmox itself ships a set of basic templates for most common
+operating systems, and you can download them using the 'pveam' (short
+for {pve} Appliance Manager) command line utility. You can also
+download https://www.turnkeylinux.org/[TurnKey Linux] containers using
+that tool (or the graphical user interface).
+
+
 Container Storage
 -----------------
 
