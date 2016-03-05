@@ -277,7 +277,19 @@ storage so that all nodes can access those images.
 
  pveam download local debian-8.0-standard_8.0-1_amd64.tar.gz
 
-You are now ready to create containers using that template.
+You are now ready to create containers using that image, and you can
+list all downloaded images on storage 'local' with:
+
+----
+# pveam list local
+local:vztmpl/debian-8.0-standard_8.0-1_amd64.tar.gz  190.20MB
+----
+
+Above command shown you full {pve} volume identifiers. They includes
+the storage name, and most other {pve} commands can use them. For
+examply you can delete that image later with:
+
+ pveam remove local:vztmpl/debian-8.0-standard_8.0-1_amd64.tar.gz
 
 
 Container Storage
