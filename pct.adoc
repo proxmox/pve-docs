@@ -243,6 +243,42 @@ for {pve} Appliance Manager) command line utility. You can also
 download https://www.turnkeylinux.org/[TurnKey Linux] containers using
 that tool (or the graphical user interface).
 
+Our image repositories contain a list of available images, and there
+is a cron job run each day to download that list. You can trigger that
+update manually with:
+
+ pveam update
+
+After that you can view the list of available images using:
+
+ pveam available
+
+You can restrict this large list by specifying the 'section' you are
+interested in, for example basic 'system' images:
+
+.List available system images
+----
+# pveam available --section system
+system          archlinux-base_2015-24-29-1_x86_64.tar.gz
+system          centos-7-default_20160205_amd64.tar.xz
+system          debian-6.0-standard_6.0-7_amd64.tar.gz
+system          debian-7.0-standard_7.0-3_amd64.tar.gz
+system          debian-8.0-standard_8.0-1_amd64.tar.gz
+system          ubuntu-12.04-standard_12.04-1_amd64.tar.gz
+system          ubuntu-14.04-standard_14.04-1_amd64.tar.gz
+system          ubuntu-15.04-standard_15.04-1_amd64.tar.gz
+system          ubuntu-15.10-standard_15.10-1_amd64.tar.gz
+----
+
+Before you can use such template, you need to download them into one
+of your storages. You can simply use storage 'local' for that
+purpose. For clustered installations, it is preferred to use a shared
+storage so that all nodes can access those images.
+
+ pveam download local debian-8.0-standard_8.0-1_amd64.tar.gz
+
+You are now ready to create containers using that template.
+
 
 Container Storage
 -----------------
