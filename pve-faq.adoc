@@ -23,7 +23,7 @@ Will {pve} run on a 32bit processor?::
 {pve} works only on 64-bit CPU´s (AMD or Intel). There is no plan
 for 32-bit for the platform.
 +
-NOTE: VMs and Containers can be bothe 32-bit and/or 64-bit.
+NOTE: VMs and Containers can be both 32-bit and/or 64-bit.
 
 Does my CPU support virtualization?::
 
@@ -51,7 +51,8 @@ What is a container, CT, VE, Virtual Private Server, VPS?::
 Operating-system-level virtualization is a server-virtualization
 method where the kernel of an operating system allows for multiple
 isolated user-space instances, instead of just one. We call such
-instances containers.
+instances containers. As containers share the Kernel they are
+limited to Linux guests.
 
 What is a QEMU/KVM guest (or VM)?::
 
@@ -64,3 +65,5 @@ QEMU is a generic and open source machine emulator and
 virtualizer. QEMU uses the Linux KVM kernel module to achieve near
 native performance by executing the guest code directly on the host
 CPU.
+It is not limited to Linux guests but allows arbitrary operating systems
+to run.
