@@ -25,25 +25,133 @@ include::attributes.txt[]
 endif::manvolnum[]
 
 'ha-manager' handles management of user-defined cluster services. This
-includes handling of user requests including service start, service
-disable, service relocate, and service restart. The cluster resource
-manager daemon also handles restarting and relocating services in the
-event of failures.
+includes handling of user requests which may start, stop, relocate,
+migrate a service.
+The cluster resource manager daemon also handles restarting and relocating
+services to another node in the event of failures.
+
+A service (also called resource) is uniquely identified by a service ID
+(SID) which consists of the service type and an type specific id, e.g.:
+'vm:100'. That example would be a service of type vm (Virtual machine)
+with the VMID 100.
+
+Requirements
+------------
+
+* at least three nodes
+
+* shared storage
+
+* hardware redundancy
+
+* hardware watchdog - if not available we fall back to the
+  linux kernel soft dog
 
 How It Works
 ------------
 
+This section provides an in detail description of the {PVE} HA-manager
+internals. It describes how the CRM and the LRM work together.
+
+To provide High Availability two daemons run on each node:
+
+'pve-ha-lrm'::
+
+The local resource manager (LRM), it controls the services running on
+the local node.
+It reads the requested states for its services from the current manager
+status file and executes the respective commands.
+
+'pve-ha-crm'::
+
+The cluster resource manager (CRM), it controls the cluster wide
+actions of the services, processes the LRM result includes the state
+machine which controls the state of each service.
+
+.Locks in the LRM & CRM
+[NOTE]
+Locks are provided by our distributed configuration file system (pmxcfs).
+They are used to guarantee that each LRM is active and working as a
+LRM only executes actions when he has its lock we can mark a failed node
+as fenced if we get its lock. This lets us then recover the failed HA services
+securely without the failed (but maybe still running) LRM interfering.
+This all gets supervised by the CRM which holds currently the manager master
+lock.
+
+Local Resource Manager
+~~~~~~~~~~~~~~~~~~~~~~
+
 The local resource manager ('pve-ha-lrm') is started as a daemon on
-each node at system start and waits until the HA cluster is quorate
-and locks are working.  After initialization, the LRM determines which
-services are enabled and starts them. Also the watchdog gets
-initialized.
+boot and waits until the HA cluster is quorate and thus cluster wide
+locks are working.
+
+It can be in three states:
+
+* *wait for agent lock*: the LRM waits for our exclusive lock. This is
+  also used as idle sate if no service is configured
+* *active*: the LRM holds its exclusive lock and has services configured
+* *lost agent lock*: the LRM lost its lock, this means a failure happened
+  and quorum was lost.
+
+After the LRM gets in the active state it reads the manager status
+file in '/etc/pve/ha/manager_status' and determines the commands it
+has to execute for the service it owns.
+For each command a worker gets started, this workers are running in
+parallel and are limited to maximal 4 by default. This default setting
+may be changed through the datacenter configuration key "max_worker".
+
+.Maximal Concurrent Worker Adjustment Tips
+[NOTE]
+The default value of 4 maximal concurrent Workers may be unsuited for
+a specific setup. For example may 4 live migrations happen at the same
+time, which can lead to network congestions with slower networks and/or
+big (memory wise) services. Ensure that also in the worst case no congestion
+happens and lower the "max_worker" value if needed. In the contrary, if you
+have a particularly powerful high end setup you may also want to increase it.
+
+Each command requested by the CRM is uniquely identifiable by an UID, when
+the worker finished its result will be processed and written in the LRM
+status file '/etc/pve/nodes/<nodename>/lrm_status'. There the CRM may collect
+it and let its state machine - respective the commands output - act on it.
+
+The actions on each service between CRM and LRM are normally always synced.
+This means that the CRM requests a state uniquely marked by an UID, the LRM
+then executes this action *one time* and writes back the result, also
+identifiable by the same UID. This is needed so that the LRM does not
+executes an outdated command.
+With the exception of the 'stop' and the 'error' command,
+those two do not depend on the result produce and are executed
+always in the case of the stopped state and once in the case of
+the error state.
+
+.Read the Logs
+[NOTE]
+The HA Stack logs every action it makes. This helps to understand what
+and also why something happens in the cluster. Here its important to see
+what both daemons, the LRM and the CRM, did. You may use
+`journalctl -u pve-ha-lrm` on the node(s) where the service is and
+the same command for the pve-ha-crm on the node which is the current master.
+
+Cluster Resource Manager
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 The cluster resource manager ('pve-ha-crm') starts on each node and
 waits there for the manager lock, which can only be held by one node
 at a time.  The node which successfully acquires the manager lock gets
-promoted to the CRM, it handles cluster wide actions like migrations
-and failures.
+promoted to the CRM master.
+
+It can be in three states: TODO
+
+* *wait for agent lock*: the LRM waits for our exclusive lock. This is
+  also used as idle sate if no service is configured
+* *active*: the LRM holds its exclusive lock and has services configured
+* *lost agent lock*: the LRM lost its lock, this means a failure happened
+  and quorum was lost.
+
+It main task is to manage the services which are configured to be highly
+available and try to get always bring them in the wanted state, e.g.: a
+enabled service will be started if its not running, if it crashes it will
+be started again. Thus it dictates the LRM the wanted actions.
 
 When an node leaves the cluster quorum, its state changes to unknown.
 If the current CRM then can secure the failed nodes lock, the services
@@ -65,6 +173,32 @@ The resource configuration file can be located at
 '/etc/pve/ha/resources.cfg' and the group configuration file at
 '/etc/pve/ha/groups.cfg'. Use the provided tools to make changes,
 there shouldn't be any need to edit them manually.
+
+Node Power Status
+-----------------
+
+If a node needs maintenance you should migrate and or relocate all
+services which are required to run always on another node first.
+After that you can stop the LRM and CRM services. But note that the
+watchdog triggers if you stop it with active services.
+
+Fencing
+-------
+
+What Is Fencing
+~~~~~~~~~~~~~~~
+
+Fencing secures that on a node failure the dangerous node gets will be rendered
+unable to do any damage and  that no resource runs twice when it gets recovered
+from the failed node.
+
+Configure Hardware Watchdog
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+By default all watchdog modules are blocked for security reasons as they are
+like a loaded gun if not correctly initialized.
+If you have a hardware watchdog available remove its module from the blacklist
+and restart 'the watchdog-mux' service.
+
 
 Resource/Service Agents
 -------------------------
