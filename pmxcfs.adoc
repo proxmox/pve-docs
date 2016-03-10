@@ -77,10 +77,14 @@ Files
 |user.cfg      |{pve} access control configuration (users/groups/...)
 |domains.cfg   |{pve} Authentication domains 
 |authkey.pub   | public key used by ticket system
+|pve-root-ca.pem | public certificate of cluster CA
 |priv/shadow.cfg  | shadow password file
 |priv/authkey.key | private key used by ticket system
-|nodes/<NAME>/pve-ssl.pem                 | public ssl key for web server
-|nodes/<NAME>/priv/pve-ssl.key            | private ssl key
+|priv/pve-root-ca.key | private key of cluster CA
+|nodes/<NAME>/pve-ssl.pem                 | public ssl certificate for web server (signed by cluster CA)
+|nodes/<NAME>/pve-ssl.key            | private ssl key for pve-ssl.pem
+|nodes/<NAME>/pveproxy-ssl.pem       | public ssl certificate (chain) for web server (optional override for pve-ssl.pem)
+|nodes/<NAME>/pveproxy-ssl.key       | private ssl key for pveproxy-ssl.pem (optional)
 |nodes/<NAME>/qemu-server/<VMID>.conf    | VM configuration data for KVM VMs
 |nodes/<NAME>/lxc/<VMID>.conf         | VM configuration data for LXC containers
 |firewall/cluster.fw | Firewall config applied to all nodes
