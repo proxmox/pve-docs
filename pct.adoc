@@ -37,20 +37,20 @@ usually negligible. But there are also some drawbacks you need to
 consider:
 
 * You can only run Linux based OS inside containers, i.e. it is not
-  possible to run Free BSD or MS Windows inside.
+  possible to run FreeBSD or MS Windows inside.
 
-* For security reasons, access to host resources need to be
+* For security reasons, access to host resources needs to be
   restricted. This is done with AppArmor, SecComp filters and other
-  kernel feature. Be prepared that some syscalls are not allowed
+  kernel features. Be prepared that some syscalls are not allowed
   inside containers.
 
 {pve} uses https://linuxcontainers.org/[LXC] as underlying container
 technology. We consider LXC as low-level library, which provides
-countless options. It would be to difficult to use those tools
+countless options. It would be too difficult to use those tools
 directly. Instead, we provide a small wrapper called `pct`, the
 "Proxmox Container Toolkit".
 
-The toolkit it tightly coupled with {pve}. That means that it is aware
+The toolkit is tightly coupled with {pve}. That means that it is aware
 of the cluster setup, and it can use the same network and storage
 resources as fully virtualized VMs. You can even use the {pve}
 firewall, or manage containers using the HA framework.
@@ -69,7 +69,7 @@ Security Considerations
 Containers use the same kernel as the host, so there is a big attack
 surface for malicious users. You should consider this fact if you
 provide containers to totally untrusted people. In general, fully
-virtualized VM provides better isolation.
+virtualized VMs provide better isolation.
 
 The good news is that LXC uses many kernel security features like
 AppArmor, CGroups and PID and user namespaces, which makes containers
@@ -89,12 +89,12 @@ the container.
 Unprivileged containers
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-This kind of containers use a new kernel feature, called user
+This kind of containers use a new kernel feature called user
 namespaces. The root uid 0 inside the container is mapped to an
 unprivileged user outside the container. This means that most security
 issues (container escape, resource abuse, ...) in those containers
 will affect a random unprivileged user, and so would be a generic
-kernel security bug rather than a LXC issue. LXC people think
+kernel security bug rather than an LXC issue. The LXC team thinks
 unprivileged containers are safe by design.
 
 
@@ -104,7 +104,7 @@ Configuration
 The '/etc/pve/lxc/<CTID>.conf' files stores container configuration,
 where '<CTID>' is the numeric ID of the given container. Note that
 CTIDs < 100 are reserved for internal purposes, and CTIDs need to be
-cluster wide unique. Files are stored inside '/etc/pve/', so they get
+unique cluster wide. Files are stored inside '/etc/pve/', so they get
 automatically replicated to all other cluster nodes.
 
 .Example Container Configuration
@@ -174,8 +174,8 @@ snaptime: 1457170803
 ...
 ----
 
-There are a view snapshot related properties like 'parent' and
-'snaptime'. They 'parent' property is used to store the parent/child
+There are a few snapshot related properties like 'parent' and
+'snaptime'. The 'parent' property is used to store the parent/child
 relationship between snapshots. 'snaptime' is the snapshot creation
 time stamp (unix epoch).
 
@@ -189,21 +189,21 @@ container startup:
 
 set /etc/hostname:: to set the container name
 
-modify /etc/hosts:: allow to lookup the local hostname
+modify /etc/hosts:: to allow lookup of the local hostname
 
 network setup:: pass the complete network setup to the container
 
 configure DNS:: pass information about DNS servers
 
-adopt the init system:: for example, fix the number os spawned getty processes
+adapt the init system:: for example, fix the number of spawned getty processes
 
 set the root password:: when creating a new container
 
 rewrite ssh_host_keys:: so that each container has unique keys
 
-randomize crontab:: so that cron does not start at same time on all containers
+randomize crontab:: so that cron does not start at the same time on all containers
 
-Above task depends on the OS type, so the implementation is different
+The above task depends on the OS type, so the implementation is different
 for each OS type. You can also disable any modifications by manually
 setting the 'ostype' to 'unmanaged'.
 
@@ -222,15 +222,15 @@ ArchLinux:: test /etc/arch-release
 
 Alpine:: test /etc/alpine-release
 
-NOTE: Container start fails is configured 'ostype' differs from auto
+NOTE: Container start fails if the configured 'ostype' differs from the auto
 detected type.
 
 
 Container Images
 ----------------
 
-Container Images, somtimes also referred as "templates" or
-"appliances", are 'tar' archives which contains everything to run a
+Container Images, sometimes also referred to as "templates" or
+"appliances", are 'tar' archives which contain everything to run a
 container. You can think of it as a tidy container backup. Like most
 modern container toolkits, 'pct' uses those images when you create a
 new container, for example:
@@ -270,7 +270,7 @@ system          ubuntu-15.04-standard_15.04-1_amd64.tar.gz
 system          ubuntu-15.10-standard_15.10-1_amd64.tar.gz
 ----
 
-Before you can use such template, you need to download them into one
+Before you can use such a template, you need to download them into one
 of your storages. You can simply use storage 'local' for that
 purpose. For clustered installations, it is preferred to use a shared
 storage so that all nodes can access those images.
@@ -285,7 +285,7 @@ list all downloaded images on storage 'local' with:
 local:vztmpl/debian-8.0-standard_8.0-1_amd64.tar.gz  190.20MB
 ----
 
-Above command shown you full {pve} volume identifiers. They includes
+The above command shows you the full {pve} volume identifiers. They include
 the storage name, and most other {pve} commands can use them. For
 examply you can delete that image later with:
 
@@ -299,7 +299,7 @@ Traditional containers use a very simple storage model, only allowing
 a single mount point, the root file system. This was further
 restricted to specific file system types like 'ext4' and 'nfs'.
 Additional mounts are often done by user provided scripts. This turend
-out to be complex and error prone, so we trie to avoid that now.
+out to be complex and error prone, so we try to avoid that now.
 
 Our new LXC based container model is more flexible regarding
 storage. First, you can have more than a single mount point. This
@@ -312,15 +312,15 @@ application.
 The second big improvement is that you can use any storage type
 supported by the {pve} storage library. That means that you can store
 your containers on local 'lvmthin' or 'zfs', shared 'iSCSI' storage,
-or even on distributed storage systems like 'ceph'. And it enables us
+or even on distributed storage systems like 'ceph'. It also enables us
 to use advanced storage features like snapshots and clones. 'vzdump'
-can also use the snapshots feature to provide consistent container
+can also use the snapshot feature to provide consistent container
 backups.
 
 Last but not least, you can also mount local devices directly, or
 mount local directories using bind mounts. That way you can access
 local storage inside containers with zero overhead. Such bind mounts
-also provides an easy way to share data between different containers.
+also provide an easy way to share data between different containers.
 
 
 Managing Containers with 'pct'
@@ -329,13 +329,13 @@ Managing Containers with 'pct'
 'pct' is the tool to manage Linux Containers on {pve}. You can create
 and destroy containers, and control execution (start, stop, migrate,
 ...). You can use pct to set parameters in the associated config file,
-like network configuration or memory.
+like network configuration or memory limits.
 
 CLI Usage Examples
 ------------------
 
-Create a container based on a Debian template (provided you downloaded
-the template via the webgui before)
+Create a container based on a Debian template (provided you have
+already downloaded the template via the webgui)
 
  pct create 100 /var/lib/vz/template/cache/debian-8.0-standard_8.0-1_amd64.tar.gz
 
@@ -412,7 +412,7 @@ Technology Overview
 
 - We use latest available kernels (4.2.X)
 
-- image based deployment (templates)
+- Image based deployment (templates)
 
 - Container setup from host (Network, DNS, Storage, ...)
 

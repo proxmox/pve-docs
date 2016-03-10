@@ -16,7 +16,7 @@ Advantages
 
 * seamless replication of all configuration to all nodes in real time
 * provides strong consistency checks to avoid duplicate VM IDs
-* read-only when a node looses quorum
+* read-only when a node loses quorum
 * automatic updates of the corosync cluster configuration to all nodes
 * includes a distributed locking mechanism
 
