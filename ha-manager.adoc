@@ -24,6 +24,52 @@ High Availability
 include::attributes.txt[]
 endif::manvolnum[]
 
+
+Our modern society depends heavily on information provided by
+computers over the network. Mobile devices amplified that dependency,
+because people can access the network any time from anywhere. If you
+provide such services, it is very important that they are available
+most of the time.
+
+We can mathematically define the availability as the ratio of (A) the
+total time a service is capable of being used during a given interval
+to (B) the length of the interval. It is normally expressed as a
+percentage of uptime in a given year.
+
+.Availability - Downtime per Year
+[width="60%",cols="<d,d",options="header"]
+|===========================================================
+|Availability % |Downtime per year
+|99             |3.65 days
+|99.9 		|8.76 hours
+|99.99  	|52.56 minutes
+|99.999  	|5.26 minutes
+|99.9999  	|31.5 seconds
+|99.99999 	|3.15 seconds
+|===========================================================
+
+There are several ways to increase availability:
+
+* Eliminate single point of failure (redundant components)
+
+ - use an uniteruptable power supply (UPS)
+ - use redundant power supplies on the main boards
+ - use ECC-RAM
+ - use redundant network hardware
+ - use distributed, redundant storage
+
+* Reduce downtime
+
+ - automatic error detection
+ - automatic failover
+
+Virtualization environments like {pve} makes it much easier to reach
+high availability because they remove the "hardware" dependency. It is
+also easy to setup and use redundant storage and network devices. So
+if one host fail, you can simply start those services on another host
+within your cluster. Even better, 'ha-manager' is able to
+automatically detect errors and do automatic failover.
+
 'ha-manager' handles management of user-defined cluster services. This
 includes handling of user requests which may start, stop, relocate,
 migrate a service.
