@@ -48,7 +48,21 @@ percentage of uptime in a given year.
 |99.99999 	|3.15 seconds
 |===========================================================
 
-There are several ways to increase availability:
+There are several ways to increase availability. The most elegant
+solution is to rewrite your software, so that you can run it on
+several host at the same time. The software itself need to have a way
+to detect erors and do failover. This is relatively easy if you just
+want to serve read-only web pages. But in general this is complex, and
+sometimes impossible because you cannot modify the software
+yourself. The following solutions works without modifying the
+software:
+
+* Use reliable "server" components
+
+NOTE: Computer components with same functionality can have varying
+reliability numbers, depending on the component quality. Most verdors
+sell components with higher reliability as "server" components -
+usually at higher price.
 
 * Eliminate single point of failure (redundant components)
 
@@ -56,19 +70,33 @@ There are several ways to increase availability:
  - use redundant power supplies on the main boards
  - use ECC-RAM
  - use redundant network hardware
- - use distributed, redundant storage
+ - use RAID for local storage
+ - use distributed, redundant storage for VM data
 
 * Reduce downtime
 
- - automatic error detection
- - automatic failover
+ - rapidly accessible adminstrators (24/7)
+ - availability of spare parts (other nodes is a {pve} cluster)
+ - automatic error detection ('ha-manager')
+ - automatic failover ('ha-manager')
 
 Virtualization environments like {pve} makes it much easier to reach
-high availability because they remove the "hardware" dependency. It is
-also easy to setup and use redundant storage and network devices. So
-if one host fail, you can simply start those services on another host
-within your cluster. Even better, 'ha-manager' is able to
-automatically detect errors and do automatic failover.
+high availability because they remove the "hardware" dependency. They
+also support to setup and use redundant storage and network
+devices. So if one host fail, you can simply start those services on
+another host within your cluster. Even better, 'ha-manager' can do
+that automatically for you. It is able to automatically detect errors
+and do automatic failover.
+
+But high availability comes at a price. High quality components are
+more expensive, and making them redundant duplicates the costs at
+least. Additional spare parts increase costs further. So you should
+carefully calculate the benefits, and compare with those additional
+costs.
+
+TIP: Increasing availability from 99% to 99.9% is relatively
+simply. But increasing availability from 99.9999% to 99.99999% is very
+hard and costly.
 
 'ha-manager' handles management of user-defined cluster services. This
 includes handling of user requests which may start, stop, relocate,
