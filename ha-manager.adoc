@@ -84,9 +84,18 @@ Virtualization environments like {pve} makes it much easier to reach
 high availability because they remove the "hardware" dependency. They
 also support to setup and use redundant storage and network
 devices. So if one host fail, you can simply start those services on
-another host within your cluster. Even better, 'ha-manager' can do
-that automatically for you. It is able to automatically detect errors
-and do automatic failover.
+another host within your cluster.
+
+Even better, {pve} provides a software stack called 'ha-manager',
+which can do that automatically for you. It is able to automatically
+detect errors and do automatic failover.
+
+{pve} 'ha-manager' works like an "automated" administrator. First, you
+configure what resources (VMs, containers, ...) it should
+manage. 'ha-manager' then observes correct functionality, and handles
+service failover to another node in case of errors. 'ha-manager' can
+also handle normal user requests which may start, stop, relocate and
+migrate a service.
 
 But high availability comes at a price. High quality components are
 more expensive, and making them redundant duplicates the costs at
@@ -96,18 +105,19 @@ costs.
 
 TIP: Increasing availability from 99% to 99.9% is relatively
 simply. But increasing availability from 99.9999% to 99.99999% is very
-hard and costly.
+hard and costly. 'ha-manager' has typical error detection and failover
+times of about 2 minutes, so you can get no more than 99.999%
+availability.
 
-'ha-manager' handles management of user-defined cluster services. This
-includes handling of user requests which may start, stop, relocate,
-migrate a service.
-The cluster resource manager daemon also handles restarting and relocating
-services to another node in the event of failures.
 
-A service (also called resource) is uniquely identified by a service ID
-(SID) which consists of the service type and an type specific id, e.g.:
-'vm:100'. That example would be a service of type vm (Virtual machine)
-with the VMID 100.
+Resources
+---------
+
+A resource (sometimes also called service) is uniquely identified by a
+service ID (SID) which consists of the service type and an type
+specific id, e.g.: 'vm:100'. That example would be a service of type
+vm (Virtual machine) with the VMID 100.
+
 
 Requirements
 ------------
