@@ -14,16 +14,16 @@ can use any file system supported by Linux.
 
 This backend assumes that the underlying directory is POSIX
 compatible, but nothing else. This implies that you cannot create
-snapshots at the storage level. But there exists a woraround for VM
+snapshots at the storage level. But there exists a workaround for VM
 images using the `qcow2` file format, because that format supports
 snapshots internally.
 
-TIP: Some storage types does not support `O_DIRECT`, so you can't use
+TIP: Some storage types do not support `O_DIRECT`, so you can't use
 cache mode `none` with such storages. Simply use cache mode
 `writeback` instead.
 
 We use a predefined directory layout to store different content types
-into different sub-directories. This layout is use by all file level
+into different sub-directories. This layout is used by all file level
 storage backends.
 
 .Directory layout
@@ -69,8 +69,8 @@ This specifies the owner VM.
 
 `<NAME>`::
 
-This scan be an arbitrary name (`ascii`) without white spaces. The
-backend uses `disk[N]` as default, where `[N]` is replaced by an
+This can be an arbitrary name (`ascii`) without white spaces. The
+backend uses `disk-[N]` as default, where `[N]` is replaced by an
 integer to make the name unique.
 
 `<FORMAT>`::
@@ -78,19 +78,19 @@ integer to make the name unique.
 Species the image format (`raw|qcow2|vmdk`).
 
 When you create a VM template, all VM images are renamed to indicate
-that they are now read-only, and can be uses as base image for clones:
+that they are now read-only, and can be uses as a base image for clones:
 
  base-<VMID>-<NAME>.<FORMAT>
 
 NOTE: Such base images are used to generate cloned images. So it is
-important that those files are read-only, and never gets modified. The
-backend changes access mode to `0444`, and sets the immutable flag
+important that those files are read-only, and never get modified. The
+backend changes the access mode to `0444`, and sets the immutable flag
 (`chattr +i`) if the storage supports that.
 
 Storage Features
 ~~~~~~~~~~~~~~~~
 
-As mentioned above, most file systems does not support snapshots out
+As mentioned above, most file systems do not support snapshots out
 of the box. To workaround that problem, this backend is able to use
 `qcow2` internal snapshot capabilities.
 

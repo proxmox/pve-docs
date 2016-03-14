@@ -25,7 +25,7 @@ Backup and Restore
 include::attributes.txt[]
 endif::manvolnum[]
 
-'vzdump' is an utility to make consistent snapshots of running virtual
+'vzdump' is a utility to make consistent snapshots of running virtual
 machines (VMs). It basically creates an archive of the VM private
 area, which also includes the VM configuration files. 'vzdump'
 currently supports LXC containers and QemuServer VMs.
@@ -38,10 +38,10 @@ Stop the VM during backup. This results in a very long downtime.
 
 `suspend` mode::
 
-For containers, this mode uses rsync to copy the VM to a temporary
+For containers, this mode uses rsync to copy the VM data to a temporary
 location (see option `--tmpdir`). Then the VM is suspended and a second
-rsync copies changed files. After that, the VM is started (resume)
-again. This results in a minimal downtime, but needs additional space
+rsync copies changed files. After that, the VM is started (resumed)
+again. This results in minimal downtime, but needs additional space
 to hold the VM copy.
 
 For QemuServer, this mode will suspend the VM, start
@@ -54,7 +54,7 @@ underlying storage. A snapshot will be made of the container volume,
 and the snapshot content will be archived in a tar file.
 
 For QemuServer, this mode will do a live backup similar to the
-`snaphost` mode, but without suspending/resuming the VM.
+`suspend` mode, but without suspending/resuming the VM.
 
 A technical overview of the Proxmox VE live backup for QemuServer can
 be found online
@@ -63,14 +63,14 @@ https://git.proxmox.com/?p=pve-qemu-kvm.git;a=blob;f=backup.txt[here],
 Backup File Names
 -----------------
 
-Newer version of vzdump encodes the virtual machine type and the
+Newer versions of vzdump encode the virtual machine type and the
 backup time into the filename, for example
 
  vzdump-lxc-105-2009_10_09-11_04_43.tar
 
-That way it is possible to store several backup into the same
+That way it is possible to store several backup in the same
 directory. The parameter `maxfiles` can be used to specify the
-maximal number of backups to keep.
+maximum number of backups to keep.
 
 Restore
 -------
@@ -78,7 +78,7 @@ Restore
 The resulting archive files can be restored with the following programs.
 
 
-`pct restore`:: Containers restore utility
+`pct restore`:: Container restore utility
 
 `qmrestore`:: QemuServer restore utility
 
@@ -139,7 +139,7 @@ configuration files to the default dump directory (usually
 
  # vzdump 777
 
-Use rsync and suspend/resume to create an snapshot (minimal downtime).
+Use rsync and suspend/resume to create a snapshot (minimal downtime).
 
  # vzdump 777 --mode suspend
 

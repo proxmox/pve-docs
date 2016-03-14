@@ -24,7 +24,7 @@ Container Images
 include::attributes.txt[]
 endif::manvolnum[]
 
-Command line tool to manage comtainer images. See 'man pct' for usage
+Command line tool to manage container images. See 'man pct' for usage
 examples.
 
 ifdef::manvolnum[]

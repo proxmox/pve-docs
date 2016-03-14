@@ -40,18 +40,18 @@ All configuration files consists of lines in the form
 
 See 'man vm.conf' for a complete list of options.
 
-Configuration files are stored inside the Proxmox configuration file
+Configuration files are stored inside the Proxmox cluster file
 system, and can be access at '/etc/pve/qemu-server/<VMID>.conf'.
 
-The default for option `keyboard` is read from
+The default for the `keyboard` option is read from
 '/etc/pve/datacenter.conf'.
 
 Locks
 -----
 
-Online migration and backups ('vzdump') set a lock to prevent
-unintentional action on such VMs. Sometimes you need remove such lock
-manually (power failure).
+Online migrations and backups ('vzdump') set a lock to prevent incompatible
+concurrent actions on the affected VMs. Sometimes you need to remove such a
+lock manually (e.g., after a power failure).
 
  qm unlock <vmid>
 

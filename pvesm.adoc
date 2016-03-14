@@ -110,12 +110,12 @@ Each storage pool has a `<type>`, and is uniquely identified by its `<STORAGE_ID
 ----
 
 NOTE: There is one special local storage pool named `local`. It refers to
-directory '/var/lib/vz' and is automatically generated at installation
+the directory '/var/lib/vz' and is automatically generated at installation
 time.
 
 The `<type>: <STORAGE_ID>` line starts the pool definition, which is then
-followed by a list of properties. Most properties have values, but some of them comes
-with reasonable default. In that case you can omit the value.
+followed by a list of properties. Most properties have values, but some of
+them come with reasonable default. In that case you can omit the value.
 
 .Default storage configuration ('/etc/pve/storage.cfg')
 ====
@@ -128,7 +128,7 @@ with reasonable default. In that case you can omit the value.
 Common Storage Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A few storage properties are common among differenty storage types. 
+A few storage properties are common among different storage types.
 
 nodes::
 
@@ -140,7 +140,7 @@ content::
 
 A storage can support several content types, for example virtual disk
 images, cdrom iso images, container templates or container root
-directories. Not all storage types supports all content types. One can set
+directories. Not all storage types support all content types. One can set
 this property to select for what this storage is used for.
 
 images:::
@@ -149,7 +149,7 @@ KVM-Qemu VM images.
 
 rootdir:::
 
-Allow to store Container data.
+Allow to store container data.
 
 vztmpl:::
 
@@ -181,16 +181,16 @@ Default image format (`raw|qcow2|vmdk`)
 
 
 WARNING: It is not advisable to use the same storage pool on different
-{pve} clusters. Some storage operation needs exclusive access to the
+{pve} clusters. Some storage operation need exclusive access to the
 storage, so proper locking is required. While this is implemented
-within an cluster, it does not work between different clusters.
+within a cluster, it does not work between different clusters.
 
 
 Volumes
 -------
 
 We use a special notation to address storage data. When you allocate
-data from a storage pool, it returns such volume identifier. A volume
+data from a storage pool, it returns such a volume identifier. A volume
 is identified by the `<STORAGE_ID>`, followed by a storage type
 dependent volume name, separated by colon. A valid `<VOLUME_ID>` looks
 like:
@@ -215,15 +215,15 @@ volume is owned by a VM or Container. For example volume
 `local:230/example-image.raw` is owned by VM 230. Most storage
 backends encodes this ownership information into the volume name.
 
-When you remove a VM or Container, the system also remove all
+When you remove a VM or Container, the system also removes all
 associated volumes which are owned by that VM or Container.
 
 
 Using the Command Line Interface
 --------------------------------
 
-I think it is required to understand the concept behind storage pools
-and volume identifier, but in real life, you are not forced to do any
+It is recommended to familiarize yourself with the concept behind storage
+pools and volume identifiers, but in real life, you are not forced to do any
 of those low level operations on the command line. Normally,
 allocation and removal of volumes is done by the VM and Container
 management tools.
