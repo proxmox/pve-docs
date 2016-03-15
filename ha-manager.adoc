@@ -109,27 +109,36 @@ hard and costly. 'ha-manager' has typical error detection and failover
 times of about 2 minutes, so you can get no more than 99.999%
 availability.
 
+Requirements
+------------
+
+* at least three cluster nodes (to get reliable quorum)
+
+* shared storage for VMs and containers
+
+* hardware redundancy (everywhere)
+
+* hardware watchdog - if not available we fall back to the
+  linux kernel software watchdog ('softdog')
+
+* optional hardware fencing devices
+
 
 Resources
 ---------
 
-A resource (sometimes also called service) is uniquely identified by a
-service ID (SID) which consists of the service type and an type
-specific id, e.g.: 'vm:100'. That example would be a service of type
-vm (Virtual machine) with the VMID 100.
+We call the primary management unit handled by 'ha-manager' a
+resource. A resource (also called "service") is uniquely
+identified by a service ID (SID), which consists of the resource type
+and an type specific ID, e.g.: 'vm:100'. That example would be a
+resource of type 'vm' (virtual machine) with the ID 100.
 
+For now we have two important resources types - virtual machines and
+containers. One basic idea here is that we can bundle related software
+into such VM or container, so there is no need to compose one big
+service from other services, like it was done with 'rgmanager'. In
+general, a HA enabled resource should not depend on other resources.
 
-Requirements
-------------
-
-* at least three nodes
-
-* shared storage
-
-* hardware redundancy
-
-* hardware watchdog - if not available we fall back to the
-  linux kernel soft dog
 
 How It Works
 ------------
@@ -283,12 +292,6 @@ like a loaded gun if not correctly initialized.
 If you have a hardware watchdog available remove its module from the blacklist
 and restart 'the watchdog-mux' service.
 
-
-Resource/Service Agents
--------------------------
-
-A resource or also called service can be managed by the
-ha-manager. Currently we support virtual machines and container.
 
 Groups
 ------
