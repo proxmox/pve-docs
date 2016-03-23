@@ -1,38 +1,38 @@
-`console:` `(applet | html5 | vv)` ::
+`console`: `(applet | html5 | vv)` ::
 
 Select the default Console viewer. You can either use the builtin java
 applet (VNC), an external virt-viewer comtatible application (SPICE), or an
 HTML5 based viewer (noVNC).
 
-`email_from:` `string` ::
+`email_from`: `string` ::
 
 Specify email address to send notification from (default is root@$hostname)
 
-`fencing:` `(both | hardware | watchdog)` (default=`watchdog`)::
+`fencing`: `(both | hardware | watchdog)` (default=`watchdog`)::
 
 Set the fencing mode of the HA cluster. Hardware mode needs a valid
 configuration of fence devices in /etc/pve/ha/fence.cfg. With both all two
 modes are used.  NOTE: 'hardware' and 'both' are EXPERIMENTAL & WIP
 
-`http_proxy:` `http://.*` ::
+`http_proxy`: `http://.*` ::
 
 Specify external http proxy which is used for downloads (example:
 'http://username:password@host:port/')
 
-`keyboard:` `(da | de | de-ch | en-gb | en-us | es | fi | fr | fr-be | fr-ca | fr-ch | hu | is | it | ja | lt | mk | nl | no | pl | pt | pt-br | sl | sv | tr)` ::
+`keyboard`: `(da | de | de-ch | en-gb | en-us | es | fi | fr | fr-be | fr-ca | fr-ch | hu | is | it | ja | lt | mk | nl | no | pl | pt | pt-br | sl | sv | tr)` ::
 
 Default keybord layout for vnc server.
 
-`language:` `(de | en)` ::
+`language`: `(de | en)` ::
 
 Default GUI language.
 
-`max_workers:` `integer (1 - N)` ::
+`max_workers`: `integer (1 - N)` ::
 
 Defines how many workers (per node) are maximal started  on actions like
 'stopall VMs' or task from the ha-manager.
 
-`migration_unsecure:` `boolean` ::
+`migration_unsecure`: `boolean` ::
 
 Migration is secure using SSH tunnel by default. For secure private
 networks you can disable it to speed up migration.
