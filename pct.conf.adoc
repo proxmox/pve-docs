@@ -1,0 +1,66 @@
+ifdef::manvolnum[]
+PVE({manvolnum})
+================
+include::attributes.txt[]
+
+NAME
+----
+
+pct.conf - Proxmox VE Container Configuration
+
+
+SYNOPSYS
+--------
+
+'/etc/pve/lxc/<CTID>.conf'
+
+
+DESCRIPTION
+-----------
+endif::manvolnum[]
+
+ifndef::manvolnum[]
+Container Configuration
+=======================
+include::attributes.txt[]
+endif::manvolnum[]
+
+The '/etc/pve/lxc/<CTID>.conf' files stores container configuration,
+where "CTID" is the numeric ID of the given container. Note that IDs <=
+100 are reserved for internal purposes.
+
+
+File Format
+-----------
+
+The file uses a simple colon separated key/value format. Each line has
+the following format:
+
+ OPTION: value
+
+Blank lines in the file are ignored, and lines starting with a '#'
+character are treated as comments and are also ignored.
+
+One can use the 'pct' command to generate and modify those files.
+
+It is also possible to add low-level lxc style configuration directly, for
+example:
+
+ lxc.init_cmd: /sbin/my_own_init
+
+or 
+
+ lxc.init_cmd = /sbin/my_own_init
+
+Those settings are directly passed to the lxc low-level tools.
+
+
+Options
+-------
+
+include::pct.conf.5-opts.adoc[]
+
+
+ifdef::manvolnum[]
+include::pve-copyright.adoc[]
+endif::manvolnum[]

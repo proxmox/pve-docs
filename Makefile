@@ -21,6 +21,8 @@ PVE_ADMIN_GUIDE_SOURCES=		\
 	datacenter.cfg.5-opts.adoc	\
 	vm.conf.adoc			\
 	vm.conf.5-opts.adoc		\
+	pct.conf.adoc			\
+	pct.conf.5-opts.adoc		\
 	${SYSADMIN_SOURCES}		\
 	pve-admin-guide.adoc		\
 	pve-intro.adoc			\
@@ -85,6 +87,10 @@ vm.conf.5-opts.adoc:
 	./gen-vm-conf-opts-adoc.pl >$@.tmp
 	mv $@.tmp $@
 
+pct.conf.5-opts.adoc:
+	./gen-pct-conf-opts-adoc.pl >$@.tmp
+	mv $@.tmp $@
+
 %.5: %.adoc %.5-opts.adoc docinfo.xml
 	a2x -a docinfo1 -a "manvolnum=5" -a "manversion=Release ${RELEASE}" -f manpage $*.adoc
 	test -z "$${NOVIEW}" && man -l $@
@@ -95,7 +101,7 @@ vm.conf.5-opts.adoc:
 
 index.html: index.adoc ${PVE_ADMIN_GUIDE_SOURCES}
 	$(MAKE) NOVIEW=1 pve-admin-guide.pdf pve-admin-guide.html pve-admin-guide.epub
-	$(MAKE) NOVIEW=1 qm.1.html pct.1.html pveam.1.html pvesm.1.html pveum.1.html vzdump.1.html pve-firewall.8.html ha-manager.1.html datacenter.cfg.5.html vm.conf.5.html
+	$(MAKE) NOVIEW=1 qm.1.html pct.1.html pveam.1.html pvesm.1.html pveum.1.html vzdump.1.html pve-firewall.8.html ha-manager.1.html datacenter.cfg.5.html vm.conf.5.html pct.conf.5.html
 	asciidoc -a "date=$(shell date)" -a "revnumber=${RELEASE}" index.adoc
 	$(BROWSER) index.html &
 

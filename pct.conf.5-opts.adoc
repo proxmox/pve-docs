@@ -1,0 +1,112 @@
+`arch`: `(amd64 | i386)` (default=`amd64`)::
+
+OS architecture type.
+
+`cmode`: `(console | shell | tty)` (default=`tty`)::
+
+Console mode. By default, the console command tries to open a connection to
+one of the available tty devices. By setting cmode to 'console' it tries to
+attach to /dev/console instead. If you set cmode to 'shell', it simply
+invokes a shell inside the container (no login).
+
+`console`: `boolean` (default=`1`)::
+
+Attach a console device (/dev/console) to the container.
+
+`cpulimit`: `number (0 - 128)` (default=`0`)::
+
+Limit of CPU usage.
++
+NOTE: If the computer has 2 CPUs, it has a total of '2' CPU time. Value '0'
+indicates no CPU limit.
+
+`cpuunits`: `integer (0 - 500000)` (default=`1024`)::
+
+CPU weight for a VM. Argument is used in the kernel fair scheduler. The
+larger the number is, the more CPU time this VM gets. Number is relative to
+the weights of all the other running VMs.
++
+NOTE: You can disable fair-scheduler configuration by setting this to 0.
+
+`description`: `string` ::
+
+Container description. Only used on the configuration web interface.
+
+`hostname`: `string` ::
+
+Set a host name for the container.
+
+`lock`: `(backup | migrate | rollback | snapshot)` ::
+
+Lock/unlock the VM.
+
+`memory`: `integer (16 - N)` (default=`512`)::
+
+Amount of RAM for the VM in MB.
+
+`mp[n]`: `mp=<Path>, [volume=]<volume> [,acl=<acl>] [,backup=<[1|0]>] [,quota=<[0|1]>] [,ro=<ro>] [,size=<DiskSize>]` ::
+
+Use volume as container mount point (experimental feature).
+
+`nameserver`: `string` ::
+
+Sets DNS server IP address for a container. Create will automatically use
+the setting from the host if you neither set searchdomain nor nameserver.
+
+`net[n]`: `name=<String> [,bridge=<vmbr<Number>>] [,firewall=<[1|0]>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<MAC>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>] [,mtu=<Number>] [,rate=<mbps>] [,tag=<VlanNo>] [,trunks=<vlanid[;vlanid...]>]` ::
+
+Specifies network interfaces for the container.
+
+`onboot`: `boolean` (default=`0`)::
+
+Specifies whether a VM will be started during system bootup.
+
+`ostype`: `(alpine | archlinux | centos | debian | fedora | opensuse | ubuntu | unmanaged)` ::
+
+OS type. This is used to setup configuration inside the container, and
+corresponds to lxc setup scripts in
+/usr/share/lxc/config/<ostype>.common.conf. Value 'unmanaged' can be used
+to skip and OS specific setup.
+
+`protection`: `boolean` (default=`0`)::
+
+Sets the protection flag of the container. This will prevent the CT or CT's
+disk remove/update operation.
+
+`rootfs`: `[volume=]<volume> [,acl=<acl>] [,backup=<[1|0]>] [,quota=<[0|1]>] [,ro=<ro>] [,size=<DiskSize>]` ::
+
+Use volume as container root.
+
+`searchdomain`: `string` ::
+
+Sets DNS search domains for a container. Create will automatically use the
+setting from the host if you neither set searchdomain nor nameserver.
+
+`startup`: `[[order=]\d+] [,up=\d+] [,down=\d+] ` ::
+
+Startup and shutdown behavior. Order is a non-negative number defining the
+general startup order. Shutdown in done with reverse ordering. Additionally
+you can set the 'up' or 'down' delay in seconds, which specifies a delay to
+wait before the next VM is started or stopped.
+
+`swap`: `integer (0 - N)` (default=`512`)::
+
+Amount of SWAP for the VM in MB.
+
+`template`: `boolean` (default=`0`)::
+
+Enable/disable Template.
+
+`tty`: `integer (0 - 6)` (default=`2`)::
+
+Specify the number of tty available to the container
+
+`unprivileged`: `boolean` (default=`0`)::
+
+Makes the container run as unprivileged user. (Should not be modified
+manually.)
+
+`unused[n]`: `string` ::
+
+Reference to unused volumes.
+

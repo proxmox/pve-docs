@@ -112,6 +112,8 @@ include::datacenter.cfg.adoc[]
 
 include::vm.conf.adoc[]
 
+include::pct.conf.adoc[]
+
 :leveloffset: 0
 
 
