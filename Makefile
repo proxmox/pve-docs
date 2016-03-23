@@ -19,6 +19,8 @@ SYSADMIN_SOURCES=			\
 PVE_ADMIN_GUIDE_SOURCES=		\
 	datacenter.cfg.adoc		\
 	datacenter.cfg.5-opts.adoc	\
+	vm.conf.adoc			\
+	vm.conf.5-opts.adoc		\
 	${SYSADMIN_SOURCES}		\
 	pve-admin-guide.adoc		\
 	pve-intro.adoc			\
@@ -44,6 +46,8 @@ ADOC_MAN5_HTML_ARGS=-a "manvolnum=5" ${ADOC_STDARG} -a "revnumber=${RELEASE}"
 ADOC_MAN8_HTML_ARGS=-a "manvolnum=8" ${ADOC_STDARG} -a "revnumber=${RELEASE}"
 
 BROWSER?=xdg-open
+
+all: pve-admin-guide.html
 
 %-nwdiag.svg: %.nwdiag
 	nwdiag -T svg $*.nwdiag -o $@;
@@ -77,6 +81,10 @@ datacenter.cfg.5-opts.adoc:
 	./gen-datacenter-cfg-opts-adoc.pl >$@.tmp
 	mv $@.tmp $@
 
+vm.conf.5-opts.adoc:
+	./gen-vm-conf-opts-adoc.pl >$@.tmp
+	mv $@.tmp $@
+
 %.5: %.adoc %.5-opts.adoc docinfo.xml
 	a2x -a docinfo1 -a "manvolnum=5" -a "manversion=Release ${RELEASE}" -f manpage $*.adoc
 	test -z "$${NOVIEW}" && man -l $@
@@ -85,12 +93,9 @@ datacenter.cfg.5-opts.adoc:
 	asciidoc ${ADOC_MAN5_HTML_ARGS} -o $@ $*.adoc
 	test -z "$${NOVIEW}" && $(BROWSER) $@ &
 
-
-all: pve-admin-guide.html
-
 index.html: index.adoc ${PVE_ADMIN_GUIDE_SOURCES}
 	$(MAKE) NOVIEW=1 pve-admin-guide.pdf pve-admin-guide.html pve-admin-guide.epub
-	$(MAKE) NOVIEW=1 qm.1.html pct.1.html pveam.1.html pvesm.1.html pveum.1.html vzdump.1.html pve-firewall.8.html ha-manager.1.html datacenter.cfg.5.html
+	$(MAKE) NOVIEW=1 qm.1.html pct.1.html pveam.1.html pvesm.1.html pveum.1.html vzdump.1.html pve-firewall.8.html ha-manager.1.html datacenter.cfg.5.html vm.conf.5.html
 	asciidoc -a "date=$(shell date)" -a "revnumber=${RELEASE}" index.adoc
 	$(BROWSER) index.html &
 

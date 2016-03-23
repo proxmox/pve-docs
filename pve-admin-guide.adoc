@@ -110,6 +110,8 @@ Configuration Files
 :leveloffset: 2
 include::datacenter.cfg.adoc[]
 
+include::vm.conf.adoc[]
+
 :leveloffset: 0
 
 

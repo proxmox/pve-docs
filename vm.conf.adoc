@@ -1,0 +1,55 @@
+ifdef::manvolnum[]
+PVE({manvolnum})
+================
+include::attributes.txt[]
+
+NAME
+----
+
+vm.conf - Proxmox VE  Virtual Machine Configuration
+
+
+SYNOPSYS
+--------
+
+'/etc/pve/qemu-server/<VMID>.conf'
+
+
+DESCRIPTION
+-----------
+endif::manvolnum[]
+
+ifndef::manvolnum[]
+ Virtual Machine Configuration
+==============================
+include::attributes.txt[]
+endif::manvolnum[]
+
+The '/etc/pve/qemu-server/<VMID>.conf' files stores VM configuration,
+where "VMID" is the numeric ID of the given VM. Note that IDs <=
+100 are reserved for internal purposes.
+
+
+File Format
+-----------
+
+The file uses a simple colon separated key/value format. Each line has
+the following format:
+
+ OPTION: value
+
+Blank lines in the file are ignored, and lines starting with a '#'
+character are treated as comments and are also ignored.
+
+One can use the 'qm' command to generate and modify those files.
+
+
+Options
+-------
+
+include::vm.conf.5-opts.adoc[]
+
+
+ifdef::manvolnum[]
+include::pve-copyright.adoc[]
+endif::manvolnum[]
