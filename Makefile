@@ -17,6 +17,8 @@ SYSADMIN_SOURCES=			\
 	sysadmin.adoc
 
 PVE_ADMIN_GUIDE_SOURCES=		\
+	datacenter.cfg.adoc		\
+	datacenter.cfg.5-opts.adoc	\
 	${SYSADMIN_SOURCES}		\
 	pve-admin-guide.adoc		\
 	pve-intro.adoc			\
@@ -38,6 +40,7 @@ PVE_ADMIN_GUIDE_SOURCES=		\
 
 ADOC_STDARG= -a icons -a data-uri -a "date=$(shell date)"
 ADOC_MAN1_HTML_ARGS=-a "manvolnum=1" ${ADOC_STDARG} -a "revnumber=${RELEASE}"
+ADOC_MAN5_HTML_ARGS=-a "manvolnum=5" ${ADOC_STDARG} -a "revnumber=${RELEASE}"
 ADOC_MAN8_HTML_ARGS=-a "manvolnum=8" ${ADOC_STDARG} -a "revnumber=${RELEASE}"
 
 BROWSER?=xdg-open
@@ -51,7 +54,7 @@ BROWSER?=xdg-open
 
 %.1: %.adoc %.1-synopsis.adoc docinfo.xml
 	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${RELEASE}" -f manpage $*.adoc
-	test -z "$${NOVIEW}" && man -l $@ 
+	test -z "$${NOVIEW}" && man -l $@
 
 %.1.html: %.adoc %.1-synopsis.adoc docinfo.xml
 	asciidoc ${ADOC_MAN1_HTML_ARGS} -o $@ $*.adoc
@@ -64,10 +67,22 @@ BROWSER?=xdg-open
 
 %.8: %.adoc %.8-synopsis.adoc docinfo.xml
 	a2x -a docinfo1 -a "manvolnum=8" -a "manversion=Release ${RELEASE}" -f manpage $*.adoc
-	test -z "$${NOVIEW}" && man -l $@ 
+	test -z "$${NOVIEW}" && man -l $@
 
 %.8.html: %.adoc %.8-synopsis.adoc docinfo.xml
 	asciidoc ${ADOC_MAN8_HTML_ARGS} -o $@ $*.adoc
+	test -z "$${NOVIEW}" && $(BROWSER) $@ &
+
+datacenter.cfg.5-opts.adoc:
+	./gen-datacenter-cfg-opts-adoc.pl >$@.tmp
+	mv $@.tmp $@
+
+%.5: %.adoc %.5-opts.adoc docinfo.xml
+	a2x -a docinfo1 -a "manvolnum=5" -a "manversion=Release ${RELEASE}" -f manpage $*.adoc
+	test -z "$${NOVIEW}" && man -l $@
+
+%.5.html: %.adoc %.5-opts.adoc docinfo.xml
+	asciidoc ${ADOC_MAN5_HTML_ARGS} -o $@ $*.adoc
 	test -z "$${NOVIEW}" && $(BROWSER) $@ &
 
 
@@ -75,12 +90,12 @@ all: pve-admin-guide.html
 
 index.html: index.adoc ${PVE_ADMIN_GUIDE_SOURCES}
 	$(MAKE) NOVIEW=1 pve-admin-guide.pdf pve-admin-guide.html pve-admin-guide.epub
-	$(MAKE) NOVIEW=1 qm.1.html pct.1.html pveam.1.html pvesm.1.html pveum.1.html vzdump.1.html pve-firewall.8.html ha-manager.1.html
-	asciidoc -a "date=$(shell date)" -a "revnumber=${RELEASE}" index.adoc 
+	$(MAKE) NOVIEW=1 qm.1.html pct.1.html pveam.1.html pvesm.1.html pveum.1.html vzdump.1.html pve-firewall.8.html ha-manager.1.html datacenter.cfg.5.html
+	asciidoc -a "date=$(shell date)" -a "revnumber=${RELEASE}" index.adoc
 	$(BROWSER) index.html &
 
 pve-admin-guide.html: ${PVE_ADMIN_GUIDE_SOURCES}
-	asciidoc -a "revnumber=${RELEASE}" -a "date=$(shell date)" pve-admin-guide.adoc 
+	asciidoc -a "revnumber=${RELEASE}" -a "date=$(shell date)" pve-admin-guide.adoc
 	test -z "$${NOVIEW}" && $(BROWSER) $@ &
 
 pve-admin-guide.pdf: ${PVE_ADMIN_GUIDE_SOURCES} docinfo.xml pve-admin-guide-docinfo.xml
@@ -92,6 +107,9 @@ pve-admin-guide.epub: ${PVE_ADMIN_GUIDE_SOURCES}
 	a2x -f epub pve-admin-guide.adoc
 	test -z "$${NOVIEW}" && $(BROWSER) $@ &
 
+update: clean
+	rm -f *.5-opts.adoc .1-synopsis.adoc .8-synopsis.adoc
+	make all
 
 clean:
-	rm -rf *~ *.html *.pdf *.epub *.1 *.8
+	rm -rf *~ *.html *.pdf *.epub *.tmp *.1 *.5 *.8

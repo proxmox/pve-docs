@@ -103,6 +103,16 @@ include::ha-manager.1-synopsis.adoc[]
 
 :leveloffset: 0
 
+[appendix]
+Configuration Files
+-------------------
+
+:leveloffset: 2
+include::test.adoc[]
+
+:leveloffset: 0
+
+
 include::pve-bibliography.adoc[]
 
 :leveloffset: 1

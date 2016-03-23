@@ -1,0 +1,51 @@
+ifdef::manvolnum[]
+PVE({manvolnum})
+================
+include::attributes.txt[]
+
+NAME
+----
+
+datacenter.cfg - Proxmox VE Datacenter Configuration
+
+
+SYNOPSYS
+--------
+
+'/etc/pve/datacenter.cfg'
+
+
+DESCRIPTION
+-----------
+endif::manvolnum[]
+
+ifndef::manvolnum[]
+Datacenter Configuration
+========================
+include::attributes.txt[]
+endif::manvolnum[]
+
+The file '/etc/pve/datacenter.cfg' is a configuration file for
+{pve}. It contains cluster wide default values used by all nodes.
+
+File Format
+-----------
+
+The file uses a simple colon separated key/value format. Each line has
+the following format:
+
+ OPTION: value
+
+Blank lines in the file are ignored, and lines starting with a '#'
+character are treated as comments and are also ignored.
+
+
+Options
+-------
+
+include::datacenter.cfg.5-opts.adoc[]
+
+
+ifdef::manvolnum[]
+include::pve-copyright.adoc[]
+endif::manvolnum[]
