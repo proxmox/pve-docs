@@ -108,7 +108,7 @@ Configuration Files
 -------------------
 
 :leveloffset: 2
-include::test.adoc[]
+include::datacenter.cfg.adoc[]
 
 :leveloffset: 0
 
