@@ -263,10 +263,21 @@ Traffic from these ips is dropped by every host's and VM's firewall.
 213.87.123.0/24
 ----
 
-Standard IP set 'ipfilter'
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+Standard IP set 'ipfilter-net*'
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This ipset is used to prevent ip spoofing
+These filters belong to a VM's network interface and are mainly used to prevent
+IP spoofing. If such a set exists for an interface then any outgoing traffic
+with a source IP not matching its interface's corresponding ipfilter set will
+be dropped.
+
+For containers with configured IP addresses these sets, if they exist (or are
+activated via the general `IP Filter` option in the VM's firewall's 'options'
+tab), implicitly contain the associated IP addresses.
+
+For both virtual machines and containers they also implicitly contain the
+standard MAC-derived IPv6 link-local address in order to allow the neighbor
+discovery protocol to work.
 
 ----
 /etc/pve/firewall/<VMID>.fw
