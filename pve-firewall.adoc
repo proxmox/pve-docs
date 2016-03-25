@@ -263,6 +263,7 @@ Traffic from these ips is dropped by every host's and VM's firewall.
 213.87.123.0/24
 ----
 
+[[ipfilter-section]]
 Standard IP set 'ipfilter-net*'
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -369,3 +370,27 @@ ifdef::manvolnum[]
 include::copyright.adoc[]
 endif::manvolnum[]
 
+Notes on IPv6
+^^^^^^^^^^^^^
+
+The firewall contains a few IPv6 specific options. One thing to note is that
+IPv6 does not use the ARP protocol anymore, and instead uses NDP (Neighbor
+Discovery Protocol) which works on IP level and thus needs IP addresses to
+succeed. For this purpose link-local addresses derived from the interface's MAC
+address are used. By default the 'NDP' option is enabled on both host and VM
+level to allow neighbor discovery (NDP) packets to be sent and received.
+
+Beside neighbor discovery NDP is also used for a couple of other things, like
+autoconfiguration and advertising routers.
+
+By default VMs are allowed to send out router solicitation messages (to query
+for a router), and to receive router advetisement packets. This allows them to
+use stateless auto configuration. On the other hand VMs cannot advertise
+themselves as routers unless the 'Allow Router Advertisement' (`radv: 1`) option
+is set.
+
+As for the link local addresses required for NDP, there's also an 'IP Filter'
+(`ipfilter: 1`) option which can be enabled which has the same effect as adding
+an `ipfilter-net*` ipset for each of the VM's network interfaces containing the
+corresponding link local addresses.  (See the
+<<ipfilter-section,Standard IP set 'ipfilter-net*'>> section for details.)
