@@ -394,3 +394,45 @@ As for the link local addresses required for NDP, there's also an 'IP Filter'
 an `ipfilter-net*` ipset for each of the VM's network interfaces containing the
 corresponding link local addresses.  (See the
 <<ipfilter-section,Standard IP set 'ipfilter-net*'>> section for details.)
+
+Avoiding link-local addresses on tap and veth devices
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+With IPv6 enabled by default every interface gets a MAC-derived link local
+address. However, most devices on a typical {pve} setup are connected to a
+bridge and so the bridge is the only interface which really needs one.
+
+To disable a link local address on an interface you can set the interface's
+`disable_ipv6` sysconf variable. Despite the name, this does not prevent IPv6
+traffic from passing through the interface when routing or bridging, so the
+only noticeable effect will be the removal of the link local address.
+
+The easiest method of achieving this setting for all newly started VMs is to
+set it for the `default` interface configuration and enabling it explicitly on
+the interfaces which need it. This is also the case for other settings such as
+`forwarding`, `accept_ra` or `autoconf`.
+
+Here's a possible setup:
+----
+# /etc/sysconf.d/90-ipv6.conf
+
+net.ipv6.conf.default.forwarding = 0
+net.ipv6.conf.default.proxy_ndp = 0
+net.ipv6.conf.default.autoconf = 0
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.default.accept_ra = 0
+
+net.ipv6.conf.lo.disable_ipv6 = 0
+----
+
+----
+# /etc/network/interfaces
+(...)
+iface vmbr0 inet6 static
+    address fc00::31
+    netmask 16
+    gateway fc00::1
+    accept_ra 0
+    pre-up echo 0 > /proc/sys/net/ipv6/conf/$IFACE/disable_ipv6
+(...)
+----
