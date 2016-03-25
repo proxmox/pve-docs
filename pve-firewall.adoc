@@ -121,10 +121,11 @@ This is useful if you want to overwrite rules from 'cluster.fw'
 config. You can also increase log verbosity, and set netfilter related
 options.
 
-Enabling Firewall for VMs and Containers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Enabling the Firewall for VMs and Containers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You need to enable the firewall on the virtual network interface configuration.
+You need to enable the firewall on the virtual network interface configuration
+in addition to the general 'Enable Firewall' option in the 'Options' tab.
 
 Firewall Rules
 ~~~~~~~~~~~~~~
@@ -160,9 +161,9 @@ IN SSH(ACCEPT) -i net0 -source myserveralias   #accept ssh for alias myserverali
 Security Groups
 ~~~~~~~~~~~~~~~
 
-A security group is a group a rules, defined at cluster level, which
-can be used in all VMs rules. For example you can define a group named
-`webserver` with rules to open http and https ports.
+A security group is a collection of rules, defined at cluster level, which
+can be used in all VMs' rules. For example you can define a group named
+`webserver` with rules to open the http and https ports.
 
 ----
 # /etc/pve/firewall/cluster.fw
@@ -172,7 +173,7 @@ IN  ACCEPT -p tcp -dport 80
 IN  ACCEPT -p tcp -dport 443
 ----
 
-Then, you can add this group in a vm firewall
+Then, you can add this group to a VM's firewall
 
 ----
 # /etc/pve/firewall/<VMID>.fw
@@ -185,7 +186,7 @@ GROUP webserver
 IP Aliases
 ~~~~~~~~~~
 
-IP Aliases allows you to associate IP addresses of Networks with a
+IP Aliases allow you to associate IP addresses of networks with a
 name. You can then refer to those names:
 
 * inside IP set definitions
@@ -206,7 +207,7 @@ using detected local_network: 192.168.0.0/20
 ----
 
 The firewall automatically sets up rules to allow everything needed
-for cluster communication (corosync, API, SSH).
+for cluster communication (corosync, API, SSH) using this alias.
 
 The user can overwrite these values in the cluster.fw alias
 section. If you use a single host on a public network, it is better to
@@ -222,7 +223,7 @@ IP Sets
 ~~~~~~~
 
 IP sets can be used to define groups of networks and hosts. You can
-refer to them with `+name` in firewall rules `source` and `dest`
+refer to them with `+name` in the firewall rules' `source` and `dest`
 properties.
 
 The following example allows HTTP traffic from the `management` IP
@@ -252,7 +253,7 @@ communication. (multicast,ssh,...)
 Standard IP set 'blacklist'
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Traffic from those ips is dropped in all hosts and VMs firewalls.
+Traffic from these ips is dropped by every host's and VM's firewall.
 
 ----
 # /etc/pve/firewall/cluster.fw
