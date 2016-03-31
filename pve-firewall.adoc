@@ -130,32 +130,40 @@ in addition to the general 'Enable Firewall' option in the 'Options' tab.
 Firewall Rules
 ~~~~~~~~~~~~~~
 
-Any firewall rule consists of a direction (`IN` or `OUT`) and an
-action (`ACCEPT`, `DENY`, `REJECT`). Additional options can be used to
-refine rule matches. Here are some examples:
+Firewall rules consists of a direction (`IN` or `OUT`) and an
+action (`ACCEPT`, `DENY`, `REJECT`). You can also specify a macro
+name. Macros contain predifined sets of rules and options. Rules can be disabled by prefixing them with '|'.
 
+.Firewall rules syntax
 ----
 [RULES]
 
-#TYPE ACTION [OPTIONS]
-#TYPE MACRO(ACTION) [OPTIONS]
+DIRECTION ACTION [OPTIONS]
+|DIRECTION ACTION [OPTIONS] # disabled rule
 
-# -i      <INTERFACE>
-# -source <SOURCE>
-# -dest   <DEST>
-# -p      <PROTOCOL>
-# -dport  <DESTINATION_PORT>
-# -sport  <SOURCE_PORT>
+DIRECTION MACRO(ACTION) [OPTIONS] # use predefined macro
+----
 
+The following options can be used to refine rule matches. 
+
+include::pve-firewall-rules-opts.adoc[]
+
+Here are some examples:
+
+----
+[RULES]
 IN SSH(ACCEPT) -i net0
 IN SSH(ACCEPT) -i net0 # a comment
-IN SSH(ACCEPT) -i net0 -source 192.168.2.192  # only allow SSH from 192.168.2.192
+IN SSH(ACCEPT) -i net0 -source 192.168.2.192 # only allow SSH from 192.168.2.192
 IN SSH(ACCEPT) -i net0 -source 10.0.0.1-10.0.0.10 # accept SSH for ip range
 IN SSH(ACCEPT) -i net0 -source 10.0.0.1,10.0.0.2,10.0.0.3 #accept ssh for ip list
-IN SSH(ACCEPT) -i net0 -source +mynetgroup   # accept ssh for ipset mynetgroup
-IN SSH(ACCEPT) -i net0 -source myserveralias   #accept ssh for alias myserveralias
+IN SSH(ACCEPT) -i net0 -source +mynetgroup # accept ssh for ipset mynetgroup
+IN SSH(ACCEPT) -i net0 -source myserveralias #accept ssh for alias myserveralias
 
 |IN SSH(ACCEPT) -i net0 # disabled rule
+
+IN  DROP # drop all incoming packages
+OUT ACCEPT # accept all outgoing packages
 ----
 
 Security Groups
