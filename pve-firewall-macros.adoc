@@ -1,0 +1,779 @@
+[horizontal]
+'Amanda':: Amanda Backup
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|udp|10080|
+|PARAM|tcp|10080|
+|===========================================================
+
+[horizontal]
+'Auth':: Auth (identd) traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|113|
+|===========================================================
+
+[horizontal]
+'BGP':: Border Gateway Protocol traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|179|
+|===========================================================
+
+[horizontal]
+'BitTorrent':: BitTorrent traffic for BitTorrent 3.1 and earlier
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|6881:6889|
+|PARAM|udp|6881|
+|===========================================================
+
+[horizontal]
+'BitTorrent32':: BitTorrent traffic for BitTorrent 3.2 and later
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|6881:6999|
+|PARAM|udp|6881|
+|===========================================================
+
+[horizontal]
+'CVS':: Concurrent Versions System pserver traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|2401|
+|===========================================================
+
+[horizontal]
+'Ceph':: Ceph Storage Cluster traffic (Ceph Monitors, OSD & MDS Deamons)
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|6789|
+|PARAM|tcp|6800:7300|
+|===========================================================
+
+[horizontal]
+'Citrix':: Citrix/ICA traffic (ICA, ICA Browser, CGP)
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|1494|
+|PARAM|udp|1604|
+|PARAM|tcp|2598|
+|===========================================================
+
+[horizontal]
+'DAAP':: Digital Audio Access Protocol traffic (iTunes, Rythmbox daemons)
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|3689|
+|PARAM|udp|3689|
+|===========================================================
+
+[horizontal]
+'DCC':: Distributed Checksum Clearinghouse spam filtering mechanism
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|6277|
+|===========================================================
+
+[horizontal]
+'DHCPfwd':: Forwarded DHCP traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|udp|67:68|67:68
+|===========================================================
+
+[horizontal]
+'DHCPv6':: DHCPv6 traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|udp|546:547|546:547
+|===========================================================
+
+[horizontal]
+'DNS':: Domain Name System traffic (upd and tcp)
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|udp|53|
+|PARAM|tcp|53|
+|===========================================================
+
+[horizontal]
+'Distcc':: Distributed Compiler service
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|3632|
+|===========================================================
+
+[horizontal]
+'FTP':: File Transfer Protocol
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|21|
+|===========================================================
+
+[horizontal]
+'Finger':: Finger protocol (RFC 742)
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|79|
+|===========================================================
+
+[horizontal]
+'GNUnet':: GNUnet secure peer-to-peer networking traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|2086|
+|PARAM|udp|2086|
+|PARAM|tcp|1080|
+|PARAM|udp|1080|
+|===========================================================
+
+[horizontal]
+'GRE':: Generic Routing Encapsulation tunneling protocol
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|47||
+|===========================================================
+
+[horizontal]
+'Git':: Git distributed revision control traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|9418|
+|===========================================================
+
+[horizontal]
+'HKP':: OpenPGP HTTP keyserver protocol traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|11371|
+|===========================================================
+
+[horizontal]
+'HTTP':: Hypertext Transfer Protocol (WWW)
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|80|
+|===========================================================
+
+[horizontal]
+'HTTPS':: Hypertext Transfer Protocol (WWW) over SSL
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|443|
+|===========================================================
+
+[horizontal]
+'ICPV2':: Internet Cache Protocol V2 (Squid) traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|udp|3130|
+|===========================================================
+
+[horizontal]
+'ICQ':: AOL Instant Messenger traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|5190|
+|===========================================================
+
+[horizontal]
+'IMAP':: Internet Message Access Protocol
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|143|
+|===========================================================
+
+[horizontal]
+'IMAPS':: Internet Message Access Protocol over SSL
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|993|
+|===========================================================
+
+[horizontal]
+'IPIP':: IPIP capsulation traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|94||
+|===========================================================
+
+[horizontal]
+'IPsec':: IPsec traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|udp|500|500
+|PARAM|50||
+|===========================================================
+
+[horizontal]
+'IPsecah':: IPsec authentication (AH) traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|udp|500|500
+|PARAM|51||
+|===========================================================
+
+[horizontal]
+'IPsecnat':: IPsec traffic and Nat-Traversal
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|udp|500|
+|PARAM|udp|4500|
+|PARAM|50||
+|===========================================================
+
+[horizontal]
+'IRC':: Internet Relay Chat traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|6667|
+|===========================================================
+
+[horizontal]
+'Jetdirect':: HP Jetdirect printing
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|9100|
+|===========================================================
+
+[horizontal]
+'L2TP':: Layer 2 Tunneling Protocol traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|udp|1701|
+|===========================================================
+
+[horizontal]
+'LDAP':: Lightweight Directory Access Protocol traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|389|
+|===========================================================
+
+[horizontal]
+'LDAPS':: Secure Lightweight Directory Access Protocol traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|636|
+|===========================================================
+
+[horizontal]
+'MSNP':: Microsoft Notification Protocol
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|1863|
+|===========================================================
+
+[horizontal]
+'MSSQL':: Microsoft SQL Server
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|1433|
+|===========================================================
+
+[horizontal]
+'Mail':: Mail traffic (SMTP, SMTPS, Submission)
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|25|
+|PARAM|tcp|465|
+|PARAM|tcp|587|
+|===========================================================
+
+[horizontal]
+'Munin':: Munin networked resource monitoring traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|4949|
+|===========================================================
+
+[horizontal]
+'MySQL':: MySQL server
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|3306|
+|===========================================================
+
+[horizontal]
+'NNTP':: NNTP traffic (Usenet).
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|119|
+|===========================================================
+
+[horizontal]
+'NNTPS':: Encrypted NNTP traffic (Usenet)
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|563|
+|===========================================================
+
+[horizontal]
+'NTP':: Network Time Protocol (ntpd)
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|udp|123|
+|===========================================================
+
+[horizontal]
+'NeighborDiscovery':: IPv6 neighbor solicitation, neighbor and router advertisement
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|icmpv6|router-solicitation|
+|PARAM|icmpv6|router-advertisement|
+|PARAM|icmpv6|neighbor-solicitation|
+|PARAM|icmpv6|neighbor-advertisement|
+|===========================================================
+
+[horizontal]
+'OSPF':: OSPF multicast traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|89||
+|===========================================================
+
+[horizontal]
+'OpenVPN':: OpenVPN traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|udp|1194|
+|===========================================================
+
+[horizontal]
+'PCA':: Symantec PCAnywere (tm)
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|udp|5632|
+|PARAM|tcp|5631|
+|===========================================================
+
+[horizontal]
+'POP3':: POP3 traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|110|
+|===========================================================
+
+[horizontal]
+'POP3S':: Encrypted POP3 traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|995|
+|===========================================================
+
+[horizontal]
+'PPtP':: Point-to-Point Tunneling Protocol
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|47||
+|PARAM|tcp|1723|
+|===========================================================
+
+[horizontal]
+'Ping':: ICMP echo request
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|icmp|echo-request|
+|===========================================================
+
+[horizontal]
+'PostgreSQL':: PostgreSQL server
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|5432|
+|===========================================================
+
+[horizontal]
+'Printer':: Line Printer protocol printing
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|515|
+|===========================================================
+
+[horizontal]
+'RDP':: Microsoft Remote Desktop Protocol traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|3389|
+|===========================================================
+
+[horizontal]
+'RIP':: Routing Information Protocol (bidirectional)
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|udp|520|
+|===========================================================
+
+[horizontal]
+'RNDC':: BIND remote management protocol
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|953|
+|===========================================================
+
+[horizontal]
+'Razor':: Razor Antispam System
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|ACCEPT|tcp|2703|
+|===========================================================
+
+[horizontal]
+'Rdate':: Remote time retrieval (rdate)
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|37|
+|===========================================================
+
+[horizontal]
+'Rsync':: Rsync server
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|873|
+|===========================================================
+
+[horizontal]
+'SANE':: SANE network scanning
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|6566|
+|===========================================================
+
+[horizontal]
+'SMB':: Microsoft SMB traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|udp|135,445|
+|PARAM|udp|137:139|
+|PARAM|udp|1024:65535|137
+|PARAM|tcp|135,139,445|
+|===========================================================
+
+[horizontal]
+'SMBswat':: Samba Web Administration Tool
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|901|
+|===========================================================
+
+[horizontal]
+'SMTP':: Simple Mail Transfer Protocol
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|25|
+|===========================================================
+
+[horizontal]
+'SMTPS':: Encrypted Simple Mail Transfer Protocol
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|465|
+|===========================================================
+
+[horizontal]
+'SNMP':: Simple Network Management Protocol
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|udp|161:162|
+|PARAM|tcp|161|
+|===========================================================
+
+[horizontal]
+'SPAMD':: Spam Assassin SPAMD traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|783|
+|===========================================================
+
+[horizontal]
+'SSH':: Secure shell traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|22|
+|===========================================================
+
+[horizontal]
+'SVN':: Subversion server (svnserve)
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|3690|
+|===========================================================
+
+[horizontal]
+'SixXS':: SixXS IPv6 Deployment and Tunnel Broker
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|3874|
+|PARAM|udp|3740|
+|PARAM|41||
+|PARAM|udp|5072,8374|
+|===========================================================
+
+[horizontal]
+'Squid':: Squid web proxy traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|3128|
+|===========================================================
+
+[horizontal]
+'Submission':: Mail message submission traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|587|
+|===========================================================
+
+[horizontal]
+'Syslog':: Syslog protocol (RFC 5424) traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|udp|514|
+|PARAM|tcp|514|
+|===========================================================
+
+[horizontal]
+'TFTP':: Trivial File Transfer Protocol traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|udp|69|
+|===========================================================
+
+[horizontal]
+'Telnet':: Telnet traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|23|
+|===========================================================
+
+[horizontal]
+'Telnets':: Telnet over SSL
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|992|
+|===========================================================
+
+[horizontal]
+'Time':: RFC 868 Time protocol
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|37|
+|===========================================================
+
+[horizontal]
+'Trcrt':: Traceroute (for up to 30 hops) traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|udp|33434:33524|
+|PARAM|icmp|echo-request|
+|===========================================================
+
+[horizontal]
+'VNC':: VNC traffic for VNC display's 0 - 99
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|5900:5999|
+|===========================================================
+
+[horizontal]
+'VNCL':: VNC traffic from Vncservers to Vncviewers in listen mode
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|5500|
+|===========================================================
+
+[horizontal]
+'Web':: WWW traffic (HTTP and HTTPS)
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|80|
+|PARAM|tcp|443|
+|===========================================================
+
+[horizontal]
+'Webcache':: Web Cache/Proxy traffic (port 8080)
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|8080|
+|===========================================================
+
+[horizontal]
+'Webmin':: Webmin traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|10000|
+|===========================================================
+
+[horizontal]
+'Whois':: Whois (nicname, RFC 3912) traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|43|
+|===========================================================
+

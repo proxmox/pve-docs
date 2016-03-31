@@ -116,6 +116,12 @@ include::pct.conf.adoc[]
 
 :leveloffset: 0
 
+[appendix]
+Firewall Macro Definitions
+--------------------------
+
+include::pve-firewall-macros.adoc[]
+
 
 include::pve-bibliography.adoc[]
 

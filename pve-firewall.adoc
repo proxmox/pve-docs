@@ -373,11 +373,6 @@ Available queues are defined in
 NFQUEUE=0
 ----
 
-
-ifdef::manvolnum[]
-include::copyright.adoc[]
-endif::manvolnum[]
-
 Notes on IPv6
 ^^^^^^^^^^^^^
 
@@ -444,3 +439,16 @@ iface vmbr0 inet6 static
     pre-up echo 0 > /proc/sys/net/ipv6/conf/$IFACE/disable_ipv6
 (...)
 ----
+
+
+ifdef::manvolnum[]
+
+Macro Definitions
+-----------------
+
+include::pve-firewall-macros.adoc[]
+
+
+include::pve-copyright.adoc[]
+
+endif::manvolnum[]

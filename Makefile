@@ -3,7 +3,7 @@ RELEASE=4.1
 PVESM_SOURCES=attributes.txt pvesm.adoc pvesm.1-synopsis.adoc $(shell ls pve-storage-*.adoc)
 PVEUM_SOURCES=attributes.txt pveum.adoc pveum.1-synopsis.adoc
 VZDUMP_SOURCES=attributes.txt vzdump.adoc vzdump.1-synopsis.adoc
-PVEFW_SOURCES=attributes.txt pve-firewall.adoc pve-firewall-rules-opts.adoc pve-firewall.8-synopsis.adoc
+PVEFW_SOURCES=attributes.txt pve-firewall.adoc pve-firewall-rules-opts.adoc pve-firewall-macros.adoc pve-firewall.8-synopsis.adoc
 QM_SOURCES=attributes.txt qm.adoc qm.1-synopsis.adoc
 PCT_SOURCES=attributes.txt pct.adoc pct.1-synopsis.adoc
 PVEAM_SOURCES=attributes.txt pveam.adoc pveam.1-synopsis.adoc
@@ -81,6 +81,10 @@ all: pve-admin-guide.html
 
 pve-firewall-rules-opts.adoc:
 	./gen-pve-firewall-rules-opts-adoc.pl >$@.tmp
+	mv $@.tmp $@
+
+pve-firewall-macros.adoc:
+	./gen-pve-firewall-macros-adoc.pl >$@.tmp
 	mv $@.tmp $@
 
 datacenter.cfg.5-opts.adoc:
