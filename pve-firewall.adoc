@@ -129,7 +129,17 @@ Host related configuration is read from:
 
 This is useful if you want to overwrite rules from 'cluster.fw'
 config. You can also increase log verbosity, and set netfilter related
-options.
+options. The configuration can contain the following sections:
+
+'[OPTIONS]'::
+
+This is used to set host related firewall options.
+
+include::pve-firewall-host-opts.adoc[]
+
+'[RULES]'::
+
+This sections contains host specific firewall rules.
 
 
 VM/Container configuration
