@@ -35,6 +35,8 @@ include::vzdump.adoc[]
 
 include::pve-faq.adoc[]
 
+include::pve-bibliography.adoc[]
+
 [appendix]
 Command Line Interface
 ----------------------
@@ -122,8 +124,6 @@ Firewall Macro Definitions
 
 include::pve-firewall-macros.adoc[]
 
-
-include::pve-bibliography.adoc[]
 
 :leveloffset: 1
 [appendix]
