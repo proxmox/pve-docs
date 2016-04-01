@@ -20,6 +20,11 @@ Bibliography
   Packt Publishing, 2014.
   ISBN 978-1783980888
 
+- [[[Goldman16]]] Rik Goldman.
+  'Learning Proxmox VE'.
+  Packt Publishing, 2016.
+  ISBN 978-1783981786
+
 
 [bibliography]
 .Books about related Technology
