@@ -64,17 +64,6 @@ For each zone, you can define firewall rules for incoming and/or
 outgoing traffic.
 
 
-Ports used by Proxmox VE
-------------------------
-
-* Web interface: 8006
-* VNC Web console: 5900-5999
-* SPICE proxy: 3128
-* sshd (used for cluster actions): 22
-* rpcbind: 111
-*  corosync multicast (if you run a cluster): 5404, 5405 UDP
-
-
 Configuration
 -------------
 
@@ -443,6 +432,16 @@ iface vmbr0 inet6 static
     pre-up echo 0 > /proc/sys/net/ipv6/conf/$IFACE/disable_ipv6
 (...)
 ----
+
+Ports used by Proxmox VE
+------------------------
+
+* Web interface: 8006
+* VNC Web console: 5900-5999
+* SPICE proxy: 3128
+* sshd (used for cluster actions): 22
+* rpcbind: 111
+*  corosync multicast (if you run a cluster): 5404, 5405 UDP
 
 
 ifdef::manvolnum[]
