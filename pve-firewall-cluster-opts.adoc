@@ -1,0 +1,12 @@
+`enable`: `integer (0 - N)` ::
+
+Enable or disable the firewall cluster wide.
+
+`policy_in`: `(ACCEPT | DROP | REJECT)` ::
+
+Input policy.
+
+`policy_out`: `(ACCEPT | DROP | REJECT)` ::
+
+Output policy.
+

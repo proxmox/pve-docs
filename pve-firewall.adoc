@@ -93,6 +93,8 @@ The configuration can contain the following sections:
 
 This is used to set cluster wide firewall options.
 
+include::pve-firewall-cluster-opts.adoc[]
+
 NOTE: The firewall is completely disabled by default, so you need to
 set the enable option here:
 
