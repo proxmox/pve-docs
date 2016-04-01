@@ -95,6 +95,7 @@ This is used to set cluster wide firewall options.
 
 NOTE: The firewall is completely disabled by default, so you need to
 set the enable option here:
+
 ----
 [OPTIONS]
 # enable firewall (cluster wide setting, default is disabled)
