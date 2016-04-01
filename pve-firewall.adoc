@@ -42,6 +42,10 @@ firewall solution.
 NOTE: If you enable the firewall, all traffic is blocked by default,
 except WebGUI(8006) and ssh(22) from your local network.
 
+The firewall has full support for IPv4 and IPv6. IPv6 support is fully
+transparent, and we filter traffic for both protocols by default. So
+there is no need to maintain a different set of rules for IPv6.
+
 
 Zones
 -----
