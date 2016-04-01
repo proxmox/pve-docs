@@ -151,10 +151,23 @@ VM firewall configuration is read from:
 
 and contains the following data:
 
-* IP set definitions
-* Alias definitions
-* Firewall rules for this VM
-* VM specific options
+'[OPTIONS]'::
+
+This is used to set VM/Container related firewall options.
+
+include::pve-firewall-vm-opts.adoc[]
+
+'[RULES]'::
+
+This sections contains VM/Container firewall rules.
+
+'[IPSET <name>]'::
+
+IP set definitions.
+
+'[ALIASES]'::
+
+IP Alias definitions.
 
 
 Enabling the Firewall for VMs and Containers
