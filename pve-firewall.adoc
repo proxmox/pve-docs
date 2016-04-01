@@ -64,36 +64,73 @@ For each zone, you can define firewall rules for incoming and/or
 outgoing traffic.
 
 
-Configuration
--------------
+Configuration Files
+-------------------
 
 All firewall related configuration is stored on the proxmox cluster
 file system. So those files are automatically distributed to all
 cluster nodes, and the 'pve-firewall' service updates the underlying
-iptables rules automatically on any change. Any configuration can be
+iptables rules automatically on changes. Any configuration can be
 done using the GUI (i.e. Datacenter -> Firewall -> Options tab (tabs
 at the bottom of the page), or on a Node -> Firewall), so the
 following configuration file snippets are just for completeness.
 
-Cluster wide configuration is stored at:
+All firewall configuration files contains sections of key-value
+pairs. Lines beginning with a '#' and blank lines are considered
+comments. Sections starts with a header line containing the section
+name enclosed in '[' and ']'.
+
+Cluster Wide Setup
+~~~~~~~~~~~~~~~~~~
+
+The cluster wide firewall configuration is stored at:
  
  /etc/pve/firewall/cluster.fw
 
-The firewall is completely disabled by default, so you need to set the
-enable option here:
+The configuration can contain the following sections:
 
+'[OPTIONS]'::
+
+This is used to set cluster wide firewall options.
+
+NOTE: The firewall is completely disabled by default, so you need to
+set the enable option here:
 ----
 [OPTIONS]
 # enable firewall (cluster wide setting, default is disabled)
 enable: 1
 ----
 
-The cluster wide configuration can contain the following data:
+'[RULES]'::
 
-* IP set definitions
-* Alias definitions
-* Security group definitions
-* Cluster wide firewall rules for all nodes
+This sections contains cluster wide firewall rules for all nodes.
+
+'[IPSET <name>]'::
+
+Cluster wide IP set definitions.
+
+'[GROUP <name>]'::
+
+Cluster wide security group definitions.
+
+'[ALIASES]'::
+
+Cluster wide Alias definitions.
+
+Host specific Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Host related configuration is read from:
+
+ /etc/pve/nodes/<nodename>/host.fw
+
+This is useful if you want to overwrite rules from 'cluster.fw'
+config. You can also increase log verbosity, and set netfilter related
+options.
+
+
+VM/Container configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 VM firewall configuration is read from:
 
@@ -106,22 +143,16 @@ and contains the following data:
 * Firewall rules for this VM
 * VM specific options
 
-And finally, any host related configuration is read from:
-
- /etc/pve/nodes/<nodename>/host.fw
-
-This is useful if you want to overwrite rules from 'cluster.fw'
-config. You can also increase log verbosity, and set netfilter related
-options.
 
 Enabling the Firewall for VMs and Containers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You need to enable the firewall on the virtual network interface configuration
 in addition to the general 'Enable Firewall' option in the 'Options' tab.
 
+
 Firewall Rules
-~~~~~~~~~~~~~~
+--------------
 
 Firewall rules consists of a direction (`IN` or `OUT`) and an
 action (`ACCEPT`, `DENY`, `REJECT`). You can also specify a macro
@@ -160,7 +191,7 @@ OUT ACCEPT # accept all outgoing packages
 ----
 
 Security Groups
-~~~~~~~~~~~~~~~
+---------------
 
 A security group is a collection of rules, defined at cluster level, which
 can be used in all VMs' rules. For example you can define a group named
@@ -185,7 +216,7 @@ GROUP webserver
 
 
 IP Aliases
-~~~~~~~~~~
+----------
 
 IP Aliases allow you to associate IP addresses of networks with a
 name. You can then refer to those names:
@@ -194,7 +225,7 @@ name. You can then refer to those names:
 * in `source` and `dest` properties of firewall rules
 
 Standard IP alias `local_network`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This alias is automatically defined. Please use the following command
 to see assigned values:
@@ -221,7 +252,7 @@ local_network 1.2.3.4 # use the single ip address
 ----
 
 IP Sets
-~~~~~~~
+-------
 
 IP sets can be used to define groups of networks and hosts. You can
 refer to them with `+name` in the firewall rules' `source` and `dest`
@@ -233,7 +264,7 @@ set.
  IN HTTP(ACCEPT) -source +management
 
 Standard IP set `management`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This IP set applies only to host firewalls (not VM firewalls).  Those
 ips are allowed to do normal management tasks (PVE GUI, VNC, SPICE,
@@ -252,7 +283,7 @@ communication. (multicast,ssh,...)
 ----
 
 Standard IP set 'blacklist'
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Traffic from these ips is dropped by every host's and VM's firewall.
 
@@ -266,7 +297,7 @@ Traffic from these ips is dropped by every host's and VM's firewall.
 
 [[ipfilter-section]]
 Standard IP set 'ipfilter-net*'
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 These filters belong to a VM's network interface and are mainly used to prevent
 IP spoofing. If such a set exists for an interface then any outgoing traffic
@@ -288,8 +319,9 @@ discovery protocol to work.
 192.168.2.10
 ----
 
+
 Services and Commands
-~~~~~~~~~~~~~~~~~~~~~
+---------------------
 
 The firewall runs two service daemons on each node:
 
@@ -313,11 +345,12 @@ If you want to see the generated iptables rules you can use:
 
  # iptables-save
 
+
 Tips and Tricks
-~~~~~~~~~~~~~~~
+---------------
 
 How to allow FTP
-^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~
 
 FTP is an old style protocol which uses port 21 and several other dynamic ports. So you
 need a rule to accept port 21. In addition, you need to load the 'ip_conntrack_ftp' module.
@@ -327,8 +360,9 @@ So please run:
 
 and add `ip_conntrack_ftp` to '/etc/modules' (so that it works after a reboot) .
 
+
 Suricata IPS integration
-^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you want to use the http://suricata-ids.org/[Suricata IPS]
 (Intrusion Prevention System), it's possible.
@@ -366,33 +400,8 @@ Available queues are defined in
 NFQUEUE=0
 ----
 
-Notes on IPv6
-^^^^^^^^^^^^^
-
-The firewall contains a few IPv6 specific options. One thing to note is that
-IPv6 does not use the ARP protocol anymore, and instead uses NDP (Neighbor
-Discovery Protocol) which works on IP level and thus needs IP addresses to
-succeed. For this purpose link-local addresses derived from the interface's MAC
-address are used. By default the 'NDP' option is enabled on both host and VM
-level to allow neighbor discovery (NDP) packets to be sent and received.
-
-Beside neighbor discovery NDP is also used for a couple of other things, like
-autoconfiguration and advertising routers.
-
-By default VMs are allowed to send out router solicitation messages (to query
-for a router), and to receive router advetisement packets. This allows them to
-use stateless auto configuration. On the other hand VMs cannot advertise
-themselves as routers unless the 'Allow Router Advertisement' (`radv: 1`) option
-is set.
-
-As for the link local addresses required for NDP, there's also an 'IP Filter'
-(`ipfilter: 1`) option which can be enabled which has the same effect as adding
-an `ipfilter-net*` ipset for each of the VM's network interfaces containing the
-corresponding link local addresses.  (See the
-<<ipfilter-section,Standard IP set 'ipfilter-net*'>> section for details.)
-
 Avoiding link-local addresses on tap and veth devices
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 With IPv6 enabled by default every interface gets a MAC-derived link local
 address. However, most devices on a typical {pve} setup are connected to a
@@ -432,6 +441,33 @@ iface vmbr0 inet6 static
     pre-up echo 0 > /proc/sys/net/ipv6/conf/$IFACE/disable_ipv6
 (...)
 ----
+
+
+Notes on IPv6
+-------------
+
+The firewall contains a few IPv6 specific options. One thing to note is that
+IPv6 does not use the ARP protocol anymore, and instead uses NDP (Neighbor
+Discovery Protocol) which works on IP level and thus needs IP addresses to
+succeed. For this purpose link-local addresses derived from the interface's MAC
+address are used. By default the 'NDP' option is enabled on both host and VM
+level to allow neighbor discovery (NDP) packets to be sent and received.
+
+Beside neighbor discovery NDP is also used for a couple of other things, like
+autoconfiguration and advertising routers.
+
+By default VMs are allowed to send out router solicitation messages (to query
+for a router), and to receive router advetisement packets. This allows them to
+use stateless auto configuration. On the other hand VMs cannot advertise
+themselves as routers unless the 'Allow Router Advertisement' (`radv: 1`) option
+is set.
+
+As for the link local addresses required for NDP, there's also an 'IP Filter'
+(`ipfilter: 1`) option which can be enabled which has the same effect as adding
+an `ipfilter-net*` ipset for each of the VM's network interfaces containing the
+corresponding link local addresses.  (See the
+<<ipfilter-section,Standard IP set 'ipfilter-net*'>> section for details.)
+
 
 Ports used by Proxmox VE
 ------------------------
