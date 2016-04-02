@@ -25,22 +25,17 @@ ifndef::manvolnum[]
 include::attributes.txt[]
 endif::manvolnum[]
 
-// Copied from pve wiki: Revision as of 08:45, 9 November 2015
-
 Proxmox VE Firewall provides an easy way to protect your IT
-infrastructure. You can easily setup firewall rules for all hosts
+infrastructure. You can setup firewall rules for all hosts
 inside a cluster, or define rules for virtual machines and
 containers. Features like firewall macros, security groups, IP sets
-and aliases help making that task easier.
+and aliases helps to make that task easier.
 
 While all configuration is stored on the cluster file system, the
 iptables based firewall runs on each cluster node, and thus provides
 full isolation between virtual machines. The distributed nature of
 this system also provides much higher bandwidth than a central
 firewall solution.
-
-NOTE: If you enable the firewall, all traffic is blocked by default,
-except WebGUI(8006) and ssh(22) from your local network.
 
 The firewall has full support for IPv4 and IPv6. IPv6 support is fully
 transparent, and we filter traffic for both protocols by default. So
@@ -70,15 +65,17 @@ Configuration Files
 All firewall related configuration is stored on the proxmox cluster
 file system. So those files are automatically distributed to all
 cluster nodes, and the 'pve-firewall' service updates the underlying
-iptables rules automatically on changes. Any configuration can be
-done using the GUI (i.e. Datacenter -> Firewall -> Options tab (tabs
-at the bottom of the page), or on a Node -> Firewall), so the
-following configuration file snippets are just for completeness.
+iptables rules automatically on changes.
 
-All firewall configuration files contains sections of key-value
+You can configure anything using the GUI (i.e. Datacenter -> Firewall,
+or on a Node -> Firewall), or you can edit the configuration files
+directly using your preferred editor.
+
+Firewall configuration files contains sections of key-value
 pairs. Lines beginning with a '#' and blank lines are considered
 comments. Sections starts with a header line containing the section
 name enclosed in '[' and ']'.
+
 
 Cluster Wide Setup
 ~~~~~~~~~~~~~~~~~~
@@ -95,15 +92,6 @@ This is used to set cluster wide firewall options.
 
 include::pve-firewall-cluster-opts.adoc[]
 
-NOTE: The firewall is completely disabled by default, so you need to
-set the enable option here:
-
-----
-[OPTIONS]
-# enable firewall (cluster wide setting, default is disabled)
-enable: 1
-----
-
 '[RULES]'::
 
 This sections contains cluster wide firewall rules for all nodes.
@@ -119,6 +107,37 @@ Cluster wide security group definitions.
 '[ALIASES]'::
 
 Cluster wide Alias definitions.
+
+
+Enabling the Firewall
+^^^^^^^^^^^^^^^^^^^^^
+
+The firewall is completely disabled by default, so you need to
+set the enable option here:
+
+----
+[OPTIONS]
+# enable firewall (cluster wide setting, default is disabled)
+enable: 1
+----
+
+IMPORTANT: If you enable the firewall, traffic to all hosts is blocked by
+default. Only exceptions is WebGUI(8006) and ssh(22) from your local
+network.
+
+If you want to administrate your {pve} hosts from remote, you
+need to create rules to allow traffic from those remote IPs to the web
+GUI (port 8006). You may also want to allow ssh (port 22), and maybe
+SPICE (port 3128).
+
+TIP: Please open a SSH connection to one of your {PVE} hosts before
+enabling the firewall. That way you still have access to the host if
+something goes wrong .
+
+To simplify that task, you can instead create an IPSet called
+'management', and add all remote IPs there. This creates all required
+firewall rules to access the GUI from remote.
+
 
 Host specific Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -173,8 +192,13 @@ IP Alias definitions.
 Enabling the Firewall for VMs and Containers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You need to enable the firewall on the virtual network interface configuration
-in addition to the general 'Enable Firewall' option in the 'Options' tab.
+Each virtual network device has its own firewall enable flag. So you
+can selectively enable the firewall for each interface. This is
+required in addition to the general firewall 'enable' option.
+
+The firewall requires a special network device setup, so you need to
+restart the VM/container after enabling the firewall on a network
+interface.
 
 
 Firewall Rules
