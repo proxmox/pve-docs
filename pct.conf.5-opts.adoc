@@ -53,7 +53,7 @@ Use volume as container mount point (experimental feature).
 Sets DNS server IP address for a container. Create will automatically use
 the setting from the host if you neither set searchdomain nor nameserver.
 
-`net[n]`: `name=<String> [,bridge=<vmbr<Number>>] [,firewall=<[1|0]>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<MAC>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>] [,mtu=<Number>] [,rate=<mbps>] [,tag=<VlanNo>] [,trunks=<vlanid[;vlanid...]>]` ::
+`net[n]`: `name=<String> [,bridge=<vmbr<Number>>] [,firewall=<[1|0]>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<MAC>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>] [,mtu=<Number>] [,rate=<mbps>] [,tag=<VlanNo>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]` ::
 
 Specifies network interfaces for the container.
 
