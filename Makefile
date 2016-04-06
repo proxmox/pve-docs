@@ -14,6 +14,14 @@ DEB_SOURCES=			\
 	pve-doc-generator.mk	\
 	attributes.txt		\
 	pvesm.adoc		\
+	pve-storage-dir.adoc 	\
+	pve-storage-glusterfs.adoc	\
+	pve-storage-iscsi.adoc		\
+	pve-storage-iscsidirect.adoc	\
+	pve-storage-lvm.adoc		\
+	pve-storage-nfs.adoc		\
+	pve-storage-rbd.adoc		\
+	pve-storage-zfspool.adoc	\
 	pveum.adoc		\
 	vzdump.adoc		\
 	pve-firewall.adoc	\
@@ -34,7 +42,6 @@ GEN_SCRIPTS=					\
 	gen-pve-firewall-vm-opts.pl		\
 	gen-vm-conf-opts-adoc.pl
 
-PVESM_SOURCES=attributes.txt pvesm.adoc pvesm.1-synopsis.adoc $(shell ls pve-storage-*.adoc)
 PVEUM_SOURCES=attributes.txt pveum.adoc pveum.1-synopsis.adoc
 VZDUMP_SOURCES=attributes.txt vzdump.adoc vzdump.1-synopsis.adoc
 QM_SOURCES=attributes.txt qm.adoc qm.1-synopsis.adoc
@@ -62,11 +69,11 @@ PVE_ADMIN_GUIDE_SOURCES=		\
 	pmxcfs.adoc 			\
 	pve-faq.adoc			\
 	${PVE_FIREWALL_MAN8_SOURCES}	\
+	${PVESM_MAN1_SOURCES}		\
 	${QM_SOURCES}			\
 	${PCT_SOURCES}			\
 	${PVEAM_SOURCES}		\
 	${PVEUM_SOURCES}		\
-	${PVESM_SOURCES}		\
 	${VZDUMP_SOURCES}		\
 	${HA_SOURCES}			\
 	images/cluster-nwdiag.svg	\

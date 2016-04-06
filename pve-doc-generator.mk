@@ -5,6 +5,11 @@ DGDIR?=/usr/share/pve-doc-generator
 
 all:
 
+PVE_COMMON_DOC_SOURCES=			\
+	attributes.txt 			\
+	pve-copyright.adoc		\
+	docinfo.xml
+
 PVE_FIREWALL_MAN8_SOURCES=		\
 	pve-firewall.adoc 		\
 	pve-firewall.8-synopsis.adoc 	\
@@ -13,8 +18,20 @@ PVE_FIREWALL_MAN8_SOURCES=		\
 	pve-firewall-vm-opts.adoc 	\
 	pve-firewall-rules-opts.adoc	\
 	pve-firewall-macros.adoc	\
-	attributes.txt 			\
-	docinfo.xml
+	${PVE_COMMON_DOC_SOURCES}
+
+PVESM_MAN1_SOURCES=			\
+	pvesm.adoc			\
+	pvesm.1-synopsis.adoc		\
+	pve-storage-dir.adoc		\
+	pve-storage-glusterfs.adoc	\
+	pve-storage-iscsi.adoc		\
+	pve-storage-iscsidirect.adoc	\
+	pve-storage-lvm.adoc		\
+	pve-storage-nfs.adoc		\
+	pve-storage-rbd.adoc		\
+	pve-storage-zfspool.adoc	\
+	${PVE_COMMON_DOC_SOURCES}
 
 attributes.txt docinfo.xml:
 	cp ${DGDIR}/$@ $@.tmp
@@ -42,6 +59,10 @@ attributes.txt docinfo.xml:
 
 pve-firewall.8: ${PVE_FIREWALL_MAN8_SOURCES}
 	a2x -a docinfo1 -a "manvolnum=8" -a "manversion=Release ${DOCRELEASE}" -f manpage pve-firewall.adoc
+	test -n "$${NOVIEW}" || man -l $@
+
+pvesm.1: ${PVESM_MAN1_SOURCES}
+	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${DOCRELEASE}" -f manpage pvesm.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 
