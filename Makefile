@@ -150,6 +150,15 @@ ${DEB} deb:
 	cd build; dpkg-buildpackage -rfakeroot -b -us -uc
 	lintian ${DEB}
 
+.PHONY: upload
+upload: ${DEB}
+	umount /pve/${DOCRELEASE}; mount /pve/${DOCRELEASE} -o rw
+	mkdir -p /pve/${DOCRELEASE}/extra
+	rm -f /pve/${DOCRELEASE}/extra/${PACKAGE}_*.deb
+	rm -f /pve/${DOCRELEASE}/extra/Packages*
+	cp ${DEB} /pve/${DOCRELEASE}/extra
+	cd /pve/${DOCRELEASE}/extra; dpkg-scanpackages . /dev/null > Packages; gzip -9c Packages > Packages.gz
+	umount /pve/${DOCRELEASE}; mount /pve/${DOCRELEASE} -o ro
 
 update: clean
 	rm -f *.5-opts.adoc .1-synopsis.adoc .8-synopsis.adoc
