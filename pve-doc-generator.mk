@@ -10,6 +10,11 @@ PVE_COMMON_DOC_SOURCES=			\
 	pve-copyright.adoc		\
 	docinfo.xml
 
+PVECM_MAN1_SOURCES=			\
+	pvecm.adoc			\
+	pvecm.1-synopsis.adoc		\
+	${PVE_COMMON_DOC_SOURCES}
+
 PVE_FIREWALL_MAN8_SOURCES=		\
 	pve-firewall.adoc 		\
 	pve-firewall.8-synopsis.adoc 	\
@@ -74,6 +79,10 @@ pvesm.1: ${PVESM_MAN1_SOURCES}
 
 pct.1: ${PCT_MAN1_SOURCES}
 	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${DOCRELEASE}" -f manpage pct.adoc
+	test -n "$${NOVIEW}" || man -l $@
+
+pvecm.1: ${PVECM_MAN1_SOURCES}
+	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${DOCRELEASE}" -f manpage pvecm.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 %.5: %.adoc %.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}

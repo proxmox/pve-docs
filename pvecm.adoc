@@ -1,0 +1,34 @@
+ifdef::manvolnum[]
+PVE({manvolnum})
+================
+include::attributes.txt[]
+
+NAME
+----
+
+pvecm - Proxmox VE Cluster Manager
+
+SYNOPSYS
+--------
+
+include::pvecm.1-synopsis.adoc[]
+
+DESCRIPTION
+-----------
+endif::manvolnum[]
+
+ifndef::manvolnum[]
+Cluster Manager
+===============
+include::attributes.txt[]
+endif::manvolnum[]
+
+'pvecm' is a program to manage the cluster configuration. It can be
+used to create a new cluster, join nodes to a cluster, leave the
+cluster, get status information and do various other cluster related
+tasks.
+
+
+ifdef::manvolnum[]
+include::pve-copyright.adoc[]
+endif::manvolnum[]

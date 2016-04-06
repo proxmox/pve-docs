@@ -73,6 +73,15 @@ include::pveam.1-synopsis.adoc[]
 
 :leveloffset: 0
 
+*pvecm* - {pve} Cluster Manager
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:leveloffset: 1
+include::pvecm.1-synopsis.adoc[]
+
+:leveloffset: 0
+
+
 *pveum* - {pve} User Manager
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

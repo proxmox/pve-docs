@@ -22,6 +22,7 @@ DEB_SOURCES=			\
 	pve-storage-nfs.adoc		\
 	pve-storage-rbd.adoc		\
 	pve-storage-zfspool.adoc	\
+	pvecm.adoc			\
 	pveum.adoc		\
 	vzdump.adoc		\
 	pve-firewall.adoc	\
@@ -73,6 +74,7 @@ PVE_ADMIN_GUIDE_SOURCES=		\
 	${PVE_FIREWALL_MAN8_SOURCES}	\
 	${PVESM_MAN1_SOURCES}		\
 	${PCT_MAN1_SOURCES}		\
+	${PVECM_MAN1_SOURCES}		\
 	${QM_SOURCES}			\
 	${PVEAM_SOURCES}		\
 	${PVEUM_SOURCES}		\
@@ -123,7 +125,7 @@ all: pve-admin-guide.html
 
 index.html: index.adoc ${PVE_ADMIN_GUIDE_SOURCES}
 	$(MAKE) NOVIEW=1 pve-admin-guide.pdf pve-admin-guide.html pve-admin-guide.epub
-	$(MAKE) NOVIEW=1 qm.1.html pct.1.html pveam.1.html pvesm.1.html pveum.1.html vzdump.1.html pve-firewall.8.html ha-manager.1.html datacenter.cfg.5.html vm.conf.5.html pct.conf.5.html
+	$(MAKE) NOVIEW=1 pvecm.1.html qm.1.html pct.1.html pveam.1.html pvesm.1.html pveum.1.html vzdump.1.html pve-firewall.8.html ha-manager.1.html datacenter.cfg.5.html vm.conf.5.html pct.conf.5.html
 	asciidoc -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}" index.adoc
 	test -n "$${NOVIEW}" || $(BROWSER) index.html &
 
