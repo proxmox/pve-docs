@@ -33,16 +33,21 @@ PVESM_MAN1_SOURCES=			\
 	pve-storage-zfspool.adoc	\
 	${PVE_COMMON_DOC_SOURCES}
 
+PCT_MAN1_SOURCES=			\
+	pct.adoc 			\
+	pct.1-synopsis.adoc		\
+	${PVE_COMMON_DOC_SOURCES}
+
 attributes.txt docinfo.xml:
 	cp ${DGDIR}/$@ $@.tmp
 	mv $@.tmp $@
 
 %-opts.adoc: ${DGDIR}/gen-%-opts.pl
-	$< >$@.tmp
+	${DGDIR}/gen-$*-opts.pl >$@.tmp
 	mv $@.tmp $@
 
 %.adoc: ${DGDIR}/gen-%-adoc.pl
-	$< >$@.tmp
+	${DGDIR}/gen-$*-adoc.pl >$@.tmp
 	mv $@.tmp $@
 
 %.1-synopsis.adoc:
@@ -53,9 +58,11 @@ attributes.txt docinfo.xml:
 	perl -I. -e "use PVE::Service::$(subst -,_,$*);print PVE::Service::$(subst -,_,$*)->generate_asciidoc_synopsys();" > $@.tmp
 	mv $@.tmp $@
 
+ifneq (${DGDIR},.)
 %.adoc: ${DGDIR}/%.adoc
 	cp $< $@.tmp
 	mv $@.tmp $@
+endif
 
 pve-firewall.8: ${PVE_FIREWALL_MAN8_SOURCES}
 	a2x -a docinfo1 -a "manvolnum=8" -a "manversion=Release ${DOCRELEASE}" -f manpage pve-firewall.adoc
@@ -65,6 +72,21 @@ pvesm.1: ${PVESM_MAN1_SOURCES}
 	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${DOCRELEASE}" -f manpage pvesm.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
+pct.1: ${PCT_MAN1_SOURCES}
+	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${DOCRELEASE}" -f manpage pct.adoc
+	test -n "$${NOVIEW}" || man -l $@
+
+pct.conf.5: pct.conf.adoc pct.conf.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
+	a2x -a docinfo1 -a "manvolnum=5" -a "manversion=Release ${DOCRELEASE}" -f manpage pct.conf.adoc
+	test -n "$${NOVIEW}" || man -l $@
+
+vm.conf.5: vm.conf.adoc vm.conf.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
+	a2x -a docinfo1 -a "manvolnum=5" -a "manversion=Release ${DOCRELEASE}" -f manpage vm.conf.adoc
+	test -n "$${NOVIEW}" || man -l $@
+
+datacenter.conf.5: datacenter.conf.adoc datacenter.conf.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
+	a2x -a docinfo1 -a "manvolnum=5" -a "manversion=Release ${DOCRELEASE}" -f manpage datacenter.conf.adoc
+	test -n "$${NOVIEW}" || man -l $@
 
 .PHONY: cleanup-docgen
 cleanup-docgen:

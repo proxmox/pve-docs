@@ -26,26 +26,28 @@ DEB_SOURCES=			\
 	vzdump.adoc		\
 	pve-firewall.adoc	\
 	qm.adoc			\
+	vm.conf.adoc		\
 	pct.adoc		\
+	pct.conf.adoc		\
+	datacenter.cfg.adoc	\
 	pveam.adoc		\
 	ha-manager.adoc		\
 	pve-copyright.adoc	\
 	docinfo.xml
 
 GEN_SCRIPTS=					\
-	gen-datacenter-cfg-opts-adoc.pl		\
-	gen-pct-conf-opts-adoc.pl		\
+	gen-datacenter.cfg.5-opts.pl		\
+	gen-pct.conf.5-opts.pl			\
+	gen-vm.conf.5-opts.pl			\
 	gen-pve-firewall-cluster-opts.pl	\
 	gen-pve-firewall-host-opts.pl		\
 	gen-pve-firewall-macros-adoc.pl		\
 	gen-pve-firewall-rules-opts.pl		\
-	gen-pve-firewall-vm-opts.pl		\
-	gen-vm-conf-opts-adoc.pl
+	gen-pve-firewall-vm-opts.pl
 
 PVEUM_SOURCES=attributes.txt pveum.adoc pveum.1-synopsis.adoc
 VZDUMP_SOURCES=attributes.txt vzdump.adoc vzdump.1-synopsis.adoc
 QM_SOURCES=attributes.txt qm.adoc qm.1-synopsis.adoc
-PCT_SOURCES=attributes.txt pct.adoc pct.1-synopsis.adoc
 PVEAM_SOURCES=attributes.txt pveam.adoc pveam.1-synopsis.adoc
 HA_SOURCES=attributes.txt ha-manager.1-synopsis.adoc ha-manager.adoc
 
@@ -70,8 +72,8 @@ PVE_ADMIN_GUIDE_SOURCES=		\
 	pve-faq.adoc			\
 	${PVE_FIREWALL_MAN8_SOURCES}	\
 	${PVESM_MAN1_SOURCES}		\
+	${PCT_MAN1_SOURCES}		\
 	${QM_SOURCES}			\
-	${PCT_SOURCES}			\
 	${PVEAM_SOURCES}		\
 	${PVEUM_SOURCES}		\
 	${VZDUMP_SOURCES}		\
@@ -114,10 +116,6 @@ all: pve-admin-guide.html
 %.8.html: %.adoc %.8-synopsis.adoc docinfo.xml
 	asciidoc ${ADOC_MAN8_HTML_ARGS} -o $@ $*.adoc
 	test -n "$${NOVIEW}" || $(BROWSER) $@ &
-
-%.5: %.adoc %.5-opts.adoc docinfo.xml
-	a2x -a docinfo1 -a "manvolnum=5" -a "manversion=Release ${DOCRELEASE}" -f manpage $*.adoc
-	test -n "$${NOVIEW}" || man -l $@
 
 %.5.html: %.adoc %.5-opts.adoc docinfo.xml
 	asciidoc ${ADOC_MAN5_HTML_ARGS} -o $@ $*.adoc
