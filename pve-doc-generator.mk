@@ -1,3 +1,6 @@
+# also update debian/changelog
+DOCRELEASE=4.1
+
 DGDIR?=/usr/share/pve-doc-generator
 
 all:
@@ -38,7 +41,7 @@ attributes.txt docinfo.xml:
 	mv $@.tmp $@
 
 pve-firewall.8: ${PVE_FIREWALL_MAN8_SOURCES}
-	a2x -a docinfo1 -a "manvolnum=8" -a "manversion=Release ${RELEASE}" -f manpage pve-firewall.adoc
+	a2x -a docinfo1 -a "manvolnum=8" -a "manversion=Release ${DOCRELEASE}" -f manpage pve-firewall.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 

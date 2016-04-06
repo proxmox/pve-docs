@@ -1,15 +1,13 @@
-RELEASE=4.1
+DGDIR=.
+
+include ./pve-doc-generator.mk
 
 PACKAGE=pve-doc-generator
 
 # also update debian/changelog
 PKGREL=1
 
-DEB=${PACKAGE}_${RELEASE}-${PKGREL}_amd64.deb
-
-DGDIR=.
-
-include ./pve-doc-generator.mk
+DEB=${PACKAGE}_${DOCRELEASE}-${PKGREL}_amd64.deb
 
 
 DEB_SOURCES=			\
@@ -78,9 +76,9 @@ PVE_ADMIN_GUIDE_SOURCES=		\
 	attributes.txt
 
 ADOC_STDARG= -a icons -a data-uri -a "date=$(shell date)"
-ADOC_MAN1_HTML_ARGS=-a "manvolnum=1" ${ADOC_STDARG} -a "revnumber=${RELEASE}"
-ADOC_MAN5_HTML_ARGS=-a "manvolnum=5" ${ADOC_STDARG} -a "revnumber=${RELEASE}"
-ADOC_MAN8_HTML_ARGS=-a "manvolnum=8" ${ADOC_STDARG} -a "revnumber=${RELEASE}"
+ADOC_MAN1_HTML_ARGS=-a "manvolnum=1" ${ADOC_STDARG} -a "revnumber=${DOCRELEASE}"
+ADOC_MAN5_HTML_ARGS=-a "manvolnum=5" ${ADOC_STDARG} -a "revnumber=${DOCRELEASE}"
+ADOC_MAN8_HTML_ARGS=-a "manvolnum=8" ${ADOC_STDARG} -a "revnumber=${DOCRELEASE}"
 
 BROWSER?=xdg-open
 
@@ -89,15 +87,11 @@ all: pve-admin-guide.html
 %-nwdiag.svg: %.nwdiag
 	nwdiag -T svg $*.nwdiag -o $@;
 
-%.1-synopsis.adoc:
-	perl -e "use PVE::CLI::$(subst -,_,$*);print PVE::CLI::$(subst -,_,$*)->generate_asciidoc_synopsys();" > $@.tmp
-	mv $@.tmp $@
-
-%.1: %.adoc %.1-synopsis.adoc docinfo.xml
-	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${RELEASE}" -f manpage $*.adoc
+%.1: %.adoc %.1-synopsis.adoc docinfo.xml attributes.txt
+	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${DOCRELEASE}" -f manpage $*.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
-%.1.html: %.adoc %.1-synopsis.adoc docinfo.xml
+%.1.html: %.adoc %.1-synopsis.adoc docinfo.xml attributes.txt
 	asciidoc ${ADOC_MAN1_HTML_ARGS} -o $@ $*.adoc
 	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
@@ -107,7 +101,7 @@ all: pve-admin-guide.html
 	mv $@.tmp $@
 
 %.8: %.adoc %.8-synopsis.adoc docinfo.xml
-	a2x -a docinfo1 -a "manvolnum=8" -a "manversion=Release ${RELEASE}" -f manpage $*.adoc
+	a2x -a docinfo1 -a "manvolnum=8" -a "manversion=Release ${DOCRELEASE}" -f manpage $*.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 %.8.html: %.adoc %.8-synopsis.adoc docinfo.xml
@@ -115,7 +109,7 @@ all: pve-admin-guide.html
 	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
 %.5: %.adoc %.5-opts.adoc docinfo.xml
-	a2x -a docinfo1 -a "manvolnum=5" -a "manversion=Release ${RELEASE}" -f manpage $*.adoc
+	a2x -a docinfo1 -a "manvolnum=5" -a "manversion=Release ${DOCRELEASE}" -f manpage $*.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 %.5.html: %.adoc %.5-opts.adoc docinfo.xml
@@ -125,15 +119,15 @@ all: pve-admin-guide.html
 index.html: index.adoc ${PVE_ADMIN_GUIDE_SOURCES}
 	$(MAKE) NOVIEW=1 pve-admin-guide.pdf pve-admin-guide.html pve-admin-guide.epub
 	$(MAKE) NOVIEW=1 qm.1.html pct.1.html pveam.1.html pvesm.1.html pveum.1.html vzdump.1.html pve-firewall.8.html ha-manager.1.html datacenter.cfg.5.html vm.conf.5.html pct.conf.5.html
-	asciidoc -a "date=$(shell date)" -a "revnumber=${RELEASE}" index.adoc
+	asciidoc -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}" index.adoc
 	test -n "$${NOVIEW}" || $(BROWSER) index.html &
 
 pve-admin-guide.html: ${PVE_ADMIN_GUIDE_SOURCES}
-	asciidoc -a "revnumber=${RELEASE}" -a "date=$(shell date)" pve-admin-guide.adoc
+	asciidoc -a "revnumber=${DOCRELEASE}" -a "date=$(shell date)" pve-admin-guide.adoc
 	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
 pve-admin-guide.pdf: ${PVE_ADMIN_GUIDE_SOURCES} docinfo.xml pve-admin-guide-docinfo.xml
-	grep ">Release ${RELEASE}<" pve-admin-guide-docinfo.xml || (echo "wrong release in  pve-admin-guide-docinfo.xml" && false);
+	grep ">Release ${DOCRELEASE}<" pve-admin-guide-docinfo.xml || (echo "wrong release in  pve-admin-guide-docinfo.xml" && false);
 	a2x -a docinfo -a docinfo1 -f pdf -L --dblatex-opts "-P latex.output.revhistory=0" --dblatex-opts "-P latex.class.options=12pt" --dblatex-opts "-P doc.section.depth=2 -P toc.section.depth=2" pve-admin-guide.adoc
 	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
