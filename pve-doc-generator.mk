@@ -76,16 +76,8 @@ pct.1: ${PCT_MAN1_SOURCES}
 	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${DOCRELEASE}" -f manpage pct.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
-pct.conf.5: pct.conf.adoc pct.conf.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
-	a2x -a docinfo1 -a "manvolnum=5" -a "manversion=Release ${DOCRELEASE}" -f manpage pct.conf.adoc
-	test -n "$${NOVIEW}" || man -l $@
-
-vm.conf.5: vm.conf.adoc vm.conf.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
-	a2x -a docinfo1 -a "manvolnum=5" -a "manversion=Release ${DOCRELEASE}" -f manpage vm.conf.adoc
-	test -n "$${NOVIEW}" || man -l $@
-
-datacenter.conf.5: datacenter.conf.adoc datacenter.conf.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
-	a2x -a docinfo1 -a "manvolnum=5" -a "manversion=Release ${DOCRELEASE}" -f manpage datacenter.conf.adoc
+%.5: %.adoc %.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
+	a2x -a docinfo1 -a "manvolnum=5" -a "manversion=Release ${DOCRELEASE}" -f manpage $*.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 .PHONY: cleanup-docgen
