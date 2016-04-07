@@ -254,6 +254,16 @@ List local LVM volume groups.
 
 
 
+*pvesm lvmthinscan* `<vg>`
+
+List local LVM Thin Pools.
+
+`<vg>` `[a-zA-Z0-9\.\+\_][a-zA-Z0-9\.\+\_\-]+` ::
+
+no description available
+
+
+
 *pvesm nfsscan* `<server>`
 
 Scan remote NFS server.

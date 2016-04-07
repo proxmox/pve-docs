@@ -1,5 +1,52 @@
 *pct* `<COMMAND> [ARGS] [OPTIONS]`
 
+*pct clone* `<vmid> <newid> -experimental <boolean>` `[OPTIONS]`
+
+Create a container clone/copy
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`<newid>` `integer (1 - N)` ::
+
+VMID for the clone.
+
+`-description` `string` ::
+
+Description for the new CT.
+
+`-experimental` `boolean` (default=`0`)::
+
+The clone feature is experimental, set this flag if you know what you are
+doing.
+
+`-full` `boolean` (default=`0`)::
+
+Create a full copy of all disk. This is always done when you clone a normal
+CT. For CT templates, we try to create a linked clone by default.
+
+`-hostname` `string` ::
+
+Set a hostname for the new CT.
+
+`-pool` `string` ::
+
+Add the new CT to the specified pool.
+
+`-snapname` `string` ::
+
+The name of the snapshot.
+
+`-storage` `string` ::
+
+Target storage for full clone.
++
+NOTE: Requires option(s): `full`
+
+
+
+
 *pct config* `<vmid>`
 
 Get container configuration.
@@ -51,15 +98,17 @@ Attach a console device (/dev/console) to the container.
 
 `-cpulimit` `number (0 - 128)` (default=`0`)::
 
-Limit of CPU usage. Note if the computer has 2 CPUs, it has total of '2'
-CPU time. Value '0' indicates no CPU limit.
+Limit of CPU usage.
++
+NOTE: If the computer has 2 CPUs, it has a total of '2' CPU time. Value '0'
+indicates no CPU limit.
 
 `-cpuunits` `integer (0 - 500000)` (default=`1024`)::
 
 CPU weight for a VM. Argument is used in the kernel fair scheduler. The
 larger the number is, the more CPU time this VM gets. Number is relative to
-weights of all the other running VMs.
-
+the weights of all the other running VMs.
++
 NOTE: You can disable fair-scheduler configuration by setting this to 0.
 
 `-description` `string` ::
@@ -86,16 +135,16 @@ Lock/unlock the VM.
 
 Amount of RAM for the VM in MB.
 
-`-mp[n]` `[volume=]<volume> [,backup=<[1|0]>] [,mp=<Path>] [,size=<DiskSize>]` ::
+`-mp[n]` `mp=<Path>, [volume=]<volume> [,acl=<acl>] [,backup=<[1|0]>] [,quota=<[0|1]>] [,ro=<ro>] [,size=<DiskSize>]` ::
 
 Use volume as container mount point (experimental feature).
 
 `-nameserver` `string` ::
 
 Sets DNS server IP address for a container. Create will automatically use
-the setting from the host if you neither set searchdomain or nameserver.
+the setting from the host if you neither set searchdomain nor nameserver.
 
-`-net[n]` `name=<String> [,bridge=<vmbr<Number>>] [,firewall=<[1|0]>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<MAC>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>] [,mtu=<Number>] [,tag=<VlanNo>]` ::
+`-net[n]` `name=<String> [,bridge=<vmbr<Number>>] [,firewall=<[1|0]>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<MAC>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>] [,mtu=<Number>] [,rate=<mbps>] [,tag=<VlanNo>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]` ::
 
 Specifies network interfaces for the container.
 
@@ -103,12 +152,14 @@ Specifies network interfaces for the container.
 
 Specifies whether a VM will be started during system bootup.
 
-`-ostype` `(archlinux | centos | debian | fedora | opensuse | ubuntu)` ::
+`-ostype` `(alpine | archlinux | centos | debian | fedora | opensuse | ubuntu | unmanaged)` ::
 
-OS type. Corresponds to lxc setup scripts in
-/usr/share/lxc/config/<ostype>.common.conf.
+OS type. This is used to setup configuration inside the container, and
+corresponds to lxc setup scripts in
+/usr/share/lxc/config/<ostype>.common.conf. Value 'unmanaged' can be used
+to skip and OS specific setup.
 
-`-password` `string` ::
+`-password` ::
 
 Sets root password inside container.
 
@@ -118,21 +169,25 @@ Add the VM to the specified pool.
 
 `-protection` `boolean` (default=`0`)::
 
-Sets the protection flag of the container. This will prevent the remove
-operation. This will prevent the CT or CT's disk remove/update operation.
+Sets the protection flag of the container. This will prevent the CT or CT's
+disk remove/update operation.
 
 `-restore` `boolean` ::
 
 Mark this as restore task.
 
-`-rootfs` `[volume=]<volume> [,backup=<[1|0]>] [,size=<DiskSize>]` ::
+`-rootfs` `[volume=]<volume> [,acl=<acl>] [,backup=<[1|0]>] [,quota=<[0|1]>] [,ro=<ro>] [,size=<DiskSize>]` ::
 
 Use volume as container root.
 
 `-searchdomain` `string` ::
 
 Sets DNS search domains for a container. Create will automatically use the
-setting from the host if you neither set searchdomain or nameserver.
+setting from the host if you neither set searchdomain nor nameserver.
+
+`-ssh-public-keys` `filepath` ::
+
+Setup public SSH keys (one key per line, OpenSSH format).
 
 `-startup` `[[order=]\d+] [,up=\d+] [,down=\d+] ` ::
 
@@ -287,9 +342,90 @@ The (unique) ID of the VM.
 
 Target node.
 
+`-force` `boolean` ::
+
+Force migration despite local bind / device mounts. WARNING: identical bind
+/ device mounts need to  be available on the target node.
+
 `-online` `boolean` ::
 
 Use online/live migration.
+
+
+
+
+*pct mount* `<vmid>`
+
+Mount the container's filesystem on the host. This will hold a lock on the
+container and is meant for emergency maintenance only as it will prevent
+further operations on the container other than start and stop.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+
+
+*pct pull* `<vmid> <path> <destination>` `[OPTIONS]`
+
+Copy a file from the container to the local system.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`<path>` `string` ::
+
+Path to a file inside the container to pull.
+
+`<destination>` `string` ::
+
+Destination
+
+`-group` `string` ::
+
+Owner group name or id.
+
+`-perms` `string` ::
+
+File permissions to use.
+
+`-user` `string` ::
+
+Owner user name or id.
+
+
+
+*pct push* `<vmid> <file> <destination>` `[OPTIONS]`
+
+Copy a local file to the container.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`<file>` `string` ::
+
+Path to a local file.
+
+`<destination>` `string` ::
+
+Destination inside the container to write to.
+
+`-group` `string` ::
+
+Owner group name or id. When using a name it must exist inside the
+container.
+
+`-perms` `string` ::
+
+File permissions to use.
+
+`-user` `string` ::
+
+Owner user name or id. When using a name it must exist inside the
+container.
+
 
 
 
@@ -347,15 +483,17 @@ Attach a console device (/dev/console) to the container.
 
 `-cpulimit` `number (0 - 128)` (default=`0`)::
 
-Limit of CPU usage. Note if the computer has 2 CPUs, it has total of '2'
-CPU time. Value '0' indicates no CPU limit.
+Limit of CPU usage.
++
+NOTE: If the computer has 2 CPUs, it has a total of '2' CPU time. Value '0'
+indicates no CPU limit.
 
 `-cpuunits` `integer (0 - 500000)` (default=`1024`)::
 
 CPU weight for a VM. Argument is used in the kernel fair scheduler. The
 larger the number is, the more CPU time this VM gets. Number is relative to
-weights of all the other running VMs.
-
+the weights of all the other running VMs.
++
 NOTE: You can disable fair-scheduler configuration by setting this to 0.
 
 `-description` `string` ::
@@ -382,16 +520,16 @@ Lock/unlock the VM.
 
 Amount of RAM for the VM in MB.
 
-`-mp[n]` `[volume=]<volume> [,backup=<[1|0]>] [,mp=<Path>] [,size=<DiskSize>]` ::
+`-mp[n]` `mp=<Path>, [volume=]<volume> [,acl=<acl>] [,backup=<[1|0]>] [,quota=<[0|1]>] [,ro=<ro>] [,size=<DiskSize>]` ::
 
 Use volume as container mount point (experimental feature).
 
 `-nameserver` `string` ::
 
 Sets DNS server IP address for a container. Create will automatically use
-the setting from the host if you neither set searchdomain or nameserver.
+the setting from the host if you neither set searchdomain nor nameserver.
 
-`-net[n]` `name=<String> [,bridge=<vmbr<Number>>] [,firewall=<[1|0]>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<MAC>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>] [,mtu=<Number>] [,tag=<VlanNo>]` ::
+`-net[n]` `name=<String> [,bridge=<vmbr<Number>>] [,firewall=<[1|0]>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<MAC>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>] [,mtu=<Number>] [,rate=<mbps>] [,tag=<VlanNo>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]` ::
 
 Specifies network interfaces for the container.
 
@@ -399,12 +537,14 @@ Specifies network interfaces for the container.
 
 Specifies whether a VM will be started during system bootup.
 
-`-ostype` `(archlinux | centos | debian | fedora | opensuse | ubuntu)` ::
+`-ostype` `(alpine | archlinux | centos | debian | fedora | opensuse | ubuntu | unmanaged)` ::
 
-OS type. Corresponds to lxc setup scripts in
-/usr/share/lxc/config/<ostype>.common.conf.
+OS type. This is used to setup configuration inside the container, and
+corresponds to lxc setup scripts in
+/usr/share/lxc/config/<ostype>.common.conf. Value 'unmanaged' can be used
+to skip and OS specific setup.
 
-`-password` `string` ::
+`-password` ::
 
 Sets root password inside container.
 
@@ -414,17 +554,21 @@ Add the VM to the specified pool.
 
 `-protection` `boolean` (default=`0`)::
 
-Sets the protection flag of the container. This will prevent the remove
-operation. This will prevent the CT or CT's disk remove/update operation.
+Sets the protection flag of the container. This will prevent the CT or CT's
+disk remove/update operation.
 
-`-rootfs` `[volume=]<volume> [,backup=<[1|0]>] [,size=<DiskSize>]` ::
+`-rootfs` `[volume=]<volume> [,acl=<acl>] [,backup=<[1|0]>] [,quota=<[0|1]>] [,ro=<ro>] [,size=<DiskSize>]` ::
 
 Use volume as container root.
 
 `-searchdomain` `string` ::
 
 Sets DNS search domains for a container. Create will automatically use the
-setting from the host if you neither set searchdomain or nameserver.
+setting from the host if you neither set searchdomain nor nameserver.
+
+`-ssh-public-keys` `filepath` ::
+
+Setup public SSH keys (one key per line, OpenSSH format).
 
 `-startup` `[[order=]\d+] [,up=\d+] [,down=\d+] ` ::
 
@@ -512,15 +656,17 @@ Attach a console device (/dev/console) to the container.
 
 `-cpulimit` `number (0 - 128)` (default=`0`)::
 
-Limit of CPU usage. Note if the computer has 2 CPUs, it has total of '2'
-CPU time. Value '0' indicates no CPU limit.
+Limit of CPU usage.
++
+NOTE: If the computer has 2 CPUs, it has a total of '2' CPU time. Value '0'
+indicates no CPU limit.
 
 `-cpuunits` `integer (0 - 500000)` (default=`1024`)::
 
 CPU weight for a VM. Argument is used in the kernel fair scheduler. The
 larger the number is, the more CPU time this VM gets. Number is relative to
-weights of all the other running VMs.
-
+the weights of all the other running VMs.
++
 NOTE: You can disable fair-scheduler configuration by setting this to 0.
 
 `-delete` `string` ::
@@ -548,16 +694,16 @@ Lock/unlock the VM.
 
 Amount of RAM for the VM in MB.
 
-`-mp[n]` `[volume=]<volume> [,backup=<[1|0]>] [,mp=<Path>] [,size=<DiskSize>]` ::
+`-mp[n]` `mp=<Path>, [volume=]<volume> [,acl=<acl>] [,backup=<[1|0]>] [,quota=<[0|1]>] [,ro=<ro>] [,size=<DiskSize>]` ::
 
 Use volume as container mount point (experimental feature).
 
 `-nameserver` `string` ::
 
 Sets DNS server IP address for a container. Create will automatically use
-the setting from the host if you neither set searchdomain or nameserver.
+the setting from the host if you neither set searchdomain nor nameserver.
 
-`-net[n]` `name=<String> [,bridge=<vmbr<Number>>] [,firewall=<[1|0]>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<MAC>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>] [,mtu=<Number>] [,tag=<VlanNo>]` ::
+`-net[n]` `name=<String> [,bridge=<vmbr<Number>>] [,firewall=<[1|0]>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<MAC>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>] [,mtu=<Number>] [,rate=<mbps>] [,tag=<VlanNo>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]` ::
 
 Specifies network interfaces for the container.
 
@@ -565,24 +711,26 @@ Specifies network interfaces for the container.
 
 Specifies whether a VM will be started during system bootup.
 
-`-ostype` `(archlinux | centos | debian | fedora | opensuse | ubuntu)` ::
+`-ostype` `(alpine | archlinux | centos | debian | fedora | opensuse | ubuntu | unmanaged)` ::
 
-OS type. Corresponds to lxc setup scripts in
-/usr/share/lxc/config/<ostype>.common.conf.
+OS type. This is used to setup configuration inside the container, and
+corresponds to lxc setup scripts in
+/usr/share/lxc/config/<ostype>.common.conf. Value 'unmanaged' can be used
+to skip and OS specific setup.
 
 `-protection` `boolean` (default=`0`)::
 
-Sets the protection flag of the container. This will prevent the remove
-operation. This will prevent the CT or CT's disk remove/update operation.
+Sets the protection flag of the container. This will prevent the CT or CT's
+disk remove/update operation.
 
-`-rootfs` `[volume=]<volume> [,backup=<[1|0]>] [,size=<DiskSize>]` ::
+`-rootfs` `[volume=]<volume> [,acl=<acl>] [,backup=<[1|0]>] [,quota=<[0|1]>] [,ro=<ro>] [,size=<DiskSize>]` ::
 
 Use volume as container root.
 
 `-searchdomain` `string` ::
 
 Sets DNS search domains for a container. Create will automatically use the
-setting from the host if you neither set searchdomain or nameserver.
+setting from the host if you neither set searchdomain nor nameserver.
 
 `-startup` `[[order=]\d+] [,up=\d+] [,down=\d+] ` ::
 
@@ -617,7 +765,8 @@ Reference to unused volumes.
 
 *pct shutdown* `<vmid>` `[OPTIONS]`
 
-Shutdown the container.
+Shutdown the container. This will trigger a clean shutdown of the
+container, see lxc-stop(1) for details.
 
 `<vmid>` `integer (1 - N)` ::
 
@@ -653,7 +802,7 @@ A textual description or comment.
 
 
 
-*pct start* `<vmid>`
+*pct start* `<vmid>` `[OPTIONS]`
 
 Start the container.
 
@@ -661,15 +810,24 @@ Start the container.
 
 The (unique) ID of the VM.
 
+`-skiplock` `boolean` ::
+
+Ignore locks - only root is allowed to use this option.
 
 
-*pct stop* `<vmid>`
 
-Stop the container.
+*pct stop* `<vmid>` `[OPTIONS]`
+
+Stop the container. This will abruptly stop all processes running in the
+container.
 
 `<vmid>` `integer (1 - N)` ::
 
 The (unique) ID of the VM.
+
+`-skiplock` `boolean` ::
+
+Ignore locks - only root is allowed to use this option.
 
 
 
@@ -684,7 +842,7 @@ The (unique) ID of the VM.
 
 
 
-*pct template* `<vmid>`
+*pct template* `<vmid> -experimental <boolean>` `[OPTIONS]`
 
 Create a Template.
 
@@ -692,12 +850,27 @@ Create a Template.
 
 The (unique) ID of the VM.
 
+`-experimental` `boolean` (default=`0`)::
+
+The template feature is experimental, set this flag if you know what you
+are doing.
+
 
 
 
 *pct unlock* `<vmid>`
 
 Unlock the VM.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+
+
+*pct unmount* `<vmid>`
+
+Unmount the container's filesystem.
 
 `<vmid>` `integer (1 - N)` ::
 

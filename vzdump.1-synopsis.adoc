@@ -12,7 +12,7 @@ The ID of the VM you want to backup.
 
 Backup all known VMs on this host.
 
-`-bwlimit` `integer (0 - N)` ::
+`-bwlimit` `integer (0 - N)` (default=`0`)::
 
 Limit I/O bandwidth (KBytes per second).
 
@@ -32,11 +32,11 @@ exclude specified VMs (assumes --all)
 
 exclude certain files/directories (shell globs).
 
-`-ionice` `integer (0 - 8)` ::
+`-ionice` `integer (0 - 8)` (default=`7`)::
 
 Set CFQ ionice priority.
 
-`-lockwait` `integer (0 - N)` ::
+`-lockwait` `integer (0 - N)` (default=`180`)::
 
 Maximal time to wait for the global lock (minutes).
 
@@ -48,11 +48,11 @@ Specify when to send an email
 
 no description available
 
-`-maxfiles` `integer (1 - N)` ::
+`-maxfiles` `integer (1 - N)` (default=`1`)::
 
 Maximal number of backup files per VM.
 
-`-mode` `(snapshot | stop | suspend)` (default=`stop`)::
+`-mode` `(snapshot | stop | suspend)` (default=`snapshot`)::
 
 Backup mode.
 
@@ -77,7 +77,7 @@ Remove old backup files if there are more than 'maxfiles' backup files.
 
 Use specified hook script.
 
-`-size` `integer (500 - N)` ::
+`-size` `integer (500 - N)` (default=`1024`)::
 
 LVM snapshot size in MB.
 
@@ -93,7 +93,7 @@ Write tar to stdout, not to a file.
 
 Stop runnig backup jobs on this host.
 
-`-stopwait` `integer (0 - N)` ::
+`-stopwait` `integer (0 - N)` (default=`10`)::
 
 Maximal time to wait until a VM is stopped (minutes).
 

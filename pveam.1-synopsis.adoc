@@ -1,5 +1,16 @@
 *pveam* `<COMMAND> [ARGS] [OPTIONS]`
 
+*pveam available* `[OPTIONS]`
+
+List available templates.
+
+`-section` `(system | turnkeylinux)` ::
+
+Restrict list to specified section.
+
+
+
+
 *pveam download* `<storage> <template>`
 
 Download appliance templates.
