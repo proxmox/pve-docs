@@ -7,6 +7,8 @@ PACKAGE=pve-doc-generator
 # also update debian/changelog
 PKGREL=1
 
+GITVERSION:=$(shell cat .git/refs/heads/master)
+
 DEB=${PACKAGE}_${DOCRELEASE}-${PKGREL}_amd64.deb
 
 
@@ -152,6 +154,8 @@ ${DEB} deb:
 	mkdir build
 	rsync -a debian/ build/debian
 	mkdir -p build/usr/share/${PACKAGE}
+	mkdir -p build/usr/share/doc/${PACKAGE}
+	echo "git clone git://git.proxmox.com/git/pve-docs.git\\ngit checkout ${GITVERSION}" > build/usr/share/doc/${PACKAGE}/SOURCE
 	install -m 0644 ${DEB_SOURCES} build/usr/share/${PACKAGE}
 	install -m 0755 ${GEN_SCRIPTS} build/usr/share/${PACKAGE}
 	cd build; dpkg-buildpackage -rfakeroot -b -us -uc
