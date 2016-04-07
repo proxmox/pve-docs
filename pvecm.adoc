@@ -77,8 +77,8 @@ NOTE: It is not possible to mix Proxmox VE 3.x and earlier with
 Proxmox VE 4.0 cluster.
 
 
-{PVE} Cluster Setup
--------------------
+Cluster Setup
+-------------
 
 First, install {PVE} on all nodes. Make sure that each node is
 installed with the final hostname and IP configuration. Changing the
