@@ -23,10 +23,256 @@ Cluster Manager
 include::attributes.txt[]
 endif::manvolnum[]
 
-'pvecm' is a program to manage the cluster configuration. It can be
-used to create a new cluster, join nodes to a cluster, leave the
-cluster, get status information and do various other cluster related
-tasks.
+The {PVE} cluster manager 'pvecm' is a tool to create a group of
+physical servers. Such group is called a *cluster*. We use the
+http://www.corosync.org[Corosync Cluster Engine] for reliable group
+communication, and such cluster can consists of up to 32 physical nodes
+(probably more, dependent on network latency).
+
+'pvecm' can be used to create a new cluster, join nodes to a cluster,
+leave the cluster, get status information and do various other cluster
+related tasks. The Proxmox Cluster file system (pmxcfs) is used to
+transparently distribute the cluster configuration to all cluster
+nodes.
+
+Grouping nodes into a cluster has the following advantages:
+
+* Centralized, web based management
+
+* Multi-master clusters: Each node can do all management task
+
+* Proxmox Cluster file system (pmxcfs): Database-driven file system
+  for storing configuration files, replicated in real-time on all
+  nodes using corosync.
+
+* Easy migration of Virtual Machines and Containers between physical
+  hosts
+
+* Fast deployment
+
+* Cluster-wide services like firewall and HA
+
+
+Requirements
+------------
+
+* All nodes must be in the same network as corosync uses IP Multicast
+ to communicate between nodes (also see
+ http://www.corosync.org[Corosync Cluster Engine]). NOTE: Some
+ switches do not support IP multicast by default and must be manually
+ enabled first.
+
+* Date and time have to be synchronized.
+
+* SSH tunnel on port 22 between nodes is used.
+
+* If you are interested in High Availability too, for reliable quorum
+  you must have at least 3 nodes (all nodes should have the same
+  version).
+
+* We recommend a dedicated NIC for the cluster traffic, especially if
+  you use shared storage.
+
+NOTE: It is not possible to mix Proxmox VE 3.x and earlier with
+Proxmox VE 4.0 cluster.
+
+
+{PVE} Cluster Setup
+-------------------
+
+First, install {PVE} on all nodes. Make sure that each node is
+installed with the final hostname and IP configuration. Changing the
+hostname and IP is not possible after cluster creation.
+
+Currently the cluster creation has to be done on the console, so you
+need to login via 'ssh'.
+
+
+Create the Cluster
+~~~~~~~~~~~~~~~~~~
+
+Login via 'ssh' to the first Proxmox VE node. Use a unique name for
+your cluster. This name cannot be changed later.
+
+ hp1# pvecm create YOUR-CLUSTER-NAME
+
+To check the state of your cluster use:
+
+ hp1# pvecm status
+
+
+Adding Nodes to the Cluster
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Login via 'ssh' to the node you want to add.
+
+ hp2# pvecm add IP-ADDRESS-CLUSTER
+
+For `IP-ADDRESS-CLUSTER` use the IP from an existing cluster node.
+
+CAUTION: A new node cannot hold any VM´s, because you would get
+conflicts about identical VM IDs. To workaround, use vzdump to backup
+and to restore to a different VMID after adding the node to the
+cluster.
+
+To check the state of cluster:
+
+ # pvecm status
+
+.Check Cluster Status
+----
+hp2# pvecm status
+Quorum information
+~~~~~~~~~~~~~~~~~~
+Date:             Mon Apr 20 12:30:13 2015
+Quorum provider:  corosync_votequorum
+Nodes:            4
+Node ID:          0x00000001
+Ring ID:          1928
+Quorate:          Yes
+
+Votequorum information
+~~~~~~~~~~~~~~~~~~~~~~
+Expected votes:   4
+Highest expected: 4
+Total votes:      4
+Quorum:           2
+Flags:            Quorate
+
+Membership information
+~~~~~~~~~~~~~~~~~~~~~~
+    Nodeid      Votes Name
+0x00000001          1 192.168.15.91
+0x00000002          1 192.168.15.92 (local)
+0x00000003          1 192.168.15.93
+0x00000004          1 192.168.15.94
+----
+
+If you only want the list of all nodes use:
+
+ # pvecm nodes
+
+.List Nodes in a Cluster
+----
+hp2# pvecm nodes
+
+Membership information
+~~~~~~~~~~~~~~~~~~~~~~
+    Nodeid      Votes Name
+         1          1 hp1
+         2          1 hp2 (local)
+         3          1 hp3
+         4          1 hp4
+----
+
+
+Remove a Cluster Node
+~~~~~~~~~~~~~~~~~~~~~
+
+CAUTION: Read carefully the procedure before proceeding, as it could
+not be what you want or need.
+
+Move all virtual machines from the node. Make sure you have no local
+data or backups you want to keep, or save them accordingly.
+
+Log in to one remaining node via ssh. Issue a 'pvecm nodes' command to
+identify the nodeID:
+
+----
+hp1# pvecm status
+
+Quorum information
+~~~~~~~~~~~~~~~~~~
+Date:             Mon Apr 20 12:30:13 2015
+Quorum provider:  corosync_votequorum
+Nodes:            4
+Node ID:          0x00000001
+Ring ID:          1928
+Quorate:          Yes
+
+Votequorum information
+~~~~~~~~~~~~~~~~~~~~~~
+Expected votes:   4
+Highest expected: 4
+Total votes:      4
+Quorum:           2
+Flags:            Quorate
+
+Membership information
+~~~~~~~~~~~~~~~~~~~~~~
+    Nodeid      Votes Name
+0x00000001          1 192.168.15.91 (local)
+0x00000002          1 192.168.15.92
+0x00000003          1 192.168.15.93
+0x00000004          1 192.168.15.94
+----
+
+IMPORTANT: at this point you must power off the node to be removed and
+make sure that it will not power on again (in the network) as it
+is.
+
+----
+hp1# pvecm nodes
+
+Membership information
+~~~~~~~~~~~~~~~~~~~~~~
+    Nodeid      Votes Name
+         1          1 hp1 (local)
+         2          1 hp2
+         3          1 hp3
+         4          1 hp4
+----
+
+Log in to one remaining node via ssh. Issue the delete command (here
+deleting node hp4):
+
+ hp1# pvecm delnode hp4
+
+If the operation succeeds no output is returned, just check the node
+list again with 'pvecm nodes' or 'pvecm status'. You should see
+something like:
+
+----
+hp1# pvecm status
+
+Quorum information
+~~~~~~~~~~~~~~~~~~
+Date:             Mon Apr 20 12:44:28 2015
+Quorum provider:  corosync_votequorum
+Nodes:            3
+Node ID:          0x00000001
+Ring ID:          1992
+Quorate:          Yes
+
+Votequorum information
+~~~~~~~~~~~~~~~~~~~~~~
+Expected votes:   3
+Highest expected: 3
+Total votes:      3
+Quorum:           3
+Flags:            Quorate
+
+Membership information
+~~~~~~~~~~~~~~~~~~~~~~
+    Nodeid      Votes Name
+0x00000001          1 192.168.15.90 (local)
+0x00000002          1 192.168.15.91
+0x00000003          1 192.168.15.92
+----
+
+IMPORTANT: as said above, it is very important to power off the node
+*before* removal, and make sure that it will *never* power on again
+(in the existing cluster network) as it is.
+
+If you power on the node as it is, your cluster will be screwed up and
+it could be difficult to restore a clean cluster state.
+
+If, for whatever reason, you want that this server joins the same
+cluster again, you have to
+
+* reinstall pve on it from scratch
+
+* then join it, as explained in the previous section.
 
 
 ifdef::manvolnum[]
