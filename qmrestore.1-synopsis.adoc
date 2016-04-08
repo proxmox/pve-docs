@@ -1,0 +1,30 @@
+*qmrestore* `help`
+
+*qmrestore* `<archive> <vmid>` `[OPTIONS]`
+
+Restore QemuServer vzdump backups.
+
+`<archive>` `string` ::
+
+The backup file. You can pass '-' to read from standard input.
+
+`<vmid>` `integer (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`-force` `boolean` ::
+
+Allow to overwrite existing VM.
+
+`-pool` `string` ::
+
+Add the VM to the specified pool.
+
+`-storage` `string` ::
+
+Default storage.
+
+`-unique` `boolean` ::
+
+Assign a unique random ethernet address.
+

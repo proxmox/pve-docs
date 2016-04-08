@@ -22,6 +22,7 @@ include::attributes.txt[]
 |===========================================================
 | Command name |Download link
 | qm           | link:qm.1.html[qm.1]
+| qmrestore    | link:qmrestore.1.html[qmrestore.1]
 | pct          | link:pct.1.html[pct.1]
 | pveam        | link:pveam.1.html[pveam.1]
 | pvecm        | link:pvecm.1.html[pvecm.1]

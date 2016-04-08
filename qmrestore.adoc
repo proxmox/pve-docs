@@ -1,0 +1,33 @@
+ifdef::manvolnum[]
+PVE({manvolnum})
+================
+include::attributes.txt[]
+
+NAME
+----
+
+qmrestore - Restore QemuServer 'vzdump' Backups
+
+SYNOPSYS
+--------
+
+include::qmrestore.1-synopsis.adoc[]
+
+DESCRIPTION
+-----------
+endif::manvolnum[]
+
+ifndef::manvolnum[]
+Restore Virtual Machines
+========================
+include::attributes.txt[]
+endif::manvolnum[]
+
+
+Restore the QemuServer vzdump backup 'archive' to virtual machine
+'vmid'. Volumes are allocated on the original storage if there is no
+'storage' specified.
+
+ifdef::manvolnum[]
+include::pve-copyright.adoc[]
+endif::manvolnum[]

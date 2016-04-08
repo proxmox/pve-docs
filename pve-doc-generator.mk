@@ -48,6 +48,11 @@ QM_MAN1_SOURCES=			\
 	qm.1-synopsis.adoc		\
 	${PVE_COMMON_DOC_SOURCES}
 
+QMRESTORE_MAN1_SOURCES=			\
+	qmrestore.adoc 			\
+	qmrestore.1-synopsis.adoc	\
+	${PVE_COMMON_DOC_SOURCES}
+
 PVEUM_MAN1_SOURCES=			\
 	pveum.adoc 			\
 	pveum.1-synopsis.adoc		\
@@ -93,6 +98,10 @@ pct.1: ${PCT_MAN1_SOURCES}
 
 qm.1: ${QM_MAN1_SOURCES}
 	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${DOCRELEASE}" -f manpage qm.adoc
+	test -n "$${NOVIEW}" || man -l $@
+
+qmrestore.1: ${QMRESTORE_MAN1_SOURCES}
+	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${DOCRELEASE}" -f manpage qmrestore.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 pvecm.1: ${PVECM_MAN1_SOURCES}
