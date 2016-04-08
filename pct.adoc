@@ -398,6 +398,27 @@ Similarly device mounts are not managed by the storage, but for these the
 `quota` and `acl` options will be honored.
 
 
+Using quotas inside containers
+------------------------------
+
+This only works on ext4 image based storage types and currently does not work
+with unprivileged containers.
+
+Activating the `quota` option causes the following mount options to be used for
+a mountpoint: `usrjquota=aquota.user,grpjquota=aquota.group,jqfmt=vfsv0`
+
+This allows quotas to be used like you would on any other system. You can
+initialize the `/aquota.user` and `/aquota.group` files by running
+
+ quotacheck -cmug /
+ quotaon /
+
+And edit the quotas via the `edquota` command. (Note that you need to do this
+for every mountpoint by passing the mountpoint's path instead of just `/`.) Best
+see the documentation specific to the distributiont running inside the
+container.
+
+
 Container Advantages
 --------------------
 
