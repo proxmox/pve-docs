@@ -29,6 +29,7 @@ DEB_SOURCES=			\
 	vzdump.adoc		\
 	pve-firewall.adoc	\
 	qm.adoc			\
+	qmrestore.adoc		\
 	vm.conf.adoc		\
 	pct.adoc		\
 	pct.conf.adoc		\
