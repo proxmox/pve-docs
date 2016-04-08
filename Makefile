@@ -49,7 +49,6 @@ GEN_SCRIPTS=					\
 	gen-pve-firewall-vm-opts.pl
 
 VZDUMP_SOURCES=attributes.txt vzdump.adoc vzdump.1-synopsis.adoc
-QM_SOURCES=attributes.txt qm.adoc qm.1-synopsis.adoc
 PVEAM_SOURCES=attributes.txt pveam.adoc pveam.1-synopsis.adoc
 HA_SOURCES=attributes.txt ha-manager.1-synopsis.adoc ha-manager.adoc
 
@@ -77,7 +76,7 @@ PVE_ADMIN_GUIDE_SOURCES=		\
 	${PCT_MAN1_SOURCES}		\
 	${PVECM_MAN1_SOURCES}		\
 	${PVEUM_MAN1_SOURCES}		\
-	${QM_SOURCES}			\
+	${QM_MAN1_SOURCES}		\
 	${PVEAM_SOURCES}		\
 	${VZDUMP_SOURCES}		\
 	${HA_SOURCES}			\
