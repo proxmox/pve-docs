@@ -58,6 +58,11 @@ PVEUM_MAN1_SOURCES=			\
 	pveum.1-synopsis.adoc		\
 	${PVE_COMMON_DOC_SOURCES}
 
+HA_MANAGER_MAN1_SOURCES=			\
+	ha-manager.adoc 			\
+	ha-manager.1-synopsis.adoc		\
+	${PVE_COMMON_DOC_SOURCES}
+
 attributes.txt docinfo.xml:
 	cp ${DGDIR}/$@ $@.tmp
 	mv $@.tmp $@
@@ -110,6 +115,10 @@ pvecm.1: ${PVECM_MAN1_SOURCES}
 
 pveum.1: ${PVEUM_MAN1_SOURCES}
 	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${DOCRELEASE}" -f manpage pveum.adoc
+	test -n "$${NOVIEW}" || man -l $@
+
+ha-manager.1: ${HA_MANAGER_MAN1_SOURCES}
+	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${DOCRELEASE}" -f manpage ha-manager.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 %.5: %.adoc %.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}

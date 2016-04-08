@@ -51,7 +51,6 @@ GEN_SCRIPTS=					\
 
 VZDUMP_SOURCES=attributes.txt vzdump.adoc vzdump.1-synopsis.adoc
 PVEAM_SOURCES=attributes.txt pveam.adoc pveam.1-synopsis.adoc
-HA_SOURCES=attributes.txt ha-manager.1-synopsis.adoc ha-manager.adoc
 
 SYSADMIN_SOURCES=			\
 	getting-help.adoc		\
@@ -79,9 +78,9 @@ PVE_ADMIN_GUIDE_SOURCES=		\
 	${PVEUM_MAN1_SOURCES}		\
 	${QM_MAN1_SOURCES}		\
 	${QMRESTORE_MAN1_SOURCES}	\
+	${HA_MANAGER_MAN1_SOURCES}	\
 	${PVEAM_SOURCES}		\
 	${VZDUMP_SOURCES}		\
-	${HA_SOURCES}			\
 	images/cluster-nwdiag.svg	\
 	images/node-nwdiag.svg		\
 	pve-bibliography.adoc		\
