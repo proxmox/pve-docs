@@ -48,7 +48,6 @@ GEN_SCRIPTS=					\
 	gen-pve-firewall-rules-opts.pl		\
 	gen-pve-firewall-vm-opts.pl
 
-PVEUM_SOURCES=attributes.txt pveum.adoc pveum.1-synopsis.adoc
 VZDUMP_SOURCES=attributes.txt vzdump.adoc vzdump.1-synopsis.adoc
 QM_SOURCES=attributes.txt qm.adoc qm.1-synopsis.adoc
 PVEAM_SOURCES=attributes.txt pveam.adoc pveam.1-synopsis.adoc
@@ -77,9 +76,9 @@ PVE_ADMIN_GUIDE_SOURCES=		\
 	${PVESM_MAN1_SOURCES}		\
 	${PCT_MAN1_SOURCES}		\
 	${PVECM_MAN1_SOURCES}		\
+	${PVEUM_MAN1_SOURCES}		\
 	${QM_SOURCES}			\
 	${PVEAM_SOURCES}		\
-	${PVEUM_SOURCES}		\
 	${VZDUMP_SOURCES}		\
 	${HA_SOURCES}			\
 	images/cluster-nwdiag.svg	\
