@@ -1,0 +1,40 @@
+*pve-ha-crm* `<COMMAND> [ARGS] [OPTIONS]`
+
+*pve-ha-crm help* `[<cmd>]` `[OPTIONS]`
+
+Get help about specified command.
+
+`<cmd>` `string` ::
+
+Command name
+
+`-verbose` `boolean` ::
+
+Verbose output format.
+
+
+
+
+*pve-ha-crm start* `[OPTIONS]`
+
+Start the daemon.
+
+`-debug` `boolean` (default=`0`)::
+
+Debug mode - stay in foreground
+
+
+
+*pve-ha-crm status*
+
+Get daemon status.
+
+
+
+*pve-ha-crm stop*
+
+Stop the daemon.
+
+
+
+

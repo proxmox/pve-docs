@@ -1,0 +1,31 @@
+ifdef::manvolnum[]
+PVE({manvolnum})
+================
+include::attributes.txt[]
+
+NAME
+----
+
+pve-ha-crm - PVE Cluster Ressource Manager Daemon
+
+
+SYNOPSYS
+--------
+
+include::pve-ha-crm.8-synopsis.adoc[]
+
+DESCRIPTION
+-----------
+endif::manvolnum[]
+
+ifndef::manvolnum[]
+Cluster Ressource Manager Daemon
+================================
+include::attributes.txt[]
+endif::manvolnum[]
+
+This is the Cluster Ressource Manager Daemon.
+
+ifdef::manvolnum[]
+include::pve-copyright.adoc[]
+endif::manvolnum[]

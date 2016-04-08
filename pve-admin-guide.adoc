@@ -124,6 +124,14 @@ include::ha-manager.1-synopsis.adoc[]
 
 :leveloffset: 0
 
+*pve-ha-crm* - Cluster Ressource Manager Daemon
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:leveloffset: 1
+include::pve-ha-crm.8-synopsis.adoc[]
+
+:leveloffset: 0
+
 [appendix]
 Configuration Files
 -------------------

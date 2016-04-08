@@ -63,6 +63,11 @@ HA_MANAGER_MAN1_SOURCES=			\
 	ha-manager.1-synopsis.adoc		\
 	${PVE_COMMON_DOC_SOURCES}
 
+PVE_HA_CRM_MAN8_SOURCES=			\
+	pve-ha-crm.adoc				\
+	pve-ha-crm.8-synopsis.adoc		\
+	${PVE_COMMON_DOC_SOURCES}
+
 attributes.txt docinfo.xml:
 	cp ${DGDIR}/$@ $@.tmp
 	mv $@.tmp $@
@@ -119,6 +124,10 @@ pveum.1: ${PVEUM_MAN1_SOURCES}
 
 ha-manager.1: ${HA_MANAGER_MAN1_SOURCES}
 	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${DOCRELEASE}" -f manpage ha-manager.adoc
+	test -n "$${NOVIEW}" || man -l $@
+
+pve-ha-crm.8: ${PVE_HA_CRM_MAN8_SOURCES}
+	a2x -a docinfo1 -a "manvolnum=8" -a "manversion=Release ${DOCRELEASE}" -f manpage pve-ha-crm.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 %.5: %.adoc %.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
