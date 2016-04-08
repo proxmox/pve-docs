@@ -483,12 +483,31 @@ net.ipv6.conf.lo.disable_ipv6 = 0
 ----
 # /etc/network/interfaces
 (...)
+# Dual stack:
+iface vmbr0 inet static
+    address 1.2.3.4
+    netmask 255.255.255.128
+    gateway 1.2.3.5
 iface vmbr0 inet6 static
     address fc00::31
     netmask 16
     gateway fc00::1
     accept_ra 0
     pre-up echo 0 > /proc/sys/net/ipv6/conf/$IFACE/disable_ipv6
+
+# With IPv6-only 'pre-up' is too early and 'up' is too late.
+# Work around this by creating the bridge manually
+iface vmbr1 inet manual
+    pre-up ip link add $IFACE type bridge
+    up echo 0 > /proc/sys/net/ipv6/conf/$IFACE/disable_ipv6
+iface vmbr1 inet6 static
+    address fc00:b:3::1
+    netmask 96
+    bridge_ports none
+    bridge_stp off
+    bridge_fd 0
+    bridge_vlan_aware yes
+    accept_ra 0
 (...)
 ----
 
