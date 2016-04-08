@@ -132,6 +132,14 @@ include::pve-ha-crm.8-synopsis.adoc[]
 
 :leveloffset: 0
 
+*pve-ha-lrm* - Local Ressource Manager Daemon
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:leveloffset: 1
+include::pve-ha-lrm.8-synopsis.adoc[]
+
+:leveloffset: 0
+
 [appendix]
 Configuration Files
 -------------------
