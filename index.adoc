@@ -18,6 +18,9 @@ include::attributes.txt[]
 {pve} Manual Pages
 ------------------
 
+Command Line Interface
+~~~~~~~~~~~~~~~~~~~~~~
+
 [width="100%",options="header"]
 |===========================================================
 | Command name |Download link
@@ -30,11 +33,29 @@ include::attributes.txt[]
 | pveum        | link:pveum.1.html[pveum.1]
 | vzdump       | link:vzdump.1.html[vzdump.1]
 | ha-manager   | link:ha-manager.1.html[ha-manager.1]
-| pvestatd     | link:pvestatd.8.html[pvestatd.8]
-| pve-ha-crm   | link:pve-ha-crm.8.html[pve-ha-crm.8]
-| pve-ha-lrm   | link:pve-ha-lrm.8.html[pve-ha-lrm.8]
-| pve-firewall | link:pve-firewall.8.html[pve-firewall.8]
-| pmxcfs       | link:pmxcfs.8.html[pmxcfs.8]
+|===========================================================
+
+
+Service Daemons
+~~~~~~~~~~~~~~~
+
+[width="100%",options="header"]
+|===========================================================
+| Command name |'systemd' Service     | Download link
+| pvestatd     | pvestatd.service     |link:pvestatd.8.html[pvestatd.8]
+| pve-ha-crm   | pve-ha-crm.service   |link:pve-ha-crm.8.html[pve-ha-crm.8]
+| pve-ha-lrm   | pve-ha-lrm.service   |link:pve-ha-lrm.8.html[pve-ha-lrm.8]
+| pve-firewall | pve-firewall.service |link:pve-firewall.8.html[pve-firewall.8]
+| pmxcfs       | pve-cluster.service  |link:pmxcfs.8.html[pmxcfs.8]
+|===========================================================
+
+
+Configuration Options
+~~~~~~~~~~~~~~~~~~~~~
+
+[width="100%",options="header"]
+|===========================================================
+| File name |Download link
 | '/etc/pve/datacenter.cfg'          | link:datacenter.cfg.5.html[datacenter.cfg.5]
 | '/etc/pve/qemu-server/<VMID>.conf' | link:qm.conf.5.html[qm.conf.5]
 | '/etc/pve/lxc/<CTID>.conf'         | link:pct.conf.5.html[pct.conf.5]
