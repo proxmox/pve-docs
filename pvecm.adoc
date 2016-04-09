@@ -113,10 +113,10 @@ Login via 'ssh' to the node you want to add.
 For `IP-ADDRESS-CLUSTER` use the IP from an existing cluster node.
 
 CAUTION: A new node cannot hold any VM´s, because you would get
-conflicts about identical VM IDs. Also, all existing configuration is
-overwritten when you join a new node to the cluster. To workaround,
-use vzdump to backup and restore to a different VMID after adding
-the node to the cluster.
+conflicts about identical VM IDs. Also, all existing configuration in
+'/etc/pve' is overwritten when you join a new node to the cluster. To
+workaround, use vzdump to backup and restore to a different VMID after
+adding the node to the cluster.
 
 To check the state of cluster:
 
@@ -179,7 +179,7 @@ Move all virtual machines from the node. Make sure you have no local
 data or backups you want to keep, or save them accordingly.
 
 Log in to one remaining node via ssh. Issue a 'pvecm nodes' command to
-identify the nodeID:
+identify the node ID:
 
 ----
 hp1# pvecm status
