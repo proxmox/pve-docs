@@ -30,7 +30,7 @@ DEB_SOURCES=			\
 	pve-firewall.adoc	\
 	qm.adoc			\
 	qmrestore.adoc		\
-	vm.conf.adoc		\
+	qm.conf.adoc		\
 	pct.adoc		\
 	pct.conf.adoc		\
 	datacenter.cfg.adoc	\

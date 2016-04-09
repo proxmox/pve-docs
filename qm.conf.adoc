@@ -6,7 +6,7 @@ include::attributes.txt[]
 NAME
 ----
 
-vm.conf - Proxmox VE  Virtual Machine Configuration
+qm.conf - Proxmox VE Virtual Machine Configuration
 
 
 SYNOPSYS
@@ -47,7 +47,7 @@ One can use the 'qm' command to generate and modify those files.
 Options
 -------
 
-include::vm.conf.5-opts.adoc[]
+include::qm.conf.5-opts.adoc[]
 
 
 ifdef::manvolnum[]
