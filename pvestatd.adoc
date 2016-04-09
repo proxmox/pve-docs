@@ -1,0 +1,31 @@
+ifdef::manvolnum[]
+PVE({manvolnum})
+================
+include::attributes.txt[]
+
+NAME
+----
+
+pvestatd - PVE Status Daemon
+
+SYNOPSYS
+--------
+
+include::pvestatd.8-synopsis.adoc[]
+
+DESCRIPTION
+-----------
+endif::manvolnum[]
+
+ifndef::manvolnum[]
+{pve} Status Daemon
+==============================
+include::attributes.txt[]
+endif::manvolnum[]
+
+This daemom queries the status of VMs, storages and containers at
+regular intervals. The result is sent to all nodes in the cluster.
+
+ifdef::manvolnum[]
+include::pve-copyright.adoc[]
+endif::manvolnum[]

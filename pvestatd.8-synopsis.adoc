@@ -1,0 +1,46 @@
+*pvestatd* `<COMMAND> [ARGS] [OPTIONS]`
+
+*pvestatd help* `[<cmd>]` `[OPTIONS]`
+
+Get help about specified command.
+
+`<cmd>` `string` ::
+
+Command name
+
+`-verbose` `boolean` ::
+
+Verbose output format.
+
+
+
+
+*pvestatd restart*
+
+Restart the daemon (or start if not running).
+
+
+
+*pvestatd start* `[OPTIONS]`
+
+Start the daemon.
+
+`-debug` `boolean` (default=`0`)::
+
+Debug mode - stay in foreground
+
+
+
+*pvestatd status*
+
+Get daemon status.
+
+
+
+*pvestatd stop*
+
+Stop the daemon.
+
+
+
+

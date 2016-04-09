@@ -140,6 +140,15 @@ include::pve-ha-lrm.8-synopsis.adoc[]
 
 :leveloffset: 0
 
+*pvestatd* - {PVE} Status Daemon
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:leveloffset: 1
+include::pvestatd.8-synopsis.adoc[]
+
+:leveloffset: 0
+
+
 [appendix]
 Configuration Files
 -------------------
