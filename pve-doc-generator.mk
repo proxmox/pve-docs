@@ -164,4 +164,4 @@ pct.conf.5: ${PCT_CONF_MAN5_SOURCE}
 
 .PHONY: cleanup-docgen
 cleanup-docgen:
-	rm -f *.1 *.8 *.adoc attributes.txt docinfo.xml
+	rm -f *.1 *.5 *.8 *.adoc attributes.txt docinfo.xml
