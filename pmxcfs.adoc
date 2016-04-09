@@ -33,8 +33,7 @@ on disk, a copy of the data resides in RAM. That imposes restriction
 on the maximal size, which is currently 30MB. This is still enough to
 store the configuration of several thousand virtual machines.
 
-Advantages
-----------
+This system provides the following advantages:
 
 * seamless replication of all configuration to all nodes in real time
 * provides strong consistency checks to avoid duplicate VM IDs
@@ -43,7 +42,7 @@ Advantages
 * includes a distributed locking mechanism
 
 POSIX Compatibility
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
 The file system is based on FUSE, so the behavior is POSIX like. But
 some feature are simply not implemented, because we do not need them:
@@ -62,7 +61,7 @@ some feature are simply not implemented, because we do not need them:
 
 
 File access rights
-~~~~~~~~~~~~~~~~~~
+------------------
 
 All files and directories are owned by user 'root' and have group
 'www-data'. Only root has write permissions, but group 'www-data' can
@@ -72,6 +71,7 @@ read most files. Files below the following paths:
  /etc/pve/nodes/${NAME}/priv/
 
 are only accessible by root.
+
 
 Technology
 ----------
@@ -186,14 +186,14 @@ without reinstall, which is described here:
 
 * stop the cluster file system again
 
- # service pve-cluster stop
+ # systemctl stop pve-cluster
 
 * restart pve services (or reboot)
 
- # service pve-cluster start
- # service pvedaemon restart
- # service pveproxy restart
- # service pvestatd restart
+ # systemctl start pve-cluster
+ # systemctl restart pvedaemon
+ # systemctl restart pveproxy
+ # systemctl restart pvestatd
 
 
 ifdef::manvolnum[]
