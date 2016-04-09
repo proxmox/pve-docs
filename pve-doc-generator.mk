@@ -43,9 +43,14 @@ PCT_MAN1_SOURCES=			\
 	pct.1-synopsis.adoc		\
 	${PVE_COMMON_DOC_SOURCES}
 
-PCT_CONF_MAN5_SOURCE=			\
+PCT_CONF_MAN5_SOURCES=			\
 	pct.conf.adoc 			\
 	pct.conf.5-opts.adoc		\
+	${PVE_COMMON_DOC_SOURCES}
+
+DATACENTER_CONF_MAN5_SOURCES=		\
+	datacenter.cfg.adoc 		\
+	datacenter.cfg.5-opts.adoc	\
 	${PVE_COMMON_DOC_SOURCES}
 
 QM_MAN1_SOURCES=			\
@@ -53,7 +58,7 @@ QM_MAN1_SOURCES=			\
 	qm.1-synopsis.adoc		\
 	${PVE_COMMON_DOC_SOURCES}
 
-QM_CONF_MAN5_SOURCE=			\
+QM_CONF_MAN5_SOURCES=			\
 	qm.conf.adoc 			\
 	qm.conf.5-opts.adoc		\
 	${PVE_COMMON_DOC_SOURCES}
@@ -163,9 +168,11 @@ pvestatd.8: ${PVESTATD_MAN8_SOURCES}
 	a2x ${A2X_MAN8_OPTIONS} pvestatd.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
-qm.conf.5: ${QM_CONF_MAN5_SOURCE}
+qm.conf.5: ${QM_CONF_MAN5_SOURCES}
 
-pct.conf.5: ${PCT_CONF_MAN5_SOURCE}
+pct.conf.5: ${PCT_CONF_MAN5_SOURCES}
+
+datacenter.cfg.5: ${DATACENTER_CONF_MAN5_SOURCES}
 
 %.5: %.adoc %.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
 	a2x ${A2X_MAN5_OPTIONS} $*.adoc

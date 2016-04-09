@@ -11,35 +11,27 @@ GITVERSION:=$(shell cat .git/refs/heads/master)
 
 DEB=${PACKAGE}_${DOCRELEASE}-${PKGREL}_amd64.deb
 
+COMMAND_LIST=pvecm qm qmrestore pct pveam pvesm pveum vzdump ha-manager
 
-DEB_SOURCES=			\
-	pve-doc-generator.mk	\
-	attributes.txt		\
-	pvesm.adoc		\
-	pve-storage-dir.adoc 	\
-	pve-storage-glusterfs.adoc	\
-	pve-storage-iscsi.adoc		\
-	pve-storage-iscsidirect.adoc	\
-	pve-storage-lvm.adoc		\
-	pve-storage-nfs.adoc		\
-	pve-storage-rbd.adoc		\
-	pve-storage-zfspool.adoc	\
-	pvecm.adoc			\
-	pveum.adoc		\
-	vzdump.adoc		\
-	pve-firewall.adoc	\
-	qm.adoc			\
-	qmrestore.adoc		\
-	qm.conf.adoc		\
-	pct.adoc		\
-	pct.conf.adoc		\
-	datacenter.cfg.adoc	\
-	pveam.adoc		\
-	ha-manager.adoc		\
-	pve-ha-crm.adoc		\
-	pve-ha-lrm.adoc		\
-	pvestatd.adoc		\
-	pve-copyright.adoc	\
+SERVICE_LIST=pve-firewall pve-ha-crm pve-ha-lrm pvestatd
+
+CONFIG_LIST=datacenter.cfg qm.conf pct.conf
+
+DEB_SOURCES=					\
+	pve-doc-generator.mk			\
+	attributes.txt				\
+	$(addsuffix .adoc, ${COMMAND_LIST}) 	\
+	$(addsuffix .adoc, ${SERVICE_LIST}) 	\
+	$(addsuffix .adoc, ${CONFIG_LIST}) 	\
+	pve-storage-dir.adoc 			\
+	pve-storage-glusterfs.adoc		\
+	pve-storage-iscsi.adoc			\
+	pve-storage-iscsidirect.adoc		\
+	pve-storage-lvm.adoc			\
+	pve-storage-nfs.adoc			\
+	pve-storage-rbd.adoc			\
+	pve-storage-zfspool.adoc		\
+	pve-copyright.adoc			\
 	docinfo.xml
 
 GEN_SCRIPTS=					\
@@ -55,41 +47,41 @@ GEN_SCRIPTS=					\
 VZDUMP_SOURCES=attributes.txt vzdump.adoc vzdump.1-synopsis.adoc
 PVEAM_SOURCES=attributes.txt pveam.adoc pveam.1-synopsis.adoc
 
-SYSADMIN_SOURCES=			\
-	getting-help.adoc		\
-	pve-package-repos.adoc		\
-	pve-installation.adoc		\
-	system-software-updates.adoc	\
+SYSADMIN_SOURCES=				\
+	getting-help.adoc			\
+	pve-package-repos.adoc			\
+	pve-installation.adoc			\
+	system-software-updates.adoc		\
 	sysadmin.adoc
 
-PVE_ADMIN_GUIDE_SOURCES=		\
-	datacenter.cfg.adoc		\
-	datacenter.cfg.5-opts.adoc	\
-	qm.conf.adoc			\
-	qm.conf.5-opts.adoc		\
-	pct.conf.adoc			\
-	pct.conf.5-opts.adoc		\
-	${SYSADMIN_SOURCES}		\
-	pve-admin-guide.adoc		\
-	pve-intro.adoc			\
-	pmxcfs.adoc 			\
-	pve-faq.adoc			\
-	${PVE_FIREWALL_MAN8_SOURCES}	\
-	${PVESM_MAN1_SOURCES}		\
-	${PCT_MAN1_SOURCES}		\
-	${PVECM_MAN1_SOURCES}		\
-	${PVEUM_MAN1_SOURCES}		\
-	${QM_MAN1_SOURCES}		\
-	${QMRESTORE_MAN1_SOURCES}	\
-	${HA_MANAGER_MAN1_SOURCES}	\
-	${PVE_HA_CRM_MAN8_SOURCES}	\
-	${PVE_HA_LRM_MAN8_SOURCES}	\
-	${PVEAM_SOURCES}		\
-	${VZDUMP_SOURCES}		\
-	images/cluster-nwdiag.svg	\
-	images/node-nwdiag.svg		\
-	pve-bibliography.adoc		\
-	GFDL.adoc			\
+PVE_ADMIN_GUIDE_SOURCES=			\
+	${DATACENTER_CONF_MAN5_SOURCES}		\
+	${QM_CONF_MAN5_SOURCES}			\
+	${PCT_CONF_MAN5_SOURCES}		\
+	${SYSADMIN_SOURCES}			\
+	pve-admin-guide.adoc			\
+	pve-intro.adoc				\
+	pmxcfs.adoc 				\
+	pve-faq.adoc				\
+	${PVE_FIREWALL_MAN8_SOURCES}		\
+	${PVESM_MAN1_SOURCES}			\
+	${PCT_MAN1_SOURCES}			\
+	${PVECM_MAN1_SOURCES}			\
+	${PVEUM_MAN1_SOURCES}			\
+	${QM_MAN1_SOURCES}			\
+	${QMRESTORE_MAN1_SOURCES}		\
+	${HA_MANAGER_MAN1_SOURCES}		\
+	${PVE_HA_CRM_MAN8_SOURCES}		\
+	${PVE_HA_LRM_MAN8_SOURCES}		\
+	${PVEAM_SOURCES}			\
+	${VZDUMP_SOURCES}			\
+	images/cluster-nwdiag.svg		\
+	images/node-nwdiag.svg			\
+	pve-bibliography.adoc			\
+	$(addsuffix .adoc, ${COMMAND_LIST}) 	\
+	$(addsuffix .adoc, ${SERVICE_LIST}) 	\
+	$(addsuffix .adoc, ${CONFIG_LIST}) 	\
+	GFDL.adoc				\
 	attributes.txt
 
 ADOC_STDARG= -a icons -a data-uri -a "date=$(shell date)"
@@ -131,7 +123,7 @@ all: pve-admin-guide.html
 
 index.html: index.adoc ${PVE_ADMIN_GUIDE_SOURCES}
 	$(MAKE) NOVIEW=1 pve-admin-guide.pdf pve-admin-guide.html pve-admin-guide.epub
-	$(MAKE) NOVIEW=1 pvecm.1.html qm.1.html qmrestore.1.html pct.1.html pveam.1.html pvesm.1.html pveum.1.html vzdump.1.html pve-firewall.8.html ha-manager.1.html pve-ha-crm.8.html pve-ha-lrm.8.html pvestatd.8.html datacenter.cfg.5.html qm.conf.5.html pct.conf.5.html
+	$(MAKE) NOVIEW=1 $(addsuffix .1.html, ${COMMAND_LIST}) $(addsuffix .8.html, ${SERVICE_LIST}) $(addsuffix .5.html, ${CONFIG_LIST})
 	asciidoc -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}" index.adoc
 	test -n "$${NOVIEW}" || $(BROWSER) index.html &
 
