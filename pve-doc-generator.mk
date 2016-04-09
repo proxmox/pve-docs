@@ -99,48 +99,53 @@ ifneq (${DGDIR},.)
 	mv $@.tmp $@
 endif
 
+A2X_MAN_COMMON_OPTIONS=-a docinfo1 -a "manversion=Release ${DOCRELEASE}" -f manpage
+A2X_MAN1_OPTIONS=${A2X_MAN_COMMON_OPTIONS} -a "manvolnum=1"
+A2X_MAN5_OPTIONS=${A2X_MAN_COMMON_OPTIONS} -a "manvolnum=5"
+A2X_MAN8_OPTIONS=${A2X_MAN_COMMON_OPTIONS} -a "manvolnum=8"
+
 pve-firewall.8: ${PVE_FIREWALL_MAN8_SOURCES}
-	a2x -a docinfo1 -a "manvolnum=8" -a "manversion=Release ${DOCRELEASE}" -f manpage pve-firewall.adoc
+	a2x ${A2X_MAN8_OPTIONS} pve-firewall.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 pvesm.1: ${PVESM_MAN1_SOURCES}
-	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${DOCRELEASE}" -f manpage pvesm.adoc
+	a2x ${A2X_MAN1_OPTIONS} pvesm.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 pct.1: ${PCT_MAN1_SOURCES}
-	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${DOCRELEASE}" -f manpage pct.adoc
+	a2x ${A2X_MAN1_OPTIONS} pct.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 qm.1: ${QM_MAN1_SOURCES}
-	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${DOCRELEASE}" -f manpage qm.adoc
+	a2x ${A2X_MAN1_OPTIONS} qm.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 qmrestore.1: ${QMRESTORE_MAN1_SOURCES}
-	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${DOCRELEASE}" -f manpage qmrestore.adoc
+	a2x ${A2X_MAN1_OPTIONS} qmrestore.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 pvecm.1: ${PVECM_MAN1_SOURCES}
-	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${DOCRELEASE}" -f manpage pvecm.adoc
+	a2x ${A2X_MAN1_OPTIONS} pvecm.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 pveum.1: ${PVEUM_MAN1_SOURCES}
-	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${DOCRELEASE}" -f manpage pveum.adoc
+	a2x ${A2X_MAN1_OPTIONS} pveum.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 ha-manager.1: ${HA_MANAGER_MAN1_SOURCES}
-	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${DOCRELEASE}" -f manpage ha-manager.adoc
+	a2x ${A2X_MAN1_OPTIONS} ha-manager.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 pve-ha-crm.8: ${PVE_HA_CRM_MAN8_SOURCES}
-	a2x -a docinfo1 -a "manvolnum=8" -a "manversion=Release ${DOCRELEASE}" -f manpage pve-ha-crm.adoc
+	a2x ${A2X_MAN8_OPTIONS} manpage pve-ha-crm.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 pve-ha-lrm.8: ${PVE_HA_LRM_MAN8_SOURCES}
-	a2x -a docinfo1 -a "manvolnum=8" -a "manversion=Release ${DOCRELEASE}" -f manpage pve-ha-lrm.adoc
+	a2x ${A2X_MAN8_OPTIONS} pve-ha-lrm.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 %.5: %.adoc %.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
-	a2x -a docinfo1 -a "manvolnum=5" -a "manversion=Release ${DOCRELEASE}" -f manpage $*.adoc
+	a2x ${A2X_MAN5_OPTIONS} $*.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 .PHONY: cleanup-docgen
