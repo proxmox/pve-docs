@@ -148,6 +148,14 @@ include::pvestatd.8-synopsis.adoc[]
 
 :leveloffset: 0
 
+*pmxcfs* - Proxmox Cluster File System
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:leveloffset: 1
+include::pmxcfs.8-cli.adoc[]
+
+:leveloffset: 0
+
 
 [appendix]
 Configuration Files
