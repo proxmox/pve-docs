@@ -43,9 +43,19 @@ PCT_MAN1_SOURCES=			\
 	pct.1-synopsis.adoc		\
 	${PVE_COMMON_DOC_SOURCES}
 
+PCT_CONF_MAN5_SOURCE=			\
+	pct.conf.adoc 			\
+	pct.conf.5-opts.adoc		\
+	${PVE_COMMON_DOC_SOURCES}
+
 QM_MAN1_SOURCES=			\
 	qm.adoc 			\
 	qm.1-synopsis.adoc		\
+	${PVE_COMMON_DOC_SOURCES}
+
+QM_CONF_MAN5_SOURCE=			\
+	qm.conf.adoc 			\
+	qm.conf.5-opts.adoc		\
 	${PVE_COMMON_DOC_SOURCES}
 
 QMRESTORE_MAN1_SOURCES=			\
@@ -143,6 +153,10 @@ pve-ha-crm.8: ${PVE_HA_CRM_MAN8_SOURCES}
 pve-ha-lrm.8: ${PVE_HA_LRM_MAN8_SOURCES}
 	a2x ${A2X_MAN8_OPTIONS} pve-ha-lrm.adoc
 	test -n "$${NOVIEW}" || man -l $@
+
+qm.conf.5: ${QM_CONF_MAN5_SOURCE}
+
+pct.conf.5: ${PCT_CONF_MAN5_SOURCE}
 
 %.5: %.adoc %.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
 	a2x ${A2X_MAN5_OPTIONS} $*.adoc
