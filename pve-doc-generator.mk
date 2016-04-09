@@ -93,6 +93,11 @@ PVESTATD_MAN8_SOURCES=			\
 	pvestatd.8-synopsis.adoc	\
 	${PVE_COMMON_DOC_SOURCES}
 
+PMXCFS_MAN8_SOURCES=			\
+	pmxcfs.adoc			\
+	pmxcfs.8-cli.adoc		\
+	${PVE_COMMON_DOC_SOURCES}
+
 attributes.txt docinfo.xml:
 	cp ${DGDIR}/$@ $@.tmp
 	mv $@.tmp $@
@@ -166,6 +171,10 @@ pve-ha-lrm.8: ${PVE_HA_LRM_MAN8_SOURCES}
 
 pvestatd.8: ${PVESTATD_MAN8_SOURCES}
 	a2x ${A2X_MAN8_OPTIONS} pvestatd.adoc
+	test -n "$${NOVIEW}" || man -l $@
+
+pmxcfs.8: ${PMXCFS_MAN8_SOURCES}
+	a2x ${A2X_MAN8_OPTIONS} pmxcfs.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 qm.conf.5: ${QM_CONF_MAN5_SOURCES}

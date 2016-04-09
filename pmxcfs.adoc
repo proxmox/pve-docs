@@ -1,5 +1,27 @@
-Proxmox Cluster file system (pmxcfs)
+ifdef::manvolnum[]
+PVE({manvolnum})
+================
+include::attributes.txt[]
+
+NAME
+----
+
+pmxcfs - Proxmox Cluster File System
+
+SYNOPSYS
+--------
+
+include::pmxcfs.8-cli.adoc[]
+
+DESCRIPTION
+-----------
+endif::manvolnum[]
+
+ifndef::manvolnum[]
+Proxmox Cluster File System (pmxcfs)
 ====================================
+include::attributes.txt[]
+endif::manvolnum[]
 
 The Proxmox Cluster file system (pmxcfs) is a database-driven file
 system for storing configuration files, replicated in real time to all
@@ -173,3 +195,7 @@ without reinstall, which is described here:
  # service pveproxy restart
  # service pvestatd restart
 
+
+ifdef::manvolnum[]
+include::pve-copyright.adoc[]
+endif::manvolnum[]

@@ -1,0 +1,22 @@
+*pmxcfs* `[OPTIONS]`
+
+Help Options:
+
+`-h`, `--help`:: Show help options
+
+Application Options:
+
+`-d`, `--debug`:: Turn on debug messages
+
+`-f`, `--foreground`:: Do not daemonize server
+
+`-l`, `--local`:: Force local mode (ignore corosync.conf, force quorum)
+
+This service is usually started and managed using systemd toolset. The
+service is called 'pve-cluster'.
+
+ systemctl start pve-cluster
+
+ systemctl stop pve-cluster
+
+ systemctl status pve-cluster

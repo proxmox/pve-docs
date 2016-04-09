@@ -13,7 +13,7 @@ DEB=${PACKAGE}_${DOCRELEASE}-${PKGREL}_amd64.deb
 
 COMMAND_LIST=pvecm qm qmrestore pct pveam pvesm pveum vzdump ha-manager
 
-SERVICE_LIST=pve-firewall pve-ha-crm pve-ha-lrm pvestatd
+SERVICE_LIST=pve-firewall pve-ha-crm pve-ha-lrm pvestatd pmxcfs
 
 CONFIG_LIST=datacenter.cfg qm.conf pct.conf
 
@@ -31,6 +31,7 @@ DEB_SOURCES=					\
 	pve-storage-nfs.adoc			\
 	pve-storage-rbd.adoc			\
 	pve-storage-zfspool.adoc		\
+	pmxcfs.8-cli.adoc			\
 	pve-copyright.adoc			\
 	docinfo.xml
 
@@ -62,6 +63,7 @@ PVE_ADMIN_GUIDE_SOURCES=			\
 	pve-admin-guide.adoc			\
 	pve-intro.adoc				\
 	pmxcfs.adoc 				\
+	pmxcfs.8-cli.adoc			\
 	pve-faq.adoc				\
 	${PVE_FIREWALL_MAN8_SOURCES}		\
 	${PVESM_MAN1_SOURCES}			\
@@ -96,11 +98,15 @@ all: pve-admin-guide.html
 %-nwdiag.svg: %.nwdiag
 	nwdiag -T svg $*.nwdiag -o $@;
 
-%.1: %.adoc %.1-synopsis.adoc docinfo.xml attributes.txt
+%.1: %.adoc %.1-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
 	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${DOCRELEASE}" -f manpage $*.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
-%.1.html: %.adoc %.1-synopsis.adoc docinfo.xml attributes.txt
+pmxcfs.8.html: pmxcfs.adoc pmxcfs.8-cli.adoc ${PVE_COMMON_DOC_SOURCES}
+	asciidoc ${ADOC_MAN8_HTML_ARGS} -o $@ pmxcfs.adoc
+	test -n "$${NOVIEW}" || $(BROWSER) $@ &
+
+%.1.html: %.adoc %.1-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_MAN1_HTML_ARGS} -o $@ $*.adoc
 	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
