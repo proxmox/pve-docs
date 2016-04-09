@@ -65,8 +65,8 @@ SYSADMIN_SOURCES=			\
 PVE_ADMIN_GUIDE_SOURCES=		\
 	datacenter.cfg.adoc		\
 	datacenter.cfg.5-opts.adoc	\
-	vm.conf.adoc			\
-	vm.conf.5-opts.adoc		\
+	qm.conf.adoc			\
+	qm.conf.5-opts.adoc		\
 	pct.conf.adoc			\
 	pct.conf.5-opts.adoc		\
 	${SYSADMIN_SOURCES}		\
@@ -131,7 +131,7 @@ all: pve-admin-guide.html
 
 index.html: index.adoc ${PVE_ADMIN_GUIDE_SOURCES}
 	$(MAKE) NOVIEW=1 pve-admin-guide.pdf pve-admin-guide.html pve-admin-guide.epub
-	$(MAKE) NOVIEW=1 pvecm.1.html qm.1.html qmrestore.1.html pct.1.html pveam.1.html pvesm.1.html pveum.1.html vzdump.1.html pve-firewall.8.html ha-manager.1.html pve-ha-crm.8.html pve-ha-lrm.8.html pvestatd.8.html datacenter.cfg.5.html vm.conf.5.html pct.conf.5.html
+	$(MAKE) NOVIEW=1 pvecm.1.html qm.1.html qmrestore.1.html pct.1.html pveam.1.html pvesm.1.html pveum.1.html vzdump.1.html pve-firewall.8.html ha-manager.1.html pve-ha-crm.8.html pve-ha-lrm.8.html pvestatd.8.html datacenter.cfg.5.html qm.conf.5.html pct.conf.5.html
 	asciidoc -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}" index.adoc
 	test -n "$${NOVIEW}" || $(BROWSER) index.html &
 
