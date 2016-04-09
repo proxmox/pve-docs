@@ -98,32 +98,20 @@ all: pve-admin-guide.html
 %-nwdiag.svg: %.nwdiag
 	nwdiag -T svg $*.nwdiag -o $@;
 
-%.1: %.adoc %.1-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
-	a2x -a docinfo1 -a "manvolnum=1" -a "manversion=Release ${DOCRELEASE}" -f manpage $*.adoc
-	test -n "$${NOVIEW}" || man -l $@
-
-pmxcfs.8.html: pmxcfs.adoc pmxcfs.8-cli.adoc ${PVE_COMMON_DOC_SOURCES}
-	asciidoc ${ADOC_MAN8_HTML_ARGS} -o $@ pmxcfs.adoc
-	test -n "$${NOVIEW}" || $(BROWSER) $@ &
-
 %.1.html: %.adoc %.1-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_MAN1_HTML_ARGS} -o $@ $*.adoc
 	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
 
-%.8-synopsis.adoc:
-	perl -e "use PVE::Service::$(subst -,_,$*);print PVE::Service::$(subst -,_,$*)->generate_asciidoc_synopsys();" > $@.tmp
-	mv $@.tmp $@
+pmxcfs.8.html: pmxcfs.adoc pmxcfs.8-cli.adoc ${PVE_COMMON_DOC_SOURCES}
+	asciidoc ${ADOC_MAN8_HTML_ARGS} -o $@ pmxcfs.adoc
+	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
-%.8: %.adoc %.8-synopsis.adoc docinfo.xml
-	a2x -a docinfo1 -a "manvolnum=8" -a "manversion=Release ${DOCRELEASE}" -f manpage $*.adoc
-	test -n "$${NOVIEW}" || man -l $@
-
-%.8.html: %.adoc %.8-synopsis.adoc docinfo.xml
+%.8.html: %.adoc %.8-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_MAN8_HTML_ARGS} -o $@ $*.adoc
 	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
-%.5.html: %.adoc %.5-opts.adoc docinfo.xml
+%.5.html: %.adoc %.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_MAN5_HTML_ARGS} -o $@ $*.adoc
 	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
