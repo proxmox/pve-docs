@@ -98,6 +98,11 @@ PVEDAEMON_MAN8_SOURCES=			\
 	pvedaemon.8-synopsis.adoc	\
 	${PVE_COMMON_DOC_SOURCES}
 
+PVEPROXY_MAN8_SOURCES=			\
+	pveproxy.adoc			\
+	pveproxy.8-synopsis.adoc	\
+	${PVE_COMMON_DOC_SOURCES}
+
 PMXCFS_MAN8_SOURCES=			\
 	pmxcfs.adoc			\
 	pmxcfs.8-cli.adoc		\
@@ -180,6 +185,10 @@ pvestatd.8: ${PVESTATD_MAN8_SOURCES}
 
 pvedaemon.8: ${PVEDAEMON_MAN8_SOURCES}
 	a2x ${A2X_MAN8_OPTIONS} pvedaemon.adoc
+	test -n "$${NOVIEW}" || man -l $@
+
+pveproxy.8: ${PVEPROXY_MAN8_SOURCES}
+	a2x ${A2X_MAN8_OPTIONS} pveproxy.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 pmxcfs.8: ${PMXCFS_MAN8_SOURCES}

@@ -1,0 +1,39 @@
+ifdef::manvolnum[]
+PVE({manvolnum})
+================
+include::attributes.txt[]
+
+NAME
+----
+
+pveproxy - PVE API Proxy Daemon
+
+
+SYNOPSYS
+--------
+
+include::pveproxy.8-synopsis.adoc[]
+
+DESCRIPTION
+-----------
+endif::manvolnum[]
+
+ifndef::manvolnum[]
+{pve} API Proxy Daemon
+================
+include::attributes.txt[]
+endif::manvolnum[]
+
+This daemon exposes the whole {pve} API on TCP port 8006 using
+HTTPS. It runs as user 'www-data' and has very limited permissions.
+Operation requiring more permissions are forwarded to the local
+'pvedaemon'.
+
+Request targeted for other nodes are automatically forwarded to that
+node. This means that you can manage your whole cluster by connecting
+to a single {pve} node.
+
+
+ifdef::manvolnum[]
+include::pve-copyright.adoc[]
+endif::manvolnum[]

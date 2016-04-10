@@ -41,6 +41,7 @@ Important Service Daemons
 :leveloffset: 2
 include::pvedaemon.adoc[]
 
+include::pveproxy.adoc[]
 
 include::pvestatd.adoc[]
 
@@ -146,6 +147,14 @@ include::pve-firewall.8-synopsis.adoc[]
 
 :leveloffset: 1
 include::pvedaemon.8-synopsis.adoc[]
+
+:leveloffset: 0
+
+*pveproxy* - {pve} API Proxy Daemon
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:leveloffset: 1
+include::pveproxy.8-synopsis.adoc[]
 
 :leveloffset: 0
 
