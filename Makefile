@@ -16,6 +16,7 @@ COMMAND_LIST=		\
 	pvecm 		\
 	qm 		\
 	qmrestore 	\
+	pveceph		\
 	pct 		\
 	pveam 		\
 	pvesm 		\
@@ -97,6 +98,7 @@ PVE_ADMIN_GUIDE_SOURCES=			\
 	${VZDUMP_MAN1_SOURCES}			\
 	${PVEAM_MAN1_SOURCES}			\
 	${PVESUBSCRIPTION_MAN1_SOURCES}		\
+	${PVECEPH_MAN1_SOURCES}			\
 	images/cluster-nwdiag.svg		\
 	images/node-nwdiag.svg			\
 	pve-bibliography.adoc			\

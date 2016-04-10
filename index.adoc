@@ -28,6 +28,7 @@ Command Line Interface
 | qmrestore       | link:qmrestore.1.html[qmrestore.1]
 | pct             | link:pct.1.html[pct.1]
 | pveam           | link:pveam.1.html[pveam.1]
+| pveceph         | link:pveceph.1.html[pveceph.1]
 | pvecm           | link:pvecm.1.html[pvecm.1]
 | pveum           | link:pveum.1.html[pveum.1]
 | pvesm           | link:pvesm.1.html[pvesm.1]

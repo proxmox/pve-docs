@@ -54,6 +54,8 @@ Useful Command Line Tools
 -------------------------
 
 :leveloffset: 2
+include::pveceph.adoc[]
+
 include::pvesubscription.adoc[]
 
 :leveloffset: 0
@@ -80,6 +82,14 @@ include::pvesm.1-synopsis.adoc[]
 
 :leveloffset: 1
 include::pvesubscription.1-synopsis.adoc[]
+
+:leveloffset: 0
+
+*pveceph* - Manage CEPH Services on {pve} Nodes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:leveloffset: 1
+include::pveceph.1-synopsis.adoc[]
 
 :leveloffset: 0
 

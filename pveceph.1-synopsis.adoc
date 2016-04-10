@@ -1,0 +1,178 @@
+*pveceph* `<COMMAND> [ARGS] [OPTIONS]`
+
+*pveceph createmon*
+
+Create Ceph Monitor
+
+
+
+
+*pveceph createosd* `<dev>` `[OPTIONS]`
+
+Create OSD
+
+`<dev>` `string` ::
+
+Block device name.
+
+`-fstype` `(btrfs | ext4 | xfs)` (default=`xfs`)::
+
+File system type.
+
+`-journal_dev` `string` ::
+
+Block device name for journal.
+
+
+
+
+*pveceph createpool* `<name>` `[OPTIONS]`
+
+Create POOL
+
+`<name>` `string` ::
+
+The name of the pool. It must be unique.
+
+`-crush_ruleset` `integer (0 - 32768)` (default=`0`)::
+
+The ruleset to use for mapping object placement in the cluster.
+
+`-min_size` `integer (1 - 3)` (default=`1`)::
+
+Minimum number of replicas per object
+
+`-pg_num` `integer (8 - 32768)` (default=`64`)::
+
+Number of placement groups.
+
+`-size` `integer (1 - 3)` (default=`2`)::
+
+Number of replicas per object
+
+
+
+*pveceph destroymon* `<monid>`
+
+Destroy Ceph monitor.
+
+`<monid>` `integer` ::
+
+Monitor ID
+
+
+
+
+*pveceph destroyosd* `<osdid>` `[OPTIONS]`
+
+Destroy OSD
+
+`<osdid>` `integer` ::
+
+OSD ID
+
+`-cleanup` `boolean` (default=`0`)::
+
+If set, we remove partition table entries.
+
+
+
+
+*pveceph destroypool* `<name>`
+
+Destroy pool
+
+`<name>` `string` ::
+
+The name of the pool. It must be unique.
+
+
+
+
+*pveceph help* `[<cmd>]` `[OPTIONS]`
+
+Get help about specified command.
+
+`<cmd>` `string` ::
+
+Command name
+
+`-verbose` `boolean` ::
+
+Verbose output format.
+
+
+
+
+*pveceph init* `[OPTIONS]`
+
+Create initial ceph default configuration and setup symlinks.
+
+`-network` `string` ::
+
+Use specific network for all ceph related traffic
+
+`-pg_bits` `integer (6 - 14)` (default=`6`)::
+
+Placement group bits, used to specify the default number of placement
+groups (Note: 'osd pool default pg num' does not work for deafult pools)
+
+`-size` `integer (1 - 3)` (default=`2`)::
+
+Number of replicas per object
+
+
+
+
+*pveceph install* `[OPTIONS]`
+
+Install ceph related packages.
+
+`-version` `(hammer)` ::
+
+no description available
+
+
+
+
+*pveceph lspools*
+
+List all pools.
+
+
+
+
+*pveceph purge*
+
+Destroy ceph related data and configuration files.
+
+
+
+
+*pveceph start* `[<service>]`
+
+Start ceph services.
+
+`<service>` `(mon|mds|osd)\.[A-Za-z0-9]{1,32}` ::
+
+Ceph service name.
+
+
+
+*pveceph status*
+
+Get ceph status.
+
+
+
+*pveceph stop* `[<service>]`
+
+Stop ceph services.
+
+`<service>` `(mon|mds|osd)\.[A-Za-z0-9]{1,32}` ::
+
+Ceph service name.
+
+
+
+

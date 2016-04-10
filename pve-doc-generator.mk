@@ -48,6 +48,11 @@ PVESUBSCRIPTION_MAN1_SOURCES=		\
 	pvesubscription.1-synopsis.adoc	\
 	${PVE_COMMON_DOC_SOURCES}
 
+PVECEPH_MAN1_SOURCES=			\
+	pveceph.adoc 			\
+	pveceph.1-synopsis.adoc		\
+	${PVE_COMMON_DOC_SOURCES}
+
 PCT_MAN1_SOURCES=			\
 	pct.adoc 			\
 	pct.1-synopsis.adoc		\
@@ -165,6 +170,10 @@ pve-firewall.8: ${PVE_FIREWALL_MAN8_SOURCES}
 
 pvesm.1: ${PVESM_MAN1_SOURCES}
 	a2x ${A2X_MAN1_OPTIONS} pvesm.adoc
+	test -n "$${NOVIEW}" || man -l $@
+
+pveceph.1: ${PVECEPH_MAN1_SOURCES}
+	a2x ${A2X_MAN1_OPTIONS} pveceph.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 pct.1: ${PCT_MAN1_SOURCES}

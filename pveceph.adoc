@@ -1,0 +1,31 @@
+ifdef::manvolnum[]
+PVE({manvolnum})
+================
+include::attributes.txt[]
+
+NAME
+----
+
+pveceph - Manage CEPH Services on Proxmox VE Nodes
+
+SYNOPSYS
+--------
+
+include::pveceph.1-synopsis.adoc[]
+
+DESCRIPTION
+-----------
+endif::manvolnum[]
+
+ifndef::manvolnum[]
+Manage CEPH Services on {pve} Nodes
+===================================
+include::attributes.txt[]
+endif::manvolnum[]
+
+Tool to manage http://ceph.com[CEPH] services on {pve} nodes.
+
+
+ifdef::manvolnum[]
+include::pve-copyright.adoc[]
+endif::manvolnum[]
