@@ -121,7 +121,7 @@ include::ha-manager.1-synopsis.adoc[]
 Service Daemons
 ---------------
 
-*pve-firewall* - The {pve} Firewall Daemon
+*pve-firewall* - {pve} Firewall Daemon
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
@@ -129,7 +129,7 @@ include::pve-firewall.8-synopsis.adoc[]
 
 :leveloffset: 0
 
-*pvedaemon* - {PVE} API Daemon
+*pvedaemon* - {pve} API Daemon
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
@@ -137,7 +137,7 @@ include::pvedaemon.8-synopsis.adoc[]
 
 :leveloffset: 0
 
-*pvestatd* - {PVE} Status Daemon
+*pvestatd* - {pve} Status Daemon
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1

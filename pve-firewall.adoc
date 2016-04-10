@@ -6,7 +6,7 @@ include::attributes.txt[]
 NAME
 ----
 
-pve-firewall - The PVE Firewall Daemon
+pve-firewall - PVE Firewall Daemon
 
 
 SYNOPSYS

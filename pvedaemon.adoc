@@ -23,7 +23,7 @@ ifndef::manvolnum[]
 include::attributes.txt[]
 endif::manvolnum[]
 
-This daemom exposes the whole {PVE} API on 127.0.0.1:85. It runs as
+This daemom exposes the whole {pve} API on 127.0.0.1:85. It runs as
 'root' and has permission to do all priviledged operations.
 
 NOTE: The daemon listens to a local address only, so you cannot access
