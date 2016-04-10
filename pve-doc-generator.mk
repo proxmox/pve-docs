@@ -38,6 +38,11 @@ PVESM_MAN1_SOURCES=			\
 	pve-storage-zfspool.adoc	\
 	${PVE_COMMON_DOC_SOURCES}
 
+VZDUMP_MAN1_SOURCES=			\
+	vzdump.adoc 			\
+	vzdump.1-synopsis.adoc		\
+	${PVE_COMMON_DOC_SOURCES}
+
 PCT_MAN1_SOURCES=			\
 	pct.adoc 			\
 	pct.1-synopsis.adoc		\
@@ -73,19 +78,24 @@ PVEUM_MAN1_SOURCES=			\
 	pveum.1-synopsis.adoc		\
 	${PVE_COMMON_DOC_SOURCES}
 
-HA_MANAGER_MAN1_SOURCES=			\
-	ha-manager.adoc 			\
-	ha-manager.1-synopsis.adoc		\
+PVEAM_MAN1_SOURCES=			\
+	pveam.adoc 			\
+	pveam.1-synopsis.adoc		\
 	${PVE_COMMON_DOC_SOURCES}
 
-PVE_HA_CRM_MAN8_SOURCES=			\
-	pve-ha-crm.adoc				\
-	pve-ha-crm.8-synopsis.adoc		\
+HA_MANAGER_MAN1_SOURCES=		\
+	ha-manager.adoc 		\
+	ha-manager.1-synopsis.adoc	\
 	${PVE_COMMON_DOC_SOURCES}
 
-PVE_HA_LRM_MAN8_SOURCES=			\
-	pve-ha-lrm.adoc				\
-	pve-ha-lrm.8-synopsis.adoc		\
+PVE_HA_CRM_MAN8_SOURCES=		\
+	pve-ha-crm.adoc			\
+	pve-ha-crm.8-synopsis.adoc	\
+	${PVE_COMMON_DOC_SOURCES}
+
+PVE_HA_LRM_MAN8_SOURCES=		\
+	pve-ha-lrm.adoc			\
+	pve-ha-lrm.8-synopsis.adoc	\
 	${PVE_COMMON_DOC_SOURCES}
 
 PVESTATD_MAN8_SOURCES=			\
@@ -156,6 +166,10 @@ pct.1: ${PCT_MAN1_SOURCES}
 	a2x ${A2X_MAN1_OPTIONS} pct.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
+vzdump.1: ${VZDUMP_MAN1_SOURCES}
+	a2x ${A2X_MAN1_OPTIONS} vzdump.adoc
+	test -n "$${NOVIEW}" || man -l $@
+
 qm.1: ${QM_MAN1_SOURCES}
 	a2x ${A2X_MAN1_OPTIONS} qm.adoc
 	test -n "$${NOVIEW}" || man -l $@
@@ -170,6 +184,10 @@ pvecm.1: ${PVECM_MAN1_SOURCES}
 
 pveum.1: ${PVEUM_MAN1_SOURCES}
 	a2x ${A2X_MAN1_OPTIONS} pveum.adoc
+	test -n "$${NOVIEW}" || man -l $@
+
+pveam.1: ${PVEAM_MAN1_SOURCES}
+	a2x ${A2X_MAN1_OPTIONS} pveam.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 ha-manager.1: ${HA_MANAGER_MAN1_SOURCES}

@@ -53,9 +53,6 @@ GEN_SCRIPTS=					\
 	gen-pve-firewall-rules-opts.pl		\
 	gen-pve-firewall-vm-opts.pl
 
-VZDUMP_SOURCES=attributes.txt vzdump.adoc vzdump.1-synopsis.adoc
-PVEAM_SOURCES=attributes.txt pveam.adoc pveam.1-synopsis.adoc
-
 SYSADMIN_SOURCES=				\
 	getting-help.adoc			\
 	pve-package-repos.adoc			\
@@ -87,8 +84,8 @@ PVE_ADMIN_GUIDE_SOURCES=			\
 	${SPICEPROXY_MAN8_SOURCES}		\
 	${PVE_HA_CRM_MAN8_SOURCES}		\
 	${PVE_HA_LRM_MAN8_SOURCES}		\
-	${PVEAM_SOURCES}			\
-	${VZDUMP_SOURCES}			\
+	${VZDUMP_MAN1_SOURCES}			\
+	${PVEAM_MAN1_SOURCES}			\
 	images/cluster-nwdiag.svg		\
 	images/node-nwdiag.svg			\
 	pve-bibliography.adoc			\
