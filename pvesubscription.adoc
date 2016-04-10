@@ -1,0 +1,30 @@
+ifdef::manvolnum[]
+PVE({manvolnum})
+================
+include::attributes.txt[]
+
+NAME
+----
+
+pvesubscription - Proxmox VE Subscription Manager
+
+SYNOPSYS
+--------
+
+include::pvesubscription.1-synopsis.adoc[]
+
+DESCRIPTION
+-----------
+endif::manvolnum[]
+
+ifndef::manvolnum[]
+Subscription Management
+=======================
+include::attributes.txt[]
+endif::manvolnum[]
+
+This tool is used to handle pve subscriptions.
+
+ifdef::manvolnum[]
+include::pve-copyright.adoc[]
+endif::manvolnum[]

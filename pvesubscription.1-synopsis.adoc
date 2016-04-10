@@ -1,0 +1,46 @@
+*pvesubscription* `<COMMAND> [ARGS] [OPTIONS]`
+
+*pvesubscription get*
+
+Read subscription info.
+
+
+
+
+*pvesubscription help* `[<cmd>]` `[OPTIONS]`
+
+Get help about specified command.
+
+`<cmd>` `string` ::
+
+Command name
+
+`-verbose` `boolean` ::
+
+Verbose output format.
+
+
+
+
+*pvesubscription set* `<key>`
+
+Set subscription key.
+
+`<key>` `string` ::
+
+Proxmox VE subscription key
+
+
+
+*pvesubscription update* `[OPTIONS]`
+
+Update subscription info.
+
+`-force` `boolean` (default=`0`)::
+
+Always connect to server, even if we have up to date info inside local
+cache.
+
+
+
+

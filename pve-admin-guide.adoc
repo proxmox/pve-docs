@@ -50,6 +50,15 @@ include::spiceproxy.adoc[]
 :leveloffset: 0
 
 
+Useful Command Line Tools
+-------------------------
+
+:leveloffset: 2
+include::pvesubscription.adoc[]
+
+:leveloffset: 0
+
+
 include::pve-faq.adoc[]
 
 include::pve-bibliography.adoc[]
@@ -63,6 +72,14 @@ Command Line Interface
 
 :leveloffset: 1
 include::pvesm.1-synopsis.adoc[]
+
+:leveloffset: 0
+
+*pvesubscription* - {pve} Subscription Manager
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:leveloffset: 1
+include::pvesubscription.1-synopsis.adoc[]
 
 :leveloffset: 0
 

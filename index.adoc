@@ -23,16 +23,17 @@ Command Line Interface
 
 [width="100%",options="header"]
 |===========================================================
-| Command name |Download link
-| qm           | link:qm.1.html[qm.1]
-| qmrestore    | link:qmrestore.1.html[qmrestore.1]
-| pct          | link:pct.1.html[pct.1]
-| pveam        | link:pveam.1.html[pveam.1]
-| pvecm        | link:pvecm.1.html[pvecm.1]
-| pvesm        | link:pvesm.1.html[pvesm.1]
-| pveum        | link:pveum.1.html[pveum.1]
-| vzdump       | link:vzdump.1.html[vzdump.1]
-| ha-manager   | link:ha-manager.1.html[ha-manager.1]
+| Command name    | Download link
+| qm              | link:qm.1.html[qm.1]
+| qmrestore       | link:qmrestore.1.html[qmrestore.1]
+| pct             | link:pct.1.html[pct.1]
+| pveam           | link:pveam.1.html[pveam.1]
+| pvecm           | link:pvecm.1.html[pvecm.1]
+| pveum           | link:pveum.1.html[pveum.1]
+| pvesm           | link:pvesm.1.html[pvesm.1]
+| pvesubscription | link:pvesubscription.1.html[pvesubscription.1]
+| vzdump          | link:vzdump.1.html[vzdump.1]
+| ha-manager      | link:ha-manager.1.html[ha-manager.1]
 |===========================================================
 
 

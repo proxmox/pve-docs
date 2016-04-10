@@ -11,7 +11,17 @@ GITVERSION:=$(shell cat .git/refs/heads/master)
 
 DEB=${PACKAGE}_${DOCRELEASE}-${PKGREL}_amd64.deb
 
-COMMAND_LIST=pvecm qm qmrestore pct pveam pvesm pveum vzdump ha-manager
+COMMAND_LIST=		\
+	pvesubscription	\
+	pvecm 		\
+	qm 		\
+	qmrestore 	\
+	pct 		\
+	pveam 		\
+	pvesm 		\
+	pveum 		\
+	vzdump 		\
+	ha-manager
 
 SERVICE_LIST=		\
 	pve-firewall 	\
@@ -86,6 +96,7 @@ PVE_ADMIN_GUIDE_SOURCES=			\
 	${PVE_HA_LRM_MAN8_SOURCES}		\
 	${VZDUMP_MAN1_SOURCES}			\
 	${PVEAM_MAN1_SOURCES}			\
+	${PVESUBSCRIPTION_MAN1_SOURCES}		\
 	images/cluster-nwdiag.svg		\
 	images/node-nwdiag.svg			\
 	pve-bibliography.adoc			\
