@@ -1,0 +1,36 @@
+ifdef::manvolnum[]
+PVE({manvolnum})
+================
+include::attributes.txt[]
+
+NAME
+----
+
+pvedaemon - PVE API Daemon
+
+SYNOPSYS
+--------
+
+include::pvedaemon.8-synopsis.adoc[]
+
+DESCRIPTION
+-----------
+endif::manvolnum[]
+
+ifndef::manvolnum[]
+{pve} API Daemon
+==============================
+include::attributes.txt[]
+endif::manvolnum[]
+
+This daemom exposes the whole {PVE} API on 127.0.0.1:85. It runs as
+'root' and has permission to do all priviledged operations.
+
+NOTE: The daemon listens to a local address only, so you cannot access
+it from outside. The 'pveproxy' daemon exposes the API to the outside
+world.
+
+
+ifdef::manvolnum[]
+include::pve-copyright.adoc[]
+endif::manvolnum[]

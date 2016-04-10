@@ -1,0 +1,46 @@
+*pvedaemon* `<COMMAND> [ARGS] [OPTIONS]`
+
+*pvedaemon help* `[<cmd>]` `[OPTIONS]`
+
+Get help about specified command.
+
+`<cmd>` `string` ::
+
+Command name
+
+`-verbose` `boolean` ::
+
+Verbose output format.
+
+
+
+
+*pvedaemon restart*
+
+Restart the daemon (or start if not running).
+
+
+
+*pvedaemon start* `[OPTIONS]`
+
+Start the daemon.
+
+`-debug` `boolean` (default=`0`)::
+
+Debug mode - stay in foreground
+
+
+
+*pvedaemon status*
+
+Get daemon status.
+
+
+
+*pvedaemon stop*
+
+Stop the daemon.
+
+
+
+

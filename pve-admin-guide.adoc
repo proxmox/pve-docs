@@ -108,14 +108,6 @@ include::vzdump.1-synopsis.adoc[]
 
 :leveloffset: 0
 
-*pve-firewall* - The {pve} Firewall Daemon
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-:leveloffset: 1
-include::pve-firewall.8-synopsis.adoc[]
-
-:leveloffset: 0
-
 *ha-manager* - Proxmox VE HA Manager
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -124,19 +116,24 @@ include::ha-manager.1-synopsis.adoc[]
 
 :leveloffset: 0
 
-*pve-ha-crm* - Cluster Ressource Manager Daemon
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[appendix]
+Service Daemons
+---------------
+
+*pve-firewall* - The {pve} Firewall Daemon
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pve-ha-crm.8-synopsis.adoc[]
+include::pve-firewall.8-synopsis.adoc[]
 
 :leveloffset: 0
 
-*pve-ha-lrm* - Local Ressource Manager Daemon
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*pvedaemon* - {PVE} API Daemon
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pve-ha-lrm.8-synopsis.adoc[]
+include::pvedaemon.8-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -153,6 +150,22 @@ include::pvestatd.8-synopsis.adoc[]
 
 :leveloffset: 1
 include::pmxcfs.8-cli.adoc[]
+
+:leveloffset: 0
+
+*pve-ha-crm* - Cluster Ressource Manager Daemon
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:leveloffset: 1
+include::pve-ha-crm.8-synopsis.adoc[]
+
+:leveloffset: 0
+
+*pve-ha-lrm* - Local Ressource Manager Daemon
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:leveloffset: 1
+include::pve-ha-lrm.8-synopsis.adoc[]
 
 :leveloffset: 0
 

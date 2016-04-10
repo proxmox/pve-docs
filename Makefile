@@ -13,7 +13,7 @@ DEB=${PACKAGE}_${DOCRELEASE}-${PKGREL}_amd64.deb
 
 COMMAND_LIST=pvecm qm qmrestore pct pveam pvesm pveum vzdump ha-manager
 
-SERVICE_LIST=pve-firewall pve-ha-crm pve-ha-lrm pvestatd pmxcfs
+SERVICE_LIST=pve-firewall pve-ha-crm pve-ha-lrm pvestatd pmxcfs pvedaemon
 
 CONFIG_LIST=datacenter.cfg qm.conf pct.conf
 
