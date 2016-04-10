@@ -135,7 +135,7 @@ Service Daemons
 ---------------
 
 *pve-firewall* - {pve} Firewall Daemon
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
 include::pve-firewall.8-synopsis.adoc[]
@@ -143,17 +143,17 @@ include::pve-firewall.8-synopsis.adoc[]
 :leveloffset: 0
 
 *pvedaemon* - {pve} API Daemon
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
 include::pvedaemon.8-synopsis.adoc[]
 
 :leveloffset: 0
-
 *pveproxy* - {pve} API Proxy Daemon
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
+
 include::pveproxy.8-synopsis.adoc[]
 
 :leveloffset: 0
