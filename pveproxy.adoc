@@ -20,7 +20,7 @@ endif::manvolnum[]
 
 ifndef::manvolnum[]
 {pve} API Proxy Daemon
-================
+======================
 include::attributes.txt[]
 endif::manvolnum[]
 
@@ -29,9 +29,62 @@ HTTPS. It runs as user 'www-data' and has very limited permissions.
 Operation requiring more permissions are forwarded to the local
 'pvedaemon'.
 
-Request targeted for other nodes are automatically forwarded to that
-node. This means that you can manage your whole cluster by connecting
+Requests targeted for other nodes are automatically forwarded to those
+nodes. This means that you can manage your whole cluster by connecting
 to a single {pve} node.
+
+Host based Access Control
+-------------------------
+
+It is possible to configure "apache2" like access control
+lists. Values are read from file '/etc/default/pveproxy'. For example:
+
+----
+ALLOW_FROM="10.0.0.1-10.0.0.5,192.168.0.0/22"
+DENY_FROM="all"
+POLICY="allow"
+----
+
+IP addresses can be specified using any syntax understood by `Net::IP`. The
+name 'all' is an alias for '0/0'.
+
+The default policy is 'allow'.
+
+[width="100%",options="header"]
+|===========================================================
+| Match                      | POLICY=deny | POLICY=allow
+| Match Allow only           | allow       | allow
+| Match Deny only            | deny        | deny
+| No match                   | deny        | allow
+| Match Both Allow & Deny    | deny        | allow
+|===========================================================
+
+
+SSL Cipher Suite
+----------------
+
+You can define the cipher list in '/etc/default/pveproxy', for example
+
+ CIPHERS="HIGH:MEDIUM:!aNULL:!MD5"
+
+Above is the default. See the ciphers(1) man page from the openssl
+package for a list of all available options.
+
+
+Diffie-Hellman Parameters
+-------------------------
+
+You can define the used Diffie-Hellman parameters in
+'/etc/default/pveproxy' by setting `DHPARAMS` to the path of a file
+containing DH parameters in PEM format, for example
+
+ DHPARAMS="/path/to/dhparams.pem"
+
+If this option is not set, the built-in 'skip2048' parameters will be
+used.
+
+NOTE: DH parameters are only used if a cipher suite utilizing the DH key
+exchange algorithm is negotiated.
 
 
 ifdef::manvolnum[]
