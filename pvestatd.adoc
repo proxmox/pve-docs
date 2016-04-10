@@ -19,7 +19,7 @@ endif::manvolnum[]
 
 ifndef::manvolnum[]
 {pve} Status Daemon
-==============================
+===================
 include::attributes.txt[]
 endif::manvolnum[]
 

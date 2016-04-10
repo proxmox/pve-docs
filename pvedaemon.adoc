@@ -8,6 +8,7 @@ NAME
 
 pvedaemon - PVE API Daemon
 
+
 SYNOPSYS
 --------
 
@@ -19,7 +20,7 @@ endif::manvolnum[]
 
 ifndef::manvolnum[]
 {pve} API Daemon
-==============================
+================
 include::attributes.txt[]
 endif::manvolnum[]
 
