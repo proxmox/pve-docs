@@ -6,7 +6,7 @@ include::attributes.txt[]
 NAME
 ----
 
-pveam - {pve} Appliance Manager
+pveam - Proxmox VE Appliance Manager
 
 
 SYNOPSYS
