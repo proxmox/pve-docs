@@ -45,6 +45,8 @@ include::pveproxy.adoc[]
 
 include::pvestatd.adoc[]
 
+include::spiceproxy.adoc[]
+
 :leveloffset: 0
 
 
@@ -149,6 +151,7 @@ include::pve-firewall.8-synopsis.adoc[]
 include::pvedaemon.8-synopsis.adoc[]
 
 :leveloffset: 0
+
 *pveproxy* - {pve} API Proxy Daemon
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -163,6 +166,15 @@ include::pveproxy.8-synopsis.adoc[]
 
 :leveloffset: 1
 include::pvestatd.8-synopsis.adoc[]
+
+:leveloffset: 0
+
+*spiceproxy* - SPICE Proxy Service
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:leveloffset: 1
+
+include::spiceproxy.8-synopsis.adoc[]
 
 :leveloffset: 0
 

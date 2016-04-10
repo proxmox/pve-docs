@@ -103,6 +103,11 @@ PVEPROXY_MAN8_SOURCES=			\
 	pveproxy.8-synopsis.adoc	\
 	${PVE_COMMON_DOC_SOURCES}
 
+SPICEPROXY_MAN8_SOURCES=		\
+	spiceproxy.adoc			\
+	spiceproxy.8-synopsis.adoc	\
+	${PVE_COMMON_DOC_SOURCES}
+
 PMXCFS_MAN8_SOURCES=			\
 	pmxcfs.adoc			\
 	pmxcfs.8-cli.adoc		\
@@ -189,6 +194,10 @@ pvedaemon.8: ${PVEDAEMON_MAN8_SOURCES}
 
 pveproxy.8: ${PVEPROXY_MAN8_SOURCES}
 	a2x ${A2X_MAN8_OPTIONS} pveproxy.adoc
+	test -n "$${NOVIEW}" || man -l $@
+
+spiceproxy.8: ${SPICEPROXY_MAN8_SOURCES}
+	a2x ${A2X_MAN8_OPTIONS} spiceproxy.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 pmxcfs.8: ${PMXCFS_MAN8_SOURCES}

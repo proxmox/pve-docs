@@ -1,0 +1,48 @@
+ifdef::manvolnum[]
+PVE({manvolnum})
+================
+include::attributes.txt[]
+
+NAME
+----
+
+spiceproxy - SPICE Proxy Service
+
+
+SYNOPSYS
+--------
+
+include::spiceproxy.8-synopsis.adoc[]
+
+DESCRIPTION
+-----------
+endif::manvolnum[]
+
+ifndef::manvolnum[]
+SPICE Proxy Service
+===================
+include::attributes.txt[]
+endif::manvolnum[]
+
+http://www.spice-space.org[SPICE] (the Simple Protocol for Independent
+Computing Environments) is an open remote computing solution,
+providing client access to remote displays and devices (e.g. keyboard,
+mouse, audio). The main use case is to get remote access to virtual
+machines and container.
+
+This daemon listens on TCP port 3128, and implements an HTTP proxy to
+forward 'CONNECT' request from the SPICE client to the correct {pve}
+VM. It runs as user 'www-data' and has very limited permissions.
+
+
+Host based Access Control
+-------------------------
+
+It is possible to configure "apache2" like access control
+lists. Values are read from file '/etc/default/pveproxy'.
+See 'pveproxy' documentation for details.
+
+
+ifdef::manvolnum[]
+include::pve-copyright.adoc[]
+endif::manvolnum[]

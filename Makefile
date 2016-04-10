@@ -20,6 +20,7 @@ SERVICE_LIST=		\
 	pvestatd 	\
 	pmxcfs 		\
 	pveproxy	\
+	spiceproxy	\
 	pvedaemon
 
 CONFIG_LIST=datacenter.cfg qm.conf pct.conf
@@ -80,6 +81,10 @@ PVE_ADMIN_GUIDE_SOURCES=			\
 	${QM_MAN1_SOURCES}			\
 	${QMRESTORE_MAN1_SOURCES}		\
 	${HA_MANAGER_MAN1_SOURCES}		\
+	${PVESTATD_MAN8_SOURCES}		\
+	${PVEDAEMON_MAN8_SOURCES}		\
+	${PVEPROXY_MAN8_SOURCES}		\
+	${SPICEPROXY_MAN8_SOURCES}		\
 	${PVE_HA_CRM_MAN8_SOURCES}		\
 	${PVE_HA_LRM_MAN8_SOURCES}		\
 	${PVEAM_SOURCES}			\
