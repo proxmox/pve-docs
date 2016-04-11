@@ -161,7 +161,7 @@ dinstall: ${DEB}
 	dpkg -i ${DEB}
 
 .PHONY: deb
-${DEB} deb:
+${DEB} deb: ${DEB_SOURCES}
 	rm -rf build
 	mkdir build
 	rsync -a debian/ build/debian
