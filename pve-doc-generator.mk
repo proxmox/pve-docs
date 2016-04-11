@@ -213,7 +213,7 @@ ha-manager.1: ${HA_MANAGER_MAN1_SOURCES}
 	test -n "$${NOVIEW}" || man -l $@
 
 pve-ha-crm.8: ${PVE_HA_CRM_MAN8_SOURCES}
-	a2x ${A2X_MAN8_OPTIONS} manpage pve-ha-crm.adoc
+	a2x ${A2X_MAN8_OPTIONS} pve-ha-crm.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 pve-ha-lrm.8: ${PVE_HA_LRM_MAN8_SOURCES}
