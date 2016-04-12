@@ -401,6 +401,8 @@ Similarly device mounts are not managed by the storage, but for these the
 Using quotas inside containers
 ------------------------------
 
+Quotas allow to set limits inside a container for the amount of disk space
+that each user can use.
 This only works on ext4 image based storage types and currently does not work
 with unprivileged containers.
 
@@ -418,6 +420,12 @@ for every mountpoint by passing the mountpoint's path instead of just `/`.) Best
 see the documentation specific to the distributiont running inside the
 container.
 
+Using ACLs inside containers
+----------------------------
+
+The standard Posix Access Control Lists are also available inside containers. 
+ACLs allow you to set more detailed file ownership than the traditional user/
+group/others model.
 
 Container Advantages
 --------------------
