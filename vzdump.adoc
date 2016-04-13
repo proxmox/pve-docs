@@ -25,16 +25,16 @@ Backup and Restore
 include::attributes.txt[]
 endif::manvolnum[]
 
-'vzdump' is a utility to make consistent snapshots of running virtual
-machines (VMs). It basically creates an archive of the VM private
-area, which also includes the VM configuration files. 'vzdump'
+'vzdump' is a utility to make consistent snapshots of running guest
+systems. It basically creates an archive of the guest private
+area, which also includes the guest configuration files. 'vzdump'
 currently supports LXC containers and QemuServer VMs.
 
 There are several ways to provide consistency (option `mode`):
 
 `stop` mode::
 
-Stop the VM during backup. This results in a very long downtime.
+Stop the guest during backup. This results in a very long downtime.
 
 `suspend` mode::
 
@@ -140,7 +140,7 @@ Configuration files are also stored inside the backup archive
 Examples
 --------
 
-Simply dump VM 777 - no snapshot, just archive the VM private area and
+Simply dump guest 777 - no snapshot, just archive the guest private area and
 configuration files to the default dump directory (usually
 '/var/liv//vz/dump/').
 
@@ -150,7 +150,7 @@ Use rsync and suspend/resume to create a snapshot (minimal downtime).
 
  # vzdump 777 --mode suspend
 
-Backup all VMs and send notification mails to root and admin.
+Backup all guest systems and send notification mails to root and admin.
 
  # vzdump --all --mode suspend --mailto root --mailto admin
 
@@ -158,19 +158,19 @@ Use snapshot mode (no downtime).
 
  # vzdump 777 --dumpdir /mnt/backup --mode snapshot
 
-Backup more than one VM (selectively)
+Backup more than one guest (selectively)
 
  # vzdump 101 102 103 --mailto root
 
-Backup all VMs excluding VM 101 and 102
+Backup all guests excluding 101 and 102
 
  # vzdump --mode suspend --exclude 101,102
 
-Restore a container to a new VM 600
+Restore a container to a new CT 600
 
  # pct restore 600 /mnt/backup/vzdump-lxc-777.tar
 
-Restore a Qemu/KVM machine to VM 601
+Restore a QemuServer VM to VM 601
 
  # qmrestore /mnt/backup/vzdump-qemu-888.vma 601
 
