@@ -43,22 +43,23 @@ location (see option `--tmpdir`). Then the container is suspended and a second
 rsync copies changed files. After that, the container is started (resumed)
 again. This results in minimal downtime, but needs additional space
 to hold the container copy.
-
++
 When the container is on a local filesystem and the target storage of the backup
 is an NFS server, you should set `--tmpdir` to reside on a local filesystem too,
 as this will result in a many fold performance improvement.
 Use of a local `tmpdir` is also required if you want to backup in `suspend`
 mode a local container using ACLs to an NFS server.
-
++
 For QemuServer, this mode will suspend the VM, start
-a live backup, and resume the VM.
+a live backup, and resume the VM. This does not require a temporary
+storage.
 
 `snapshot` mode::
 
 For containers, this mode uses the snapshotting facilities of the
 underlying storage. A snapshot will be made of the container volume,
 and the snapshot content will be archived in a tar file.
-
++
 For QemuServer, this mode will do a live backup similar to the
 `suspend` mode, but without suspending/resuming the VM.
 
