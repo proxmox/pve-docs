@@ -58,6 +58,7 @@ GEN_SCRIPTS=					\
 	gen-datacenter.cfg.5-opts.pl		\
 	gen-pct.conf.5-opts.pl			\
 	gen-qm.conf.5-opts.pl			\
+	gen-vzdump.conf.5-opts.pl		\
 	gen-pve-firewall-cluster-opts.pl	\
 	gen-pve-firewall-host-opts.pl		\
 	gen-pve-firewall-macros-adoc.pl		\
