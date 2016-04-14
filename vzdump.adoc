@@ -56,6 +56,9 @@ A technical overview of the Proxmox VE live backup for QemuServer can
 be found online
 https://git.proxmox.com/?p=pve-qemu-kvm.git;a=blob;f=backup.txt[here].
 
+NOTE: Qemu backup provides snapshots on any storage type. It does
+not require that the underlying storage supports snapshots.
+
 
 .Backup `mode` for Containers:
 
@@ -111,20 +114,27 @@ For details see the corresponding manual pages.
 Configuration
 -------------
 
-Global configuration is stored in '/etc/vzdump.conf'.
+Global configuration is stored in '/etc/vzdump.conf'. The file uses a
+simple colon separated key/value format. Each line has the following
+format:
 
- tmpdir: DIR
- dumpdir: DIR
- storage: STORAGE_ID
- mode: snapshot|suspend|stop
- bwlimit: KBPS
- ionize: PRI
- lockwait: MINUTES
- stopwait: MINUTES
- size: MB
- maxfiles: N
- script: FILENAME
- exclude-path: PATHLIST
+ OPTION: value
+
+Blank lines in the file are ignored, and lines starting with a '#'
+character are treated as comments and are also ignored.
+
+We currently support the following options:
+
+include::vzdump.conf.5-opts.adoc[]
+
+
+.Example 'vzdump.conf' Configuration
+----
+tmpdir: /mnt/fast_local_disk
+storage: my_backup_storage
+mode: snapshot
+bwlimit: 10000
+----
 
 Hook Scripts
 ------------

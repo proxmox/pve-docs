@@ -41,6 +41,7 @@ PVESM_MAN1_SOURCES=			\
 VZDUMP_MAN1_SOURCES=			\
 	vzdump.adoc 			\
 	vzdump.1-synopsis.adoc		\
+	vzdump.conf.5-opts.adoc		\
 	${PVE_COMMON_DOC_SOURCES}
 
 PVESUBSCRIPTION_MAN1_SOURCES=		\
