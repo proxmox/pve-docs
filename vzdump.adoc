@@ -54,7 +54,7 @@ and 'guest-fsfreeze-thaw' to improve consistency.
 
 A technical overview of the Proxmox VE live backup for QemuServer can
 be found online
-https://git.proxmox.com/?p=pve-qemu-kvm.git;a=blob;f=backup.txt[here],
+https://git.proxmox.com/?p=pve-qemu-kvm.git;a=blob;f=backup.txt[here].
 
 
 .Backup `mode` for Containers:
