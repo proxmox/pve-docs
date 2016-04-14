@@ -25,12 +25,39 @@ Backup and Restore
 include::attributes.txt[]
 endif::manvolnum[]
 
-'vzdump' is a utility to make consistent snapshots of running guest
-systems. It basically creates an archive of the guest private
-area, which also includes the guest configuration files. 'vzdump'
-currently supports LXC containers and QemuServer VMs.
+'vzdump' is a utility to make consistent backups of running guest
+systems. It basically creates an archive of the guest private area,
+which also includes the guest configuration files. 'vzdump' currently
+supports LXC containers and QemuServer VMs. There are several ways to
+provide consistency (option `mode`), depending on the guest type.
 
-There are several ways to provide consistency (option `mode`):
+.Backup `mode` for VMs:
+
+`stop` mode::
+
+This first performns a clean shutdown of the VM to make sure it is
+stopped. It then starts the VM in suspended mode and uses the qemu
+backup feature to dump all data. If the VM was running, we start
+(resume) it immediately after starting the qemu backup task. This
+keeps the downtime as low as possible.
+
+`suspend` mode::
+
+This mode does not really make sense for qemu. Please use snapshot
+mode instead.
+
+`snapshot` mode::
+
+This mode simply starts a qemu live backup task. If the guest agent
+is enabled (`agent: 1`) and running, it calls 'guest-fsfreeze-freeze'
+and 'guest-fsfreeze-thaw' to improve consistency.
+
+A technical overview of the Proxmox VE live backup for QemuServer can
+be found online
+https://git.proxmox.com/?p=pve-qemu-kvm.git;a=blob;f=backup.txt[here],
+
+
+.Backup `mode` for Containers:
 
 `stop` mode::
 
@@ -38,7 +65,7 @@ Stop the guest during backup. This results in a very long downtime.
 
 `suspend` mode::
 
-For containers, this mode uses rsync to copy the container data to a temporary
+This mode uses rsync to copy the container data to a temporary
 location (see option `--tmpdir`). Then the container is suspended and a second
 rsync copies changed files. After that, the container is started (resumed)
 again. This results in minimal downtime, but needs additional space
@@ -49,23 +76,13 @@ is an NFS server, you should set `--tmpdir` to reside on a local filesystem too,
 as this will result in a many fold performance improvement.
 Use of a local `tmpdir` is also required if you want to backup in `suspend`
 mode a local container using ACLs to an NFS server.
-+
-For QemuServer, this mode will suspend the VM, start
-a live backup, and resume the VM. This does not require a temporary
-storage.
 
 `snapshot` mode::
 
-For containers, this mode uses the snapshotting facilities of the
-underlying storage. A snapshot will be made of the container volume,
-and the snapshot content will be archived in a tar file.
-+
-For QemuServer, this mode will do a live backup similar to the
-`suspend` mode, but without suspending/resuming the VM.
+This mode uses the snapshotting facilities of the underlying
+storage. A snapshot will be made of the container volume, and the
+snapshot content will be archived in a tar file.
 
-A technical overview of the Proxmox VE live backup for QemuServer can
-be found online
-https://git.proxmox.com/?p=pve-qemu-kvm.git;a=blob;f=backup.txt[here],
 
 Backup File Names
 -----------------
