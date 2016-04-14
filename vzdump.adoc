@@ -121,7 +121,9 @@ format:
  OPTION: value
 
 Blank lines in the file are ignored, and lines starting with a '#'
-character are treated as comments and are also ignored.
+character are treated as comments and are also ignored. Values from
+this file are used as default, and can be overwritten on the command
+line.
 
 We currently support the following options:
 
