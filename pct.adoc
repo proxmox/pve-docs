@@ -101,11 +101,13 @@ unprivileged containers are safe by design.
 Configuration
 -------------
 
-The '/etc/pve/lxc/<CTID>.conf' files stores container configuration,
-where '<CTID>' is the numeric ID of the given container. Note that
-CTIDs < 100 are reserved for internal purposes, and CTIDs need to be
-unique cluster wide. Files are stored inside '/etc/pve/', so they get
-automatically replicated to all other cluster nodes.
+The '/etc/pve/lxc/<CTID>.conf' file stores container configuration,
+where '<CTID>' is the numeric ID of the given container. Like all
+other files stored inside '/etc/pve/', they get automatically
+replicated to all other cluster nodes.
+
+NOTE: CTIDs < 100 are reserved for internal purposes, and CTIDs need to be
+unique cluster wide.
 
 .Example Container Configuration
 ----
@@ -415,10 +417,11 @@ initialize the `/aquota.user` and `/aquota.group` files by running
  quotacheck -cmug /
  quotaon /
 
-And edit the quotas via the `edquota` command. (Note that you need to do this
-for every mountpoint by passing the mountpoint's path instead of just `/`.) Best
-see the documentation specific to the distributiont running inside the
-container.
+and edit the quotas via the `edquota` command. Refer to the documentation
+of the distribution running inside the container for details.
+
+NOTE: You need to run the above commands for every mountpoint by passing
+the mountpoint's path instead of just `/`.
 
 Using ACLs inside containers
 ----------------------------
