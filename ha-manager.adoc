@@ -334,7 +334,7 @@ maximal number of tries to relocate the service to a different node.
 A relocate only happens after the max_restart value is exceeded on the
 actual node. The default is set to one.
 
-Note that the relocate count state will only reset to zero when the
+NOTE: The relocate count state will only reset to zero when the
 service had at least one successful start. That means if a service is
 re-enabled without fixing the error only the restart policy gets
 repeated.

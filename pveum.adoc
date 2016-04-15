@@ -329,7 +329,7 @@ are members of group 'customers':
  pveum aclmod /access/realm/pve -user joe@pve -role PVEUserAdmin
  pveum aclmod /access/groups/customers -user joe@pve -role PVEUserAdmin
 
-Note: The user is able to add other users, but only if they are
+NOTE: The user is able to add other users, but only if they are
 members of group 'customers' and within realm 'pve'.
 
 Pools
@@ -355,7 +355,7 @@ Now we create a new user which is a member of that group
 [source,bash]
  pveum useradd developer1@pve -group developers -password
 
-Note: The -password parameter will prompt you for a password
+NOTE: The -password parameter will prompt you for a password
 
 I assume we already created a pool called 'dev-pool' on the GUI. So we can now assign permission to that pool:
 

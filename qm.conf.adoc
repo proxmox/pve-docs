@@ -26,8 +26,9 @@ include::attributes.txt[]
 endif::manvolnum[]
 
 The '/etc/pve/qemu-server/<VMID>.conf' files stores VM configuration,
-where "VMID" is the numeric ID of the given VM. Note that IDs <=
-100 are reserved for internal purposes.
+where "VMID" is the numeric ID of the given VM.
+
+NOTE: IDs <= 100 are reserved for internal purposes.
 
 
 File Format
