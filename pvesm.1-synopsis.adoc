@@ -34,8 +34,10 @@ target group for comstar views
 
 `-content` `string` ::
 
-Allowed content types. Note: value 'rootdir' is used for Containers, and
-value 'images' for KVM-Qemu VM's.
+Allowed content types.
++
+NOTE: the value 'rootdir' is used for Containers, and value 'images' for
+VMs.
 
 `-disable` `boolean` ::
 
@@ -47,7 +49,7 @@ NFS export path.
 
 `-format` `string` ::
 
-Default Image format.
+Default image format.
 
 `-iscsiprovider` `string` ::
 
@@ -318,8 +320,10 @@ target group for comstar views
 
 `-content` `string` ::
 
-Allowed content types. Note: value 'rootdir' is used for Containers, and
-value 'images' for KVM-Qemu VM's.
+Allowed content types.
++
+NOTE: the value 'rootdir' is used for Containers, and value 'images' for
+VMs.
 
 `-delete` `string` ::
 
@@ -336,7 +340,7 @@ Flag to disable the storage.
 
 `-format` `string` ::
 
-Default Image format.
+Default image format.
 
 `-krbd` `boolean` ::
 

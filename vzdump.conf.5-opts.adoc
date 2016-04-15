@@ -28,7 +28,8 @@ Specify when to send an email
 
 `mailto`: `string` ::
 
-no description available
+Comma-separated list of email addresses that should receive email
+notifications.
 
 `maxfiles`: `integer (1 - N)` (default=`1`)::
 

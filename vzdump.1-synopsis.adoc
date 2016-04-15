@@ -6,17 +6,17 @@ Create backup.
 
 `<vmid>` `string` ::
 
-The ID of the VM you want to backup.
+The ID of the guest system you want to backup.
 
 `-all` `boolean` (default=`0`)::
 
-Backup all known VMs on this host.
+Backup all known guest systems on this host.
 
 `-bwlimit` `integer (0 - N)` (default=`0`)::
 
 Limit I/O bandwidth (KBytes per second).
 
-`-compress` `(0 | 1 | gzip | lzo)` (default=`lzo`)::
+`-compress` `(0 | 1 | gzip | lzo)` (default=`0`)::
 
 Compress dump file.
 
@@ -26,11 +26,11 @@ Store resulting files to specified directory.
 
 `-exclude` `string` ::
 
-exclude specified VMs (assumes --all)
+Exclude specified guest systems (assumes --all)
 
 `-exclude-path` `string` ::
 
-exclude certain files/directories (shell globs).
+Exclude certain files/directories (shell globs).
 
 `-ionice` `integer (0 - 8)` (default=`7`)::
 
@@ -46,11 +46,12 @@ Specify when to send an email
 
 `-mailto` `string` ::
 
-no description available
+Comma-separated list of email addresses that should receive email
+notifications.
 
 `-maxfiles` `integer (1 - N)` (default=`1`)::
 
-Maximal number of backup files per VM.
+Maximal number of backup files per guest system.
 
 `-mode` `(snapshot | stop | suspend)` (default=`snapshot`)::
 
@@ -62,7 +63,7 @@ Only run if executed on this node.
 
 `-pigz` `integer` (default=`0`)::
 
-Uses pigz instead of gzip when N>0. N=1 uses half of cores, N>1 uses N as
+Use pigz instead of gzip when N>0. N=1 uses half of cores, N>1 uses N as
 thread count.
 
 `-quiet` `boolean` (default=`0`)::
@@ -79,11 +80,11 @@ Use specified hook script.
 
 `-size` `integer (500 - N)` (default=`1024`)::
 
-LVM snapshot size in MB.
+Unused, will be removed in a future release.
 
 `-stdexcludes` `boolean` (default=`1`)::
 
-Exclude temorary files and logs.
+Exclude temporary files and logs.
 
 `-stdout` `boolean` ::
 
@@ -95,7 +96,7 @@ Stop runnig backup jobs on this host.
 
 `-stopwait` `integer (0 - N)` (default=`10`)::
 
-Maximal time to wait until a VM is stopped (minutes).
+Maximal time to wait until a guest system is stopped (minutes).
 
 `-storage` `string` ::
 

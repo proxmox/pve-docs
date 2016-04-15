@@ -12,7 +12,9 @@ Specify email address to send notification from (default is root@$hostname)
 
 Set the fencing mode of the HA cluster. Hardware mode needs a valid
 configuration of fence devices in /etc/pve/ha/fence.cfg. With both all two
-modes are used.  NOTE: 'hardware' and 'both' are EXPERIMENTAL & WIP
+modes are used.
++
+WARNING: 'hardware' and 'both' are EXPERIMENTAL & WIP
 
 `http_proxy`: `http://.*` ::
 
