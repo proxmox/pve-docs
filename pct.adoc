@@ -399,6 +399,13 @@ user mapping, and cannot use ACLs from inside an unprivileged container.
 Similarly device mounts are not managed by the storage, but for these the
 `quota` and `acl` options will be honored.
 
+WARNING: Because of existing issues in the Linux kernel's freezer
+subsystem the usage of FUSE mounts inside a container is strongly
+advised against, as containers need to be frozen for suspend or
+snapshot mode backups. If FUSE mounts cannot be replaced by other
+mounting mechanisms or storage technologies, it is possible to
+establish the FUSE mount on the Proxmox host and use a bind
+mountpoint to make it accessible inside the container.
 
 Using quotas inside containers
 ------------------------------
