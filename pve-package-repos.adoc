@@ -84,3 +84,6 @@ features. As usual, you can configure this using
 deb http://download.proxmox.com/debian jessie pvetest
 ----
 
+WARNING: the `pvetest` repository should (as the name implies) only be used
+for testing new features or bug fixes.
+
