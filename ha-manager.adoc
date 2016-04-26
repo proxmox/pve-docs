@@ -51,7 +51,7 @@ percentage of uptime in a given year.
 There are several ways to increase availability. The most elegant
 solution is to rewrite your software, so that you can run it on
 several host at the same time. The software itself need to have a way
-to detect erors and do failover. This is relatively easy if you just
+to detect errors and do failover. This is relatively easy if you just
 want to serve read-only web pages. But in general this is complex, and
 sometimes impossible because you cannot modify the software
 yourself. The following solutions works without modifying the
@@ -60,13 +60,13 @@ software:
 * Use reliable "server" components
 
 NOTE: Computer components with same functionality can have varying
-reliability numbers, depending on the component quality. Most verdors
+reliability numbers, depending on the component quality. Most vendors
 sell components with higher reliability as "server" components -
 usually at higher price.
 
 * Eliminate single point of failure (redundant components)
 
- - use an uniteruptable power supply (UPS)
+ - use an uninterruptible power supply (UPS)
  - use redundant power supplies on the main boards
  - use ECC-RAM
  - use redundant network hardware
@@ -75,8 +75,8 @@ usually at higher price.
 
 * Reduce downtime
 
- - rapidly accessible adminstrators (24/7)
- - availability of spare parts (other nodes is a {pve} cluster)
+ - rapidly accessible administrators (24/7)
+ - availability of spare parts (other nodes in a {pve} cluster)
  - automatic error detection ('ha-manager')
  - automatic failover ('ha-manager')
 
@@ -158,7 +158,7 @@ status file and executes the respective commands.
 'pve-ha-crm'::
 
 The cluster resource manager (CRM), it controls the cluster wide
-actions of the services, processes the LRM result includes the state
+actions of the services, processes the LRM results and includes the state
 machine which controls the state of each service.
 
 .Locks in the LRM & CRM
@@ -188,10 +188,12 @@ It can be in three states:
 
 After the LRM gets in the active state it reads the manager status
 file in '/etc/pve/ha/manager_status' and determines the commands it
-has to execute for the service it owns.
+has to execute for the services it owns.
 For each command a worker gets started, this workers are running in
 parallel and are limited to maximal 4 by default. This default setting
 may be changed through the datacenter configuration key "max_worker".
+When finished the worker process gets collected and its result saved for
+the CRM.
 
 .Maximal Concurrent Worker Adjustment Tips
 [NOTE]
@@ -233,7 +235,7 @@ waits there for the manager lock, which can only be held by one node
 at a time.  The node which successfully acquires the manager lock gets
 promoted to the CRM master.
 
-It can be in three states: TODO
+It can be in three states:
 
 * *wait for agent lock*: the LRM waits for our exclusive lock. This is
   also used as idle sate if no service is configured
@@ -242,9 +244,9 @@ It can be in three states: TODO
   and quorum was lost.
 
 It main task is to manage the services which are configured to be highly
-available and try to get always bring them in the wanted state, e.g.: a
+available and try to always enforce them to the wanted state, e.g.: a
 enabled service will be started if its not running, if it crashes it will
-be started again. Thus it dictates the LRM the wanted actions.
+be started again. Thus it dictates the LRM the actions it needs to execute.
 
 When an node leaves the cluster quorum, its state changes to unknown.
 If the current CRM then can secure the failed nodes lock, the services
@@ -253,12 +255,12 @@ will be 'stolen' and restarted on another node.
 When a cluster member determines that it is no longer in the cluster
 quorum, the LRM waits for a new quorum to form. As long as there is no
 quorum the node cannot reset the watchdog. This will trigger a reboot
-after 60 seconds.
+after the watchdog then times out, this happens after 60 seconds.
 
 Configuration
 -------------
 
-The HA stack is well integrated int the Proxmox VE API2. So, for
+The HA stack is well integrated in the Proxmox VE API2. So, for
 example, HA can be configured via 'ha-manager' or the PVE web
 interface, which both provide an easy to use tool.
 
@@ -274,6 +276,16 @@ If a node needs maintenance you should migrate and or relocate all
 services which are required to run always on another node first.
 After that you can stop the LRM and CRM services. But note that the
 watchdog triggers if you stop it with active services.
+
+Updates
+~~~~~~~
+When updating the ha-manager you should do one node after the other, never
+all at once. Further you have to ensure that no service located at the node
+is in the error state, a node with erroneous service is not able to be upgraded
+and if tried nonetheless it may even trigger a Node reset when doing so!
+When dealing with erroneous services first check what happened to them, then
+bring them in a secure state, after that disable or remove them from HA. 
+Only after that you may start upgrading a Nodes LRM and CRM.
 
 Fencing
 -------
