@@ -6,7 +6,7 @@ include::attributes.txt[]
 distribution. That means that you have access to the whole world of
 Debian packages, and the base system is well documented. The
 https://debian-handbook.info/download/stable/debian-handbook.pdf[Debian
-Administrator\'s Handbook] is available online, and provide a
+Administrator\'s Handbook] is available online, and provides a
 comprehensive introduction to the Debian operating system (see
 xref:Hertzog13[]).
 

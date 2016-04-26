@@ -164,14 +164,14 @@ Or you can manually specify exclude paths, for example:
 (only excludes tmp directories)
 
 Configuration files are also stored inside the backup archive
-(`/etc/vzdump/`), and will be correctly restored.
+(in `./etc/vzdump/`) and will be correctly restored.
 
 Examples
 --------
 
 Simply dump guest 777 - no snapshot, just archive the guest private area and
 configuration files to the default dump directory (usually
-'/var/liv//vz/dump/').
+'/var/lib/vz/dump/').
 
  # vzdump 777
 

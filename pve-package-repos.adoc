@@ -8,7 +8,7 @@ management tool. The list of repositories is defined in
 '/etc/apt/sources.d/'. Updates can be installed directly using
 'apt-get', or via the GUI.
 
-Apt 'sources.list' files lists one package repository per line, with
+Apt 'sources.list' files list one package repository per line, with
 the most preferred source listed first. Empty lines are ignored, and a
 '#' character anywhere on a line marks the remainder of that line as a
 comment. The information available from the configured sources is

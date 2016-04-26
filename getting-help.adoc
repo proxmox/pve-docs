@@ -1,7 +1,7 @@
 Getting Help
 ------------
 
-There are basically two different support channels. {pve} itself if
+There are basically two different support channels. {pve} itself is
 fully open source, so we always encourage our users to discuss and
 share their knowledge using the http://forum.proxmox.com/[Community
 Support Forum]. The forum is fully moderated by the Proxmox support
