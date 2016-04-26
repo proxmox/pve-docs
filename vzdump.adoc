@@ -84,8 +84,14 @@ using ACLs in suspend mode if the backup storage is an NFS server.
 `snapshot` mode::
 
 This mode uses the snapshotting facilities of the underlying
-storage. A snapshot will be made of the container volume, and the
-snapshot content will be archived in a tar file.
+storage. First, the container will be suspended to ensure data consistency.
+A temporary snapshot of the container's volumes will be made and the
+snapshot content will be archived in a tar file. Finally, the temporary
+snapshot is deleted again.
+
+NOTE: `snapshot` mode requires that all backed up volumes are on a storage that
+supports snapshots. Using the `backup=no` mountpoint option individual volumes
+can be excluded from the backup (and thus this requirement).
 
 
 Backup File Names
@@ -186,7 +192,7 @@ Backup all guest systems and send notification mails to root and admin.
 
  # vzdump --all --mode suspend --mailto root --mailto admin
 
-Use snapshot mode (no downtime).
+Use snapshot mode (no downtime) and non-default dump directory.
 
  # vzdump 777 --dumpdir /mnt/backup --mode snapshot
 
