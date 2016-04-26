@@ -52,7 +52,7 @@ What is a container, CT, VE, Virtual Private Server, VPS?::
 Operating-system-level virtualization is a server-virtualization
 method where the kernel of an operating system allows for multiple
 isolated user-space instances, instead of just one. We call such
-instances containers. As containers share the Kernel they are
+instances containers. As containers use the host's kernel they are
 limited to Linux guests.
 
 What is a QEMU/KVM guest (or VM)?::

@@ -65,7 +65,7 @@ functional and error free.
 
 You normally select *Install Proxmox VE* to start the installation.
 After that you get prompted to select the target hard disk(s). The
-`Options` button aside lets you select the target file system, and
+`Options` button lets you select the target file system, which
 defaults to `ext4`. The installer uses LVM if you select 'ext3',
 'ext4' or 'xfs' as file system, and offers additional option to
 restrict LVM space (see <<advanced_lvm_options,below>>)

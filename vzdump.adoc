@@ -64,7 +64,8 @@ not require that the underlying storage supports snapshots.
 
 `stop` mode::
 
-Stop the guest during backup. This results in a very long downtime.
+Stop the container for the duration of the backup. This potentially results in
+a very long downtime.
 
 `suspend` mode::
 
@@ -77,8 +78,8 @@ to hold the container copy.
 When the container is on a local filesystem and the target storage of the backup
 is an NFS server, you should set `--tmpdir` to reside on a local filesystem too,
 as this will result in a many fold performance improvement.
-Use of a local `tmpdir` is also required if you want to backup in `suspend`
-mode a local container using ACLs to an NFS server.
+Use of a local `tmpdir` is also required if you want to backup a local container
+using ACLs in suspend mode if the backup storage is an NFS server.
 
 `snapshot` mode::
 
@@ -90,7 +91,7 @@ snapshot content will be archived in a tar file.
 Backup File Names
 -----------------
 
-Newer versions of vzdump encode the virtual machine type and the
+Newer versions of vzdump encode the guest type and the
 backup time into the filename, for example
 
  vzdump-lxc-105-2009_10_09-11_04_43.tar
@@ -149,15 +150,17 @@ directory ('vzdump-hook-script.pl').
 File Exclusions
 ---------------
 
-First, this option is only available for container backups. 'vzdump'
-skips the following files with option `--stdexcludes`
+NOTE: this option is only available for container backups.
+
+'vzdump' skips the following files by default (disable with the option
+`--stdexcludes 0`)
 
  /var/log/?*
  /tmp/?*
  /var/tmp/?*
  /var/run/?*pid
 
-Or you can manually specify exclude paths, for example:
+You can also manually specify (additional) exclude paths, for example:
 
  # vzdump 777 --exclude-path /tmp/ --exclude-path '/var/foo*'
 
