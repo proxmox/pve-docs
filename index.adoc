@@ -67,3 +67,8 @@ Configuration Options
 |===========================================================
 
 
+API Viewer
+~~~~~~~~~~
+
+The link:api-viewer/index.html[API viewer] is a tiny web application
+which allows you to inspect all available API calls.

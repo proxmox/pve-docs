@@ -74,6 +74,10 @@ SYSADMIN_SOURCES=				\
 	system-software-updates.adoc		\
 	sysadmin.adoc
 
+API_VIEWER_SOURCES=				\
+	api-viewer/index.html			\
+	api-viewer/apidoc.js
+
 PVE_ADMIN_GUIDE_SOURCES=			\
 	${DATACENTER_CONF_MAN5_SOURCES}		\
 	${QM_CONF_MAN5_SOURCES}			\
@@ -140,7 +144,7 @@ pmxcfs.8.html: pmxcfs.adoc pmxcfs.8-cli.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_MAN5_HTML_ARGS} -o $@ $*.adoc
 	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
-index.html: index.adoc ${PVE_ADMIN_GUIDE_SOURCES}
+index.html: index.adoc ${PVE_ADMIN_GUIDE_SOURCES} ${API_VIEWER_SOURCES}
 	$(MAKE) NOVIEW=1 pve-admin-guide.pdf pve-admin-guide.html pve-admin-guide.epub
 	$(MAKE) NOVIEW=1 $(addsuffix .1.html, ${COMMAND_LIST}) $(addsuffix .8.html, ${SERVICE_LIST}) $(addsuffix .5.html, ${CONFIG_LIST})
 	asciidoc -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}" index.adoc
@@ -159,11 +163,11 @@ pve-admin-guide.epub: ${PVE_ADMIN_GUIDE_SOURCES}
 	a2x -f epub pve-admin-guide.adoc
 	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
-apidata.js: extractapi.pl
+api-viewer/apidata.js: extractapi.pl
 	./extractapi.pl >$@
 
-apidoc.js: apidata.js PVEAPI.js
-	cat apidata.js PVEAPI.js >$@
+api-viewer/apidoc.js: api-viewer/apidata.js api-viewer/PVEAPI.js
+	cat api-viewer/apidata.js api-viewer/PVEAPI.js >$@
 
 .PHONY: dinstall
 dinstall: ${GEN_DEB}
@@ -185,7 +189,7 @@ DOC_DEB_FILES=					\
 	pve-admin-guide.epub	\
 	index.html
 
-${DOC_DEB}: index.adoc ${PVE_ADMIN_GUIDE_SOURCES} apidoc.js apidoc.htm
+${DOC_DEB}: index.adoc ${PVE_ADMIN_GUIDE_SOURCES} ${API_VIEWER_SOURCES}
 	$(MAKE) NOVIEW=1 pve-admin-guide.pdf pve-admin-guide.html pve-admin-guide.epub
 	$(MAKE) NOVIEW=1 $(addsuffix .1.html, ${COMMAND_LIST}) $(addsuffix .8.html, ${SERVICE_LIST}) $(addsuffix .5.html, ${CONFIG_LIST})
 	asciidoc -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}" index.adoc
@@ -197,11 +201,9 @@ ${DOC_DEB}: index.adoc ${PVE_ADMIN_GUIDE_SOURCES} apidoc.js apidoc.htm
 	echo "git clone git://git.proxmox.com/git/pve-docs.git\\ngit checkout ${GITVERSION}" > build/usr/share/doc/${DOC_PACKAGE}/SOURCE
 	# install doc files
 	install -m 0644 ${DOC_DEB_FILES} build/usr/share/${DOC_PACKAGE}
-	install -m 0644 index.html build/usr/share/${DOC_PACKAGE}
 	# install api doc viewer
-	mkdir build/usr/share/${DOC_PACKAGE}/pve2-api-doc
-	install -m 0644 apidoc.htm build/usr/share/${DOC_PACKAGE}/pve2-api-doc/index.html
-	install -m 0644 apidoc.js build/usr/share/${DOC_PACKAGE}/pve2-api-doc/
+	mkdir build/usr/share/${DOC_PACKAGE}/api-viewer
+	install -m 0644 ${API_VIEWER_SOURCES} build/usr/share/${DOC_PACKAGE}/api-viewer
 	cd build; dpkg-buildpackage -rfakeroot -b -us -uc
 	lintian ${DOC_DEB}
 
@@ -233,5 +235,5 @@ update: clean
 	make all
 
 clean:
-	rm -rf *~ *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build apidata.js apidoc.js
+	rm -rf *~ *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidata.js api-viewer/apidoc.js
 
