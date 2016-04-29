@@ -185,7 +185,7 @@ DOC_DEB_FILES=					\
 	pve-admin-guide.epub	\
 	index.html
 
-${DOC_DEB}: index.adoc ${PVE_ADMIN_GUIDE_SOURCES} apidoc.js apidoc.html
+${DOC_DEB}: index.adoc ${PVE_ADMIN_GUIDE_SOURCES} apidoc.js apidoc.htm
 	$(MAKE) NOVIEW=1 pve-admin-guide.pdf pve-admin-guide.html pve-admin-guide.epub
 	$(MAKE) NOVIEW=1 $(addsuffix .1.html, ${COMMAND_LIST}) $(addsuffix .8.html, ${SERVICE_LIST}) $(addsuffix .5.html, ${CONFIG_LIST})
 	asciidoc -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}" index.adoc
@@ -200,7 +200,7 @@ ${DOC_DEB}: index.adoc ${PVE_ADMIN_GUIDE_SOURCES} apidoc.js apidoc.html
 	install -m 0644 index.html build/usr/share/${DOC_PACKAGE}
 	# install api doc viewer
 	mkdir build/usr/share/${DOC_PACKAGE}/pve2-api-doc
-	install -m 0644 apidoc.html build/usr/share/${DOC_PACKAGE}/pve2-api-doc/index.html
+	install -m 0644 apidoc.htm build/usr/share/${DOC_PACKAGE}/pve2-api-doc/index.html
 	install -m 0644 apidoc.js build/usr/share/${DOC_PACKAGE}/pve2-api-doc/
 	cd build; dpkg-buildpackage -rfakeroot -b -us -uc
 	lintian ${DOC_DEB}
