@@ -156,6 +156,11 @@ pve-admin-guide.html: ${PVE_ADMIN_GUIDE_SOURCES}
 	asciidoc -a "revnumber=${DOCRELEASE}" -a "date=$(shell date)" pve-admin-guide.adoc
 	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
+pve-admin-guide.chunked: ${PVE_ADMIN_GUIDE_SOURCES}
+	rm -rf pve-admin-guide.chunked
+	a2x -a docinfo -a docinfo1 -a icons -f chunked pve-admin-guide.adoc
+	test -n "$${NOVIEW}" || $(BROWSER) $@/index.html &
+
 pve-admin-guide.pdf: ${PVE_ADMIN_GUIDE_SOURCES} docinfo.xml pve-admin-guide-docinfo.xml
 	grep ">Release ${DOCRELEASE}<" pve-admin-guide-docinfo.xml || (echo "wrong release in  pve-admin-guide-docinfo.xml" && false);
 	a2x -a docinfo -a docinfo1 -f pdf -L --dblatex-opts "-P latex.output.revhistory=0" --dblatex-opts "-P latex.class.options=12pt" --dblatex-opts "-P doc.section.depth=2 -P toc.section.depth=2" pve-admin-guide.adoc
@@ -237,7 +242,7 @@ update: clean
 	make all
 
 clean:
-	rm -rf *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidata.js api-viewer/apidoc.js
+	rm -rf *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidata.js api-viewer/apidoc.js pve-admin-guide.chunked
 	find . -name '*~' -exec rm {} ';'
 
 
