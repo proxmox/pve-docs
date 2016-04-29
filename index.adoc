@@ -15,6 +15,27 @@ include::attributes.txt[]
 |E-Book version       |link:pve-admin-guide.epub[]
 |===========================================================
 
+
+Individual Chapters
+-------------------
+[width="100%",options="header"]
+|===========================================================
+|Title                                |Download link
+|Host System Administration           |link:chapter-sysadmin.html[]
+|Cluster Manager                      |link:chapter-pvecm.html[]
+|Proxmox Cluster File System (pmxcfs) |link:chapter-pmxcfs.html[]
+|{pve} Storage                        |link:chapter-pvesm.html[]
+|Qemu/KVM Virtual Machines            |link:chapter-qm.html[]
+|{pve} Firewall                       |link:chapter-pve-firewall.html[]
+|User Management                      |link:chapter-pveum.html[]
+|Proxmox Container Toolkit            |link:chapter-pct.html[]
+|High Availability                    |link:chapter-ha-manager.html[]
+|Backup and Restore                   |link:chapter-vzdump.html[]
+|Frequently Asked Questions           |link:chapter-pve-faq.html[]
+|Bibliography                         |link:chapter-pve-bibliography.html[]
+|===========================================================
+
+
 {pve} Manual Pages
 ------------------
 
