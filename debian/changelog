@@ -1,3 +1,9 @@
+pve-doc-generator (4.2-1) unstable; urgency=medium
+
+  * set RELEASE to 4.2
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 29 Apr 2016 09:26:04 +0200
+
 pve-doc-generator (4.1-1) unstable; urgency=medium
 
   * first release
