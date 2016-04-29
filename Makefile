@@ -159,6 +159,12 @@ pve-admin-guide.epub: ${PVE_ADMIN_GUIDE_SOURCES}
 	a2x -f epub pve-admin-guide.adoc
 	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
+apidata.js: extractapi.pl
+	./extractapi.pl >$@
+
+apidoc.js: apidata.js PVEAPI.js
+	cat apidata.js PVEAPI.js >$@
+
 .PHONY: dinstall
 dinstall: ${GEN_DEB}
 	dpkg -i ${GEN_DEB}
@@ -179,7 +185,7 @@ DOC_DEB_FILES=					\
 	pve-admin-guide.epub	\
 	index.html
 
-${DOC_DEB}: index.adoc ${PVE_ADMIN_GUIDE_SOURCES}
+${DOC_DEB}: index.adoc ${PVE_ADMIN_GUIDE_SOURCES} apidoc.js apidoc.html
 	$(MAKE) NOVIEW=1 pve-admin-guide.pdf pve-admin-guide.html pve-admin-guide.epub
 	$(MAKE) NOVIEW=1 $(addsuffix .1.html, ${COMMAND_LIST}) $(addsuffix .8.html, ${SERVICE_LIST}) $(addsuffix .5.html, ${CONFIG_LIST})
 	asciidoc -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}" index.adoc
@@ -192,6 +198,10 @@ ${DOC_DEB}: index.adoc ${PVE_ADMIN_GUIDE_SOURCES}
 	# install doc files
 	install -m 0644 ${DOC_DEB_FILES} build/usr/share/${DOC_PACKAGE}
 	install -m 0644 index.html build/usr/share/${DOC_PACKAGE}
+	# install api doc viewer
+	mkdir build/usr/share/${DOC_PACKAGE}/pve2-api-doc
+	install -m 0644 apidoc.html build/usr/share/${DOC_PACKAGE}/pve2-api-doc/index.html
+	install -m 0644 apidoc.js build/usr/share/${DOC_PACKAGE}/pve2-api-doc/
 	cd build; dpkg-buildpackage -rfakeroot -b -us -uc
 	lintian ${DOC_DEB}
 
@@ -223,5 +233,5 @@ update: clean
 	make all
 
 clean:
-	rm -rf *~ *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build
+	rm -rf *~ *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build apidata.js apidoc.js
 
