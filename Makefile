@@ -2,14 +2,16 @@ DGDIR=.
 
 include ./pve-doc-generator.mk
 
-PACKAGE=pve-doc-generator
+GEN_PACKAGE=pve-doc-generator
+DOC_PACKAGE=pve-docs
 
 # also update debian/changelog
 PKGREL=1
 
 GITVERSION:=$(shell cat .git/refs/heads/master)
 
-DEB=${PACKAGE}_${DOCRELEASE}-${PKGREL}_amd64.deb
+GEN_DEB=${GEN_PACKAGE}_${DOCRELEASE}-${PKGREL}_amd64.deb
+DOC_DEB=${DOC_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
 
 COMMAND_LIST=		\
 	pvesubscription	\
@@ -36,7 +38,7 @@ SERVICE_LIST=		\
 
 CONFIG_LIST=datacenter.cfg qm.conf pct.conf
 
-DEB_SOURCES=					\
+GEN_DEB_SOURCES=				\
 	pve-doc-generator.mk			\
 	attributes.txt				\
 	$(addsuffix .adoc, ${COMMAND_LIST}) 	\
@@ -158,29 +160,61 @@ pve-admin-guide.epub: ${PVE_ADMIN_GUIDE_SOURCES}
 	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
 .PHONY: dinstall
-dinstall: ${DEB}
-	dpkg -i ${DEB}
+dinstall: ${GEN_DEB}
+	dpkg -i ${GEN_DEB}
+
 
 .PHONY: deb
-${DEB} deb: ${DEB_SOURCES}
+deb:
+	rm -f ${GEN_DEB} ${DOC_DEB};
+	make ${GEN_DEB};
+	make ${DOC_DEB};
+
+DOC_DEB_FILES=					\
+	$(addsuffix .1.html, ${COMMAND_LIST}) 	\
+	$(addsuffix .8.html, ${SERVICE_LIST}) 	\
+	$(addsuffix .5.html, ${CONFIG_LIST})	\
+	pve-admin-guide.pdf 	\
+	pve-admin-guide.html 	\
+	pve-admin-guide.epub	\
+	index.html
+
+${DOC_DEB}: index.adoc ${PVE_ADMIN_GUIDE_SOURCES}
+	$(MAKE) NOVIEW=1 pve-admin-guide.pdf pve-admin-guide.html pve-admin-guide.epub
+	$(MAKE) NOVIEW=1 $(addsuffix .1.html, ${COMMAND_LIST}) $(addsuffix .8.html, ${SERVICE_LIST}) $(addsuffix .5.html, ${CONFIG_LIST})
+	asciidoc -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}" index.adoc
+	rm -rf build
+	mkdir build
+	rsync -a doc-debian/ build/debian
+	mkdir -p build/usr/share/${DOC_PACKAGE}
+	mkdir -p build/usr/share/doc/${DOC_PACKAGE}
+	echo "git clone git://git.proxmox.com/git/pve-docs.git\\ngit checkout ${GITVERSION}" > build/usr/share/doc/${DOC_PACKAGE}/SOURCE
+	# install doc files
+	install -m 0644 ${DOC_DEB_FILES} build/usr/share/${DOC_PACKAGE}
+	install -m 0644 index.html build/usr/share/${DOC_PACKAGE}
+	cd build; dpkg-buildpackage -rfakeroot -b -us -uc
+	lintian ${DOC_DEB}
+
+${GEN_DEB}: ${GEN_DEB_SOURCES}
 	rm -rf build
 	mkdir build
 	rsync -a debian/ build/debian
-	mkdir -p build/usr/share/${PACKAGE}
-	mkdir -p build/usr/share/doc/${PACKAGE}
-	echo "git clone git://git.proxmox.com/git/pve-docs.git\\ngit checkout ${GITVERSION}" > build/usr/share/doc/${PACKAGE}/SOURCE
-	install -m 0644 ${DEB_SOURCES} build/usr/share/${PACKAGE}
-	install -m 0755 ${GEN_SCRIPTS} build/usr/share/${PACKAGE}
+	mkdir -p build/usr/share/${GEN_PACKAGE}
+	mkdir -p build/usr/share/doc/${GEN_PACKAGE}
+	echo "git clone git://git.proxmox.com/git/pve-docs.git\\ngit checkout ${GITVERSION}" > build/usr/share/doc/${GEN_PACKAGE}/SOURCE
+	install -m 0644 ${GEN_DEB_SOURCES} build/usr/share/${GEN_PACKAGE}
+	install -m 0755 ${GEN_SCRIPTS} build/usr/share/${GEN_PACKAGE}
 	cd build; dpkg-buildpackage -rfakeroot -b -us -uc
-	lintian ${DEB}
+	lintian ${GEN_DEB}
 
 .PHONY: upload
-upload: ${DEB}
+upload: ${GEN_DEB} ${DOC_DEB}
 	umount /pve/${DOCRELEASE}; mount /pve/${DOCRELEASE} -o rw
 	mkdir -p /pve/${DOCRELEASE}/extra
-	rm -f /pve/${DOCRELEASE}/extra/${PACKAGE}_*.deb
+	rm -f /pve/${DOCRELEASE}/extra/${GEN_PACKAGE}_*.deb
+	rm -f /pve/${DOCRELEASE}/extra/${DOC_PACKAGE}_*.deb
 	rm -f /pve/${DOCRELEASE}/extra/Packages*
-	cp ${DEB} /pve/${DOCRELEASE}/extra
+	cp ${GEN_DEB} ${DOC_DEB} /pve/${DOCRELEASE}/extra
 	cd /pve/${DOCRELEASE}/extra; dpkg-scanpackages . /dev/null > Packages; gzip -9c Packages > Packages.gz
 	umount /pve/${DOCRELEASE}; mount /pve/${DOCRELEASE} -o ro
 
