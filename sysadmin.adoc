@@ -1,5 +1,6 @@
 Host System Administration
 ==========================
+include::attributes.txt[]
 
 {pve} is based on the famous https://www.debian.org/[Debian] Linux
 distribution. That means that you have access to the whole world of
