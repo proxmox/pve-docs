@@ -6,12 +6,14 @@ GEN_PACKAGE=pve-doc-generator
 DOC_PACKAGE=pve-docs
 
 # also update debian/changelog
-PKGREL=1
+GEN_PKGREL=1
+# also update doc-debian/changelog
+DOC_PKGREL=2
 
 GITVERSION:=$(shell cat .git/refs/heads/master)
 
-GEN_DEB=${GEN_PACKAGE}_${DOCRELEASE}-${PKGREL}_amd64.deb
-DOC_DEB=${DOC_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
+GEN_DEB=${GEN_PACKAGE}_${DOCRELEASE}-${GEN_PKGREL}_amd64.deb
+DOC_DEB=${DOC_PACKAGE}_${DOCRELEASE}-${DOC_PKGREL}_all.deb
 
 COMMAND_LIST=		\
 	pvesubscription	\
