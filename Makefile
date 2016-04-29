@@ -237,5 +237,7 @@ update: clean
 	make all
 
 clean:
-	rm -rf *~ *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidata.js api-viewer/apidoc.js
+	rm -rf *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidata.js api-viewer/apidoc.js
+	find . -name '*~' -exec rm {} ';'
+
 
