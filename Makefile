@@ -170,8 +170,8 @@ api-viewer/apidoc.js: api-viewer/apidata.js api-viewer/PVEAPI.js
 	cat api-viewer/apidata.js api-viewer/PVEAPI.js >$@
 
 .PHONY: dinstall
-dinstall: ${GEN_DEB}
-	dpkg -i ${GEN_DEB}
+dinstall: ${GEN_DEB} ${DOC_DEB}
+	dpkg -i ${GEN_DEB} ${DOC_DEB}
 
 
 .PHONY: deb

@@ -1,14 +1,14 @@
 Source: pve-docs
-Section: perl
+Section: doc
 Priority: extra
 Maintainer: Proxmox Support Team <support@proxmox.com>
 Build-Depends: debhelper (>= 7.0.50~), lintian
 Standards-Version: 3.8.4
 
 Package: pve-docs
-Section: doc
-Priority: optional
 Architecture: all
-Depends: apache2
+Depends: ${misc:Depends}
+Suggests: apache2
 Description: Proxmox VE Documentation
- This package contains the Proxmox VE Documentation files.
+ This package contains the Proxmox VE Documentation files, and apache2
+ configuration files to serve them.
