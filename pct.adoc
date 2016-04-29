@@ -475,7 +475,7 @@ Technology Overview
 
 - CRIU: for live migration (planned)
 
-- We use latest available kernels (4.2.X)
+- We use latest available kernels (4.4.X)
 
 - Image based deployment (templates)
 
