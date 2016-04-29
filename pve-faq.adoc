@@ -1,5 +1,6 @@
 Frequently Asked Questions
 --------------------------
+include::attributes.txt[]
 
 NOTE: New FAQs are appended to the bottom of this section.
 
