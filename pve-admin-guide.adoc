@@ -58,12 +58,13 @@ include::pveceph.adoc[]
 
 include::pvesubscription.adoc[]
 
-:leveloffset: 0
-
+:leveloffset: 1
 
 include::pve-faq.adoc[]
 
 include::pve-bibliography.adoc[]
+
+:leveloffset: 0
 
 [appendix]
 Command Line Interface

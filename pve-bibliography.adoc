@@ -1,6 +1,7 @@
 [bibliography]
 Bibliography
-------------
+============
+include::attributes.txt[]
 
 [bibliography]
 .Books about {pve}
@@ -30,7 +31,7 @@ Bibliography
 .Books about related Technology
 
 - [[[Hertzog13]]] Raphaël Hertzog & Roland Mas.
-  'The Debian Administrator\'s Handbook: Debian Jessie from Discovery to Mastery',
+  https://debian-handbook.info/download/stable/debian-handbook.pdf[The Debian Administrator\'s Handbook: Debian Jessie from Discovery to Mastery],
   Freexian, 2013.
   ISBN 979-1091414050
   
