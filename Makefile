@@ -145,7 +145,7 @@ all: index.html
 	nwdiag -T svg $*.nwdiag -o $@;
 
 chapter-%.html: %.adoc ${PVE_COMMON_DOC_SOURCES}
-	asciidoc ${ADOC_STDARG} -o $@ $*.adoc
+	asciidoc ${ADOC_STDARG} -a toc -o $@ $*.adoc
 	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
 %.1.html: %.adoc %.1-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
