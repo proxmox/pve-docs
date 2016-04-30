@@ -39,6 +39,6 @@ sub cleanup_tree {
 
 my $tree = cleanup_tree(PVE::RESTHandler::api_dump('PVE::API2'));
 
-print "var pveapi = " . to_json($tree, {pretty => 1}) . ";\n\n";
+print "var pveapi = " . to_json($tree, {pretty => 1, canonical => 1}) . ";\n\n";
 
 exit(0);
