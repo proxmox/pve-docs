@@ -137,7 +137,7 @@ Ext.onReady(function() {
 
 		    var groupingFeature = Ext.create('Ext.grid.feature.Grouping',{
 			enableGroupingMenu: false,
-			groupHeaderTpl: '<tpl if="name">Optional</tpl><tpl if="!name">Required</tpl>'
+			groupHeaderTpl: '<tpl if="groupValue">Optional</tpl><tpl if="!groupValue">Required</tpl>'
 		    });
 
 		    sections.push({
