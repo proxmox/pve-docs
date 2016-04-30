@@ -260,8 +260,9 @@ upload: ${GEN_DEB} ${DOC_DEB}
 
 .PHONY: update
 update: clean
-	rm -f *.5-opts.adoc .1-synopsis.adoc .8-synopsis.adoc
+	rm -f *.5-opts.adoc *.1-synopsis.adoc *.8-synopsis.adoc
 	rm -f api-viewer/apidata.js
+	rm -f pve-firewall-macros.adoc
 	make all
 
 clean:

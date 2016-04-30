@@ -331,7 +331,7 @@ Amount of memory shares for auto-ballooning. The larger the number is, the
 more memory this VM gets. Number is relative to weights of all other
 running VMs. Using zero disables auto-ballooning
 
-`-smbios[n]` `[family=<str>] [,manufacturer=<name>] [,product=<name>] [,serial=<str>] [,sku=<str>] [,uuid=<UUID>] [,version=<str>]` ::
+`-smbios1` `[family=<str>] [,manufacturer=<name>] [,product=<name>] [,serial=<str>] [,sku=<str>] [,uuid=<UUID>] [,version=<str>]` ::
 
 Specify SMBIOS type 1 fields.
 
@@ -958,7 +958,7 @@ running VMs. Using zero disables auto-ballooning
 
 Ignore locks - only root is allowed to use this option.
 
-`-smbios[n]` `[family=<str>] [,manufacturer=<name>] [,product=<name>] [,serial=<str>] [,sku=<str>] [,uuid=<UUID>] [,version=<str>]` ::
+`-smbios1` `[family=<str>] [,manufacturer=<name>] [,product=<name>] [,serial=<str>] [,sku=<str>] [,uuid=<UUID>] [,version=<str>]` ::
 
 Specify SMBIOS type 1 fields.
 

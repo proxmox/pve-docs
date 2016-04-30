@@ -16,10 +16,16 @@ When possible, we provide scripts to extract API definitions,
 configuration or command line options from the source code.
 
 To simplify the documentation task, we keep all Documentation within
-this repository. It is possible to generate the docs (without installing
-any additional Proxmox packages) with:
+this repository. It is possible to generate the docs without installing
+any additional Proxmox packages with:
 
  make index
+
+To update the auto-generate API definitions use:
+
+ make update
+
+NOTE: you need a fully installed development environment for that.
 
 
 Debian Packages

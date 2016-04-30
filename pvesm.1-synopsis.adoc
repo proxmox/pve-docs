@@ -109,7 +109,7 @@ Wipe throughput (cstream -t parameter value).
 
 Server IP or DNS name.
 
-`-server[n]` `string` ::
+`-server2` `string` ::
 
 Backup volfile server IP or DNS name.
 +
@@ -384,7 +384,7 @@ Wipe throughput (cstream -t parameter value).
 
 Server IP or DNS name.
 
-`-server[n]` `string` ::
+`-server2` `string` ::
 
 Backup volfile server IP or DNS name.
 +

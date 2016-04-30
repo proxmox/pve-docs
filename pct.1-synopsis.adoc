@@ -388,7 +388,8 @@ Owner group name or id.
 
 `-perms` `string` ::
 
-File permissions to use.
+File permissions to use (octal by default, prefix with '0x' for
+hexadecimal).
 
 `-user` `string` ::
 
@@ -419,7 +420,8 @@ container.
 
 `-perms` `string` ::
 
-File permissions to use.
+File permissions to use (octal by default, prefix with '0x' for
+hexadecimal).
 
 `-user` `string` ::
 
