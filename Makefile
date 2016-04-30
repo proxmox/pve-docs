@@ -139,7 +139,7 @@ ADOC_MAN8_HTML_ARGS=-a "manvolnum=8" ${ADOC_STDARG} -a "revnumber=${DOCRELEASE}"
 
 BROWSER?=xdg-open
 
-all: pve-admin-guide.html
+all: index.html
 
 %-nwdiag.svg: %.nwdiag
 	nwdiag -T svg $*.nwdiag -o $@;
@@ -258,12 +258,12 @@ upload: ${GEN_DEB} ${DOC_DEB}
 	cd /pve/${DOCRELEASE}/extra; dpkg-scanpackages . /dev/null > Packages; gzip -9c Packages > Packages.gz
 	umount /pve/${DOCRELEASE}; mount /pve/${DOCRELEASE} -o ro
 
+.PHONY: update
 update: clean
 	rm -f *.5-opts.adoc .1-synopsis.adoc .8-synopsis.adoc
+	rm -f api-viewer/apidata.js
 	make all
 
 clean:
-	rm -rf *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidata.js api-viewer/apidoc.js chapter-*.html pve-admin-guide.chunked
+	rm -rf *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html pve-admin-guide.chunked
 	find . -name '*~' -exec rm {} ';'
-
-
