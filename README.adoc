@@ -19,11 +19,21 @@ To simplify the documentation task, we keep all Documentation within
 this repository. It is possible to generate the docs (without installing
 any additional Proxmox packages) with:
 
- make index.html
+ make index
 
-We also generate an additional development package called
-'pve-doc-generator', which is used by other Proxmox VE package to
-generate manual pages at package build time.
+
+Debian Packages
+---------------
+
+We generate a development package called 'pve-doc-generator', which is
+used by other Proxmox VE package to generate manual pages at package
+build time.
+
+Another package called 'pve-docs' is used to publish generated
+'.html' and '.pdf' files on our web servers. You can generate
+those debian packages using:
+
+ make deb
 
 
 Common Macro definition in link:attributes.txt[]

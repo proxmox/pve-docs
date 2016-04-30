@@ -165,12 +165,15 @@ pmxcfs.8.html: pmxcfs.adoc pmxcfs.8-cli.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_MAN5_HTML_ARGS} -o $@ $*.adoc
 	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
+.PHONY: index
+index: index.html
+	test -n "$${NOVIEW}" || $(BROWSER) index.html &
+
 index.html: index.adoc ${PVE_ADMIN_GUIDE_SOURCES} ${API_VIEWER_SOURCES}
 	$(MAKE) NOVIEW=1 pve-admin-guide.pdf pve-admin-guide.html pve-admin-guide.epub
 	$(MAKE) NOVIEW=1 $(addsuffix .1.html, ${COMMAND_LIST}) $(addsuffix .8.html, ${SERVICE_LIST}) $(addsuffix .5.html, ${CONFIG_LIST})
 	$(MAKE) NOVIEW=1 $(addsuffix .html, $(addprefix chapter-, ${CHAPTER_LIST}))
 	asciidoc -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}" index.adoc
-	test -n "$${NOVIEW}" || $(BROWSER) index.html &
 
 pve-admin-guide.html: ${PVE_ADMIN_GUIDE_SOURCES}
 	asciidoc -a "revnumber=${DOCRELEASE}" -a "date=$(shell date)" pve-admin-guide.adoc
@@ -217,10 +220,7 @@ DOC_DEB_FILES=								\
 	pve-admin-guide.epub	\
 	index.html
 
-${DOC_DEB}: index.adoc ${PVE_ADMIN_GUIDE_SOURCES} ${API_VIEWER_SOURCES}
-	$(MAKE) NOVIEW=1 pve-admin-guide.pdf pve-admin-guide.html pve-admin-guide.epub
-	$(MAKE) NOVIEW=1 $(addsuffix .1.html, ${COMMAND_LIST}) $(addsuffix .8.html, ${SERVICE_LIST}) $(addsuffix .5.html, ${CONFIG_LIST})
-	asciidoc -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}" index.adoc
+${DOC_DEB}: index.html
 	rm -rf build
 	mkdir build
 	rsync -a doc-debian/ build/debian
