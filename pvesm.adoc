@@ -71,7 +71,7 @@ snapshots and clones.
 |NFS            |nfs         |file  |yes   |no       |yes
 |GlusterFS      |glusterfs   |file  |yes   |no       |yes
 |LVM            |lvm         |block |no    |no       |yes
-|LVM-thin       |lvmthin     |block |no    |yes      |beta
+|LVM-thin       |lvmthin     |block |no    |yes      |yes
 |iSCSI/kernel   |iscsi       |block |yes   |no       |yes
 |iSCSI/libiscsi |iscsidirect |block |yes   |no       |yes
 |Ceph/RBD       |rbd         |block |yes   |yes      |yes
@@ -118,12 +118,16 @@ followed by a list of properties. Most properties have values, but some of
 them come with reasonable default. In that case you can omit the value.
 
 .Default storage configuration ('/etc/pve/storage.cfg')
-====
- dir: local
+----
+dir: local
 	path /var/lib/vz
-	content backup,iso,vztmpl,images,rootdir
-	maxfiles 3
-====
+	content iso,vztmpl,backup
+
+lvmthin: local-lvm
+	thinpool data
+	vgname pve
+	content rootdir,images
+----
 
 Common Storage Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -315,6 +319,8 @@ include::pve-storage-glusterfs.adoc[]
 include::pve-storage-zfspool.adoc[]
 
 include::pve-storage-lvm.adoc[]
+
+include::pve-storage-lvmthin.adoc[]
 
 include::pve-storage-iscsi.adoc[]
 

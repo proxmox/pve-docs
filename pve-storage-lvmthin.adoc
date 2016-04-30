@@ -1,0 +1,77 @@
+LVM thin Backend
+----------------
+
+Storage pool type: `lvmthin`
+
+LVM normally allocates blocks when you create a volume. LVM thin pools
+instead allocates blocks when they are written. This behaviour is
+called thin-provisioning, because volumes can be much larger than
+physically available space.
+
+You can use the normal LVM command line tools to manage and create LVM
+thin pools (see 'man lvmthin' for details). Assuming you already have
+a LVM volume group called `pve`, the following commands create a new
+LVM thin pool (size 100G) called `data`:
+
+----
+lvcreate -L 100G -n data pve
+lvconvert --type thin-pool pve/data
+----
+
+
+Configuration
+~~~~~~~~~~~~~
+
+The LVM thin backend supports the common storage properties `content`, `nodes`,
+`disable`, and the following LVM specific properties:
+
+`vgname`::
+
+LVM volume group name. This must point to an existing volume group.
+
+`thinpool`::
+
+The name of the LVM thin pool.
+
+
+.Configuration Example ('/etc/pve/storage.cfg')
+----
+lvmthin: local-lvm
+	thinpool data
+	vgname pve
+	content rootdir,images
+----
+
+
+File naming conventions
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The backend use basically the same naming conventions as the ZFS pool
+backend.
+
+ vm-<VMID>-<NAME>      // normal VM images
+
+
+Storage Features
+~~~~~~~~~~~~~~~~
+
+LVM thin is a block storage, but fully supports snapshots and clones
+efficiently. New volumes are automatically initialized with zero.
+
+It must be mentioned that LVM thin pools cannot be shared across
+multiple nodes, so you can only use them as local storage.
+
+.Storage features for backend `lvmthin`
+[width="100%",cols="m,m,3*d",options="header"]
+|==============================================================================
+|Content types  |Image formats  |Shared   |Snapshots |Clones
+|images rootdir |raw            |no       |yes       |yes
+|==============================================================================
+
+Examples
+~~~~~~~~
+
+List available LVM thin pools on volume group `pve`:
+
+ # pvesm lvmthinscan pve
+
