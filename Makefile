@@ -123,8 +123,6 @@ PVE_ADMIN_GUIDE_SOURCES=			\
 	${PVEAM_MAN1_SOURCES}			\
 	${PVESUBSCRIPTION_MAN1_SOURCES}		\
 	${PVECEPH_MAN1_SOURCES}			\
-	images/cluster-nwdiag.svg		\
-	images/node-nwdiag.svg			\
 	pve-bibliography.adoc			\
 	$(addsuffix .adoc, ${COMMAND_LIST}) 	\
 	$(addsuffix .adoc, ${SERVICE_LIST}) 	\

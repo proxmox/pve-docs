@@ -79,9 +79,6 @@ Network Configuration
 
 Basic network setup.
 
-image::images/cluster-nwdiag.svg[{pve} Cluster Network]
-
-image::images/node-nwdiag.svg[{pve} Default Network Setup]
 
 
 Local Storage
