@@ -111,7 +111,19 @@ my $docs = {
     'chapter-vzdump-plain.html' => {
 	title => "Backup and Restore",
 	category => $cat_refdoc,
-    }
+    },
+    'qm.conf.5-plain.html' => {
+	title => "Manual: vm.conf",
+	category => $cat_refdoc,
+    },
+    'pct.conf.5-plain.html' => {
+	title => "Manual: pct.conf",
+	category => $cat_refdoc,
+    },
+    'datacenter.cfg.5-plain.html' => {
+	title => "Manual: datacenter.cfg",
+	category => $cat_refdoc,
+    },
 };
 
 #update_page("testpage1", $filename, $d->{category});
