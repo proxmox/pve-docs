@@ -130,6 +130,17 @@ PVE_ADMIN_GUIDE_SOURCES=			\
 	GFDL.adoc				\
 	attributes.txt
 
+INDEX_INCLUDES=								\
+	pve-admin-guide.pdf 						\
+	pve-admin-guide.html 						\
+	pve-admin-guide.epub 						\
+	$(addsuffix .1.html, ${COMMAND_LIST}) 				\
+	$(addsuffix .8.html, ${SERVICE_LIST}) 				\
+	$(addsuffix .5.html, ${CONFIG_LIST}) 				\
+	$(addsuffix .html, $(addprefix chapter-, ${CHAPTER_LIST})) 	\
+	$(addsuffix -plain.html, $(addprefix chapter-, ${CHAPTER_LIST}))\
+	$(addsuffix .5-plain.html, ${CONFIG_LIST})
+
 ADOC_STDARG= -a icons -a data-uri -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}"
 ADOC_MAN1_HTML_ARGS=-a "manvolnum=1" ${ADOC_STDARG}
 ADOC_MAN5_HTML_ARGS=-a "manvolnum=5" ${ADOC_STDARG}
@@ -146,11 +157,10 @@ chapter-%.html: %.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_STDARG} -a toc -o $@ $*.adoc
 
 chapter-%-plain.html: %.adoc ${PVE_COMMON_DOC_SOURCES}
-	asciidoc -s ${ADOC_STDARG} -a toc -o chapter-$*-plain.html $*.adoc
+	asciidoc -s ${ADOC_STDARG} -o chapter-$*-plain.html $*.adoc
 
 %.1.html: %.adoc %.1-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_MAN1_HTML_ARGS} -o $@ $*.adoc
-
 
 pmxcfs.8.html: pmxcfs.adoc pmxcfs.8-cli.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_MAN8_HTML_ARGS} -o $@ pmxcfs.adoc
@@ -168,20 +178,7 @@ pmxcfs.8.html: pmxcfs.adoc pmxcfs.8-cli.adoc ${PVE_COMMON_DOC_SOURCES}
 index: index.html
 	$(BROWSER) index.html &
 
-INDEX_SOURCES=								\
-	index.adoc 							\
-	api-viewer/apidoc.js 						\
-	pve-admin-guide.pdf 						\
-	pve-admin-guide.html 						\
-	pve-admin-guide.epub 						\
-	$(addsuffix .1.html, ${COMMAND_LIST}) 				\
-	$(addsuffix .8.html, ${SERVICE_LIST}) 				\
-	$(addsuffix .5.html, ${CONFIG_LIST}) 				\
-	$(addsuffix .html, $(addprefix chapter-, ${CHAPTER_LIST})) 	\
-	$(addsuffix -plain.html, $(addprefix chapter-, ${CHAPTER_LIST}))\
-	$(addsuffix .5-plain.html, ${CONFIG_LIST})
-
-index.html: ${INDEX_SOURCES}
+index.html: index.adoc ${API_VIEWER_SOURCES} ${INDEX_INCLUDES} 
 	asciidoc -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}" index.adoc
 
 pve-admin-guide.html: ${PVE_ADMIN_GUIDE_SOURCES}
@@ -208,26 +205,13 @@ api-viewer/apidoc.js: api-viewer/apidata.js api-viewer/PVEAPI.js
 dinstall: ${GEN_DEB} ${DOC_DEB}
 	dpkg -i ${GEN_DEB} ${DOC_DEB}
 
-
 .PHONY: deb
 deb:
 	rm -f ${GEN_DEB} ${DOC_DEB};
 	make ${GEN_DEB};
 	make ${DOC_DEB};
 
-DOC_DEB_FILES=									\
-	$(addsuffix .html, $(addprefix chapter-, ${CHAPTER_LIST})) 		\
-	$(addsuffix -plain.html, $(addprefix chapter-, ${CHAPTER_LIST})) 	\
-	$(addsuffix .5-plain.html, ${CONFIG_LIST})				\
-	$(addsuffix .1.html, ${COMMAND_LIST}) 					\
-	$(addsuffix .8.html, ${SERVICE_LIST}) 					\
-	$(addsuffix .5.html, ${CONFIG_LIST})					\
-	pve-admin-guide.pdf 							\
-	pve-admin-guide.html 							\
-	pve-admin-guide.epub							\
-	index.html
-
-${DOC_DEB}: ${DOC_DEB_FILES}
+${DOC_DEB}: index.html ${INDEX_INCLUDES} ${API_VIEWER_SOURCES}
 	rm -rf build
 	mkdir build
 	rsync -a doc-debian/ build/debian
@@ -235,7 +219,7 @@ ${DOC_DEB}: ${DOC_DEB_FILES}
 	mkdir -p build/usr/share/doc/${DOC_PACKAGE}
 	echo "git clone git://git.proxmox.com/git/pve-docs.git\\ngit checkout ${GITVERSION}" > build/usr/share/doc/${DOC_PACKAGE}/SOURCE
 	# install doc files
-	install -m 0644 ${DOC_DEB_FILES} build/usr/share/${DOC_PACKAGE}
+	install -m 0644 ${INDEX_INCLUDES} build/usr/share/${DOC_PACKAGE}
 	# install api doc viewer
 	mkdir build/usr/share/${DOC_PACKAGE}/api-viewer
 	install -m 0644 ${API_VIEWER_SOURCES} build/usr/share/${DOC_PACKAGE}/api-viewer
