@@ -130,10 +130,10 @@ PVE_ADMIN_GUIDE_SOURCES=			\
 	GFDL.adoc				\
 	attributes.txt
 
-ADOC_STDARG= -a icons -a data-uri -a "date=$(shell date)"
-ADOC_MAN1_HTML_ARGS=-a "manvolnum=1" ${ADOC_STDARG} -a "revnumber=${DOCRELEASE}"
-ADOC_MAN5_HTML_ARGS=-a "manvolnum=5" ${ADOC_STDARG} -a "revnumber=${DOCRELEASE}"
-ADOC_MAN8_HTML_ARGS=-a "manvolnum=8" ${ADOC_STDARG} -a "revnumber=${DOCRELEASE}"
+ADOC_STDARG= -a icons -a data-uri -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}"
+ADOC_MAN1_HTML_ARGS=-a "manvolnum=1" ${ADOC_STDARG}
+ADOC_MAN5_HTML_ARGS=-a "manvolnum=5" ${ADOC_STDARG}
+ADOC_MAN8_HTML_ARGS=-a "manvolnum=8" ${ADOC_STDARG}
 
 BROWSER?=xdg-open
 
@@ -144,6 +144,10 @@ all: index.html
 
 chapter-%.html: %.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_STDARG} -a toc -o $@ $*.adoc
+	test -n "$${NOVIEW}" || $(BROWSER) $@ &
+
+chapter-%-plain.html: %.adoc ${PVE_COMMON_DOC_SOURCES}
+	asciidoc -s ${ADOC_STDARG} -a toc -o chapter-$*-plain.html $*.adoc
 	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
 %.1.html: %.adoc %.1-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
@@ -171,6 +175,7 @@ index.html: index.adoc ${PVE_ADMIN_GUIDE_SOURCES} ${API_VIEWER_SOURCES}
 	$(MAKE) NOVIEW=1 pve-admin-guide.pdf pve-admin-guide.html pve-admin-guide.epub
 	$(MAKE) NOVIEW=1 $(addsuffix .1.html, ${COMMAND_LIST}) $(addsuffix .8.html, ${SERVICE_LIST}) $(addsuffix .5.html, ${CONFIG_LIST})
 	$(MAKE) NOVIEW=1 $(addsuffix .html, $(addprefix chapter-, ${CHAPTER_LIST}))
+	$(MAKE) NOVIEW=1 $(addsuffix -plain.html, $(addprefix chapter-, ${CHAPTER_LIST}))
 	asciidoc -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}" index.adoc
 
 pve-admin-guide.html: ${PVE_ADMIN_GUIDE_SOURCES}
@@ -208,14 +213,15 @@ deb:
 	make ${GEN_DEB};
 	make ${DOC_DEB};
 
-DOC_DEB_FILES=								\
-	$(addsuffix .html, $(addprefix chapter-, ${CHAPTER_LIST})) 	\
-	$(addsuffix .1.html, ${COMMAND_LIST}) 				\
-	$(addsuffix .8.html, ${SERVICE_LIST}) 				\
-	$(addsuffix .5.html, ${CONFIG_LIST})				\
-	pve-admin-guide.pdf 	\
-	pve-admin-guide.html 	\
-	pve-admin-guide.epub	\
+DOC_DEB_FILES=									\
+	$(addsuffix .html, $(addprefix chapter-, ${CHAPTER_LIST})) 		\
+	$(addsuffix -plain.html, $(addprefix chapter-, ${CHAPTER_LIST})) 	\
+	$(addsuffix .1.html, ${COMMAND_LIST}) 					\
+	$(addsuffix .8.html, ${SERVICE_LIST}) 					\
+	$(addsuffix .5.html, ${CONFIG_LIST})					\
+	pve-admin-guide.pdf 							\
+	pve-admin-guide.html 							\
+	pve-admin-guide.epub							\
 	index.html
 
 ${DOC_DEB}: index.html
@@ -264,5 +270,5 @@ update: clean
 	make all
 
 clean:
-	rm -rf *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html pve-admin-guide.chunked
+	rm -rf *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html chapter-*-plain.html chapter-*.html pve-admin-guide.chunked
 	find . -name '*~' -exec rm {} ';'
