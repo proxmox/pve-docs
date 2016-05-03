@@ -144,62 +144,59 @@ all: index.html
 
 chapter-%.html: %.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_STDARG} -a toc -o $@ $*.adoc
-	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
 chapter-%-plain.html: %.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc -s ${ADOC_STDARG} -a toc -o chapter-$*-plain.html $*.adoc
-	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
 %.1.html: %.adoc %.1-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_MAN1_HTML_ARGS} -o $@ $*.adoc
-	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
 
 pmxcfs.8.html: pmxcfs.adoc pmxcfs.8-cli.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_MAN8_HTML_ARGS} -o $@ pmxcfs.adoc
-	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
 %.8.html: %.adoc %.8-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_MAN8_HTML_ARGS} -o $@ $*.adoc
-	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
 %.5.html: %.adoc %.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_MAN5_HTML_ARGS} -o $@ $*.adoc
-	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
 %.5-plain.html: %.adoc %.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc -s ${ADOC_MAN5_HTML_ARGS} -o $@ $*.adoc
-	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
 .PHONY: index
 index: index.html
-	test -n "$${NOVIEW}" || $(BROWSER) index.html &
+	$(BROWSER) index.html &
 
-index.html: index.adoc ${PVE_ADMIN_GUIDE_SOURCES} ${API_VIEWER_SOURCES}
-	$(MAKE) NOVIEW=1 pve-admin-guide.pdf pve-admin-guide.html pve-admin-guide.epub
-	$(MAKE) NOVIEW=1 $(addsuffix .1.html, ${COMMAND_LIST}) $(addsuffix .8.html, ${SERVICE_LIST}) $(addsuffix .5.html, ${CONFIG_LIST})
-	$(MAKE) NOVIEW=1 $(addsuffix .html, $(addprefix chapter-, ${CHAPTER_LIST}))
-	$(MAKE) NOVIEW=1 $(addsuffix -plain.html, $(addprefix chapter-, ${CHAPTER_LIST}))
-	$(MAKE) NOVIEW=1 $(addsuffix .5-plain.html, ${CONFIG_LIST})
+INDEX_SOURCES=								\
+	index.adoc 							\
+	api-viewer/apidoc.js 						\
+	pve-admin-guide.pdf 						\
+	pve-admin-guide.html 						\
+	pve-admin-guide.epub 						\
+	$(addsuffix .1.html, ${COMMAND_LIST}) 				\
+	$(addsuffix .8.html, ${SERVICE_LIST}) 				\
+	$(addsuffix .5.html, ${CONFIG_LIST}) 				\
+	$(addsuffix .html, $(addprefix chapter-, ${CHAPTER_LIST})) 	\
+	$(addsuffix -plain.html, $(addprefix chapter-, ${CHAPTER_LIST}))\
+	$(addsuffix .5-plain.html, ${CONFIG_LIST})
+
+index.html: ${INDEX_SOURCES}
 	asciidoc -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}" index.adoc
 
 pve-admin-guide.html: ${PVE_ADMIN_GUIDE_SOURCES}
 	asciidoc -a "revnumber=${DOCRELEASE}" -a "date=$(shell date)" pve-admin-guide.adoc
-	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
 pve-admin-guide.chunked: ${PVE_ADMIN_GUIDE_SOURCES}
 	rm -rf pve-admin-guide.chunked
 	a2x -a docinfo -a docinfo1 -a icons -f chunked pve-admin-guide.adoc
-	test -n "$${NOVIEW}" || $(BROWSER) $@/index.html &
 
 pve-admin-guide.pdf: ${PVE_ADMIN_GUIDE_SOURCES} docinfo.xml pve-admin-guide-docinfo.xml
 	grep ">Release ${DOCRELEASE}<" pve-admin-guide-docinfo.xml || (echo "wrong release in  pve-admin-guide-docinfo.xml" && false);
 	a2x -a docinfo -a docinfo1 -f pdf -L --dblatex-opts "-P latex.output.revhistory=0" --dblatex-opts "-P latex.class.options=12pt" --dblatex-opts "-P doc.section.depth=2 -P toc.section.depth=2" pve-admin-guide.adoc
-	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
 pve-admin-guide.epub: ${PVE_ADMIN_GUIDE_SOURCES}
 	a2x -f epub pve-admin-guide.adoc
-	test -n "$${NOVIEW}" || $(BROWSER) $@ &
 
 api-viewer/apidata.js: extractapi.pl
 	./extractapi.pl >$@
@@ -230,7 +227,7 @@ DOC_DEB_FILES=									\
 	pve-admin-guide.epub							\
 	index.html
 
-${DOC_DEB}: index.html
+${DOC_DEB}: ${DOC_DEB_FILES}
 	rm -rf build
 	mkdir build
 	rsync -a doc-debian/ build/debian
