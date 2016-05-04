@@ -49,6 +49,12 @@ function efPvedocsParserFunction_Render($parser, $param1 = '', $param2 = '') {
 
 	$content = file_get_contents("/usr/share/pve-docs/$param1");
 
+    $output = "<noscript><div><p>" .
+        "This page requires java-script. To view " .
+        "this page without java-script goto " .
+        "<a href='/pve-docs/$param1'>$param1</a>" .
+        "</div></noscript>\n";
+
 	# hack to inject html without modifications my mediawiki parser
 	$encHtml = encodeURI($content);
 	$output .= "<div id='pve_embed_data'></div>";
