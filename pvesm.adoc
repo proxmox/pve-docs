@@ -308,6 +308,8 @@ Show filesystem path for a volume
 
  pvesm path <VOLUME_ID>
 
+ifndef::wiki[]
+
 // backend documentation
 
 include::pve-storage-dir.adoc[]
@@ -329,7 +331,10 @@ include::pve-storage-iscsidirect.adoc[]
 include::pve-storage-rbd.adoc[]
 
 
+
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
 endif::manvolnum[]
+
+endif::wiki[]
 

@@ -29,6 +29,16 @@ CHAPTER_LIST=		\
 	pve-faq		\
 	pve-bibliography
 
+STORAGE_TYPES=		\
+	dir		\
+	glusterfs	\
+	iscsi		\
+	iscsidirect	\
+	lvm		\
+	lvmthin		\
+	nfs		\
+	rbd		\
+	zfspool
 
 COMMAND_LIST=		\
 	pvesubscription	\
@@ -130,6 +140,11 @@ PVE_ADMIN_GUIDE_SOURCES=			\
 	GFDL.adoc				\
 	attributes.txt
 
+WIKI_IMPORTS=								\
+	$(addsuffix -plain.html, $(addprefix chapter-, ${CHAPTER_LIST}))\
+	$(addsuffix .5-plain.html, ${CONFIG_LIST})			\
+	$(addsuffix -plain.html, $(addprefix pve-storage-, ${STORAGE_TYPES}))
+
 INDEX_INCLUDES=								\
 	pve-admin-guide.pdf 						\
 	pve-admin-guide.html 						\
@@ -137,9 +152,7 @@ INDEX_INCLUDES=								\
 	$(addsuffix .1.html, ${COMMAND_LIST}) 				\
 	$(addsuffix .8.html, ${SERVICE_LIST}) 				\
 	$(addsuffix .5.html, ${CONFIG_LIST}) 				\
-	$(addsuffix .html, $(addprefix chapter-, ${CHAPTER_LIST})) 	\
-	$(addsuffix -plain.html, $(addprefix chapter-, ${CHAPTER_LIST}))\
-	$(addsuffix .5-plain.html, ${CONFIG_LIST})
+	$(addsuffix .html, $(addprefix chapter-, ${CHAPTER_LIST}))
 
 ADOC_STDARG= -a icons -a data-uri -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}"
 ADOC_MAN1_HTML_ARGS=-a "manvolnum=1" ${ADOC_STDARG}
@@ -157,7 +170,10 @@ chapter-%.html: %.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_STDARG} -a toc -o $@ $*.adoc
 
 chapter-%-plain.html: %.adoc ${PVE_COMMON_DOC_SOURCES}
-	asciidoc -s ${ADOC_STDARG} -o chapter-$*-plain.html $*.adoc
+	asciidoc -s -a wiki ${ADOC_STDARG} -o $@ $*.adoc
+
+pve-storage-%-plain.html: pve-storage-%.adoc ${PVE_COMMON_DOC_SOURCES}
+	asciidoc -s -a wiki -a 'leveloffset=-1' ${ADOC_STDARG} -o $@ pve-storage-$*.adoc
 
 %.1.html: %.adoc %.1-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_MAN1_HTML_ARGS} -o $@ $*.adoc
@@ -211,7 +227,7 @@ deb:
 	make ${GEN_DEB};
 	make ${DOC_DEB};
 
-${DOC_DEB}: index.html ${INDEX_INCLUDES} ${API_VIEWER_SOURCES}
+${DOC_DEB}: index.html ${INDEX_INCLUDES} ${WIKI_IMPORTS} ${API_VIEWER_SOURCES}
 	rm -rf build
 	mkdir build
 	rsync -a doc-debian/ build/debian
@@ -220,6 +236,7 @@ ${DOC_DEB}: index.html ${INDEX_INCLUDES} ${API_VIEWER_SOURCES}
 	echo "git clone git://git.proxmox.com/git/pve-docs.git\\ngit checkout ${GITVERSION}" > build/usr/share/doc/${DOC_PACKAGE}/SOURCE
 	# install doc files
 	install -m 0644 ${INDEX_INCLUDES} build/usr/share/${DOC_PACKAGE}
+	install -m 0644 ${WIKI_IMPORTS} build/usr/share/${DOC_PACKAGE}
 	# install api doc viewer
 	mkdir build/usr/share/${DOC_PACKAGE}/api-viewer
 	install -m 0644 ${API_VIEWER_SOURCES} build/usr/share/${DOC_PACKAGE}/api-viewer
