@@ -39,3 +39,12 @@ driver.
 |images         |raw            |yes    |no        |no
 |==============================================================================
 
+ifdef::wiki[]
+
+See Also
+~~~~~~~~
+
+* link:/index.php/Storage[Storage]
+
+endif::wiki[]
+

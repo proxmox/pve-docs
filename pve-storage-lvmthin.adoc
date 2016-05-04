@@ -76,3 +76,11 @@ List available LVM thin pools on volume group `pve`:
 
  # pvesm lvmthinscan pve
 
+ifdef::wiki[]
+
+See Also
+~~~~~~~~
+
+* link:/index.php/Storage[Storage]
+
+endif::wiki[]

@@ -87,3 +87,12 @@ snapshot and clone functionality.
 |images rootdir |raw            |yes    |yes       |yes
 |==============================================================================
 
+ifdef::wiki[]
+
+See Also
+~~~~~~~~
+
+* link:/index.php/Storage[Storage]
+
+endif::wiki[]
+

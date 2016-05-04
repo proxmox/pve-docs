@@ -64,3 +64,12 @@ snapshot/clone implementation.
 |images vztempl iso backup |raw qcow2 vmdk  |yes    |qcow2     |qcow2
 |==============================================================================
 
+ifdef::wiki[]
+
+See Also
+~~~~~~~~
+
+* link:/index.php/Storage[Storage]
+
+endif::wiki[]
+

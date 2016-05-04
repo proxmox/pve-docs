@@ -84,5 +84,13 @@ List available volume groups:
 
  # pvesm lvmscan
 
+ifdef::wiki[]
+
+See Also
+~~~~~~~~
+
+* link:/index.php/Storage[Storage]
+
+endif::wiki[]
 
 

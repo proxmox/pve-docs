@@ -79,4 +79,13 @@ Scan a remote iSCSI portal, and returns a list of possible targets:
 
  pvesm iscsiscan -portal <HOST[:PORT]>
 
+ifdef::wiki[]
+
+See Also
+~~~~~~~~
+
+* link:/index.php/Storage[Storage]
+
+endif::wiki[]
+
 

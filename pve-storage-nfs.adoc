@@ -75,3 +75,12 @@ Examples
 You can get a list of exported NFS shares with:
 
  # pvesm nfsscan <server>
+
+ifdef::wiki[]
+
+See Also
+~~~~~~~~
+
+* link:/index.php/Storage[Storage]
+
+endif::wiki[]

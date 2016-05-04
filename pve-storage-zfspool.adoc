@@ -85,3 +85,12 @@ To enable compression on that newly allocated filesystem:
 You can get a list of available ZFS filesystems with:
 
  # pvesm zfsscan
+
+ifdef::wiki[]
+
+See Also
+~~~~~~~~
+
+* link:/index.php/Storage[Storage]
+
+endif::wiki[]

@@ -126,3 +126,14 @@ And you can remove the image with:
 
  # pvesm free local:100/vm-100-disk10.raw
 
+
+ifdef::wiki[]
+
+See Also
+~~~~~~~~
+
+* link:/index.php/Storage[Storage]
+
+endif::wiki[]
+
+

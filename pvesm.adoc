@@ -308,6 +308,32 @@ Show filesystem path for a volume
 
  pvesm path <VOLUME_ID>
 
+ifdef::wiki[]
+
+See Also
+--------
+
+* link:/index.php/Storage:_Directory[Storage: Directory]
+
+* link:/index.php/Storage:_GlusterFS[Storage: GlusterFS]
+
+* link:/index.php/Storage:_User_Mode_iSCSI[Storage: User Mode iSCSI]
+
+* link:/index.php/Storage:_iSCSI[Storage: iSCSI]
+
+* link:/index.php/Storage:_LVM[Storage: LVM]
+
+* link:/index.php/Storage:_LVM_Thin[Storage: LVM Thin]
+
+* link:/index.php/Storage:_NFS[Storage: NFS]
+
+* link:/index.php/Storage:_RBD[Storage: RBD]
+
+* link:/index.php/Storage:_ZFS[Storage: ZFS]
+
+
+endif::wiki[]
+
 ifndef::wiki[]
 
 // backend documentation
