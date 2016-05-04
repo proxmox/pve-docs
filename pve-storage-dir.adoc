@@ -1,5 +1,6 @@
 Directory Backend
 -----------------
+include::attributes.txt[]
 
 Storage pool type: `dir`
 

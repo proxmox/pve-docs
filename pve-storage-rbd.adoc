@@ -1,5 +1,6 @@
 Ceph RADOS Block Devices (RBD)
 ------------------------------
+include::attributes.txt[]
 
 Storage pool type: `rbd`
 

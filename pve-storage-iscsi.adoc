@@ -1,5 +1,6 @@
 http://www.open-iscsi.org/[Open-iSCSI] initiator
 ------------------------------------------------
+include::attributes.txt[]
 
 Storage pool type: `iscsi`
 

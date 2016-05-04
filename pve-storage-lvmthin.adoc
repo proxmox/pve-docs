@@ -1,5 +1,6 @@
 LVM thin Backend
 ----------------
+include::attributes.txt[]
 
 Storage pool type: `lvmthin`
 

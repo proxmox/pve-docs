@@ -1,5 +1,6 @@
 GlusterFS Backend
 -----------------
+include::attributes.txt[]
 
 Storage pool type: `glusterfs`
 

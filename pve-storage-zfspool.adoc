@@ -1,5 +1,6 @@
 Local ZFS Pool Backend
 ----------------------
+include::attributes.txt[]
 
 Storage pool type: `zfspool`
 
