@@ -235,7 +235,7 @@ ${DOC_DEB}: index.html ${INDEX_INCLUDES} ${WIKI_IMPORTS} ${API_VIEWER_SOURCES}
 	mkdir -p build/usr/share/doc/${DOC_PACKAGE}
 	echo "git clone git://git.proxmox.com/git/pve-docs.git\\ngit checkout ${GITVERSION}" > build/usr/share/doc/${DOC_PACKAGE}/SOURCE
 	# install doc files
-	install -m 0644 ${INDEX_INCLUDES} build/usr/share/${DOC_PACKAGE}
+	install -m 0644 index.html ${INDEX_INCLUDES} build/usr/share/${DOC_PACKAGE}
 	install -m 0644 ${WIKI_IMPORTS} build/usr/share/${DOC_PACKAGE}
 	# install api doc viewer
 	mkdir build/usr/share/${DOC_PACKAGE}/api-viewer
