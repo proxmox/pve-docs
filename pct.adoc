@@ -453,7 +453,8 @@ set the address and gateway, while it's running
 
 Reduce the memory of the container to 512MB
 
- pct set -memory 512 100
+ pct set 100 -memory 512
+
 
 Files
 ------
