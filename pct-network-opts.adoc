@@ -1,0 +1,57 @@
+`net[n]`: `name=<String> [,bridge=<vmbr<Number>>] [,firewall=<[1|0]>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<MAC>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>] [,mtu=<Number>] [,rate=<mbps>] [,tag=<VlanNo>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]`
+
+`bridge`: `<vmbr<Number>>` ::
+
+Bridge to attach the network device to.
+
+`firewall`: `<[1|0]>` ::
+
+Controls whether this interface's firewall rules should be used.
+
+`gw`: `<GatewayIPv4>` ::
+
+Default gateway for IPv4 traffic.
+
+`gw6`: `<GatewayIPv6>` ::
+
+Default gateway for IPv6 traffic.
+
+`hwaddr`: `<MAC>` ::
+
+The interface MAC address. This is dynamically allocated by default, but
+you can set that statically if needed, for example to always have the same
+link-local IPv6 address. (lxc.network.hwaddr)
+
+`ip`: `<IPv4Format/CIDR>` ::
+
+IPv4 address in CIDR format.
+
+`ip6`: `<IPv6Format/CIDR>` ::
+
+IPv6 address in CIDR format.
+
+`mtu`: `<Number>` ::
+
+Maximum transfer unit of the interface. (lxc.network.mtu)
+
+`name`: `<String>` ::
+
+Name of the network device as seen from inside the container.
+(lxc.network.name)
+
+`rate`: `<mbps>` ::
+
+Apply rate limiting to the interface
+
+`tag`: `<VlanNo>` ::
+
+VLAN tag for this interface.
+
+`trunks`: `<vlanid[;vlanid...]>` ::
+
+VLAN ids to pass through the interface
+
+`type`: `(veth)` ::
+
+Network interface type.
+

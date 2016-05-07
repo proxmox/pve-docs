@@ -86,6 +86,7 @@ GEN_DEB_SOURCES=				\
 GEN_SCRIPTS=					\
 	gen-datacenter.cfg.5-opts.pl		\
 	gen-pct.conf.5-opts.pl			\
+	gen-pct-network-opts.pl			\
 	gen-qm.conf.5-opts.pl			\
 	gen-vzdump.conf.5-opts.pl		\
 	gen-pve-firewall-cluster-opts.pl	\
@@ -270,7 +271,7 @@ upload: ${GEN_DEB} ${DOC_DEB}
 update: clean
 	rm -f *.5-opts.adoc *.1-synopsis.adoc *.8-synopsis.adoc
 	rm -f api-viewer/apidata.js
-	rm -f pve-firewall-macros.adoc
+	rm -f pve-firewall-macros.adoc pct-network-opts.adoc
 	make all
 
 clean:

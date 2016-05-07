@@ -57,6 +57,7 @@ PVECEPH_MAN1_SOURCES=			\
 PCT_MAN1_SOURCES=			\
 	pct.adoc 			\
 	pct.1-synopsis.adoc		\
+	pct-network-opts.adoc		\
 	${PVE_COMMON_DOC_SOURCES}
 
 PCT_CONF_MAN5_SOURCES=			\

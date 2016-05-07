@@ -391,7 +391,11 @@ group/others model.
 Container Network
 -----------------
 
-TODO
+You can configure up to 10 network interfaces for a single
+container. The corresponding options are called 'net0' to 'net9', and
+they can contain the following setting:
+
+include::pct-network-opts.adoc[]
 
 
 Managing Containers with 'pct'
