@@ -324,14 +324,15 @@ mount local directories using bind mounts. That way you can access
 local storage inside containers with zero overhead. Such bind mounts
 also provide an easy way to share data between different containers.
 
-Container Mountpoints
----------------------
 
-Beside the root directory the container can also have additional mountpoints.
-Currently there are basically three types of mountpoints: storage backed
-mountpoints, bind mounts and device mounts.
+Mount Points
+~~~~~~~~~~~~
 
-Storage backed mountpoints are managed by the {pve} storage subsystem and come
+Beside the root directory the container can also have additional mount points.
+Currently there are basically three types of mount points: storage backed
+mount points, bind mounts and device mounts.
+
+Storage backed mount points are managed by the {pve} storage subsystem and come
 in three different flavors:
 
 - Image based: These are raw images containing a single ext4 formatted file
@@ -355,9 +356,9 @@ advised against, as containers need to be frozen for suspend or
 snapshot mode backups. If FUSE mounts cannot be replaced by other
 mounting mechanisms or storage technologies, it is possible to
 establish the FUSE mount on the Proxmox host and use a bind
-mountpoint to make it accessible inside the container.
+mount point to make it accessible inside the container.
 
-The root mountpoint is configured with the 'rootfs' property, and you can
+The root mount point is configured with the 'rootfs' property, and you can
 configure up to 10 additional mount points. The corresponding options
 are called 'mp0' to 'mp9', and they can contain the following setting:
 
@@ -371,25 +372,29 @@ rootfs: thin1:base-100-disk-1,size=8G
 Using quotas inside containers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Quotas allow to set limits inside a container for the amount of disk space
-that each user can use.
-This only works on ext4 image based storage types and currently does not work
-with unprivileged containers.
+Quotas allow to set limits inside a container for the amount of disk
+space that each user can use.  This only works on ext4 image based
+storage types and currently does not work with unprivileged
+containers.
 
-Activating the `quota` option causes the following mount options to be used for
-a mountpoint: `usrjquota=aquota.user,grpjquota=aquota.group,jqfmt=vfsv0`
+Activating the `quota` option causes the following mount options to be
+used for a mount point:
+`usrjquota=aquota.user,grpjquota=aquota.group,jqfmt=vfsv0`
 
-This allows quotas to be used like you would on any other system. You can
-initialize the `/aquota.user` and `/aquota.group` files by running
+This allows quotas to be used like you would on any other system. You
+can initialize the `/aquota.user` and `/aquota.group` files by running
 
- quotacheck -cmug /
- quotaon /
+----
+quotacheck -cmug /
+quotaon /
+----
 
 and edit the quotas via the `edquota` command. Refer to the documentation
 of the distribution running inside the container for details.
 
-NOTE: You need to run the above commands for every mountpoint by passing
-the mountpoint's path instead of just `/`.
+NOTE: You need to run the above commands for every mount point by passing
+the mount point's path instead of just `/`.
+
 
 Using ACLs inside containers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
