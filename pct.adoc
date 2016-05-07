@@ -324,6 +324,75 @@ mount local directories using bind mounts. That way you can access
 local storage inside containers with zero overhead. Such bind mounts
 also provide an easy way to share data between different containers.
 
+Container Mountpoints
+---------------------
+
+Beside the root directory the container can also have additional mountpoints.
+Currently there are basically three types of mountpoints: storage backed
+mountpoints, bind mounts and device mounts.
+
+Storage backed mountpoints are managed by the {pve} storage subsystem and come
+in three different flavors:
+
+- Image based: These are raw images containing a single ext4 formatted file
+  system.
+- ZFS Subvolumes: These are technically bind mounts, but with managed storage,
+  and thus allow resizing and snapshotting.
+- Directories: passing `size=0` triggers a special case where instead of a raw
+  image a directory is created.
+
+Bind mounts are considered to not be managed by the storage subsystem, so you
+cannot make snapshots or deal with quotas from inside the container, and with
+unprivileged containers you might run into permission problems caused by the
+user mapping, and cannot use ACLs from inside an unprivileged container.
+
+Similarly device mounts are not managed by the storage, but for these the
+`quota` and `acl` options will be honored.
+
+WARNING: Because of existing issues in the Linux kernel's freezer
+subsystem the usage of FUSE mounts inside a container is strongly
+advised against, as containers need to be frozen for suspend or
+snapshot mode backups. If FUSE mounts cannot be replaced by other
+mounting mechanisms or storage technologies, it is possible to
+establish the FUSE mount on the Proxmox host and use a bind
+mountpoint to make it accessible inside the container.
+
+Using quotas inside containers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Quotas allow to set limits inside a container for the amount of disk space
+that each user can use.
+This only works on ext4 image based storage types and currently does not work
+with unprivileged containers.
+
+Activating the `quota` option causes the following mount options to be used for
+a mountpoint: `usrjquota=aquota.user,grpjquota=aquota.group,jqfmt=vfsv0`
+
+This allows quotas to be used like you would on any other system. You can
+initialize the `/aquota.user` and `/aquota.group` files by running
+
+ quotacheck -cmug /
+ quotaon /
+
+and edit the quotas via the `edquota` command. Refer to the documentation
+of the distribution running inside the container for details.
+
+NOTE: You need to run the above commands for every mountpoint by passing
+the mountpoint's path instead of just `/`.
+
+Using ACLs inside containers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The standard Posix Access Control Lists are also available inside containers. 
+ACLs allow you to set more detailed file ownership than the traditional user/
+group/others model.
+
+
+Container Network
+-----------------
+
+TODO
+
 
 Managing Containers with 'pct'
 ------------------------------
@@ -334,7 +403,7 @@ and destroy containers, and control execution (start, stop, migrate,
 like network configuration or memory limits.
 
 CLI Usage Examples
-------------------
+~~~~~~~~~~~~~~~~~~
 
 Create a container based on a Debian template (provided you have
 already downloaded the template via the webgui)
@@ -373,69 +442,6 @@ Files
 
 Configuration file for the container '<CTID>'.
 
-
-Container Mountpoints
----------------------
-
-Beside the root directory the container can also have additional mountpoints.
-Currently there are basically three types of mountpoints: storage backed
-mountpoints, bind mounts and device mounts.
-
-Storage backed mountpoints are managed by the {pve} storage subsystem and come
-in three different flavors:
-
-- Image based: These are raw images containing a single ext4 formatted file
-  system.
-- ZFS Subvolumes: These are technically bind mounts, but with managed storage,
-  and thus allow resizing and snapshotting.
-- Directories: passing `size=0` triggers a special case where instead of a raw
-  image a directory is created.
-
-Bind mounts are considered to not be managed by the storage subsystem, so you
-cannot make snapshots or deal with quotas from inside the container, and with
-unprivileged containers you might run into permission problems caused by the
-user mapping, and cannot use ACLs from inside an unprivileged container.
-
-Similarly device mounts are not managed by the storage, but for these the
-`quota` and `acl` options will be honored.
-
-WARNING: Because of existing issues in the Linux kernel's freezer
-subsystem the usage of FUSE mounts inside a container is strongly
-advised against, as containers need to be frozen for suspend or
-snapshot mode backups. If FUSE mounts cannot be replaced by other
-mounting mechanisms or storage technologies, it is possible to
-establish the FUSE mount on the Proxmox host and use a bind
-mountpoint to make it accessible inside the container.
-
-Using quotas inside containers
-------------------------------
-
-Quotas allow to set limits inside a container for the amount of disk space
-that each user can use.
-This only works on ext4 image based storage types and currently does not work
-with unprivileged containers.
-
-Activating the `quota` option causes the following mount options to be used for
-a mountpoint: `usrjquota=aquota.user,grpjquota=aquota.group,jqfmt=vfsv0`
-
-This allows quotas to be used like you would on any other system. You can
-initialize the `/aquota.user` and `/aquota.group` files by running
-
- quotacheck -cmug /
- quotaon /
-
-and edit the quotas via the `edquota` command. Refer to the documentation
-of the distribution running inside the container for details.
-
-NOTE: You need to run the above commands for every mountpoint by passing
-the mountpoint's path instead of just `/`.
-
-Using ACLs inside containers
-----------------------------
-
-The standard Posix Access Control Lists are also available inside containers. 
-ACLs allow you to set more detailed file ownership than the traditional user/
-group/others model.
 
 Container Advantages
 --------------------
