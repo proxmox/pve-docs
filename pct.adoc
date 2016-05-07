@@ -357,6 +357,17 @@ mounting mechanisms or storage technologies, it is possible to
 establish the FUSE mount on the Proxmox host and use a bind
 mountpoint to make it accessible inside the container.
 
+The root mountpoint is configured with the 'rootfs' property, and you can
+configure up to 10 additional mount points. The corresponding options
+are called 'mp0' to 'mp9', and they can contain the following setting:
+
+include::pct-mountpoint-opts.adoc[]
+
+.Typical Container 'rootfs' configuration
+----
+rootfs: thin1:base-100-disk-1,size=8G
+----
+
 Using quotas inside containers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

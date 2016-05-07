@@ -1,0 +1,32 @@
+`rootfs`: `[volume=]<volume> [,acl=<acl>] [,backup=<[1|0]>] [,quota=<[0|1]>] [,ro=<ro>] [,size=<DiskSize>]`
+
+`mp[n]`: `mp=<Path>, [volume=]<volume> [,acl=<acl>] [,backup=<[1|0]>] [,quota=<[0|1]>] [,ro=<ro>] [,size=<DiskSize>]`
+
+`acl`: `<acl>` ::
+
+Explicitly enable or disable ACL support.
+
+`backup`: `<[1|0]>` ::
+
+Whether to include the mountpoint in backups.
+
+`mp`: `<Path>` ::
+
+Path to the mountpoint as seen from inside the container.
+
+`quota`: `<[0|1]>` ::
+
+Enable user quotas inside the container (not supported with zfs subvolumes)
+
+`ro`: `<ro>` ::
+
+Read-only mountpoint (not supported with bind mounts)
+
+`size`: `<DiskSize>` ::
+
+Volume size (read only value).
+
+`volume`: `<volume>` ::
+
+Volume, device or directory to mount into the container.
+
