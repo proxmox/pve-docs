@@ -6,9 +6,9 @@ GEN_PACKAGE=pve-doc-generator
 DOC_PACKAGE=pve-docs
 
 # also update debian/changelog
-GEN_PKGREL=1
+GEN_PKGREL=2
 # also update doc-debian/changelog
-DOC_PKGREL=2
+DOC_PKGREL=3
 
 GITVERSION:=$(shell cat .git/refs/heads/master)
 
