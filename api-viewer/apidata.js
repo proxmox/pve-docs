@@ -5130,32 +5130,32 @@ var pveapi = [
                                                    "enum" : [
                                                       "486",
                                                       "athlon",
-                                                      "pentium",
-                                                      "pentium2",
-                                                      "pentium3",
-                                                      "coreduo",
-                                                      "core2duo",
-                                                      "kvm32",
-                                                      "kvm64",
-                                                      "qemu32",
-                                                      "qemu64",
-                                                      "phenom",
-                                                      "Conroe",
-                                                      "Penryn",
-                                                      "Nehalem",
-                                                      "Westmere",
-                                                      "SandyBridge",
-                                                      "IvyBridge",
-                                                      "Haswell",
-                                                      "Haswell-noTSX",
                                                       "Broadwell",
                                                       "Broadwell-noTSX",
+                                                      "Conroe",
+                                                      "core2duo",
+                                                      "coreduo",
+                                                      "Haswell",
+                                                      "Haswell-noTSX",
+                                                      "host",
+                                                      "IvyBridge",
+                                                      "kvm32",
+                                                      "kvm64",
+                                                      "Nehalem",
                                                       "Opteron_G1",
                                                       "Opteron_G2",
                                                       "Opteron_G3",
                                                       "Opteron_G4",
                                                       "Opteron_G5",
-                                                      "host"
+                                                      "Penryn",
+                                                      "pentium",
+                                                      "pentium2",
+                                                      "pentium3",
+                                                      "phenom",
+                                                      "qemu32",
+                                                      "qemu64",
+                                                      "SandyBridge",
+                                                      "Westmere"
                                                    ],
                                                    "format_description" : "cputype",
                                                    "type" : "string"
@@ -5236,13 +5236,11 @@ var pveapi = [
                                                       "native",
                                                       "threads"
                                                    ],
-                                                   "format_description" : "native|threads",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "backup" : {
                                                    "description" : "Whether the drive should be included when making backups.",
-                                                   "format_description" : "on|off",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -5273,13 +5271,11 @@ var pveapi = [
                                                       "unsafe",
                                                       "directsync"
                                                    ],
-                                                   "format_description" : "none|writethrough|writeback|unsafe|directsync",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "cyls" : {
                                                    "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -5294,7 +5290,6 @@ var pveapi = [
                                                       "ignore",
                                                       "on"
                                                    ],
-                                                   "format_description" : "ignore|on",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -5316,13 +5311,12 @@ var pveapi = [
                                                       "vmdk",
                                                       "cloop"
                                                    ],
-                                                   "format_description" : "drive format",
+                                                   "format_description" : "image format",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "heads" : {
                                                    "description" : "Force the drive's physical geometry to have a specific head count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -5405,7 +5399,6 @@ var pveapi = [
                                                       "cdrom",
                                                       "disk"
                                                    ],
-                                                   "format_description" : "cdrom|disk",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -5424,13 +5417,11 @@ var pveapi = [
                                                       "report",
                                                       "stop"
                                                    ],
-                                                   "format_description" : "ignore|report|stop",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "secs" : {
                                                    "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -5445,12 +5436,12 @@ var pveapi = [
                                                 "size" : {
                                                    "description" : "Disk size. This is purely informational and has no effect.",
                                                    "format" : "disk-size",
+                                                   "format_description" : "DiskSize",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "snapshot" : {
                                                    "description" : "Whether the drive should be included when making snapshots.",
-                                                   "format_description" : "on|off",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -5461,7 +5452,6 @@ var pveapi = [
                                                       "lba",
                                                       "auto"
                                                    ],
-                                                   "format_description" : "none|lba|auto",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -5476,7 +5466,6 @@ var pveapi = [
                                                       "report",
                                                       "stop"
                                                    ],
-                                                   "format_description" : "enospc|ignore|report|stop",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 }
@@ -5575,7 +5564,132 @@ var pveapi = [
                                           },
                                           "net[n]" : {
                                              "description" : "Specify network devices.\n\nMODEL is one of: e1000 e1000-82540em e1000-82544gc e1000-82545em i82551 i82557b i82559er ne2k_isa ne2k_pci pcnet rtl8139 virtio vmxnet3\n\nXX:XX:XX:XX:XX:XX should be an unique MAC address. This is\nautomatically generated if not specified.\n\nThe bridge parameter can be used to automatically add the interface to a bridge device. The Proxmox VE standard bridge is called 'vmbr0'.\n\nOption 'rate' is used to limit traffic bandwidth from and to this interface. It is specified as floating point number, unit is 'Megabytes per second'.\n\nIf you specify no bridge, we create a kvm 'user' (NATed) network device, which provides DHCP and DNS services. The following addresses are used:\n\n10.0.2.2   Gateway\n10.0.2.3   DNS Server\n10.0.2.4   SMB Server\n\nThe DHCP server assign addresses to the guest starting from 10.0.2.15.\n\n",
-                                             "format" : "pve-qm-net",
+                                             "format" : {
+                                                "bridge" : {
+                                                   "description" : "Bridge to attach the network device to.",
+                                                   "format_description" : "bridge",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "e1000" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "e1000-82540em" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "e1000-82544gc" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "e1000-82545em" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "firewall" : {
+                                                   "description" : "Whether this interface should be protected by the firewall.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "i82551" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "i82557b" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "i82559er" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "link_down" : {
+                                                   "description" : "Whether this interface should be DISconnected (like pulling the plug).",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "macaddr" : {
+                                                   "description" : "MAC address",
+                                                   "format_description" : "XX:XX:XX:XX:XX:XX",
+                                                   "keyAlias" : "model",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^i:[0-9a-f]{2}(?::[0-9a-f]{2}){5})",
+                                                   "type" : "string"
+                                                },
+                                                "model" : {
+                                                   "default_key" : 1,
+                                                   "description" : "Network Card Model.",
+                                                   "enum" : [
+                                                      "rtl8139",
+                                                      "ne2k_pci",
+                                                      "e1000",
+                                                      "pcnet",
+                                                      "virtio",
+                                                      "ne2k_isa",
+                                                      "i82551",
+                                                      "i82557b",
+                                                      "i82559er",
+                                                      "vmxnet3",
+                                                      "e1000-82540em",
+                                                      "e1000-82544gc",
+                                                      "e1000-82545em"
+                                                   ],
+                                                   "format_description" : "model",
+                                                   "type" : "string"
+                                                },
+                                                "ne2k_isa" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "ne2k_pci" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "pcnet" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "queues" : {
+                                                   "description" : "Number of packet queues to be used on the device.",
+                                                   "maximum" : 16,
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "rate" : {
+                                                   "description" : "Rate limit in mbps as floating point number.",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "rtl8139" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "tag" : {
+                                                   "description" : "VLAN tag to apply to packets on this interface.",
+                                                   "maximum" : 4094,
+                                                   "minimum" : 2,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "trunks" : {
+                                                   "description" : "VLAN trunks to pass through this interface.",
+                                                   "format_description" : "vlanid[;vlanid...]",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:\\d+(?:-\\d+)?(?:;\\d+(?:-\\d+)?)*)",
+                                                   "type" : "string"
+                                                },
+                                                "virtio" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "vmxnet3" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                }
+                                             },
                                              "optional" : 1,
                                              "type" : "string"
                                           },
@@ -5608,7 +5722,6 @@ var pveapi = [
                                                 },
                                                 "memory" : {
                                                    "description" : "Amount of memory this numa node provides.",
-                                                   "format_description" : "mb",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
@@ -5619,7 +5732,6 @@ var pveapi = [
                                                       "bind",
                                                       "interleave"
                                                    ],
-                                                   "format_description" : "preferred|bind|interleave",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 }
@@ -5684,13 +5796,11 @@ var pveapi = [
                                                       "native",
                                                       "threads"
                                                    ],
-                                                   "format_description" : "native|threads",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "backup" : {
                                                    "description" : "Whether the drive should be included when making backups.",
-                                                   "format_description" : "on|off",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -5721,13 +5831,11 @@ var pveapi = [
                                                       "unsafe",
                                                       "directsync"
                                                    ],
-                                                   "format_description" : "none|writethrough|writeback|unsafe|directsync",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "cyls" : {
                                                    "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -5742,7 +5850,6 @@ var pveapi = [
                                                       "ignore",
                                                       "on"
                                                    ],
-                                                   "format_description" : "ignore|on",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -5764,13 +5871,12 @@ var pveapi = [
                                                       "vmdk",
                                                       "cloop"
                                                    ],
-                                                   "format_description" : "drive format",
+                                                   "format_description" : "image format",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "heads" : {
                                                    "description" : "Force the drive's physical geometry to have a specific head count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -5853,7 +5959,6 @@ var pveapi = [
                                                       "cdrom",
                                                       "disk"
                                                    ],
-                                                   "format_description" : "cdrom|disk",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -5864,13 +5969,11 @@ var pveapi = [
                                                       "report",
                                                       "stop"
                                                    ],
-                                                   "format_description" : "ignore|report|stop",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "secs" : {
                                                    "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -5885,12 +5988,12 @@ var pveapi = [
                                                 "size" : {
                                                    "description" : "Disk size. This is purely informational and has no effect.",
                                                    "format" : "disk-size",
+                                                   "format_description" : "DiskSize",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "snapshot" : {
                                                    "description" : "Whether the drive should be included when making snapshots.",
-                                                   "format_description" : "on|off",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -5901,7 +6004,6 @@ var pveapi = [
                                                       "lba",
                                                       "auto"
                                                    ],
-                                                   "format_description" : "none|lba|auto",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -5916,7 +6018,6 @@ var pveapi = [
                                                       "report",
                                                       "stop"
                                                    ],
-                                                   "format_description" : "enospc|ignore|report|stop",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 }
@@ -5933,13 +6034,11 @@ var pveapi = [
                                                       "native",
                                                       "threads"
                                                    ],
-                                                   "format_description" : "native|threads",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "backup" : {
                                                    "description" : "Whether the drive should be included when making backups.",
-                                                   "format_description" : "on|off",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -5970,13 +6069,11 @@ var pveapi = [
                                                       "unsafe",
                                                       "directsync"
                                                    ],
-                                                   "format_description" : "none|writethrough|writeback|unsafe|directsync",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "cyls" : {
                                                    "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -5991,7 +6088,6 @@ var pveapi = [
                                                       "ignore",
                                                       "on"
                                                    ],
-                                                   "format_description" : "ignore|on",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -6013,13 +6109,12 @@ var pveapi = [
                                                       "vmdk",
                                                       "cloop"
                                                    ],
-                                                   "format_description" : "drive format",
+                                                   "format_description" : "image format",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "heads" : {
                                                    "description" : "Force the drive's physical geometry to have a specific head count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -6061,7 +6156,6 @@ var pveapi = [
                                                 },
                                                 "iothread" : {
                                                    "description" : "Whether to use iothreads for this drive",
-                                                   "format_description" : "off|on",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -6108,20 +6202,17 @@ var pveapi = [
                                                       "cdrom",
                                                       "disk"
                                                    ],
-                                                   "format_description" : "cdrom|disk",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "queues" : {
                                                    "description" : "Number of queues.",
-                                                   "format_description" : "nbqueues",
                                                    "minimum" : 2,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "secs" : {
                                                    "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -6136,12 +6227,12 @@ var pveapi = [
                                                 "size" : {
                                                    "description" : "Disk size. This is purely informational and has no effect.",
                                                    "format" : "disk-size",
+                                                   "format_description" : "DiskSize",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "snapshot" : {
                                                    "description" : "Whether the drive should be included when making snapshots.",
-                                                   "format_description" : "on|off",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -6152,7 +6243,6 @@ var pveapi = [
                                                       "lba",
                                                       "auto"
                                                    ],
-                                                   "format_description" : "none|lba|auto",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -6167,7 +6257,6 @@ var pveapi = [
                                                       "report",
                                                       "stop"
                                                    ],
-                                                   "format_description" : "enospc|ignore|report|stop",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 }
@@ -6280,7 +6369,6 @@ var pveapi = [
                                                 },
                                                 "usb3" : {
                                                    "description" : "Specifies whether if given host option is a USB3 device or port",
-                                                   "format_description" : "yes|no",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 }
@@ -6322,13 +6410,11 @@ var pveapi = [
                                                       "native",
                                                       "threads"
                                                    ],
-                                                   "format_description" : "native|threads",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "backup" : {
                                                    "description" : "Whether the drive should be included when making backups.",
-                                                   "format_description" : "on|off",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -6359,13 +6445,11 @@ var pveapi = [
                                                       "unsafe",
                                                       "directsync"
                                                    ],
-                                                   "format_description" : "none|writethrough|writeback|unsafe|directsync",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "cyls" : {
                                                    "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -6380,7 +6464,6 @@ var pveapi = [
                                                       "ignore",
                                                       "on"
                                                    ],
-                                                   "format_description" : "ignore|on",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -6402,13 +6485,12 @@ var pveapi = [
                                                       "vmdk",
                                                       "cloop"
                                                    ],
-                                                   "format_description" : "drive format",
+                                                   "format_description" : "image format",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "heads" : {
                                                    "description" : "Force the drive's physical geometry to have a specific head count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -6450,7 +6532,6 @@ var pveapi = [
                                                 },
                                                 "iothread" : {
                                                    "description" : "Whether to use iothreads for this drive",
-                                                   "format_description" : "off|on",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -6497,7 +6578,6 @@ var pveapi = [
                                                       "cdrom",
                                                       "disk"
                                                    ],
-                                                   "format_description" : "cdrom|disk",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -6508,13 +6588,11 @@ var pveapi = [
                                                       "report",
                                                       "stop"
                                                    ],
-                                                   "format_description" : "ignore|report|stop",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "secs" : {
                                                    "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -6529,12 +6607,12 @@ var pveapi = [
                                                 "size" : {
                                                    "description" : "Disk size. This is purely informational and has no effect.",
                                                    "format" : "disk-size",
+                                                   "format_description" : "DiskSize",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "snapshot" : {
                                                    "description" : "Whether the drive should be included when making snapshots.",
-                                                   "format_description" : "on|off",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -6545,7 +6623,6 @@ var pveapi = [
                                                       "lba",
                                                       "auto"
                                                    ],
-                                                   "format_description" : "none|lba|auto",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -6560,7 +6637,6 @@ var pveapi = [
                                                       "report",
                                                       "stop"
                                                    ],
-                                                   "format_description" : "enospc|ignore|report|stop",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 }
@@ -6690,32 +6766,32 @@ var pveapi = [
                                                    "enum" : [
                                                       "486",
                                                       "athlon",
-                                                      "pentium",
-                                                      "pentium2",
-                                                      "pentium3",
-                                                      "coreduo",
-                                                      "core2duo",
-                                                      "kvm32",
-                                                      "kvm64",
-                                                      "qemu32",
-                                                      "qemu64",
-                                                      "phenom",
-                                                      "Conroe",
-                                                      "Penryn",
-                                                      "Nehalem",
-                                                      "Westmere",
-                                                      "SandyBridge",
-                                                      "IvyBridge",
-                                                      "Haswell",
-                                                      "Haswell-noTSX",
                                                       "Broadwell",
                                                       "Broadwell-noTSX",
+                                                      "Conroe",
+                                                      "core2duo",
+                                                      "coreduo",
+                                                      "Haswell",
+                                                      "Haswell-noTSX",
+                                                      "host",
+                                                      "IvyBridge",
+                                                      "kvm32",
+                                                      "kvm64",
+                                                      "Nehalem",
                                                       "Opteron_G1",
                                                       "Opteron_G2",
                                                       "Opteron_G3",
                                                       "Opteron_G4",
                                                       "Opteron_G5",
-                                                      "host"
+                                                      "Penryn",
+                                                      "pentium",
+                                                      "pentium2",
+                                                      "pentium3",
+                                                      "phenom",
+                                                      "qemu32",
+                                                      "qemu64",
+                                                      "SandyBridge",
+                                                      "Westmere"
                                                    ],
                                                    "format_description" : "cputype",
                                                    "type" : "string"
@@ -6796,13 +6872,11 @@ var pveapi = [
                                                       "native",
                                                       "threads"
                                                    ],
-                                                   "format_description" : "native|threads",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "backup" : {
                                                    "description" : "Whether the drive should be included when making backups.",
-                                                   "format_description" : "on|off",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -6833,13 +6907,11 @@ var pveapi = [
                                                       "unsafe",
                                                       "directsync"
                                                    ],
-                                                   "format_description" : "none|writethrough|writeback|unsafe|directsync",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "cyls" : {
                                                    "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -6854,7 +6926,6 @@ var pveapi = [
                                                       "ignore",
                                                       "on"
                                                    ],
-                                                   "format_description" : "ignore|on",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -6876,13 +6947,12 @@ var pveapi = [
                                                       "vmdk",
                                                       "cloop"
                                                    ],
-                                                   "format_description" : "drive format",
+                                                   "format_description" : "image format",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "heads" : {
                                                    "description" : "Force the drive's physical geometry to have a specific head count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -6965,7 +7035,6 @@ var pveapi = [
                                                       "cdrom",
                                                       "disk"
                                                    ],
-                                                   "format_description" : "cdrom|disk",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -6984,13 +7053,11 @@ var pveapi = [
                                                       "report",
                                                       "stop"
                                                    ],
-                                                   "format_description" : "ignore|report|stop",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "secs" : {
                                                    "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -7005,12 +7072,12 @@ var pveapi = [
                                                 "size" : {
                                                    "description" : "Disk size. This is purely informational and has no effect.",
                                                    "format" : "disk-size",
+                                                   "format_description" : "DiskSize",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "snapshot" : {
                                                    "description" : "Whether the drive should be included when making snapshots.",
-                                                   "format_description" : "on|off",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -7021,7 +7088,6 @@ var pveapi = [
                                                       "lba",
                                                       "auto"
                                                    ],
-                                                   "format_description" : "none|lba|auto",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -7036,7 +7102,6 @@ var pveapi = [
                                                       "report",
                                                       "stop"
                                                    ],
-                                                   "format_description" : "enospc|ignore|report|stop",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 }
@@ -7135,7 +7200,132 @@ var pveapi = [
                                           },
                                           "net[n]" : {
                                              "description" : "Specify network devices.\n\nMODEL is one of: e1000 e1000-82540em e1000-82544gc e1000-82545em i82551 i82557b i82559er ne2k_isa ne2k_pci pcnet rtl8139 virtio vmxnet3\n\nXX:XX:XX:XX:XX:XX should be an unique MAC address. This is\nautomatically generated if not specified.\n\nThe bridge parameter can be used to automatically add the interface to a bridge device. The Proxmox VE standard bridge is called 'vmbr0'.\n\nOption 'rate' is used to limit traffic bandwidth from and to this interface. It is specified as floating point number, unit is 'Megabytes per second'.\n\nIf you specify no bridge, we create a kvm 'user' (NATed) network device, which provides DHCP and DNS services. The following addresses are used:\n\n10.0.2.2   Gateway\n10.0.2.3   DNS Server\n10.0.2.4   SMB Server\n\nThe DHCP server assign addresses to the guest starting from 10.0.2.15.\n\n",
-                                             "format" : "pve-qm-net",
+                                             "format" : {
+                                                "bridge" : {
+                                                   "description" : "Bridge to attach the network device to.",
+                                                   "format_description" : "bridge",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "e1000" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "e1000-82540em" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "e1000-82544gc" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "e1000-82545em" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "firewall" : {
+                                                   "description" : "Whether this interface should be protected by the firewall.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "i82551" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "i82557b" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "i82559er" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "link_down" : {
+                                                   "description" : "Whether this interface should be DISconnected (like pulling the plug).",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "macaddr" : {
+                                                   "description" : "MAC address",
+                                                   "format_description" : "XX:XX:XX:XX:XX:XX",
+                                                   "keyAlias" : "model",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^i:[0-9a-f]{2}(?::[0-9a-f]{2}){5})",
+                                                   "type" : "string"
+                                                },
+                                                "model" : {
+                                                   "default_key" : 1,
+                                                   "description" : "Network Card Model.",
+                                                   "enum" : [
+                                                      "rtl8139",
+                                                      "ne2k_pci",
+                                                      "e1000",
+                                                      "pcnet",
+                                                      "virtio",
+                                                      "ne2k_isa",
+                                                      "i82551",
+                                                      "i82557b",
+                                                      "i82559er",
+                                                      "vmxnet3",
+                                                      "e1000-82540em",
+                                                      "e1000-82544gc",
+                                                      "e1000-82545em"
+                                                   ],
+                                                   "format_description" : "model",
+                                                   "type" : "string"
+                                                },
+                                                "ne2k_isa" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "ne2k_pci" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "pcnet" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "queues" : {
+                                                   "description" : "Number of packet queues to be used on the device.",
+                                                   "maximum" : 16,
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "rate" : {
+                                                   "description" : "Rate limit in mbps as floating point number.",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "rtl8139" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "tag" : {
+                                                   "description" : "VLAN tag to apply to packets on this interface.",
+                                                   "maximum" : 4094,
+                                                   "minimum" : 2,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "trunks" : {
+                                                   "description" : "VLAN trunks to pass through this interface.",
+                                                   "format_description" : "vlanid[;vlanid...]",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:\\d+(?:-\\d+)?(?:;\\d+(?:-\\d+)?)*)",
+                                                   "type" : "string"
+                                                },
+                                                "virtio" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "vmxnet3" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                }
+                                             },
                                              "optional" : 1,
                                              "type" : "string"
                                           },
@@ -7168,7 +7358,6 @@ var pveapi = [
                                                 },
                                                 "memory" : {
                                                    "description" : "Amount of memory this numa node provides.",
-                                                   "format_description" : "mb",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
@@ -7179,7 +7368,6 @@ var pveapi = [
                                                       "bind",
                                                       "interleave"
                                                    ],
-                                                   "format_description" : "preferred|bind|interleave",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 }
@@ -7244,13 +7432,11 @@ var pveapi = [
                                                       "native",
                                                       "threads"
                                                    ],
-                                                   "format_description" : "native|threads",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "backup" : {
                                                    "description" : "Whether the drive should be included when making backups.",
-                                                   "format_description" : "on|off",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -7281,13 +7467,11 @@ var pveapi = [
                                                       "unsafe",
                                                       "directsync"
                                                    ],
-                                                   "format_description" : "none|writethrough|writeback|unsafe|directsync",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "cyls" : {
                                                    "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -7302,7 +7486,6 @@ var pveapi = [
                                                       "ignore",
                                                       "on"
                                                    ],
-                                                   "format_description" : "ignore|on",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -7324,13 +7507,12 @@ var pveapi = [
                                                       "vmdk",
                                                       "cloop"
                                                    ],
-                                                   "format_description" : "drive format",
+                                                   "format_description" : "image format",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "heads" : {
                                                    "description" : "Force the drive's physical geometry to have a specific head count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -7413,7 +7595,6 @@ var pveapi = [
                                                       "cdrom",
                                                       "disk"
                                                    ],
-                                                   "format_description" : "cdrom|disk",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -7424,13 +7605,11 @@ var pveapi = [
                                                       "report",
                                                       "stop"
                                                    ],
-                                                   "format_description" : "ignore|report|stop",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "secs" : {
                                                    "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -7445,12 +7624,12 @@ var pveapi = [
                                                 "size" : {
                                                    "description" : "Disk size. This is purely informational and has no effect.",
                                                    "format" : "disk-size",
+                                                   "format_description" : "DiskSize",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "snapshot" : {
                                                    "description" : "Whether the drive should be included when making snapshots.",
-                                                   "format_description" : "on|off",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -7461,7 +7640,6 @@ var pveapi = [
                                                       "lba",
                                                       "auto"
                                                    ],
-                                                   "format_description" : "none|lba|auto",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -7476,7 +7654,6 @@ var pveapi = [
                                                       "report",
                                                       "stop"
                                                    ],
-                                                   "format_description" : "enospc|ignore|report|stop",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 }
@@ -7493,13 +7670,11 @@ var pveapi = [
                                                       "native",
                                                       "threads"
                                                    ],
-                                                   "format_description" : "native|threads",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "backup" : {
                                                    "description" : "Whether the drive should be included when making backups.",
-                                                   "format_description" : "on|off",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -7530,13 +7705,11 @@ var pveapi = [
                                                       "unsafe",
                                                       "directsync"
                                                    ],
-                                                   "format_description" : "none|writethrough|writeback|unsafe|directsync",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "cyls" : {
                                                    "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -7551,7 +7724,6 @@ var pveapi = [
                                                       "ignore",
                                                       "on"
                                                    ],
-                                                   "format_description" : "ignore|on",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -7573,13 +7745,12 @@ var pveapi = [
                                                       "vmdk",
                                                       "cloop"
                                                    ],
-                                                   "format_description" : "drive format",
+                                                   "format_description" : "image format",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "heads" : {
                                                    "description" : "Force the drive's physical geometry to have a specific head count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -7621,7 +7792,6 @@ var pveapi = [
                                                 },
                                                 "iothread" : {
                                                    "description" : "Whether to use iothreads for this drive",
-                                                   "format_description" : "off|on",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -7668,20 +7838,17 @@ var pveapi = [
                                                       "cdrom",
                                                       "disk"
                                                    ],
-                                                   "format_description" : "cdrom|disk",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "queues" : {
                                                    "description" : "Number of queues.",
-                                                   "format_description" : "nbqueues",
                                                    "minimum" : 2,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "secs" : {
                                                    "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -7696,12 +7863,12 @@ var pveapi = [
                                                 "size" : {
                                                    "description" : "Disk size. This is purely informational and has no effect.",
                                                    "format" : "disk-size",
+                                                   "format_description" : "DiskSize",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "snapshot" : {
                                                    "description" : "Whether the drive should be included when making snapshots.",
-                                                   "format_description" : "on|off",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -7712,7 +7879,6 @@ var pveapi = [
                                                       "lba",
                                                       "auto"
                                                    ],
-                                                   "format_description" : "none|lba|auto",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -7727,7 +7893,6 @@ var pveapi = [
                                                       "report",
                                                       "stop"
                                                    ],
-                                                   "format_description" : "enospc|ignore|report|stop",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 }
@@ -7840,7 +8005,6 @@ var pveapi = [
                                                 },
                                                 "usb3" : {
                                                    "description" : "Specifies whether if given host option is a USB3 device or port",
-                                                   "format_description" : "yes|no",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 }
@@ -7882,13 +8046,11 @@ var pveapi = [
                                                       "native",
                                                       "threads"
                                                    ],
-                                                   "format_description" : "native|threads",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "backup" : {
                                                    "description" : "Whether the drive should be included when making backups.",
-                                                   "format_description" : "on|off",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -7919,13 +8081,11 @@ var pveapi = [
                                                       "unsafe",
                                                       "directsync"
                                                    ],
-                                                   "format_description" : "none|writethrough|writeback|unsafe|directsync",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "cyls" : {
                                                    "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -7940,7 +8100,6 @@ var pveapi = [
                                                       "ignore",
                                                       "on"
                                                    ],
-                                                   "format_description" : "ignore|on",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -7962,13 +8121,12 @@ var pveapi = [
                                                       "vmdk",
                                                       "cloop"
                                                    ],
-                                                   "format_description" : "drive format",
+                                                   "format_description" : "image format",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "heads" : {
                                                    "description" : "Force the drive's physical geometry to have a specific head count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -8010,7 +8168,6 @@ var pveapi = [
                                                 },
                                                 "iothread" : {
                                                    "description" : "Whether to use iothreads for this drive",
-                                                   "format_description" : "off|on",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -8057,7 +8214,6 @@ var pveapi = [
                                                       "cdrom",
                                                       "disk"
                                                    ],
-                                                   "format_description" : "cdrom|disk",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -8068,13 +8224,11 @@ var pveapi = [
                                                       "report",
                                                       "stop"
                                                    ],
-                                                   "format_description" : "ignore|report|stop",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "secs" : {
                                                    "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                                   "format_description" : "count",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -8089,12 +8243,12 @@ var pveapi = [
                                                 "size" : {
                                                    "description" : "Disk size. This is purely informational and has no effect.",
                                                    "format" : "disk-size",
+                                                   "format_description" : "DiskSize",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "snapshot" : {
                                                    "description" : "Whether the drive should be included when making snapshots.",
-                                                   "format_description" : "on|off",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -8105,7 +8259,6 @@ var pveapi = [
                                                       "lba",
                                                       "auto"
                                                    ],
-                                                   "format_description" : "none|lba|auto",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -8120,7 +8273,6 @@ var pveapi = [
                                                       "report",
                                                       "stop"
                                                    ],
-                                                   "format_description" : "enospc|ignore|report|stop",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 }
@@ -10146,32 +10298,32 @@ var pveapi = [
                                        "enum" : [
                                           "486",
                                           "athlon",
-                                          "pentium",
-                                          "pentium2",
-                                          "pentium3",
-                                          "coreduo",
-                                          "core2duo",
-                                          "kvm32",
-                                          "kvm64",
-                                          "qemu32",
-                                          "qemu64",
-                                          "phenom",
-                                          "Conroe",
-                                          "Penryn",
-                                          "Nehalem",
-                                          "Westmere",
-                                          "SandyBridge",
-                                          "IvyBridge",
-                                          "Haswell",
-                                          "Haswell-noTSX",
                                           "Broadwell",
                                           "Broadwell-noTSX",
+                                          "Conroe",
+                                          "core2duo",
+                                          "coreduo",
+                                          "Haswell",
+                                          "Haswell-noTSX",
+                                          "host",
+                                          "IvyBridge",
+                                          "kvm32",
+                                          "kvm64",
+                                          "Nehalem",
                                           "Opteron_G1",
                                           "Opteron_G2",
                                           "Opteron_G3",
                                           "Opteron_G4",
                                           "Opteron_G5",
-                                          "host"
+                                          "Penryn",
+                                          "pentium",
+                                          "pentium2",
+                                          "pentium3",
+                                          "phenom",
+                                          "qemu32",
+                                          "qemu64",
+                                          "SandyBridge",
+                                          "Westmere"
                                        ],
                                        "format_description" : "cputype",
                                        "type" : "string"
@@ -10240,13 +10392,11 @@ var pveapi = [
                                           "native",
                                           "threads"
                                        ],
-                                       "format_description" : "native|threads",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "backup" : {
                                        "description" : "Whether the drive should be included when making backups.",
-                                       "format_description" : "on|off",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -10277,13 +10427,11 @@ var pveapi = [
                                           "unsafe",
                                           "directsync"
                                        ],
-                                       "format_description" : "none|writethrough|writeback|unsafe|directsync",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "cyls" : {
                                        "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                       "format_description" : "count",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -10298,7 +10446,6 @@ var pveapi = [
                                           "ignore",
                                           "on"
                                        ],
-                                       "format_description" : "ignore|on",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
@@ -10320,13 +10467,12 @@ var pveapi = [
                                           "vmdk",
                                           "cloop"
                                        ],
-                                       "format_description" : "drive format",
+                                       "format_description" : "image format",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "heads" : {
                                        "description" : "Force the drive's physical geometry to have a specific head count.",
-                                       "format_description" : "count",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -10409,7 +10555,6 @@ var pveapi = [
                                           "cdrom",
                                           "disk"
                                        ],
-                                       "format_description" : "cdrom|disk",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
@@ -10428,13 +10573,11 @@ var pveapi = [
                                           "report",
                                           "stop"
                                        ],
-                                       "format_description" : "ignore|report|stop",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "secs" : {
                                        "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                       "format_description" : "count",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -10449,12 +10592,12 @@ var pveapi = [
                                     "size" : {
                                        "description" : "Disk size. This is purely informational and has no effect.",
                                        "format" : "disk-size",
+                                       "format_description" : "DiskSize",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "snapshot" : {
                                        "description" : "Whether the drive should be included when making snapshots.",
-                                       "format_description" : "on|off",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -10465,7 +10608,6 @@ var pveapi = [
                                           "lba",
                                           "auto"
                                        ],
-                                       "format_description" : "none|lba|auto",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
@@ -10480,7 +10622,6 @@ var pveapi = [
                                           "report",
                                           "stop"
                                        ],
-                                       "format_description" : "enospc|ignore|report|stop",
                                        "optional" : 1,
                                        "type" : "string"
                                     }
@@ -10579,7 +10720,132 @@ var pveapi = [
                               },
                               "net[n]" : {
                                  "description" : "Specify network devices.\n\nMODEL is one of: e1000 e1000-82540em e1000-82544gc e1000-82545em i82551 i82557b i82559er ne2k_isa ne2k_pci pcnet rtl8139 virtio vmxnet3\n\nXX:XX:XX:XX:XX:XX should be an unique MAC address. This is\nautomatically generated if not specified.\n\nThe bridge parameter can be used to automatically add the interface to a bridge device. The Proxmox VE standard bridge is called 'vmbr0'.\n\nOption 'rate' is used to limit traffic bandwidth from and to this interface. It is specified as floating point number, unit is 'Megabytes per second'.\n\nIf you specify no bridge, we create a kvm 'user' (NATed) network device, which provides DHCP and DNS services. The following addresses are used:\n\n10.0.2.2   Gateway\n10.0.2.3   DNS Server\n10.0.2.4   SMB Server\n\nThe DHCP server assign addresses to the guest starting from 10.0.2.15.\n\n",
-                                 "format" : "pve-qm-net",
+                                 "format" : {
+                                    "bridge" : {
+                                       "description" : "Bridge to attach the network device to.",
+                                       "format_description" : "bridge",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "e1000" : {
+                                       "alias" : "macaddr",
+                                       "keyAlias" : "model"
+                                    },
+                                    "e1000-82540em" : {
+                                       "alias" : "macaddr",
+                                       "keyAlias" : "model"
+                                    },
+                                    "e1000-82544gc" : {
+                                       "alias" : "macaddr",
+                                       "keyAlias" : "model"
+                                    },
+                                    "e1000-82545em" : {
+                                       "alias" : "macaddr",
+                                       "keyAlias" : "model"
+                                    },
+                                    "firewall" : {
+                                       "description" : "Whether this interface should be protected by the firewall.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "i82551" : {
+                                       "alias" : "macaddr",
+                                       "keyAlias" : "model"
+                                    },
+                                    "i82557b" : {
+                                       "alias" : "macaddr",
+                                       "keyAlias" : "model"
+                                    },
+                                    "i82559er" : {
+                                       "alias" : "macaddr",
+                                       "keyAlias" : "model"
+                                    },
+                                    "link_down" : {
+                                       "description" : "Whether this interface should be DISconnected (like pulling the plug).",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "macaddr" : {
+                                       "description" : "MAC address",
+                                       "format_description" : "XX:XX:XX:XX:XX:XX",
+                                       "keyAlias" : "model",
+                                       "optional" : 1,
+                                       "pattern" : "(?^i:[0-9a-f]{2}(?::[0-9a-f]{2}){5})",
+                                       "type" : "string"
+                                    },
+                                    "model" : {
+                                       "default_key" : 1,
+                                       "description" : "Network Card Model.",
+                                       "enum" : [
+                                          "rtl8139",
+                                          "ne2k_pci",
+                                          "e1000",
+                                          "pcnet",
+                                          "virtio",
+                                          "ne2k_isa",
+                                          "i82551",
+                                          "i82557b",
+                                          "i82559er",
+                                          "vmxnet3",
+                                          "e1000-82540em",
+                                          "e1000-82544gc",
+                                          "e1000-82545em"
+                                       ],
+                                       "format_description" : "model",
+                                       "type" : "string"
+                                    },
+                                    "ne2k_isa" : {
+                                       "alias" : "macaddr",
+                                       "keyAlias" : "model"
+                                    },
+                                    "ne2k_pci" : {
+                                       "alias" : "macaddr",
+                                       "keyAlias" : "model"
+                                    },
+                                    "pcnet" : {
+                                       "alias" : "macaddr",
+                                       "keyAlias" : "model"
+                                    },
+                                    "queues" : {
+                                       "description" : "Number of packet queues to be used on the device.",
+                                       "maximum" : 16,
+                                       "minimum" : 0,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "rate" : {
+                                       "description" : "Rate limit in mbps as floating point number.",
+                                       "minimum" : 0,
+                                       "optional" : 1,
+                                       "type" : "number"
+                                    },
+                                    "rtl8139" : {
+                                       "alias" : "macaddr",
+                                       "keyAlias" : "model"
+                                    },
+                                    "tag" : {
+                                       "description" : "VLAN tag to apply to packets on this interface.",
+                                       "maximum" : 4094,
+                                       "minimum" : 2,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "trunks" : {
+                                       "description" : "VLAN trunks to pass through this interface.",
+                                       "format_description" : "vlanid[;vlanid...]",
+                                       "optional" : 1,
+                                       "pattern" : "(?^:\\d+(?:-\\d+)?(?:;\\d+(?:-\\d+)?)*)",
+                                       "type" : "string"
+                                    },
+                                    "virtio" : {
+                                       "alias" : "macaddr",
+                                       "keyAlias" : "model"
+                                    },
+                                    "vmxnet3" : {
+                                       "alias" : "macaddr",
+                                       "keyAlias" : "model"
+                                    }
+                                 },
                                  "optional" : 1,
                                  "type" : "string"
                               },
@@ -10612,7 +10878,6 @@ var pveapi = [
                                     },
                                     "memory" : {
                                        "description" : "Amount of memory this numa node provides.",
-                                       "format_description" : "mb",
                                        "optional" : 1,
                                        "type" : "number"
                                     },
@@ -10623,7 +10888,6 @@ var pveapi = [
                                           "bind",
                                           "interleave"
                                        ],
-                                       "format_description" : "preferred|bind|interleave",
                                        "optional" : 1,
                                        "type" : "string"
                                     }
@@ -10688,13 +10952,11 @@ var pveapi = [
                                           "native",
                                           "threads"
                                        ],
-                                       "format_description" : "native|threads",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "backup" : {
                                        "description" : "Whether the drive should be included when making backups.",
-                                       "format_description" : "on|off",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -10725,13 +10987,11 @@ var pveapi = [
                                           "unsafe",
                                           "directsync"
                                        ],
-                                       "format_description" : "none|writethrough|writeback|unsafe|directsync",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "cyls" : {
                                        "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                       "format_description" : "count",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -10746,7 +11006,6 @@ var pveapi = [
                                           "ignore",
                                           "on"
                                        ],
-                                       "format_description" : "ignore|on",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
@@ -10768,13 +11027,12 @@ var pveapi = [
                                           "vmdk",
                                           "cloop"
                                        ],
-                                       "format_description" : "drive format",
+                                       "format_description" : "image format",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "heads" : {
                                        "description" : "Force the drive's physical geometry to have a specific head count.",
-                                       "format_description" : "count",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -10857,7 +11115,6 @@ var pveapi = [
                                           "cdrom",
                                           "disk"
                                        ],
-                                       "format_description" : "cdrom|disk",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
@@ -10868,13 +11125,11 @@ var pveapi = [
                                           "report",
                                           "stop"
                                        ],
-                                       "format_description" : "ignore|report|stop",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "secs" : {
                                        "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                       "format_description" : "count",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -10889,12 +11144,12 @@ var pveapi = [
                                     "size" : {
                                        "description" : "Disk size. This is purely informational and has no effect.",
                                        "format" : "disk-size",
+                                       "format_description" : "DiskSize",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "snapshot" : {
                                        "description" : "Whether the drive should be included when making snapshots.",
-                                       "format_description" : "on|off",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -10905,7 +11160,6 @@ var pveapi = [
                                           "lba",
                                           "auto"
                                        ],
-                                       "format_description" : "none|lba|auto",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
@@ -10920,7 +11174,6 @@ var pveapi = [
                                           "report",
                                           "stop"
                                        ],
-                                       "format_description" : "enospc|ignore|report|stop",
                                        "optional" : 1,
                                        "type" : "string"
                                     }
@@ -10937,13 +11190,11 @@ var pveapi = [
                                           "native",
                                           "threads"
                                        ],
-                                       "format_description" : "native|threads",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "backup" : {
                                        "description" : "Whether the drive should be included when making backups.",
-                                       "format_description" : "on|off",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -10974,13 +11225,11 @@ var pveapi = [
                                           "unsafe",
                                           "directsync"
                                        ],
-                                       "format_description" : "none|writethrough|writeback|unsafe|directsync",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "cyls" : {
                                        "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                       "format_description" : "count",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -10995,7 +11244,6 @@ var pveapi = [
                                           "ignore",
                                           "on"
                                        ],
-                                       "format_description" : "ignore|on",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
@@ -11017,13 +11265,12 @@ var pveapi = [
                                           "vmdk",
                                           "cloop"
                                        ],
-                                       "format_description" : "drive format",
+                                       "format_description" : "image format",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "heads" : {
                                        "description" : "Force the drive's physical geometry to have a specific head count.",
-                                       "format_description" : "count",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -11065,7 +11312,6 @@ var pveapi = [
                                     },
                                     "iothread" : {
                                        "description" : "Whether to use iothreads for this drive",
-                                       "format_description" : "off|on",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -11112,20 +11358,17 @@ var pveapi = [
                                           "cdrom",
                                           "disk"
                                        ],
-                                       "format_description" : "cdrom|disk",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "queues" : {
                                        "description" : "Number of queues.",
-                                       "format_description" : "nbqueues",
                                        "minimum" : 2,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
                                     "secs" : {
                                        "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                       "format_description" : "count",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -11140,12 +11383,12 @@ var pveapi = [
                                     "size" : {
                                        "description" : "Disk size. This is purely informational and has no effect.",
                                        "format" : "disk-size",
+                                       "format_description" : "DiskSize",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "snapshot" : {
                                        "description" : "Whether the drive should be included when making snapshots.",
-                                       "format_description" : "on|off",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -11156,7 +11399,6 @@ var pveapi = [
                                           "lba",
                                           "auto"
                                        ],
-                                       "format_description" : "none|lba|auto",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
@@ -11171,7 +11413,6 @@ var pveapi = [
                                           "report",
                                           "stop"
                                        ],
-                                       "format_description" : "enospc|ignore|report|stop",
                                        "optional" : 1,
                                        "type" : "string"
                                     }
@@ -11291,7 +11532,6 @@ var pveapi = [
                                     },
                                     "usb3" : {
                                        "description" : "Specifies whether if given host option is a USB3 device or port",
-                                       "format_description" : "yes|no",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     }
@@ -11333,13 +11573,11 @@ var pveapi = [
                                           "native",
                                           "threads"
                                        ],
-                                       "format_description" : "native|threads",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "backup" : {
                                        "description" : "Whether the drive should be included when making backups.",
-                                       "format_description" : "on|off",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -11370,13 +11608,11 @@ var pveapi = [
                                           "unsafe",
                                           "directsync"
                                        ],
-                                       "format_description" : "none|writethrough|writeback|unsafe|directsync",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "cyls" : {
                                        "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                       "format_description" : "count",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -11391,7 +11627,6 @@ var pveapi = [
                                           "ignore",
                                           "on"
                                        ],
-                                       "format_description" : "ignore|on",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
@@ -11413,13 +11648,12 @@ var pveapi = [
                                           "vmdk",
                                           "cloop"
                                        ],
-                                       "format_description" : "drive format",
+                                       "format_description" : "image format",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "heads" : {
                                        "description" : "Force the drive's physical geometry to have a specific head count.",
-                                       "format_description" : "count",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -11461,7 +11695,6 @@ var pveapi = [
                                     },
                                     "iothread" : {
                                        "description" : "Whether to use iothreads for this drive",
-                                       "format_description" : "off|on",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -11508,7 +11741,6 @@ var pveapi = [
                                           "cdrom",
                                           "disk"
                                        ],
-                                       "format_description" : "cdrom|disk",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
@@ -11519,13 +11751,11 @@ var pveapi = [
                                           "report",
                                           "stop"
                                        ],
-                                       "format_description" : "ignore|report|stop",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "secs" : {
                                        "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                       "format_description" : "count",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -11540,12 +11770,12 @@ var pveapi = [
                                     "size" : {
                                        "description" : "Disk size. This is purely informational and has no effect.",
                                        "format" : "disk-size",
+                                       "format_description" : "DiskSize",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "snapshot" : {
                                        "description" : "Whether the drive should be included when making snapshots.",
-                                       "format_description" : "on|off",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -11556,7 +11786,6 @@ var pveapi = [
                                           "lba",
                                           "auto"
                                        ],
-                                       "format_description" : "none|lba|auto",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
@@ -11571,7 +11800,6 @@ var pveapi = [
                                           "report",
                                           "stop"
                                        ],
-                                       "format_description" : "enospc|ignore|report|stop",
                                        "optional" : 1,
                                        "type" : "string"
                                     }
@@ -11751,13 +11979,11 @@ var pveapi = [
                                              "format" : {
                                                 "acl" : {
                                                    "description" : "Explicitly enable or disable ACL support.",
-                                                   "format_description" : "acl",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
                                                 "backup" : {
                                                    "description" : "Whether to include the mountpoint in backups.",
-                                                   "format_description" : "[1|0]",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -11769,13 +11995,11 @@ var pveapi = [
                                                 },
                                                 "quota" : {
                                                    "description" : "Enable user quotas inside the container (not supported with zfs subvolumes)",
-                                                   "format_description" : "[0|1]",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
                                                 "ro" : {
                                                    "description" : "Read-only mountpoint (not supported with bind mounts)",
-                                                   "format_description" : "ro",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -11808,14 +12032,13 @@ var pveapi = [
                                              "format" : {
                                                 "bridge" : {
                                                    "description" : "Bridge to attach the network device to.",
-                                                   "format_description" : "vmbr<Number>",
+                                                   "format_description" : "bridge",
                                                    "optional" : 1,
                                                    "pattern" : "[-_.\\w\\d]+",
                                                    "type" : "string"
                                                 },
                                                 "firewall" : {
                                                    "description" : "Controls whether this interface's firewall rules should be used.",
-                                                   "format_description" : "[1|0]",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -11834,8 +12057,8 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "hwaddr" : {
-                                                   "description" : "Bridge to attach the network device to. (lxc.network.hwaddr)",
-                                                   "format_description" : "MAC",
+                                                   "description" : "The interface MAC address. This is dynamically allocated by default, but you can set that statically if needed, for example to always have the same link-local IPv6 address. (lxc.network.hwaddr)",
+                                                   "format_description" : "XX:XX:XX:XX:XX:XX",
                                                    "optional" : 1,
                                                    "pattern" : "(?^i:(?:[a-f0-9]{2}:){5}[a-f0-9]{2})",
                                                    "type" : "string"
@@ -11856,14 +12079,13 @@ var pveapi = [
                                                 },
                                                 "mtu" : {
                                                    "description" : "Maximum transfer unit of the interface. (lxc.network.mtu)",
-                                                   "format_description" : "Number",
                                                    "minimum" : 64,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "name" : {
                                                    "description" : "Name of the network device as seen from inside the container. (lxc.network.name)",
-                                                   "format_description" : "String",
+                                                   "format_description" : "string",
                                                    "pattern" : "[-_.\\w\\d]+",
                                                    "type" : "string"
                                                 },
@@ -11875,7 +12097,6 @@ var pveapi = [
                                                 },
                                                 "tag" : {
                                                    "description" : "VLAN tag for this interface.",
-                                                   "format_description" : "VlanNo",
                                                    "maximum" : "4094",
                                                    "minimum" : "2",
                                                    "optional" : 1,
@@ -11937,25 +12158,21 @@ var pveapi = [
                                              "format" : {
                                                 "acl" : {
                                                    "description" : "Explicitly enable or disable ACL support.",
-                                                   "format_description" : "acl",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
                                                 "backup" : {
                                                    "description" : "Whether to include the mountpoint in backups.",
-                                                   "format_description" : "[1|0]",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
                                                 "quota" : {
                                                    "description" : "Enable user quotas inside the container (not supported with zfs subvolumes)",
-                                                   "format_description" : "[0|1]",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
                                                 "ro" : {
                                                    "description" : "Read-only mountpoint (not supported with bind mounts)",
-                                                   "format_description" : "ro",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -15191,13 +15408,11 @@ var pveapi = [
                                  "format" : {
                                     "acl" : {
                                        "description" : "Explicitly enable or disable ACL support.",
-                                       "format_description" : "acl",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
                                     "backup" : {
                                        "description" : "Whether to include the mountpoint in backups.",
-                                       "format_description" : "[1|0]",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -15209,13 +15424,11 @@ var pveapi = [
                                     },
                                     "quota" : {
                                        "description" : "Enable user quotas inside the container (not supported with zfs subvolumes)",
-                                       "format_description" : "[0|1]",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
                                     "ro" : {
                                        "description" : "Read-only mountpoint (not supported with bind mounts)",
-                                       "format_description" : "ro",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -15248,14 +15461,13 @@ var pveapi = [
                                  "format" : {
                                     "bridge" : {
                                        "description" : "Bridge to attach the network device to.",
-                                       "format_description" : "vmbr<Number>",
+                                       "format_description" : "bridge",
                                        "optional" : 1,
                                        "pattern" : "[-_.\\w\\d]+",
                                        "type" : "string"
                                     },
                                     "firewall" : {
                                        "description" : "Controls whether this interface's firewall rules should be used.",
-                                       "format_description" : "[1|0]",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -15274,8 +15486,8 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "hwaddr" : {
-                                       "description" : "Bridge to attach the network device to. (lxc.network.hwaddr)",
-                                       "format_description" : "MAC",
+                                       "description" : "The interface MAC address. This is dynamically allocated by default, but you can set that statically if needed, for example to always have the same link-local IPv6 address. (lxc.network.hwaddr)",
+                                       "format_description" : "XX:XX:XX:XX:XX:XX",
                                        "optional" : 1,
                                        "pattern" : "(?^i:(?:[a-f0-9]{2}:){5}[a-f0-9]{2})",
                                        "type" : "string"
@@ -15296,14 +15508,13 @@ var pveapi = [
                                     },
                                     "mtu" : {
                                        "description" : "Maximum transfer unit of the interface. (lxc.network.mtu)",
-                                       "format_description" : "Number",
                                        "minimum" : 64,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
                                     "name" : {
                                        "description" : "Name of the network device as seen from inside the container. (lxc.network.name)",
-                                       "format_description" : "String",
+                                       "format_description" : "string",
                                        "pattern" : "[-_.\\w\\d]+",
                                        "type" : "string"
                                     },
@@ -15315,7 +15526,6 @@ var pveapi = [
                                     },
                                     "tag" : {
                                        "description" : "VLAN tag for this interface.",
-                                       "format_description" : "VlanNo",
                                        "maximum" : "4094",
                                        "minimum" : "2",
                                        "optional" : 1,
@@ -15399,25 +15609,21 @@ var pveapi = [
                                  "format" : {
                                     "acl" : {
                                        "description" : "Explicitly enable or disable ACL support.",
-                                       "format_description" : "acl",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
                                     "backup" : {
                                        "description" : "Whether to include the mountpoint in backups.",
-                                       "format_description" : "[1|0]",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
                                     "quota" : {
                                        "description" : "Enable user quotas inside the container (not supported with zfs subvolumes)",
-                                       "format_description" : "[0|1]",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
                                     "ro" : {
                                        "description" : "Read-only mountpoint (not supported with bind mounts)",
-                                       "format_description" : "ro",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },

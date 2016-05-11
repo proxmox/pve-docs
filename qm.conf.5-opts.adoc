@@ -94,7 +94,7 @@ hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to
 disable hotplug completely. Value '1' is an alias for the default
 'network,disk,usb'.
 
-`ide[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<on|off>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<count>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<drive format>] [,heads=<count>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,rerror=<ignore|report|stop>] [,secs=<count>] [,serial=<serial>] [,snapshot=<on|off>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
+`ide[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
 
 Use volume as IDE hard disk or CD-ROM (n is 0 to 3).
 
@@ -137,7 +137,7 @@ Set maximum speed (in MB/s) for migrations. Value 0 is no limit.
 
 Set a name for the VM. Only used on the configuration web interface.
 
-`net[n]`: `string` ::
+`net[n]`: `[model=]<model> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
 
 Specify network devices.
 +
@@ -167,7 +167,7 @@ The DHCP server assign addresses to the guest starting from 10.0.2.15.
 
 Enable/disable NUMA.
 
-`numa[n]`: `cpus=<id[-id];...> [,hostnodes=<id[-id];...>] [,memory=<mb>] [,policy=<preferred|bind|interleave>]` ::
+`numa[n]`: `cpus=<id[-id];...> [,hostnodes=<id[-id];...>] [,memory=<number>] [,policy=<preferred|bind|interleave>]` ::
 
 numa topology
 
@@ -212,11 +212,11 @@ Sets the protection flag of the VM. This will prevent the remove operation.
 
 Allow reboot. If set to '0' the VM exit on reboot.
 
-`sata[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<on|off>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<count>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<drive format>] [,heads=<count>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<count>] [,serial=<serial>] [,snapshot=<on|off>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
+`sata[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
 
 Use volume as SATA hard disk or CD-ROM (n is 0 to 5).
 
-`scsi[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<on|off>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<count>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<drive format>] [,heads=<count>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iothread=<off|on>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<nbqueues>] [,secs=<count>] [,serial=<serial>] [,snapshot=<on|off>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
+`scsi[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
 
 Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).
 
@@ -241,7 +241,7 @@ Amount of memory shares for auto-ballooning. The larger the number is, the
 more memory this VM gets. Number is relative to weights of all other
 running VMs. Using zero disables auto-ballooning
 
-`smbios1`: `[family=<str>] [,manufacturer=<name>] [,product=<name>] [,serial=<str>] [,sku=<str>] [,uuid=<UUID>] [,version=<str>]` ::
+`smbios1`: `[family=<string>] [,manufacturer=<string>] [,product=<string>] [,serial=<string>] [,sku=<string>] [,uuid=<UUID>] [,version=<string>]` ::
 
 Specify SMBIOS type 1 fields.
 
@@ -285,7 +285,7 @@ Enable/disable Template.
 
 Reference to unused volumes.
 
-`usb[n]`: `[host=]<HOSTUSBDEVICE|spice> [,usb3=<yes|no>]` ::
+`usb[n]`: `[host=]<HOSTUSBDEVICE|spice> [,usb3=<1|0>]` ::
 
 Configure an USB device (n is 0 to 4). This can be used to
 pass-through usb devices to the guest. HOSTUSBDEVICE syntax is:
@@ -318,11 +318,11 @@ enables the SPICE display sever. For win* OS you can select how many
 independent displays you want, Linux guests can add displays them self. You
 can also run without any graphic card, using a serial device as terminal.
 
-`virtio[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<on|off>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<count>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<drive format>] [,heads=<count>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iothread=<off|on>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<count>] [,serial=<serial>] [,snapshot=<on|off>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
+`virtio[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
 
 Use volume as VIRTIO hard disk (n is 0 to 15).
 
-`watchdog`: `[action=<reset|shutdown|poweroff|pause|debug|none>] [,[model=]<i6300esb|ib700>]` ::
+`watchdog`: `[[model=]<i6300esb|ib700>] [,action=<reset|shutdown|poweroff|pause|debug|none>]` ::
 
 Create a virtual hardware watchdog device. Once enabled (by a guest
 action), the watchdog must be periodically polled by an agent inside the

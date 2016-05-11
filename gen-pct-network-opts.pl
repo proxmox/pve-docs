@@ -3,6 +3,7 @@
 use lib '.';
 use strict;
 use warnings;
+use PVE::JSONSchema;
 use PVE::RESTHandler;
 use PVE::LXC::Config;
 
@@ -12,7 +13,7 @@ my $phash = $prop->{net0};
 
 my $format = $phash->{format};
 
-my $typetext =  PVE::PodParser::schema_get_type_text($phash);
+my $typetext = PVE::JSONSchema::schema_get_type_text($phash);
 
 print "`net[n]`: `$typetext`\n\n";
 

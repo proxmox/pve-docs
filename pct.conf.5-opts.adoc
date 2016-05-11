@@ -44,7 +44,7 @@ Lock/unlock the VM.
 
 Amount of RAM for the VM in MB.
 
-`mp[n]`: `mp=<Path>, [volume=]<volume> [,acl=<acl>] [,backup=<[1|0]>] [,quota=<[0|1]>] [,ro=<ro>] [,size=<DiskSize>]` ::
+`mp[n]`: `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,size=<DiskSize>]` ::
 
 Use volume as container mount point (experimental feature).
 
@@ -53,7 +53,7 @@ Use volume as container mount point (experimental feature).
 Sets DNS server IP address for a container. Create will automatically use
 the setting from the host if you neither set searchdomain nor nameserver.
 
-`net[n]`: `name=<String> [,bridge=<vmbr<Number>>] [,firewall=<[1|0]>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<MAC>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>] [,mtu=<Number>] [,rate=<mbps>] [,tag=<VlanNo>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]` ::
+`net[n]`: `name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]` ::
 
 Specifies network interfaces for the container.
 
@@ -73,7 +73,7 @@ to skip and OS specific setup.
 Sets the protection flag of the container. This will prevent the CT or CT's
 disk remove/update operation.
 
-`rootfs`: `[volume=]<volume> [,acl=<acl>] [,backup=<[1|0]>] [,quota=<[0|1]>] [,ro=<ro>] [,size=<DiskSize>]` ::
+`rootfs`: `[volume=]<volume> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,size=<DiskSize>]` ::
 
 Use volume as container root.
 

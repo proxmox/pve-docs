@@ -1,10 +1,10 @@
-`net[n]`: `name=<String> [,bridge=<vmbr<Number>>] [,firewall=<[1|0]>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<MAC>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>] [,mtu=<Number>] [,rate=<mbps>] [,tag=<VlanNo>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]`
+`net[n]`: `name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]`
 
-`bridge`: `<vmbr<Number>>` ::
+`bridge`: `<bridge>` ::
 
 Bridge to attach the network device to.
 
-`firewall`: `<[1|0]>` ::
+`firewall`: `boolean` ::
 
 Controls whether this interface's firewall rules should be used.
 
@@ -16,7 +16,7 @@ Default gateway for IPv4 traffic.
 
 Default gateway for IPv6 traffic.
 
-`hwaddr`: `<MAC>` ::
+`hwaddr`: `<XX:XX:XX:XX:XX:XX>` ::
 
 The interface MAC address. This is dynamically allocated by default, but
 you can set that statically if needed, for example to always have the same
@@ -30,11 +30,11 @@ IPv4 address in CIDR format.
 
 IPv6 address in CIDR format.
 
-`mtu`: `<Number>` ::
+`mtu`: `integer (64 - N)` ::
 
 Maximum transfer unit of the interface. (lxc.network.mtu)
 
-`name`: `<String>` ::
+`name`: `<string>` ::
 
 Name of the network device as seen from inside the container.
 (lxc.network.name)
@@ -43,7 +43,7 @@ Name of the network device as seen from inside the container.
 
 Apply rate limiting to the interface
 
-`tag`: `<VlanNo>` ::
+`tag`: `integer (2 - 4094)` ::
 
 VLAN tag for this interface.
 
