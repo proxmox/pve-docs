@@ -5612,7 +5612,6 @@ var pveapi = [
                                                 "macaddr" : {
                                                    "description" : "MAC address",
                                                    "format_description" : "XX:XX:XX:XX:XX:XX",
-                                                   "keyAlias" : "model",
                                                    "optional" : 1,
                                                    "pattern" : "(?^i:[0-9a-f]{2}(?::[0-9a-f]{2}){5})",
                                                    "type" : "string"
@@ -7248,7 +7247,6 @@ var pveapi = [
                                                 "macaddr" : {
                                                    "description" : "MAC address",
                                                    "format_description" : "XX:XX:XX:XX:XX:XX",
-                                                   "keyAlias" : "model",
                                                    "optional" : 1,
                                                    "pattern" : "(?^i:[0-9a-f]{2}(?::[0-9a-f]{2}){5})",
                                                    "type" : "string"
@@ -10768,7 +10766,6 @@ var pveapi = [
                                     "macaddr" : {
                                        "description" : "MAC address",
                                        "format_description" : "XX:XX:XX:XX:XX:XX",
-                                       "keyAlias" : "model",
                                        "optional" : 1,
                                        "pattern" : "(?^i:[0-9a-f]{2}(?::[0-9a-f]{2}){5})",
                                        "type" : "string"
