@@ -80,7 +80,7 @@ usually at higher price.
  - automatic error detection ('ha-manager')
  - automatic failover ('ha-manager')
 
-Virtualization environments like {pve} makes it much easier to reach
+Virtualization environments like {pve} make it much easier to reach
 high availability because they remove the "hardware" dependency. They
 also support to setup and use redundant storage and network
 devices. So if one host fail, you can simply start those services on
@@ -164,10 +164,10 @@ machine which controls the state of each service.
 .Locks in the LRM & CRM
 [NOTE]
 Locks are provided by our distributed configuration file system (pmxcfs).
-They are used to guarantee that each LRM is active and working as a
-LRM only executes actions when he has its lock we can mark a failed node
-as fenced if we get its lock. This lets us then recover the failed HA services
-securely without the failed (but maybe still running) LRM interfering.
+They are used to guarantee that each LRM is active once and working. As a
+LRM only executes actions when it holds its lock we can mark a failed node
+as fenced if we can acquire its lock. This lets us then recover any failed
+HA services securely without any interference from the now unknown failed Node.
 This all gets supervised by the CRM which holds currently the manager master
 lock.
 
@@ -277,15 +277,27 @@ services which are required to run always on another node first.
 After that you can stop the LRM and CRM services. But note that the
 watchdog triggers if you stop it with active services.
 
-Updates
-~~~~~~~
+Package Updates
+---------------
+
 When updating the ha-manager you should do one node after the other, never
-all at once. Further you have to ensure that no service located at the node
-is in the error state, a node with erroneous service is not able to be upgraded
-and if tried nonetheless it may even trigger a Node reset when doing so!
-When dealing with erroneous services first check what happened to them, then
-bring them in a secure state, after that disable or remove them from HA. 
-Only after that you may start upgrading a Nodes LRM and CRM.
+all at once for various reasons. First, while we test our software
+thoughtfully, a bug affecting your specific setup cannot totally be ruled out.
+Upgrading one node after the other and checking the functionality of each node
+after finishing the update helps to recover from an eventual problems, while
+updating all could render you in a broken cluster state and is generally not
+good practice.
+
+Also, the {pve} HA stack uses a request acknowledge protocol to perform
+actions between the cluster and the local resource manager. For restarting,
+the LRM makes a request to the CRM to freeze all its services. This prevents
+that they get touched by the Cluster during the short time the LRM is restarting.
+After that the LRM may safely close the watchdog during a restart.
+Such a restart happens on a update and as already stated a active master
+CRM is needed to acknowledge the requests from the LRM, if this is not the case
+the update process can be too long which, in the worst case, may result in
+a watchdog reset.
+
 
 Fencing
 -------
@@ -295,7 +307,40 @@ What Is Fencing
 
 Fencing secures that on a node failure the dangerous node gets will be rendered
 unable to do any damage and  that no resource runs twice when it gets recovered
-from the failed node.
+from the failed node. This is a really important task and one of the base
+principles to make a system Highly Available.
+
+If a node would not get fenced it would be in an unknown state where it may
+have still access to shared resources, this is really dangerous!
+Imagine that every network but the storage one broke, now while not
+reachable from the public network the VM still runs and writes on the shared
+storage. If we would not fence the node and just start up this VM on another
+Node we would get dangerous race conditions, atomicity violations the whole VM
+could be rendered unusable. The recovery could also simply fail if the storage
+protects from multiple mounts and thus defeat the purpose of HA.
+
+How {pve} Fences
+~~~~~~~~~~~~~~~~~
+
+There are different methods to fence a node, for example fence devices which
+cut off the power from the node or disable their communication completely.
+
+Those are often quite expensive and bring additional critical components in
+a system, because if they fail you cannot recover any service.
+
+We thus wanted to integrate a simpler method in the HA Manager first, namely
+self fencing with watchdogs.
+
+Watchdogs are widely used in critical and dependable systems since the
+beginning of micro controllers, they are often independent and simple
+integrated circuit which  programs can use to watch them. After opening they need to
+report periodically. If, for whatever reason, a program becomes unable to do
+so the watchdogs triggers a reset of the whole server.
+
+Server motherboards often already include such hardware watchdogs, these need
+to be configured. If no watchdog is available or configured we fall back to the
+Linux Kernel softdog while still reliable it is not independent of the servers
+Hardware and thus has a lower reliability then a hardware watchdog.
 
 Configure Hardware Watchdog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
