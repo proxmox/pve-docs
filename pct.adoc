@@ -205,8 +205,27 @@ rewrite ssh_host_keys:: so that each container has unique keys
 
 randomize crontab:: so that cron does not start at the same time on all containers
 
-The above task depends on the OS type, so the implementation is different
-for each OS type. You can also disable any modifications by manually
+Changes made by {PVE} are enclosed by comment markers:
+
+ # --- BEGIN PVE ---
+ <data>
+ # --- END PVE ---
+
+If no such section is found it will be inserted at a reasonable location
+in the file.
+
+If such a section already exists it will be updated in place and will not be
+moved.
+
+Modification of a file can be prevented by adding a `.pve-ignore.` file for it.
+For instance, if the file `/etc/.pve-ignore.hosts` exists then the
+`/etc/hosts` file will not be touched. (This can be a simple empty file creatd
+via:
+
+ # touch /etc/.pve-ignore.hosts
+
+The above tasks are OS dependent and so they differ between different
+distributions. You can also disable all modifications entirely by manually
 setting the 'ostype' to 'unmanaged'.
 
 OS type detection is done by testing for certain files inside the
