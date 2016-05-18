@@ -83,6 +83,23 @@ snapshots and clones.
 TIP: It is possible to use LVM on top of an iSCSI storage. That way
 you get a 'shared' LVM storage.
 
+Thin provisioning
+-----------------
+
+A number of storages, and the Qemu image format `qcow2`,  support _thin provisioning_.
+With thin provisioning activated, only the blocks that the guest system actually use will be 
+written to the storage.
+
+Say for instance you create a VM with a 32GB hard disk, and after installing the 
+guest system OS, the root filesystem of the VM contains 3 GB of data. 
+In that case only 3GB are written to the storage, even if the guest VM sees a 
+32GB hard drive. In this way thin provisioning allows you to create disk images 
+which are larger than the currently available storage blocks. You can create 
+large disk images for your VMs, and when the need arises, add more disks to your 
+storage without resizing the VMs filesystems.
+
+All storage types which have the 'Snapshots' feature also support thin provisioning.
+
 Storage Configuration
 ---------------------
 
