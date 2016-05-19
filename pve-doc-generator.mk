@@ -57,6 +57,7 @@ PVECEPH_MAN1_SOURCES=			\
 PCT_MAN1_SOURCES=			\
 	pct.adoc 			\
 	pct.1-synopsis.adoc		\
+	pct.conf.5-opts.adoc		\
 	pct-network-opts.adoc		\
 	pct-mountpoint-opts.adoc	\
 	${PVE_COMMON_DOC_SOURCES}
@@ -74,6 +75,7 @@ DATACENTER_CONF_MAN5_SOURCES=		\
 QM_MAN1_SOURCES=			\
 	qm.adoc 			\
 	qm.1-synopsis.adoc		\
+	qm.conf.5-opts.adoc		\
 	${PVE_COMMON_DOC_SOURCES}
 
 QM_CONF_MAN5_SOURCES=			\
