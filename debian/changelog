@@ -1,3 +1,11 @@
+pve-doc-generator (4.2-3) unstable; urgency=medium
+
+  * update generated docs
+
+  * include options into pct and qm manual page
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 19 May 2016 17:31:19 +0200
+
 pve-doc-generator (4.2-2) unstable; urgency=medium
 
   * update generated docs
