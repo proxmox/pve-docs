@@ -38,13 +38,14 @@ All configuration files consists of lines in the form
 
  PARAMETER: value
 
-See 'man vm.conf' for a complete list of options.
-
 Configuration files are stored inside the Proxmox cluster file
 system, and can be access at '/etc/pve/qemu-server/<VMID>.conf'.
 
-The default for the `keyboard` option is read from
-'/etc/pve/datacenter.conf'.
+Options
+~~~~~~~
+
+include::qm.conf.5-opts.adoc[]
+
 
 Locks
 -----

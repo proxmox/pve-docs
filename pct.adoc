@@ -246,6 +246,11 @@ Alpine:: test /etc/alpine-release
 NOTE: Container start fails if the configured 'ostype' differs from the auto
 detected type.
 
+Options
+~~~~~~~
+
+include::pct.conf.5-opts.adoc[]
+
 
 Container Images
 ----------------

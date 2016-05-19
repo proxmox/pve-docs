@@ -239,10 +239,6 @@ Configuration Files
 :leveloffset: 2
 include::datacenter.cfg.adoc[]
 
-include::qm.conf.adoc[]
-
-include::pct.conf.adoc[]
-
 :leveloffset: 0
 
 [appendix]
