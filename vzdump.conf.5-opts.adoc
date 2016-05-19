@@ -28,8 +28,7 @@ Specify when to send an email
 
 `mailto`: `string` ::
 
-Comma-separated list of email addresses that should receive email
-notifications.
+Comma-separated list of email addresses that should receive email notifications.
 
 `maxfiles`: `integer (1 - N)` (default=`1`)::
 
@@ -41,8 +40,7 @@ Backup mode.
 
 `pigz`: `integer` (default=`0`)::
 
-Use pigz instead of gzip when N>0. N=1 uses half of cores, N>1 uses N as
-thread count.
+Use pigz instead of gzip when N>0. N=1 uses half of cores, N>1 uses N as thread count.
 
 `remove`: `boolean` (default=`1`)::
 

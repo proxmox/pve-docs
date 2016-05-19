@@ -114,8 +114,7 @@ Use specific network for all ceph related traffic
 
 `-pg_bits` `integer (6 - 14)` (default=`6`)::
 
-Placement group bits, used to specify the default number of placement
-groups.
+Placement group bits, used to specify the default number of placement groups.
 +
 NOTE: 'osd pool default pg num' does not work for default pools.
 

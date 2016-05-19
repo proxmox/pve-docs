@@ -36,8 +36,7 @@ target group for comstar views
 
 Allowed content types.
 +
-NOTE: the value 'rootdir' is used for Containers, and value 'images' for
-VMs.
+NOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs.
 
 `-disable` `boolean` ::
 
@@ -93,9 +92,7 @@ iSCSI portal (IP or DNS name with optional port).
 
 `-redundancy` `integer (1 - 16)` (default=`2`)::
 
-The redundancy count specifies the number of nodes to which the resource
-should be deployed. It must be at least 1 and at most the number of nodes
-in the cluster.
+The redundancy count specifies the number of nodes to which the resource should be deployed. It must be at least 1 and at most the number of nodes in the cluster.
 
 `-saferemove` `boolean` ::
 
@@ -168,8 +165,7 @@ The name of the file to create.
 
 `<size>` `\d+[MG]?` ::
 
-Size in kilobyte (1024 bytes). Optional suffixes 'M' (megabyte, 1024K) and
-'G' (gigabyte, 1024M)
+Size in kilobyte (1024 bytes). Optional suffixes 'M' (megabyte, 1024K) and 'G' (gigabyte, 1024M)
 
 `-format` `(qcow2 | raw | subvol)` ::
 
@@ -322,8 +318,7 @@ target group for comstar views
 
 Allowed content types.
 +
-NOTE: the value 'rootdir' is used for Containers, and value 'images' for
-VMs.
+NOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs.
 
 `-delete` `string` ::
 
@@ -331,8 +326,7 @@ A list of settings you want to delete.
 
 `-digest` `string` ::
 
-Prevent changes if current configuration file has different SHA1 digest.
-This can be used to prevent concurrent modifications.
+Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
 
 `-disable` `boolean` ::
 
@@ -368,9 +362,7 @@ Pool.
 
 `-redundancy` `integer (1 - 16)` (default=`2`)::
 
-The redundancy count specifies the number of nodes to which the resource
-should be deployed. It must be at least 1 and at most the number of nodes
-in the cluster.
+The redundancy count specifies the number of nodes to which the resource should be deployed. It must be at least 1 and at most the number of nodes in the cluster.
 
 `-saferemove` `boolean` ::
 
@@ -427,8 +419,7 @@ Only list status for  specified storage
 
 `-target` `string` ::
 
-If target is different to 'node', we only lists shared storages which
-content is accessible on this 'node' and the specified 'target' node.
+If target is different to 'node', we only lists shared storages which content is accessible on this 'node' and the specified 'target' node.
 
 
 

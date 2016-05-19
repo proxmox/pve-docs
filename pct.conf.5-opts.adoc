@@ -4,10 +4,7 @@ OS architecture type.
 
 `cmode`: `(console | shell | tty)` (default=`tty`)::
 
-Console mode. By default, the console command tries to open a connection to
-one of the available tty devices. By setting cmode to 'console' it tries to
-attach to /dev/console instead. If you set cmode to 'shell', it simply
-invokes a shell inside the container (no login).
+Console mode. By default, the console command tries to open a connection to one of the available tty devices. By setting cmode to 'console' it tries to attach to /dev/console instead. If you set cmode to 'shell', it simply invokes a shell inside the container (no login).
 
 `console`: `boolean` (default=`1`)::
 
@@ -17,14 +14,11 @@ Attach a console device (/dev/console) to the container.
 
 Limit of CPU usage.
 +
-NOTE: If the computer has 2 CPUs, it has a total of '2' CPU time. Value '0'
-indicates no CPU limit.
+NOTE: If the computer has 2 CPUs, it has a total of '2' CPU time. Value '0' indicates no CPU limit.
 
 `cpuunits`: `integer (0 - 500000)` (default=`1024`)::
 
-CPU weight for a VM. Argument is used in the kernel fair scheduler. The
-larger the number is, the more CPU time this VM gets. Number is relative to
-the weights of all the other running VMs.
+CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to the weights of all the other running VMs.
 +
 NOTE: You can disable fair-scheduler configuration by setting this to 0.
 
@@ -46,16 +40,95 @@ Amount of RAM for the VM in MB.
 
 `mp[n]`: `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,size=<DiskSize>]` ::
 
-Use volume as container mount point (experimental feature).
+Use volume as container mount point.
+
+`acl`=`boolean` ;;
+
+Explicitly enable or disable ACL support.
+
+`backup`=`boolean` ;;
+
+Whether to include the mountpoint in backups.
+
+`mp`=`<Path>` ;;
+
+Path to the mountpoint as seen from inside the container.
+
+`quota`=`boolean` ;;
+
+Enable user quotas inside the container (not supported with zfs subvolumes)
+
+`ro`=`boolean` ;;
+
+Read-only mountpoint (not supported with bind mounts)
+
+`size`=`<DiskSize>` ;;
+
+Volume size (read only value).
+
+`volume`=`<volume>` ;;
+
+Volume, device or directory to mount into the container.
 
 `nameserver`: `string` ::
 
-Sets DNS server IP address for a container. Create will automatically use
-the setting from the host if you neither set searchdomain nor nameserver.
+Sets DNS server IP address for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.
 
 `net[n]`: `name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]` ::
 
 Specifies network interfaces for the container.
+
+`bridge`=`<bridge>` ;;
+
+Bridge to attach the network device to.
+
+`firewall`=`boolean` ;;
+
+Controls whether this interface's firewall rules should be used.
+
+`gw`=`<GatewayIPv4>` ;;
+
+Default gateway for IPv4 traffic.
+
+`gw6`=`<GatewayIPv6>` ;;
+
+Default gateway for IPv6 traffic.
+
+`hwaddr`=`<XX:XX:XX:XX:XX:XX>` ;;
+
+The interface MAC address. This is dynamically allocated by default, but you can set that statically if needed, for example to always have the same link-local IPv6 address. (lxc.network.hwaddr)
+
+`ip`=`<IPv4Format/CIDR>` ;;
+
+IPv4 address in CIDR format.
+
+`ip6`=`<IPv6Format/CIDR>` ;;
+
+IPv6 address in CIDR format.
+
+`mtu`=`integer (64 - N)` ;;
+
+Maximum transfer unit of the interface. (lxc.network.mtu)
+
+`name`=`<string>` ;;
+
+Name of the network device as seen from inside the container. (lxc.network.name)
+
+`rate`=`<mbps>` ;;
+
+Apply rate limiting to the interface
+
+`tag`=`integer (1 - 4094)` ;;
+
+VLAN tag for this interface.
+
+`trunks`=`<vlanid[;vlanid...]>` ;;
+
+VLAN ids to pass through the interface
+
+`type`=`(veth)` ;;
+
+Network interface type.
 
 `onboot`: `boolean` (default=`0`)::
 
@@ -63,31 +136,43 @@ Specifies whether a VM will be started during system bootup.
 
 `ostype`: `(alpine | archlinux | centos | debian | fedora | opensuse | ubuntu | unmanaged)` ::
 
-OS type. This is used to setup configuration inside the container, and
-corresponds to lxc setup scripts in
-/usr/share/lxc/config/<ostype>.common.conf. Value 'unmanaged' can be used
-to skip and OS specific setup.
+OS type. This is used to setup configuration inside the container, and corresponds to lxc setup scripts in /usr/share/lxc/config/<ostype>.common.conf. Value 'unmanaged' can be used to skip and OS specific setup.
 
 `protection`: `boolean` (default=`0`)::
 
-Sets the protection flag of the container. This will prevent the CT or CT's
-disk remove/update operation.
+Sets the protection flag of the container. This will prevent the CT or CT's disk remove/update operation.
 
-`rootfs`: `[volume=]<volume> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,size=<DiskSize>]` ::
+`rootfs`: `[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,size=<DiskSize>]` ::
 
 Use volume as container root.
 
+`acl`=`boolean` ;;
+
+Explicitly enable or disable ACL support.
+
+`quota`=`boolean` ;;
+
+Enable user quotas inside the container (not supported with zfs subvolumes)
+
+`ro`=`boolean` ;;
+
+Read-only mountpoint (not supported with bind mounts)
+
+`size`=`<DiskSize>` ;;
+
+Volume size (read only value).
+
+`volume`=`<volume>` ;;
+
+Volume, device or directory to mount into the container.
+
 `searchdomain`: `string` ::
 
-Sets DNS search domains for a container. Create will automatically use the
-setting from the host if you neither set searchdomain nor nameserver.
+Sets DNS search domains for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.
 
 `startup`: `[[order=]\d+] [,up=\d+] [,down=\d+] ` ::
 
-Startup and shutdown behavior. Order is a non-negative number defining the
-general startup order. Shutdown in done with reverse ordering. Additionally
-you can set the 'up' or 'down' delay in seconds, which specifies a delay to
-wait before the next VM is started or stopped.
+Startup and shutdown behavior. Order is a non-negative number defining the general startup order. Shutdown in done with reverse ordering. Additionally you can set the 'up' or 'down' delay in seconds, which specifies a delay to wait before the next VM is started or stopped.
 
 `swap`: `integer (0 - N)` (default=`512`)::
 
@@ -103,10 +188,9 @@ Specify the number of tty available to the container
 
 `unprivileged`: `boolean` (default=`0`)::
 
-Makes the container run as unprivileged user. (Should not be modified
-manually.)
+Makes the container run as unprivileged user. (Should not be modified manually.)
 
 `unused[n]`: `string` ::
 
-Reference to unused volumes.
+Reference to unused volumes. This is used internally, and should not be modified manually.
 

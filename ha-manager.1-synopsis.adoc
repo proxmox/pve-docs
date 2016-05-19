@@ -6,10 +6,7 @@ Create a new HA resource.
 
 `<sid>` `<type>:<name>` ::
 
-HA resource ID. This consists of a resource type followed by a resource
-specific name, separated with colon (example: vm:100 / ct:100). For virtual
-machines and containers, you can simply use the VM or CT id as a shortcut
-(example: 100).
+HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).
 
 `-comment` `string` ::
 
@@ -25,8 +22,7 @@ Maximal number of service relocate tries when a service failes to start.
 
 `-max_restart` `integer (0 - N)` (default=`1`)::
 
-Maximal number of tries to restart the service on a node after its start
-failed.
+Maximal number of tries to restart the service on a node after its start failed.
 
 `-state` `(disabled | enabled)` (default=`enabled`)::
 
@@ -55,10 +51,7 @@ Disable a HA resource.
 
 `<sid>` `<type>:<name>` ::
 
-HA resource ID. This consists of a resource type followed by a resource
-specific name, separated with colon (example: vm:100 / ct:100). For virtual
-machines and containers, you can simply use the VM or CT id as a shortcut
-(example: 100).
+HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).
 
 
 
@@ -68,10 +61,7 @@ Enable a HA resource.
 
 `<sid>` `<type>:<name>` ::
 
-HA resource ID. This consists of a resource type followed by a resource
-specific name, separated with colon (example: vm:100 / ct:100). For virtual
-machines and containers, you can simply use the VM or CT id as a shortcut
-(example: 100).
+HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).
 
 
 
@@ -90,22 +80,15 @@ Description.
 
 `-nodes` `<node>[:<pri>]{,<node>[:<pri>]}*` ::
 
-List of cluster node names with optional priority. We use priority '0' as
-default. The CRM tries to run services on the node with highest priority
-(also see option 'nofailback').
+List of cluster node names with optional priority. We use priority '0' as default. The CRM tries to run services on the node with highest priority (also see option 'nofailback').
 
 `-nofailback` `boolean` (default=`0`)::
 
-The CRM tries to run services on the node with the highest priority. If a
-node with higher priority comes online, the CRM migrates the service to
-that node. Enabling nofailback prevents that behavior.
+The CRM tries to run services on the node with the highest priority. If a node with higher priority comes online, the CRM migrates the service to that node. Enabling nofailback prevents that behavior.
 
 `-restricted` `boolean` (default=`0`)::
 
-Services on unrestricted groups may run on any cluster members if all group
-members are offline. But they will migrate back as soon as a group member
-comes online. One can implement a 'preferred node' behavior using an
-unrestricted group with one member.
+Services on unrestricted groups may run on any cluster members if all group members are offline. But they will migrate back as soon as a group member comes online. One can implement a 'preferred node' behavior using an unrestricted group with one member.
 
 `-type` `(group)` ::
 
@@ -147,27 +130,19 @@ A list of settings you want to delete.
 
 `-digest` `string` ::
 
-Prevent changes if current configuration file has different SHA1 digest.
-This can be used to prevent concurrent modifications.
+Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
 
 `-nodes` `<node>[:<pri>]{,<node>[:<pri>]}*` ::
 
-List of cluster node names with optional priority. We use priority '0' as
-default. The CRM tries to run services on the node with highest priority
-(also see option 'nofailback').
+List of cluster node names with optional priority. We use priority '0' as default. The CRM tries to run services on the node with highest priority (also see option 'nofailback').
 
 `-nofailback` `boolean` (default=`0`)::
 
-The CRM tries to run services on the node with the highest priority. If a
-node with higher priority comes online, the CRM migrates the service to
-that node. Enabling nofailback prevents that behavior.
+The CRM tries to run services on the node with the highest priority. If a node with higher priority comes online, the CRM migrates the service to that node. Enabling nofailback prevents that behavior.
 
 `-restricted` `boolean` (default=`0`)::
 
-Services on unrestricted groups may run on any cluster members if all group
-members are offline. But they will migrate back as soon as a group member
-comes online. One can implement a 'preferred node' behavior using an
-unrestricted group with one member.
+Services on unrestricted groups may run on any cluster members if all group members are offline. But they will migrate back as soon as a group member comes online. One can implement a 'preferred node' behavior using an unrestricted group with one member.
 
 
 
@@ -193,10 +168,7 @@ Request resource migration (online) to another node.
 
 `<sid>` `<type>:<name>` ::
 
-HA resource ID. This consists of a resource type followed by a resource
-specific name, separated with colon (example: vm:100 / ct:100). For virtual
-machines and containers, you can simply use the VM or CT id as a shortcut
-(example: 100).
+HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).
 
 `<node>` `string` ::
 
@@ -211,10 +183,7 @@ old node, and restarts it on the target node.
 
 `<sid>` `<type>:<name>` ::
 
-HA resource ID. This consists of a resource type followed by a resource
-specific name, separated with colon (example: vm:100 / ct:100). For virtual
-machines and containers, you can simply use the VM or CT id as a shortcut
-(example: 100).
+HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).
 
 `<node>` `string` ::
 
@@ -228,10 +197,7 @@ Delete resource configuration.
 
 `<sid>` `<type>:<name>` ::
 
-HA resource ID. This consists of a resource type followed by a resource
-specific name, separated with colon (example: vm:100 / ct:100). For virtual
-machines and containers, you can simply use the VM or CT id as a shortcut
-(example: 100).
+HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).
 
 
 
@@ -241,10 +207,7 @@ Update resource configuration.
 
 `<sid>` `<type>:<name>` ::
 
-HA resource ID. This consists of a resource type followed by a resource
-specific name, separated with colon (example: vm:100 / ct:100). For virtual
-machines and containers, you can simply use the VM or CT id as a shortcut
-(example: 100).
+HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).
 
 `-comment` `string` ::
 
@@ -256,8 +219,7 @@ A list of settings you want to delete.
 
 `-digest` `string` ::
 
-Prevent changes if current configuration file has different SHA1 digest.
-This can be used to prevent concurrent modifications.
+Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
 
 `-group` `string` ::
 
@@ -269,8 +231,7 @@ Maximal number of service relocate tries when a service failes to start.
 
 `-max_restart` `integer (0 - N)` (default=`1`)::
 
-Maximal number of tries to restart the service on a node after its start
-failed.
+Maximal number of tries to restart the service on a node after its start failed.
 
 `-state` `(disabled | enabled)` (default=`enabled`)::
 

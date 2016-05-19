@@ -18,9 +18,7 @@ Default gateway for IPv6 traffic.
 
 `hwaddr`: `<XX:XX:XX:XX:XX:XX>` ::
 
-The interface MAC address. This is dynamically allocated by default, but
-you can set that statically if needed, for example to always have the same
-link-local IPv6 address. (lxc.network.hwaddr)
+The interface MAC address. This is dynamically allocated by default, but you can set that statically if needed, for example to always have the same link-local IPv6 address. (lxc.network.hwaddr)
 
 `ip`: `<IPv4Format/CIDR>` ::
 
@@ -36,14 +34,13 @@ Maximum transfer unit of the interface. (lxc.network.mtu)
 
 `name`: `<string>` ::
 
-Name of the network device as seen from inside the container.
-(lxc.network.name)
+Name of the network device as seen from inside the container. (lxc.network.name)
 
 `rate`: `<mbps>` ::
 
 Apply rate limiting to the interface
 
-`tag`: `integer (2 - 4094)` ::
+`tag`: `integer (1 - 4094)` ::
 
 VLAN tag for this interface.
 

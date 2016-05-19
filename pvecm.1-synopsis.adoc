@@ -18,13 +18,11 @@ Node id for this node.
 
 `-ring0_addr` `string` ::
 
-Hostname (or IP) of the corosync ring0 address of this node. Defaults to
-nodes hostname.
+Hostname (or IP) of the corosync ring0 address of this node. Defaults to nodes hostname.
 
 `-ring1_addr` `string` ::
 
-Hostname (or IP) of the corosync ring1 address, this needs an valid
-configured ring 1 interface in the cluster.
+Hostname (or IP) of the corosync ring1 address, this needs an valid configured ring 1 interface in the cluster.
 
 `-votes` `integer (0 - N)` ::
 
@@ -50,13 +48,11 @@ Node id for this node.
 
 `-ring0_addr` `string` ::
 
-Hostname (or IP) of the corosync ring0 address of this node. Defaults to
-nodes hostname.
+Hostname (or IP) of the corosync ring0 address of this node. Defaults to nodes hostname.
 
 `-ring1_addr` `string` ::
 
-Hostname (or IP) of the corosync ring1 address, this needs an valid
-bindnet1_addr.
+Hostname (or IP) of the corosync ring1 address, this needs an valid bindnet1_addr.
 
 `-votes` `integer (0 - N)` ::
 
@@ -74,13 +70,11 @@ The name of the cluster.
 
 `-bindnet0_addr` `string` ::
 
-This specifies the network address the corosync ring 0 executive should
-bind to and defaults to the local IP address of the node.
+This specifies the network address the corosync ring 0 executive should bind to and defaults to the local IP address of the node.
 
 `-bindnet1_addr` `string` ::
 
-This specifies the network address the corosync ring 1 executive should
-bind to and is optional.
+This specifies the network address the corosync ring 1 executive should bind to and is optional.
 
 `-nodeid` `integer (1 - N)` ::
 
@@ -88,18 +82,15 @@ Node id for this node.
 
 `-ring0_addr` `string` ::
 
-Hostname (or IP) of the corosync ring0 address of this node. Defaults to
-the hostname of the node.
+Hostname (or IP) of the corosync ring0 address of this node. Defaults to the hostname of the node.
 
 `-ring1_addr` `string` ::
 
-Hostname (or IP) of the corosync ring1 address, this needs an valid
-bindnet1_addr.
+Hostname (or IP) of the corosync ring1 address, this needs an valid bindnet1_addr.
 
 `-rrp_mode` `(active | none | passive)` (default=`none`)::
 
-This specifies the mode of redundant ring, which may be none, active or
-passive. Using multiple interfaces only allows 'active' or 'passive'.
+This specifies the mode of redundant ring, which may be none, active or passive. Using multiple interfaces only allows 'active' or 'passive'.
 
 `-votes` `integer (1 - N)` ::
 

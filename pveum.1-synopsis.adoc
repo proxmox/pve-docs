@@ -189,8 +189,7 @@ NOTE: Requires option(s): `path`
 
 `-realm` `string` ::
 
-You can optionally pass the realm using this parameter. Normally the realm
-is simply added to the username <username>@<relam>.
+You can optionally pass the realm using this parameter. Normally the realm is simply added to the username <username>@<relam>.
 
 
 
@@ -217,8 +216,7 @@ Enable the account (default). You can set this to '0' to disable the accout
 
 `-expire` `integer (0 - N)` ::
 
-Account expiration date (seconds since epoch). '0' means no expiration
-date.
+Account expiration date (seconds since epoch). '0' means no expiration date.
 
 `-firstname` `string` ::
 
@@ -280,8 +278,7 @@ Enable/disable the account.
 
 `-expire` `integer (0 - N)` ::
 
-Account expiration date (seconds since epoch). '0' means no expiration
-date.
+Account expiration date (seconds since epoch). '0' means no expiration date.
 
 `-firstname` `string` ::
 

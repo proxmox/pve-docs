@@ -5059,9 +5059,10 @@ var pveapi = [
                                              "type" : "boolean"
                                           },
                                           "args" : {
-                                             "description" : "Arbitrary arguments passed to kvm, for example:\n\nargs: -no-reboot -no-hpet\n\nNOTE: this option is for experts only.\n",
+                                             "description" : "Arbitrary arguments passed to kvm.",
                                              "optional" : 1,
-                                             "type" : "string"
+                                             "type" : "string",
+                                             "verbose_description" : "Arbitrary arguments passed to kvm, for example:\n\nargs: -no-reboot -no-hpet\n\nNOTE: this option is for experts only.\n"
                                           },
                                           "autostart" : {
                                              "default" : 0,
@@ -5172,19 +5173,21 @@ var pveapi = [
                                           },
                                           "cpulimit" : {
                                              "default" : 0,
-                                             "description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has total of '2' CPU time. Value '0' indicates no CPU limit.",
+                                             "description" : "Limit of CPU usage.",
                                              "maximum" : 128,
                                              "minimum" : 0,
                                              "optional" : 1,
-                                             "type" : "number"
+                                             "type" : "number",
+                                             "verbose_description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has total of '2' CPU time. Value '0' indicates no CPU limit."
                                           },
                                           "cpuunits" : {
                                              "default" : 1000,
-                                             "description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs.\n\nNOTE: You can disable fair-scheduler configuration by setting this to 0.",
+                                             "description" : "CPU weight for a VM.",
                                              "maximum" : 500000,
                                              "minimum" : 0,
                                              "optional" : 1,
-                                             "type" : "integer"
+                                             "type" : "integer",
+                                             "verbose_description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs.\n\nNOTE: You can disable fair-scheduler configuration by setting this to 0."
                                           },
                                           "delete" : {
                                              "description" : "A list of settings you want to delete.",
@@ -5215,7 +5218,7 @@ var pveapi = [
                                              "type" : "boolean"
                                           },
                                           "hostpci[n]" : {
-                                             "description" : "Map host pci devices. HOSTPCIDEVICE syntax is:\n\n'bus:dev.func' (hexadecimal numbers)\n\nYou can us the 'lspci' command to list existing pci devices.\n\nThe 'rombar' option determines whether or not the device's ROM will be visible in the guest's memory map (default is 'on').\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nExperimental: user reported problems with this option.\n",
+                                             "description" : "Map host PCI devices into guest.",
                                              "format" : "pve-qm-hostpci",
                                              "optional" : 1,
                                              "type" : "string"
@@ -5475,7 +5478,7 @@ var pveapi = [
                                           },
                                           "keyboard" : {
                                              "default" : "en-us",
-                                             "description" : "Keybord layout for vnc server. Default is read from the datacenter configuration file.",
+                                             "description" : "Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.conf' configuration file.",
                                              "enum" : [
                                                 "de",
                                                 "de-ch",
@@ -5563,10 +5566,10 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "net[n]" : {
-                                             "description" : "Specify network devices.\n\nMODEL is one of: e1000 e1000-82540em e1000-82544gc e1000-82545em i82551 i82557b i82559er ne2k_isa ne2k_pci pcnet rtl8139 virtio vmxnet3\n\nXX:XX:XX:XX:XX:XX should be an unique MAC address. This is\nautomatically generated if not specified.\n\nThe bridge parameter can be used to automatically add the interface to a bridge device. The Proxmox VE standard bridge is called 'vmbr0'.\n\nOption 'rate' is used to limit traffic bandwidth from and to this interface. It is specified as floating point number, unit is 'Megabytes per second'.\n\nIf you specify no bridge, we create a kvm 'user' (NATed) network device, which provides DHCP and DNS services. The following addresses are used:\n\n10.0.2.2   Gateway\n10.0.2.3   DNS Server\n10.0.2.4   SMB Server\n\nThe DHCP server assign addresses to the guest starting from 10.0.2.15.\n\n",
+                                             "description" : "Specify network devices.",
                                              "format" : {
                                                 "bridge" : {
-                                                   "description" : "Bridge to attach the network device to.",
+                                                   "description" : "Bridge to attach the network device to. The Proxmox VE standard bridge\nis called 'vmbr0'.\n\nIf you do not specify a bridge, we create a kvm user (NATed) network\ndevice, which provides DHCP and DNS services. The following addresses\nare used:\n\n 10.0.2.2   Gateway\n 10.0.2.3   DNS Server\n 10.0.2.4   SMB Server\n\nThe DHCP server assign addresses to the guest starting from 10.0.2.15.\n",
                                                    "format_description" : "bridge",
                                                    "optional" : 1,
                                                    "type" : "string"
@@ -5605,12 +5608,12 @@ var pveapi = [
                                                    "keyAlias" : "model"
                                                 },
                                                 "link_down" : {
-                                                   "description" : "Whether this interface should be DISconnected (like pulling the plug).",
+                                                   "description" : "Whether this interface should be disconnected (like pulling the plug).",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
                                                 "macaddr" : {
-                                                   "description" : "MAC address",
+                                                   "description" : "MAC address. That address must be unique withing your network. This is automatically generated if not specified.",
                                                    "format_description" : "XX:XX:XX:XX:XX:XX",
                                                    "optional" : 1,
                                                    "pattern" : "(?^i:[0-9a-f]{2}(?::[0-9a-f]{2}){5})",
@@ -5618,7 +5621,7 @@ var pveapi = [
                                                 },
                                                 "model" : {
                                                    "default_key" : 1,
-                                                   "description" : "Network Card Model.",
+                                                   "description" : "Network Card Model. The 'virtio' model provides the best performance with very low CPU overhead. If your guest does not support this driver, it is usually best to use 'e1000'.",
                                                    "enum" : [
                                                       "rtl8139",
                                                       "ne2k_pci",
@@ -5657,7 +5660,7 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "rate" : {
-                                                   "description" : "Rate limit in mbps as floating point number.",
+                                                   "description" : "Rate limit in mbps (megabytes per second) as floating point number.",
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "number"
@@ -5669,7 +5672,7 @@ var pveapi = [
                                                 "tag" : {
                                                    "description" : "VLAN tag to apply to packets on this interface.",
                                                    "maximum" : 4094,
-                                                   "minimum" : 2,
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -5704,28 +5707,28 @@ var pveapi = [
                                              "type" : "boolean"
                                           },
                                           "numa[n]" : {
-                                             "description" : "numa topology",
+                                             "description" : "NUMA topology.",
                                              "format" : {
                                                 "cpus" : {
-                                                   "description" : "CPUs accessing this numa node.",
+                                                   "description" : "CPUs accessing this NUMA node.",
                                                    "format_description" : "id[-id];...",
                                                    "pattern" : "(?^:\\d+(?:-\\d+)?(?:;\\d+(?:-\\d+)?)*)",
                                                    "type" : "string"
                                                 },
                                                 "hostnodes" : {
-                                                   "description" : "host numa nodes to use",
+                                                   "description" : "Host NUMA nodes to use.",
                                                    "format_description" : "id[-id];...",
                                                    "optional" : 1,
                                                    "pattern" : "(?^:\\d+(?:-\\d+)?(?:;\\d+(?:-\\d+)?)*)",
                                                    "type" : "string"
                                                 },
                                                 "memory" : {
-                                                   "description" : "Amount of memory this numa node provides.",
+                                                   "description" : "Amount of memory this NUMA node provides.",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "policy" : {
-                                                   "description" : "numa allocation policy.",
+                                                   "description" : "NUMA allocation policy.",
                                                    "enum" : [
                                                       "preferred",
                                                       "bind",
@@ -5745,7 +5748,7 @@ var pveapi = [
                                              "type" : "boolean"
                                           },
                                           "ostype" : {
-                                             "description" : "Used to enable special optimization/features for specific\noperating systems:\n\nother  => unspecified OS\nwxp    => Microsoft Windows XP\nw2k    => Microsoft Windows 2000\nw2k3   => Microsoft Windows 2003\nw2k8   => Microsoft Windows 2008\nwvista => Microsoft Windows Vista\nwin7   => Microsoft Windows 7\nwin8   => Microsoft Windows 8/2012\nl24    => Linux 2.4 Kernel\nl26    => Linux 2.6/3.X Kernel\nsolaris => solaris/opensolaris/openindiania kernel\n\nother|l24|l26|solaris                       ... no special behaviour\nwxp|w2k|w2k3|w2k8|wvista|win7|win8  ... use --localtime switch\n",
+                                             "description" : "Specify guest operating system.",
                                              "enum" : [
                                                 "other",
                                                 "wxp",
@@ -5760,17 +5763,19 @@ var pveapi = [
                                                 "solaris"
                                              ],
                                              "optional" : 1,
-                                             "type" : "string"
+                                             "type" : "string",
+                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6/3.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
                                           },
                                           "parallel[n]" : {
-                                             "description" : "Map host parallel devices (n is 0 to 2).\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nExperimental: user reported problems with this option.\n",
+                                             "description" : "Map host parallel devices (n is 0 to 2).",
                                              "optional" : 1,
                                              "pattern" : "/dev/parport\\d+|/dev/usb/lp\\d+",
-                                             "type" : "string"
+                                             "type" : "string",
+                                             "verbose_description" : "Map host parallel devices (n is 0 to 2).\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "protection" : {
                                              "default" : 0,
-                                             "description" : "Sets the protection flag of the VM. This will prevent the remove operation.",
+                                             "description" : "Sets the protection flag of the VM. This will disable the remove VM and remove disk operations.",
                                              "optional" : 1,
                                              "type" : "boolean"
                                           },
@@ -6265,7 +6270,7 @@ var pveapi = [
                                           },
                                           "scsihw" : {
                                              "default" : "lsi",
-                                             "description" : "scsi controller model",
+                                             "description" : "SCSI controller model",
                                              "enum" : [
                                                 "lsi",
                                                 "lsi53c810",
@@ -6278,10 +6283,11 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "serial[n]" : {
-                                             "description" : "Create a serial device inside the VM (n is 0 to 3), and pass through a host serial device (i.e. /dev/ttyS0), or create a unix socket on the host side (use 'qm terminal' to open a terminal connection).\n\nNOTE: If you pass through a host serial device, it is no longer possible to migrate such machines - use with special care.\n\nExperimental: user reported problems with this option.\n",
+                                             "description" : "Create a serial device inside the VM (n is 0 to 3)",
                                              "optional" : 1,
                                              "pattern" : "(/dev/.+|socket)",
-                                             "type" : "string"
+                                             "type" : "string",
+                                             "verbose_description" : "\nCreate a serial device inside the VM (n is 0 to 3), and pass through a\nhost serial device (i.e. /dev/ttyS0), or create a unix socket on the\nhost side (use 'qm terminal' to open a terminal connection).\n\nNOTE: If you pass through a host serial device, it is no longer possible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "shares" : {
                                              "default" : 1000,
@@ -6334,9 +6340,10 @@ var pveapi = [
                                           },
                                           "tablet" : {
                                              "default" : 1,
-                                             "description" : "Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (-vga=qxl).",
+                                             "description" : "Enable/disable the USB tablet device.",
                                              "optional" : 1,
-                                             "type" : "boolean"
+                                             "type" : "boolean",
+                                             "verbose_description" : "Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (-vga=qxl)."
                                           },
                                           "tdf" : {
                                              "default" : 0,
@@ -6351,23 +6358,24 @@ var pveapi = [
                                              "type" : "boolean"
                                           },
                                           "unused[n]" : {
-                                             "description" : "Reference to unused volumes.",
+                                             "description" : "Reference to unused volumes. This is used internally, and should not be modified manually.",
                                              "format" : "pve-volume-id",
                                              "optional" : 1,
                                              "type" : "string"
                                           },
                                           "usb[n]" : {
-                                             "description" : "Configure an USB device (n is 0 to 4). This can be used to\npass-through usb devices to the guest. HOSTUSBDEVICE syntax is:\n\n'bus-port(.port)*' (decimal numbers) or\n'vendor_id:product_id' (hexadeciaml numbers) or\n'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n\nThe 'usb3' option determines whether the device is a USB3 device or not (this does currently not work reliably with spice redirection and is then ignored).\n\n",
+                                             "description" : "Configure an USB device (n is 0 to 4).",
                                              "format" : {
                                                 "host" : {
                                                    "default_key" : 1,
-                                                   "description" : "The Host USB device or port or the value spice",
+                                                   "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n",
                                                    "format" : "pve-qm-usb-device",
                                                    "format_description" : "HOSTUSBDEVICE|spice",
                                                    "type" : "string"
                                                 },
                                                 "usb3" : {
-                                                   "description" : "Specifies whether if given host option is a USB3 device or port",
+                                                   "default" : 0,
+                                                   "description" : "Specifies whether if given host option is a USB3 device or port (this does currently not work reliably with spice redirection and is then ignored).",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 }
@@ -6383,7 +6391,7 @@ var pveapi = [
                                              "type" : "integer"
                                           },
                                           "vga" : {
-                                             "description" : "Select the VGA type. If you want to use high resolution modes (>= 1280x1024x16) then you should use the options 'std' or 'vmware'. Default is 'std' for win8/win7/w2k8, and 'cirrus' for other OS types. The 'qxl' option enables the SPICE display sever. For win* OS you can select how many independent displays you want, Linux guests can add displays them self. You can also run without any graphic card, using a serial device as terminal.",
+                                             "description" : "Select the VGA type.",
                                              "enum" : [
                                                 "std",
                                                 "cirrus",
@@ -6398,7 +6406,8 @@ var pveapi = [
                                                 "qxl4"
                                              ],
                                              "optional" : 1,
-                                             "type" : "string"
+                                             "type" : "string",
+                                             "verbose_description" : "Select the VGA type. If you want to use high resolution modes (>= 1280x1024x16) then you should use the options 'std' or 'vmware'. Default is 'std' for win8/win7/w2k8, and 'cirrus' for other OS types. The 'qxl' option enables the SPICE display sever. For win* OS you can select how many independent displays you want, Linux guests can add displays them self. You can also run without any graphic card, using a serial device as terminal."
                                           },
                                           "virtio[n]" : {
                                              "description" : "Use volume as VIRTIO hard disk (n is 0 to 15).",
@@ -6650,10 +6659,11 @@ var pveapi = [
                                              "type" : "integer"
                                           },
                                           "watchdog" : {
-                                             "description" : "Create a virtual hardware watchdog device. Once enabled (by a guest action), the watchdog must be periodically polled by an agent inside the guest or else the watchdog will reset the guest (or execute the respective action specified)",
+                                             "description" : "Create a virtual hardware watchdog device.",
                                              "format" : "pve-qm-watchdog",
                                              "optional" : 1,
-                                             "type" : "string"
+                                             "type" : "string",
+                                             "verbose_description" : "Create a virtual hardware watchdog device. Once enabled (by a guest action), the watchdog must be periodically polled by an agent inside the guest or else the watchdog will reset the guest (or execute the respective action specified)"
                                           }
                                        }
                                     },
@@ -6701,9 +6711,10 @@ var pveapi = [
                                              "type" : "boolean"
                                           },
                                           "args" : {
-                                             "description" : "Arbitrary arguments passed to kvm, for example:\n\nargs: -no-reboot -no-hpet\n\nNOTE: this option is for experts only.\n",
+                                             "description" : "Arbitrary arguments passed to kvm.",
                                              "optional" : 1,
-                                             "type" : "string"
+                                             "type" : "string",
+                                             "verbose_description" : "Arbitrary arguments passed to kvm, for example:\n\nargs: -no-reboot -no-hpet\n\nNOTE: this option is for experts only.\n"
                                           },
                                           "autostart" : {
                                              "default" : 0,
@@ -6807,19 +6818,21 @@ var pveapi = [
                                           },
                                           "cpulimit" : {
                                              "default" : 0,
-                                             "description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has total of '2' CPU time. Value '0' indicates no CPU limit.",
+                                             "description" : "Limit of CPU usage.",
                                              "maximum" : 128,
                                              "minimum" : 0,
                                              "optional" : 1,
-                                             "type" : "number"
+                                             "type" : "number",
+                                             "verbose_description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has total of '2' CPU time. Value '0' indicates no CPU limit."
                                           },
                                           "cpuunits" : {
                                              "default" : 1000,
-                                             "description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs.\n\nNOTE: You can disable fair-scheduler configuration by setting this to 0.",
+                                             "description" : "CPU weight for a VM.",
                                              "maximum" : 500000,
                                              "minimum" : 0,
                                              "optional" : 1,
-                                             "type" : "integer"
+                                             "type" : "integer",
+                                             "verbose_description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs.\n\nNOTE: You can disable fair-scheduler configuration by setting this to 0."
                                           },
                                           "delete" : {
                                              "description" : "A list of settings you want to delete.",
@@ -6850,7 +6863,7 @@ var pveapi = [
                                              "type" : "boolean"
                                           },
                                           "hostpci[n]" : {
-                                             "description" : "Map host pci devices. HOSTPCIDEVICE syntax is:\n\n'bus:dev.func' (hexadecimal numbers)\n\nYou can us the 'lspci' command to list existing pci devices.\n\nThe 'rombar' option determines whether or not the device's ROM will be visible in the guest's memory map (default is 'on').\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nExperimental: user reported problems with this option.\n",
+                                             "description" : "Map host PCI devices into guest.",
                                              "format" : "pve-qm-hostpci",
                                              "optional" : 1,
                                              "type" : "string"
@@ -7110,7 +7123,7 @@ var pveapi = [
                                           },
                                           "keyboard" : {
                                              "default" : "en-us",
-                                             "description" : "Keybord layout for vnc server. Default is read from the datacenter configuration file.",
+                                             "description" : "Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.conf' configuration file.",
                                              "enum" : [
                                                 "de",
                                                 "de-ch",
@@ -7198,10 +7211,10 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "net[n]" : {
-                                             "description" : "Specify network devices.\n\nMODEL is one of: e1000 e1000-82540em e1000-82544gc e1000-82545em i82551 i82557b i82559er ne2k_isa ne2k_pci pcnet rtl8139 virtio vmxnet3\n\nXX:XX:XX:XX:XX:XX should be an unique MAC address. This is\nautomatically generated if not specified.\n\nThe bridge parameter can be used to automatically add the interface to a bridge device. The Proxmox VE standard bridge is called 'vmbr0'.\n\nOption 'rate' is used to limit traffic bandwidth from and to this interface. It is specified as floating point number, unit is 'Megabytes per second'.\n\nIf you specify no bridge, we create a kvm 'user' (NATed) network device, which provides DHCP and DNS services. The following addresses are used:\n\n10.0.2.2   Gateway\n10.0.2.3   DNS Server\n10.0.2.4   SMB Server\n\nThe DHCP server assign addresses to the guest starting from 10.0.2.15.\n\n",
+                                             "description" : "Specify network devices.",
                                              "format" : {
                                                 "bridge" : {
-                                                   "description" : "Bridge to attach the network device to.",
+                                                   "description" : "Bridge to attach the network device to. The Proxmox VE standard bridge\nis called 'vmbr0'.\n\nIf you do not specify a bridge, we create a kvm user (NATed) network\ndevice, which provides DHCP and DNS services. The following addresses\nare used:\n\n 10.0.2.2   Gateway\n 10.0.2.3   DNS Server\n 10.0.2.4   SMB Server\n\nThe DHCP server assign addresses to the guest starting from 10.0.2.15.\n",
                                                    "format_description" : "bridge",
                                                    "optional" : 1,
                                                    "type" : "string"
@@ -7240,12 +7253,12 @@ var pveapi = [
                                                    "keyAlias" : "model"
                                                 },
                                                 "link_down" : {
-                                                   "description" : "Whether this interface should be DISconnected (like pulling the plug).",
+                                                   "description" : "Whether this interface should be disconnected (like pulling the plug).",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
                                                 "macaddr" : {
-                                                   "description" : "MAC address",
+                                                   "description" : "MAC address. That address must be unique withing your network. This is automatically generated if not specified.",
                                                    "format_description" : "XX:XX:XX:XX:XX:XX",
                                                    "optional" : 1,
                                                    "pattern" : "(?^i:[0-9a-f]{2}(?::[0-9a-f]{2}){5})",
@@ -7253,7 +7266,7 @@ var pveapi = [
                                                 },
                                                 "model" : {
                                                    "default_key" : 1,
-                                                   "description" : "Network Card Model.",
+                                                   "description" : "Network Card Model. The 'virtio' model provides the best performance with very low CPU overhead. If your guest does not support this driver, it is usually best to use 'e1000'.",
                                                    "enum" : [
                                                       "rtl8139",
                                                       "ne2k_pci",
@@ -7292,7 +7305,7 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "rate" : {
-                                                   "description" : "Rate limit in mbps as floating point number.",
+                                                   "description" : "Rate limit in mbps (megabytes per second) as floating point number.",
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "number"
@@ -7304,7 +7317,7 @@ var pveapi = [
                                                 "tag" : {
                                                    "description" : "VLAN tag to apply to packets on this interface.",
                                                    "maximum" : 4094,
-                                                   "minimum" : 2,
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -7339,28 +7352,28 @@ var pveapi = [
                                              "type" : "boolean"
                                           },
                                           "numa[n]" : {
-                                             "description" : "numa topology",
+                                             "description" : "NUMA topology.",
                                              "format" : {
                                                 "cpus" : {
-                                                   "description" : "CPUs accessing this numa node.",
+                                                   "description" : "CPUs accessing this NUMA node.",
                                                    "format_description" : "id[-id];...",
                                                    "pattern" : "(?^:\\d+(?:-\\d+)?(?:;\\d+(?:-\\d+)?)*)",
                                                    "type" : "string"
                                                 },
                                                 "hostnodes" : {
-                                                   "description" : "host numa nodes to use",
+                                                   "description" : "Host NUMA nodes to use.",
                                                    "format_description" : "id[-id];...",
                                                    "optional" : 1,
                                                    "pattern" : "(?^:\\d+(?:-\\d+)?(?:;\\d+(?:-\\d+)?)*)",
                                                    "type" : "string"
                                                 },
                                                 "memory" : {
-                                                   "description" : "Amount of memory this numa node provides.",
+                                                   "description" : "Amount of memory this NUMA node provides.",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "policy" : {
-                                                   "description" : "numa allocation policy.",
+                                                   "description" : "NUMA allocation policy.",
                                                    "enum" : [
                                                       "preferred",
                                                       "bind",
@@ -7380,7 +7393,7 @@ var pveapi = [
                                              "type" : "boolean"
                                           },
                                           "ostype" : {
-                                             "description" : "Used to enable special optimization/features for specific\noperating systems:\n\nother  => unspecified OS\nwxp    => Microsoft Windows XP\nw2k    => Microsoft Windows 2000\nw2k3   => Microsoft Windows 2003\nw2k8   => Microsoft Windows 2008\nwvista => Microsoft Windows Vista\nwin7   => Microsoft Windows 7\nwin8   => Microsoft Windows 8/2012\nl24    => Linux 2.4 Kernel\nl26    => Linux 2.6/3.X Kernel\nsolaris => solaris/opensolaris/openindiania kernel\n\nother|l24|l26|solaris                       ... no special behaviour\nwxp|w2k|w2k3|w2k8|wvista|win7|win8  ... use --localtime switch\n",
+                                             "description" : "Specify guest operating system.",
                                              "enum" : [
                                                 "other",
                                                 "wxp",
@@ -7395,17 +7408,19 @@ var pveapi = [
                                                 "solaris"
                                              ],
                                              "optional" : 1,
-                                             "type" : "string"
+                                             "type" : "string",
+                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6/3.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
                                           },
                                           "parallel[n]" : {
-                                             "description" : "Map host parallel devices (n is 0 to 2).\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nExperimental: user reported problems with this option.\n",
+                                             "description" : "Map host parallel devices (n is 0 to 2).",
                                              "optional" : 1,
                                              "pattern" : "/dev/parport\\d+|/dev/usb/lp\\d+",
-                                             "type" : "string"
+                                             "type" : "string",
+                                             "verbose_description" : "Map host parallel devices (n is 0 to 2).\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "protection" : {
                                              "default" : 0,
-                                             "description" : "Sets the protection flag of the VM. This will prevent the remove operation.",
+                                             "description" : "Sets the protection flag of the VM. This will disable the remove VM and remove disk operations.",
                                              "optional" : 1,
                                              "type" : "boolean"
                                           },
@@ -7900,7 +7915,7 @@ var pveapi = [
                                           },
                                           "scsihw" : {
                                              "default" : "lsi",
-                                             "description" : "scsi controller model",
+                                             "description" : "SCSI controller model",
                                              "enum" : [
                                                 "lsi",
                                                 "lsi53c810",
@@ -7913,10 +7928,11 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "serial[n]" : {
-                                             "description" : "Create a serial device inside the VM (n is 0 to 3), and pass through a host serial device (i.e. /dev/ttyS0), or create a unix socket on the host side (use 'qm terminal' to open a terminal connection).\n\nNOTE: If you pass through a host serial device, it is no longer possible to migrate such machines - use with special care.\n\nExperimental: user reported problems with this option.\n",
+                                             "description" : "Create a serial device inside the VM (n is 0 to 3)",
                                              "optional" : 1,
                                              "pattern" : "(/dev/.+|socket)",
-                                             "type" : "string"
+                                             "type" : "string",
+                                             "verbose_description" : "\nCreate a serial device inside the VM (n is 0 to 3), and pass through a\nhost serial device (i.e. /dev/ttyS0), or create a unix socket on the\nhost side (use 'qm terminal' to open a terminal connection).\n\nNOTE: If you pass through a host serial device, it is no longer possible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "shares" : {
                                              "default" : 1000,
@@ -7969,9 +7985,10 @@ var pveapi = [
                                           },
                                           "tablet" : {
                                              "default" : 1,
-                                             "description" : "Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (-vga=qxl).",
+                                             "description" : "Enable/disable the USB tablet device.",
                                              "optional" : 1,
-                                             "type" : "boolean"
+                                             "type" : "boolean",
+                                             "verbose_description" : "Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (-vga=qxl)."
                                           },
                                           "tdf" : {
                                              "default" : 0,
@@ -7986,23 +8003,24 @@ var pveapi = [
                                              "type" : "boolean"
                                           },
                                           "unused[n]" : {
-                                             "description" : "Reference to unused volumes.",
+                                             "description" : "Reference to unused volumes. This is used internally, and should not be modified manually.",
                                              "format" : "pve-volume-id",
                                              "optional" : 1,
                                              "type" : "string"
                                           },
                                           "usb[n]" : {
-                                             "description" : "Configure an USB device (n is 0 to 4). This can be used to\npass-through usb devices to the guest. HOSTUSBDEVICE syntax is:\n\n'bus-port(.port)*' (decimal numbers) or\n'vendor_id:product_id' (hexadeciaml numbers) or\n'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n\nThe 'usb3' option determines whether the device is a USB3 device or not (this does currently not work reliably with spice redirection and is then ignored).\n\n",
+                                             "description" : "Configure an USB device (n is 0 to 4).",
                                              "format" : {
                                                 "host" : {
                                                    "default_key" : 1,
-                                                   "description" : "The Host USB device or port or the value spice",
+                                                   "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n",
                                                    "format" : "pve-qm-usb-device",
                                                    "format_description" : "HOSTUSBDEVICE|spice",
                                                    "type" : "string"
                                                 },
                                                 "usb3" : {
-                                                   "description" : "Specifies whether if given host option is a USB3 device or port",
+                                                   "default" : 0,
+                                                   "description" : "Specifies whether if given host option is a USB3 device or port (this does currently not work reliably with spice redirection and is then ignored).",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 }
@@ -8018,7 +8036,7 @@ var pveapi = [
                                              "type" : "integer"
                                           },
                                           "vga" : {
-                                             "description" : "Select the VGA type. If you want to use high resolution modes (>= 1280x1024x16) then you should use the options 'std' or 'vmware'. Default is 'std' for win8/win7/w2k8, and 'cirrus' for other OS types. The 'qxl' option enables the SPICE display sever. For win* OS you can select how many independent displays you want, Linux guests can add displays them self. You can also run without any graphic card, using a serial device as terminal.",
+                                             "description" : "Select the VGA type.",
                                              "enum" : [
                                                 "std",
                                                 "cirrus",
@@ -8033,7 +8051,8 @@ var pveapi = [
                                                 "qxl4"
                                              ],
                                              "optional" : 1,
-                                             "type" : "string"
+                                             "type" : "string",
+                                             "verbose_description" : "Select the VGA type. If you want to use high resolution modes (>= 1280x1024x16) then you should use the options 'std' or 'vmware'. Default is 'std' for win8/win7/w2k8, and 'cirrus' for other OS types. The 'qxl' option enables the SPICE display sever. For win* OS you can select how many independent displays you want, Linux guests can add displays them self. You can also run without any graphic card, using a serial device as terminal."
                                           },
                                           "virtio[n]" : {
                                              "description" : "Use volume as VIRTIO hard disk (n is 0 to 15).",
@@ -8285,10 +8304,11 @@ var pveapi = [
                                              "type" : "integer"
                                           },
                                           "watchdog" : {
-                                             "description" : "Create a virtual hardware watchdog device. Once enabled (by a guest action), the watchdog must be periodically polled by an agent inside the guest or else the watchdog will reset the guest (or execute the respective action specified)",
+                                             "description" : "Create a virtual hardware watchdog device.",
                                              "format" : "pve-qm-watchdog",
                                              "optional" : 1,
-                                             "type" : "string"
+                                             "type" : "string",
+                                             "verbose_description" : "Create a virtual hardware watchdog device. Once enabled (by a guest action), the watchdog must be periodically polled by an agent inside the guest or else the watchdog will reset the guest (or execute the respective action specified)"
                                           }
                                        }
                                     },
@@ -10232,9 +10252,10 @@ var pveapi = [
                                  "type" : "string"
                               },
                               "args" : {
-                                 "description" : "Arbitrary arguments passed to kvm, for example:\n\nargs: -no-reboot -no-hpet\n\nNOTE: this option is for experts only.\n",
+                                 "description" : "Arbitrary arguments passed to kvm.",
                                  "optional" : 1,
-                                 "type" : "string"
+                                 "type" : "string",
+                                 "verbose_description" : "Arbitrary arguments passed to kvm, for example:\n\nargs: -no-reboot -no-hpet\n\nNOTE: this option is for experts only.\n"
                               },
                               "autostart" : {
                                  "default" : 0,
@@ -10338,19 +10359,21 @@ var pveapi = [
                               },
                               "cpulimit" : {
                                  "default" : 0,
-                                 "description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has total of '2' CPU time. Value '0' indicates no CPU limit.",
+                                 "description" : "Limit of CPU usage.",
                                  "maximum" : 128,
                                  "minimum" : 0,
                                  "optional" : 1,
-                                 "type" : "number"
+                                 "type" : "number",
+                                 "verbose_description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has total of '2' CPU time. Value '0' indicates no CPU limit."
                               },
                               "cpuunits" : {
                                  "default" : 1000,
-                                 "description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs.\n\nNOTE: You can disable fair-scheduler configuration by setting this to 0.",
+                                 "description" : "CPU weight for a VM.",
                                  "maximum" : 500000,
                                  "minimum" : 0,
                                  "optional" : 1,
-                                 "type" : "integer"
+                                 "type" : "integer",
+                                 "verbose_description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs.\n\nNOTE: You can disable fair-scheduler configuration by setting this to 0."
                               },
                               "description" : {
                                  "description" : "Description for the VM. Only used on the configuration web interface. This is saved as comment inside the configuration file.",
@@ -10369,7 +10392,7 @@ var pveapi = [
                                  "type" : "boolean"
                               },
                               "hostpci[n]" : {
-                                 "description" : "Map host pci devices. HOSTPCIDEVICE syntax is:\n\n'bus:dev.func' (hexadecimal numbers)\n\nYou can us the 'lspci' command to list existing pci devices.\n\nThe 'rombar' option determines whether or not the device's ROM will be visible in the guest's memory map (default is 'on').\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nExperimental: user reported problems with this option.\n",
+                                 "description" : "Map host PCI devices into guest.",
                                  "format" : "pve-qm-hostpci",
                                  "optional" : 1,
                                  "type" : "string"
@@ -10629,7 +10652,7 @@ var pveapi = [
                               },
                               "keyboard" : {
                                  "default" : "en-us",
-                                 "description" : "Keybord layout for vnc server. Default is read from the datacenter configuration file.",
+                                 "description" : "Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.conf' configuration file.",
                                  "enum" : [
                                     "de",
                                     "de-ch",
@@ -10717,10 +10740,10 @@ var pveapi = [
                                  "type" : "string"
                               },
                               "net[n]" : {
-                                 "description" : "Specify network devices.\n\nMODEL is one of: e1000 e1000-82540em e1000-82544gc e1000-82545em i82551 i82557b i82559er ne2k_isa ne2k_pci pcnet rtl8139 virtio vmxnet3\n\nXX:XX:XX:XX:XX:XX should be an unique MAC address. This is\nautomatically generated if not specified.\n\nThe bridge parameter can be used to automatically add the interface to a bridge device. The Proxmox VE standard bridge is called 'vmbr0'.\n\nOption 'rate' is used to limit traffic bandwidth from and to this interface. It is specified as floating point number, unit is 'Megabytes per second'.\n\nIf you specify no bridge, we create a kvm 'user' (NATed) network device, which provides DHCP and DNS services. The following addresses are used:\n\n10.0.2.2   Gateway\n10.0.2.3   DNS Server\n10.0.2.4   SMB Server\n\nThe DHCP server assign addresses to the guest starting from 10.0.2.15.\n\n",
+                                 "description" : "Specify network devices.",
                                  "format" : {
                                     "bridge" : {
-                                       "description" : "Bridge to attach the network device to.",
+                                       "description" : "Bridge to attach the network device to. The Proxmox VE standard bridge\nis called 'vmbr0'.\n\nIf you do not specify a bridge, we create a kvm user (NATed) network\ndevice, which provides DHCP and DNS services. The following addresses\nare used:\n\n 10.0.2.2   Gateway\n 10.0.2.3   DNS Server\n 10.0.2.4   SMB Server\n\nThe DHCP server assign addresses to the guest starting from 10.0.2.15.\n",
                                        "format_description" : "bridge",
                                        "optional" : 1,
                                        "type" : "string"
@@ -10759,12 +10782,12 @@ var pveapi = [
                                        "keyAlias" : "model"
                                     },
                                     "link_down" : {
-                                       "description" : "Whether this interface should be DISconnected (like pulling the plug).",
+                                       "description" : "Whether this interface should be disconnected (like pulling the plug).",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
                                     "macaddr" : {
-                                       "description" : "MAC address",
+                                       "description" : "MAC address. That address must be unique withing your network. This is automatically generated if not specified.",
                                        "format_description" : "XX:XX:XX:XX:XX:XX",
                                        "optional" : 1,
                                        "pattern" : "(?^i:[0-9a-f]{2}(?::[0-9a-f]{2}){5})",
@@ -10772,7 +10795,7 @@ var pveapi = [
                                     },
                                     "model" : {
                                        "default_key" : 1,
-                                       "description" : "Network Card Model.",
+                                       "description" : "Network Card Model. The 'virtio' model provides the best performance with very low CPU overhead. If your guest does not support this driver, it is usually best to use 'e1000'.",
                                        "enum" : [
                                           "rtl8139",
                                           "ne2k_pci",
@@ -10811,7 +10834,7 @@ var pveapi = [
                                        "type" : "integer"
                                     },
                                     "rate" : {
-                                       "description" : "Rate limit in mbps as floating point number.",
+                                       "description" : "Rate limit in mbps (megabytes per second) as floating point number.",
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "number"
@@ -10823,7 +10846,7 @@ var pveapi = [
                                     "tag" : {
                                        "description" : "VLAN tag to apply to packets on this interface.",
                                        "maximum" : 4094,
-                                       "minimum" : 2,
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -10858,28 +10881,28 @@ var pveapi = [
                                  "type" : "boolean"
                               },
                               "numa[n]" : {
-                                 "description" : "numa topology",
+                                 "description" : "NUMA topology.",
                                  "format" : {
                                     "cpus" : {
-                                       "description" : "CPUs accessing this numa node.",
+                                       "description" : "CPUs accessing this NUMA node.",
                                        "format_description" : "id[-id];...",
                                        "pattern" : "(?^:\\d+(?:-\\d+)?(?:;\\d+(?:-\\d+)?)*)",
                                        "type" : "string"
                                     },
                                     "hostnodes" : {
-                                       "description" : "host numa nodes to use",
+                                       "description" : "Host NUMA nodes to use.",
                                        "format_description" : "id[-id];...",
                                        "optional" : 1,
                                        "pattern" : "(?^:\\d+(?:-\\d+)?(?:;\\d+(?:-\\d+)?)*)",
                                        "type" : "string"
                                     },
                                     "memory" : {
-                                       "description" : "Amount of memory this numa node provides.",
+                                       "description" : "Amount of memory this NUMA node provides.",
                                        "optional" : 1,
                                        "type" : "number"
                                     },
                                     "policy" : {
-                                       "description" : "numa allocation policy.",
+                                       "description" : "NUMA allocation policy.",
                                        "enum" : [
                                           "preferred",
                                           "bind",
@@ -10899,7 +10922,7 @@ var pveapi = [
                                  "type" : "boolean"
                               },
                               "ostype" : {
-                                 "description" : "Used to enable special optimization/features for specific\noperating systems:\n\nother  => unspecified OS\nwxp    => Microsoft Windows XP\nw2k    => Microsoft Windows 2000\nw2k3   => Microsoft Windows 2003\nw2k8   => Microsoft Windows 2008\nwvista => Microsoft Windows Vista\nwin7   => Microsoft Windows 7\nwin8   => Microsoft Windows 8/2012\nl24    => Linux 2.4 Kernel\nl26    => Linux 2.6/3.X Kernel\nsolaris => solaris/opensolaris/openindiania kernel\n\nother|l24|l26|solaris                       ... no special behaviour\nwxp|w2k|w2k3|w2k8|wvista|win7|win8  ... use --localtime switch\n",
+                                 "description" : "Specify guest operating system.",
                                  "enum" : [
                                     "other",
                                     "wxp",
@@ -10914,13 +10937,15 @@ var pveapi = [
                                     "solaris"
                                  ],
                                  "optional" : 1,
-                                 "type" : "string"
+                                 "type" : "string",
+                                 "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6/3.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
                               },
                               "parallel[n]" : {
-                                 "description" : "Map host parallel devices (n is 0 to 2).\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nExperimental: user reported problems with this option.\n",
+                                 "description" : "Map host parallel devices (n is 0 to 2).",
                                  "optional" : 1,
                                  "pattern" : "/dev/parport\\d+|/dev/usb/lp\\d+",
-                                 "type" : "string"
+                                 "type" : "string",
+                                 "verbose_description" : "Map host parallel devices (n is 0 to 2).\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                               },
                               "pool" : {
                                  "description" : "Add the VM to the specified pool.",
@@ -10930,7 +10955,7 @@ var pveapi = [
                               },
                               "protection" : {
                                  "default" : 0,
-                                 "description" : "Sets the protection flag of the VM. This will prevent the remove operation.",
+                                 "description" : "Sets the protection flag of the VM. This will disable the remove VM and remove disk operations.",
                                  "optional" : 1,
                                  "type" : "boolean"
                               },
@@ -11419,7 +11444,7 @@ var pveapi = [
                               },
                               "scsihw" : {
                                  "default" : "lsi",
-                                 "description" : "scsi controller model",
+                                 "description" : "SCSI controller model",
                                  "enum" : [
                                     "lsi",
                                     "lsi53c810",
@@ -11432,10 +11457,11 @@ var pveapi = [
                                  "type" : "string"
                               },
                               "serial[n]" : {
-                                 "description" : "Create a serial device inside the VM (n is 0 to 3), and pass through a host serial device (i.e. /dev/ttyS0), or create a unix socket on the host side (use 'qm terminal' to open a terminal connection).\n\nNOTE: If you pass through a host serial device, it is no longer possible to migrate such machines - use with special care.\n\nExperimental: user reported problems with this option.\n",
+                                 "description" : "Create a serial device inside the VM (n is 0 to 3)",
                                  "optional" : 1,
                                  "pattern" : "(/dev/.+|socket)",
-                                 "type" : "string"
+                                 "type" : "string",
+                                 "verbose_description" : "\nCreate a serial device inside the VM (n is 0 to 3), and pass through a\nhost serial device (i.e. /dev/ttyS0), or create a unix socket on the\nhost side (use 'qm terminal' to open a terminal connection).\n\nNOTE: If you pass through a host serial device, it is no longer possible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                               },
                               "shares" : {
                                  "default" : 1000,
@@ -11489,9 +11515,10 @@ var pveapi = [
                               },
                               "tablet" : {
                                  "default" : 1,
-                                 "description" : "Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (-vga=qxl).",
+                                 "description" : "Enable/disable the USB tablet device.",
                                  "optional" : 1,
-                                 "type" : "boolean"
+                                 "type" : "boolean",
+                                 "verbose_description" : "Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (-vga=qxl)."
                               },
                               "tdf" : {
                                  "default" : 0,
@@ -11512,23 +11539,24 @@ var pveapi = [
                                  "type" : "boolean"
                               },
                               "unused[n]" : {
-                                 "description" : "Reference to unused volumes.",
+                                 "description" : "Reference to unused volumes. This is used internally, and should not be modified manually.",
                                  "format" : "pve-volume-id",
                                  "optional" : 1,
                                  "type" : "string"
                               },
                               "usb[n]" : {
-                                 "description" : "Configure an USB device (n is 0 to 4). This can be used to\npass-through usb devices to the guest. HOSTUSBDEVICE syntax is:\n\n'bus-port(.port)*' (decimal numbers) or\n'vendor_id:product_id' (hexadeciaml numbers) or\n'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n\nThe 'usb3' option determines whether the device is a USB3 device or not (this does currently not work reliably with spice redirection and is then ignored).\n\n",
+                                 "description" : "Configure an USB device (n is 0 to 4).",
                                  "format" : {
                                     "host" : {
                                        "default_key" : 1,
-                                       "description" : "The Host USB device or port or the value spice",
+                                       "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n",
                                        "format" : "pve-qm-usb-device",
                                        "format_description" : "HOSTUSBDEVICE|spice",
                                        "type" : "string"
                                     },
                                     "usb3" : {
-                                       "description" : "Specifies whether if given host option is a USB3 device or port",
+                                       "default" : 0,
+                                       "description" : "Specifies whether if given host option is a USB3 device or port (this does currently not work reliably with spice redirection and is then ignored).",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     }
@@ -11544,7 +11572,7 @@ var pveapi = [
                                  "type" : "integer"
                               },
                               "vga" : {
-                                 "description" : "Select the VGA type. If you want to use high resolution modes (>= 1280x1024x16) then you should use the options 'std' or 'vmware'. Default is 'std' for win8/win7/w2k8, and 'cirrus' for other OS types. The 'qxl' option enables the SPICE display sever. For win* OS you can select how many independent displays you want, Linux guests can add displays them self. You can also run without any graphic card, using a serial device as terminal.",
+                                 "description" : "Select the VGA type.",
                                  "enum" : [
                                     "std",
                                     "cirrus",
@@ -11559,7 +11587,8 @@ var pveapi = [
                                     "qxl4"
                                  ],
                                  "optional" : 1,
-                                 "type" : "string"
+                                 "type" : "string",
+                                 "verbose_description" : "Select the VGA type. If you want to use high resolution modes (>= 1280x1024x16) then you should use the options 'std' or 'vmware'. Default is 'std' for win8/win7/w2k8, and 'cirrus' for other OS types. The 'qxl' option enables the SPICE display sever. For win* OS you can select how many independent displays you want, Linux guests can add displays them self. You can also run without any graphic card, using a serial device as terminal."
                               },
                               "virtio[n]" : {
                                  "description" : "Use volume as VIRTIO hard disk (n is 0 to 15).",
@@ -11811,10 +11840,11 @@ var pveapi = [
                                  "type" : "integer"
                               },
                               "watchdog" : {
-                                 "description" : "Create a virtual hardware watchdog device. Once enabled (by a guest action), the watchdog must be periodically polled by an agent inside the guest or else the watchdog will reset the guest (or execute the respective action specified)",
+                                 "description" : "Create a virtual hardware watchdog device.",
                                  "format" : "pve-qm-watchdog",
                                  "optional" : 1,
-                                 "type" : "string"
+                                 "type" : "string",
+                                 "verbose_description" : "Create a virtual hardware watchdog device. Once enabled (by a guest action), the watchdog must be periodically polled by an agent inside the guest or else the watchdog will reset the guest (or execute the respective action specified)"
                               }
                            }
                         },
@@ -11972,7 +12002,7 @@ var pveapi = [
                                              "type" : "integer"
                                           },
                                           "mp[n]" : {
-                                             "description" : "Use volume as container mount point (experimental feature).",
+                                             "description" : "Use volume as container mount point.",
                                              "format" : {
                                                 "acl" : {
                                                    "description" : "Explicitly enable or disable ACL support.",
@@ -12095,7 +12125,7 @@ var pveapi = [
                                                 "tag" : {
                                                    "description" : "VLAN tag for this interface.",
                                                    "maximum" : "4094",
-                                                   "minimum" : "2",
+                                                   "minimum" : "1",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -12155,11 +12185,6 @@ var pveapi = [
                                              "format" : {
                                                 "acl" : {
                                                    "description" : "Explicitly enable or disable ACL support.",
-                                                   "optional" : 1,
-                                                   "type" : "boolean"
-                                                },
-                                                "backup" : {
-                                                   "description" : "Whether to include the mountpoint in backups.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -12232,7 +12257,7 @@ var pveapi = [
                                              "type" : "boolean"
                                           },
                                           "unused[n]" : {
-                                             "description" : "Reference to unused volumes.",
+                                             "description" : "Reference to unused volumes. This is used internally, and should not be modified manually.",
                                              "format" : "pve-volume-id",
                                              "optional" : 1,
                                              "type" : "string"
@@ -15401,7 +15426,7 @@ var pveapi = [
                                  "type" : "integer"
                               },
                               "mp[n]" : {
-                                 "description" : "Use volume as container mount point (experimental feature).",
+                                 "description" : "Use volume as container mount point.",
                                  "format" : {
                                     "acl" : {
                                        "description" : "Explicitly enable or disable ACL support.",
@@ -15524,7 +15549,7 @@ var pveapi = [
                                     "tag" : {
                                        "description" : "VLAN tag for this interface.",
                                        "maximum" : "4094",
-                                       "minimum" : "2",
+                                       "minimum" : "1",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -15609,11 +15634,6 @@ var pveapi = [
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
-                                    "backup" : {
-                                       "description" : "Whether to include the mountpoint in backups.",
-                                       "optional" : 1,
-                                       "type" : "boolean"
-                                    },
                                     "quota" : {
                                        "description" : "Enable user quotas inside the container (not supported with zfs subvolumes)",
                                        "optional" : 1,
@@ -15695,7 +15715,7 @@ var pveapi = [
                                  "type" : "boolean"
                               },
                               "unused[n]" : {
-                                 "description" : "Reference to unused volumes.",
+                                 "description" : "Reference to unused volumes. This is used internally, and should not be modified manually.",
                                  "format" : "pve-volume-id",
                                  "optional" : 1,
                                  "type" : "string"

@@ -1,4 +1,4 @@
-`rootfs`: `[volume=]<volume> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,size=<DiskSize>]`
+`rootfs`: `[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,size=<DiskSize>]`
 
 `mp[n]`: `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,size=<DiskSize>]`
 

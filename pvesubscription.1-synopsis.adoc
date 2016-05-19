@@ -38,8 +38,7 @@ Update subscription info.
 
 `-force` `boolean` (default=`0`)::
 
-Always connect to server, even if we have up to date info inside local
-cache.
+Always connect to server, even if we have up to date info inside local cache.
 
 
 
