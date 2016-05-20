@@ -243,6 +243,8 @@ ArchLinux:: test /etc/arch-release
 
 Alpine:: test /etc/alpine-release
 
+Gentoo:: test /etc/gentoo-release
+
 NOTE: Container start fails if the configured 'ostype' differs from the auto
 detected type.
 
