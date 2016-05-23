@@ -24,12 +24,33 @@ Qemu/KVM Virtual Machines
 include::attributes.txt[]
 endif::manvolnum[]
 
+Managing Virtual Machines with 'qm'
+------------------------------------
 
-qm is a script to manage virtual machines with Qemu/Kvm. You can
+qm is the tool to manage Qemu/Kvm virtual machines on {pve}. You can
 create and destroy virtual machines, and control execution
 (start/stop/suspend/resume). Besides that, you can use qm to set
 parameters in the associated config file. It is also possible to
 create and delete virtual disks.
+
+CLI Usage Examples
+~~~~~~~~~~~~~~~~~~
+
+Create a new VM with 4 GB IDE disk.
+
+ qm create 300 -ide0 4 -net0 e1000 -cdrom proxmox-mailgateway_2.1.iso
+
+Start the new VM
+
+ qm start 300
+
+Send a shutdown request, then wait until the VM is stopped.
+
+ qm shutdown 300 && qm wait 300
+
+Same as above, but only wait for 40 seconds.
+
+ qm shutdown 300 && qm wait 300 -timeout 40
 
 Configuration
 -------------
@@ -55,25 +76,6 @@ concurrent actions on the affected VMs. Sometimes you need to remove such a
 lock manually (e.g., after a power failure).
 
  qm unlock <vmid>
-
-Examples
---------
-
-Create a new VM with 4 GB IDE disk.
-
- qm create 300 -ide0 4 -net0 e1000 -cdrom proxmox-mailgateway_2.1.iso
-
-Start the new VM
-
- qm start 300
-
-Send a shutdown request, then wait until the VM is stopped.
-
- qm shutdown 300 && qm wait 300
-
-Same as above, but only wait for 40 seconds.
-
- qm shutdown 300 && qm wait 300 -timeout 40
 
 
 ifdef::manvolnum[]
