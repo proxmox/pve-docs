@@ -5221,7 +5221,8 @@ var pveapi = [
                                              "description" : "Map host PCI devices into guest.",
                                              "format" : "pve-qm-hostpci",
                                              "optional" : 1,
-                                             "type" : "string"
+                                             "type" : "string",
+                                             "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer \npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "hotplug" : {
                                              "default" : "network,disk,usb",
@@ -6287,7 +6288,7 @@ var pveapi = [
                                              "optional" : 1,
                                              "pattern" : "(/dev/.+|socket)",
                                              "type" : "string",
-                                             "verbose_description" : "\nCreate a serial device inside the VM (n is 0 to 3), and pass through a\nhost serial device (i.e. /dev/ttyS0), or create a unix socket on the\nhost side (use 'qm terminal' to open a terminal connection).\n\nNOTE: If you pass through a host serial device, it is no longer possible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
+                                             "verbose_description" : "Create a serial device inside the VM (n is 0 to 3), and pass through a\nhost serial device (i.e. /dev/ttyS0), or create a unix socket on the\nhost side (use 'qm terminal' to open a terminal connection).\n\nNOTE: If you pass through a host serial device, it is no longer possible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "shares" : {
                                              "default" : 1000,
@@ -6866,7 +6867,8 @@ var pveapi = [
                                              "description" : "Map host PCI devices into guest.",
                                              "format" : "pve-qm-hostpci",
                                              "optional" : 1,
-                                             "type" : "string"
+                                             "type" : "string",
+                                             "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer \npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "hotplug" : {
                                              "default" : "network,disk,usb",
@@ -7932,7 +7934,7 @@ var pveapi = [
                                              "optional" : 1,
                                              "pattern" : "(/dev/.+|socket)",
                                              "type" : "string",
-                                             "verbose_description" : "\nCreate a serial device inside the VM (n is 0 to 3), and pass through a\nhost serial device (i.e. /dev/ttyS0), or create a unix socket on the\nhost side (use 'qm terminal' to open a terminal connection).\n\nNOTE: If you pass through a host serial device, it is no longer possible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
+                                             "verbose_description" : "Create a serial device inside the VM (n is 0 to 3), and pass through a\nhost serial device (i.e. /dev/ttyS0), or create a unix socket on the\nhost side (use 'qm terminal' to open a terminal connection).\n\nNOTE: If you pass through a host serial device, it is no longer possible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "shares" : {
                                              "default" : 1000,
@@ -10395,7 +10397,8 @@ var pveapi = [
                                  "description" : "Map host PCI devices into guest.",
                                  "format" : "pve-qm-hostpci",
                                  "optional" : 1,
-                                 "type" : "string"
+                                 "type" : "string",
+                                 "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer \npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                               },
                               "hotplug" : {
                                  "default" : "network,disk,usb",
@@ -11461,7 +11464,7 @@ var pveapi = [
                                  "optional" : 1,
                                  "pattern" : "(/dev/.+|socket)",
                                  "type" : "string",
-                                 "verbose_description" : "\nCreate a serial device inside the VM (n is 0 to 3), and pass through a\nhost serial device (i.e. /dev/ttyS0), or create a unix socket on the\nhost side (use 'qm terminal' to open a terminal connection).\n\nNOTE: If you pass through a host serial device, it is no longer possible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
+                                 "verbose_description" : "Create a serial device inside the VM (n is 0 to 3), and pass through a\nhost serial device (i.e. /dev/ttyS0), or create a unix socket on the\nhost side (use 'qm terminal' to open a terminal connection).\n\nNOTE: If you pass through a host serial device, it is no longer possible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                               },
                               "shares" : {
                                  "default" : 1000,
@@ -12169,6 +12172,7 @@ var pveapi = [
                                                 "opensuse",
                                                 "archlinux",
                                                 "alpine",
+                                                "gentoo",
                                                 "unmanaged"
                                              ],
                                              "optional" : 1,
@@ -15598,6 +15602,7 @@ var pveapi = [
                                     "opensuse",
                                     "archlinux",
                                     "alpine",
+                                    "gentoo",
                                     "unmanaged"
                                  ],
                                  "optional" : 1,

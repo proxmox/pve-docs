@@ -77,6 +77,11 @@ Freeze CPU at startup (use 'c' monitor command to start execution).
 `hostpci[n]`: `[host=]<HOSTPCIID[;HOSTPCIID2...]> [,pcie=<1|0>] [,rombar=<1|0>] [,x-vga=<1|0>]` ::
 
 Map host PCI devices into guest.
++
+NOTE: This option allows direct access to host hardware. So it is no longer 
+possible to migrate such machines - use with special care.
++
+CAUTION: Experimental! User reported problems with this option.
 
 `host`=`<HOSTPCIID[;HOSTPCIID2...]>` ;;
 
@@ -86,11 +91,6 @@ of PCI virtual functions of the host. HOSTPCIID syntax is:
 'bus:dev.func' (hexadecimal numbers)
 +
 You can us the 'lspci' command to list existing PCI devices.
-+
-NOTE: This option allows direct access to host hardware. So it is no longer 
-possible to migrate such machines - use with special care.
-+
-CAUTION: Experimental! User reported problems with this option.
 
 `pcie`=`boolean` (default=`0`);;
 
@@ -667,7 +667,6 @@ SCSI controller model
 
 `serial[n]`: `(/dev/.+|socket)` ::
 
-+
 Create a serial device inside the VM (n is 0 to 3), and pass through a
 host serial device (i.e. /dev/ttyS0), or create a unix socket on the
 host side (use 'qm terminal' to open a terminal connection).
