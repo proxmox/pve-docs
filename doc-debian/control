@@ -2,7 +2,7 @@ Source: pve-docs
 Section: doc
 Priority: extra
 Maintainer: Proxmox Support Team <support@proxmox.com>
-Build-Depends: debhelper (>= 7.0.50~), lintian
+Build-Depends: debhelper (>= 7.0.50~), lintian, asciidoc, xmlto
 Standards-Version: 3.8.4
 
 Package: pve-docs

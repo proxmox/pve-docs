@@ -9,6 +9,6 @@ Package: pve-doc-generator
 Section: perl
 Priority: optional
 Architecture: any
-Depends: ${perl:Depends}, libpve-common-perl, asciidoc
+Depends: ${perl:Depends}, libpve-common-perl, asciidoc, xmlto
 Description: Proxmox VE Documentation helpers
  Tool to auto-generate various Proxmox VE Documentation files.

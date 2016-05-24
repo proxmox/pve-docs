@@ -164,85 +164,104 @@ ifneq (${DGDIR},.)
 	mv $@.tmp $@
 endif
 
-A2X_MAN_COMMON_OPTIONS=-a docinfo1 -a "manversion=Release ${DOCRELEASE}" -f manpage
-A2X_MAN1_OPTIONS=${A2X_MAN_COMMON_OPTIONS} -a "manvolnum=1"
-A2X_MAN5_OPTIONS=${A2X_MAN_COMMON_OPTIONS} -a "manvolnum=5"
-A2X_MAN8_OPTIONS=${A2X_MAN_COMMON_OPTIONS} -a "manvolnum=8"
+# asciidoc /etc/asciidoc/docbook-xsl/manpage.xsl skip REFERENCES section
+# like footnotes, so we cannot use a2x. We use xmlto instead.
+#A2MAN_COMMON=a2x -v -k -a docinfo1 -a "manversion=Release ${DOCRELEASE}" -f manpage
+#A2MAN1=${A2MAN_COMMON} -a "manvolnum=1"
+#A2MAN5=${A2MAN_COMMON} -a "manvolnum=5"
+#A2MAN8=${A2MAN_COMMON} -a "manvolnum=8"
+
+A2MAN_COMMON=asciidoc -dmanpage -bdocbook -a docinfo1
+
+define A2MAN1
+${A2MAN_COMMON} -a "manvolnum=1" $1.adoc
+xmlto -v man $1.xml
+endef
+
+define A2MAN5
+${A2MAN_COMMON} -a "manvolnum=5" $1.adoc
+xmlto -v man $1.xml
+endef
+
+define A2MAN8
+${A2MAN_COMMON} -a "manvolnum=8" $1.adoc
+xmlto -v man $1.xml
+endef
 
 pve-firewall.8: ${PVE_FIREWALL_MAN8_SOURCES}
-	a2x ${A2X_MAN8_OPTIONS} pve-firewall.adoc
+	$(call A2MAN8,pve-firewall)
 	test -n "$${NOVIEW}" || man -l $@
 
 pvesm.1: ${PVESM_MAN1_SOURCES}
-	a2x ${A2X_MAN1_OPTIONS} pvesm.adoc
+	$(call A2MAN1,pvesm)
 	test -n "$${NOVIEW}" || man -l $@
 
 pveceph.1: ${PVECEPH_MAN1_SOURCES}
-	a2x ${A2X_MAN1_OPTIONS} pveceph.adoc
+	$(call A2MAN1,pveceph)
 	test -n "$${NOVIEW}" || man -l $@
 
 pct.1: ${PCT_MAN1_SOURCES}
-	a2x ${A2X_MAN1_OPTIONS} pct.adoc
+	$(call A2MAN1,pct)
 	test -n "$${NOVIEW}" || man -l $@
 
 vzdump.1: ${VZDUMP_MAN1_SOURCES}
-	a2x ${A2X_MAN1_OPTIONS} vzdump.adoc
+	$(call A2MAN1,vzdump)
 	test -n "$${NOVIEW}" || man -l $@
 
 pvesubscription.1: ${PVESUBSCRIPTION_MAN1_SOURCES}
-	a2x ${A2X_MAN1_OPTIONS} pvesubscription.adoc
+	$(call A2MAN1,pvesubscription)
 	test -n "$${NOVIEW}" || man -l $@
 
 qm.1: ${QM_MAN1_SOURCES}
-	a2x ${A2X_MAN1_OPTIONS} qm.adoc
+	$(call A2MAN1,qm)
 	test -n "$${NOVIEW}" || man -l $@
 
 qmrestore.1: ${QMRESTORE_MAN1_SOURCES}
-	a2x ${A2X_MAN1_OPTIONS} qmrestore.adoc
+	$(call A2MAN1,qmrestore)
 	test -n "$${NOVIEW}" || man -l $@
 
 pvecm.1: ${PVECM_MAN1_SOURCES}
-	a2x ${A2X_MAN1_OPTIONS} pvecm.adoc
+	$(call A2MAN1,pvecm)
 	test -n "$${NOVIEW}" || man -l $@
 
 pveum.1: ${PVEUM_MAN1_SOURCES}
-	a2x ${A2X_MAN1_OPTIONS} pveum.adoc
+	$(call A2MAN1,pveum)
 	test -n "$${NOVIEW}" || man -l $@
 
 pveam.1: ${PVEAM_MAN1_SOURCES}
-	a2x ${A2X_MAN1_OPTIONS} pveam.adoc
+	$(call A2MAN1,pveam)
 	test -n "$${NOVIEW}" || man -l $@
 
 ha-manager.1: ${HA_MANAGER_MAN1_SOURCES}
-	a2x ${A2X_MAN1_OPTIONS} ha-manager.adoc
+	$(call A2MAN1,ha-manager)
 	test -n "$${NOVIEW}" || man -l $@
 
 pve-ha-crm.8: ${PVE_HA_CRM_MAN8_SOURCES}
-	a2x ${A2X_MAN8_OPTIONS} pve-ha-crm.adoc
+	$(call A2MAN8,pve-ha-crm)
 	test -n "$${NOVIEW}" || man -l $@
 
 pve-ha-lrm.8: ${PVE_HA_LRM_MAN8_SOURCES}
-	a2x ${A2X_MAN8_OPTIONS} pve-ha-lrm.adoc
+	$(call A2MAN8,pve-ha-lrm)
 	test -n "$${NOVIEW}" || man -l $@
 
 pvestatd.8: ${PVESTATD_MAN8_SOURCES}
-	a2x ${A2X_MAN8_OPTIONS} pvestatd.adoc
+	$(call A2MAN8,pvestatd)
 	test -n "$${NOVIEW}" || man -l $@
 
 pvedaemon.8: ${PVEDAEMON_MAN8_SOURCES}
-	a2x ${A2X_MAN8_OPTIONS} pvedaemon.adoc
+	$(call A2MAN8,pvedaemon)
 	test -n "$${NOVIEW}" || man -l $@
 
 pveproxy.8: ${PVEPROXY_MAN8_SOURCES}
-	a2x ${A2X_MAN8_OPTIONS} pveproxy.adoc
+	$(call A2MAN8,pveproxy)
 	test -n "$${NOVIEW}" || man -l $@
 
 spiceproxy.8: ${SPICEPROXY_MAN8_SOURCES}
-	a2x ${A2X_MAN8_OPTIONS} spiceproxy.adoc
+	$(call A2MAN8,spiceproxy)
 	test -n "$${NOVIEW}" || man -l $@
 
 pmxcfs.8: ${PMXCFS_MAN8_SOURCES}
-	a2x ${A2X_MAN8_OPTIONS} pmxcfs.adoc
+	$(call A2MAN8,pmxcfs)
 	test -n "$${NOVIEW}" || man -l $@
 
 qm.conf.5: ${QM_CONF_MAN5_SOURCES}
@@ -252,7 +271,7 @@ pct.conf.5: ${PCT_CONF_MAN5_SOURCES}
 datacenter.cfg.5: ${DATACENTER_CONF_MAN5_SOURCES}
 
 %.5: %.adoc %.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
-	a2x ${A2X_MAN5_OPTIONS} $*.adoc
+	$(call A2MAN5,$*)
 	test -n "$${NOVIEW}" || man -l $@
 
 .PHONY: cleanup-docgen
