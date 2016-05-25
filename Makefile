@@ -6,14 +6,12 @@ GEN_PACKAGE=pve-doc-generator
 DOC_PACKAGE=pve-docs
 
 # also update debian/changelog
-GEN_PKGREL=3
-# also update doc-debian/changelog
-DOC_PKGREL=4
+PKGREL=5
 
 GITVERSION:=$(shell cat .git/refs/heads/master)
 
-GEN_DEB=${GEN_PACKAGE}_${DOCRELEASE}-${GEN_PKGREL}_amd64.deb
-DOC_DEB=${DOC_PACKAGE}_${DOCRELEASE}-${DOC_PKGREL}_all.deb
+GEN_DEB=${GEN_PACKAGE}_${DOCRELEASE}-${PKGREL}_amd64.deb
+DOC_DEB=${DOC_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
 
 CHAPTER_LIST=		\
 	sysadmin	\
@@ -229,33 +227,28 @@ deb:
 	make ${GEN_DEB};
 	make ${DOC_DEB};
 
-${DOC_DEB}: index.html ${INDEX_INCLUDES} ${WIKI_IMPORTS} ${API_VIEWER_SOURCES}
+${GEN_DEB} ${DOC_DEB}: index.html ${INDEX_INCLUDES} ${WIKI_IMPORTS} ${API_VIEWER_SOURCES} ${GEN_DEB_SOURCES}
 	rm -rf build
 	mkdir build
-	rsync -a doc-debian/ build/debian
+	rsync -a debian/ build/debian
+	echo "git clone git://git.proxmox.com/git/pve-docs.git\\ngit checkout ${GITVERSION}" > build/debian/SOURCE
+	# install files for pve-doc-generator package
+	mkdir -p build/usr/share/${GEN_PACKAGE}
+	mkdir -p build/usr/share/doc/${GEN_PACKAGE}
+	install -m 0644 ${GEN_DEB_SOURCES} build/usr/share/${GEN_PACKAGE}
+	install -m 0755 ${GEN_SCRIPTS} build/usr/share/${GEN_PACKAGE}
+	# install files for pvedocs package
 	mkdir -p build/usr/share/${DOC_PACKAGE}
 	mkdir -p build/usr/share/doc/${DOC_PACKAGE}
-	echo "git clone git://git.proxmox.com/git/pve-docs.git\\ngit checkout ${GITVERSION}" > build/usr/share/doc/${DOC_PACKAGE}/SOURCE
-	# install doc files
 	install -m 0644 index.html ${INDEX_INCLUDES} build/usr/share/${DOC_PACKAGE}
 	install -m 0644 ${WIKI_IMPORTS} build/usr/share/${DOC_PACKAGE}
 	# install api doc viewer
 	mkdir build/usr/share/${DOC_PACKAGE}/api-viewer
 	install -m 0644 ${API_VIEWER_SOURCES} build/usr/share/${DOC_PACKAGE}/api-viewer
-	cd build; dpkg-buildpackage -rfakeroot -b -us -uc
-	lintian ${DOC_DEB}
-
-${GEN_DEB}: ${GEN_DEB_SOURCES}
-	rm -rf build
-	mkdir build
-	rsync -a debian/ build/debian
-	mkdir -p build/usr/share/${GEN_PACKAGE}
-	mkdir -p build/usr/share/doc/${GEN_PACKAGE}
-	echo "git clone git://git.proxmox.com/git/pve-docs.git\\ngit checkout ${GITVERSION}" > build/usr/share/doc/${GEN_PACKAGE}/SOURCE
-	install -m 0644 ${GEN_DEB_SOURCES} build/usr/share/${GEN_PACKAGE}
-	install -m 0755 ${GEN_SCRIPTS} build/usr/share/${GEN_PACKAGE}
+	# build debain package
 	cd build; dpkg-buildpackage -rfakeroot -b -us -uc
 	lintian ${GEN_DEB}
+	lintian ${DOC_DEB}
 
 .PHONY: upload
 upload: ${GEN_DEB} ${DOC_DEB}

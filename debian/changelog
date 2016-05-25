@@ -1,4 +1,12 @@
-pve-doc-generator (4.2-3) unstable; urgency=medium
+pve-docs (4.2-5) unstable; urgency=medium
+
+  * fix package build system (single debian dir)
+
+  * cleanup pve-docs package - only include documentation files
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 25 May 2016 07:17:03 +0200
+
+pve-docs (4.2-3) unstable; urgency=medium
 
   * update generated docs
 
@@ -6,19 +14,19 @@ pve-doc-generator (4.2-3) unstable; urgency=medium
 
  -- Proxmox Support Team <support@proxmox.com>  Thu, 19 May 2016 17:31:19 +0200
 
-pve-doc-generator (4.2-2) unstable; urgency=medium
+pve-docs (4.2-2) unstable; urgency=medium
 
   * update generated docs
 
  -- Proxmox Support Team <support@proxmox.com>  Wed, 11 May 2016 11:12:03 +0200
 
-pve-doc-generator (4.2-1) unstable; urgency=medium
+pve-docs (4.2-1) unstable; urgency=medium
 
   * set RELEASE to 4.2
 
  -- Proxmox Support Team <support@proxmox.com>  Fri, 29 Apr 2016 09:26:04 +0200
 
-pve-doc-generator (4.1-1) unstable; urgency=medium
+pve-docs (4.1-1) unstable; urgency=medium
 
   * first release
 
