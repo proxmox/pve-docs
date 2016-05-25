@@ -33,14 +33,14 @@ Qemu (short form for Quick Emulator) is an opensource hypervisor that emulates a
 physical computer. From the perspective of the host system where Qemu is
 running, Qemu is a user program which has access to a number of local resources
 like partitions, files, network cards which are then passed to an
-emulated computer which sees them as if they were real devices. 
+emulated computer which sees them as if they were real devices.
 
 A guest operating system running in the emulated computer accesses these
 devices, and runs as it were running on real hardware. For instance you can pass
 an iso image as a parameter to Qemu, and the OS running in the emulated computer
-will see a real CDROM inserted in a CD drive. 
+will see a real CDROM inserted in a CD drive.
 
-Qemu can emulates a great variety of hardware from ARM to Sparc, but {pve} is 
+Qemu can emulates a great variety of hardware from ARM to Sparc, but {pve} is
 only concerned with 32 and 64 bits PC clone emulation, since it represents the
 overwhelming majority of server hardware. The emulation of PC clones is also one
 of the fastest due to the availability of processor extensions which greatly
@@ -52,11 +52,11 @@ and PCI devices.
 Emulated devices and paravirtualized devices
 --------------------------------------------
 
-The PC hardware emulated by Qemu includes a mainboard, network controllers, 
-scsi, ide and sata controllers, serial ports (the complete list can be seen in 
-the `kvm(1)` man page) all of them emulated in software. All these devices 
-are the exact software equivalent of existing hardware devices, and if the OS 
-running in the guest has the proper drivers it will use the devices as if it 
+The PC hardware emulated by Qemu includes a mainboard, network controllers,
+scsi, ide and sata controllers, serial ports (the complete list can be seen in
+the `kvm(1)` man page) all of them emulated in software. All these devices
+are the exact software equivalent of existing hardware devices, and if the OS
+running in the guest has the proper drivers it will use the devices as if it
 were running on real hardware. This allows Qemu to runs _unmodified_ operating
 systems.
 
@@ -67,16 +67,16 @@ the guest OS recognizes it is running inside Qemu and cooperates with the
 hypervisor.
 
 Qemu relies on the virtio virtualization standard, and is thus able to presente
-paravirtualized virtio devices, which includes a paravirtualized generic disk 
-controller, a paravirtualized network card, a paravirtualized serial port, 
+paravirtualized virtio devices, which includes a paravirtualized generic disk
+controller, a paravirtualized network card, a paravirtualized serial port,
 a paravirtualized SCSI controller, etc ...
 
-It is highly recommended to use the virtio devices whenever you can, as they 
-provide a big performance improvement. Using  the virtio generic disk controller 
-versus an emulated IDE controller will double the sequential write throughput, 
-as measured with `bonnie++(8)`. Using the virtio network interface can deliver 
+It is highly recommended to use the virtio devices whenever you can, as they
+provide a big performance improvement. Using  the virtio generic disk controller
+versus an emulated IDE controller will double the sequential write throughput,
+as measured with `bonnie++(8)`. Using the virtio network interface can deliver
 up to three times the throughput of an emulated Intel E1000 network card, as
-measured with `iperf(1)`. footnote:[See this benchmark on the KVM wiki 
+measured with `iperf(1)`. footnote:[See this benchmark on the KVM wiki
 http://www.linux-kvm.org/page/Using_VirtIO_NIC]
 
 Virtual Machines settings
@@ -116,7 +116,7 @@ design, allowing higher throughput and a greater number of devices to be
 connected. You can connect up to 6 devices on this controller.
 
 * the *SCSI* controller, designed in 1985, is commonly found on server
-grade hardware, and can connect up to 14 storage devices. {pve} emulates by 
+grade hardware, and can connect up to 14 storage devices. {pve} emulates by
 default a LSI 53C895A controller.
 
 * The *Virtio* controller is a generic paravirtualized controller, and is the
@@ -124,7 +124,7 @@ recommended setting if you aim for performance. To use this controller, the OS
 need to have special drivers which may be included in your installation ISO or
 not. Linux distributions have support for the Virtio controller since 2010, and
 FreeBSD since 2014. For Windows OSes, you need to provide an extra iso
-containing the Virtio drivers during the installation. 
+containing the Virtio drivers during the installation.
 // see: https://pve.proxmox.com/wiki/Paravirtualized_Block_Drivers_for_Windows#During_windows_installation.
 You can connect up to 16 devices on this controller.
 
@@ -137,13 +137,13 @@ either the *raw disk image format* or the *QEMU image format*.
 
  * the *QEMU image format* is a copy on write format which allows snapshots, and
   thin provisioning of the disk image.
- * the *raw disk image* is a bit-to-bit image of a hard disk, similar to what 
- you would get when executing the `dd` command on a block device in Linux. This 
- format do not support thin provisioning or snapshotting by itself, requiring 
- cooperation from the storage layer for these tasks. It is however 10% faster 
-  than the *QEMU image format*. footnote:[See this benchmark for details 
+ * the *raw disk image* is a bit-to-bit image of a hard disk, similar to what
+ you would get when executing the `dd` command on a block device in Linux. This
+ format do not support thin provisioning or snapshotting by itself, requiring
+ cooperation from the storage layer for these tasks. It is however 10% faster
+  than the *QEMU image format*. footnote:[See this benchmark for details
  http://events.linuxfoundation.org/sites/events/files/slides/CloudOpen2013_Khoa_Huynh_v3.pdf]
- * the *VMware image format* only makes sense if you intend to import/export the 
+ * the *VMware image format* only makes sense if you intend to import/export the
  disk image to other hypervisors.
 
 Setting the *Cache* mode of the hard drive will impact how the host system will
