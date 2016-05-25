@@ -3,12 +3,5 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-PACKAGE=pve-docs
-destdir := $(CURDIR)/debian/$(PACKAGE)
-
 %:
 	dh $@ 
-
-override_dh_install:
-	dh_install
-	install -D -m 0644 debian/pve-docs.conf $(destdir)/etc/apache2/sites-available/pve-docs.conf
