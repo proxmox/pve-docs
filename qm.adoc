@@ -162,6 +162,12 @@ when the filesystem of a VM marks blocks as unused after removing files, the
 emulated SCSI controller will relay this information to the storage, which will
 then shrink the disk image accordingly.
 
+The option *IO Thread* can only be enabled when using a disk with the *Virtio* controller,
+or with the *SCSI* controller, when the emulated controller type is *VIRTIO*.
+With this enabled, Qemu uses one thread per disk, instead of one thread for all,
+so it should increase performance when using multiple disks.
+Note that backups do not currently work with *IO Thread* enabled.
+
 Managing Virtual Machines with 'qm'
 ------------------------------------
 
