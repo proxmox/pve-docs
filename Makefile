@@ -268,6 +268,6 @@ update: clean
 	rm -f pve-firewall-macros.adoc pct-network-opts.adoc pct-mountpoint-opts.adoc
 	make all
 
-clean:
-	rm -rf *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html chapter-*-plain.html chapter-*.html pve-admin-guide.chunked
+clean: 
+	rm -rf *.tmp.xml *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html chapter-*-plain.html chapter-*.html pve-admin-guide.chunked
 	find . -name '*~' -exec rm {} ';'

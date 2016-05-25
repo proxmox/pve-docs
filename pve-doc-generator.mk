@@ -174,18 +174,21 @@ endif
 A2MAN_COMMON=asciidoc -dmanpage -bdocbook -a docinfo1
 
 define A2MAN1
-${A2MAN_COMMON} -a "manvolnum=1" $1.adoc
-xmlto -v man $1.xml
+${A2MAN_COMMON} -a "manvolnum=1" -o $1.tmp.xml $1.adoc
+xmlto -v man $1.tmp.xml
+@rm -f $1.tmp.xml
 endef
 
 define A2MAN5
-${A2MAN_COMMON} -a "manvolnum=5" $1.adoc
-xmlto -v man $1.xml
+${A2MAN_COMMON} -a "manvolnum=5" -o $1.tmp.xml $1.adoc
+xmlto -v man $1.tmp.xml 
+@rm -f $1.tmp.xml
 endef
 
 define A2MAN8
-${A2MAN_COMMON} -a "manvolnum=8" $1.adoc
-xmlto -v man $1.xml
+${A2MAN_COMMON} -a "manvolnum=8" -o $1.tmp.xml $1.adoc
+xmlto -v man $1.tmp.xml
+@rm -f $1.tmp.xml
 endef
 
 pve-firewall.8: ${PVE_FIREWALL_MAN8_SOURCES}
@@ -276,4 +279,4 @@ datacenter.cfg.5: ${DATACENTER_CONF_MAN5_SOURCES}
 
 .PHONY: cleanup-docgen
 cleanup-docgen:
-	rm -f *.1 *.5 *.8 *.adoc attributes.txt docinfo.xml
+	rm -f *.tmp.xml *.1 *.5 *.8 *.adoc attributes.txt docinfo.xml
