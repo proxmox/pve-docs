@@ -103,7 +103,7 @@ the UTC time.
 
 Hard Disk
 ~~~~~~~~~
-Qemu can use a emulate a number of storage controllers:
+Qemu can emulate a number of storage controllers:
 
 * the *IDE* controller, has a design which goes back to the 1984 PC/AT disk
 controller. Even if this controller has been superseded by more more designs,
