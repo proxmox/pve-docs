@@ -45,7 +45,14 @@ only concerned with 32 and 64 bits PC clone emulation, since it represents the
 overwhelming majority of server hardware. The emulation of PC clones is also one
 of the fastest due to the availability of processor extensions which greatly
 speed up Qemu when the emulated architecture is the same as the host
-architecture. +
+architecture.
+
+NOTE: You may sometimes encounter the term _KVM_ (Kernel-based Virtual Machine).
+It means that Qemu is running with the support of the virtualization processor
+extensions, via the Linux kvm module. In the context of {pve} _Qemu_ and
+_KVM_ can be use interchangeably as Qemu in {pve} will always try to load the kvm
+module.
+
 Qemu inside {pve} runs as a root process, since this is required to access block
 and PCI devices.
 
