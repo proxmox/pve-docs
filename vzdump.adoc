@@ -93,6 +93,9 @@ NOTE: `snapshot` mode requires that all backed up volumes are on a storage that
 supports snapshots. Using the `backup=no` mountpoint option individual volumes
 can be excluded from the backup (and thus this requirement).
 
+NOTE: bind and device mountpoints are skipped during backup operations, like
+volume mountpoints with the backup option disabled.
+
 
 Backup File Names
 -----------------
