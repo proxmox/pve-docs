@@ -382,6 +382,12 @@ mounting mechanisms or storage technologies, it is possible to
 establish the FUSE mount on the Proxmox host and use a bind
 mount point to make it accessible inside the container.
 
+WARNING: For security reasons, bind mounts should only be established
+using source directories especially reserved for this purpose, e.g., a
+directory hierarchy under `/mnt/bindmounts`. Never bind mount system
+directories like `/`, `/var` or `/etc` into a container - this poses a
+great security risk. The bind mount source path must not contain any symlinks.
+
 The root mount point is configured with the 'rootfs' property, and you can
 configure up to 10 additional mount points. The corresponding options
 are called 'mp0' to 'mp9', and they can contain the following setting:
