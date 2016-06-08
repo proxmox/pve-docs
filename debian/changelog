@@ -1,3 +1,17 @@
+pve-docs (4.2-6) unstable; urgency=medium
+
+  * doc: update stdexcludes
+
+  * add note about skipped bind/dev mps
+
+  * add bind mount warning
+
+  * Document CPU and Memory Input panel
+
+  * add paragraph for IO Thread option
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 08 Jun 2016 12:36:43 +0200
+
 pve-docs (4.2-5) unstable; urgency=medium
 
   * fix package build system (single debian dir)
