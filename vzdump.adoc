@@ -164,7 +164,6 @@ NOTE: this option is only available for container backups.
 'vzdump' skips the following files by default (disable with the option
 `--stdexcludes 0`)
 
- /var/log/?*
  /tmp/?*
  /var/tmp/?*
  /var/run/?*pid
