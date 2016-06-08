@@ -261,6 +261,40 @@ systems.
 When allocating RAMs to your VMs, a good rule of thumb is always to leave 1GB
 of RAM available to the host.
 
+USB Passthrough
+~~~~~~~~~~~~~~~
+There are two different types of USB passthrough devices:
+
+* Host USB passtrough
+* SPICE USB passthrough
+
+Host USB passthrough works by giving a VM a USB device of the host.
+This can either be done via the vendor- and product-id, or
+via the host bus and port.
+
+The vendor/product-id looks like this: *0123:abcd*,
+where *0123* is the id of the vendor, and *abcd* is the id
+of the product, meaning two pieces of the same usb device
+have the same id.
+
+The bus/port looks like this: *1-2.3.4*, where *1* is the bus
+and *2.3.4* is the port path. This represents the physical
+ports of your host (depending of the internal order of the
+usb controllers).
+
+If a device is present in a VM configuration when the VM starts up,
+but the device is not present in the host, the VM can boot without problems.
+As soon as the device/port ist available in the host, it gets passed through.
+
+WARNING: Using this kind of USB passthrough, means that you cannot move
+a VM online to another host, since the hardware is only available
+on the host the VM is currently residing.
+
+The second type of passthrough is SPICE USB passthrough. This is useful
+if you use a SPICE client which supports it. If you add a SPICE USB port
+to your VM, you can passthrough a USB device from where your SPICE client is,
+directly to the VM (for example an input device or hardware dongle).
+
 Managing Virtual Machines with 'qm'
 ------------------------------------
 
