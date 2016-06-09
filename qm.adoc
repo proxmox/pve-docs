@@ -273,6 +273,65 @@ systems.
 When allocating RAMs to your VMs, a good rule of thumb is always to leave 1GB
 of RAM available to the host.
 
+Network Device
+~~~~~~~~~~~~~~
+Each VM can have many _Network interface controllers_ (NIC), of four different
+types:
+
+ * *Intel E1000* is the default, and emulates an Intel Gigabit network card.
+ * the *VirtIO* paravirtualized NIC should be used if you aim for maximum
+performance. Like all VirtIO devices, the guest OS should have the proper driver
+installed.
+ * the *Realtek 8139* emulates an older 100 MB/s network card, and should
+only be used when emulating older operating systems ( released before 2002 ) 
+ * the *vmxnet3* is another paravirtualized device, which should only be used
+when importing a VM from another hypervisor.
+
+{pve} will generate for each NIC a random *MAC address*, so that your VM is
+addressable on Ethernet networks.
+
+If you are using the VirtIO driver, you can optionally activate the
+*Multiqueues* option. This option allows the guest OS to process networking
+packets using multiple virtual CPUs, providing an increase in the total number
+of packets transfered.
+
+//http://blog.vmsplice.net/2011/09/qemu-internals-vhost-architecture.html
+When using the VirtIO driver with {pve}, each NIC network queue is passed to the
+host kernel, where the queue will be processed by a kernel thread spawn by the
+vhost driver. With this option activated, it is possible to pass _multiple_
+network queues to the host kernel for each NIC.
+
+//https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Virtualization_Tuning_and_Optimization_Guide/sect-Virtualization_Tuning_Optimization_Guide-Networking-Techniques.html#sect-Virtualization_Tuning_Optimization_Guide-Networking-Multi-queue_virtio-net
+When using Multiqueues, it is recommended to set it to a value equal
+to the number of Total Cores of your guest. You also need to set in
+the VM the number of multi-purpose channels on each VirtIO NIC with the ethtool
+command: 
+
+`ethtool -L eth0 combined X`
+
+where X is the number of the number of vcpus of the VM.
+
+You should note that setting the Multiqueues parameter to a value greater
+than one will increase the CPU load on the host and guest systems as the
+traffic increases. We recommend to set this option only when the VM has to
+process a great number of incoming connections, such as when the VM is running
+as a router, reverse proxy or a busy HTTP server doing long polling.
+
+The NIC you added to the VM can follow one of two differents models:
+
+ * in the default *Bridged mode* each virtual NIC is backed on the host by a
+_tap device_, ( a software loopback device simulating an Ethernet NIC ). This
+tap device is added to a bridge, by default vmbr0 in {pve}. In this mode, VMs
+have direct access to the Ethernet LAN on which the host is located.
+ * in the alternative *NAT mode*, each virtual NIC will only communicate with
+the Qemu user networking stack, where a builting router and DHCP server can
+provide network access. This built-in DHCP will serve adresses in the private
+10.0.2.0/24 range. The NAT mode is much slower than the bridged mode, and
+should only be used for testing.
+
+You can also skip adding a network device when creating a VM by selecting *No
+network device*.
+
 USB Passthrough
 ~~~~~~~~~~~~~~~
 There are two different types of USB passthrough devices:
