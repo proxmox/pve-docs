@@ -169,6 +169,7 @@ when the filesystem of a VM marks blocks as unused after removing files, the
 emulated SCSI controller will relay this information to the storage, which will
 then shrink the disk image accordingly.
 
+.IO Thread
 The option *IO Thread* can only be enabled when using a disk with the *VirtIO* controller,
 or with the *SCSI* controller, when the emulated controller type is  *VirtIO SCSI*.
 With this enabled, Qemu uses one thread per disk, instead of one thread for all,
@@ -290,33 +291,6 @@ when importing a VM from another hypervisor.
 {pve} will generate for each NIC a random *MAC address*, so that your VM is
 addressable on Ethernet networks.
 
-If you are using the VirtIO driver, you can optionally activate the
-*Multiqueues* option. This option allows the guest OS to process networking
-packets using multiple virtual CPUs, providing an increase in the total number
-of packets transfered.
-
-//http://blog.vmsplice.net/2011/09/qemu-internals-vhost-architecture.html
-When using the VirtIO driver with {pve}, each NIC network queue is passed to the
-host kernel, where the queue will be processed by a kernel thread spawn by the
-vhost driver. With this option activated, it is possible to pass _multiple_
-network queues to the host kernel for each NIC.
-
-//https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Virtualization_Tuning_and_Optimization_Guide/sect-Virtualization_Tuning_Optimization_Guide-Networking-Techniques.html#sect-Virtualization_Tuning_Optimization_Guide-Networking-Multi-queue_virtio-net
-When using Multiqueues, it is recommended to set it to a value equal
-to the number of Total Cores of your guest. You also need to set in
-the VM the number of multi-purpose channels on each VirtIO NIC with the ethtool
-command: 
-
-`ethtool -L eth0 combined X`
-
-where X is the number of the number of vcpus of the VM.
-
-You should note that setting the Multiqueues parameter to a value greater
-than one will increase the CPU load on the host and guest systems as the
-traffic increases. We recommend to set this option only when the VM has to
-process a great number of incoming connections, such as when the VM is running
-as a router, reverse proxy or a busy HTTP server doing long polling.
-
 The NIC you added to the VM can follow one of two differents models:
 
  * in the default *Bridged mode* each virtual NIC is backed on the host by a
@@ -331,6 +305,34 @@ should only be used for testing.
 
 You can also skip adding a network device when creating a VM by selecting *No
 network device*.
+
+.Multiqueue
+If you are using the VirtIO driver, you can optionally activate the
+*Multiqueue* option. This option allows the guest OS to process networking
+packets using multiple virtual CPUs, providing an increase in the total number
+of packets transfered.
+
+//http://blog.vmsplice.net/2011/09/qemu-internals-vhost-architecture.html
+When using the VirtIO driver with {pve}, each NIC network queue is passed to the
+host kernel, where the queue will be processed by a kernel thread spawn by the
+vhost driver. With this option activated, it is possible to pass _multiple_
+network queues to the host kernel for each NIC.
+
+//https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Virtualization_Tuning_and_Optimization_Guide/sect-Virtualization_Tuning_Optimization_Guide-Networking-Techniques.html#sect-Virtualization_Tuning_Optimization_Guide-Networking-Multi-queue_virtio-net
+When using Multiqueue, it is recommended to set it to a value equal
+to the number of Total Cores of your guest. You also need to set in
+the VM the number of multi-purpose channels on each VirtIO NIC with the ethtool
+command: 
+
+`ethtool -L eth0 combined X`
+
+where X is the number of the number of vcpus of the VM.
+
+You should note that setting the Multiqueue parameter to a value greater
+than one will increase the CPU load on the host and guest systems as the
+traffic increases. We recommend to set this option only when the VM has to
+process a great number of incoming connections, such as when the VM is running
+as a router, reverse proxy or a busy HTTP server doing long polling.
 
 USB Passthrough
 ~~~~~~~~~~~~~~~
