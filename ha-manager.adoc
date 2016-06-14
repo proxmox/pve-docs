@@ -215,7 +215,7 @@ then executes this action *one time* and writes back the result, also
 identifiable by the same UID. This is needed so that the LRM does not
 executes an outdated command.
 With the exception of the 'stop' and the 'error' command,
-those two do not depend on the result produce and are executed
+those two do not depend on the result produced and are executed
 always in the case of the stopped state and once in the case of
 the error state.
 
@@ -346,9 +346,9 @@ Configure Hardware Watchdog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 By default all watchdog modules are blocked for security reasons as they are
 like a loaded gun if not correctly initialized.
-If you have a hardware watchdog available remove its module from the blacklist
-and restart 'the watchdog-mux' service.
-
+If you have a hardware watchdog available remove its kernel module from the
+blacklist, load it with insmod and restart the 'watchdog-mux' service or reboot
+the node.
 
 Groups
 ------
@@ -360,7 +360,11 @@ Group Settings
 
 nodes::
 
-list of group node members
+List of group node members where a priority can be given to each node.
+A service bound to this group will run on the nodes with the highest priority
+available. If more nodes are in the highest priority class the services will
+get distributed to those node if not already there. The priorities have a
+relative meaning only.
 
 restricted::
 
@@ -450,7 +454,8 @@ Service States
 
 stopped::
 
-Service is stopped (confirmed by LRM)
+Service is stopped (confirmed by LRM), if detected running it will get stopped
+again.
 
 request_stop::
 
@@ -459,11 +464,14 @@ Service should be stopped. Waiting for confirmation from LRM.
 started::
 
 Service is active an LRM should start it ASAP if not already running.
+If the Service fails and is detected to be not running the LRM restarts it.
 
 fence::
 
 Wait for node fencing (service node is not inside quorate cluster
 partition).
+As soon as node gets fenced successfully the service will be recovered to
+another node, if possible.
 
 freeze::
 
