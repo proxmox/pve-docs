@@ -350,6 +350,24 @@ If you have a hardware watchdog available remove its kernel module from the
 blacklist, load it with insmod and restart the 'watchdog-mux' service or reboot
 the node.
 
+Recover Fenced Services
+~~~~~~~~~~~~~~~~~~~~~~~
+
+After a node failed and its fencing was successful we start to recover services
+to other available nodes and restart them there so that they can provide service
+again.
+
+The selection of the node on which the services gets recovered is influenced
+by the users group settings, the currently active nodes and their respective
+active service count.
+First we build a set out of the intersection between user selected nodes and
+available nodes. Then the subset with the highest priority of those nodes
+gets chosen as possible nodes for recovery. We select the node with the
+currently lowest active service count as a new node for the service.
+That minimizes the possibility of an overload, which else could cause an
+unresponsive node and as a result a chain reaction of node failures in the
+cluster.
+
 Groups
 ------
 
