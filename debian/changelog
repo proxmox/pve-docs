@@ -1,3 +1,15 @@
+pve-docs (4.2-7) unstable; urgency=medium
+
+  * Move Multiqueue and IO Threads description at bottom of each chapter
+
+  * Document network input panel
+
+  * Document the Shares option in Memory panel
+
+  * add section about usb passthrough
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 14 Jun 2016 11:58:05 +0200
+
 pve-docs (4.2-6) unstable; urgency=medium
 
   * doc: update stdexcludes
