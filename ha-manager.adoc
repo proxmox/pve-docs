@@ -378,10 +378,19 @@ the resource won't automatically fail back when a more preferred node
 (re)joins the cluster.
 
 
-Recovery Policy
----------------
+Start Failure Policy
+---------------------
 
-There are two service recover policy settings which can be configured
+The start failure policy comes in effect if a service failed to start on a
+node once ore more times. It can be used to configure how often a restart
+should be triggered on the same node and how often a service should be
+relocated so that it gets a try to be started on another node.
+The aim of this policy is to circumvent temporary unavailability of shared
+resources on a specific node. For example, if a shared storage isn't available
+on a quorate node anymore, e.g. network problems, but still on other nodes,
+the relocate policy allows then that the service gets started nonetheless.
+
+There are two service start recover policy settings which can be configured
 specific for each resource.
 
 max_restart::
