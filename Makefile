@@ -10,7 +10,9 @@ PKGREL=7
 
 GITVERSION:=$(shell cat .git/refs/heads/master)
 
-GEN_DEB=${GEN_PACKAGE}_${DOCRELEASE}-${PKGREL}_amd64.deb
+ARCH:=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
+
+GEN_DEB=${GEN_PACKAGE}_${DOCRELEASE}-${PKGREL}_${ARCH}.deb
 DOC_DEB=${DOC_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
 
 CHAPTER_LIST=		\
