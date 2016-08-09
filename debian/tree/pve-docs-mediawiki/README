@@ -11,4 +11,13 @@ http://your-server/pve-docs
 * API Viewer
 http://your-server/pve-docs/api-viewer
 
+Mediawiki import
+
+There is a small script 'pve-docs-mediawiki-import' which connects to
+mediawiki and updates predefined pages with content from this package:
+
+ # pve-docs-mediawiki-import
+
+Authentification credientials are read from '/root/.pve-docs'.
+The format is 'username:password'.
 
