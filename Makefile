@@ -4,6 +4,7 @@ include ./pve-doc-generator.mk
 
 GEN_PACKAGE=pve-doc-generator
 DOC_PACKAGE=pve-docs
+MEDIAWIKI_PACKAGE=pve-docs-mediawiki
 
 # also update debian/changelog
 PKGREL=7
@@ -14,6 +15,7 @@ ARCH:=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
 
 GEN_DEB=${GEN_PACKAGE}_${DOCRELEASE}-${PKGREL}_${ARCH}.deb
 DOC_DEB=${DOC_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
+MEDIAWIKI_DEB=${MEDIAWIKI_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
 
 CHAPTER_LIST=		\
 	sysadmin	\
@@ -220,16 +222,15 @@ api-viewer/apidoc.js: api-viewer/apidata.js api-viewer/PVEAPI.js
 	cat api-viewer/apidata.js api-viewer/PVEAPI.js >$@
 
 .PHONY: dinstall
-dinstall: ${GEN_DEB} ${DOC_DEB}
-	dpkg -i ${GEN_DEB} ${DOC_DEB}
+dinstall: ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}
+	dpkg -i ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}
 
 .PHONY: deb
 deb:
-	rm -f ${GEN_DEB} ${DOC_DEB};
-	make ${GEN_DEB};
-	make ${DOC_DEB};
+	rm -f ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB};
+	make ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB};
 
-${GEN_DEB} ${DOC_DEB}: index.html ${INDEX_INCLUDES} ${WIKI_IMPORTS} ${API_VIEWER_SOURCES} ${GEN_DEB_SOURCES}
+${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}: index.html ${INDEX_INCLUDES} ${WIKI_IMPORTS} ${API_VIEWER_SOURCES} ${GEN_DEB_SOURCES}
 	rm -rf build
 	mkdir build
 	rsync -a debian/ build/debian
@@ -247,19 +248,20 @@ ${GEN_DEB} ${DOC_DEB}: index.html ${INDEX_INCLUDES} ${WIKI_IMPORTS} ${API_VIEWER
 	# install api doc viewer
 	mkdir build/usr/share/${DOC_PACKAGE}/api-viewer
 	install -m 0644 ${API_VIEWER_SOURCES} build/usr/share/${DOC_PACKAGE}/api-viewer
-	# build debain package
+	# build Debian packages
 	cd build; dpkg-buildpackage -rfakeroot -b -us -uc
 	lintian ${GEN_DEB}
 	lintian ${DOC_DEB}
+	lintian ${MEDIAWIKI_DEB}
 
 .PHONY: upload
-upload: ${GEN_DEB} ${DOC_DEB}
+upload: ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}
 	umount /pve/${DOCRELEASE}; mount /pve/${DOCRELEASE} -o rw
 	mkdir -p /pve/${DOCRELEASE}/extra
 	rm -f /pve/${DOCRELEASE}/extra/${GEN_PACKAGE}_*.deb
 	rm -f /pve/${DOCRELEASE}/extra/${DOC_PACKAGE}_*.deb
 	rm -f /pve/${DOCRELEASE}/extra/Packages*
-	cp ${GEN_DEB} ${DOC_DEB} /pve/${DOCRELEASE}/extra
+	cp ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB} /pve/${DOCRELEASE}/extra
 	cd /pve/${DOCRELEASE}/extra; dpkg-scanpackages . /dev/null > Packages; gzip -9c Packages > Packages.gz
 	umount /pve/${DOCRELEASE}; mount /pve/${DOCRELEASE} -o ro
 

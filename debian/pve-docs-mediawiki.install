@@ -1,0 +1,3 @@
+debian/tree/pve-docs-mediawiki/pvedocs-include.php /etc/mediawiki-extensions/extensions-available/
+debian/tree/pve-docs-mediawiki/pve-docs-mediawiki-import /usr/bin/
+debian/tree/pve-docs-mediawiki/pve-docs.conf /etc/apache2/sites-available/

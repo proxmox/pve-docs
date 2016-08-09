@@ -19,3 +19,11 @@ Section: doc
 Architecture: all
 Description: Proxmox VE Documentation
  This package contains the Proxmox VE Documentation files.
+
+Package: pve-docs-mediawiki
+Architecture: all
+Section: doc
+Depends: ${misc:Depends}, pve-docs
+Suggests: apache2
+Description: Proxmox VE Documentation - mediawiki plugin
+ This package contains tools to view Proxmox VE Documentation with mediakiki.

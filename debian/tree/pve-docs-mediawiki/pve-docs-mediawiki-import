@@ -1,0 +1,173 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use Data::Dumper;
+
+use IO::File;
+use File::Basename;
+use MediaWiki::API;
+
+my $config_fn = "/root/.pve-docs"; # format 'username:pw'
+
+my $fh = IO::File->new("$config_fn") || 
+    die "Please configure the mediawiki user/passswd in '$config_fn'\n";
+
+my $api_url = "http://localhost/api.php";
+
+my $config = <$fh>;
+chomp $config;
+
+my ($username, $passwd) = split(':', $config, 2);
+
+my $mw = MediaWiki::API->new();
+$mw->{config}->{api_url} = $api_url;
+
+# log in to the wiki
+$mw->login({ lgname => $username, lgpassword => $passwd })
+    || die $mw->{error}->{code} . ': ' . $mw->{error}->{details};
+
+sub update_page {
+    my ($pagename, $include, $category) = @_;
+
+    print "update mediawiki page: $pagename\n";
+
+    my $ref = $mw->get_page( { title => $pagename } );
+    my $page =  $ref->{'*'} || '';
+
+    if ($page !~ m/^\{\{#pvedocs:.*\}\}\s*$/m) {
+	$page = "{{#pvedocs:$include}}\n$page";
+    } else {
+	$page =~ s/^\{\{#pvedocs:.*\}\}\s*$/\{\{#pvedocs:$include\}\}\n/m;
+    }
+
+    if ($category) {
+	my $catstr = "Category:$category";
+
+	if ($page !~ m/^\[\[$catstr\]\]\s*$/m) {
+	    $page .= "\n[[$catstr]]\n";
+	}
+    }
+    
+    my $timestamp = $ref->{timestamp};
+    my $wcmd = {
+	action => 'edit',
+	title => $pagename,
+	basetimestamp => $timestamp, # to avoid edit conflicts
+	text => $page,
+    };
+
+    $mw->edit($wcmd) || 
+	die $mw->{error}->{code} . ': ' . $mw->{error}->{details};
+}
+
+my $cat_refdoc = "Reference Documentation";
+
+my $docs = {
+    'chapter-ha-manager-plain.html' => {
+	title => "High Availability",
+	category => $cat_refdoc,
+    },
+    'chapter-sysadmin-plain.html' => {
+	title => "Host System Administration",
+	category => $cat_refdoc,
+    },
+    'chapter-pct-plain.html' => {
+	title => "Linux Container",
+	category => $cat_refdoc,
+    },
+    'chapter-pmxcfs-plain.html' => {
+	title => "Proxmox Cluster File System (pmxcfs)",
+	category => $cat_refdoc,
+    },
+    'chapter-pve-bibliography-plain.html' => {
+	title => "Bibliography",
+	category => $cat_refdoc,
+    },
+    'chapter-pvecm-plain.html' => {
+	title => "Cluster Manager",
+	category => $cat_refdoc,
+    },
+    'chapter-pve-faq-plain.html' => {
+	title => "FAQ",
+	category => $cat_refdoc,
+    },
+    'chapter-pve-firewall-plain.html' => {
+	title => "Firewall",
+	category => $cat_refdoc,
+    },
+    'chapter-pvesm-plain.html' => {
+	title => "Storage",
+	category => $cat_refdoc,
+    },
+    'chapter-pveum-plain.html' => {
+	title => "User Management",
+	category => $cat_refdoc,
+    },
+    'chapter-qm-plain.html' => {
+	title => "Qemu/KVM Virtual Machines",
+	category => $cat_refdoc,
+    },
+    'chapter-vzdump-plain.html' => {
+	title => "Backup and Restore",
+	category => $cat_refdoc,
+    },
+    'qm.conf.5-plain.html' => {
+	title => "Manual: vm.conf",
+	category => $cat_refdoc,
+    },
+    'pct.conf.5-plain.html' => {
+	title => "Manual: pct.conf",
+	category => $cat_refdoc,
+    },
+    'datacenter.cfg.5-plain.html' => {
+	title => "Manual: datacenter.cfg",
+	category => $cat_refdoc,
+    },
+    # Storage Plugins
+    'pve-storage-dir-plain.html' => {
+	title => "Storage: Directory",
+	category => $cat_refdoc,
+    },
+    'pve-storage-glusterfs-plain.html' => {
+	title => "Storage: GlusterFS",
+	category => $cat_refdoc,
+    },
+    'pve-storage-iscsidirect-plain.html' => {
+	title => "Storage: User Mode iSCSI",
+	category => $cat_refdoc,
+    },
+    'pve-storage-iscsi-plain.html' => {
+	title => "Storage: iSCSI",
+	category => $cat_refdoc,
+    },
+    'pve-storage-lvm-plain.html' => {
+	title => "Storage: LVM",
+	category => $cat_refdoc,
+    },q
+    'pve-storage-lvmthin-plain.html' => {
+	title => "Storage: LVM Thin",
+	category => $cat_refdoc,
+    },
+    'pve-storage-nfs-plain.html' => {
+	title => "Storage: NFS",
+	category => $cat_refdoc,
+    },
+    'pve-storage-rbd-plain.html' => {
+	title => "Storage: RBD",
+	category => $cat_refdoc,
+    },
+    'pve-storage-zfspool-plain.html' => {
+	title => "Storage: ZFS",
+	category => $cat_refdoc,
+    },
+};
+
+#update_page("testpage1", $filename, $d->{category});
+
+foreach my $filename (keys %$docs) {
+    my $path = "/usr/share/pve-docs/$filename";
+    die "no such file '$path'" if ! -f $path;
+    my $d = $docs->{$filename};
+    update_page($d->{title}, $filename, $d->{category});
+}
