@@ -256,14 +256,7 @@ ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}: index.html ${INDEX_INCLUDES} ${WIKI_IMPO
 
 .PHONY: upload
 upload: ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}
-	umount /pve/${DOCRELEASE}; mount /pve/${DOCRELEASE} -o rw
-	mkdir -p /pve/${DOCRELEASE}/extra
-	rm -f /pve/${DOCRELEASE}/extra/${GEN_PACKAGE}_*.deb
-	rm -f /pve/${DOCRELEASE}/extra/${DOC_PACKAGE}_*.deb
-	rm -f /pve/${DOCRELEASE}/extra/Packages*
-	cp ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB} /pve/${DOCRELEASE}/extra
-	cd /pve/${DOCRELEASE}/extra; dpkg-scanpackages . /dev/null > Packages; gzip -9c Packages > Packages.gz
-	umount /pve/${DOCRELEASE}; mount /pve/${DOCRELEASE} -o ro
+	tar cf - ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB} | ssh repoman@repo.proxmox.com upload
 
 .PHONY: update
 update: clean
