@@ -102,6 +102,11 @@ resizing the VMs filesystems.
 All storage types which have the 'Snapshots' feature also support thin
 provisioning.
 
+CAUTION: If a storage runs full, all guests using volumes on that
+storage receives IO error. This can cause file system inconsistencies
+and may corrupt your data. So it is advisable to avoid
+over-provisioning of your storage resources, or carefully observe
+free space to avoid such conditions.
 
 Storage Configuration
 ---------------------
