@@ -134,13 +134,15 @@ Each storage pool has a `<type>`, and is uniquely identified by its `<STORAGE_ID
 	...
 ----
 
-NOTE: There is one special local storage pool named `local`. It refers to
-the directory '/var/lib/vz' and is automatically generated at installation
-time.
-
 The `<type>: <STORAGE_ID>` line starts the pool definition, which is then
 followed by a list of properties. Most properties have values, but some of
 them come with reasonable default. In that case you can omit the value.
+
+To be more specific, take a look at the default storage configuration
+after installation. It contains one special local storage pool named
+`local`, which refers to the directory '/var/lib/vz' and is always
+available. The {pve} installer creates additional storage entries
+depending on the storage type chosen at installation time.
 
 .Default storage configuration ('/etc/pve/storage.cfg')
 ----
@@ -148,10 +150,17 @@ dir: local
 	path /var/lib/vz
 	content iso,vztmpl,backup
 
+# default image store on LVM based installation
 lvmthin: local-lvm
 	thinpool data
 	vgname pve
 	content rootdir,images
+
+# default image store on ZFS based installation
+zfspool: local-zfs
+	pool rpool/data
+	sparse
+	content images,rootdir
 ----
 
 Common Storage Properties
