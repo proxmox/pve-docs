@@ -3,7 +3,7 @@
 # see http://www.mediawiki.org/wiki/Manual:Parser_functions
 
 $wgExtensionCredits['parserhook'][] = array(
-    'name' => "PVE Documenation Pages",
+    'name' => "PVE Documentation Pages",
     'description' => "Display PVE Documentation Pages", 
     'author' => "Dietmar Maurer",
 );

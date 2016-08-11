@@ -21,3 +21,4 @@ mediawiki and updates predefined pages with content from this package:
 Authentification credientials are read from '/root/.pve-docs'.
 The format is 'username:password'.
 
+require_once("/usr/lib/pve-docs/pvedocs-include.php");
