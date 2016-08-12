@@ -92,7 +92,7 @@ ifdef::wiki[]
 See Also
 ~~~~~~~~
 
-* link:/index.php/Storage[Storage]
+* link:/wiki/Storage[Storage]
 
 endif::wiki[]
 
