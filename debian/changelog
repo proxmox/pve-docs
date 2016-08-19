@@ -1,3 +1,35 @@
+pve-docs (4.2-8) unstable; urgency=medium
+
+  * fix wiki links
+
+  * update for our new mediawiki installation
+
+  * improve docs about default storage configuration
+
+  * add warning about over-provisioning
+
+  * update mediawiki README
+
+  * use new repoman for upload target
+
+  * add new pve-docs-mediawiki package
+
+  * allow other archs than amd64
+
+  * document /etc/gentoo-release test
+
+  * build-deps: dblatex, source-highlight
+
+  * ha-manager: add section for recovery after fencing
+
+  * ha-manager: clarify start failure policy
+
+  * ha-manager: clarifications and various fixes
+
+  * fix #1022 correct typo
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 19 Aug 2016 14:54:02 +0200
+
 pve-docs (4.2-7) unstable; urgency=medium
 
   * Move Multiqueue and IO Threads description at bottom of each chapter
