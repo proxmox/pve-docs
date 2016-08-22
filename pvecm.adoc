@@ -281,6 +281,50 @@ cluster again, you have to
 * then join it, as explained in the previous section.
 
 
+Quorum
+------
+
+{pve} use a quorum-based technique to provide a consistent state among
+all cluster nodes.
+
+[quote, from Wikipedia, Quorum (distributed computing)]
+____
+A quorum is the minimum number of votes that a distributed transaction
+has to obtain in order to be allowed to perform an operation in a
+distributed system.
+____
+
+In case of network partitioning, state changes requires that a
+majority of nodes are online. The cluster switches to read-only mode
+if it loose quorum.
+
+NOTE: {pve} assigns a single vote to each node by default.
+
+
+Cluster Cold Start
+------------------
+
+It is obvious that a cluster is not quorate when all nodes are
+offline. This is a common case after a power failure.
+
+NOTE: It is always a good idea to use an uninterruptible power supply
+('UPS', also called 'battery backup') to avoid this state. Especially if
+you want HA.
+
+On node startup, service 'pve-manager' waits up to 60 seconds to reach
+quorum, and then starts all guests. If it fails to get quorum, that
+service simply aborts, and you need to start your guest manually once
+you have quorum.
+
+If you start all nodes at the same time (for example when power comes
+back), it is likely that you reach quorum within above timeout. But
+startup can fail if some nodes starts much faster than others, so you
+need to start your guest manually after reaching quorum. You can do
+that on the GUI, or on the command line with:
+
+ systemctl start pve-manager
+
+
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
 endif::manvolnum[]
