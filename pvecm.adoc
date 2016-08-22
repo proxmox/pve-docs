@@ -59,7 +59,7 @@ Requirements
 * All nodes must be in the same network as corosync uses IP Multicast
  to communicate between nodes (also see
  http://www.corosync.org[Corosync Cluster Engine]). Corosync uses UDP
- ports 5404and 5405 for cluster communication.
+ ports 5404 and 5405 for cluster communication.
 +
 NOTE: Some switches do not support IP multicast by default and must be
 manually enabled first.
