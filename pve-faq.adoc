@@ -68,3 +68,20 @@ native performance by executing the guest code directly on the host
 CPU.
 It is not limited to Linux guests but allows arbitrary operating systems
 to run.
+
+How long will my {pve} version be supported?::
+
+{pve} versions are supported at least as long as the corresponding
+Debian Version is
+https://wiki.debian.org/DebianOldStable[oldstable]. {pve} uses a
+rolling release model and using the latest stable version is always
+recommended.
++
+[width="100%",cols="5*d",options="header"]
+|===========================================================
+| {pve} Version | Debian Version    | First Release | Debian EOL | Proxmox EOL
+| {pve} 4.x     | Debian 8 (Jessie) | 2015-10       | 2018-05    | tba
+| {pve} 3.x     | Debian 7 (Wheezy) | 2013-05       | 2016-04    | 2017-02
+| {pve} 2.x     | Debian 6 (Squeeze)| 2012-04       | 2014-05    | 2014-05
+| {pve} 1.x     | Debian 5 (Lenny)  | 2008-10       | 2012-03    | 2013-01
+|===========================================================
