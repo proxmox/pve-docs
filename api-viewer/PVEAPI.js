@@ -239,6 +239,7 @@ Ext.onReady(function() {
 	ct.setTitle("Path: " + data.path);
 	ct.removeAll(true);
 	ct.add(items);
+	ct.setActiveTab(0);
     };
 
     var tree = Ext.create('Ext.tree.Panel', {
