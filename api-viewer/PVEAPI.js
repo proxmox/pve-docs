@@ -62,7 +62,7 @@ Ext.onReady(function() {
 	metaData.style = 'white-space:normal;'
 
 	if (pdef.typetext)
-	    return pdef.typetext;
+	    return Ext.htmlEncode(pdef.typetext);
 
 	if (pdef['enum'])
 	    return pdef['enum'].join(' | ');
@@ -71,7 +71,7 @@ Ext.onReady(function() {
 	    return pdef.format;
 
 	if (pdef.pattern) 
-	    return pdef.pattern;
+	    return Ext.htmlEncode(pdef.pattern);
 
 	return '';
     };
