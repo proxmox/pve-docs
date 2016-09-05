@@ -47,7 +47,7 @@ Ext.onReady(function() {
 
 	value = pdef.verbose_description || value;
 
-	TODO: try to render asciidoc correctly
+	// TODO: try to render asciidoc correctly
 
 	metaData.style = 'white-space:pre-wrap;'
 
