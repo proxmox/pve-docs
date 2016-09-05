@@ -11,8 +11,8 @@ Ext.onReady(function() {
     Ext.define('pve-param-schema', {
         extend: 'Ext.data.Model',
         fields:  [ 
-	    'name', 'type', 'typetext', 'description', 'enum', 
-	    'minimum', 'maximum', 'minLength', 'maxLength',
+	    'name', 'type', 'typetext', 'description', 'verbose_description',
+	    'enum', 'minimum', 'maximum', 'minLength', 'maxLength',
 	    'pattern', 'title', 'requires', 'format', 'default',
 	    'disallow', 'extends', 'links',
 	    {
@@ -42,8 +42,12 @@ Ext.onReady(function() {
         }]
     });
     
-    var render_text = function(value, metaData, record) {
+    var render_description = function(value, metaData, record) {
 	var pdef = record.data;
+
+	value = pdef.verbose_description || value;
+
+	TODO: try to render asciidoc correctly
 
 	metaData.style = 'white-space:pre-wrap;'
 
@@ -168,7 +172,7 @@ Ext.onReady(function() {
 			    { 
 				header: 'Description',
 				dataIndex: 'description',
-				renderer: render_text,
+				renderer: render_description,
 				flex: 2
 			    }
 			]
