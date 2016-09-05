@@ -25,11 +25,31 @@ Backup and Restore
 include::attributes.txt[]
 endif::manvolnum[]
 
-'vzdump' is a utility to make consistent backups of running guest
-systems. It basically creates an archive of the guest private area,
-which also includes the guest configuration files. 'vzdump' currently
-supports LXC containers and QemuServer VMs. There are several ways to
-provide consistency (option `mode`), depending on the guest type.
+Backups are a requirements for any sensible IT deployment, and {pve}
+provides a fully integrated solution, using the capabilities of each storage
+and each guest system type. This allows the system administrator to fine tune via
+the `mode` option between consistency of the backups and downtime of the guest 
+system. Proxmox VE backups are always full backups - containing the VM/CT
+configuration and all data.
+Backups can be started via the GUI or via the `vzdump` command line tool.
+
+Backup Storage
+--------------
+Before a backup can run, a backup storage must be defined.
+Refer to the Storage documentation on how to add a storage. A backup storage
+must be a file level storage, as backups are stored as regular files.
+In most situations, using a NFS server is a good way to store backups.
+You can save those backups later to a tape drive, for off-site archive.
+
+Scheduled Backup
+----------------
+Backup jobs can be scheduled so that they are executed automatically on
+ specific days and times, for selectable nodes and guest systems.
+Configuration of scheduled backups is done at the Datacenter level in the GUI,
+which will generate a cron entry in /etc/cron.d/vzdump.
+
+There are several ways to provide consistency (option `mode`), 
+depending on the guest type.
 
 .Backup `mode` for VMs:
 
