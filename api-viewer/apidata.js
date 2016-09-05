@@ -111,6 +111,7 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "comment" : {
+                                             "description" : "Descriptive comment.",
                                              "optional" : 1,
                                              "type" : "string"
                                           },
@@ -139,6 +140,7 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "enable" : {
+                                             "description" : "Flag to enable/disable a rule.",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
@@ -160,6 +162,7 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "macro" : {
+                                             "description" : "Use predefined standard macro.",
                                              "maxLength" : 128,
                                              "optional" : 1,
                                              "type" : "string"
@@ -197,6 +200,7 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "type" : {
+                                             "description" : "Rule type.",
                                              "enum" : [
                                                 "in",
                                                 "out",
@@ -319,6 +323,7 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "comment" : {
+                                       "description" : "Descriptive comment.",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
@@ -341,6 +346,7 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "enable" : {
+                                       "description" : "Flag to enable/disable a rule.",
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
@@ -362,6 +368,7 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "macro" : {
+                                       "description" : "Use predefined standard macro.",
                                        "maxLength" : 128,
                                        "optional" : 1,
                                        "type" : "string"
@@ -392,6 +399,7 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "type" : {
+                                       "description" : "Rule type.",
                                        "enum" : [
                                           "in",
                                           "out",
@@ -611,6 +619,7 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "comment" : {
+                                       "description" : "Descriptive comment.",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
@@ -639,6 +648,7 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "enable" : {
+                                       "description" : "Flag to enable/disable a rule.",
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
@@ -653,6 +663,7 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "macro" : {
+                                       "description" : "Use predefined standard macro.",
                                        "maxLength" : 128,
                                        "optional" : 1,
                                        "type" : "string"
@@ -690,6 +701,7 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "type" : {
+                                       "description" : "Rule type.",
                                        "enum" : [
                                           "in",
                                           "out",
@@ -773,6 +785,7 @@ var pveapi = [
                                  "type" : "string"
                               },
                               "comment" : {
+                                 "description" : "Descriptive comment.",
                                  "optional" : 1,
                                  "type" : "string"
                               },
@@ -795,6 +808,7 @@ var pveapi = [
                                  "type" : "string"
                               },
                               "enable" : {
+                                 "description" : "Flag to enable/disable a rule.",
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
@@ -809,6 +823,7 @@ var pveapi = [
                                  "type" : "string"
                               },
                               "macro" : {
+                                 "description" : "Use predefined standard macro.",
                                  "maxLength" : 128,
                                  "optional" : 1,
                                  "type" : "string"
@@ -839,6 +854,7 @@ var pveapi = [
                                  "type" : "string"
                               },
                               "type" : {
+                                 "description" : "Rule type.",
                                  "enum" : [
                                     "in",
                                     "out",
@@ -3437,6 +3453,7 @@ var pveapi = [
                                                          "type" : "string"
                                                       },
                                                       "comment" : {
+                                                         "description" : "Descriptive comment.",
                                                          "optional" : 1,
                                                          "type" : "string"
                                                       },
@@ -3465,6 +3482,7 @@ var pveapi = [
                                                          "type" : "string"
                                                       },
                                                       "enable" : {
+                                                         "description" : "Flag to enable/disable a rule.",
                                                          "minimum" : 0,
                                                          "optional" : 1,
                                                          "type" : "integer",
@@ -3479,6 +3497,7 @@ var pveapi = [
                                                          "type" : "string"
                                                       },
                                                       "macro" : {
+                                                         "description" : "Use predefined standard macro.",
                                                          "maxLength" : 128,
                                                          "optional" : 1,
                                                          "type" : "string"
@@ -3521,6 +3540,7 @@ var pveapi = [
                                                          "type" : "string"
                                                       },
                                                       "type" : {
+                                                         "description" : "Rule type.",
                                                          "enum" : [
                                                             "in",
                                                             "out",
@@ -3625,6 +3645,7 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "comment" : {
+                                                   "description" : "Descriptive comment.",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -3647,6 +3668,7 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "enable" : {
+                                                   "description" : "Flag to enable/disable a rule.",
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer",
@@ -3661,6 +3683,7 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "macro" : {
+                                                   "description" : "Use predefined standard macro.",
                                                    "maxLength" : 128,
                                                    "optional" : 1,
                                                    "type" : "string"
@@ -3696,6 +3719,7 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "type" : {
+                                                   "description" : "Rule type.",
                                                    "enum" : [
                                                       "in",
                                                       "out",
@@ -13322,6 +13346,7 @@ var pveapi = [
                                                          "type" : "string"
                                                       },
                                                       "comment" : {
+                                                         "description" : "Descriptive comment.",
                                                          "optional" : 1,
                                                          "type" : "string"
                                                       },
@@ -13350,6 +13375,7 @@ var pveapi = [
                                                          "type" : "string"
                                                       },
                                                       "enable" : {
+                                                         "description" : "Flag to enable/disable a rule.",
                                                          "minimum" : 0,
                                                          "optional" : 1,
                                                          "type" : "integer",
@@ -13364,6 +13390,7 @@ var pveapi = [
                                                          "type" : "string"
                                                       },
                                                       "macro" : {
+                                                         "description" : "Use predefined standard macro.",
                                                          "maxLength" : 128,
                                                          "optional" : 1,
                                                          "type" : "string"
@@ -13406,6 +13433,7 @@ var pveapi = [
                                                          "type" : "string"
                                                       },
                                                       "type" : {
+                                                         "description" : "Rule type.",
                                                          "enum" : [
                                                             "in",
                                                             "out",
@@ -13510,6 +13538,7 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "comment" : {
+                                                   "description" : "Descriptive comment.",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -13532,6 +13561,7 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "enable" : {
+                                                   "description" : "Flag to enable/disable a rule.",
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer",
@@ -13546,6 +13576,7 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "macro" : {
+                                                   "description" : "Use predefined standard macro.",
                                                    "maxLength" : 128,
                                                    "optional" : 1,
                                                    "type" : "string"
@@ -13581,6 +13612,7 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "type" : {
+                                                   "description" : "Rule type.",
                                                    "enum" : [
                                                       "in",
                                                       "out",
@@ -19864,6 +19896,7 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "comment" : {
+                                             "description" : "Descriptive comment.",
                                              "optional" : 1,
                                              "type" : "string"
                                           },
@@ -19892,6 +19925,7 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "enable" : {
+                                             "description" : "Flag to enable/disable a rule.",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
@@ -19906,6 +19940,7 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "macro" : {
+                                             "description" : "Use predefined standard macro.",
                                              "maxLength" : 128,
                                              "optional" : 1,
                                              "type" : "string"
@@ -19948,6 +19983,7 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "type" : {
+                                             "description" : "Rule type.",
                                              "enum" : [
                                                 "in",
                                                 "out",
@@ -20038,6 +20074,7 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "comment" : {
+                                       "description" : "Descriptive comment.",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
@@ -20060,6 +20097,7 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "enable" : {
+                                       "description" : "Flag to enable/disable a rule.",
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
@@ -20074,6 +20112,7 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "macro" : {
+                                       "description" : "Use predefined standard macro.",
                                        "maxLength" : 128,
                                        "optional" : 1,
                                        "type" : "string"
@@ -20109,6 +20148,7 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "type" : {
+                                       "description" : "Rule type.",
                                        "enum" : [
                                           "in",
                                           "out",
