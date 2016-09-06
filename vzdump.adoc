@@ -26,86 +26,92 @@ include::attributes.txt[]
 endif::manvolnum[]
 
 Backups are a requirements for any sensible IT deployment, and {pve}
-provides a fully integrated solution, using the capabilities of each storage
-and each guest system type. This allows the system administrator to fine tune via
-the `mode` option between consistency of the backups and downtime of the guest 
-system. Proxmox VE backups are always full backups - containing the VM/CT
-configuration and all data.
-Backups can be started via the GUI or via the `vzdump` command line tool.
+provides a fully integrated solution, using the capabilities of each
+storage and each guest system type. This allows the system
+administrator to fine tune via the `mode` option between consistency
+of the backups and downtime of the guest system.
+
+{pve} backups are always full backups - containing the VM/CT
+configuration and all data.  Backups can be started via the GUI or via
+the `vzdump` command line tool.
 
 .Backup Storage
 
-Before a backup can run, a backup storage must be defined.
-Refer to the Storage documentation on how to add a storage. A backup storage
+Before a backup can run, a backup storage must be defined. Refer to
+the Storage documentation on how to add a storage. A backup storage
 must be a file level storage, as backups are stored as regular files.
 In most situations, using a NFS server is a good way to store backups.
-You can save those backups later to a tape drive, for off-site archive.
+You can save those backups later to a tape drive, for off-site
+archiving.
 
 .Scheduled Backup
 
-Backup jobs can be scheduled so that they are executed automatically on
- specific days and times, for selectable nodes and guest systems.
-Configuration of scheduled backups is done at the Datacenter level in the GUI,
-which will generate a cron entry in /etc/cron.d/vzdump.
+Backup jobs can be scheduled so that they are executed automatically
+on specific days and times, for selectable nodes and guest systems.
+Configuration of scheduled backups is done at the Datacenter level in
+the GUI, which will generate a cron entry in /etc/cron.d/vzdump.
 
 Backup modes
 ------------
+
 There are several ways to provide consistency (option `mode`), 
 depending on the guest type.
 
 .Backup modes for VMs:
 
 `stop` mode::
-This mode provides the highest consistency of the backup, at the
-cost of a downtime in the VM operation.
-It works by executing an orderly shutdown of the VM, and then runs a background
-Qemu process to backup the VM data. After the backup is complete, the 
-Qemu process resumes the VM to full operation mode if it was previously running.
+
+This mode provides the highest consistency of the backup, at the cost
+of a downtime in the VM operation.  It works by executing an orderly
+shutdown of the VM, and then runs a background Qemu process to backup
+the VM data. After the backup is complete, the Qemu process resumes
+the VM to full operation mode if it was previously running.
 
 `suspend` mode::
 
-This mode is provided for compatibility reason, and suspends the VM before
-calling the `snapshot` mode. Since suspending the VM results in a longer 
-downtime and does not necessarily improve the data consistency, 
-the use of the `snapshot` mode is recommended instead.
+This mode is provided for compatibility reason, and suspends the VM
+before calling the `snapshot` mode. Since suspending the VM results in
+a longer downtime and does not necessarily improve the data
+consistency, the use of the `snapshot` mode is recommended instead.
 
 `snapshot` mode::
 
-This mode provides the lowest operation downtime, at the cost of a small
-inconstancy risk.
-It works by performing a Proxmox VE live backup, in which data blocks are copy
-while the VM is running. If the guest agent is enabled (`agent: 1`) and running,
-it calls 'guest-fsfreeze-freeze' and 'guest-fsfreeze-thaw' to improve
+This mode provides the lowest operation downtime, at the cost of a
+small inconstancy risk.  It works by performing a Proxmox VE live
+backup, in which data blocks are copied while the VM is running. If the
+guest agent is enabled (`agent: 1`) and running, it calls
+'guest-fsfreeze-freeze' and 'guest-fsfreeze-thaw' to improve
 consistency.
 
 A technical overview of the Proxmox VE live backup for QemuServer can
 be found online
 https://git.proxmox.com/?p=pve-qemu-kvm.git;a=blob;f=backup.txt[here].
 
-NOTE: For VMs, this _snapshot_ mode relates to the fact that the backup is
-performed while the VM is running. This has here nothing to do with file systems
-snapshots and can be operated on any kind of storage.
+NOTE: Proxmox VE live backup provides snapshot-like semantics on any
+storage type. It does not require that the underlying storage supports
+snapshots.
 
 .Backup modes for Containers:
 
 `stop` mode::
 
-Stop the container for the duration of the backup. This potentially results in
-a very long downtime.
+Stop the container for the duration of the backup. This potentially
+results in a very long downtime.
 
 `suspend` mode::
 
 This mode uses rsync to copy the container data to a temporary
-location (see option `--tmpdir`). Then the container is suspended and a second
-rsync copies changed files. After that, the container is started (resumed)
-again. This results in minimal downtime, but needs additional space
-to hold the container copy.
+location (see option `--tmpdir`). Then the container is suspended and
+a second rsync copies changed files. After that, the container is
+started (resumed) again. This results in minimal downtime, but needs
+additional space to hold the container copy.
 +
-When the container is on a local filesystem and the target storage of the backup
-is an NFS server, you should set `--tmpdir` to reside on a local filesystem too,
-as this will result in a many fold performance improvement.
-Use of a local `tmpdir` is also required if you want to backup a local container
-using ACLs in suspend mode if the backup storage is an NFS server.
+When the container is on a local filesystem and the target storage of
+the backup is an NFS server, you should set `--tmpdir` to reside on a
+local filesystem too, as this will result in a many fold performance
+improvement.  Use of a local `tmpdir` is also required if you want to
+backup a local container using ACLs in suspend mode if the backup
+storage is an NFS server.
 
 `snapshot` mode::
 
