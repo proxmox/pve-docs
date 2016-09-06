@@ -85,3 +85,25 @@ recommended.
 | {pve} 2.x     | Debian 6 (Squeeze)| 2012-04       | 2014-05    | 2014-05
 | {pve} 1.x     | Debian 5 (Lenny)  | 2008-10       | 2012-03    | 2013-01
 |===========================================================
+
+LXC vs LXD vs Docker::
+
+LXC is a userspace interface for the Linux kernel containment
+features. Through a powerful API and simple tools, it lets Linux users easily
+create and manage system containers. +
+LXD is building on top of LXC to provide a new, better user experience. Under
+the hood, LXD uses LXC through liblxc and its Go binding to create and manage
+the containers. It's basically an alternative to LXC's tools and distribution
+template system with the added features that come from being controllable over
+the network. +
+LXC, as well as the former OpenVZ, aims at *system virtualization*, ie
+allows you to run a complete OS inside a container, where you log in as ssh,
+add users, run apache, etc...
+Docker aims at running a *single* application running in a contained
+environment. Hence you're managing a docker instance from the host with the
+docker toolkit.
+
+NOTE: Proxmox VE aims at system virtualization, and thus uses LXC as the basis
+of its own container offer. You can however perfectly install and use docker
+inside a VM, and thus getting the benefit of software containerization
+with the very strong isolation that VMs provide.
