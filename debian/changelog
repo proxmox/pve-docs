@@ -1,3 +1,17 @@
+pve-docs (4.2-9) unstable; urgency=medium
+
+  * merge the good parts of the Backup wiki articke
+
+  * merge the good parts of the FAQ wiki articke
+
+  * update apidata.js
+
+  * api-viewer: set the first tab of a page active
+
+  * add section about quorum and cluster cold start
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 06 Sep 2016 06:41:50 +0200
+
 pve-docs (4.2-8) unstable; urgency=medium
 
   * fix wiki links
