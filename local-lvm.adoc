@@ -1,0 +1,10 @@
+Logical Volume Manager (LVM)
+----------------------------
+
+Most people install {pve} directly on a local disk. The {pve}
+installation CD offers several options for local disk management. The
+current default setup uses LVM and 'ext4' for the root
+partition. LVM-thin is used for VM images, because this has efficient
+support for snapshots and clones.
+
+
