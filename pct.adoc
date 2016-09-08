@@ -59,7 +59,7 @@ Our primary goal is to offer an environment as one would get from a
 VM, but without the additional overhead. We call this "System
 Containers".
 
-NOTE: If you want to run micro-containers (with docker, rct, ...), it
+NOTE: If you want to run micro-containers (with docker, rkt, ...), it
 is best to run them inside a VM.
 
 
