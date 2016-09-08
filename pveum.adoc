@@ -103,8 +103,8 @@ Objects and Paths
 ~~~~~~~~~~~~~~~~~
 
 Access permissions are assigned to objects, such as a virtual machines
-('/vms/{vmid}') or a storage ('/storage/{storeid}') or a pool of
-resources ('/pool/{poolname}'). We use filesystem like paths to
+('/vms/\{vmid\}') or a storage ('/storage/\{storeid\}') or a pool of
+resources ('/pool/\{poolname\}'). We use filesystem like paths to
 address those objects. Those paths form a natural tree, and
 permissions can be inherited down that hierarchy.
 
@@ -219,7 +219,7 @@ Pools
 ~~~~~
 
 Pools can be used to group a set of virtual machines and data
-stores. You can then simply set permissions on pools ('/pool/{poolid}'),
+stores. You can then simply set permissions on pools ('/pool/\{poolid\}'),
 which are inherited to all pool members. This is a great way simplify
 access control.
 
