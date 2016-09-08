@@ -213,7 +213,9 @@ by default). We use the following inheritance rules:
 
 What permission do I need?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
-The required API permissions are documented for each individual method, and can be found at http://pve.proxmox.com/pve2-api-doc/
+
+The required API permissions are documented for each individual
+method, and can be found at http://pve.proxmox.com/pve-docs/api-viewer/
 
 Pools
 ~~~~~
