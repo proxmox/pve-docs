@@ -1,0 +1,325 @@
+ZFS on Linux
+------------
+include::attributes.txt[]
+
+ZFS is a combined file system and logical volume manager designed by
+Sun Microsystems. Starting with {pve} 3.4, the native Linux
+kernel port of the ZFS file system is introduced as optional
+file-system and also as an additional selection for the root
+file-system. There is no need for manually compile ZFS modules - all
+packages are included.
+
+By using ZFS, its possible to achieve maximal enterprise features with
+low budget hardware, but also high performance systems by leveraging
+SSD caching or even SSD only setups. ZFS can replace cost intense
+hardware raid cards by moderate CPU and memory load combined with easy
+management.
+
+.General ZFS advantages
+
+* Easy configuration and management with {pve} GUI and CLI.
+
+* Reliable
+
+* Protection against data corruption
+
+* Data compression on file-system level
+
+* Snapshots
+
+* Copy-on-write clone
+
+* Various raid levels: RAID0, RAID1, RAID10, RAIDZ-1, RAIDZ-2 and RAIDZ-3
+
+* Can use SSD for cache
+
+* Self healing
+
+* Continuous integrity checking
+
+* Designed for high storage capacities
+
+* Protection against data corruption
+
+* Asynchronous replication over network
+
+* Open Source
+
+* Encryption
+
+* ...
+
+
+Hardware
+~~~~~~~~
+
+ZFS depends heavily on memory, so you need at least 8GB to start. In
+practice, use as much you can get for your hardware/budget. To prevent
+data corruption, we recommend the use of high quality ECC RAM.
+
+If you use a dedicated cache and/or log disk, you should use a
+enterprise class SSD (e.g. Intel SSD DC S3700 Series). This can
+increase the overall performance significantly.
+
+IMPORTANT: Do not use ZFS on top of hardware controller which has it's
+own cache management. ZFS needs to directly communicate with disks. An
+HBA adapter is the way to go, or something like LSI controller flashed
+in 'IT' mode.
+
+If you are experimenting with an installation of {pve} inside a VM
+(Nested Virtualization), don't use 'virtio' for disks of that VM,
+since they are not supported by ZFS. Use IDE or SCSI instead (works
+also with 'virtio' SCSI controller type).
+
+
+Installation as root file system
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you install using the {pve} installer, you can choose ZFS for the
+root file system. You need to select the RAID type at installation
+time:
+
+[horizontal]
+RAID0:: Also called 'striping'. The capacity of such volume is the sum
+of the capacity of all disks. But RAID0 does not add any redundancy,
+so the failure of a single drive makes the volume unusable.
+
+RAID1:: Also called mirroring. Data is written identically to all
+disks. This mode requires at least 2 disks with the same size. The
+resulting capacity is that of a single disk.
+
+RAID10:: A combination of RAID0 and RAID1. Requires at least 4 disks.
+
+RAIDZ-1:: A variation on RAID-5, single parity. Requires at least 3 disks.
+
+RAIDZ-2:: A variation on RAID-5, double parity. Requires at least 4 disks.
+
+RAIDZ-3:: A variation on RAID-5, triple parity. Requires at least 5 disks.
+
+The installer automatically partitions the disks, creates a ZFS pool
+called 'rpool', and installs the root file system on the ZFS subvolume
+'rpool/ROOT/pve-1'.
+
+Another subvolume called 'rpool/data' is created to store VM
+images. In order to use that with the {pve} tools, the installer
+creates the following configuration entry in '/etc/pve/storage.cfg':
+
+----
+zfspool: local-zfs
+	pool rpool/data
+	sparse
+	content images,rootdir
+----
+
+After installation, you can view your ZFS pool status using the
+'zpool' command:
+
+----
+# zpool status
+  pool: rpool
+ state: ONLINE
+  scan: none requested
+config:
+
+	NAME        STATE     READ WRITE CKSUM
+	rpool       ONLINE       0     0     0
+	  mirror-0  ONLINE       0     0     0
+	    sda2    ONLINE       0     0     0
+	    sdb2    ONLINE       0     0     0
+	  mirror-1  ONLINE       0     0     0
+	    sdc     ONLINE       0     0     0
+	    sdd     ONLINE       0     0     0
+
+errors: No known data errors
+----
+
+The 'zfs' command is used configure and manage your ZFS file
+systems. The following command lists all file systems after
+installation:
+
+----
+# zfs list
+NAME               USED  AVAIL  REFER  MOUNTPOINT
+rpool             4.94G  7.68T    96K  /rpool
+rpool/ROOT         702M  7.68T    96K  /rpool/ROOT
+rpool/ROOT/pve-1   702M  7.68T   702M  /
+rpool/data          96K  7.68T    96K  /rpool/data
+rpool/swap        4.25G  7.69T    64K  -
+----
+
+
+Bootloader
+~~~~~~~~~~
+
+The default ZFS disk partitioning scheme does not use the first 2048
+sectors. This gives enough room to install a GRUB boot partition. The
+{pve} installer automatically allocates that space, and installs the
+GRUB boot loader there. If you use a redundant RAID setup, it installs
+the boot loader on all disk required for booting. So you can boot
+even if some disks fail.
+
+NOTE: It is not possible to use ZFS as root partition with UEFI
+boot.
+
+
+ZFS Administration
+~~~~~~~~~~~~~~~~~~
+
+This section gives you some usage examples for common tasks. ZFS
+itself is really powerful and provides many options. The main commands
+to manage ZFS are 'zfs' and 'zpool'. Both commands comes with great
+manual pages, worth to read:
+
+----
+# man zpool
+# man zfs
+-----
+
+.Create a new ZPool
+
+To create a new pool, at least one disk is needed. The 'ashift' should
+have the same sector-size (2 power of 'ashift') or larger as the
+underlying disk.
+
+ zpool create -f -o ashift=12 <pool> <device>
+
+To activate the compression 
+
+ zfs set compression=lz4 <pool>
+
+.Create a new pool with RAID-0
+
+Minimum 1 Disk
+
+ zpool create -f -o ashift=12 <pool> <device1> <device2>
+
+.Create a new pool with RAID-1
+
+Minimum 2 Disks
+
+ zpool create -f -o ashift=12 <pool> mirror <device1> <device2>
+
+.Create a new pool with RAID-10
+
+Minimum 4 Disks
+
+ zpool create -f -o ashift=12 <pool> mirror <device1> <device2> mirror <device3> <device4> 
+
+.Create a new pool with RAIDZ-1
+
+Minimum 3 Disks
+
+ zpool create -f -o ashift=12 <pool> raidz1 <device1> <device2> <device3>
+
+.Create a new pool with RAIDZ-2
+
+Minimum 4 Disks
+
+ zpool create -f -o ashift=12 <pool> raidz2 <device1> <device2> <device3> <device4>
+
+.Create a new pool with Cache (L2ARC)
+
+It is possible to use a dedicated cache drive partition to increase
+the performance (use SSD).
+
+As '<device>' it is possible to use more devices, like it's shown in
+"Create a new pool with RAID*".
+
+ zpool create -f -o ashift=12 <pool> <device> cache <cache_device>
+
+.Create a new pool with Log (ZIL)
+
+It is possible to use a dedicated cache drive partition to increase
+the performance(SSD).
+
+As '<device>' it is possible to use more devices, like it's shown in
+"Create a new pool with RAID*".
+
+ zpool create -f -o ashift=12 <pool> <device> log <log_device>
+
+.Add Cache and Log to an existing pool
+
+If you have an pool without cache and log. First partition the SSD in
+2 partition with parted or gdisk
+
+IMPORTANT: Always use GPT partition tables (gdisk or parted).
+
+The maximum size of a log device should be about half the size of
+physical memory, so this is usually quite small. The rest of the SSD
+can be used to the cache.
+
+ zpool add -f <pool> log <device-part1> cache <device-part2> 
+
+.Changing a failed Device
+
+ zpool replace -f <pool> <old device> <new-device>
+
+
+Activate E-Mail Notification
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ZFS comes with an event daemon, which monitors events generated by the
+ZFS kernel module. The daemon can also send E-Mails on ZFS event like
+pool errors.
+
+To activate the daemon it is necessary to edit /etc/zfs/zed.d/zed.rc with your favored editor, and uncomment the 'ZED_EMAIL_ADDR' setting:
+
+ZED_EMAIL_ADDR="root"
+
+Please note {pve} forwards mails to 'root' to the email address
+configured for the root user.
+
+IMPORTANT: the only settings that is required is ZED_EMAIL_ADDR. All
+other settings are optional.
+
+
+Limit ZFS memory usage
+~~~~~~~~~~~~~~~~~~~~~~
+
+It is good to use max 50 percent of the system memory for ZFS arc to
+prevent performance shortage of the host. Use your preferred editor to
+change the configuration in /etc/modprobe.d/zfs.conf and insert:
+
+ options zfs zfs_arc_max=8589934592
+
+This example setting limits the usage to 8GB.
+
+[IMPORTANT]
+====
+If your root fs is ZFS you must update your initramfs every
+time this value changes.
+
+ update-initramfs -u
+====
+
+
+.SWAP on ZFS
+
+SWAP on ZFS on Linux may generate some troubles, like blocking the
+server or generating a high IO load, often seen when starting a Backup
+to an external Storage.
+
+We strongly recommend to use enough memory, so that you normally do not
+run into low memory situations. Additionally, you can lower the
+'swappiness' value. A good value for servers is 10:
+
+ sysctl -w vm.swappiness=10
+
+To make the swappiness persistence, open '/etc/sysctl.conf' with
+an editor of your choice and add the following line:
+
+ vm.swappiness = 10
+
+.Linux Kernel 'swappiness' parameter values
+[width="100%",cols="<m,2d",options="header"]
+|===========================================================
+| Value               | Strategy
+| vm.swappiness = 0   | The kernel will swap only to avoid
+an 'out of memory' condition
+| vm.swappiness = 1   | Minimum amount of swapping without
+disabling it entirely.
+| vm.swappiness = 10  | This value is sometimes recommended to
+improve performance when sufficient memory exists in a system.
+| vm.swappiness = 60  | The default value.
+| vm.swappiness = 100 | The kernel will swap aggressively.
+|===========================================================

@@ -103,6 +103,7 @@ SYSADMIN_SOURCES=				\
 	pve-package-repos.adoc			\
 	pve-installation.adoc			\
 	system-software-updates.adoc		\
+	local-zfs.adoc				\
 	sysadmin.adoc
 
 API_VIEWER_SOURCES=				\
@@ -169,6 +170,8 @@ all: index.html
 
 %-nwdiag.svg: %.nwdiag
 	nwdiag -T svg $*.nwdiag -o $@;
+
+chapter-sysadmin.html chapter-sysadmin-plain.html: ${SYSADMIN_SOURCES}
 
 chapter-%.html: %.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_STDARG} -a toc -o $@ $*.adoc

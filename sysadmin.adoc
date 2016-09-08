@@ -230,23 +230,11 @@ TODO: explan OVS
 ////
 
 
+include::local-zfs.adoc[]
+
+
 ////
 TODO:
-
-Local Storage
--------------
-
-Logical Volume Manager (LVM)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-TODO: info about LVM.
-
-
-ZFS on Linux
-~~~~~~~~~~~~
-
-TODO: info about ZFS.
-
 
 Working with 'systemd'
 ----------------------
@@ -256,10 +244,4 @@ Journal and syslog
 
 TODO: explain persistent journal...
 
-
 ////
-
-
-
-
-
