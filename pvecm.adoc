@@ -311,18 +311,13 @@ NOTE: It is always a good idea to use an uninterruptible power supply
 ('UPS', also called 'battery backup') to avoid this state. Especially if
 you want HA.
 
-On node startup, service 'pve-manager' waits up to 60 seconds to reach
-quorum, and then starts all guests. If it fails to get quorum, that
-service simply aborts, and you need to start your guest manually once
-you have quorum.
+On node startup, service 'pve-manager' is started and waits for
+quorum. Once quorate, it starts all guests which have the 'onboot'
+flag set.
 
-If you start all nodes at the same time (for example when power comes
-back), it is likely that you reach quorum within above timeout. But
-startup can fail if some nodes starts much faster than others, so you
-need to start your guest manually after reaching quorum. You can do
-that on the GUI, or on the command line with:
-
- systemctl start pve-manager
+When you turn on nodes, or when power comes back after power failure,
+it is likely that some nodes boots faster than others. Please keep in
+mind that guest startup is delayed until you reach quorum.
 
 
 ifdef::manvolnum[]
