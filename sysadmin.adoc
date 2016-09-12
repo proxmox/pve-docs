@@ -64,6 +64,27 @@ Recommended system requirements
 
 * At least two NIC´s, depending on the used storage technology you need more
 
+ifdef::wiki[]
+
+See Also
+--------
+
+* link:/wiki/Getting_Help[Getting Help]
+
+* link:/wiki/Package_Repositories[Package Repositories]
+
+* link:/wiki/Installation[Installation]
+
+* link:/wiki/Network_Configuration[Network Configuration] 
+
+* link:/wiki/System_Software_Updates[System Software Updates]
+
+* link:/wiki/ZFS_on_Linux[ZFS on Linux]
+
+endif::wiki[]
+
+
+ifndef::wiki[]
 
 include::getting-help.adoc[]
 
@@ -76,6 +97,8 @@ include::system-software-updates.adoc[]
 include::pve-network.adoc[]
 
 include::local-zfs.adoc[]
+
+endif::wiki[]
 
 
 ////

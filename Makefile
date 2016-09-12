@@ -98,12 +98,16 @@ GEN_SCRIPTS=					\
 	gen-pve-firewall-rules-opts.pl		\
 	gen-pve-firewall-vm-opts.pl
 
+SYSADMIN_PARTS=					\
+	getting-help				\
+	pve-network				\
+	pve-package-repos			\
+	pve-installation			\
+	system-software-updates			\
+	local-zfs
+
 SYSADMIN_SOURCES=				\
-	getting-help.adoc			\
-	pve-package-repos.adoc			\
-	pve-installation.adoc			\
-	system-software-updates.adoc		\
-	local-zfs.adoc				\
+	$(addsuffix .adoc, ${SYSADMIN_PARTS})	\
 	sysadmin.adoc
 
 API_VIEWER_SOURCES=				\
@@ -145,9 +149,10 @@ PVE_ADMIN_GUIDE_SOURCES=			\
 	GFDL.adoc				\
 	attributes.txt
 
-WIKI_IMPORTS=								\
-	$(addsuffix -plain.html, $(addprefix chapter-, ${CHAPTER_LIST}))\
-	$(addsuffix .5-plain.html, ${CONFIG_LIST})			\
+WIKI_IMPORTS=									\
+	$(addsuffix -plain.html, $(addprefix sysadmin-, ${SYSADMIN_PARTS})) 	\
+	$(addsuffix -plain.html, $(addprefix chapter-, ${CHAPTER_LIST}))	\
+	$(addsuffix .5-plain.html, ${CONFIG_LIST})				\
 	$(addsuffix -plain.html, $(addprefix pve-storage-, ${STORAGE_TYPES}))
 
 INDEX_INCLUDES=								\
@@ -170,6 +175,9 @@ all: index.html
 
 %-nwdiag.svg: %.nwdiag
 	nwdiag -T svg $*.nwdiag -o $@;
+
+sysadmin-%-plain.html: %.adoc
+	asciidoc -s -a wiki ${ADOC_STDARG} -o $@ $*.adoc
 
 chapter-sysadmin.html chapter-sysadmin-plain.html: ${SYSADMIN_SOURCES}
 
