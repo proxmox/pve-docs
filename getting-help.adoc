@@ -1,19 +1,50 @@
 Getting Help
 ------------
+include::attributes.txt[]
 
-There are basically two different support channels. {pve} itself is
-fully open source, so we always encourage our users to discuss and
-share their knowledge using the http://forum.proxmox.com/[Community
-Support Forum]. The forum is fully moderated by the Proxmox support
-team. Up to now, the forum has about 25.000 members, and more than
-120.000 messages. Needless to say that such a large forum is a great
-place to get information.
 
-The second channel is the commercial support provided by
-{proxmoxGmbh}. {pve} server subscriptions can be ordered online, see
+Proxmox VE Wiki
+~~~~~~~~~~~~~~~
+
+The primary source of information is the {pve}
+http://pve.proxmox.com[wiki]. It combines the reference documentaion
+with user contributed content.
+
+
+Community Support Forum
+~~~~~~~~~~~~~~~~~~~~~~~
+
+{pve} itself is fully open source, so we always encourage our users to
+discuss and share their knowledge using the
+http://forum.proxmox.com/[Community Support Forum]. The forum is fully
+moderated by the Proxmox support team. Up to now, the forum has about
+25.000 members, and more than 120.000 messages. Needless to say that
+such a large forum is a great place to get information.
+
+Mailing Lists
+~~~~~~~~~~~~~
+
+This is a fast way to communicate via email with the Proxmox VE
+community
+
+* Mailing list for users:
+  http://pve.proxmox.com/cgi-bin/mailman/listinfo/pve-user[PVE User
+  List]
+
+The primary communication channel for developers is:
+
+* Mailing list for developer:
+  http://pve.proxmox.com/cgi-bin/mailman/listinfo/pve-devel[PVE
+  development discussion]
+
+
+Commercial Support
+~~~~~~~~~~~~~~~~~~
+
+{proxmoxGmbh} also offers a commercial support channel. {pve} server
+subscriptions can be ordered online, see
 http://shop.maurer-it.com[{pve} Shop]. For all details see
 http://www.proxmox.com/proxmox-ve/pricing[{pve} Subscription Service
-Plans].
+Plans]. Please contact the mailto:office@proxmox.com[Proxmox sales
+team] for commercial support requests or volume discounts.
 
-Please contact the mailto:office@proxmox.com[Proxmox sales team] for
-commercial support requests or volume discounts.
