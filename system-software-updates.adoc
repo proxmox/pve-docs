@@ -1,5 +1,6 @@
 System Software Updates
 -----------------------
+include::attributes.txt[]
 
 We provide regular package updates on all repositories. You can
 install those update using the GUI, or you can directly run the CLI

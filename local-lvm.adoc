@@ -1,5 +1,6 @@
 Logical Volume Manager (LVM)
 ----------------------------
+include::attributes.txt[]
 
 Most people install {pve} directly on a local disk. The {pve}
 installation CD offers several options for local disk management. The

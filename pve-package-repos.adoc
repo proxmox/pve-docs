@@ -1,5 +1,6 @@
 Package Repositories
 --------------------
+include::attributes.txt[]
 
 All Debian based systems use
 http://en.wikipedia.org/wiki/Advanced_Packaging_Tool[APT] as package

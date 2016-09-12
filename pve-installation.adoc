@@ -1,5 +1,6 @@
-Installing {pve}
-----------------
+Installing Proxmox VE
+---------------------
+include::attributes.txt[]
 
 {pve} ships as a set of Debian packages, so you can simply install it
 on top of a normal Debian installation. After configuring the
