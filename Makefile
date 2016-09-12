@@ -104,6 +104,7 @@ SYSADMIN_PARTS=					\
 	pve-package-repos			\
 	pve-installation			\
 	system-software-updates			\
+	local-lvm				\
 	local-zfs
 
 SYSADMIN_SOURCES=				\

@@ -3,9 +3,38 @@ Logical Volume Manager (LVM)
 include::attributes.txt[]
 
 Most people install {pve} directly on a local disk. The {pve}
-installation CD offers several options for local disk management. The
-current default setup uses LVM and 'ext4' for the root
-partition. LVM-thin is used for VM images, because this has efficient
-support for snapshots and clones.
+installation CD offers several options for local disk management, and
+the current default setup uses LVM. The installer let you select a
+single disk for such setup, and uses that disk as physical volume for
+the **V**olume **G**roup (VG) 'pve'. The following output is from a
+test installation using a small 8GB disk:
 
+----
+# pvs
+  PV         VG   Fmt  Attr PSize PFree  
+  /dev/sda3  pve  lvm2 a--  7.87g 876.00m
+
+# vgs
+  VG   #PV #LV #SN Attr   VSize VFree  
+  pve    1   3   0 wz--n- 7.87g 876.00m
+----
+
+The installer allocates three **L**ogical **V**olumes (LV) inside this
+VG:
+
+----
+# lvs
+  LV   VG   Attr       LSize   Pool Origin Data%  Meta%
+  data pve  twi-a-tz--   4.38g             0.00   0.63
+  root pve  -wi-ao----   1.75g
+  swap pve  -wi-ao---- 896.00m     
+----
+
+root:: Formatted as 'ext4', and contains the operation system.
+
+swap:: Swap partition
+
+data:: This volume uses LVM-thin, and is used to store VM
+images. LVM-thin is preferable for this task, because it offers
+efficient support for snapshots and clones.
 

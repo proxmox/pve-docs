@@ -80,6 +80,10 @@ my $docs = {
 	title => "ZFS on Linux",
 	category => $cat_refdoc,
     },
+    'sysadmin-local-lvm-plain.html' => {
+	title => "Logical Volume Manager (LVM)",
+	category => $cat_refdoc,
+    },
     'sysadmin-pve-installation-plain.html' => {
 	title => "Installation",
 	category => $cat_refdoc,

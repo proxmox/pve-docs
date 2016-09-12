@@ -79,6 +79,8 @@ See Also
 
 * link:/wiki/System_Software_Updates[System Software Updates]
 
+* link:/wiki/Logical_Volume_Manager_(LVM)[Logical Volume Manager (LVM)]
+
 * link:/wiki/ZFS_on_Linux[ZFS on Linux]
 
 endif::wiki[]
@@ -95,6 +97,8 @@ include::pve-installation.adoc[]
 include::system-software-updates.adoc[]
 
 include::pve-network.adoc[]
+
+include::local-lvm.adoc[]
 
 include::local-zfs.adoc[]
 
