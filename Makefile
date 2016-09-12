@@ -178,7 +178,7 @@ all: index.html
 	nwdiag -T svg $*.nwdiag -o $@;
 
 sysadmin-%-plain.html: %.adoc
-	asciidoc -s -a wiki ${ADOC_STDARG} -o $@ $*.adoc
+	asciidoc -s -a wiki -a 'leveloffset=-1' ${ADOC_STDARG} -o $@ $*.adoc
 
 chapter-sysadmin.html chapter-sysadmin-plain.html: ${SYSADMIN_SOURCES}
 
