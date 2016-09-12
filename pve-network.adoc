@@ -1,0 +1,155 @@
+Network Configuration
+---------------------
+include::attributes.txt[]
+
+{pve} uses a bridged networking model. Each host can have up to 4094
+bridges. Bridges are like physical network switches implemented in
+software. All VMs can share a single bridge, as if
+virtual network cables from each guest were all plugged into the same
+switch. But you can also create multiple bridges to separate network
+domains.
+
+For connecting VMs to the outside world, bridges are attached to
+physical network cards. For further flexibility, you can configure
+VLANs (IEEE 802.1q) and network bonding, also known as "link
+aggregation". That way it is possible to build complex and flexible
+virtual networks.
+
+Debian traditionally uses the 'ifup' and 'ifdown' commands to
+configure the network. The file '/etc/network/interfaces' contains the
+whole network setup. Please refer to to manual page ('man interfaces')
+for a complete format description.
+
+NOTE: {pve} does not write changes directly to
+'/etc/network/interfaces'. Instead, we write into a temporary file
+called '/etc/network/interfaces.new', and commit those changes when
+you reboot the node.
+
+It is worth mentioning that you can directly edit the configuration
+file. All {pve} tools tries hard to keep such direct user
+modifications. Using the GUI is still preferable, because it
+protect you from errors.
+
+Naming Conventions
+~~~~~~~~~~~~~~~~~~
+
+We currently use the following naming conventions for device names:
+
+* Ethernet devices: eth[N], where 0 ≤ N (`eth0`, `eth1`, ...)
+
+* Bridge names: vmbr[N], where 0 ≤ N ≤ 4094 (`vmbr0` - `vmbr4094`)
+
+* Bonds: bond[N], where 0 ≤ N (`bond0`, `bond1`, ...)
+
+* VLANs: Simply add the VLAN number to the device name,
+  separated by a period (`eth0.50`, `bond1.30`)
+
+This makes it easier to debug networks problems, because the device
+names implies the device type.
+
+Default Configuration using a Bridge
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The installation program creates a single bridge named `vmbr0`, which
+is connected to the first ethernet card `eth0`. The corresponding
+configuration in '/etc/network/interfaces' looks like this:
+
+----
+auto lo
+iface lo inet loopback
+
+iface eth0 inet manual
+
+auto vmbr0
+iface vmbr0 inet static
+        address 192.168.10.2
+        netmask 255.255.255.0
+        gateway 192.168.10.1
+        bridge_ports eth0
+        bridge_stp off
+        bridge_fd 0
+----
+
+Virtual machines behave as if they were directly connected to the
+physical network. The network, in turn, sees each virtual machine as
+having its own MAC, even though there is only one network cable
+connecting all of these VMs to the network.
+
+
+Routed Configuration
+~~~~~~~~~~~~~~~~~~~~
+
+Most hosting providers do not support the above setup. For security
+reasons, they disable networking as soon as they detect multiple MAC
+addresses on a single interface.
+
+TIP: Some providers allows you to register additional MACs on there
+management interface. This avoids the problem, but is clumsy to
+configure because you need to register a MAC for each of your VMs.
+
+You can avoid the problem by "routing" all traffic via a single
+interface. This makes sure that all network packets use the same MAC
+address.
+
+A common scenario is that you have a public IP (assume 192.168.10.2
+for this example), and an additional IP block for your VMs
+(10.10.10.1/255.255.255.0). We recommend the following setup for such
+situations:
+
+----
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet static
+        address  192.168.10.2
+        netmask  255.255.255.0
+        gateway  192.168.10.1
+        post-up echo 1 > /proc/sys/net/ipv4/conf/eth0/proxy_arp
+
+
+auto vmbr0
+iface vmbr0 inet static
+        address  10.10.10.1
+        netmask  255.255.255.0
+        bridge_ports none
+        bridge_stp off
+        bridge_fd 0
+----
+
+
+Masquerading (NAT) with iptables
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In some cases you may want to use private IPs behind your Proxmox
+host's true IP, and masquerade the traffic using NAT:
+
+----
+auto lo
+iface lo inet loopback
+
+auto eth0
+#real IP adress 
+iface eth0 inet static
+        address  192.168.10.2
+        netmask  255.255.255.0
+        gateway  192.168.10.1
+
+auto vmbr0
+#private sub network
+iface vmbr0 inet static
+        address  10.10.10.1
+        netmask  255.255.255.0
+        bridge_ports none
+        bridge_stp off
+        bridge_fd 0
+
+        post-up echo 1 > /proc/sys/net/ipv4/ip_forward
+        post-up   iptables -t nat -A POSTROUTING -s '10.10.10.0/24' -o eth0 -j MASQUERADE
+        post-down iptables -t nat -D POSTROUTING -s '10.10.10.0/24' -o eth0 -j MASQUERADE
+----
+
+////
+TODO: explain IPv6 support?
+TODO: explan OVS
+////
