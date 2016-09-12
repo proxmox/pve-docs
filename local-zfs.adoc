@@ -276,9 +276,10 @@ other settings are optional.
 Limit ZFS memory usage
 ~~~~~~~~~~~~~~~~~~~~~~
 
-It is good to use max 50 percent of the system memory for ZFS arc to
-prevent performance shortage of the host. Use your preferred editor to
-change the configuration in /etc/modprobe.d/zfs.conf and insert:
+It is good to use maximal 50 percent (which is the default) of the
+system memory for ZFS ARC to prevent performance shortage of the
+host. Use your preferred editor to change the configuration in
+/etc/modprobe.d/zfs.conf and insert:
 
  options zfs zfs_arc_max=8589934592
 
