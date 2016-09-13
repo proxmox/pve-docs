@@ -6,10 +6,10 @@ include::attributes.txt[]
 [bibliography]
 .Books about {pve}
 
-- [[[Ahmed14]]] Wasim Ahmed.
-  'Mastering Proxmox'.
-  Packt Publishing, 2014.
-  ISBN 978-1783980826
+- [[[Ahmed16]]] Wasim Ahmed.
+  'Mastering Proxmox - Second Edition'.
+  Packt Publishing, 2016.
+  ISBN 978-1785888243
 
 - [[[Ahmed15]]] Wasim Ahmed.
   'Proxmox Cookbook'.
