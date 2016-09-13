@@ -38,3 +38,6 @@ data:: This volume uses LVM-thin, and is used to store VM
 images. LVM-thin is preferable for this task, because it offers
 efficient support for snapshots and clones.
 
+NOTE: We highly recommend to use a hardware RAID controller (with
+BBU) for such setups. This increases performance, provides redundancy,
+and make disk replacements easier (hot-pluggable).
