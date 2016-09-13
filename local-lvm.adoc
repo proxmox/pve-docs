@@ -38,6 +38,20 @@ data:: This volume uses LVM-thin, and is used to store VM
 images. LVM-thin is preferable for this task, because it offers
 efficient support for snapshots and clones.
 
-NOTE: We highly recommend to use a hardware RAID controller (with
-BBU) for such setups. This increases performance, provides redundancy,
-and make disk replacements easier (hot-pluggable).
+Hardware
+~~~~~~~~
+
+We highly recommend to use a hardware RAID controller (with BBU) for
+such setups. This increases performance, provides redundancy, and make
+disk replacements easier (hot-pluggable).
+
+LVM itself does not need any special hardware, and memory requirements
+are very low.
+
+
+Bootloader
+~~~~~~~~~~
+
+We install two boot loaders by default. The first partition contains
+the standard GRUB boot loader. The second partition is an **E**FI **S**ystem
+**P**artition (ESP), which makes it possible to boot on EFI systems.
