@@ -26,6 +26,10 @@ include::attributes.txt[]
   Packt Publishing, 2016.
   ISBN 978-1783981786
 
+- [[[Surber16]]]] Lee R. Surber.
+  'Virtualization Complete: Business Basic Edition'.
+  Linux Solutions (LRS-TEK), 2016.
+  ASIN B01BBVQZT6
 
 [bibliography]
 .Books about related Technology
