@@ -122,18 +122,19 @@ on this controller.
 design, allowing higher throughput and a greater number of devices to be
 connected. You can connect up to 6 devices on this controller.
 
-* the *SCSI* controller, designed in 1985, is commonly found on server
-grade hardware, and can connect up to 14 storage devices. {pve} emulates by
-default a LSI 53C895A controller.
-
-* The *Virtio* controller is a generic paravirtualized controller, and is the
-recommended setting if you aim for performance. To use this controller, the OS
-need to have special drivers which may be included in your installation ISO or
-not. Linux distributions have support for the Virtio controller since 2010, and
+* the *SCSI* controller, designed in 1985, is commonly found on server grade
+hardware, and can connect up to 14 storage devices. {pve} emulates by default a
+LSI 53C895A controller. +
+A SCSI controller of type _Virtio_ is the recommended setting if you aim for
+performance and is automatically selected for newly created Linux VMs since
+{pve} 4.3. Linux distributions have support for this controller since 2012, and
 FreeBSD since 2014. For Windows OSes, you need to provide an extra iso
-containing the Virtio drivers during the installation.
-// see: https://pve.proxmox.com/wiki/Paravirtualized_Block_Drivers_for_Windows#During_windows_installation.
-You can connect up to 16 devices on this controller.
+containing the drivers during the installation.
+// https://pve.proxmox.com/wiki/Paravirtualized_Block_Drivers_for_Windows#During_windows_installation.
+
+* The *Virtio* controller, also called virtio-blk to distinguish from
+the Virtio SCSI controller, is an older type of paravirtualized controller
+which has been superseded in features by the Virtio SCSI Controller.
 
 On each controller you attach a number of emulated hard disks, which are backed
 by a file or a block device residing in the configured storage. The choice of
