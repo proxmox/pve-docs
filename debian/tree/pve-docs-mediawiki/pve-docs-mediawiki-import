@@ -199,3 +199,7 @@ foreach my $filename (keys %$docs) {
     my $d = $docs->{$filename};
     update_page($d->{title}, $filename, $d->{category});
 }
+
+# also update 'Get support' page, because this is used since a long
+# time and is referenced from outside
+update_page("Get support", 'sysadmin-getting-help-plain.html', 'HOWTO');
