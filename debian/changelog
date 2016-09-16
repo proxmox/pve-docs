@@ -1,3 +1,12 @@
+pve-docs (4.2-11) unstable; urgency=medium
+
+  * gettinh-help.adoc: remove detailed numbers, because it is difficult to keep
+    them up to data
+
+  * also update 'Get support' wiki page
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 16 Sep 2016 10:58:11 +0200
+
 pve-docs (4.2-10) unstable; urgency=medium
 
   * Document that virtio-scsi is the recommended controller for PVE >= 4.3
