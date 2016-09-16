@@ -1,3 +1,31 @@
+pve-docs (4.2-10) unstable; urgency=medium
+
+  * Document that virtio-scsi is the recommended controller for PVE >= 4.3
+
+  * add section about bios and uefi
+
+  * add hint about HW RAID
+
+  * refer to Mastering Proxmox - Second Edition
+
+  * add new book from Lee R. Surber
+
+  * Fix PVE API URL
+
+  * include/improve new LVM page (local-lvm.adoc)
+
+  * use/install separate wiki pages for sysadmin.adoc includes
+
+  * pve-network.adoc: move network docu into separate file
+
+  * getting-help.adoc: add/merge infos from current 'Get Support' wiki page
+
+  * improve lxc/pct faqs
+
+  * add ZFS management docs (local-zfs.adoc)
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 16 Sep 2016 08:30:16 +0200
+
 pve-docs (4.2-9) unstable; urgency=medium
 
   * merge the good parts of the Backup wiki articke
