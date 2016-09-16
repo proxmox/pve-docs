@@ -17,9 +17,9 @@ Community Support Forum
 {pve} itself is fully open source, so we always encourage our users to
 discuss and share their knowledge using the
 http://forum.proxmox.com/[Community Support Forum]. The forum is fully
-moderated by the Proxmox support team. Up to now, the forum has about
-25.000 members, and more than 120.000 messages. Needless to say that
-such a large forum is a great place to get information.
+moderated by the Proxmox support team, and has a quite large user base
+around the whole world. Needless to say that such a large forum is a
+great place to get information.
 
 Mailing Lists
 ~~~~~~~~~~~~~
