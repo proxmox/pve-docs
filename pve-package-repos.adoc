@@ -30,24 +30,28 @@ In addition, {pve} provides three different package repositories.
 
 This is the default, stable and recommended repository, available for
 all {pve} subscription users. It contains the most stable packages,
-and is suitable for production use. You need a valid subscription key
-to access this repository. The `pve-enterprise` repository is enabled
-by default:
+and is suitable for production use. The `pve-enterprise` repository is
+enabled by default:
 
 .File '/etc/apt/sources.list.d/pve-enterprise.list'
 ----
 deb https://enterprise.proxmox.com/debian jessie pve-enterprise
 ----
 
+As soon as updates are available, the `root@pam` user is notified via
+email about the available new packages. On the GUI, the change-log of
+each package can be viewed (if available), showing all details of the
+update. So you will never miss important security fixes.
+
+Please note that and you need a valid subscription key to access this
+repository. We offer different support levels, and you can find further
+details at http://www.proxmox.com/en/proxmox-ve/pricing.
+
 NOTE: You can disable this repository by commenting out the above line
 using a '#' (at the start of the line). This prevents error messages
 if you do not have a subscription key. Please configure the
 `pve-no-subscription` repository in that case.
 
-As soon as updates are available, the `root@pam` user is notified via
-email about the available new packages. On the GUI, the change-log of
-each package can be viewed (if available), showing all details of the
-update. So you will never miss important security fixes.
 
 {pve} No-Subscription Repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -88,3 +92,31 @@ deb http://download.proxmox.com/debian jessie pvetest
 WARNING: the `pvetest` repository should (as the name implies) only be used
 for testing new features or bug fixes.
 
+
+ifdef::wiki[]
+
+// include note about older releases, but only for wiki
+
+{pve} 3.x
+~~~~~~~~~
+
+{pve} 3.x is based on Debian 7.x ('wheezy'). Please note that this
+release is out of date, and you should update your
+installation. Nevertheless, we still provide access to those
+repositories at our download servers.
+
+[width="100%",cols="<d,3m",options="header"]
+|===========================================================
+|Repository                 | sources.list entry
+|{pve} 3.x Enterprise       |
+deb https://enterprise.proxmox.com/debian wheezy pve-enterprise
+|{pve} 3.x No-Subscription  |
+deb http://download.proxmox.com/debian wheezy pve-no-subscription
+|{pve} 3.x Test             |
+deb http://download.proxmox.com/debian wheezy pvetest
+|===========================================================
+
+NOTE: Apt 'sources.list' configuration files are basically the same as
+in newer 4.x versions - just replace 'jessie' with 'wheezy'.
+
+endif::wiki[]
