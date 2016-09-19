@@ -75,7 +75,7 @@ deb http://download.proxmox.com/debian jessie pve-no-subscription
 deb http://security.debian.org jessie/updates main contrib
 ----
 
- 
+
 {pve} Test Repository
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -97,8 +97,8 @@ ifdef::wiki[]
 
 // include note about older releases, but only for wiki
 
-{pve} 3.x
-~~~~~~~~~
+{pve} 3.x Repositories
+~~~~~~~~~~~~~~~~~~~~~~
 
 {pve} 3.x is based on Debian 7.x ('wheezy'). Please note that this
 release is out of date, and you should update your
@@ -118,5 +118,50 @@ deb http://download.proxmox.com/debian wheezy pvetest
 
 NOTE: Apt 'sources.list' configuration files are basically the same as
 in newer 4.x versions - just replace 'jessie' with 'wheezy'.
+
+Outdated: 'stable' Repository 'pve'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This repository is a leftover to easy the update to 3.1. It will not
+get any updates after the release of 3.1. Therefore you need to remove
+this repository after you upgraded to 3.1.
+
+.File '/etc/apt/sources.list'
+----
+deb http://ftp.debian.org/debian wheezy main contrib
+
+# PVE packages provided by proxmox.com - NO UPDATES after the initial release of 3.1
+# deb http://download.proxmox.com/debian wheezy pve
+
+# security updates
+deb http://security.debian.org/ wheezy/updates main contrib
+----
+
+
+Outdated: {pve} 2.x Repositories
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+{pve} 2.x is based on Debian 6.0 ('squeeze') and outdated. Please
+upgrade to latest version as soon as possible. In order to use the
+stable 'pve' 2.x repository, check your sources.list:
+
+.File '/etc/apt/sources.list'
+----
+deb http://ftp.debian.org/debian squeeze main contrib
+
+# PVE packages provided by proxmox.com
+deb http://download.proxmox.com/debian squeeze pve
+
+# security updates
+deb http://security.debian.org/ squeeze/updates main contrib
+----
+
+
+Outdated: {pve} VE 1.x Repositories
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+{pve} 1.x is based on Debian 5.0 (Lenny) and very outdated. Please
+upgrade to latest version as soon as possible.
+
 
 endif::wiki[]
