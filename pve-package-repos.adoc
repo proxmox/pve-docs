@@ -93,6 +93,34 @@ WARNING: the `pvetest` repository should (as the name implies) only be used
 for testing new features or bug fixes.
 
 
+SecureApt
+~~~~~~~~~
+
+We use GnuPG to sign the 'Release' files inside those repositories,
+and APT uses that signatures to verify that all packages are from a
+trusted source.
+
+The key used for verification is already installed if you install from
+our installation CD. If you install by other means, you can manually
+download the key with:
+
+ # wget http://download.proxmox.com/debian/key.asc
+
+Please verify the fingerprint afterwards:
+
+----
+# gpg --with-fingerprint key.asc
+pub  1024D/9887F95A 2008-10-28 Proxmox Release Key <proxmox-release@proxmox.com>
+      Key fingerprint = BE25 7BAA 5D40 6D01 157D  323E C23A C7F4 9887 F95A
+sub  2048g/A87A1B00 2008-10-28
+----
+
+If this shows the exact same fingerprint, you can add the key to the
+list of trusted APT keys:
+
+ # apt-key add key.asc
+
+
 ifdef::wiki[]
 
 // include note about older releases, but only for wiki
