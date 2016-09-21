@@ -22,11 +22,11 @@ include::pvesm.adoc[]
 
 include::qm.adoc[]
 
+include::pct.adoc[]
+
 include::pve-firewall.adoc[]
 
 include::pveum.adoc[]
-
-include::pct.adoc[]
 
 include::ha-manager.adoc[]
 
