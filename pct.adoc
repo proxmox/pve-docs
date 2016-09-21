@@ -458,8 +458,63 @@ include::pct-network-opts.adoc[]
 Backup and Restore
 ------------------
 
+Container Backup
+~~~~~~~~~~~~~~~~
+
 It is possible to use the 'vzdump' tool for container backup. Please
 refer to the 'vzdump' manual page for details.
+
+Restoring Container Backups
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Restoring container backups made with 'vzdump' is possible using the
+'pct restore' command. By default, 'pct restore' will attempt to restore as much
+of the backed up container configuration as possible. It is possible to override
+the backed up configuration by manually setting container options on the command
+line (see the 'pct' manual page for details).
+
+NOTE: 'pvesm extractconfig' can be used to view the backed up configuration
+contained in a vzdump archive.
+
+There are two basic restore modes, only differing by their handling of mount
+points:
+
+."Simple" restore mode
+
+If neither the `rootfs` parameter nor any of the optional `mpX` parameters
+are explicitly set, the mount point configuration from the backed up
+configuration file is restored using the following steps:
+
+. Extract mount points and their options from backup
+. Create volumes for storage backed mount points (on storage provided with the
+`storage` parameter, or default local storage if unset)
+. Extract files from backup archive
+. Add bind and device mount points to restored configuration (limited to root user)
+
+NOTE: Since bind and device mount points are never backed up, no files are
+restored in the last step, but only the configuration options. The assumption
+is that such mount points are either backed up with another mechanism (e.g.,
+NFS space that is bind mounted into many containers), or not intended to be
+backed up at all.
+
+This simple mode is also used by the container restore operations in the web
+interface.
+
+."Advanced" restore mode
+
+By setting the `rootfs` parameter (and optionally, any combination of `mpX`
+parameters), the 'pct restore' command is automatically switched into an
+advanced mode. This advanced mode completely ignores the `rootfs` and `mpX`
+configuration options contained in the backup archive, and instead only
+uses the options explicitly provided as parameters.
+
+This mode allows flexible configuration of mount point settings at restore time,
+for example:
+
+* Set target storages, volume sizes and other options for each mount point
+individually
+* Redistribute backed up files according to new mount point scheme
+* Restore to device and/or bind mount points (limited to root user)
 
 
 Managing Containers with 'pct'
