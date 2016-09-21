@@ -455,6 +455,13 @@ they can contain the following setting:
 include::pct-network-opts.adoc[]
 
 
+Backup and Restore
+------------------
+
+It is possible to use the 'vzdump' tool for container backup. Please
+refer to the 'vzdump' manual page for details.
+
+
 Managing Containers with 'pct'
 ------------------------------
 
@@ -495,13 +502,6 @@ set the address and gateway, while it's running
 Reduce the memory of the container to 512MB
 
  pct set 100 -memory 512
-
-
-Backup and Restore
-------------------
-
-It is possible to use the 'vzdump' tool for container backup. Please
-refer to the 'vzdump' manual page for details.
 
 
 Files
