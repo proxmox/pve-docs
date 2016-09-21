@@ -354,9 +354,16 @@ also provide an easy way to share data between different containers.
 Mount Points
 ~~~~~~~~~~~~
 
-Beside the root directory the container can also have additional mount points.
+The root mount point is configured with the `rootfs` property, and you can
+configure up to 10 additional mount points. The corresponding options
+are called `mp0` to `mp9`, and they can contain the following setting:
+
+include::pct-mountpoint-opts.adoc[]
+
 Currently there are basically three types of mount points: storage backed
 mount points, bind mounts and device mounts.
+
+.Storage backed mount points
 
 Storage backed mount points are managed by the {pve} storage subsystem and come
 in three different flavors:
@@ -368,21 +375,12 @@ in three different flavors:
 - Directories: passing `size=0` triggers a special case where instead of a raw
   image a directory is created.
 
+.Bind mount points
+
 Bind mounts are considered to not be managed by the storage subsystem, so you
 cannot make snapshots or deal with quotas from inside the container, and with
 unprivileged containers you might run into permission problems caused by the
 user mapping, and cannot use ACLs from inside an unprivileged container.
-
-Similarly device mounts are not managed by the storage, but for these the
-`quota` and `acl` options will be honored.
-
-WARNING: Because of existing issues in the Linux kernel's freezer
-subsystem the usage of FUSE mounts inside a container is strongly
-advised against, as containers need to be frozen for suspend or
-snapshot mode backups. If FUSE mounts cannot be replaced by other
-mounting mechanisms or storage technologies, it is possible to
-establish the FUSE mount on the Proxmox host and use a bind
-mount point to make it accessible inside the container.
 
 WARNING: For security reasons, bind mounts should only be established
 using source directories especially reserved for this purpose, e.g., a
@@ -390,16 +388,27 @@ directory hierarchy under `/mnt/bindmounts`. Never bind mount system
 directories like `/`, `/var` or `/etc` into a container - this poses a
 great security risk. The bind mount source path must not contain any symlinks.
 
-The root mount point is configured with the 'rootfs' property, and you can
-configure up to 10 additional mount points. The corresponding options
-are called 'mp0' to 'mp9', and they can contain the following setting:
+.Device mount points
 
-include::pct-mountpoint-opts.adoc[]
+Similar to bind mounts, device mounts are not managed by the storage, but for
+these the `quota` and `acl` options will be honored.
 
-.Typical Container 'rootfs' configuration
+.FUSE mounts
+
+WARNING: Because of existing issues in the Linux kernel's freezer
+subsystem the usage of FUSE mounts inside a container is strongly
+advised against, as containers need to be frozen for suspend or
+snapshot mode backups.
+
+If FUSE mounts cannot be replaced by other mounting mechanisms or storage
+technologies, it is possible to establish the FUSE mount on the Proxmox host
+and use a bind mount point to make it accessible inside the container.
+
+.Typical Container `rootfs` configuration
 ----
 rootfs: thin1:base-100-disk-1,size=8G
 ----
+
 
 Using quotas inside containers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
