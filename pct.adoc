@@ -363,7 +363,14 @@ include::pct-mountpoint-opts.adoc[]
 Currently there are basically three types of mount points: storage backed
 mount points, bind mounts and device mounts.
 
-.Storage backed mount points
+.Typical Container `rootfs` configuration
+----
+rootfs: thin1:base-100-disk-1,size=8G
+----
+
+
+Storage backed mount points
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Storage backed mount points are managed by the {pve} storage subsystem and come
 in three different flavors:
@@ -375,7 +382,9 @@ in three different flavors:
 - Directories: passing `size=0` triggers a special case where instead of a raw
   image a directory is created.
 
-.Bind mount points
+
+Bind mount points
+^^^^^^^^^^^^^^^^^
 
 Bind mounts are considered to not be managed by the storage subsystem, so you
 cannot make snapshots or deal with quotas from inside the container, and with
@@ -388,12 +397,16 @@ directory hierarchy under `/mnt/bindmounts`. Never bind mount system
 directories like `/`, `/var` or `/etc` into a container - this poses a
 great security risk. The bind mount source path must not contain any symlinks.
 
-.Device mount points
+
+Device mount points
+^^^^^^^^^^^^^^^^^^^
 
 Similar to bind mounts, device mounts are not managed by the storage, but for
 these the `quota` and `acl` options will be honored.
 
-.FUSE mounts
+
+FUSE mounts
+~~~~~~~~~~~
 
 WARNING: Because of existing issues in the Linux kernel's freezer
 subsystem the usage of FUSE mounts inside a container is strongly
@@ -403,11 +416,6 @@ snapshot mode backups.
 If FUSE mounts cannot be replaced by other mounting mechanisms or storage
 technologies, it is possible to establish the FUSE mount on the Proxmox host
 and use a bind mount point to make it accessible inside the container.
-
-.Typical Container `rootfs` configuration
-----
-rootfs: thin1:base-100-disk-1,size=8G
-----
 
 
 Using quotas inside containers
@@ -479,7 +487,9 @@ contained in a vzdump archive.
 There are two basic restore modes, only differing by their handling of mount
 points:
 
-."Simple" restore mode
+
+"Simple" restore mode
+^^^^^^^^^^^^^^^^^^^^^
 
 If neither the `rootfs` parameter nor any of the optional `mpX` parameters
 are explicitly set, the mount point configuration from the backed up
@@ -500,7 +510,9 @@ backed up at all.
 This simple mode is also used by the container restore operations in the web
 interface.
 
-."Advanced" restore mode
+
+"Advanced" restore mode
+^^^^^^^^^^^^^^^^^^^^^^^
 
 By setting the `rootfs` parameter (and optionally, any combination of `mpX`
 parameters), the 'pct restore' command is automatically switched into an
