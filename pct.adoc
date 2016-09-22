@@ -418,8 +418,15 @@ achieve the same result.
 Device mount points
 ^^^^^^^^^^^^^^^^^^^
 
-Similar to bind mounts, device mounts are not managed by the storage, but for
-these the `quota` and `acl` options will be honored.
+Device mount points allow to mount block devices of the host directly into the
+container. Similar to bind mounts, device mounts are not managed by {PVE}'s
+storage subsystem, but the `quota` and `acl` options will be honored.
+
+NOTE: Device mount points should only be used under special circumstances. In
+most cases a storage backed mount point offers the same performance and a lot
+more features.
+
+NOTE: The contents of device mount points are not backed up when using 'vzdump'.
 
 
 FUSE mounts
