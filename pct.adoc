@@ -386,16 +386,33 @@ in three different flavors:
 Bind mount points
 ^^^^^^^^^^^^^^^^^
 
+Bind mounts allow you to access arbitrary directories from your Proxmox VE host
+inside a container. Some potential use cases are:
+
+- Accessing your home directory in the guest
+- Accessing an USB device directory in the guest
+- Accessing an NFS mount from in the host in the guest
+
 Bind mounts are considered to not be managed by the storage subsystem, so you
-cannot make snapshots or deal with quotas from inside the container, and with
+cannot make snapshots or deal with quotas from inside the container. With
 unprivileged containers you might run into permission problems caused by the
-user mapping, and cannot use ACLs from inside an unprivileged container.
+user mapping and cannot use ACLs.
+
+NOTE: The contents of bind mount points are not backed up when using 'vzdump'.
 
 WARNING: For security reasons, bind mounts should only be established
 using source directories especially reserved for this purpose, e.g., a
 directory hierarchy under `/mnt/bindmounts`. Never bind mount system
 directories like `/`, `/var` or `/etc` into a container - this poses a
-great security risk. The bind mount source path must not contain any symlinks.
+great security risk.
+
+NOTE: The bind mount source path must not contain any symlinks.
+
+For example, to make the directory `/mnt/bindmounts/shared` accessible in the
+container with ID `100` under the path `/shared`, use a configuration line like
+'mp0: /mnt/bindmounts/shared,mp=/shared' in '/etc/pve/lxc/100.conf'.
+Alternatively, use 'pct set 100 -mp0 /mnt/bindmounts/shared,mp=/shared' to
+achieve the same result.
 
 
 Device mount points
