@@ -61,6 +61,171 @@ definition of the {pve} API. I added those generated files
 build the documentation without having a fully installed {pve}
 development environment.
 
+Style Guide
+-----------
+
+'asciidoc' uses a fairly simple markup syntax for formatting content.
+The following basic principles should be followed throughout our
+documentation.
+
+
+Sections
+~~~~~~~~
+
+Sections are formatted using `two-line titles', by adding a line of
+the appropriate characters and of the same length as the section title
+below the title text:
+
+ Level 0 (top level):     ======================
+ Level 1:                 ----------------------
+ Level 2:                 ~~~~~~~~~~~~~~~~~~~~~~
+ Level 3:                 ^^^^^^^^^^^^^^^^^^^^^^
+ Level 4 (bottom level):  ++++++++++++++++++++++
+
+Section titles should always be preceeded by two empty lines. Each word
+in a title should be capitalized except for ``articles, coordinating
+conjunctions, prepositions, and the word to in infinitives unless they
+appear as the first or last word of a title'' (see
+http://web.mit.edu/course/21/21.guide/capitals.htm[Mayfield Electronic Handbook of Technical & Scientific Writing]).
+
+
+Lists
+~~~~~
+
+Numbered Lists
+^^^^^^^^^^^^^^
+
+Numbered lists should be created using the implicit numbering format:
+
+-----
+. First level
+.. Second level
+. First level again
+-----
+
+. First level
+.. Second level
+. First level again
+
+
+Bulleted Lists
+^^^^^^^^^^^^^^
+
+Bulleted lists should be created using the '*' symbol:
+
+-----
+* First level
+** Second level
+* First level again
+-----
+
+* First level
+** Second level
+* First level again
+
+
+Labeled Lists
+^^^^^^^^^^^^^
+
+Labeled lists should be used to make lists of key-value style text
+more readable, such as command line parameters or config options:
+
+.Regular labeled lists
+-----
+First Label Text::
+
+Element text paragraph
+
+Second Label Text::
+
+Another element text paragraph.
+-----
+
+First Label Text::
+
+Element text paragraph
+
+Second Label Text::
+
+Another element text paragraph.
+
+.Horizontal labeled lists
+-----
+[horizontal]
+First Label Text:: Element text paragraph
+
+Second Label Text:: Another element text paragraph.
+-----
+
+creates
+
+[horizontal]
+First Label Text:: Element text paragraph
+
+Second Label Text:: Another element text paragraph.
+
+The FAQ section uses a special questions and answers style for
+labeled lists.
+
+
+Text and Block Styles
+~~~~~~~~~~~~~~~~~~~~~
+
+'asciidoc' offers a wide range of default text styles:
+
+* 'Emphasized text': created using \'text', used for emphasizing words
+and phrases
+* `Monospaced text`: created using \`text`, used for command / program
+names, file paths, inline commands, option names and values
+* *Strong text*: created using \*text*, used for emphasizing concepts
+or names when first introduced in a section.
+
+There are also different builtin block styles that are used in
+our documentation:
+
+Complete paragraphs can be included literally by prepending each
+of their lines with whitespace. Use this for formatting complete
+commands on their own line, such as:
+
+ pct set ID -option value
+
+----
+By surrounding a paragraph with lines containing at least four '-'
+characters, its content is formatted as listing.
+
+Use this for formatting file contents or command output.
+----
+
+Specially highlighted 'notes', 'warnings' and 'important' information
+can be created by starting a paragraph with `NOTE:`, `WARNING:` or
+`IMPORTANT:`:
+
+NOTE: this is a note
+
+WARNING: this is warning
+
+IMPORTANT: this is important information
+
+For each of these blocks (including lists and paragraphs), a block header
+can be defined by prepending the block with a `.' character and the header
+text:
+
+-----
+.Title of List
+* First element
+* Second element
+* Third element
+-----
+
+.Title of List
+* First element
+* Second element
+* Third element
+
+For example, block headers can be used to add file names/paths to file
+content listings.
+
+
 Copyright
 ---------
 
