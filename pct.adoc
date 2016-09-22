@@ -391,7 +391,7 @@ inside a container. Some potential use cases are:
 
 - Accessing your home directory in the guest
 - Accessing an USB device directory in the guest
-- Accessing an NFS mount from in the host in the guest
+- Accessing an NFS mount from the host in the guest
 
 Bind mounts are considered to not be managed by the storage subsystem, so you
 cannot make snapshots or deal with quotas from inside the container. With
