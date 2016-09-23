@@ -1,3 +1,23 @@
+pve-docs (4.3-1) unstable; urgency=medium
+
+  * bump version for new release
+
+  * Add style guide to README
+
+  * pct: extend device mount point section
+
+  * reorder docs (pct after qm)
+
+  * pct: include information about pct restore
+
+  * pct: restructure mount point section
+
+  * pve-package-repos.adoc: add section about SecureApt
+
+  * pve-package-repos: add more info about outdated repositories
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 23 Sep 2016 09:42:27 +0200
+
 pve-docs (4.2-11) unstable; urgency=medium
 
   * gettinh-help.adoc: remove detailed numbers, because it is difficult to keep
