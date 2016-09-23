@@ -206,6 +206,9 @@ pmxcfs.8.html: pmxcfs.adoc pmxcfs.8-cli.adoc ${PVE_COMMON_DOC_SOURCES}
 %.5-plain.html: %.adoc %.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc -s ${ADOC_MAN5_HTML_ARGS} -o $@ $*.adoc
 
+README.html: README.adoc
+	asciidoc ${ADOC_STDARG} -o $@ $<
+
 .PHONY: index
 index: index.html
 	$(BROWSER) index.html &

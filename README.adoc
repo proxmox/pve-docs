@@ -37,7 +37,7 @@ build time.
 
 Another package called 'pve-docs' is used to publish generated
 '.html' and '.pdf' files on our web servers. You can generate
-those debian packages using:
+those Debian packages using:
 
  make deb
 
@@ -82,7 +82,7 @@ below the title text:
  Level 3:                 ^^^^^^^^^^^^^^^^^^^^^^
  Level 4 (bottom level):  ++++++++++++++++++++++
 
-Section titles should always be preceeded by two empty lines. Each word
+Section titles should always be preceded by two empty lines. Each word
 in a title should be capitalized except for ``articles, coordinating
 conjunctions, prepositions, and the word to in infinitives unless they
 appear as the first or last word of a title'' (see
@@ -128,7 +128,7 @@ Labeled Lists
 ^^^^^^^^^^^^^
 
 Labeled lists should be used to make lists of key-value style text
-more readable, such as command line parameters or config options:
+more readable, such as command line parameters or configuration options:
 
 .Regular labeled lists
 -----
