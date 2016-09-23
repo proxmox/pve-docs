@@ -10,7 +10,7 @@ The basic idea is to generate high quality manual pages, and assemble
 them into a complete book, called link:pve-admin-guide.adoc[Proxmox VE
 Administration Guide].  So we have one source, and generate several
 documents from that. It is also possible to generate printable PDF
-files, or ebook formats ('.ebup').
+files, or ebook formats ('.epub').
 
 When possible, we provide scripts to extract API definitions,
 configuration or command line options from the source code.
@@ -176,11 +176,11 @@ Text and Block Styles
 * 'Emphasized text': created using \'text', used for emphasizing words
 and phrases
 * `Monospaced text`: created using \`text`, used for command / program
-names, file paths, inline commands, option names and values
+names, file paths, in-line commands, option names and values
 * *Strong text*: created using \*text*, used for emphasizing concepts
 or names when first introduced in a section.
 
-There are also different builtin block styles that are used in
+There are also different built-in block styles that are used in
 our documentation:
 
 Complete paragraphs can be included literally by prepending each
