@@ -178,16 +178,16 @@ locks are working.
 
 It can be in three states:
 
-*wait for agent lock*::
+wait for agent lock::
 
 The LRM waits for our exclusive lock. This is also used as idle state if no
 service is configured.
 
-*active*::
+active::
 
 The LRM holds its exclusive lock and has services configured.
 
-*lost agent lock*::
+lost agent lock::
 
 The LRM lost its lock, this means a failure happened and quorum was lost.
 
@@ -242,16 +242,16 @@ promoted to the CRM master.
 
 It can be in three states:
 
-*wait for agent lock*::
+wait for agent lock::
 
 The CRM waits for our exclusive lock. This is also used as idle state if no
 service is configured
 
-*active*::
+active::
 
 The CRM holds its exclusive lock and has services configured
 
-*lost agent lock*::
+lost agent lock::
 
 The CRM lost its lock, this means a failure happened and quorum was lost.
 
