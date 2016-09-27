@@ -244,16 +244,16 @@ It can be in three states:
 
 *wait for agent lock*::
 
-The LRM waits for our exclusive lock. This is also used as idle state if no
+The CRM waits for our exclusive lock. This is also used as idle state if no
 service is configured
 
 *active*::
 
-The LRM holds its exclusive lock and has services configured
+The CRM holds its exclusive lock and has services configured
 
 *lost agent lock*::
 
-The LRM lost its lock, this means a failure happened and quorum was lost.
+The CRM lost its lock, this means a failure happened and quorum was lost.
 
 It main task is to manage the services which are configured to be highly
 available and try to always enforce them to the wanted state, e.g.: a
