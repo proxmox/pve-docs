@@ -273,7 +273,7 @@ new container, for example:
 
  pct create 999 local:vztmpl/debian-8.0-standard_8.0-1_amd64.tar.gz
 
-Proxmox itself ships a set of basic templates for most common
+{pve} itself ships a set of basic templates for most common
 operating systems, and you can download them using the `pveam` (short
 for {pve} Appliance Manager) command line utility. You can also
 download https://www.turnkeylinux.org/[TurnKey Linux] containers using

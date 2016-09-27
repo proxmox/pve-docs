@@ -23,7 +23,7 @@ Subscription Management
 include::attributes.txt[]
 endif::manvolnum[]
 
-This tool is used to handle pve subscriptions.
+This tool is used to handle {pve} subscriptions.
 
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]

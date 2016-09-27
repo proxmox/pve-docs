@@ -6,7 +6,7 @@ include::attributes.txt[]
 NAME
 ----
 
-pveceph - Manage CEPH Services on Proxmox VE Nodes
+pveceph - Manage CEPH Services on {pve} Nodes
 
 SYNOPSYS
 --------

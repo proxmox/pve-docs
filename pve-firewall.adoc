@@ -25,7 +25,7 @@ ifndef::manvolnum[]
 include::attributes.txt[]
 endif::manvolnum[]
 
-Proxmox VE Firewall provides an easy way to protect your IT
+{pve} Firewall provides an easy way to protect your IT
 infrastructure. You can setup firewall rules for all hosts
 inside a cluster, or define rules for virtual machines and
 containers. Features like firewall macros, security groups, IP sets
@@ -547,8 +547,8 @@ corresponding link local addresses.  (See the
 <<ipfilter-section,Standard IP set `ipfilter-net*`>> section for details.)
 
 
-Ports used by Proxmox VE
-------------------------
+Ports used by {pve}
+-------------------
 
 * Web interface: 8006
 * VNC Web console: 5900-5999

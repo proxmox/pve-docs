@@ -152,8 +152,8 @@ include::vzdump.1-synopsis.adoc[]
 
 :leveloffset: 0
 
-*ha-manager* - Proxmox VE HA Manager
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*ha-manager* - {pve} HA Manager
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
 include::ha-manager.1-synopsis.adoc[]

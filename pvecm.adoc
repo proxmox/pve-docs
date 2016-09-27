@@ -6,7 +6,7 @@ include::attributes.txt[]
 NAME
 ----
 
-pvecm - Proxmox VE Cluster Manager
+pvecm - {pve} Cluster Manager
 
 SYNOPSYS
 --------
@@ -275,7 +275,7 @@ it could be difficult to restore a clean cluster state.
 If, for whatever reason, you want that this server joins the same
 cluster again, you have to
 
-* reinstall pve on it from scratch
+* reinstall {pve} on it from scratch
 
 * then join it, as explained in the previous section.
 
