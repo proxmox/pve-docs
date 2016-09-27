@@ -158,7 +158,7 @@ GRUB boot loader there. If you use a redundant RAID setup, it installs
 the boot loader on all disk required for booting. So you can boot
 even if some disks fail.
 
-NOTE: It is not possible to use ZFS as root partition with UEFI
+NOTE: It is not possible to use ZFS as root file system with UEFI
 boot.
 
 
@@ -242,7 +242,7 @@ As `<device>` it is possible to use more devices, like it's shown in
 If you have an pool without cache and log. First partition the SSD in
 2 partition with `parted` or `gdisk`
 
-IMPORTANT: Always use GPT partition tables (gdisk or parted).
+IMPORTANT: Always use GPT partition tables.
 
 The maximum size of a log device should be about half the size of
 physical memory, so this is usually quite small. The rest of the SSD

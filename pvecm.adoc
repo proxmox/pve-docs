@@ -31,8 +31,8 @@ communication, and such clusters can consist of up to 32 physical nodes
 
 `pvecm` can be used to create a new cluster, join nodes to a cluster,
 leave the cluster, get status information and do various other cluster
-related tasks. The Proxmox Cluster file system (pmxcfs) is used to
-transparently distribute the cluster configuration to all cluster
+related tasks. The **P**rox**m**o**x** **C**luster **F**ile **S**ystem (``pmxcfs'')
+is used to transparently distribute the cluster configuration to all cluster
 nodes.
 
 Grouping nodes into a cluster has the following advantages:

@@ -67,8 +67,8 @@ file system. So those files are automatically distributed to all
 cluster nodes, and the `pve-firewall` service updates the underlying
 `iptables` rules automatically on changes.
 
-You can configure anything using the GUI (i.e. Datacenter -> Firewall,
-or on a Node -> Firewall), or you can edit the configuration files
+You can configure anything using the GUI (i.e. *Datacenter* -> *Firewall*,
+or on a *Node* -> *Firewall*), or you can edit the configuration files
 directly using your preferred editor.
 
 Firewall configuration files contains sections of key-value
@@ -362,7 +362,7 @@ with a source IP not matching its interface's corresponding ipfilter set will
 be dropped.
 
 For containers with configured IP addresses these sets, if they exist (or are
-activated via the general `IP Filter` option in the VM's firewall's 'options'
+activated via the general `IP Filter` option in the VM's firewall's *options*
 tab), implicitly contain the associated IP addresses.
 
 For both virtual machines and containers they also implicitly contain the
