@@ -215,7 +215,7 @@ include::pmxcfs.8-cli.adoc[]
 
 :leveloffset: 0
 
-*pve-ha-crm* - Cluster Ressource Manager Daemon
+*pve-ha-crm* - Cluster Resource Manager Daemon
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
@@ -223,7 +223,7 @@ include::pve-ha-crm.8-synopsis.adoc[]
 
 :leveloffset: 0
 
-*pve-ha-lrm* - Local Ressource Manager Daemon
+*pve-ha-lrm* - Local Resource Manager Daemon
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1

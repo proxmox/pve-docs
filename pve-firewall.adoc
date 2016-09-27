@@ -29,7 +29,7 @@ Proxmox VE Firewall provides an easy way to protect your IT
 infrastructure. You can setup firewall rules for all hosts
 inside a cluster, or define rules for virtual machines and
 containers. Features like firewall macros, security groups, IP sets
-and aliases helps to make that task easier.
+and aliases help to make that task easier.
 
 While all configuration is stored on the cluster file system, the
 `iptables`-based firewall runs on each cluster node, and thus provides
@@ -139,7 +139,7 @@ To simplify that task, you can instead create an IPSet called
 firewall rules to access the GUI from remote.
 
 
-Host specific Configuration
+Host Specific Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Host related configuration is read from:
@@ -161,7 +161,7 @@ include::pve-firewall-host-opts.adoc[]
 This sections contains host specific firewall rules.
 
 
-VM/Container configuration
+VM/Container Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 VM firewall configuration is read from:
@@ -276,7 +276,8 @@ name. You can then refer to those names:
 * inside IP set definitions
 * in `source` and `dest` properties of firewall rules
 
-Standard IP alias `local_network`
+
+Standard IP Alias `local_network`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This alias is automatically defined. Please use the following command
@@ -303,6 +304,7 @@ explicitly assign the local IP address
 local_network 1.2.3.4 # use the single ip address
 ----
 
+
 IP Sets
 -------
 
@@ -315,11 +317,12 @@ set.
 
  IN HTTP(ACCEPT) -source +management
 
+
 Standard IP set `management`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This IP set applies only to host firewalls (not VM firewalls).  Those
-ips are allowed to do normal management tasks (PVE GUI, VNC, SPICE,
+IPs are allowed to do normal management tasks (PVE GUI, VNC, SPICE,
 SSH).
 
 The local cluster network is automatically added to this IP set (alias
@@ -338,7 +341,7 @@ communication. (multicast,ssh,...)
 Standard IP set `blacklist`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Traffic from these ips is dropped by every host's and VM's firewall.
+Traffic from these IPs is dropped by every host's and VM's firewall.
 
 ----
 # /etc/pve/firewall/cluster.fw
@@ -531,7 +534,7 @@ Beside neighbor discovery NDP is also used for a couple of other things, like
 autoconfiguration and advertising routers.
 
 By default VMs are allowed to send out router solicitation messages (to query
-for a router), and to receive router advetisement packets. This allows them to
+for a router), and to receive router advertisement packets. This allows them to
 use stateless auto configuration. On the other hand VMs cannot advertise
 themselves as routers unless the ``Allow Router Advertisement'' (`radv: 1`) option
 is set.
@@ -551,7 +554,7 @@ Ports used by Proxmox VE
 * SPICE proxy: 3128
 * sshd (used for cluster actions): 22
 * rpcbind: 111
-*  corosync multicast (if you run a cluster): 5404, 5405 UDP
+* corosync multicast (if you run a cluster): 5404, 5405 UDP
 
 
 ifdef::manvolnum[]

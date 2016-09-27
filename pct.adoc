@@ -75,7 +75,8 @@ The good news is that LXC uses many kernel security features like
 AppArmor, CGroups and PID and user namespaces, which makes containers
 usage quite secure. We distinguish two types of containers:
 
-Privileged containers
+
+Privileged Containers
 ~~~~~~~~~~~~~~~~~~~~~
 
 Security is done by dropping capabilities, using mandatory access
@@ -86,11 +87,12 @@ and quick fix. So you should use this kind of containers only inside a
 trusted environment, or when no untrusted task is running as root in
 the container.
 
-Unprivileged containers
+
+Unprivileged Containers
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 This kind of containers use a new kernel feature called user
-namespaces. The root uid 0 inside the container is mapped to an
+namespaces. The root UID 0 inside the container is mapped to an
 unprivileged user outside the container. This means that most security
 issues (container escape, resource abuse, ...) in those containers
 will affect a random unprivileged user, and so would be a generic
@@ -131,6 +133,7 @@ Our toolkit is smart enough to instantaneously apply most changes to
 running containers. This feature is called "hot plug", and there is no
 need to restart the container in that case.
 
+
 File Format
 ~~~~~~~~~~~
 
@@ -154,6 +157,7 @@ or
 
 Those settings are directly passed to the LXC low-level tools.
 
+
 Snapshots
 ~~~~~~~~~
 
@@ -162,7 +166,7 @@ time into a separate snapshot section within the same configuration
 file. For example, after creating a snapshot called ``testsnapshot'',
 your configuration file will look like this:
 
-.Container Configuration with Snapshot
+.Container configuration with snapshot
 ----
 memory: 512
 swap: 512
@@ -249,6 +253,7 @@ Gentoo:: test /etc/gentoo-release
 NOTE: Container start fails if the configured `ostype` differs from the auto
 detected type.
 
+
 Options
 ~~~~~~~
 
@@ -316,7 +321,7 @@ local:vztmpl/debian-8.0-standard_8.0-1_amd64.tar.gz  190.20MB
 
 The above command shows you the full {pve} volume identifiers. They include
 the storage name, and most other {pve} commands can use them. For
-examply you can delete that image later with:
+example you can delete that image later with:
 
  pveam remove local:vztmpl/debian-8.0-standard_8.0-1_amd64.tar.gz
 
@@ -364,27 +369,27 @@ include::pct-mountpoint-opts.adoc[]
 Currently there are basically three types of mount points: storage backed
 mount points, bind mounts and device mounts.
 
-.Typical Container `rootfs` configuration
+.Typical container `rootfs` configuration
 ----
 rootfs: thin1:base-100-disk-1,size=8G
 ----
 
 
-Storage backed mount points
+Storage Backed Mount Points
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Storage backed mount points are managed by the {pve} storage subsystem and come
 in three different flavors:
 
-- Image based: These are raw images containing a single ext4 formatted file
+- Image based: these are raw images containing a single ext4 formatted file
   system.
-- ZFS Subvolumes: These are technically bind mounts, but with managed storage,
+- ZFS subvolumes: these are technically bind mounts, but with managed storage,
   and thus allow resizing and snapshotting.
 - Directories: passing `size=0` triggers a special case where instead of a raw
   image a directory is created.
 
 
-Bind mount points
+Bind Mount Points
 ^^^^^^^^^^^^^^^^^
 
 Bind mounts allow you to access arbitrary directories from your Proxmox VE host
@@ -416,7 +421,7 @@ Alternatively, use `pct set 100 -mp0 /mnt/bindmounts/shared,mp=/shared` to
 achieve the same result.
 
 
-Device mount points
+Device Mount Points
 ^^^^^^^^^^^^^^^^^^^
 
 Device mount points allow to mount block devices of the host directly into the
@@ -430,7 +435,7 @@ more features.
 NOTE: The contents of device mount points are not backed up when using `vzdump`.
 
 
-FUSE mounts
+FUSE Mounts
 ~~~~~~~~~~~
 
 WARNING: Because of existing issues in the Linux kernel's freezer
@@ -443,7 +448,7 @@ technologies, it is possible to establish the FUSE mount on the Proxmox host
 and use a bind mount point to make it accessible inside the container.
 
 
-Using quotas inside containers
+Using Quotas Inside Containers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Quotas allow to set limits inside a container for the amount of disk
@@ -470,10 +475,10 @@ NOTE: You need to run the above commands for every mount point by passing
 the mount point's path instead of just `/`.
 
 
-Using ACLs inside containers
+Using ACLs Inside Containers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The standard Posix Access Control Lists are also available inside containers. 
+The standard Posix **A**ccess **C**ontrol **L**ists are also available inside containers.
 ACLs allow you to set more detailed file ownership than the traditional user/
 group/others model.
 
@@ -490,6 +495,7 @@ include::pct-network-opts.adoc[]
 
 Backup and Restore
 ------------------
+
 
 Container Backup
 ~~~~~~~~~~~~~~~~
@@ -563,11 +569,12 @@ and destroy containers, and control execution (start, stop, migrate,
 ...). You can use pct to set parameters in the associated config file,
 like network configuration or memory limits.
 
+
 CLI Usage Examples
 ~~~~~~~~~~~~~~~~~~
 
 Create a container based on a Debian template (provided you have
-already downloaded the template via the webgui)
+already downloaded the template via the web interface)
 
  pct create 100 /var/lib/vz/template/cache/debian-8.0-standard_8.0-1_amd64.tar.gz
 

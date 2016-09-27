@@ -16,7 +16,7 @@ storage, and you get the following advantages:
 * self healing
 * no single point of failure
 * scalable to the exabyte level 
-* kernel and unser space implementation available
+* kernel and user space implementation available
 
 NOTE: For smaller deployments, it is also possible to run Ceph
 services directly on your {pve} nodes. Recent hardware has plenty

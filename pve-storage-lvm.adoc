@@ -14,6 +14,7 @@ can easily manage space on that iSCSI LUN, which would not be possible
 otherwise, because the iSCSI specification does not define a
 management interface for space allocation.
 
+
 Configuration
 ~~~~~~~~~~~~~
 

@@ -23,7 +23,7 @@ ifndef::manvolnum[]
 include::attributes.txt[]
 endif::manvolnum[]
 
-This daemom queries the status of VMs, storages and containers at
+This daemon queries the status of VMs, storages and containers at
 regular intervals. The result is sent to all nodes in the cluster.
 
 ifdef::manvolnum[]

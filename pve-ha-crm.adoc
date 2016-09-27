@@ -6,7 +6,7 @@ include::attributes.txt[]
 NAME
 ----
 
-pve-ha-crm - PVE Cluster Ressource Manager Daemon
+pve-ha-crm - PVE Cluster Resource Manager Daemon
 
 
 SYNOPSYS
@@ -19,12 +19,12 @@ DESCRIPTION
 endif::manvolnum[]
 
 ifndef::manvolnum[]
-Cluster Ressource Manager Daemon
+Cluster Resource Manager Daemon
 ================================
 include::attributes.txt[]
 endif::manvolnum[]
 
-This is the Cluster Ressource Manager Daemon.
+This is the Cluster Resource Manager Daemon.
 
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]

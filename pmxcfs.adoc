@@ -30,7 +30,7 @@ configuration files.
 
 Although the file system stores all data inside a persistent database
 on disk, a copy of the data resides in RAM. That imposes restriction
-on the maximal size, which is currently 30MB. This is still enough to
+on the maximum size, which is currently 30MB. This is still enough to
 store the configuration of several thousand virtual machines.
 
 This system provides the following advantages:
@@ -40,6 +40,7 @@ This system provides the following advantages:
 * read-only when a node loses quorum
 * automatic updates of the corosync cluster configuration to all nodes
 * includes a distributed locking mechanism
+
 
 POSIX Compatibility
 -------------------
@@ -60,7 +61,7 @@ some feature are simply not implemented, because we do not need them:
 * `O_TRUNC` creates are not atomic (FUSE restriction)
 
 
-File access rights
+File Access Rights
 ------------------
 
 All files and directories are owned by user `root` and have group
@@ -78,10 +79,10 @@ Technology
 
 We use the http://www.corosync.org[Corosync Cluster Engine] for
 cluster communication, and http://www.sqlite.org[SQlite] for the
-database file. The filesystem is implemented in user space using
+database file. The file system is implemented in user space using
 http://fuse.sourceforge.net[FUSE].
 
-File system layout
+File System Layout
 ------------------
 
 The file system is mounted at:
@@ -114,6 +115,7 @@ Files
 |`firewall/<VMID>.fw`                   | Firewall configuration for VMs and Containers
 |=======
 
+
 Symbolic links
 ~~~~~~~~~~~~~~
 
@@ -123,6 +125,7 @@ Symbolic links
 |`qemu-server`   | `nodes/<LOCAL_HOST_NAME>/qemu-server/`
 |`lxc`           | `nodes/<LOCAL_HOST_NAME>/lxc/`
 |=======
+
 
 Special status files for debugging (JSON)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -135,6 +138,7 @@ Special status files for debugging (JSON)
 |`.clusterlog` |Cluster log (last 50 entries)
 |`.rrd`        |RRD data (most recent entries)
 |=======
+
 
 Enable/Disable debugging
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -160,6 +164,7 @@ host. On the new host (with nothing running), you need to stop the
 lost Proxmox VE host, then reboot and check. (And don't forget your
 VM/CT data)
 
+
 Remove Cluster configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -178,7 +183,7 @@ without reinstall, which is described here:
 
  # pmxcfs -l
 
-* remove the cluster config
+* remove the cluster configuration
 
  # rm /etc/pve/cluster.conf
  # rm /etc/cluster/cluster.conf
@@ -188,7 +193,7 @@ without reinstall, which is described here:
 
  # systemctl stop pve-cluster
 
-* restart pve services (or reboot)
+* restart PVE services (or reboot)
 
  # systemctl start pve-cluster
  # systemctl restart pvedaemon

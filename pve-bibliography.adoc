@@ -32,7 +32,7 @@ include::attributes.txt[]
   ASIN B01BBVQZT6
 
 [bibliography]
-.Books about related Technology
+.Books about related technology
 
 - [[[Hertzog13]]] Raphaël Hertzog & Roland Mas.
   https://debian-handbook.info/download/stable/debian-handbook.pdf[The Debian Administrator\'s Handbook: Debian Jessie from Discovery to Mastery],
@@ -81,7 +81,7 @@ include::attributes.txt[]
   ISBN 978-0596521189
 
 [bibliography]
-.Books about related Topics
+.Books about related topics
 
 - [[[Bessen09]]] James Bessen & Michael J. Meurer,
   'Patent Failure: How Judges, Bureaucrats, and Lawyers Put Innovators at Risk'.

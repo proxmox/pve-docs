@@ -4,8 +4,9 @@ include::attributes.txt[]
 
 Storage pool type: `zfspool`
 
-This backend allows you to access local ZFS pools (or ZFS filesystems
+This backend allows you to access local ZFS pools (or ZFS file systems
 inside such pools).
+
 
 Configuration
 ~~~~~~~~~~~~~
@@ -35,6 +36,7 @@ zfspool: vmdata
         sparse
 ----
 
+
 File naming conventions
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -50,7 +52,7 @@ This specifies the owner VM.
 
 `<NAME>`::
 
-This scan be an arbitrary name (`ascii`) without white spaces. The
+This can be an arbitrary name (`ascii`) without white space. The
 backend uses `disk[N]` as default, where `[N]` is replaced by an
 integer to make the name unique.
 
@@ -71,14 +73,15 @@ on the parent dataset.
 |images rootdir |raw subvol     |no     |yes       |yes
 |==============================================================================
 
+
 Examples
 ~~~~~~~~
 
-It is recommended to create and extra ZFS filesystem to store your VM images:
+It is recommended to create an extra ZFS file system to store your VM images:
 
  # zfs create tank/vmdata
 
-To enable compression on that newly allocated filesystem:
+To enable compression on that newly allocated file system:
 
  # zfs set compression=on tank/vmdata
 

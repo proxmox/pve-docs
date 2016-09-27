@@ -26,7 +26,7 @@ endif::manvolnum[]
 The {PVE} cluster manager `pvecm` is a tool to create a group of
 physical servers. Such a group is called a *cluster*. We use the
 http://www.corosync.org[Corosync Cluster Engine] for reliable group
-communication, and such cluster can consists of up to 32 physical nodes
+communication, and such clusters can consist of up to 32 physical nodes
 (probably more, dependent on network latency).
 
 `pvecm` can be used to create a new cluster, join nodes to a cluster,
@@ -39,12 +39,12 @@ Grouping nodes into a cluster has the following advantages:
 
 * Centralized, web based management
 
-* Multi-master clusters: Each node can do all management task
+* Multi-master clusters: each node can do all management task
 
 * `pmxcfs`: database-driven file system for storing configuration files,
  replicated in real-time on all nodes using `corosync`.
 
-* Easy migration of Virtual Machines and Containers between physical
+* Easy migration of virtual machines and containers between physical
   hosts
 
 * Fast deployment
@@ -114,7 +114,7 @@ Login via `ssh` to the node you want to add.
 
 For `IP-ADDRESS-CLUSTER` use the IP from an existing cluster node.
 
-CAUTION: A new node cannot hold any VM´s, because you would get
+CAUTION: A new node cannot hold any VMs, because you would get
 conflicts about identical VM IDs. Also, all existing configuration in
 `/etc/pve` is overwritten when you join a new node to the cluster. To
 workaround, use `vzdump` to backup and restore to a different VMID after
@@ -157,7 +157,7 @@ If you only want the list of all nodes use:
 
  # pvecm nodes
 
-.List Nodes in a Cluster
+.List nodes in a cluster
 ----
 hp2# pvecm nodes
 
@@ -295,7 +295,7 @@ ____
 
 In case of network partitioning, state changes requires that a
 majority of nodes are online. The cluster switches to read-only mode
-if it loose quorum.
+if it loses quorum.
 
 NOTE: {pve} assigns a single vote to each node by default.
 

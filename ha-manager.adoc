@@ -165,7 +165,7 @@ Locks are provided by our distributed configuration file system (pmxcfs).
 They are used to guarantee that each LRM is active once and working. As a
 LRM only executes actions when it holds its lock we can mark a failed node
 as fenced if we can acquire its lock. This lets us then recover any failed
-HA services securely without any interference from the now unknown failed Node.
+HA services securely without any interference from the now unknown failed node.
 This all gets supervised by the CRM which holds currently the manager master
 lock.
 
@@ -188,14 +188,14 @@ After the LRM gets in the active state it reads the manager status
 file in `/etc/pve/ha/manager_status` and determines the commands it
 has to execute for the services it owns.
 For each command a worker gets started, this workers are running in
-parallel and are limited to maximal 4 by default. This default setting
+parallel and are limited to at most 4 by default. This default setting
 may be changed through the datacenter configuration key `max_worker`.
 When finished the worker process gets collected and its result saved for
 the CRM.
 
-.Maximal Concurrent Worker Adjustment Tips
+.Maximum Concurrent Worker Adjustment Tips
 [NOTE]
-The default value of 4 maximal concurrent Workers may be unsuited for
+The default value of at most 4 concurrent workers may be unsuited for
 a specific setup. For example may 4 live migrations happen at the same
 time, which can lead to network congestions with slower networks and/or
 big (memory wise) services. Ensure that also in the worst case no congestion
@@ -300,7 +300,7 @@ a watchdog reset.
 Fencing
 -------
 
-What Is Fencing
+What is Fencing
 ~~~~~~~~~~~~~~~
 
 Fencing secures that on a node failure the dangerous node gets will be rendered
@@ -384,13 +384,13 @@ relative meaning only.
 
 restricted::
 
-resources bound to this group may only run on nodes defined by the
+Resources bound to this group may only run on nodes defined by the
 group. If no group node member is available the resource will be
 placed in the stopped state.
 
 nofailback::
 
-the resource won't automatically fail back when a more preferred node
+The resource won't automatically fail back when a more preferred node
 (re)joins the cluster.
 
 
@@ -411,12 +411,12 @@ specific for each resource.
 
 max_restart::
 
-maximal number of tries to restart an failed service on the actual
+Maximum number of tries to restart an failed service on the actual
 node.  The default is set to one.
 
 max_relocate::
 
-maximal number of tries to relocate the service to a different node.
+Maximum number of tries to relocate the service to a different node.
 A relocate only happens after the max_restart value is exceeded on the
 actual node. The default is set to one.
 
@@ -433,7 +433,7 @@ placed in an error state. In this state the service won't get touched
 by the HA stack anymore.  To recover from this state you should follow
 these steps:
 
-* bring the resource back into an safe and consistent state (e.g:
+* bring the resource back into a safe and consistent state (e.g.,
 killing its process)
 
 * disable the ha resource to place it in an stopped state
@@ -451,19 +451,19 @@ This are how the basic user-initiated service operations (via
 
 enable::
 
-the service will be started by the LRM if not already running.
+The service will be started by the LRM if not already running.
 
 disable::
 
-the service will be stopped by the LRM if running.
+The service will be stopped by the LRM if running.
 
 migrate/relocate::
 
-the service will be relocated (live) to another node.
+The service will be relocated (live) to another node.
 
 remove::
 
-the service will be removed from the HA managed resource list. Its
+The service will be removed from the HA managed resource list. Its
 current state will not be touched.
 
 start/stop::

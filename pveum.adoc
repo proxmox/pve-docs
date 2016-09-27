@@ -32,7 +32,8 @@ Active Directory, LDAP, Linux PAM or the integrated Proxmox VE
 authentication server.
 
 By using the role based user- and permission management for all
-objects (VM´s, storages, nodes, etc.) granular access can be defined.
+objects (VMs, storages, nodes, etc.) granular access can be defined.
+
 
 Authentication Realms
 ---------------------
@@ -66,8 +67,10 @@ This is a unix like password store
 (`/etc/pve/priv/shadow.cfg`). Password are encrypted using the SHA-256
 hash method. Users are allowed to change passwords.
 
+
 Terms and Definitions
 ---------------------
+
 
 Users
 ~~~~~
@@ -85,11 +88,13 @@ We store the following attribute for users (`/etc/pve/user.cfg`):
 * flag to enable/disable account
 * comment
 
+
 Superuser
 ^^^^^^^^^
 
 The traditional unix superuser account is called `root@pam`. All
 system mails are forwarded to the email assigned to that account.
+
 
 Groups
 ~~~~~~
@@ -99,6 +104,7 @@ way to organize access permissions. You should always grant permission
 to groups instead of using individual users. That way you will get a
 much shorter access control list which is easier to handle.
 
+
 Objects and Paths
 ~~~~~~~~~~~~~~~~~
 
@@ -107,6 +113,7 @@ Access permissions are assigned to objects, such as a virtual machines
 resources (`/pool/{poolname}`). We use file system like paths to
 address those objects. Those paths form a natural tree, and
 permissions can be inherited down that hierarchy.
+
 
 Privileges
 ~~~~~~~~~~
@@ -157,6 +164,7 @@ Storage related privileges::
 * `Datastore.AllocateTemplate`: allocate/upload templates and iso images 
 * `Datastore.Audit`: view/browse a datastore
 
+
 Roles
 ~~~~~
 
@@ -200,10 +208,11 @@ When a subject requests an action on an object, the framework looks up
 the roles assigned to that subject (using the object path). The set of
 roles defines the granted privileges.
 
+
 Inheritance
 ^^^^^^^^^^^
 
-As mentioned earlier, object paths forms a filesystem like tree, and
+As mentioned earlier, object paths form a file system like tree, and
 permissions can be inherited down that tree (the propagate flag is set
 by default). We use the following inheritance rules:
 
@@ -211,11 +220,13 @@ by default). We use the following inheritance rules:
 * permission for groups apply when the user is member of that group.
 * permission set at higher level always overwrites inherited permissions.
 
+
 What permission do I need?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The required API permissions are documented for each individual
 method, and can be found at http://pve.proxmox.com/pve-docs/api-viewer/
+
 
 Pools
 ~~~~~
@@ -274,11 +285,12 @@ Create a new role:
 Real World Examples
 -------------------
 
+
 Administrator Group
 ~~~~~~~~~~~~~~~~~~~
 
 One of the most wanted features was the ability to define a group of
-users with full administartor rights (without using the root account).
+users with full administrator rights (without using the root account).
 
 Define the group:
 
@@ -311,6 +323,7 @@ Example1: Allow user `joe@pve` to see all virtual machines
 
 [source,bash]
  pveum aclmod /vms -user joe@pve -role PVEAuditor
+
 
 Delegate User Management
 ~~~~~~~~~~~~~~~~~~~~~~~~

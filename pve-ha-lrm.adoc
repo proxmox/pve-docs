@@ -6,7 +6,7 @@ include::attributes.txt[]
 NAME
 ----
 
-pve-ha-lrm - PVE Local Ressource Manager Daemon
+pve-ha-lrm - PVE Local Resource Manager Daemon
 
 
 SYNOPSYS
@@ -19,12 +19,12 @@ DESCRIPTION
 endif::manvolnum[]
 
 ifndef::manvolnum[]
-Local Ressource Manager Daemon
+Local Resource Manager Daemon
 ==============================
 include::attributes.txt[]
 endif::manvolnum[]
 
-This is the Local Ressource Manager Daemon.
+This is the Local Resource Manager Daemon.
 
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]

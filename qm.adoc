@@ -29,7 +29,7 @@ endif::manvolnum[]
 // http://pve.proxmox.com/wiki/KVM
 // http://pve.proxmox.com/wiki/Qemu_Server
 
-Qemu (short form for Quick Emulator) is an opensource hypervisor that emulates a
+Qemu (short form for Quick Emulator) is an open source hypervisor that emulates a
 physical computer. From the perspective of the host system where Qemu is
 running, Qemu is a user program which has access to a number of local resources
 like partitions, files, network cards which are then passed to an
@@ -55,6 +55,7 @@ module.
 
 Qemu inside {pve} runs as a root process, since this is required to access block
 and PCI devices.
+
 
 Emulated devices and paravirtualized devices
 --------------------------------------------
@@ -86,11 +87,13 @@ up to three times the throughput of an emulated Intel E1000 network card, as
 measured with `iperf(1)`. footnote:[See this benchmark on the KVM wiki
 http://www.linux-kvm.org/page/Using_VirtIO_NIC]
 
+
 Virtual Machines settings
 -------------------------
 Generally speaking {pve} tries to choose sane defaults for virtual machines
 (VM). Make sure you understand the meaning of the settings you change, as it
 could incur a performance slowdown, or putting your data at risk.
+
 
 General Settings
 ~~~~~~~~~~~~~~~~
@@ -101,12 +104,14 @@ General settings of a VM include
 * *Name*: a free form text string you can use to describe the VM
 * *Resource Pool*: a logical group of VMs
 
+
 OS Settings
 ~~~~~~~~~~~
 When creating a VM, setting the proper Operating System(OS) allows {pve} to
 optimize some low level parameters. For instance Windows OS expect the BIOS
 clock to use the local time, while Unix based OS expect the BIOS clock to have
 the UTC time.
+
 
 Hard Disk
 ~~~~~~~~~

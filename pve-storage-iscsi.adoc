@@ -46,6 +46,7 @@ TIP: If you want to use LVM on top of iSCSI, it make sense to set
 `content none`. That way it is not possible to create VMs using iSCSI
 LUNs directly.
 
+
 File naming conventions
 ~~~~~~~~~~~~~~~~~~~~~~~
 

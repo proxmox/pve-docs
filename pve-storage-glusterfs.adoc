@@ -45,11 +45,13 @@ glusterfs: Gluster
 	content images,iso
 ----
 
+
 File naming conventions
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-The directory layout and the file naming conventions are inhertited
+The directory layout and the file naming conventions are inherited
 from the `dir` backend.
+
 
 Storage Features
 ~~~~~~~~~~~~~~~~

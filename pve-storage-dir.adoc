@@ -37,6 +37,7 @@ storage backends.
 |Backup files        |`dump/`
 |===========================================================
 
+
 Configuration
 ~~~~~~~~~~~~~
 
@@ -79,7 +80,7 @@ integer to make the name unique.
 Specifies the image format (`raw|qcow2|vmdk`).
 
 When you create a VM template, all VM images are renamed to indicate
-that they are now read-only, and can be uses as a base image for clones:
+that they are now read-only, and can be used as a base image for clones:
 
  base-<VMID>-<NAME>.<FORMAT>
 
@@ -87,6 +88,7 @@ NOTE: Such base images are used to generate cloned images. So it is
 important that those files are read-only, and never get modified. The
 backend changes the access mode to `0444`, and sets the immutable flag
 (`chattr +i`) if the storage supports that.
+
 
 Storage Features
 ~~~~~~~~~~~~~~~~

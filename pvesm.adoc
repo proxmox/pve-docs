@@ -83,7 +83,8 @@ snapshots and clones.
 TIP: It is possible to use LVM on top of an iSCSI storage. That way
 you get a `shared` LVM storage.
 
-Thin provisioning
+
+Thin Provisioning
 ~~~~~~~~~~~~~~~~~
 
 A number of storages, and the Qemu image format `qcow2`, support 'thin
@@ -91,13 +92,13 @@ provisioning'.  With thin provisioning activated, only the blocks that
 the guest system actually use will be written to the storage.
 
 Say for instance you create a VM with a 32GB hard disk, and after
-installing the guest system OS, the root filesystem of the VM contains
+installing the guest system OS, the root file system of the VM contains
 3 GB of data.  In that case only 3GB are written to the storage, even
 if the guest VM sees a 32GB hard drive. In this way thin provisioning
 allows you to create disk images which are larger than the currently
 available storage blocks. You can create large disk images for your
 VMs, and when the need arises, add more disks to your storage without
-resizing the VMs filesystems.
+resizing the VMs' file systems.
 
 All storage types which have the ``Snapshots'' feature also support thin
 provisioning.
@@ -107,6 +108,7 @@ storage receives IO error. This can cause file system inconsistencies
 and may corrupt your data. So it is advisable to avoid
 over-provisioning of your storage resources, or carefully observe
 free space to avoid such conditions.
+
 
 Storage Configuration
 ---------------------
@@ -122,10 +124,12 @@ also useful for local storage types. In this case such local storage
 is available on all nodes, but it is physically different and can have
 totally different content.
 
+
 Storage Pools
 ~~~~~~~~~~~~~
 
-Each storage pool has a `<type>`, and is uniquely identified by its `<STORAGE_ID>`. A pool configuration looks like this:
+Each storage pool has a `<type>`, and is uniquely identified by its
+`<STORAGE_ID>`. A pool configuration looks like this:
 
 ----
 <type>: <STORAGE_ID>
@@ -162,6 +166,7 @@ zfspool: local-zfs
 	sparse
 	content images,rootdir
 ----
+
 
 Common Storage Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -211,7 +216,7 @@ You can use this flag to disable the storage completely.
 
 maxfiles::
 
-Maximal number of backup files per VM. Use `0` for unlimted.
+Maximum number of backup files per VM. Use `0` for unlimited.
 
 format::
 
@@ -241,9 +246,10 @@ like:
 
  iscsi-storage:0.0.2.scsi-14f504e46494c4500494b5042546d2d646744372d31616d61
 
-To get the filesystem path for a `<VOLUME_ID>` use:
+To get the file system path for a `<VOLUME_ID>` use:
 
  pvesm path <VOLUME_ID>
+
 
 Volume Ownership
 ~~~~~~~~~~~~~~~~
@@ -312,7 +318,7 @@ you pass an empty string as `<name>`
 
  pvesm alloc local <VMID> '' 4G
 
-Free volumes 
+Free volumes
 
  pvesm free <VOLUME_ID>
 
@@ -338,7 +344,7 @@ List container templates
 
  pvesm list <STORAGE_ID> --vztmpl
 
-Show filesystem path for a volume
+Show file system path for a volume
 
  pvesm path <VOLUME_ID>
 

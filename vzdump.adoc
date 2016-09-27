@@ -106,9 +106,9 @@ a second rsync copies changed files. After that, the container is
 started (resumed) again. This results in minimal downtime, but needs
 additional space to hold the container copy.
 +
-When the container is on a local filesystem and the target storage of
+When the container is on a local file system and the target storage of
 the backup is an NFS server, you should set `--tmpdir` to reside on a
-local filesystem too, as this will result in a many fold performance
+local file system too, as this will result in a many fold performance
 improvement.  Use of a local `tmpdir` is also required if you want to
 backup a local container using ACLs in suspend mode if the backup
 storage is an NFS server.
@@ -125,8 +125,8 @@ NOTE: `snapshot` mode requires that all backed up volumes are on a storage that
 supports snapshots. Using the `backup=no` mount point option individual volumes
 can be excluded from the backup (and thus this requirement).
 
-NOTE: bind and device mountpoints are skipped during backup operations, like
-volume mountpoints with the backup option disabled.
+NOTE: bind and device mount points are skipped during backup operations, like
+volume mount points with the backup option disabled.
 
 
 Backup File Names

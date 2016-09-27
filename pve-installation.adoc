@@ -32,6 +32,7 @@ within a few minutes, including the following:
 NOTE: By default, the complete server is used and all existing data is
 removed.
 
+
 Using the {pve} Installation CD-ROM
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -95,7 +96,7 @@ and higher, and Google Chrome.
 
 
 [[advanced_lvm_options]]
-Advanced LVM configuration options
+Advanced LVM Configuration Options
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The installer creates a Volume Group (VG) called `pve`, and additional

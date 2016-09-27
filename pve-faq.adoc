@@ -21,7 +21,7 @@ version 3.
 
 Will {pve} run on a 32bit processor?::
 
-{pve} works only on 64-bit CPU´s (AMD or Intel). There is no plan
+{pve} works only on 64-bit CPUs (AMD or Intel). There is no plan
 for 32-bit for the platform.
 +
 NOTE: VMs and Containers can be both 32-bit and/or 64-bit.

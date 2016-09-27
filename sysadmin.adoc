@@ -62,7 +62,7 @@ Recommended system requirements
 
 * Fast hard drives, best results with 15k rpm SAS, Raid10
 
-* At least two NIC´s, depending on the used storage technology you need more
+* At least two NICs, depending on the used storage technology you need more
 
 ifdef::wiki[]
 

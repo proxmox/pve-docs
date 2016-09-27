@@ -23,13 +23,13 @@ While many people start with a single node, {pve} can scale out to a
 large set of clustered nodes. The cluster stack is fully integrated
 and ships with the default installation.
 
-Unique Multi-master Design::
+Unique Multi-Master Design::
 
 The integrated web-based management interface gives you a clean
 overview of all your KVM guests and Linux containers and even of your
 whole cluster. You can easily manage your VMs and containers, storage
 or cluster from the GUI. There is no need to install a separate,
-complex, and pricy management server.
+complex, and pricey management server.
 
 Proxmox Cluster File System (pmxcfs)::
 
@@ -48,7 +48,7 @@ cluster file system.
 Web-based Management Interface::
 
 Proxmox VE is simple to use. Management tasks can be done via the
-included web based managment interface - there is no need to install a
+included web based management interface - there is no need to install a
 separate management tool or any additional management node with huge
 databases. The multi-master tool allows you to manage your whole
 cluster from any node of your cluster. The central web-based
@@ -74,7 +74,7 @@ hosting environments.
 
 Role-based Administration::
 
-You can define granular access for all objects (like VM´s, storages,
+You can define granular access for all objects (like VMs, storages,
 nodes, etc.) by using the role based user- and permission
 management. This allows you to define privileges and helps you to
 control access to objects. This concept is also known as access
@@ -88,7 +88,7 @@ Active Directory, LDAP, Linux PAM standard authentication or the
 built-in Proxmox VE authentication server.
 
 
-Flexible Storage 
+Flexible Storage
 ----------------
 
 The Proxmox VE storage model is very flexible. Virtual machine images
@@ -116,6 +116,7 @@ Local storage types supported are:
 * Directory (storage on existing filesystem)
 * ZFS
 
+
 Integrated Backup and Restore
 -----------------------------
 
@@ -128,6 +129,7 @@ NFS, iSCSI LUN, Ceph RBD or Sheepdog. The new backup format is
 optimized for storing VM backups fast and effective (sparse files, out
 of order data, minimized I/O).
 
+
 High Availability Cluster
 -------------------------
 
@@ -135,6 +137,7 @@ A multi-node Proxmox VE HA Cluster enables the definition of highly
 available virtual servers. The Proxmox VE HA Cluster is based on
 proven Linux HA technologies, providing stable and reliable HA
 services.
+
 
 Flexible Networking
 -------------------
@@ -154,7 +157,7 @@ leveraging the full power of the Linux network stack.
 Integrated Firewall
 -------------------
 
-The intergrated firewall allows you to filter network packets on
+The integrated firewall allows you to filter network packets on
 any VM or Container interface. Common sets of firewall rules can
 be grouped into ``security groups''.
 
@@ -179,6 +182,7 @@ the product always meets professional quality criteria.
 Open source software also helps to keep your costs low and makes your
 core infrastructure independent from a single vendor.
 
+
 Your benefit with {pve}
 -----------------------
 
@@ -191,11 +195,12 @@ Your benefit with {pve}
 * Huge active community
 * Low administration costs and simple deployment
 
+
 Project History
 ---------------
 
 The project started in 2007, followed by a first stable version in
-2008. By that time we used OpenVZ for containers, and KVM for virtual
+2008. At the time we used OpenVZ for containers, and KVM for virtual
 machines. The clustering features were limited, and the user interface
 was simple (server generated web page).
 
@@ -207,8 +212,8 @@ the user. Managing a cluster of 16 nodes is as simple as managing a
 single node.
 
 We also introduced a new REST API, with a complete declarative
-spezification written in JSON-Schema. This enabled other people to
-integrate {pve} into their infrastructur, and made it easy provide
+specification written in JSON-Schema. This enabled other people to
+integrate {pve} into their infrastructure, and made it easy to provide
 additional services.
 
 Also, the new REST API made it possible to replace the original user
@@ -225,7 +230,7 @@ are extremely cost effective.
 
 When we started we were among the first companies providing
 commercial support for KVM. The KVM project itself continuously
-evolved, and is now a widely used hypervisor. New features arrives
+evolved, and is now a widely used hypervisor. New features arrive
 with each release. We developed the KVM live backup feature, which
 makes it possible to create snapshot backups on any storage type.
 
