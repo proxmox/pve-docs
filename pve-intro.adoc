@@ -9,7 +9,7 @@ Kernel-based Virtual Machine (KVM) and container-based virtualization
 
 One main design goal was to make administration as easy as
 possible. You can use {pve} on a single node, or assemble a cluster of
-many nodes. All management task can be done using our web-based
+many nodes. All management tasks can be done using our web-based
 management interface, and even a novice user can setup and install
 {pve} within minutes.
 
