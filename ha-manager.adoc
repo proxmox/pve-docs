@@ -178,11 +178,18 @@ locks are working.
 
 It can be in three states:
 
-* *wait for agent lock*: the LRM waits for our exclusive lock. This is
-  also used as idle sate if no service is configured
-* *active*: the LRM holds its exclusive lock and has services configured
-* *lost agent lock*: the LRM lost its lock, this means a failure happened
-  and quorum was lost.
+*wait for agent lock*::
+
+The LRM waits for our exclusive lock. This is also used as idle state if no
+service is configured.
+
+*active*::
+
+The LRM holds its exclusive lock and has services configured.
+
+*lost agent lock*::
+
+The LRM lost its lock, this means a failure happened and quorum was lost.
 
 After the LRM gets in the active state it reads the manager status
 file in `/etc/pve/ha/manager_status` and determines the commands it
@@ -235,11 +242,18 @@ promoted to the CRM master.
 
 It can be in three states:
 
-* *wait for agent lock*: the LRM waits for our exclusive lock. This is
-  also used as idle sate if no service is configured
-* *active*: the LRM holds its exclusive lock and has services configured
-* *lost agent lock*: the LRM lost its lock, this means a failure happened
-  and quorum was lost.
+*wait for agent lock*::
+
+The LRM waits for our exclusive lock. This is also used as idle state if no
+service is configured
+
+*active*::
+
+The LRM holds its exclusive lock and has services configured
+
+*lost agent lock*::
+
+The LRM lost its lock, this means a failure happened and quorum was lost.
 
 It main task is to manage the services which are configured to be highly
 available and try to always enforce them to the wanted state, e.g.: a
