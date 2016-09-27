@@ -265,7 +265,9 @@ pool errors.
 To activate the daemon it is necessary to edit `/etc/zfs/zed.d/zed.rc` with your
 favourite editor, and uncomment the `ZED_EMAIL_ADDR` setting:
 
+--------
 ZED_EMAIL_ADDR="root"
+--------
 
 Please note {pve} forwards mails to `root` to the email address
 configured for the root user.
@@ -312,7 +314,9 @@ run into low memory situations. Additionally, you can lower the
 To make the swappiness persistent, open `/etc/sysctl.conf` with
 an editor of your choice and add the following line:
 
- vm.swappiness = 10
+--------
+vm.swappiness = 10
+--------
 
 .Linux kernel `swappiness` parameter values
 [width="100%",cols="<m,2d",options="header"]

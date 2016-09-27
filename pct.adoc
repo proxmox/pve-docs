@@ -140,8 +140,10 @@ File Format
 Container configuration files use a simple colon separated key/value
 format. Each line has the following format:
 
- # this is a comment
- OPTION: value
+-----
+# this is a comment
+OPTION: value
+-----
 
 Blank lines in those files are ignored, and lines starting with a `#`
 character are treated as comments and are also ignored.

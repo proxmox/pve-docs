@@ -475,10 +475,11 @@ set it for the `default` interface configuration and enabling it explicitly on
 the interfaces which need it. This is also the case for other settings such as
 `forwarding`, `accept_ra` or `autoconf`.
 
-Here's a possible setup:
-----
-# /etc/sysconf.d/90-ipv6.conf
 
+Here's a possible setup:
+
+.File `/etc/sysconf.d/90-ipv6.conf`
+----
 net.ipv6.conf.default.forwarding = 0
 net.ipv6.conf.default.proxy_ndp = 0
 net.ipv6.conf.default.autoconf = 0
@@ -488,8 +489,8 @@ net.ipv6.conf.default.accept_ra = 0
 net.ipv6.conf.lo.disable_ipv6 = 0
 ----
 
+.File `/etc/network/interfaces`
 ----
-# /etc/network/interfaces
 (...)
 # Dual stack:
 iface vmbr0 inet static
