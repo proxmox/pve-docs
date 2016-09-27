@@ -5,7 +5,7 @@ include::attributes.txt[]
 Storage pool type: `iscsidirect`
 
 This backend provides basically the same functionality as the
-Open-iSCSI backed, but uses a user-level library (package 'libiscsi2')
+Open-iSCSI backed, but uses a user-level library (package `libiscsi2`)
 to implement it.
 
 It should be noted that there are no kernel drivers involved, so this
@@ -19,7 +19,7 @@ Configuration
 The user mode iSCSI backend uses the same configuration options as the
 Open-iSCSI backed.
 
-.Configuration Example ('/etc/pve/storage.cfg')
+.Configuration Example (`/etc/pve/storage.cfg`)
 ----
 iscsidirect: faststore
      portal 10.10.10.1

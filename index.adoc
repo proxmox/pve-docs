@@ -82,9 +82,9 @@ Configuration Options
 [width="100%",options="header"]
 |===========================================================
 | File name |Download link
-| '/etc/pve/datacenter.cfg'          | link:datacenter.cfg.5.html[datacenter.cfg.5]
-| '/etc/pve/qemu-server/<VMID>.conf' | link:qm.conf.5.html[qm.conf.5]
-| '/etc/pve/lxc/<CTID>.conf'         | link:pct.conf.5.html[pct.conf.5]
+| `/etc/pve/datacenter.cfg`          | link:datacenter.cfg.5.html[datacenter.cfg.5]
+| `/etc/pve/qemu-server/<VMID>.conf` | link:qm.conf.5.html[qm.conf.5]
+| `/etc/pve/lxc/<CTID>.conf`         | link:pct.conf.5.html[pct.conf.5]
 |===========================================================
 
 

@@ -25,9 +25,9 @@ include::attributes.txt[]
 endif::manvolnum[]
 
 This daemon exposes the whole {pve} API on TCP port 8006 using
-HTTPS. It runs as user 'www-data' and has very limited permissions.
+HTTPS. It runs as user `www-data` and has very limited permissions.
 Operation requiring more permissions are forwarded to the local
-'pvedaemon'.
+`pvedaemon`.
 
 Requests targeted for other nodes are automatically forwarded to those
 nodes. This means that you can manage your whole cluster by connecting
@@ -36,8 +36,8 @@ to a single {pve} node.
 Host based Access Control
 -------------------------
 
-It is possible to configure "apache2" like access control
-lists. Values are read from file '/etc/default/pveproxy'. For example:
+It is possible to configure ``apache2''-like access control
+lists. Values are read from file `/etc/default/pveproxy`. For example:
 
 ----
 ALLOW_FROM="10.0.0.1-10.0.0.5,192.168.0.0/22"
@@ -46,9 +46,9 @@ POLICY="allow"
 ----
 
 IP addresses can be specified using any syntax understood by `Net::IP`. The
-name 'all' is an alias for '0/0'.
+name `all` is an alias for `0/0`.
 
-The default policy is 'allow'.
+The default policy is `allow`.
 
 [width="100%",options="header"]
 |===========================================================
@@ -63,7 +63,7 @@ The default policy is 'allow'.
 SSL Cipher Suite
 ----------------
 
-You can define the cipher list in '/etc/default/pveproxy', for example
+You can define the cipher list in `/etc/default/pveproxy`, for example
 
  CIPHERS="HIGH:MEDIUM:!aNULL:!MD5"
 
@@ -75,12 +75,12 @@ Diffie-Hellman Parameters
 -------------------------
 
 You can define the used Diffie-Hellman parameters in
-'/etc/default/pveproxy' by setting `DHPARAMS` to the path of a file
+`/etc/default/pveproxy` by setting `DHPARAMS` to the path of a file
 containing DH parameters in PEM format, for example
 
  DHPARAMS="/path/to/dhparams.pem"
 
-If this option is not set, the built-in 'skip2048' parameters will be
+If this option is not set, the built-in `skip2048` parameters will be
 used.
 
 NOTE: DH parameters are only used if a cipher suite utilizing the DH key
@@ -89,20 +89,21 @@ exchange algorithm is negotiated.
 Alternative HTTPS certificate
 -----------------------------
 
-By default, pveproxy uses the certificate '/etc/pve/local/pve-ssl.pem'
-(and private key '/etc/pve/local/pve-ssl.key') for HTTPS connections.
+By default, pveproxy uses the certificate `/etc/pve/local/pve-ssl.pem`
+(and private key `/etc/pve/local/pve-ssl.key`) for HTTPS connections.
 This certificate is signed by the cluster CA certificate, and therefor
 not trusted by browsers and operating systems by default.
 
 In order to use a different certificate and private key for HTTPS,
 store the server certificate and any needed intermediate / CA
-certificates in PEM format in the file '/etc/pve/local/pveproxy-ssl.pem'
+certificates in PEM format in the file `/etc/pve/local/pveproxy-ssl.pem`
 and the associated private key in PEM format without a password in the
-file '/etc/pve/local/pveproxy-ssl.key'.
+file `/etc/pve/local/pveproxy-ssl.key`.
 
 WARNING: Do not replace the automatically generated node certificate
-files in '/etc/pve/local/pve-ssl.pem'/'etc/pve/local/pve-ssl.key' or
-the cluster CA files in '/etc/pve/pve-root-ca.pem'/'/etc/pve/priv/pve-root-ca.key'.
+files in `/etc/pve/local/pve-ssl.pem` and `etc/pve/local/pve-ssl.key` or
+the cluster CA files in `/etc/pve/pve-root-ca.pem` and
+`/etc/pve/priv/pve-root-ca.key`.
 
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]

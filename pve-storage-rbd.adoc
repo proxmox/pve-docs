@@ -46,7 +46,7 @@ krbd::
 Access rbd through krbd kernel module. This is required if you want to
 use the storage for containers.
 
-.Configuration Example ('/etc/pve/storage.cfg')
+.Configuration Example (`/etc/pve/storage.cfg`)
 ----
 rbd: ceph3
         monhost 10.1.1.20 10.1.1.21 10.1.1.22
@@ -55,15 +55,15 @@ rbd: ceph3
         username admin
 ----
 
-TIP: You can use the 'rbd' utility to do low-level management tasks.
+TIP: You can use the `rbd` utility to do low-level management tasks.
 
 Authentication
 ~~~~~~~~~~~~~~
 
-If you use cephx authentication, you need to copy the keyfile from
+If you use `cephx` authentication, you need to copy the keyfile from
 Ceph to Proxmox VE host.
 
-Create the directory '/etc/pve/priv/ceph' with
+Create the directory `/etc/pve/priv/ceph` with
 
  mkdir /etc/pve/priv/ceph
 

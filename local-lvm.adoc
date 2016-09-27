@@ -6,7 +6,7 @@ Most people install {pve} directly on a local disk. The {pve}
 installation CD offers several options for local disk management, and
 the current default setup uses LVM. The installer let you select a
 single disk for such setup, and uses that disk as physical volume for
-the **V**olume **G**roup (VG) 'pve'. The following output is from a
+the **V**olume **G**roup (VG) `pve`. The following output is from a
 test installation using a small 8GB disk:
 
 ----
@@ -30,7 +30,7 @@ VG:
   swap pve  -wi-ao---- 896.00m     
 ----
 
-root:: Formatted as 'ext4', and contains the operation system.
+root:: Formatted as `ext4`, and contains the operation system.
 
 swap:: Swap partition
 

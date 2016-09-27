@@ -9,7 +9,7 @@ design, runs on commodity hardware, and can provide a highly available
 enterprise storage at low costs. Such system is capable of scaling to
 several petabytes, and can handle thousands of clients.
 
-NOTE: After a node/brick crash, GlusterFS does a full 'rsync' to make
+NOTE: After a node/brick crash, GlusterFS does a full `rsync` to make
 sure data is consistent. This can take a very long time with large
 files, so this backend is not suitable to store large VM images.
 
@@ -36,7 +36,7 @@ GlusterFS Volume.
 GlusterFS transport: `tcp`, `unix` or `rdma`
 
 
-.Configuration Example ('/etc/pve/storage.cfg')
+.Configuration Example (`/etc/pve/storage.cfg`)
 ----
 glusterfs: Gluster
         server 10.2.3.4

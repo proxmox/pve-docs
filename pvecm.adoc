@@ -23,13 +23,13 @@ Cluster Manager
 include::attributes.txt[]
 endif::manvolnum[]
 
-The {PVE} cluster manager 'pvecm' is a tool to create a group of
-physical servers. Such group is called a *cluster*. We use the
+The {PVE} cluster manager `pvecm` is a tool to create a group of
+physical servers. Such a group is called a *cluster*. We use the
 http://www.corosync.org[Corosync Cluster Engine] for reliable group
 communication, and such cluster can consists of up to 32 physical nodes
 (probably more, dependent on network latency).
 
-'pvecm' can be used to create a new cluster, join nodes to a cluster,
+`pvecm` can be used to create a new cluster, join nodes to a cluster,
 leave the cluster, get status information and do various other cluster
 related tasks. The Proxmox Cluster file system (pmxcfs) is used to
 transparently distribute the cluster configuration to all cluster
@@ -41,9 +41,8 @@ Grouping nodes into a cluster has the following advantages:
 
 * Multi-master clusters: Each node can do all management task
 
-* Proxmox Cluster file system (pmxcfs): Database-driven file system
-  for storing configuration files, replicated in real-time on all
-  nodes using corosync.
+* `pmxcfs`: database-driven file system for storing configuration files,
+ replicated in real-time on all nodes using `corosync`.
 
 * Easy migration of Virtual Machines and Containers between physical
   hosts
@@ -56,7 +55,7 @@ Grouping nodes into a cluster has the following advantages:
 Requirements
 ------------
 
-* All nodes must be in the same network as corosync uses IP Multicast
+* All nodes must be in the same network as `corosync` uses IP Multicast
  to communicate between nodes (also see
  http://www.corosync.org[Corosync Cluster Engine]). Corosync uses UDP
  ports 5404 and 5405 for cluster communication.
@@ -87,13 +86,13 @@ installed with the final hostname and IP configuration. Changing the
 hostname and IP is not possible after cluster creation.
 
 Currently the cluster creation has to be done on the console, so you
-need to login via 'ssh'.
+need to login via `ssh`.
 
 Create the Cluster
 ------------------
 
-Login via 'ssh' to the first Proxmox VE node. Use a unique name for
-your cluster. This name cannot be changed later.
+Login via `ssh` to the first {pve} node. Use a unique name for your cluster.
+This name cannot be changed later.
 
  hp1# pvecm create YOUR-CLUSTER-NAME
 
@@ -109,7 +108,7 @@ To check the state of your cluster use:
 Adding Nodes to the Cluster
 ---------------------------
 
-Login via 'ssh' to the node you want to add.
+Login via `ssh` to the node you want to add.
 
  hp2# pvecm add IP-ADDRESS-CLUSTER
 
@@ -117,8 +116,8 @@ For `IP-ADDRESS-CLUSTER` use the IP from an existing cluster node.
 
 CAUTION: A new node cannot hold any VM´s, because you would get
 conflicts about identical VM IDs. Also, all existing configuration in
-'/etc/pve' is overwritten when you join a new node to the cluster. To
-workaround, use vzdump to backup and restore to a different VMID after
+`/etc/pve` is overwritten when you join a new node to the cluster. To
+workaround, use `vzdump` to backup and restore to a different VMID after
 adding the node to the cluster.
 
 To check the state of cluster:
@@ -181,7 +180,7 @@ not be what you want or need.
 Move all virtual machines from the node. Make sure you have no local
 data or backups you want to keep, or save them accordingly.
 
-Log in to one remaining node via ssh. Issue a 'pvecm nodes' command to
+Log in to one remaining node via ssh. Issue a `pvecm nodes` command to
 identify the node ID:
 
 ----
@@ -230,12 +229,12 @@ Membership information
 ----
 
 Log in to one remaining node via ssh. Issue the delete command (here
-deleting node hp4):
+deleting node `hp4`):
 
  hp1# pvecm delnode hp4
 
 If the operation succeeds no output is returned, just check the node
-list again with 'pvecm nodes' or 'pvecm status'. You should see
+list again with `pvecm nodes` or `pvecm status`. You should see
 something like:
 
 ----
@@ -308,11 +307,11 @@ It is obvious that a cluster is not quorate when all nodes are
 offline. This is a common case after a power failure.
 
 NOTE: It is always a good idea to use an uninterruptible power supply
-('UPS', also called 'battery backup') to avoid this state. Especially if
+(``UPS'', also called ``battery backup'') to avoid this state, especially if
 you want HA.
 
-On node startup, service 'pve-manager' is started and waits for
-quorum. Once quorate, it starts all guests which have the 'onboot'
+On node startup, service `pve-manager` is started and waits for
+quorum. Once quorate, it starts all guests which have the `onboot`
 flag set.
 
 When you turn on nodes, or when power comes back after power failure,

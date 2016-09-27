@@ -25,7 +25,7 @@ ifndef::manvolnum[]
 include::attributes.txt[]
 endif::manvolnum[]
 
-The '/etc/pve/qemu-server/<VMID>.conf' files stores VM configuration,
+The `/etc/pve/qemu-server/<VMID>.conf` files stores VM configuration,
 where "VMID" is the numeric ID of the given VM.
 
 NOTE: IDs <= 100 are reserved for internal purposes.
@@ -39,10 +39,10 @@ the following format:
 
  OPTION: value
 
-Blank lines in the file are ignored, and lines starting with a '#'
+Blank lines in the file are ignored, and lines starting with a `#`
 character are treated as comments and are also ignored.
 
-One can use the 'qm' command to generate and modify those files.
+One can use the `qm` command to generate and modify those files.
 
 
 Options

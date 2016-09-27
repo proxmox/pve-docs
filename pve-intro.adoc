@@ -119,7 +119,7 @@ Local storage types supported are:
 Integrated Backup and Restore
 -----------------------------
 
-The integrated backup tool (vzdump) creates consistent snapshots of
+The integrated backup tool (`vzdump`) creates consistent snapshots of
 running Containers and KVM guests. It basically creates an archive of
 the VM or CT data which includes the VM/CT configuration files.
 
@@ -150,11 +150,14 @@ bonding/aggregation are possible. In this way it is possible to build
 complex, flexible virtual networks for the Proxmox VE hosts,
 leveraging the full power of the Linux network stack.
 
+
 Integrated Firewall
 -------------------
 
 The intergrated firewall allows you to filter network packets on
-any VM or Container interface. Common sets of firewall rules can be grouped into 'security groups'.
+any VM or Container interface. Common sets of firewall rules can
+be grouped into ``security groups''.
+
 
 Why Open Source
 ---------------

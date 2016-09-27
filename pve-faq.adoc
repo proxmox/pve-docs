@@ -28,8 +28,8 @@ NOTE: VMs and Containers can be both 32-bit and/or 64-bit.
 
 Does my CPU support virtualization?::
 
-To check if your CPU is virtualization compatible, check for the "vmx"
-or "svm" tag in this command output:
+To check if your CPU is virtualization compatible, check for the `vmx`
+or `svm` tag in this command output:
 +
 ----
 egrep '(vmx|svm)' /proc/cpuinfo
@@ -96,14 +96,14 @@ complete OS inside a container, where you log in as ssh, add users,
 run apache, etc...
 +
 LXD is building on top of LXC to provide a new, better user
-experience. Under the hood, LXD uses LXC through 'liblxc' and its Go
+experience. Under the hood, LXD uses LXC through `liblxc` and its Go
 binding to create and manage the containers. It's basically an
 alternative to LXC's tools and distribution template system with the
 added features that come from being controllable over the network.
 +
 Proxmox Containers also aims at *system virtualization*, and thus uses
 LXC as the basis of its own container offer. The Proxmox Container
-Toolkit is called 'pct', and is tightly coupled with {pve}. That means
+Toolkit is called `pct`, and is tightly coupled with {pve}. That means
 that it is aware of the cluster setup, and it can use the same network
 and storage resources as fully virtualized VMs. You can even use the
 {pve} firewall, create and restore backups, or manage containers using

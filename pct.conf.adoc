@@ -12,7 +12,7 @@ pct.conf - Proxmox VE Container Configuration
 SYNOPSYS
 --------
 
-'/etc/pve/lxc/<CTID>.conf'
+`/etc/pve/lxc/<CTID>.conf`
 
 
 DESCRIPTION
@@ -25,8 +25,8 @@ Container Configuration
 include::attributes.txt[]
 endif::manvolnum[]
 
-The '/etc/pve/lxc/<CTID>.conf' files stores container configuration,
-where "CTID" is the numeric ID of the given container.
+The `/etc/pve/lxc/<CTID>.conf` files stores container configuration,
+where `CTID` is the numeric ID of the given container.
 
 NOTE: IDs <= 100 are reserved for internal purposes.
 
@@ -39,10 +39,10 @@ the following format:
 
  OPTION: value
 
-Blank lines in the file are ignored, and lines starting with a '#'
+Blank lines in the file are ignored, and lines starting with a `#`
 character are treated as comments and are also ignored.
 
-One can use the 'pct' command to generate and modify those files.
+One can use the `pct` command to generate and modify those files.
 
 It is also possible to add low-level lxc style configuration directly, for
 example:

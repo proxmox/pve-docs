@@ -32,15 +32,15 @@ machines and container.
 
 This daemon listens on TCP port 3128, and implements an HTTP proxy to
 forward 'CONNECT' request from the SPICE client to the correct {pve}
-VM. It runs as user 'www-data' and has very limited permissions.
+VM. It runs as user `www-data` and has very limited permissions.
 
 
 Host based Access Control
 -------------------------
 
 It is possible to configure "apache2" like access control
-lists. Values are read from file '/etc/default/pveproxy'.
-See 'pveproxy' documentation for details.
+lists. Values are read from file `/etc/default/pveproxy`.
+See `pveproxy` documentation for details.
 
 
 ifdef::manvolnum[]

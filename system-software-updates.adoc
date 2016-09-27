@@ -4,12 +4,12 @@ include::attributes.txt[]
 
 We provide regular package updates on all repositories. You can
 install those update using the GUI, or you can directly run the CLI
-command 'apt-get':
+command `apt-get`:
 
  apt-get update
  apt-get dist-upgrade
 
-NOTE: The 'apt' package management system is extremely flexible and
+NOTE: The `apt` package management system is extremely flexible and
 provides countless of feature - see `man apt-get` or <<Hertzog13>> for
 additional information.
 

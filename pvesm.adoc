@@ -36,7 +36,7 @@ live-migrate running machines without any downtime, as all nodes in
 the cluster have direct access to VM disk images. There is no need to
 copy VM image data, so live migration is very fast in that case.
 
-The storage library (package 'libpve-storage-perl') uses a flexible
+The storage library (package `libpve-storage-perl`) uses a flexible
 plugin system to provide a common interface to all storage types. This
 can be easily adopted to include further storage types in future.
 
@@ -81,13 +81,13 @@ snapshots and clones.
 |=========================================================
 
 TIP: It is possible to use LVM on top of an iSCSI storage. That way
-you get a 'shared' LVM storage.
+you get a `shared` LVM storage.
 
 Thin provisioning
 ~~~~~~~~~~~~~~~~~
 
-A number of storages, and the Qemu image format `qcow2`, support _thin
-provisioning_.  With thin provisioning activated, only the blocks that
+A number of storages, and the Qemu image format `qcow2`, support 'thin
+provisioning'.  With thin provisioning activated, only the blocks that
 the guest system actually use will be written to the storage.
 
 Say for instance you create a VM with a 32GB hard disk, and after
@@ -99,7 +99,7 @@ available storage blocks. You can create large disk images for your
 VMs, and when the need arises, add more disks to your storage without
 resizing the VMs filesystems.
 
-All storage types which have the 'Snapshots' feature also support thin
+All storage types which have the ``Snapshots'' feature also support thin
 provisioning.
 
 CAUTION: If a storage runs full, all guests using volumes on that
@@ -112,12 +112,12 @@ Storage Configuration
 ---------------------
 
 All {pve} related storage configuration is stored within a single text
-file at '/etc/pve/storage.cfg'. As this file is within '/etc/pve/', it
+file at `/etc/pve/storage.cfg`. As this file is within `/etc/pve/`, it
 gets automatically distributed to all cluster nodes. So all nodes
 share the same storage configuration.
 
 Sharing storage configuration make perfect sense for shared storage,
-because the same 'shared' storage is accessible from all nodes. But is
+because the same ``shared'' storage is accessible from all nodes. But is
 also useful for local storage types. In this case such local storage
 is available on all nodes, but it is physically different and can have
 totally different content.
@@ -140,11 +140,11 @@ them come with reasonable default. In that case you can omit the value.
 
 To be more specific, take a look at the default storage configuration
 after installation. It contains one special local storage pool named
-`local`, which refers to the directory '/var/lib/vz' and is always
+`local`, which refers to the directory `/var/lib/vz` and is always
 available. The {pve} installer creates additional storage entries
 depending on the storage type chosen at installation time.
 
-.Default storage configuration ('/etc/pve/storage.cfg')
+.Default storage configuration (`/etc/pve/storage.cfg`)
 ----
 dir: local
 	path /var/lib/vz
@@ -195,7 +195,7 @@ Container templates.
 
 backup:::
 
-Backup files ('vzdump').
+Backup files (`vzdump`).
 
 iso:::
 
@@ -248,7 +248,7 @@ To get the filesystem path for a `<VOLUME_ID>` use:
 Volume Ownership
 ~~~~~~~~~~~~~~~~
 
-There exists an ownership relation for 'image' type volumes. Each such
+There exists an ownership relation for `image` type volumes. Each such
 volume is owned by a VM or Container. For example volume
 `local:230/example-image.raw` is owned by VM 230. Most storage
 backends encodes this ownership information into the volume name.
@@ -266,8 +266,8 @@ of those low level operations on the command line. Normally,
 allocation and removal of volumes is done by the VM and Container
 management tools.
 
-Nevertheless, there is a command line tool called 'pvesm' ({pve}
-storage manager), which is able to perform common storage management
+Nevertheless, there is a command line tool called `pvesm` (``{pve}
+Storage Manager''), which is able to perform common storage management
 tasks.
 
 

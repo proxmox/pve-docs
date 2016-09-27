@@ -101,9 +101,9 @@ unprivileged containers are safe by design.
 Configuration
 -------------
 
-The '/etc/pve/lxc/<CTID>.conf' file stores container configuration,
-where '<CTID>' is the numeric ID of the given container. Like all
-other files stored inside '/etc/pve/', they get automatically
+The `/etc/pve/lxc/<CTID>.conf` file stores container configuration,
+where `<CTID>` is the numeric ID of the given container. Like all
+other files stored inside `/etc/pve/`, they get automatically
 replicated to all other cluster nodes.
 
 NOTE: CTIDs < 100 are reserved for internal purposes, and CTIDs need to be
@@ -121,11 +121,11 @@ rootfs: local:107/vm-107-disk-1.raw,size=7G
 ----
 
 Those configuration files are simple text files, and you can edit them
-using a normal text editor ('vi', 'nano', ...). This is sometimes
+using a normal text editor (`vi`, `nano`, ...). This is sometimes
 useful to do small corrections, but keep in mind that you need to
 restart the container to apply such changes.
 
-For that reason, it is usually better to use the 'pct' command to
+For that reason, it is usually better to use the `pct` command to
 generate and modify those files, or do the whole thing using the GUI.
 Our toolkit is smart enough to instantaneously apply most changes to
 running containers. This feature is called "hot plug", and there is no
@@ -140,7 +140,7 @@ format. Each line has the following format:
  # this is a comment
  OPTION: value
 
-Blank lines in those files are ignored, and lines starting with a '#'
+Blank lines in those files are ignored, and lines starting with a `#`
 character are treated as comments and are also ignored.
 
 It is possible to add low-level, LXC style configuration directly, for
@@ -157,9 +157,9 @@ Those settings are directly passed to the LXC low-level tools.
 Snapshots
 ~~~~~~~~~
 
-When you create a snapshot, 'pct' stores the configuration at snapshot
+When you create a snapshot, `pct` stores the configuration at snapshot
 time into a separate snapshot section within the same configuration
-file. For example, after creating a snapshot called 'testsnapshot',
+file. For example, after creating a snapshot called ``testsnapshot'',
 your configuration file will look like this:
 
 .Container Configuration with Snapshot
@@ -176,10 +176,11 @@ snaptime: 1457170803
 ...
 ----
 
-There are a few snapshot related properties like 'parent' and
-'snaptime'. The 'parent' property is used to store the parent/child
-relationship between snapshots. 'snaptime' is the snapshot creation
-time stamp (unix epoch).
+There are a few snapshot related properties like `parent` and
+`snaptime`. The `parent` property is used to store the parent/child
+relationship between snapshots. `snaptime` is the snapshot creation
+time stamp (Unix epoch).
+
 
 Guest Operating System Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -226,12 +227,12 @@ simple empty file creatd via:
 
 Most modifications are OS dependent, so they differ between different
 distributions and versions. You can completely disable modifications
-by manually setting the 'ostype' to 'unmanaged'.
+by manually setting the `ostype` to `unmanaged`.
 
 OS type detection is done by testing for certain files inside the
 container:
 
-Ubuntu:: inspect /etc/lsb-release ('DISTRIB_ID=Ubuntu')
+Ubuntu:: inspect /etc/lsb-release (`DISTRIB_ID=Ubuntu`)
 
 Debian:: test /etc/debian_version
 
@@ -245,7 +246,7 @@ Alpine:: test /etc/alpine-release
 
 Gentoo:: test /etc/gentoo-release
 
-NOTE: Container start fails if the configured 'ostype' differs from the auto
+NOTE: Container start fails if the configured `ostype` differs from the auto
 detected type.
 
 Options
@@ -257,16 +258,16 @@ include::pct.conf.5-opts.adoc[]
 Container Images
 ----------------
 
-Container Images, sometimes also referred to as "templates" or
-"appliances", are 'tar' archives which contain everything to run a
+Container images, sometimes also referred to as ``templates'' or
+``appliances'', are `tar` archives which contain everything to run a
 container. You can think of it as a tidy container backup. Like most
-modern container toolkits, 'pct' uses those images when you create a
+modern container toolkits, `pct` uses those images when you create a
 new container, for example:
 
  pct create 999 local:vztmpl/debian-8.0-standard_8.0-1_amd64.tar.gz
 
 Proxmox itself ships a set of basic templates for most common
-operating systems, and you can download them using the 'pveam' (short
+operating systems, and you can download them using the `pveam` (short
 for {pve} Appliance Manager) command line utility. You can also
 download https://www.turnkeylinux.org/[TurnKey Linux] containers using
 that tool (or the graphical user interface).
@@ -281,8 +282,8 @@ After that you can view the list of available images using:
 
  pveam available
 
-You can restrict this large list by specifying the 'section' you are
-interested in, for example basic 'system' images:
+You can restrict this large list by specifying the `section` you are
+interested in, for example basic `system` images:
 
 .List available system images
 ----
@@ -299,14 +300,14 @@ system          ubuntu-15.10-standard_15.10-1_amd64.tar.gz
 ----
 
 Before you can use such a template, you need to download them into one
-of your storages. You can simply use storage 'local' for that
+of your storages. You can simply use storage `local` for that
 purpose. For clustered installations, it is preferred to use a shared
 storage so that all nodes can access those images.
 
  pveam download local debian-8.0-standard_8.0-1_amd64.tar.gz
 
 You are now ready to create containers using that image, and you can
-list all downloaded images on storage 'local' with:
+list all downloaded images on storage `local` with:
 
 ----
 # pveam list local
@@ -325,8 +326,8 @@ Container Storage
 
 Traditional containers use a very simple storage model, only allowing
 a single mount point, the root file system. This was further
-restricted to specific file system types like 'ext4' and 'nfs'.
-Additional mounts are often done by user provided scripts. This turend
+restricted to specific file system types like `ext4` and `nfs`.
+Additional mounts are often done by user provided scripts. This turned
 out to be complex and error prone, so we try to avoid that now.
 
 Our new LXC based container model is more flexible regarding
@@ -339,9 +340,9 @@ application.
 
 The second big improvement is that you can use any storage type
 supported by the {pve} storage library. That means that you can store
-your containers on local 'lvmthin' or 'zfs', shared 'iSCSI' storage,
-or even on distributed storage systems like 'ceph'. It also enables us
-to use advanced storage features like snapshots and clones. 'vzdump'
+your containers on local `lvmthin` or `zfs`, shared `iSCSI` storage,
+or even on distributed storage systems like `ceph`. It also enables us
+to use advanced storage features like snapshots and clones. `vzdump`
 can also use the snapshot feature to provide consistent container
 backups.
 
@@ -398,7 +399,7 @@ cannot make snapshots or deal with quotas from inside the container. With
 unprivileged containers you might run into permission problems caused by the
 user mapping and cannot use ACLs.
 
-NOTE: The contents of bind mount points are not backed up when using 'vzdump'.
+NOTE: The contents of bind mount points are not backed up when using `vzdump`.
 
 WARNING: For security reasons, bind mounts should only be established
 using source directories especially reserved for this purpose, e.g., a
@@ -410,8 +411,8 @@ NOTE: The bind mount source path must not contain any symlinks.
 
 For example, to make the directory `/mnt/bindmounts/shared` accessible in the
 container with ID `100` under the path `/shared`, use a configuration line like
-'mp0: /mnt/bindmounts/shared,mp=/shared' in '/etc/pve/lxc/100.conf'.
-Alternatively, use 'pct set 100 -mp0 /mnt/bindmounts/shared,mp=/shared' to
+`mp0: /mnt/bindmounts/shared,mp=/shared` in `/etc/pve/lxc/100.conf`.
+Alternatively, use `pct set 100 -mp0 /mnt/bindmounts/shared,mp=/shared` to
 achieve the same result.
 
 
@@ -426,7 +427,7 @@ NOTE: Device mount points should only be used under special circumstances. In
 most cases a storage backed mount point offers the same performance and a lot
 more features.
 
-NOTE: The contents of device mount points are not backed up when using 'vzdump'.
+NOTE: The contents of device mount points are not backed up when using `vzdump`.
 
 
 FUSE mounts
@@ -481,7 +482,7 @@ Container Network
 -----------------
 
 You can configure up to 10 network interfaces for a single
-container. The corresponding options are called 'net0' to 'net9', and
+container. The corresponding options are called `net0` to `net9`, and
 they can contain the following setting:
 
 include::pct-network-opts.adoc[]
@@ -493,27 +494,28 @@ Backup and Restore
 Container Backup
 ~~~~~~~~~~~~~~~~
 
-It is possible to use the 'vzdump' tool for container backup. Please
-refer to the 'vzdump' manual page for details.
+It is possible to use the `vzdump` tool for container backup. Please
+refer to the `vzdump` manual page for details.
+
 
 Restoring Container Backups
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Restoring container backups made with 'vzdump' is possible using the
-'pct restore' command. By default, 'pct restore' will attempt to restore as much
+Restoring container backups made with `vzdump` is possible using the
+`pct restore` command. By default, `pct restore` will attempt to restore as much
 of the backed up container configuration as possible. It is possible to override
 the backed up configuration by manually setting container options on the command
-line (see the 'pct' manual page for details).
+line (see the `pct` manual page for details).
 
-NOTE: 'pvesm extractconfig' can be used to view the backed up configuration
+NOTE: `pvesm extractconfig` can be used to view the backed up configuration
 contained in a vzdump archive.
 
 There are two basic restore modes, only differing by their handling of mount
 points:
 
 
-"Simple" restore mode
-^^^^^^^^^^^^^^^^^^^^^
+``Simple'' Restore Mode
+^^^^^^^^^^^^^^^^^^^^^^^
 
 If neither the `rootfs` parameter nor any of the optional `mpX` parameters
 are explicitly set, the mount point configuration from the backed up
@@ -535,11 +537,11 @@ This simple mode is also used by the container restore operations in the web
 interface.
 
 
-"Advanced" restore mode
-^^^^^^^^^^^^^^^^^^^^^^^
+``Advanced'' Restore Mode
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 By setting the `rootfs` parameter (and optionally, any combination of `mpX`
-parameters), the 'pct restore' command is automatically switched into an
+parameters), the `pct restore` command is automatically switched into an
 advanced mode. This advanced mode completely ignores the `rootfs` and `mpX`
 configuration options contained in the backup archive, and instead only
 uses the options explicitly provided as parameters.
@@ -553,10 +555,10 @@ individually
 * Restore to device and/or bind mount points (limited to root user)
 
 
-Managing Containers with 'pct'
+Managing Containers with `pct`
 ------------------------------
 
-'pct' is the tool to manage Linux Containers on {pve}. You can create
+`pct` is the tool to manage Linux Containers on {pve}. You can create
 and destroy containers, and control execution (start, stop, migrate,
 ...). You can use pct to set parameters in the associated config file,
 like network configuration or memory limits.
@@ -585,7 +587,7 @@ Display the configuration
 
  pct config 100
 
-Add a network interface called eth0, bridged to the host bridge vmbr0,
+Add a network interface called `eth0`, bridged to the host bridge `vmbr0`,
 set the address and gateway, while it's running
 
  pct set 100 -net0 name=eth0,bridge=vmbr0,ip=192.168.15.147/24,gw=192.168.15.1
@@ -598,7 +600,7 @@ Reduce the memory of the container to 512MB
 Files
 ------
 
-'/etc/pve/lxc/<CTID>.conf'::
+`/etc/pve/lxc/<CTID>.conf`::
 
 Configuration file for the container '<CTID>'.
 
@@ -606,24 +608,24 @@ Configuration file for the container '<CTID>'.
 Container Advantages
 --------------------
 
-- Simple, and fully integrated into {pve}. Setup looks similar to a normal
+* Simple, and fully integrated into {pve}. Setup looks similar to a normal
   VM setup. 
 
-  * Storage (ZFS, LVM, NFS, Ceph, ...)
+** Storage (ZFS, LVM, NFS, Ceph, ...)
 
-  * Network
+** Network
 
-  * Authentification
+** Authentication
 
-  * Cluster
+** Cluster
 
-- Fast: minimal overhead, as fast as bare metal
+* Fast: minimal overhead, as fast as bare metal
 
-- High density (perfect for idle workloads)
+* High density (perfect for idle workloads)
 
-- REST API
+* REST API
 
-- Direct hardware access
+* Direct hardware access
 
 
 Technology Overview

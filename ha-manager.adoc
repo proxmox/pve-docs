@@ -57,43 +57,41 @@ sometimes impossible because you cannot modify the software
 yourself. The following solutions works without modifying the
 software:
 
-* Use reliable "server" components
+* Use reliable ``server'' components
 
 NOTE: Computer components with same functionality can have varying
 reliability numbers, depending on the component quality. Most vendors
-sell components with higher reliability as "server" components -
+sell components with higher reliability as ``server'' components -
 usually at higher price.
 
 * Eliminate single point of failure (redundant components)
-
- - use an uninterruptible power supply (UPS)
- - use redundant power supplies on the main boards
- - use ECC-RAM
- - use redundant network hardware
- - use RAID for local storage
- - use distributed, redundant storage for VM data
+** use an uninterruptible power supply (UPS)
+** use redundant power supplies on the main boards
+** use ECC-RAM
+** use redundant network hardware
+** use RAID for local storage
+** use distributed, redundant storage for VM data
 
 * Reduce downtime
-
- - rapidly accessible administrators (24/7)
- - availability of spare parts (other nodes in a {pve} cluster)
- - automatic error detection ('ha-manager')
- - automatic failover ('ha-manager')
+** rapidly accessible administrators (24/7)
+** availability of spare parts (other nodes in a {pve} cluster)
+** automatic error detection (provided by `ha-manager`)
+** automatic failover (provided by `ha-manager`)
 
 Virtualization environments like {pve} make it much easier to reach
-high availability because they remove the "hardware" dependency. They
+high availability because they remove the ``hardware'' dependency. They
 also support to setup and use redundant storage and network
 devices. So if one host fail, you can simply start those services on
 another host within your cluster.
 
-Even better, {pve} provides a software stack called 'ha-manager',
+Even better, {pve} provides a software stack called `ha-manager`,
 which can do that automatically for you. It is able to automatically
 detect errors and do automatic failover.
 
-{pve} 'ha-manager' works like an "automated" administrator. First, you
+{pve} `ha-manager` works like an ``automated'' administrator. First, you
 configure what resources (VMs, containers, ...) it should
-manage. 'ha-manager' then observes correct functionality, and handles
-service failover to another node in case of errors. 'ha-manager' can
+manage. `ha-manager` then observes correct functionality, and handles
+service failover to another node in case of errors. `ha-manager` can
 also handle normal user requests which may start, stop, relocate and
 migrate a service.
 
@@ -105,7 +103,7 @@ costs.
 
 TIP: Increasing availability from 99% to 99.9% is relatively
 simply. But increasing availability from 99.9999% to 99.99999% is very
-hard and costly. 'ha-manager' has typical error detection and failover
+hard and costly. `ha-manager` has typical error detection and failover
 times of about 2 minutes, so you can get no more than 99.999%
 availability.
 
@@ -119,7 +117,7 @@ Requirements
 * hardware redundancy (everywhere)
 
 * hardware watchdog - if not available we fall back to the
-  linux kernel software watchdog ('softdog')
+  linux kernel software watchdog (`softdog`)
 
 * optional hardware fencing devices
 
@@ -127,16 +125,16 @@ Requirements
 Resources
 ---------
 
-We call the primary management unit handled by 'ha-manager' a
-resource. A resource (also called "service") is uniquely
+We call the primary management unit handled by `ha-manager` a
+resource. A resource (also called ``service'') is uniquely
 identified by a service ID (SID), which consists of the resource type
-and an type specific ID, e.g.: 'vm:100'. That example would be a
-resource of type 'vm' (virtual machine) with the ID 100.
+and an type specific ID, e.g.: `vm:100`. That example would be a
+resource of type `vm` (virtual machine) with the ID 100.
 
 For now we have two important resources types - virtual machines and
 containers. One basic idea here is that we can bundle related software
 into such VM or container, so there is no need to compose one big
-service from other services, like it was done with 'rgmanager'. In
+service from other services, like it was done with `rgmanager`. In
 general, a HA enabled resource should not depend on other resources.
 
 
@@ -148,14 +146,14 @@ internals. It describes how the CRM and the LRM work together.
 
 To provide High Availability two daemons run on each node:
 
-'pve-ha-lrm'::
+`pve-ha-lrm`::
 
 The local resource manager (LRM), it controls the services running on
 the local node.
 It reads the requested states for its services from the current manager
 status file and executes the respective commands.
 
-'pve-ha-crm'::
+`pve-ha-crm`::
 
 The cluster resource manager (CRM), it controls the cluster wide
 actions of the services, processes the LRM results and includes the state
@@ -174,7 +172,7 @@ lock.
 Local Resource Manager
 ~~~~~~~~~~~~~~~~~~~~~~
 
-The local resource manager ('pve-ha-lrm') is started as a daemon on
+The local resource manager (`pve-ha-lrm`) is started as a daemon on
 boot and waits until the HA cluster is quorate and thus cluster wide
 locks are working.
 
@@ -187,11 +185,11 @@ It can be in three states:
   and quorum was lost.
 
 After the LRM gets in the active state it reads the manager status
-file in '/etc/pve/ha/manager_status' and determines the commands it
+file in `/etc/pve/ha/manager_status` and determines the commands it
 has to execute for the services it owns.
 For each command a worker gets started, this workers are running in
 parallel and are limited to maximal 4 by default. This default setting
-may be changed through the datacenter configuration key "max_worker".
+may be changed through the datacenter configuration key `max_worker`.
 When finished the worker process gets collected and its result saved for
 the CRM.
 
@@ -201,12 +199,12 @@ The default value of 4 maximal concurrent Workers may be unsuited for
 a specific setup. For example may 4 live migrations happen at the same
 time, which can lead to network congestions with slower networks and/or
 big (memory wise) services. Ensure that also in the worst case no congestion
-happens and lower the "max_worker" value if needed. In the contrary, if you
+happens and lower the `max_worker` value if needed. In the contrary, if you
 have a particularly powerful high end setup you may also want to increase it.
 
 Each command requested by the CRM is uniquely identifiable by an UID, when
 the worker finished its result will be processed and written in the LRM
-status file '/etc/pve/nodes/<nodename>/lrm_status'. There the CRM may collect
+status file `/etc/pve/nodes/<nodename>/lrm_status`. There the CRM may collect
 it and let its state machine - respective the commands output - act on it.
 
 The actions on each service between CRM and LRM are normally always synced.
@@ -214,7 +212,7 @@ This means that the CRM requests a state uniquely marked by an UID, the LRM
 then executes this action *one time* and writes back the result, also
 identifiable by the same UID. This is needed so that the LRM does not
 executes an outdated command.
-With the exception of the 'stop' and the 'error' command,
+With the exception of the `stop` and the `error` command,
 those two do not depend on the result produced and are executed
 always in the case of the stopped state and once in the case of
 the error state.
@@ -230,7 +228,7 @@ the same command for the pve-ha-crm on the node which is the current master.
 Cluster Resource Manager
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-The cluster resource manager ('pve-ha-crm') starts on each node and
+The cluster resource manager (`pve-ha-crm`) starts on each node and
 waits there for the manager lock, which can only be held by one node
 at a time.  The node which successfully acquires the manager lock gets
 promoted to the CRM master.
@@ -261,12 +259,12 @@ Configuration
 -------------
 
 The HA stack is well integrated in the Proxmox VE API2. So, for
-example, HA can be configured via 'ha-manager' or the PVE web
+example, HA can be configured via `ha-manager` or the PVE web
 interface, which both provide an easy to use tool.
 
 The resource configuration file can be located at
-'/etc/pve/ha/resources.cfg' and the group configuration file at
-'/etc/pve/ha/groups.cfg'. Use the provided tools to make changes,
+`/etc/pve/ha/resources.cfg` and the group configuration file at
+`/etc/pve/ha/groups.cfg`. Use the provided tools to make changes,
 there shouldn't be any need to edit them manually.
 
 Node Power Status
@@ -347,7 +345,7 @@ Configure Hardware Watchdog
 By default all watchdog modules are blocked for security reasons as they are
 like a loaded gun if not correctly initialized.
 If you have a hardware watchdog available remove its kernel module from the
-blacklist, load it with insmod and restart the 'watchdog-mux' service or reboot
+blacklist, load it with insmod and restart the `watchdog-mux` service or reboot
 the node.
 
 Recover Fenced Services
@@ -449,7 +447,7 @@ Service Operations
 ------------------
 
 This are how the basic user-initiated service operations (via
-'ha-manager') work.
+`ha-manager`) work.
 
 enable::
 
@@ -470,9 +468,9 @@ current state will not be touched.
 
 start/stop::
 
-start and stop commands can be issued to the resource specific tools
-(like 'qm' or 'pct'), they will forward the request to the
-'ha-manager' which then will execute the action and set the resulting
+`start` and `stop` commands can be issued to the resource specific tools
+(like `qm` or `pct`), they will forward the request to the
+`ha-manager` which then will execute the action and set the resulting
 service state (enabled, disabled).
 
 

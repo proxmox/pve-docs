@@ -8,7 +8,7 @@ The NFS backend is based on the directory backend, so it shares most
 properties. The directory layout and the file naming conventions are
 the same. The main advantage is that you can directly configure the
 NFS server properties, so the backend can mount the share
-automatically. There is no need to modify '/etc/fstab'. The backend
+automatically. There is no need to modify `/etc/fstab`. The backend
 can also test if the server is online, and provides a method to query
 the server for exported shares.
 
@@ -34,13 +34,13 @@ You can also set NFS mount options:
 
 path::
 
-The local mount point (defaults to '/mnt/pve/`<STORAGE_ID>`/').
+The local mount point (defaults to `/mnt/pve/<STORAGE_ID>/`).
 
 options::
 
 NFS mount options (see `man nfs`).
 
-.Configuration Example ('/etc/pve/storage.cfg')
+.Configuration Example (`/etc/pve/storage.cfg`)
 ----
 nfs: iso-templates
 	path /mnt/pve/iso-templates

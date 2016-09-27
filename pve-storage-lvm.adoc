@@ -37,9 +37,9 @@ sure that all data gets erased.
 
 `saferemove_throughput`::
 
-Wipe throughput ('cstream -t' parameter value).
+Wipe throughput (`cstream -t` parameter value).
 
-.Configuration Example ('/etc/pve/storage.cfg')
+.Configuration Example (`/etc/pve/storage.cfg`)
 ----
 lvm: myspace
 	vgname myspace

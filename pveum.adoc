@@ -37,7 +37,7 @@ objects (VM´s, storages, nodes, etc.) granular access can be defined.
 Authentication Realms
 ---------------------
 
-Proxmox VE stores all user attributes in '/etc/pve/user.cfg'. So there
+Proxmox VE stores all user attributes in `/etc/pve/user.cfg`. So there
 must be an entry for each user in that file. The password is not
 stored, instead you can use configure several realms to verify
 passwords.
@@ -48,9 +48,9 @@ LDAP::
 
 Linux PAM standard authentication::
 
-You need to create the system users first with 'adduser'
-(e.g. adduser heinz) and possibly the group as well. After that you
-can create the user on the GUI!
+You need to create the system users first with `adduser`
+(e.g. `adduser heinz`) and possibly the group as well. After that you
+can create the user on the GUI.
 
 [source,bash]
 ----
@@ -63,7 +63,7 @@ usermod -a -G watchman heinz
 Proxmox VE authentication server::
 
 This is a unix like password store
-('/etc/pve/priv/shadow.cfg'). Password are encrypted using the SHA-256
+(`/etc/pve/priv/shadow.cfg`). Password are encrypted using the SHA-256
 hash method. Users are allowed to change passwords.
 
 Terms and Definitions
@@ -76,7 +76,7 @@ A Proxmox VE user name consists of two parts: `<userid>@<realm>`. The
 login screen on the GUI shows them a separate items, but it is
 internally used as single string.
 
-We store the following attribute for users ('/etc/pve/user.cfg'):
+We store the following attribute for users (`/etc/pve/user.cfg`):
 
 * first name
 * last name
@@ -88,7 +88,7 @@ We store the following attribute for users ('/etc/pve/user.cfg'):
 Superuser
 ^^^^^^^^^
 
-The traditional unix superuser account is called 'root@pam'. All
+The traditional unix superuser account is called `root@pam`. All
 system mails are forwarded to the email assigned to that account.
 
 Groups
@@ -103,8 +103,8 @@ Objects and Paths
 ~~~~~~~~~~~~~~~~~
 
 Access permissions are assigned to objects, such as a virtual machines
-('/vms/\{vmid\}') or a storage ('/storage/\{storeid\}') or a pool of
-resources ('/pool/\{poolname\}'). We use filesystem like paths to
+(`/vms/{vmid}`) or a storage (`/storage/{storeid}`) or a pool of
+resources (`/pool/{poolname}`). We use file system like paths to
 address those objects. Those paths form a natural tree, and
 permissions can be inherited down that hierarchy.
 
@@ -221,7 +221,7 @@ Pools
 ~~~~~
 
 Pools can be used to group a set of virtual machines and data
-stores. You can then simply set permissions on pools ('/pool/\{poolid\}'),
+stores. You can then simply set permissions on pools (`/pool/{poolid}`),
 which are inherited to all pool members. This is a great way simplify
 access control.
 
@@ -229,8 +229,8 @@ Command Line Tool
 -----------------
 
 Most users will simply use the GUI to manage users. But there is also
-a full featured command line tool called 'pveum' (short for 'Proxmox
-VE User Manager'). I will use that tool in the following
+a full featured command line tool called `pveum` (short for ``**P**roxmox
+**VE** **U**ser **M**anager''). I will use that tool in the following
 examples. Please note that all Proxmox VE command line tools are
 wrappers around the API, so you can also access those function through
 the REST API.
@@ -302,12 +302,12 @@ Auditors
 You can give read only access to users by assigning the `PVEAuditor`
 role to users or groups.
 
-Example1: Allow user 'joe@pve' to see everything
+Example1: Allow user `joe@pve` to see everything
 
 [source,bash]
  pveum aclmod / -user joe@pve -role PVEAuditor
 
-Example1: Allow user 'joe@pve' to see all virtual machines
+Example1: Allow user `joe@pve` to see all virtual machines
 
 [source,bash]
  pveum aclmod /vms -user joe@pve -role PVEAuditor
@@ -315,24 +315,25 @@ Example1: Allow user 'joe@pve' to see all virtual machines
 Delegate User Management
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you want to delegate user managenent to user 'joe@pve' you can do
+If you want to delegate user managenent to user `joe@pve` you can do
 that with:
 
 [source,bash]
  pveum aclmod /access -user joe@pve -role PVEUserAdmin
 
-User 'joe@pve' can now add and remove users, change passwords and
+User `joe@pve` can now add and remove users, change passwords and
 other user attributes. This is a very powerful role, and you most
 likely want to limit that to selected realms and groups. The following
-example allows 'joe@pve' to modify users within realm 'pve' if they
-are members of group 'customers':
+example allows `joe@pve` to modify users within realm `pve` if they
+are members of group `customers`:
 
 [source,bash]
  pveum aclmod /access/realm/pve -user joe@pve -role PVEUserAdmin
  pveum aclmod /access/groups/customers -user joe@pve -role PVEUserAdmin
 
 NOTE: The user is able to add other users, but only if they are
-members of group 'customers' and within realm 'pve'.
+members of group `customers` and within realm `pve`.
+
 
 Pools
 ~~~~~
@@ -359,7 +360,7 @@ Now we create a new user which is a member of that group
 
 NOTE: The -password parameter will prompt you for a password
 
-I assume we already created a pool called 'dev-pool' on the GUI. So we can now assign permission to that pool:
+I assume we already created a pool called ``dev-pool'' on the GUI. So we can now assign permission to that pool:
 
 [source,bash]
  pveum aclmod /pool/dev-pool/ -group developers -role PVEAdmin

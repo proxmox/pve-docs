@@ -103,7 +103,7 @@ include::qm.1-synopsis.adoc[]
 
 :leveloffset: 0
 
-*qmrestore* - Restore QemuServer 'vzdump' Backups
+*qmrestore* - Restore QemuServer `vzdump` Backups
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1

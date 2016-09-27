@@ -401,7 +401,7 @@ with a press of the ESC button during boot), or you have to choose
 SPICE as the display type.
 
 
-Managing Virtual Machines with 'qm'
+Managing Virtual Machines with `qm`
 ------------------------------------
 
 qm is the tool to manage Qemu/Kvm virtual machines on {pve}. You can
@@ -437,7 +437,7 @@ All configuration files consists of lines in the form
  PARAMETER: value
 
 Configuration files are stored inside the Proxmox cluster file
-system, and can be accessed at '/etc/pve/qemu-server/<VMID>.conf'.
+system, and can be accessed at `/etc/pve/qemu-server/<VMID>.conf`.
 
 Options
 ~~~~~~~
@@ -448,7 +448,7 @@ include::qm.conf.5-opts.adoc[]
 Locks
 -----
 
-Online migrations and backups ('vzdump') set a lock to prevent incompatible
+Online migrations and backups (`vzdump`) set a lock to prevent incompatible
 concurrent actions on the affected VMs. Sometimes you need to remove such a
 lock manually (e.g., after a power failure).
 

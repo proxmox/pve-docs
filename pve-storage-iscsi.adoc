@@ -10,13 +10,13 @@ source iSCSI target solutions available,
 e.g. http://www.openmediavault.org/[OpenMediaVault], which is based on
 Debian.
 
-To use this backend, you need to install the 'open-iscsi'
+To use this backend, you need to install the `open-iscsi`
 package. This is a standard Debian package, but it is not installed by
 default to save resources.
 
   # apt-get install open-iscsi
 
-Low-level iscsi management task can be done using the 'iscsiadm' tool.
+Low-level iscsi management task can be done using the `iscsiadm` tool.
 
 
 Configuration
@@ -34,7 +34,7 @@ target::
 iSCSI target.
 
 
-.Configuration Example ('/etc/pve/storage.cfg')
+.Configuration Example (`/etc/pve/storage.cfg`)
 ----
 iscsi: mynas
      portal 10.10.10.1

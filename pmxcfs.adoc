@@ -23,9 +23,9 @@ Proxmox Cluster File System (pmxcfs)
 include::attributes.txt[]
 endif::manvolnum[]
 
-The Proxmox Cluster file system (pmxcfs) is a database-driven file
+The Proxmox Cluster file system (``pmxcfs'') is a database-driven file
 system for storing configuration files, replicated in real time to all
-cluster nodes using corosync. We use this to store all PVE related
+cluster nodes using `corosync`. We use this to store all PVE related
 configuration files.
 
 Although the file system stores all data inside a persistent database
@@ -63,8 +63,8 @@ some feature are simply not implemented, because we do not need them:
 File access rights
 ------------------
 
-All files and directories are owned by user 'root' and have group
-'www-data'. Only root has write permissions, but group 'www-data' can
+All files and directories are owned by user `root` and have group
+`www-data`. Only root has write permissions, but group `www-data` can
 read most files. Files below the following paths:
 
  /etc/pve/priv/
@@ -93,25 +93,25 @@ Files
 
 [width="100%",cols="m,d"]
 |=======
-|corosync.conf  |corosync cluster configuration file (previous to {pve} 4.x this file was called cluster.conf)
-|storage.cfg   |{pve} storage configuration
-|datacenter.cfg   |{pve} datacenter wide configuration (keyboard layout, proxy, ...)
-|user.cfg      |{pve} access control configuration (users/groups/...)
-|domains.cfg   |{pve} Authentication domains 
-|authkey.pub   | public key used by ticket system
-|pve-root-ca.pem | public certificate of cluster CA
-|priv/shadow.cfg  | shadow password file
-|priv/authkey.key | private key used by ticket system
-|priv/pve-root-ca.key | private key of cluster CA
-|nodes/<NAME>/pve-ssl.pem                 | public ssl certificate for web server (signed by cluster CA)
-|nodes/<NAME>/pve-ssl.key            | private ssl key for pve-ssl.pem
-|nodes/<NAME>/pveproxy-ssl.pem       | public ssl certificate (chain) for web server (optional override for pve-ssl.pem)
-|nodes/<NAME>/pveproxy-ssl.key       | private ssl key for pveproxy-ssl.pem (optional)
-|nodes/<NAME>/qemu-server/<VMID>.conf    | VM configuration data for KVM VMs
-|nodes/<NAME>/lxc/<VMID>.conf         | VM configuration data for LXC containers
-|firewall/cluster.fw | Firewall config applied to all nodes
-|firewall/<NAME>.fw  | Firewall config for individual nodes
-|firewall/<VMID>.fw  | Firewall config for VMs and Containers
+|`corosync.conf`                        | Corosync cluster configuration file (previous to {pve} 4.x this file was called cluster.conf)
+|`storage.cfg`                          | {pve} storage configuration
+|`datacenter.cfg`                       | {pve} datacenter wide configuration (keyboard layout, proxy, ...)
+|`user.cfg`                             | {pve} access control configuration (users/groups/...)
+|`domains.cfg`                          | {pve} authentication domains
+|`authkey.pub`                          | Public key used by ticket system
+|`pve-root-ca.pem`                      | Public certificate of cluster CA
+|`priv/shadow.cfg`                      | Shadow password file
+|`priv/authkey.key`                     | Private key used by ticket system
+|`priv/pve-root-ca.key`                 | Private key of cluster CA
+|`nodes/<NAME>/pve-ssl.pem`             | Public SSL certificate for web server (signed by cluster CA)
+|`nodes/<NAME>/pve-ssl.key`             | Private SSL key for `pve-ssl.pem`
+|`nodes/<NAME>/pveproxy-ssl.pem`        | Public SSL certificate (chain) for web server (optional override for `pve-ssl.pem`)
+|`nodes/<NAME>/pveproxy-ssl.key`        | Private SSL key for `pveproxy-ssl.pem` (optional)
+|`nodes/<NAME>/qemu-server/<VMID>.conf` | VM configuration data for KVM VMs
+|`nodes/<NAME>/lxc/<VMID>.conf`         | VM configuration data for LXC containers
+|`firewall/cluster.fw`                  | Firewall configuration applied to all nodes
+|`firewall/<NAME>.fw`                   | Firewall configuration for individual nodes
+|`firewall/<VMID>.fw`                   | Firewall configuration for VMs and Containers
 |=======
 
 Symbolic links
@@ -119,9 +119,9 @@ Symbolic links
 
 [width="100%",cols="m,m"]
 |=======
-|local         |nodes/<LOCAL_HOST_NAME>
-|qemu-server   |nodes/<LOCAL_HOST_NAME>/qemu-server/
-|lxc           |nodes/<LOCAL_HOST_NAME>/lxc/
+|`local`         | `nodes/<LOCAL_HOST_NAME>`
+|`qemu-server`   | `nodes/<LOCAL_HOST_NAME>/qemu-server/`
+|`lxc`           | `nodes/<LOCAL_HOST_NAME>/lxc/`
 |=======
 
 Special status files for debugging (JSON)
@@ -129,11 +129,11 @@ Special status files for debugging (JSON)
 
 [width="100%",cols="m,d"]
 |=======
-| .version    |file versions (to detect file modifications)
-| .members    |Info about cluster members
-| .vmlist     |List of all VMs
-| .clusterlog |Cluster log (last 50 entries)
-| .rrd        |RRD data (most recent entries)
+|`.version`    |File versions (to detect file modifications)
+|`.members`    |Info about cluster members
+|`.vmlist`     |List of all VMs
+|`.clusterlog` |Cluster log (last 50 entries)
+|`.rrd`        |RRD data (most recent entries)
 |=======
 
 Enable/Disable debugging
@@ -153,11 +153,11 @@ Recovery
 
 If you have major problems with your Proxmox VE host, e.g. hardware
 issues, it could be helpful to just copy the pmxcfs database file
-/var/lib/pve-cluster/config.db and move it to a new Proxmox VE
+`/var/lib/pve-cluster/config.db` and move it to a new Proxmox VE
 host. On the new host (with nothing running), you need to stop the
-pve-cluster service and replace the config.db file (needed permissions
-0600). Second, adapt '/etc/hostname' and '/etc/hosts' according to the
-lost Proxmox VE host, then reboot and check. (And don´t forget your
+`pve-cluster` service and replace the `config.db` file (needed permissions
+`0600`). Second, adapt `/etc/hostname` and `/etc/hosts` according to the
+lost Proxmox VE host, then reboot and check. (And don't forget your
 VM/CT data)
 
 Remove Cluster configuration
@@ -170,7 +170,7 @@ shared configuration data is destroyed.
 In some cases, you might prefer to put a node back to local mode
 without reinstall, which is described here:
 
-* stop the cluster file system in '/etc/pve/'
+* stop the cluster file system in `/etc/pve/`
 
  # systemctl stop pve-cluster
 

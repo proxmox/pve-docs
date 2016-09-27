@@ -12,7 +12,7 @@ datacenter.cfg - Proxmox VE Datacenter Configuration
 SYNOPSYS
 --------
 
-'/etc/pve/datacenter.cfg'
+`/etc/pve/datacenter.cfg`
 
 
 DESCRIPTION
@@ -25,7 +25,7 @@ Datacenter Configuration
 include::attributes.txt[]
 endif::manvolnum[]
 
-The file '/etc/pve/datacenter.cfg' is a configuration file for
+The file `/etc/pve/datacenter.cfg` is a configuration file for
 {pve}. It contains cluster wide default values used by all nodes.
 
 File Format
@@ -36,7 +36,7 @@ the following format:
 
  OPTION: value
 
-Blank lines in the file are ignored, and lines starting with a '#'
+Blank lines in the file are ignored, and lines starting with a `#`
 character are treated as comments and are also ignored.
 
 

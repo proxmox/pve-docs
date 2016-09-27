@@ -61,14 +61,14 @@ BIOS is unable to read the boot block from the disk.
 
 Test Memory::
 
-Runs 'memtest86+'. This is useful to check if your memory if
+Runs `memtest86+`. This is useful to check if your memory if
 functional and error free.
 
 You normally select *Install Proxmox VE* to start the installation.
 After that you get prompted to select the target hard disk(s). The
 `Options` button lets you select the target file system, which
-defaults to `ext4`. The installer uses LVM if you select 'ext3',
-'ext4' or 'xfs' as file system, and offers additional option to
+defaults to `ext4`. The installer uses LVM if you select `ext3`,
+`ext4` or `xfs` as file system, and offers additional option to
 restrict LVM space (see <<advanced_lvm_options,below>>)
 
 If you have more than one disk, you can also use ZFS as file system.
@@ -121,7 +121,7 @@ system.
 `maxvz`::
 
 Define the size of the `data` volume, which is mounted at
-'/var/lib/vz'.
+`/var/lib/vz`.
 
 `minfree`::
 

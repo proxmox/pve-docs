@@ -27,7 +27,7 @@ sparse::
 Use ZFS thin-provisioning. A sparse volume is a volume whose
 reservation is not equal to the volume size.
 
-.Configuration Example ('/etc/pve/storage.cfg')
+.Configuration Example (`/etc/pve/storage.cfg`)
 ----
 zfspool: vmdata
         pool tank/vmdata

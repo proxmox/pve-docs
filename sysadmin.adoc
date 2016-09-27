@@ -57,7 +57,7 @@ Recommended system requirements
 
 * RAM: 8 GB is good, more is better
 
-* Hardware RAID with batteries protected write cache (BBU) or flash
+* Hardware RAID with batteries protected write cache (``BBU'') or flash
  based protection
 
 * Fast hard drives, best results with 15k rpm SAS, Raid10

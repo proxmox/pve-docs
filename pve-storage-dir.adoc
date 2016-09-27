@@ -9,7 +9,7 @@ storage. A directory is a file level storage, so you can store any
 content type like virtual disk images, containers, templates, ISO images
 or backup files.
 
-NOTE: You can mount additional storages via standard linux '/etc/fstab',
+NOTE: You can mount additional storages via standard linux `/etc/fstab`,
 and then define a directory storage for that mount point. This way you
 can use any file system supported by Linux.
 
@@ -31,10 +31,10 @@ storage backends.
 [width="100%",cols="d,m",options="header"]
 |===========================================================
 |Content type        |Subdir
-|VM images           |images/<VMID>/
-|ISO images          |template/iso/
-|Container templates |template/cache
-|Backup files        |dump/
+|VM images           |`images/<VMID>/`
+|ISO images          |`template/iso/`
+|Container templates |`template/cache/`
+|Backup files        |`dump/`
 |===========================================================
 
 Configuration
@@ -44,7 +44,7 @@ This backend supports all common storage properties, and adds an
 additional property called `path` to specify the directory. This
 needs to be an absolute file system path.
 
-.Configuration Example ('/etc/pve/storage.cfg')
+.Configuration Example (`/etc/pve/storage.cfg`)
 ----
 dir: backup
         path /mnt/backup
@@ -54,7 +54,7 @@ dir: backup
 
 Above configuration defines a storage pool called `backup`. That pool
 can be used to store up to 7 backups (`maxfiles 7`) per VM. The real
-path for the backup files is '/mnt/backup/dump/...'.
+path for the backup files is `/mnt/backup/dump/...`.
 
 
 File naming conventions
@@ -70,13 +70,13 @@ This specifies the owner VM.
 
 `<NAME>`::
 
-This can be an arbitrary name (`ascii`) without white spaces. The
+This can be an arbitrary name (`ascii`) without white space. The
 backend uses `disk-[N]` as default, where `[N]` is replaced by an
 integer to make the name unique.
 
 `<FORMAT>`::
 
-Species the image format (`raw|qcow2|vmdk`).
+Specifies the image format (`raw|qcow2|vmdk`).
 
 When you create a VM template, all VM images are renamed to indicate
 that they are now read-only, and can be uses as a base image for clones:

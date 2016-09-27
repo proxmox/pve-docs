@@ -80,7 +80,7 @@ This mode provides the lowest operation downtime, at the cost of a
 small inconstancy risk.  It works by performing a Proxmox VE live
 backup, in which data blocks are copied while the VM is running. If the
 guest agent is enabled (`agent: 1`) and running, it calls
-'guest-fsfreeze-freeze' and 'guest-fsfreeze-thaw' to improve
+`guest-fsfreeze-freeze` and `guest-fsfreeze-thaw` to improve
 consistency.
 
 A technical overview of the Proxmox VE live backup for QemuServer can
@@ -122,7 +122,7 @@ snapshot content will be archived in a tar file. Finally, the temporary
 snapshot is deleted again.
 
 NOTE: `snapshot` mode requires that all backed up volumes are on a storage that
-supports snapshots. Using the `backup=no` mountpoint option individual volumes
+supports snapshots. Using the `backup=no` mount point option individual volumes
 can be excluded from the backup (and thus this requirement).
 
 NOTE: bind and device mountpoints are skipped during backup operations, like
@@ -156,13 +156,13 @@ For details see the corresponding manual pages.
 Configuration
 -------------
 
-Global configuration is stored in '/etc/vzdump.conf'. The file uses a
+Global configuration is stored in `/etc/vzdump.conf`. The file uses a
 simple colon separated key/value format. Each line has the following
 format:
 
  OPTION: value
 
-Blank lines in the file are ignored, and lines starting with a '#'
+Blank lines in the file are ignored, and lines starting with a `#`
 character are treated as comments and are also ignored. Values from
 this file are used as default, and can be overwritten on the command
 line.
@@ -172,7 +172,7 @@ We currently support the following options:
 include::vzdump.conf.5-opts.adoc[]
 
 
-.Example 'vzdump.conf' Configuration
+.Example `vzdump.conf` Configuration
 ----
 tmpdir: /mnt/fast_local_disk
 storage: my_backup_storage
@@ -186,14 +186,14 @@ Hook Scripts
 You can specify a hook script with option `--script`. This script is
 called at various phases of the backup process, with parameters
 accordingly set. You can find an example in the documentation
-directory ('vzdump-hook-script.pl').
+directory (`vzdump-hook-script.pl`).
 
 File Exclusions
 ---------------
 
 NOTE: this option is only available for container backups.
 
-'vzdump' skips the following files by default (disable with the option
+`vzdump` skips the following files by default (disable with the option
 `--stdexcludes 0`)
 
  /tmp/?*
@@ -214,7 +214,7 @@ Examples
 
 Simply dump guest 777 - no snapshot, just archive the guest private area and
 configuration files to the default dump directory (usually
-'/var/lib/vz/dump/').
+`/var/lib/vz/dump/`).
 
  # vzdump 777
 
