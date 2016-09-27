@@ -640,23 +640,21 @@ Container Advantages
 Technology Overview
 -------------------
 
-- Integrated into {pve} graphical user interface (GUI)
+* Integrated into {pve} graphical user interface (GUI)
 
-- LXC (https://linuxcontainers.org/)
+* LXC (https://linuxcontainers.org/)
 
-- cgmanager for cgroup management
+* lxcfs to provide containerized /proc file system
 
-- lxcfs to provive containerized /proc file system
+* AppArmor
 
-- apparmor
+* CRIU: for live migration (planned)
 
-- CRIU: for live migration (planned)
+* We use latest available kernels (4.4.X)
 
-- We use latest available kernels (4.4.X)
+* Image based deployment (templates)
 
-- Image based deployment (templates)
-
-- Container setup from host (Network, DNS, Storage, ...)
+* Container setup from host (network, DNS, storage, ...)
 
 
 ifdef::manvolnum[]
