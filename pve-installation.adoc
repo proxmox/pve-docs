@@ -205,5 +205,7 @@ See Also
 
 * link:/wiki/Network_Configuration[Network Configuration]
 
+* link:/wiki/Installation:_Tips_and_Tricks[Installation: Tips and Tricks]
+
 endif::wiki[]
 
