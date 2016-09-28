@@ -3,23 +3,18 @@ Installing Proxmox VE
 include::attributes.txt[]
 
 {pve} ships as a set of Debian packages, so you can simply install it
-on top of a normal Debian installation. After configuring the
-repositories, you need to run:
+on top of a normal Debian installation, or download the installation
+CD-ROM and use that to install {pve} on your hardware.
 
-[source,bash]
-----
-apt-get update
-apt-get install proxmox-ve
-----
-
-While this looks easy, it presumes that you have correctly installed
-the base system, and you know how you want to configure and use the
-local storage. Network configuration is also completely up to you.
+Installing on top of an existing Debian installation looks easy, but
+it presumes that you have correctly installed the base system, and you
+know how you want to configure and use the local storage. Network
+configuration is also completely up to you.
 
 In general, this is not trivial, especially when you use LVM or
 ZFS. This is why we provide an installation CD-ROM for {pve}. That
 installer just ask you a few questions, then partitions the local
-disk(s), installs all required packages, and configures the system
+disk(s), installs all required packages and configures the system
 including a basic network setup. You can get a fully functional system
 within a few minutes, including the following:
 
@@ -29,12 +24,14 @@ within a few minutes, including the following:
 * Complete toolset
 * Web based management interface
 
-NOTE: By default, the complete server is used and all existing data is
-removed.
-
 
 Using the {pve} Installation CD-ROM
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This is the preferred and recommended installation method.
+
+NOTE: By default, the complete server is used and all existing data is
+removed.
 
 Please insert the installation CD-ROM, then boot from that
 drive. Immediately afterwards you can choose the following menu
@@ -144,4 +141,69 @@ write cache is called the ZFS Intent Log (ZIL). You can add that after
 installation using the following command:
 
  zpool add <pool-name> log </dev/path_to_fast_ssd>
+
+
+ifdef::wiki[]
+
+link:/wiki/Install_Proxmox_VE_on_Debian_Jessie[Install Proxmox VE on Debian Jessie]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+endif::wiki[]
+
+ifndef::wiki[]
+
+Install {pve} on Debian
+~~~~~~~~~~~~~~~~~~~~~~~
+
+{pve} ships as a set of Debian packages, so you can simply install it
+on top of a normal Debian installation.  After configuring the
+repositories, you need to run:
+
+[source,bash]
+----
+apt-get update
+apt-get install proxmox-ve
+----
+
+You can find a detailed step by step howto on the {pve}
+http://pve.proxmox.com/wiki/Install_Proxmox_VE_on_Debian_Jessie[wiki].
+
+endif::wiki[]
+
+
+{pve} Web Interface
+~~~~~~~~~~~~~~~~~~~
+
+After installation, further configuration is done via the {pve} web
+interface. Just point your browser to the IP address given during
+installation ('https://youripaddress:8006'). Proxmox VE is tested for
+IE9, Firefox 10 and higher, Google Chrome (latest).
+
+NOTE: Default login is "root" (realm 'PAM') and the root password is
+defined during the installation process.
+
+
+ifdef::wiki[]
+
+Video Tutorials
+~~~~~~~~~~~~~~~
+
+* List of all official tutorials on our
+  http://www.youtube.com/proxmoxve[Proxmox VE YouTube Channel]
+
+* Tutorials in Spanish language on
+  http://www.youtube.com/playlist?list=PLUULBIhA5QDBdNf1pcTZ5UXhek63Fij8z[ITexperts.es
+  YouTube Play List]
+
+
+See Also
+~~~~~~~~
+
+* link:/wiki/Package_Repositories[Package Repositories]
+
+* link:/wiki/Host_System_Administration[Host System Administration]
+
+* link:/wiki/Network_Configuration[Network Configuration]
+
+endif::wiki[]
 
