@@ -59,7 +59,7 @@ BIOS is unable to read the boot block from the disk.
 
 Test Memory::
 
-Runs `memtest86+`. This is useful to check if your memory if
+Runs `memtest86+`. This is useful to check if your memory is
 functional and error free.
 
 You normally select *Install Proxmox VE* to start the installation.
