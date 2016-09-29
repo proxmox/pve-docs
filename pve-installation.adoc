@@ -91,6 +91,9 @@ point your browser to the IP address given during installation
 (https://youripaddress:8006). {pve} is tested for IE9, Firefox 10
 and higher, and Google Chrome.
 
+NOTE: Default login is "root" (realm 'PAM') and the root password is
+defined during the installation process.
+
 
 [[advanced_lvm_options]]
 Advanced LVM Configuration Options
@@ -169,18 +172,6 @@ You can find a detailed step by step howto on the {pve}
 http://pve.proxmox.com/wiki/Install_Proxmox_VE_on_Debian_Jessie[wiki].
 
 endif::wiki[]
-
-
-{pve} Web Interface
-~~~~~~~~~~~~~~~~~~~
-
-After installation, further configuration is done via the {pve} web
-interface. Just point your browser to the IP address given during
-installation ('https://youripaddress:8006'). Proxmox VE is tested for
-IE9, Firefox 10 and higher, Google Chrome (latest).
-
-NOTE: Default login is "root" (realm 'PAM') and the root password is
-defined during the installation process.
 
 
 ifdef::wiki[]
