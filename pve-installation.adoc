@@ -158,7 +158,7 @@ Install {pve} on Debian
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 {pve} ships as a set of Debian packages, so you can simply install it
-on top of a normal Debian installation.  After configuring the
+on top of a normal Debian installation. After configuring the
 repositories, you need to run:
 
 [source,bash]
@@ -198,4 +198,3 @@ See Also
 * link:/wiki/Installation:_Tips_and_Tricks[Installation: Tips and Tricks]
 
 endif::wiki[]
-
