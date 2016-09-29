@@ -17,7 +17,7 @@ Download appliance templates.
 
 `<storage>` `string` ::
 
-Only list status for  specified storage
+The storage where the template will be stored
 
 `<template>` `string` ::
 
@@ -47,7 +47,7 @@ Get list of all templates on storage
 
 `<storage>` `string` ::
 
-Only list status for specified storage
+Only list templates on specified storage
 
 
 

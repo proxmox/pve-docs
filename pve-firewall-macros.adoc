@@ -329,6 +329,15 @@
 |===========================================================
 
 [horizontal]
+'MDNS':: Multicast DNS
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|udp|5353|
+|===========================================================
+
+[horizontal]
 'MSNP':: Microsoft Notification Protocol
 
 [width="100%",options="header"]

@@ -104,7 +104,7 @@ Removes a node to the cluster configuration.
 
 `<node>` `string` ::
 
-The cluster node name.
+Hostname or IP of the corosync ring0 address of this node.
 
 
 

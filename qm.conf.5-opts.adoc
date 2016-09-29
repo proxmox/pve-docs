@@ -70,6 +70,22 @@ NOTE: You can disable fair-scheduler configuration by setting this to 0.
 
 Description for the VM. Only used on the configuration web interface. This is saved as comment inside the configuration file.
 
+`efidisk0`: `[file=]<volume> [,format=<image format>] [,size=<DiskSize>]` ::
+
+Configure a Disk for storing EFI vars
+
+`file`=`<volume>` ;;
+
+The drive's backing volume.
+
+`format`=`<image format>` ;;
+
+The drive's backing file's data format.
+
+`size`=`<DiskSize>` ;;
+
+Disk size. This is purely informational and has no effect.
+
 `freeze`: `boolean` ::
 
 Freeze CPU at startup (use 'c' monitor command to start execution).
@@ -107,6 +123,10 @@ Enable vfio-vga device support.
 `hotplug`: `string` (default=`network,disk,usb`)::
 
 Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to disable hotplug completely. Value '1' is an alias for the default 'network,disk,usb'.
+
+`hugepages`: `(1024 | 2 | any)` ::
+
+Enable/disable hugepages memory.
 
 `ide[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
 

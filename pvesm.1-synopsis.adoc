@@ -50,6 +50,10 @@ NFS export path.
 
 Default image format.
 
+`-is_mountpoint` `boolean` (default=`no`)::
+
+Assume the directory is an externally managed mountpoint. If nothing is mounted the storage will be considered offline.
+
 `-iscsiprovider` `string` ::
 
 iscsi provider
@@ -61,6 +65,10 @@ Access rbd through krbd kernel module.
 `-maxfiles` `integer (0 - N)` ::
 
 Maximal number of backup files per VM. Use '0' for unlimted.
+
+`-mkdir` `boolean` (default=`yes`)::
+
+Create the directory if it doesn't exist.
 
 `-monhost` `string` ::
 
@@ -120,6 +128,10 @@ Mark storage as shared.
 
 use sparse volumes
 
+`-tagged_only` `boolean` ::
+
+Only use logical volumes tagged with 'pve-vm-ID'.
+
 `-target` `string` ::
 
 iSCSI target.
@@ -172,6 +184,18 @@ Size in kilobyte (1024 bytes). Optional suffixes 'M' (megabyte, 1024K) and 'G' (
 no description available
 +
 NOTE: Requires option(s): `size`
+
+
+
+
+*pvesm extractconfig* `<volume>`
+
+Extract configuration from vzdump backup archive.
+
+`<volume>` `string` ::
+
+Volume identifier
+
 
 
 
@@ -336,6 +360,10 @@ Flag to disable the storage.
 
 Default image format.
 
+`-is_mountpoint` `boolean` (default=`no`)::
+
+Assume the directory is an externally managed mountpoint. If nothing is mounted the storage will be considered offline.
+
 `-krbd` `boolean` ::
 
 Access rbd through krbd kernel module.
@@ -343,6 +371,10 @@ Access rbd through krbd kernel module.
 `-maxfiles` `integer (0 - N)` ::
 
 Maximal number of backup files per VM. Use '0' for unlimted.
+
+`-mkdir` `boolean` (default=`yes`)::
+
+Create the directory if it doesn't exist.
 
 `-nodes` `string` ::
 
@@ -389,6 +421,10 @@ Mark storage as shared.
 `-sparse` `boolean` ::
 
 use sparse volumes
+
+`-tagged_only` `boolean` ::
+
+Only use logical volumes tagged with 'pve-vm-ID'.
 
 `-transport` `(rdma | tcp | unix)` ::
 

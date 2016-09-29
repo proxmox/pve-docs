@@ -133,6 +133,10 @@ CPU weight for a VM.
 
 Description for the VM. Only used on the configuration web interface. This is saved as comment inside the configuration file.
 
+`-efidisk0` `[file=]<volume> [,format=<image format>] [,size=<DiskSize>]` ::
+
+Configure a Disk for storing EFI vars
+
 `-force` `boolean` ::
 
 Allow to overwrite existing VM.
@@ -150,6 +154,10 @@ Map host PCI devices into guest.
 `-hotplug` `string` (default=`network,disk,usb`)::
 
 Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to disable hotplug completely. Value '1' is an alias for the default 'network,disk,usb'.
+
+`-hugepages` `(1024 | 2 | any)` ::
+
+Enable/disable hugepages memory.
 
 `-ide[n]` `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
 
@@ -415,7 +423,7 @@ Move volume to different storage.
 
 The (unique) ID of the VM.
 
-`<disk>` `(ide0 | ide1 | ide2 | ide3 | sata0 | sata1 | sata2 | sata3 | sata4 | sata5 | scsi0 | scsi1 | scsi10 | scsi11 | scsi12 | scsi13 | scsi2 | scsi3 | scsi4 | scsi5 | scsi6 | scsi7 | scsi8 | scsi9 | virtio0 | virtio1 | virtio10 | virtio11 | virtio12 | virtio13 | virtio14 | virtio15 | virtio2 | virtio3 | virtio4 | virtio5 | virtio6 | virtio7 | virtio8 | virtio9)` ::
+`<disk>` `(efidisk0 | ide0 | ide1 | ide2 | ide3 | sata0 | sata1 | sata2 | sata3 | sata4 | sata5 | scsi0 | scsi1 | scsi10 | scsi11 | scsi12 | scsi13 | scsi2 | scsi3 | scsi4 | scsi5 | scsi6 | scsi7 | scsi8 | scsi9 | virtio0 | virtio1 | virtio10 | virtio11 | virtio12 | virtio13 | virtio14 | virtio15 | virtio2 | virtio3 | virtio4 | virtio5 | virtio6 | virtio7 | virtio8 | virtio9)` ::
 
 The disk you want to move.
 
@@ -489,7 +497,7 @@ Extend volume size.
 
 The (unique) ID of the VM.
 
-`<disk>` `(ide0 | ide1 | ide2 | ide3 | sata0 | sata1 | sata2 | sata3 | sata4 | sata5 | scsi0 | scsi1 | scsi10 | scsi11 | scsi12 | scsi13 | scsi2 | scsi3 | scsi4 | scsi5 | scsi6 | scsi7 | scsi8 | scsi9 | virtio0 | virtio1 | virtio10 | virtio11 | virtio12 | virtio13 | virtio14 | virtio15 | virtio2 | virtio3 | virtio4 | virtio5 | virtio6 | virtio7 | virtio8 | virtio9)` ::
+`<disk>` `(efidisk0 | ide0 | ide1 | ide2 | ide3 | sata0 | sata1 | sata2 | sata3 | sata4 | sata5 | scsi0 | scsi1 | scsi10 | scsi11 | scsi12 | scsi13 | scsi2 | scsi3 | scsi4 | scsi5 | scsi6 | scsi7 | scsi8 | scsi9 | virtio0 | virtio1 | virtio10 | virtio11 | virtio12 | virtio13 | virtio14 | virtio15 | virtio2 | virtio3 | virtio4 | virtio5 | virtio6 | virtio7 | virtio8 | virtio9)` ::
 
 The disk you want to resize.
 
@@ -631,6 +639,10 @@ Description for the VM. Only used on the configuration web interface. This is sa
 
 Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
 
+`-efidisk0` `[file=]<volume> [,format=<image format>] [,size=<DiskSize>]` ::
+
+Configure a Disk for storing EFI vars
+
 `-force` `boolean` ::
 
 Force physical removal. Without this, we simple remove the disk from the config file and create an additional configuration entry called 'unused[n]', which contains the volume ID. Unlink of unused[n] always cause physical removal.
@@ -648,6 +660,10 @@ Map host PCI devices into guest.
 `-hotplug` `string` (default=`network,disk,usb`)::
 
 Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to disable hotplug completely. Value '1' is an alias for the default 'network,disk,usb'.
+
+`-hugepages` `(1024 | 2 | any)` ::
+
+Enable/disable hugepages memory.
 
 `-ide[n]` `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
 
@@ -960,7 +976,7 @@ Create a Template.
 
 The (unique) ID of the VM.
 
-`-disk` `(ide0 | ide1 | ide2 | ide3 | sata0 | sata1 | sata2 | sata3 | sata4 | sata5 | scsi0 | scsi1 | scsi10 | scsi11 | scsi12 | scsi13 | scsi2 | scsi3 | scsi4 | scsi5 | scsi6 | scsi7 | scsi8 | scsi9 | virtio0 | virtio1 | virtio10 | virtio11 | virtio12 | virtio13 | virtio14 | virtio15 | virtio2 | virtio3 | virtio4 | virtio5 | virtio6 | virtio7 | virtio8 | virtio9)` ::
+`-disk` `(efidisk0 | ide0 | ide1 | ide2 | ide3 | sata0 | sata1 | sata2 | sata3 | sata4 | sata5 | scsi0 | scsi1 | scsi10 | scsi11 | scsi12 | scsi13 | scsi2 | scsi3 | scsi4 | scsi5 | scsi6 | scsi7 | scsi8 | scsi9 | virtio0 | virtio1 | virtio10 | virtio11 | virtio12 | virtio13 | virtio14 | virtio15 | virtio2 | virtio3 | virtio4 | virtio5 | virtio6 | virtio7 | virtio8 | virtio9)` ::
 
 If you want to convert only 1 disk to base image.
 

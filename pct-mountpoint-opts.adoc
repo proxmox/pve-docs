@@ -8,11 +8,13 @@ Explicitly enable or disable ACL support.
 
 `backup`: `boolean` ::
 
-Whether to include the mountpoint in backups.
+Whether to include the mountpoint in backups (only used for volume mountpoints).
 
 `mp`: `<Path>` ::
 
 Path to the mountpoint as seen from inside the container.
++
+NOTE: Must not contain any symlinks for security reasons.
 
 `quota`: `boolean` ::
 
@@ -20,7 +22,7 @@ Enable user quotas inside the container (not supported with zfs subvolumes)
 
 `ro`: `boolean` ::
 
-Read-only mountpoint (not supported with bind mounts)
+Read-only mountpoint
 
 `size`: `<DiskSize>` ::
 

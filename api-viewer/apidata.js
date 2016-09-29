@@ -34,7 +34,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0- N)"
+                                             "typetext" : "integer (0 - N)"
                                           }
                                        }
                                     },
@@ -72,7 +72,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0- N)"
+                                             "typetext" : "integer (0 - N)"
                                           }
                                        }
                                     },
@@ -144,7 +144,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0- N)"
+                                             "typetext" : "integer (0 - N)"
                                           },
                                           "group" : {
                                              "description" : "Security Group name.",
@@ -172,14 +172,14 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0- N)"
+                                             "typetext" : "integer (0 - N)"
                                           },
                                           "pos" : {
                                              "description" : "Update rule at position <pos>.",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0- N)"
+                                             "typetext" : "integer (0 - N)"
                                           },
                                           "proto" : {
                                              "description" : "IP protocol. You can use protocol names ('tcp'/'udp') or simple numbers, as defined in '/etc/protocols'.",
@@ -350,7 +350,7 @@ var pveapi = [
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (0- N)"
+                                       "typetext" : "integer (0 - N)"
                                     },
                                     "group" : {
                                        "description" : "Security Group name.",
@@ -378,7 +378,7 @@ var pveapi = [
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (0- N)"
+                                       "typetext" : "integer (0 - N)"
                                     },
                                     "proto" : {
                                        "description" : "IP protocol. You can use protocol names ('tcp'/'udp') or simple numbers, as defined in '/etc/protocols'.",
@@ -549,7 +549,7 @@ var pveapi = [
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (0- N)"
+                                       "typetext" : "integer (0 - N)"
                                     }
                                  }
                               },
@@ -580,7 +580,7 @@ var pveapi = [
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (0- N)"
+                                       "typetext" : "integer (0 - N)"
                                     }
                                  }
                               },
@@ -652,7 +652,7 @@ var pveapi = [
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (0- N)"
+                                       "typetext" : "integer (0 - N)"
                                     },
                                     "iface" : {
                                        "description" : "Network interface name. You have to use network configuration key names for VMs and containers ('net\\d+'). Host related rules can use arbitrary strings.",
@@ -673,14 +673,14 @@ var pveapi = [
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (0- N)"
+                                       "typetext" : "integer (0 - N)"
                                     },
                                     "pos" : {
                                        "description" : "Update rule at position <pos>.",
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (0- N)"
+                                       "typetext" : "integer (0 - N)"
                                     },
                                     "proto" : {
                                        "description" : "IP protocol. You can use protocol names ('tcp'/'udp') or simple numbers, as defined in '/etc/protocols'.",
@@ -812,7 +812,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0- N)"
+                                 "typetext" : "integer (0 - N)"
                               },
                               "iface" : {
                                  "description" : "Network interface name. You have to use network configuration key names for VMs and containers ('net\\d+'). Host related rules can use arbitrary strings.",
@@ -833,7 +833,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0- N)"
+                                 "typetext" : "integer (0 - N)"
                               },
                               "proto" : {
                                  "description" : "IP protocol. You can use protocol names ('tcp'/'udp') or simple numbers, as defined in '/etc/protocols'.",
@@ -1555,7 +1555,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0- N)"
+                                 "typetext" : "integer (0 - N)"
                               },
                               "policy_in" : {
                                  "description" : "Input policy.",
@@ -1801,7 +1801,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0- N)"
+                                 "typetext" : "integer (0 - N)"
                               },
                               "compress" : {
                                  "default" : "0",
@@ -1862,7 +1862,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0-8)"
+                                 "typetext" : "integer (0 - 8)"
                               },
                               "lockwait" : {
                                  "default" : 180,
@@ -1870,7 +1870,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0- N)"
+                                 "typetext" : "integer (0 - N)"
                               },
                               "mailnotification" : {
                                  "default" : "always",
@@ -1894,7 +1894,7 @@ var pveapi = [
                                  "minimum" : 1,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (1- N)"
+                                 "typetext" : "integer (1 - N)"
                               },
                               "mode" : {
                                  "default" : "snapshot",
@@ -1942,7 +1942,7 @@ var pveapi = [
                                  "minimum" : 500,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (500- N)"
+                                 "typetext" : "integer (500 - N)"
                               },
                               "starttime" : {
                                  "description" : "Job Start time.",
@@ -1968,7 +1968,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0- N)"
+                                 "typetext" : "integer (0 - N)"
                               },
                               "storage" : {
                                  "description" : "Store resulting file to this storage.",
@@ -2063,7 +2063,7 @@ var pveapi = [
                            "minimum" : 0,
                            "optional" : 1,
                            "type" : "integer",
-                           "typetext" : "integer (0- N)"
+                           "typetext" : "integer (0 - N)"
                         },
                         "compress" : {
                            "default" : "0",
@@ -2114,7 +2114,7 @@ var pveapi = [
                            "minimum" : 0,
                            "optional" : 1,
                            "type" : "integer",
-                           "typetext" : "integer (0-8)"
+                           "typetext" : "integer (0 - 8)"
                         },
                         "lockwait" : {
                            "default" : 180,
@@ -2122,7 +2122,7 @@ var pveapi = [
                            "minimum" : 0,
                            "optional" : 1,
                            "type" : "integer",
-                           "typetext" : "integer (0- N)"
+                           "typetext" : "integer (0 - N)"
                         },
                         "mailnotification" : {
                            "default" : "always",
@@ -2146,7 +2146,7 @@ var pveapi = [
                            "minimum" : 1,
                            "optional" : 1,
                            "type" : "integer",
-                           "typetext" : "integer (1- N)"
+                           "typetext" : "integer (1 - N)"
                         },
                         "mode" : {
                            "default" : "snapshot",
@@ -2194,7 +2194,7 @@ var pveapi = [
                            "minimum" : 500,
                            "optional" : 1,
                            "type" : "integer",
-                           "typetext" : "integer (500- N)"
+                           "typetext" : "integer (500 - N)"
                         },
                         "starttime" : {
                            "description" : "Job Start time.",
@@ -2220,7 +2220,7 @@ var pveapi = [
                            "minimum" : 0,
                            "optional" : 1,
                            "type" : "integer",
-                           "typetext" : "integer (0- N)"
+                           "typetext" : "integer (0 - N)"
                         },
                         "storage" : {
                            "description" : "Store resulting file to this storage.",
@@ -2443,7 +2443,7 @@ var pveapi = [
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (0- N)"
+                                       "typetext" : "integer (0 - N)"
                                     },
                                     "max_restart" : {
                                        "default" : 1,
@@ -2451,7 +2451,7 @@ var pveapi = [
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (0- N)"
+                                       "typetext" : "integer (0 - N)"
                                     },
                                     "sid" : {
                                        "description" : "HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).",
@@ -2563,7 +2563,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0- N)"
+                                 "typetext" : "integer (0 - N)"
                               },
                               "max_restart" : {
                                  "default" : 1,
@@ -2571,7 +2571,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0- N)"
+                                 "typetext" : "integer (0 - N)"
                               },
                               "sid" : {
                                  "description" : "HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).",
@@ -2994,7 +2994,7 @@ var pveapi = [
                            "minimum" : 1,
                            "optional" : 1,
                            "type" : "integer",
-                           "typetext" : "integer (1- N)"
+                           "typetext" : "integer (1 - N)"
                         }
                      }
                   },
@@ -3200,7 +3200,7 @@ var pveapi = [
                            "minimum" : 1,
                            "optional" : 1,
                            "type" : "integer",
-                           "typetext" : "integer (1- N)"
+                           "typetext" : "integer (1 - N)"
                         },
                         "migration_unsecure" : {
                            "description" : "Migration is secure using SSH tunnel by default. For secure private networks you can disable it to speed up migration.",
@@ -3279,7 +3279,7 @@ var pveapi = [
                            "minimum" : 1,
                            "optional" : 1,
                            "type" : "integer",
-                           "typetext" : "integer (1- N)"
+                           "typetext" : "integer (1 - N)"
                         }
                      }
                   },
@@ -3364,14 +3364,14 @@ var pveapi = [
                                                          "minimum" : 0,
                                                          "optional" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (0- N)"
+                                                         "typetext" : "integer (0 - N)"
                                                       },
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -3407,14 +3407,14 @@ var pveapi = [
                                                          "minimum" : 0,
                                                          "optional" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (0- N)"
+                                                         "typetext" : "integer (0 - N)"
                                                       },
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -3486,7 +3486,7 @@ var pveapi = [
                                                          "minimum" : 0,
                                                          "optional" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (0- N)"
+                                                         "typetext" : "integer (0 - N)"
                                                       },
                                                       "iface" : {
                                                          "description" : "Network interface name. You have to use network configuration key names for VMs and containers ('net\\d+'). Host related rules can use arbitrary strings.",
@@ -3507,7 +3507,7 @@ var pveapi = [
                                                          "minimum" : 0,
                                                          "optional" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (0- N)"
+                                                         "typetext" : "integer (0 - N)"
                                                       },
                                                       "node" : {
                                                          "description" : "The cluster node name.",
@@ -3519,7 +3519,7 @@ var pveapi = [
                                                          "minimum" : 0,
                                                          "optional" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (0- N)"
+                                                         "typetext" : "integer (0 - N)"
                                                       },
                                                       "proto" : {
                                                          "description" : "IP protocol. You can use protocol names ('tcp'/'udp') or simple numbers, as defined in '/etc/protocols'.",
@@ -3554,7 +3554,7 @@ var pveapi = [
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -3597,7 +3597,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -3672,7 +3672,7 @@ var pveapi = [
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (0- N)"
+                                                   "typetext" : "integer (0 - N)"
                                                 },
                                                 "iface" : {
                                                    "description" : "Network interface name. You have to use network configuration key names for VMs and containers ('net\\d+'). Host related rules can use arbitrary strings.",
@@ -3698,7 +3698,7 @@ var pveapi = [
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (0- N)"
+                                                   "typetext" : "integer (0 - N)"
                                                 },
                                                 "proto" : {
                                                    "description" : "IP protocol. You can use protocol names ('tcp'/'udp') or simple numbers, as defined in '/etc/protocols'.",
@@ -3733,7 +3733,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -3791,7 +3791,7 @@ var pveapi = [
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -3833,7 +3833,7 @@ var pveapi = [
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -3897,7 +3897,7 @@ var pveapi = [
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -3939,7 +3939,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -4016,7 +4016,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -4080,7 +4080,7 @@ var pveapi = [
                                                                "format" : "pve-vmid",
                                                                "minimum" : 1,
                                                                "type" : "integer",
-                                                               "typetext" : "integer (1- N)"
+                                                               "typetext" : "integer (1 - N)"
                                                             }
                                                          }
                                                       },
@@ -4127,7 +4127,7 @@ var pveapi = [
                                                                "format" : "pve-vmid",
                                                                "minimum" : 1,
                                                                "type" : "integer",
-                                                               "typetext" : "integer (1- N)"
+                                                               "typetext" : "integer (1 - N)"
                                                             }
                                                          }
                                                       },
@@ -4188,7 +4188,7 @@ var pveapi = [
                                                                "format" : "pve-vmid",
                                                                "minimum" : 1,
                                                                "type" : "integer",
-                                                               "typetext" : "integer (1- N)"
+                                                               "typetext" : "integer (1 - N)"
                                                             }
                                                          }
                                                       },
@@ -4237,7 +4237,7 @@ var pveapi = [
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -4279,7 +4279,7 @@ var pveapi = [
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -4361,7 +4361,7 @@ var pveapi = [
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -4403,7 +4403,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -4490,7 +4490,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -4532,7 +4532,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -4745,7 +4745,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -4782,7 +4782,7 @@ var pveapi = [
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (0- N)"
+                                                   "typetext" : "integer (0 - N)"
                                                 },
                                                 "node" : {
                                                    "description" : "The cluster node name.",
@@ -4793,14 +4793,14 @@ var pveapi = [
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (0- N)"
+                                                   "typetext" : "integer (0 - N)"
                                                 },
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -4865,7 +4865,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -4925,7 +4925,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -4995,7 +4995,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -5062,7 +5062,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -5114,7 +5114,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -5175,14 +5175,14 @@ var pveapi = [
                                              "minimum" : 1,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1-30)"
+                                             "typetext" : "integer (1 - 30)"
                                           },
                                           "balloon" : {
                                              "description" : "Amount of target RAM for the VM in MB. Using zero disables the ballon driver.",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0- N)"
+                                             "typetext" : "integer (0 - N)"
                                           },
                                           "bios" : {
                                              "default" : "seabios",
@@ -5221,7 +5221,7 @@ var pveapi = [
                                              "minimum" : 1,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           },
                                           "cpu" : {
                                              "description" : "Emulated CPU type.",
@@ -5281,7 +5281,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "number",
-                                             "typetext" : "number (0-128)",
+                                             "typetext" : "number (0 - 128)",
                                              "verbose_description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has total of '2' CPU time. Value '0' indicates no CPU limit."
                                           },
                                           "cpuunits" : {
@@ -5291,7 +5291,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0-500000)",
+                                             "typetext" : "integer (0 - 500000)",
                                              "verbose_description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs.\n\nNOTE: You can disable fair-scheduler configuration by setting this to 0."
                                           },
                                           "delete" : {
@@ -5662,7 +5662,7 @@ var pveapi = [
                                              "minimum" : 16,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (16- N)"
+                                             "typetext" : "integer (16 - N)"
                                           },
                                           "migrate_downtime" : {
                                              "default" : 0.1,
@@ -5670,7 +5670,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "number",
-                                             "typetext" : "number (0- N)"
+                                             "typetext" : "number (0 - N)"
                                           },
                                           "migrate_speed" : {
                                              "default" : 0,
@@ -5678,7 +5678,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0- N)"
+                                             "typetext" : "integer (0 - N)"
                                           },
                                           "name" : {
                                              "description" : "Set a name for the VM. Only used on the configuration web interface.",
@@ -6421,7 +6421,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0-50000)"
+                                             "typetext" : "integer (0 - 50000)"
                                           },
                                           "skiplock" : {
                                              "description" : "Ignore locks - only root is allowed to use this option.",
@@ -6442,7 +6442,7 @@ var pveapi = [
                                              "minimum" : 1,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           },
                                           "sockets" : {
                                              "default" : 1,
@@ -6450,7 +6450,7 @@ var pveapi = [
                                              "minimum" : 1,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           },
                                           "startdate" : {
                                              "default" : "now",
@@ -6519,7 +6519,7 @@ var pveapi = [
                                              "minimum" : 1,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           },
                                           "vga" : {
                                              "description" : "Select the VGA type.",
@@ -6789,7 +6789,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           },
                                           "watchdog" : {
                                              "description" : "Create a virtual hardware watchdog device.",
@@ -6861,7 +6861,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0- N)"
+                                             "typetext" : "integer (0 - N)"
                                           },
                                           "bios" : {
                                              "default" : "seabios",
@@ -6900,7 +6900,7 @@ var pveapi = [
                                              "minimum" : 1,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           },
                                           "cpu" : {
                                              "description" : "Emulated CPU type.",
@@ -6960,7 +6960,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "number",
-                                             "typetext" : "number (0-128)",
+                                             "typetext" : "number (0 - 128)",
                                              "verbose_description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has total of '2' CPU time. Value '0' indicates no CPU limit."
                                           },
                                           "cpuunits" : {
@@ -6970,7 +6970,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0-500000)",
+                                             "typetext" : "integer (0 - 500000)",
                                              "verbose_description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs.\n\nNOTE: You can disable fair-scheduler configuration by setting this to 0."
                                           },
                                           "delete" : {
@@ -7341,7 +7341,7 @@ var pveapi = [
                                              "minimum" : 16,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (16- N)"
+                                             "typetext" : "integer (16 - N)"
                                           },
                                           "migrate_downtime" : {
                                              "default" : 0.1,
@@ -7349,7 +7349,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "number",
-                                             "typetext" : "number (0- N)"
+                                             "typetext" : "number (0 - N)"
                                           },
                                           "migrate_speed" : {
                                              "default" : 0,
@@ -7357,7 +7357,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0- N)"
+                                             "typetext" : "integer (0 - N)"
                                           },
                                           "name" : {
                                              "description" : "Set a name for the VM. Only used on the configuration web interface.",
@@ -8100,7 +8100,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0-50000)"
+                                             "typetext" : "integer (0 - 50000)"
                                           },
                                           "skiplock" : {
                                              "description" : "Ignore locks - only root is allowed to use this option.",
@@ -8121,7 +8121,7 @@ var pveapi = [
                                              "minimum" : 1,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           },
                                           "sockets" : {
                                              "default" : 1,
@@ -8129,7 +8129,7 @@ var pveapi = [
                                              "minimum" : 1,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           },
                                           "startdate" : {
                                              "default" : "now",
@@ -8198,7 +8198,7 @@ var pveapi = [
                                              "minimum" : 1,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           },
                                           "vga" : {
                                              "description" : "Select the VGA type.",
@@ -8468,7 +8468,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           },
                                           "watchdog" : {
                                              "description" : "Create a virtual hardware watchdog device.",
@@ -8527,7 +8527,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -8605,7 +8605,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -8648,7 +8648,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           },
                                           "websocket" : {
                                              "description" : "starts websockify instead of vncproxy",
@@ -8712,14 +8712,14 @@ var pveapi = [
                                              "maximum" : 5999,
                                              "minimum" : 5900,
                                              "type" : "integer",
-                                             "typetext" : "integer (5900-5999)"
+                                             "typetext" : "integer (5900 - 5999)"
                                           },
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           },
                                           "vncticket" : {
                                              "description" : "Ticket from previous call to vncproxy.",
@@ -8777,7 +8777,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -8840,7 +8840,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -8907,7 +8907,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -8967,14 +8967,14 @@ var pveapi = [
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (0- N)"
+                                                   "typetext" : "integer (0 - N)"
                                                 },
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -9022,7 +9022,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -9082,14 +9082,14 @@ var pveapi = [
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (0- N)"
+                                                   "typetext" : "integer (0 - N)"
                                                 },
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -9137,7 +9137,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -9189,7 +9189,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -9232,7 +9232,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -9291,7 +9291,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -9350,7 +9350,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -9427,7 +9427,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           },
                                           "node" : {
                                              "description" : "The cluster node name.",
@@ -9465,7 +9465,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -9575,7 +9575,8 @@ var pveapi = [
                                                 "sata2",
                                                 "sata3",
                                                 "sata4",
-                                                "sata5"
+                                                "sata5",
+                                                "efidisk0"
                                              ],
                                              "type" : "string"
                                           },
@@ -9604,7 +9605,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -9674,7 +9675,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -9722,7 +9723,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -9803,7 +9804,8 @@ var pveapi = [
                                                 "sata2",
                                                 "sata3",
                                                 "sata4",
-                                                "sata5"
+                                                "sata5",
+                                                "efidisk0"
                                              ],
                                              "type" : "string"
                                           },
@@ -9827,7 +9829,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -9880,7 +9882,7 @@ var pveapi = [
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -9926,7 +9928,7 @@ var pveapi = [
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -9975,7 +9977,7 @@ var pveapi = [
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -10030,7 +10032,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -10073,7 +10075,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -10118,7 +10120,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -10175,7 +10177,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           },
                                           "vmstate" : {
                                              "description" : "Save the vmstate",
@@ -10256,7 +10258,8 @@ var pveapi = [
                                                 "sata2",
                                                 "sata3",
                                                 "sata4",
-                                                "sata5"
+                                                "sata5",
+                                                "efidisk0"
                                              ],
                                              "optional" : 1,
                                              "type" : "string"
@@ -10271,7 +10274,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -10320,7 +10323,7 @@ var pveapi = [
                                        "format" : "pve-vmid",
                                        "minimum" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (1- N)"
+                                       "typetext" : "integer (1 - N)"
                                     }
                                  }
                               },
@@ -10356,7 +10359,7 @@ var pveapi = [
                                        "format" : "pve-vmid",
                                        "minimum" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (1- N)"
+                                       "typetext" : "integer (1 - N)"
                                     }
                                  }
                               },
@@ -10470,7 +10473,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0- N)"
+                                 "typetext" : "integer (0 - N)"
                               },
                               "bios" : {
                                  "default" : "seabios",
@@ -10509,7 +10512,7 @@ var pveapi = [
                                  "minimum" : 1,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (1- N)"
+                                 "typetext" : "integer (1 - N)"
                               },
                               "cpu" : {
                                  "description" : "Emulated CPU type.",
@@ -10569,7 +10572,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "number",
-                                 "typetext" : "number (0-128)",
+                                 "typetext" : "number (0 - 128)",
                                  "verbose_description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has total of '2' CPU time. Value '0' indicates no CPU limit."
                               },
                               "cpuunits" : {
@@ -10579,7 +10582,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0-500000)",
+                                 "typetext" : "integer (0 - 500000)",
                                  "verbose_description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs.\n\nNOTE: You can disable fair-scheduler configuration by setting this to 0."
                               },
                               "description" : {
@@ -10938,7 +10941,7 @@ var pveapi = [
                                  "minimum" : 16,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (16- N)"
+                                 "typetext" : "integer (16 - N)"
                               },
                               "migrate_downtime" : {
                                  "default" : 0.1,
@@ -10946,7 +10949,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "number",
-                                 "typetext" : "number (0- N)"
+                                 "typetext" : "number (0 - N)"
                               },
                               "migrate_speed" : {
                                  "default" : 0,
@@ -10954,7 +10957,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0- N)"
+                                 "typetext" : "integer (0 - N)"
                               },
                               "name" : {
                                  "description" : "Set a name for the VM. Only used on the configuration web interface.",
@@ -11697,7 +11700,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0-50000)"
+                                 "typetext" : "integer (0 - 50000)"
                               },
                               "smbios1" : {
                                  "description" : "Specify SMBIOS type 1 fields.",
@@ -11713,7 +11716,7 @@ var pveapi = [
                                  "minimum" : 1,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (1- N)"
+                                 "typetext" : "integer (1 - N)"
                               },
                               "sockets" : {
                                  "default" : 1,
@@ -11721,7 +11724,7 @@ var pveapi = [
                                  "minimum" : 1,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (1- N)"
+                                 "typetext" : "integer (1 - N)"
                               },
                               "startdate" : {
                                  "default" : "now",
@@ -11802,7 +11805,7 @@ var pveapi = [
                                  "minimum" : 1,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (1- N)"
+                                 "typetext" : "integer (1 - N)"
                               },
                               "vga" : {
                                  "description" : "Select the VGA type.",
@@ -12072,7 +12075,7 @@ var pveapi = [
                                  "format" : "pve-vmid",
                                  "minimum" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (1- N)"
+                                 "typetext" : "integer (1 - N)"
                               },
                               "watchdog" : {
                                  "description" : "Create a virtual hardware watchdog device.",
@@ -12122,7 +12125,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -12187,7 +12190,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "number",
-                                             "typetext" : "number (0-128)"
+                                             "typetext" : "number (0 - 128)"
                                           },
                                           "cpuunits" : {
                                              "default" : 1024,
@@ -12196,7 +12199,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0-500000)"
+                                             "typetext" : "integer (0 - 500000)"
                                           },
                                           "delete" : {
                                              "description" : "A list of settings you want to delete.",
@@ -12239,7 +12242,7 @@ var pveapi = [
                                              "minimum" : 16,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (16- N)"
+                                             "typetext" : "integer (16 - N)"
                                           },
                                           "mp[n]" : {
                                              "description" : "Use volume as container mount point.",
@@ -12481,7 +12484,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0- N)"
+                                             "typetext" : "integer (0 - N)"
                                           },
                                           "template" : {
                                              "default" : 0,
@@ -12496,7 +12499,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0-6)"
+                                             "typetext" : "integer (0 - 6)"
                                           },
                                           "unprivileged" : {
                                              "default" : 0,
@@ -12515,7 +12518,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -12566,7 +12569,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -12614,7 +12617,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -12662,7 +12665,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -12712,14 +12715,14 @@ var pveapi = [
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (0- N)"
+                                                   "typetext" : "integer (0 - N)"
                                                 },
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -12762,7 +12765,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -12805,7 +12808,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -12848,7 +12851,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -12908,7 +12911,7 @@ var pveapi = [
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -12958,7 +12961,7 @@ var pveapi = [
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -13004,7 +13007,7 @@ var pveapi = [
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -13058,7 +13061,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -13101,7 +13104,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -13146,7 +13149,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -13203,7 +13206,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -13257,14 +13260,14 @@ var pveapi = [
                                                          "minimum" : 0,
                                                          "optional" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (0- N)"
+                                                         "typetext" : "integer (0 - N)"
                                                       },
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -13300,14 +13303,14 @@ var pveapi = [
                                                          "minimum" : 0,
                                                          "optional" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (0- N)"
+                                                         "typetext" : "integer (0 - N)"
                                                       },
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -13379,7 +13382,7 @@ var pveapi = [
                                                          "minimum" : 0,
                                                          "optional" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (0- N)"
+                                                         "typetext" : "integer (0 - N)"
                                                       },
                                                       "iface" : {
                                                          "description" : "Network interface name. You have to use network configuration key names for VMs and containers ('net\\d+'). Host related rules can use arbitrary strings.",
@@ -13400,7 +13403,7 @@ var pveapi = [
                                                          "minimum" : 0,
                                                          "optional" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (0- N)"
+                                                         "typetext" : "integer (0 - N)"
                                                       },
                                                       "node" : {
                                                          "description" : "The cluster node name.",
@@ -13412,7 +13415,7 @@ var pveapi = [
                                                          "minimum" : 0,
                                                          "optional" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (0- N)"
+                                                         "typetext" : "integer (0 - N)"
                                                       },
                                                       "proto" : {
                                                          "description" : "IP protocol. You can use protocol names ('tcp'/'udp') or simple numbers, as defined in '/etc/protocols'.",
@@ -13447,7 +13450,7 @@ var pveapi = [
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -13490,7 +13493,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -13565,7 +13568,7 @@ var pveapi = [
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (0- N)"
+                                                   "typetext" : "integer (0 - N)"
                                                 },
                                                 "iface" : {
                                                    "description" : "Network interface name. You have to use network configuration key names for VMs and containers ('net\\d+'). Host related rules can use arbitrary strings.",
@@ -13591,7 +13594,7 @@ var pveapi = [
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (0- N)"
+                                                   "typetext" : "integer (0 - N)"
                                                 },
                                                 "proto" : {
                                                    "description" : "IP protocol. You can use protocol names ('tcp'/'udp') or simple numbers, as defined in '/etc/protocols'.",
@@ -13626,7 +13629,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -13684,7 +13687,7 @@ var pveapi = [
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -13726,7 +13729,7 @@ var pveapi = [
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -13790,7 +13793,7 @@ var pveapi = [
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -13832,7 +13835,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -13909,7 +13912,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -13973,7 +13976,7 @@ var pveapi = [
                                                                "format" : "pve-vmid",
                                                                "minimum" : 1,
                                                                "type" : "integer",
-                                                               "typetext" : "integer (1- N)"
+                                                               "typetext" : "integer (1 - N)"
                                                             }
                                                          }
                                                       },
@@ -14020,7 +14023,7 @@ var pveapi = [
                                                                "format" : "pve-vmid",
                                                                "minimum" : 1,
                                                                "type" : "integer",
-                                                               "typetext" : "integer (1- N)"
+                                                               "typetext" : "integer (1 - N)"
                                                             }
                                                          }
                                                       },
@@ -14081,7 +14084,7 @@ var pveapi = [
                                                                "format" : "pve-vmid",
                                                                "minimum" : 1,
                                                                "type" : "integer",
-                                                               "typetext" : "integer (1- N)"
+                                                               "typetext" : "integer (1 - N)"
                                                             }
                                                          }
                                                       },
@@ -14130,7 +14133,7 @@ var pveapi = [
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -14172,7 +14175,7 @@ var pveapi = [
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -14254,7 +14257,7 @@ var pveapi = [
                                                          "format" : "pve-vmid",
                                                          "minimum" : 1,
                                                          "type" : "integer",
-                                                         "typetext" : "integer (1- N)"
+                                                         "typetext" : "integer (1 - N)"
                                                       }
                                                    }
                                                 },
@@ -14296,7 +14299,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -14383,7 +14386,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -14425,7 +14428,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -14638,7 +14641,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -14675,7 +14678,7 @@ var pveapi = [
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (0- N)"
+                                                   "typetext" : "integer (0 - N)"
                                                 },
                                                 "node" : {
                                                    "description" : "The cluster node name.",
@@ -14686,14 +14689,14 @@ var pveapi = [
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (0- N)"
+                                                   "typetext" : "integer (0 - N)"
                                                 },
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -14758,7 +14761,7 @@ var pveapi = [
                                                    "format" : "pve-vmid",
                                                    "minimum" : 1,
                                                    "type" : "integer",
-                                                   "typetext" : "integer (1- N)"
+                                                   "typetext" : "integer (1 - N)"
                                                 }
                                              }
                                           },
@@ -14818,7 +14821,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -14888,7 +14891,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -14955,7 +14958,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -15001,7 +15004,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           },
                                           "websocket" : {
                                              "description" : "use websocket instead of standard VNC.",
@@ -15065,14 +15068,14 @@ var pveapi = [
                                              "maximum" : 5999,
                                              "minimum" : 5900,
                                              "type" : "integer",
-                                             "typetext" : "integer (5900-5999)"
+                                             "typetext" : "integer (5900 - 5999)"
                                           },
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           },
                                           "vncticket" : {
                                              "description" : "Ticket from previous call to vncproxy.",
@@ -15130,7 +15133,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -15206,7 +15209,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -15264,7 +15267,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -15317,7 +15320,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -15378,7 +15381,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           },
                                           "node" : {
                                              "description" : "The cluster node name.",
@@ -15410,7 +15413,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -15504,7 +15507,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -15550,7 +15553,7 @@ var pveapi = [
                                        "format" : "pve-vmid",
                                        "minimum" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (1- N)"
+                                       "typetext" : "integer (1 - N)"
                                     }
                                  }
                               },
@@ -15586,7 +15589,7 @@ var pveapi = [
                                        "format" : "pve-vmid",
                                        "minimum" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (1- N)"
+                                       "typetext" : "integer (1 - N)"
                                     }
                                  }
                               },
@@ -15694,7 +15697,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "number",
-                                 "typetext" : "number (0-128)"
+                                 "typetext" : "number (0 - 128)"
                               },
                               "cpuunits" : {
                                  "default" : 1024,
@@ -15703,7 +15706,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0-500000)"
+                                 "typetext" : "integer (0 - 500000)"
                               },
                               "description" : {
                                  "description" : "Container description. Only used on the configuration web interface.",
@@ -15744,7 +15747,7 @@ var pveapi = [
                                  "minimum" : 16,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (16- N)"
+                                 "typetext" : "integer (16 - N)"
                               },
                               "mp[n]" : {
                                  "description" : "Use volume as container mount point.",
@@ -16020,7 +16023,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0- N)"
+                                 "typetext" : "integer (0 - N)"
                               },
                               "template" : {
                                  "default" : 0,
@@ -16035,7 +16038,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0-6)"
+                                 "typetext" : "integer (0 - 6)"
                               },
                               "unprivileged" : {
                                  "default" : 0,
@@ -16054,7 +16057,7 @@ var pveapi = [
                                  "format" : "pve-vmid",
                                  "minimum" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (1- N)"
+                                 "typetext" : "integer (1 - N)"
                               }
                            }
                         },
@@ -16548,7 +16551,7 @@ var pveapi = [
                                        "minimum" : 6,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (6-14)"
+                                       "typetext" : "integer (6 - 14)"
                                     },
                                     "size" : {
                                        "default" : 2,
@@ -16557,7 +16560,7 @@ var pveapi = [
                                        "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (1-3)"
+                                       "typetext" : "integer (1 - 3)"
                                     }
                                  }
                               },
@@ -16820,7 +16823,7 @@ var pveapi = [
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (0-32768)"
+                                       "typetext" : "integer (0 - 32768)"
                                     },
                                     "min_size" : {
                                        "default" : 1,
@@ -16829,7 +16832,7 @@ var pveapi = [
                                        "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (1-3)"
+                                       "typetext" : "integer (1 - 3)"
                                     },
                                     "name" : {
                                        "description" : "The name of the pool. It must be unique.",
@@ -16847,7 +16850,7 @@ var pveapi = [
                                        "minimum" : 8,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (8-32768)"
+                                       "typetext" : "integer (8 - 32768)"
                                     },
                                     "size" : {
                                        "default" : 2,
@@ -16856,7 +16859,7 @@ var pveapi = [
                                        "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (1-3)"
+                                       "typetext" : "integer (1 - 3)"
                                     }
                                  }
                               },
@@ -16932,7 +16935,7 @@ var pveapi = [
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (0- N)"
+                                       "typetext" : "integer (0 - N)"
                                     },
                                     "node" : {
                                        "description" : "The cluster node name.",
@@ -16943,7 +16946,7 @@ var pveapi = [
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (0- N)"
+                                       "typetext" : "integer (0 - N)"
                                     }
                                  }
                               },
@@ -17085,7 +17088,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0- N)"
+                                 "typetext" : "integer (0 - N)"
                               },
                               "compress" : {
                                  "default" : "0",
@@ -17123,7 +17126,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0-8)"
+                                 "typetext" : "integer (0 - 8)"
                               },
                               "lockwait" : {
                                  "default" : 180,
@@ -17131,7 +17134,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0- N)"
+                                 "typetext" : "integer (0 - N)"
                               },
                               "mailnotification" : {
                                  "default" : "always",
@@ -17155,7 +17158,7 @@ var pveapi = [
                                  "minimum" : 1,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (1- N)"
+                                 "typetext" : "integer (1 - N)"
                               },
                               "mode" : {
                                  "default" : "snapshot",
@@ -17203,7 +17206,7 @@ var pveapi = [
                                  "minimum" : 500,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (500- N)"
+                                 "typetext" : "integer (500 - N)"
                               },
                               "stdexcludes" : {
                                  "default" : 1,
@@ -17228,7 +17231,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0- N)"
+                                 "typetext" : "integer (0 - N)"
                               },
                               "storage" : {
                                  "description" : "Store resulting file to this storage.",
@@ -17950,7 +17953,7 @@ var pveapi = [
                                        "optional" : 1,
                                        "requires" : "address6",
                                        "type" : "integer",
-                                       "typetext" : "integer (0-128)"
+                                       "typetext" : "integer (0 - 128)"
                                     },
                                     "node" : {
                                        "description" : "The cluster node name.",
@@ -17987,7 +17990,7 @@ var pveapi = [
                                        "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (1-4094)"
+                                       "typetext" : "integer (1 - 4094)"
                                     },
                                     "slaves" : {
                                        "description" : "Specify the interfaces used by the bonding device.",
@@ -18220,7 +18223,7 @@ var pveapi = [
                                  "optional" : 1,
                                  "requires" : "address6",
                                  "type" : "integer",
-                                 "typetext" : "integer (0-128)"
+                                 "typetext" : "integer (0 - 128)"
                               },
                               "node" : {
                                  "description" : "The cluster node name.",
@@ -18257,7 +18260,7 @@ var pveapi = [
                                  "minimum" : 1,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (1-4094)"
+                                 "typetext" : "integer (1 - 4094)"
                               },
                               "slaves" : {
                                  "description" : "Specify the interfaces used by the bonding device.",
@@ -18320,7 +18323,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0- N)"
+                                             "typetext" : "integer (0 - N)"
                                           },
                                           "node" : {
                                              "description" : "The cluster node name.",
@@ -18331,7 +18334,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0- N)"
+                                             "typetext" : "integer (0 - N)"
                                           },
                                           "upid" : {
                                              "type" : "string"
@@ -18497,7 +18500,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0- N)"
+                                 "typetext" : "integer (0 - N)"
                               },
                               "node" : {
                                  "description" : "The cluster node name.",
@@ -18508,7 +18511,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0- N)"
+                                 "typetext" : "integer (0 - N)"
                               },
                               "userfilter" : {
                                  "optional" : 1,
@@ -18520,7 +18523,7 @@ var pveapi = [
                                  "minimum" : 1,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (1- N)"
+                                 "typetext" : "integer (1 - N)"
                               }
                            }
                         },
@@ -19116,7 +19119,7 @@ var pveapi = [
                                              "minimum" : 1,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -19193,7 +19196,7 @@ var pveapi = [
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (1- N)"
+                                             "typetext" : "integer (1 - N)"
                                           }
                                        }
                                     },
@@ -19589,6 +19592,225 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "description" : "List local disks.",
+                              "method" : "GET",
+                              "name" : "list",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Audit",
+                                       "Datastore.Audit"
+                                    ],
+                                    "any",
+                                    1
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "devpath" : {
+                                          "description" : "The device path",
+                                          "type" : "string"
+                                       },
+                                       "gpt" : {
+                                          "type" : "boolean"
+                                       },
+                                       "health" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "model" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "osdid" : {
+                                          "type" : "integer"
+                                       },
+                                       "serial" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "size" : {
+                                          "type" : "integer"
+                                       },
+                                       "used" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "vendor" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "wwn" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/disks/list",
+                        "text" : "list"
+                     },
+                     {
+                        "info" : {
+                           "GET" : {
+                              "description" : "Get SMART Health of a disk.",
+                              "method" : "GET",
+                              "name" : "smart",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "disk" : {
+                                       "description" : "Block device name",
+                                       "pattern" : "^/dev/[a-zA-Z0-9\\/]+$",
+                                       "type" : "string"
+                                    },
+                                    "healthonly" : {
+                                       "description" : "If true returns only the health status",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Audit",
+                                       "Datastore.Audit"
+                                    ],
+                                    "any",
+                                    1
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "type" : "object"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/disks/smart",
+                        "text" : "smart"
+                     },
+                     {
+                        "info" : {
+                           "POST" : {
+                              "description" : "Initialize Disk with GPT",
+                              "method" : "POST",
+                              "name" : "initgpt",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "disk" : {
+                                       "description" : "Block device name",
+                                       "pattern" : "^/dev/[a-zA-Z0-9\\/]+$",
+                                       "type" : "string"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string"
+                                    },
+                                    "uuid" : {
+                                       "description" : "UUID for the GPT table",
+                                       "maxLength" : 36,
+                                       "optional" : 1,
+                                       "pattern" : "[a-fA-F0-9\\-]+",
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/disks/initgpt",
+                        "text" : "initgpt"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "description" : "Node index.",
+                        "method" : "GET",
+                        "name" : "index",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "user" : "all"
+                        },
+                        "proxyto" : "node",
+                        "returns" : {
+                           "items" : {
+                              "properties" : {},
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{name}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/nodes/{node}/disks",
+                  "text" : "disks"
+               },
+               {
+                  "children" : [
+                     {
+                        "info" : {
+                           "GET" : {
                               "description" : "List available updates.",
                               "method" : "GET",
                               "name" : "list_updates",
@@ -19821,7 +20043,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0- N)"
+                                             "typetext" : "integer (0 - N)"
                                           }
                                        }
                                     },
@@ -19857,7 +20079,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0- N)"
+                                             "typetext" : "integer (0 - N)"
                                           }
                                        }
                                     },
@@ -19929,7 +20151,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0- N)"
+                                             "typetext" : "integer (0 - N)"
                                           },
                                           "iface" : {
                                              "description" : "Network interface name. You have to use network configuration key names for VMs and containers ('net\\d+'). Host related rules can use arbitrary strings.",
@@ -19950,7 +20172,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0- N)"
+                                             "typetext" : "integer (0 - N)"
                                           },
                                           "node" : {
                                              "description" : "The cluster node name.",
@@ -19962,7 +20184,7 @@ var pveapi = [
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "integer (0- N)"
+                                             "typetext" : "integer (0 - N)"
                                           },
                                           "proto" : {
                                              "description" : "IP protocol. You can use protocol names ('tcp'/'udp') or simple numbers, as defined in '/etc/protocols'.",
@@ -20101,7 +20323,7 @@ var pveapi = [
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (0- N)"
+                                       "typetext" : "integer (0 - N)"
                                     },
                                     "iface" : {
                                        "description" : "Network interface name. You have to use network configuration key names for VMs and containers ('net\\d+'). Host related rules can use arbitrary strings.",
@@ -20127,7 +20349,7 @@ var pveapi = [
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (0- N)"
+                                       "typetext" : "integer (0 - N)"
                                     },
                                     "proto" : {
                                        "description" : "IP protocol. You can use protocol names ('tcp'/'udp') or simple numbers, as defined in '/etc/protocols'.",
@@ -20373,14 +20595,14 @@ var pveapi = [
                                        "minimum" : 32768,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (32768- N)"
+                                       "typetext" : "integer (32768 - N)"
                                     },
                                     "nf_conntrack_tcp_timeout_established" : {
                                        "description" : "Conntrack established timeout.",
                                        "minimum" : 7875,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (7875- N)"
+                                       "typetext" : "integer (7875 - N)"
                                     },
                                     "node" : {
                                        "description" : "The cluster node name.",
@@ -20464,7 +20686,7 @@ var pveapi = [
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (0- N)"
+                                       "typetext" : "integer (0 - N)"
                                     },
                                     "node" : {
                                        "description" : "The cluster node name.",
@@ -20475,7 +20697,7 @@ var pveapi = [
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "integer (0- N)"
+                                       "typetext" : "integer (0 - N)"
                                     }
                                  }
                               },
@@ -20880,7 +21102,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0- N)"
+                                 "typetext" : "integer (0 - N)"
                               },
                               "node" : {
                                  "description" : "The cluster node name.",
@@ -20897,7 +21119,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0- N)"
+                                 "typetext" : "integer (0 - N)"
                               },
                               "until" : {
                                  "description" : "Display all log until this date-time string.",
@@ -21023,7 +21245,7 @@ var pveapi = [
                                  "maximum" : 5999,
                                  "minimum" : 5900,
                                  "type" : "integer",
-                                 "typetext" : "integer (5900-5999)"
+                                 "typetext" : "integer (5900 - 5999)"
                               },
                               "vncticket" : {
                                  "description" : "Ticket from previous call to vncproxy.",
@@ -21516,7 +21738,7 @@ var pveapi = [
                                  "minimum" : 1,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (1- N)"
+                                 "typetext" : "integer (1 - N)"
                               },
                               "node" : {
                                  "description" : "The cluster node name.",
@@ -21728,6 +21950,12 @@ var pveapi = [
                            "optional" : 1,
                            "type" : "string"
                         },
+                        "is_mountpoint" : {
+                           "default" : "no",
+                           "description" : "Assume the directory is an externally managed mountpoint. If nothing is mounted the storage will be considered offline.",
+                           "optional" : 1,
+                           "type" : "boolean"
+                        },
                         "krbd" : {
                            "description" : "Access rbd through krbd kernel module.",
                            "optional" : 1,
@@ -21738,7 +21966,7 @@ var pveapi = [
                            "minimum" : 0,
                            "optional" : 1,
                            "type" : "integer",
-                           "typetext" : "integer (0- N)"
+                           "typetext" : "integer (0 - N)"
                         },
                         "mkdir" : {
                            "default" : "yes",
@@ -21775,7 +22003,7 @@ var pveapi = [
                            "minimum" : 1,
                            "optional" : 1,
                            "type" : "integer",
-                           "typetext" : "integer (1-16)"
+                           "typetext" : "integer (1 - 16)"
                         },
                         "saferemove" : {
                            "description" : "Zero-out data when removing LVs.",
@@ -21965,6 +22193,12 @@ var pveapi = [
                      "optional" : 1,
                      "type" : "string"
                   },
+                  "is_mountpoint" : {
+                     "default" : "no",
+                     "description" : "Assume the directory is an externally managed mountpoint. If nothing is mounted the storage will be considered offline.",
+                     "optional" : 1,
+                     "type" : "boolean"
+                  },
                   "iscsiprovider" : {
                      "description" : "iscsi provider",
                      "optional" : 1,
@@ -21980,7 +22214,7 @@ var pveapi = [
                      "minimum" : 0,
                      "optional" : 1,
                      "type" : "integer",
-                     "typetext" : "integer (0- N)"
+                     "typetext" : "integer (0 - N)"
                   },
                   "mkdir" : {
                      "default" : "yes",
@@ -22035,7 +22269,7 @@ var pveapi = [
                      "minimum" : 1,
                      "optional" : 1,
                      "type" : "integer",
-                     "typetext" : "integer (1-16)"
+                     "typetext" : "integer (1 - 16)"
                   },
                   "saferemove" : {
                      "description" : "Zero-out data when removing LVs.",
@@ -22289,7 +22523,7 @@ var pveapi = [
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (0- N)"
+                                 "typetext" : "integer (0 - N)"
                               },
                               "firstname" : {
                                  "optional" : 1,
@@ -22402,7 +22636,7 @@ var pveapi = [
                            "minimum" : 0,
                            "optional" : 1,
                            "type" : "integer",
-                           "typetext" : "integer (0- N)"
+                           "typetext" : "integer (0 - N)"
                         },
                         "firstname" : {
                            "optional" : 1,
@@ -23017,7 +23251,7 @@ var pveapi = [
                                  "minimum" : 1,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "integer (1-65535)"
+                                 "typetext" : "integer (1 - 65535)"
                               },
                               "realm" : {
                                  "description" : "Authentication domain ID",
@@ -23169,7 +23403,7 @@ var pveapi = [
                            "minimum" : 1,
                            "optional" : 1,
                            "type" : "integer",
-                           "typetext" : "integer (1-65535)"
+                           "typetext" : "integer (1 - 65535)"
                         },
                         "realm" : {
                            "description" : "Authentication domain ID",
