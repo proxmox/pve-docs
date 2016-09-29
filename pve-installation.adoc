@@ -52,7 +52,7 @@ general use.
 Rescue Boot::
 
 This option allows you to boot an existing installation. It searches
-all attached hard disks, and if it finds an existing installation,
+all attached hard disks and, if it finds an existing installation,
 boots directly into that disk using the existing Linux kernel. This
 can be useful if there are problems with the boot block (grub), or the
 BIOS is unable to read the boot block from the disk.
