@@ -121,8 +121,7 @@ system.
 
 `maxvz`::
 
-Define the size of the `data` volume, which is mounted at
-`/var/lib/vz`.
+Define the size of the `data` volume.
 
 `minfree`::
 
