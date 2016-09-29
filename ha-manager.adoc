@@ -409,10 +409,11 @@ Resources bound to this group may only run on nodes defined by the
 group. If no group node member is available the resource will be
 placed in the stopped state.
   Example;;
-  A Service can run just on a few nodes, as he uses resources from only found
-  on those, we created a group with said nodes and as we know that else all
-  other nodes get implicitly added with lowest priority we set the restricted
-  option.
+  Lets say a service uses resources only available on `node1` and `node2`,
+  so we need to make sure that HA manager does not use other nodes.
+  We need to create a 'restricted' group with said nodes:
+[source,bash]
+  ha-manager groupset mygroup -nodes "node1,node2" -restricted 
 
 nofailback::
 
