@@ -395,17 +395,39 @@ A service bound to this group will run on the nodes with the highest priority
 available. If more nodes are in the highest priority class the services will
 get distributed to those node if not already there. The priorities have a
 relative meaning only.
+  Example;;
+  You want to run all services from a group on node1 if possible, if this node
+  is not available you want them to run equally splitted on node2 and node3 and
+  if those fail it should use the other group members.
+  To achieve this you could set the node list to:
+[source,bash]
+  ha-manager groupset mygroup -nodes "node1:2,node2:1,node3:1,node4"
 
 restricted::
 
 Resources bound to this group may only run on nodes defined by the
 group. If no group node member is available the resource will be
 placed in the stopped state.
+  Example;;
+  A Service can run just on a few nodes, as he uses resources from only found
+  on those, we created a group with said nodes and as we know that else all
+  other nodes get implicitly added with lowest priority we set the restricted
+  option.
 
 nofailback::
 
 The resource won't automatically fail back when a more preferred node
 (re)joins the cluster.
+  Examples;;
+  * You need to migrate a service to a node which hasn't the highest priority
+  in the group at the moment, to tell the HA manager to not move this service
+  instantly back set the nofailnback option and the service will stay on
+
+  * A service was fenced and he got recovered to another node. The admin
+  repaired the node and brang it up online again but does not want that the
+  recovered services move straight back to the repaired node as he wants to
+  first investigate the failure cause and check if it runs stable. He can use
+  the nofailback option to achieve this.
 
 
 Start Failure Policy
