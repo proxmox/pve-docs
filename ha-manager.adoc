@@ -422,13 +422,14 @@ The resource won't automatically fail back when a more preferred node
   Examples;;
   * You need to migrate a service to a node which hasn't the highest priority
   in the group at the moment, to tell the HA manager to not move this service
-  instantly back set the nofailnback option and the service will stay on
+  instantly back set the 'nofailnback' option and the service will stay on
+  the current node.
 
-  * A service was fenced and he got recovered to another node. The admin
-  repaired the node and brang it up online again but does not want that the
+  * A service was fenced and it got recovered to another node. The admin
+  repaired the node and brought it up online again but does not want that the
   recovered services move straight back to the repaired node as he wants to
   first investigate the failure cause and check if it runs stable. He can use
-  the nofailback option to achieve this.
+  the 'nofailback' option to achieve this.
 
 
 Start Failure Policy
