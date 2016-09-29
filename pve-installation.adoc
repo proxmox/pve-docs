@@ -74,9 +74,9 @@ ZFS supports several software RAID levels, so this is specially useful
 if you do not have a hardware RAID controller. The `Options` button
 lets you select the ZFS RAID level, and you can choose disks there.
 
-The next pages just asks for basic configuration options like time
+The next pages just ask for basic configuration options like time
 zone and keyboard layout. You also need to specify your email address
-and select a superuser password.
+and superuser (root) password (must have at least 5 characters).
 
 The last step is the network configuration. Please note that you can
 use either IPv4 or IPv6 here, but not both. If you want to configure a
