@@ -396,9 +396,9 @@ available. If more nodes are in the highest priority class the services will
 get distributed to those node if not already there. The priorities have a
 relative meaning only.
   Example;;
-  You want to run all services from a group on node1 if possible, if this node
-  is not available you want them to run equally splitted on node2 and node3 and
-  if those fail it should use the other group members.
+  You want to run all services from a group on `node1` if possible. If this node
+  is not available, you want them to run equally splitted on `node2` and `node3`, and
+  if those fail it should use `node4`.
   To achieve this you could set the node list to:
 [source,bash]
   ha-manager groupset mygroup -nodes "node1:2,node2:1,node3:1,node4"
