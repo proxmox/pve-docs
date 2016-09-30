@@ -6,7 +6,7 @@ include::attributes.txt[]
 NAME
 ----
 
-pveceph - Manage CEPH Services on {pve} Nodes
+pveceph - Manage CEPH Services on Proxmox VE Nodes
 
 SYNOPSYS
 --------
@@ -18,8 +18,8 @@ DESCRIPTION
 endif::manvolnum[]
 
 ifndef::manvolnum[]
-Manage CEPH Services on {pve} Nodes
-===================================
+Manage CEPH Services on Proxmox VE Nodes
+========================================
 include::attributes.txt[]
 endif::manvolnum[]
 

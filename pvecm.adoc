@@ -6,7 +6,7 @@ include::attributes.txt[]
 NAME
 ----
 
-pvecm - {pve} Cluster Manager
+pvecm - Proxmox VE Cluster Manager
 
 SYNOPSYS
 --------
