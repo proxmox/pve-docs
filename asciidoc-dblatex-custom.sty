@@ -1,0 +1,58 @@
+%%
+%% This style is derived from the docbook one.
+%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{asciidoc-proxmox}[2016/10/30 AsciiDoc DocBook Style]
+
+% this will set letterpaper, because docbook.sty honors page layout
+% made by geometry package
+%\usepackage[letterpaper,total={7.25in,9.25in}, top=1in]{geometry}
+%\usepackage[a4paper]{geometry}
+
+\usepackage[a4paper, left=2cm, right=1cm, top=2.5cm, bottom=2cm ]{geometry}
+
+%% Just use the original package and pass the options.
+\RequirePackageWithOptions{docbook}
+
+% Sidebar is a boxed minipage that can contain verbatim.
+% Changed shadow box to double box.
+\renewenvironment{sidebar}[1][0.95\textwidth]{
+  \hspace{0mm}\newline%
+  \noindent\begin{Sbox}\begin{minipage}{#1}%
+  \setlength\parskip{\medskipamount}%
+}{
+  \end{minipage}\end{Sbox}\doublebox{\TheSbox}%
+}
+
+% For DocBook literallayout elements, see `./dblatex/dblatex-readme.txt`.
+\usepackage{alltt}
+
+\definecolor{proxmoxred}{RGB}{229, 112, 0}
+
+\newlength\mylength
+\def\redribbon{
+   \setlength\mylength{0.3\paperheight}
+  \AddToShipoutPicture*{
+     \put(0,\LenToUnit{\mylength}){%
+       {\color{proxmoxred}\rule{\paperwidth}{2cm}}}
+   }
+}
+
+% custom cover page
+\def\DBKcover{
+  \thispagestyle{empty}
+  \begin{flushright}
+  \includegraphics[width=0.5\textwidth]{logo} \\
+  \vspace*{1in}
+  \bfseries
+  \sffamily
+  {\Huge \DBKtitle \\[1ex]\large ~~~ \\}
+  {\Huge \DBKsubtitle \\[1ex]\large ~~~ \\}    
+  \vspace*{4.1in}
+  {\Large \DBKdate \\}
+  \vfill
+  {\Large \bfseries \sffamily Proxmox Server Solutions Gmbh}
+  \end{flushright}
+  \redribbon
+  \pagebreak[4]
+}
