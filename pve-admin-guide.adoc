@@ -1,7 +1,14 @@
+ifdef::pvelogo[]
+image:./images/proxmox-logo.svg[] pass:[<br>] Proxmox VE Administration Guide
+=============================================================================
+endif::pvelogo[]
+ifndef::pvelogo[]
 Proxmox VE Administration Guide
 ===============================
+endif::pvelogo[]
 include::attributes.txt[]
 :doctype:   book
+:title: Proxmox VE Administration Guide
 :toc:
 :numbered:
 :data-uri:
