@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="132.70847mm"
+   height="3.6731544mm"
+   viewBox="0 0 470.22685 13.015114"
+   id="svg4980"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="CI_Header.svg">
+  <defs
+     id="defs4982" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="171.68639"
+     inkscape:cy="-216.28537"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="2560"
+     inkscape:window-height="1327"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata4985">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-173.45801,-111.56894)">
+    <g
+       clip-path="none"
+       id="g12721"
+       transform="matrix(0.66784621,0,0,-0.66784621,-441.83952,585.27956)">
+      <g
+         transform="translate(-10.714286,-13.571429)"
+         id="g12723">
+        <g
+           id="g12733"
+           transform="translate(618.21336,41.416247)">
+          <g
+             id="g12739"
+             transform="translate(216.17265,-373.75644)">
+            <rect
+               style="opacity:1;fill:#ff9100;fill-opacity:1;stroke:none;stroke-width:0.449;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+               id="rect12725"
+               width="177.16536"
+               height="19.48819"
+               x="273.04303"
+               y="1035.7344"
+               ry="0" />
+            <rect
+               ry="0"
+               y="1035.7344"
+               x="97.644478"
+               height="19.48819"
+               width="177.16536"
+               id="rect12727"
+               style="opacity:1;fill:#e57000;fill-opacity:1;stroke:none;stroke-width:0.449;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+            <rect
+               style="opacity:1;fill:#00617f;fill-opacity:1;stroke:none;stroke-width:0.449;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+               id="rect12729"
+               width="177.16536"
+               height="19.48819"
+               x="449.05322"
+               y="1035.7344"
+               ry="0" />
+            <rect
+               style="opacity:1;fill:#abbaba;fill-opacity:1;stroke:none;stroke-width:0.449;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+               id="rect12731"
+               width="177.16536"
+               height="19.48819"
+               x="624.57361"
+               y="1035.7344"
+               ry="0" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

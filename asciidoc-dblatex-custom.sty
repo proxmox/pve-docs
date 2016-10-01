@@ -28,31 +28,34 @@
 \usepackage{alltt}
 
 \definecolor{proxmoxred}{RGB}{229, 112, 0}
+\definecolor{proxmoxgrey1}{RGB}{229, 229, 229}
 
-\newlength\mylength
-\def\redribbon{
-   \setlength\mylength{0.3\paperheight}
+\def\greyribbon{
   \AddToShipoutPicture*{
-     \put(0,\LenToUnit{\mylength}){%
-       {\color{proxmoxred}\rule{\paperwidth}{2cm}}}
-   }
+    \put(0,\LenToUnit{2.5cm}){%
+      {\color{proxmoxgrey1}\rule{\paperwidth}{22cm}}}
+  }
 }
 
 % custom cover page
 \def\DBKcover{
   \thispagestyle{empty}
   \begin{flushright}
-  \includegraphics[width=0.5\textwidth]{logo} \\
-  \vspace*{1in}
-  \bfseries
-  \sffamily
-  {\Huge \DBKtitle \\[1ex]\large ~~~ \\}
-  {\Huge \DBKsubtitle \\[1ex]\large ~~~ \\}    
-  \vspace*{4.1in}
-  {\Large \DBKdate \\}
-  \vfill
-  {\Large \bfseries \sffamily Proxmox Server Solutions Gmbh}
+    \includegraphics[width=0.5\textwidth]{logo} \\
   \end{flushright}
-  \redribbon
+  \vspace*{2.5cm}
+  \sffamily
+  \begin{center}
+    {\Huge \bfseries \scshape \color{proxmoxred}  \DBKtitle \\[1ex]\large ~~~ \\}
+    {\Large \bfseries \scshape \DBKsubtitle \\[1ex]\large ~~~ \\}
+    {\includegraphics[width=132mm]{proxmox-ci-header} \\}
+  \end{center}
+  \vfill
+  \begin{flushright}
+    {\Large \DBKdate \\}
+    {\Large \bfseries \sffamily Proxmox Server Solutions Gmbh \\ \color{proxmoxred} www.proxmox.com}
+  \end{flushright}
+  \vspace*{1cm}
+  \greyribbon
   \pagebreak[4]
 }
