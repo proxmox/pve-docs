@@ -223,7 +223,7 @@ pve-admin-guide.chunked: ${PVE_ADMIN_GUIDE_SOURCES}
 	rm -rf pve-admin-guide.chunked
 	a2x -a docinfo -a docinfo1 -a icons -f chunked pve-admin-guide.adoc
 
-test pve-admin-guide.pdf: ${PVE_ADMIN_GUIDE_SOURCES} docinfo.xml pve-admin-guide-docinfo.xml
+pve-admin-guide.pdf: ${PVE_ADMIN_GUIDE_SOURCES} docinfo.xml pve-admin-guide-docinfo.xml
 	inkscape -z -D --export-pdf=logo.pdf images/proxmox-logo.svg
 	inkscape -z -D --export-pdf=proxmox-ci-header.pdf images/proxmox-ci-header.svg
 	grep ">Release ${DOCRELEASE}<" pve-admin-guide-docinfo.xml || (echo "wrong release in  pve-admin-guide-docinfo.xml" && false);
