@@ -224,11 +224,11 @@ pve-admin-guide.chunked: ${PVE_ADMIN_GUIDE_SOURCES}
 	a2x -a docinfo -a docinfo1 -a icons -f chunked pve-admin-guide.adoc
 
 pve-admin-guide.pdf: ${PVE_ADMIN_GUIDE_SOURCES} docinfo.xml pve-admin-guide-docinfo.xml
-	inkscape -z -D --export-pdf=logo.pdf images/proxmox-logo.svg
+	inkscape -z -D --export-pdf=proxmox-logo.pdf images/proxmox-logo.svg
 	inkscape -z -D --export-pdf=proxmox-ci-header.pdf images/proxmox-ci-header.svg
 	grep ">Release ${DOCRELEASE}<" pve-admin-guide-docinfo.xml || (echo "wrong release in  pve-admin-guide-docinfo.xml" && false);
 	a2x -a docinfo -a docinfo1 -f pdf -L --dblatex-opts "-P latex.output.revhistory=0" --dblatex-opts "-P latex.class.options=12pt" --dblatex-opts "-P doc.section.depth=2 -P toc.section.depth=2" --dblatex-opts "-P doc.publisher.show=0 -s asciidoc-dblatex-custom.sty" pve-admin-guide.adoc
-	rm logo.pdf proxmox-ci-header.pdf
+	rm proxmox-logo.pdf proxmox-ci-header.pdf
 
 pve-admin-guide.epub: ${PVE_ADMIN_GUIDE_SOURCES}
 	a2x -f epub pve-admin-guide.adoc
@@ -284,5 +284,5 @@ update: clean
 	make all
 
 clean: 
-	rm -rf logo.pdf proxmox-ci-header.pdf *.tmp.xml *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html chapter-*-plain.html chapter-*.html pve-admin-guide.chunked
+	rm -rf *.tmp.xml *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html chapter-*-plain.html chapter-*.html pve-admin-guide.chunked
 	find . -name '*~' -exec rm {} ';'
