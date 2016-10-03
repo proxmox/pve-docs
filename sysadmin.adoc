@@ -44,7 +44,9 @@ Minimum requirements, for evaluation
 
 * CPU: 64bit (Intel EMT64 or AMD64)
 
-* RAM: 1 GB RAM
+* Intel VT/AMD-V capable CPU/Mainboard for KVM Full Virtualization support
+
+* RAM: 1 GB RAM, plus additional RAM used for guests
 
 * Hard drive
 
@@ -55,7 +57,9 @@ Recommended system requirements
 
 * CPU: 64bit (Intel EMT64 or AMD64), Multi core CPU recommended
 
-* RAM: 8 GB is good, more is better
+* Intel VT/AMD-V capable CPU/Mainboard for KVM Full Virtualization support
+
+* RAM: 8 GB RAM, plus additional RAM used for guests
 
 * Hardware RAID with batteries protected write cache (``BBU'') or flash
  based protection
