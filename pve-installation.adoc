@@ -135,8 +135,9 @@ required for lvmthin snapshots).
 ZFS Performance Tips
 ^^^^^^^^^^^^^^^^^^^^
 
-ZFS uses a lot of memory, so it is best to add additional 8-16GB RAM
-if you want to use ZFS.
+ZFS uses a lot of memory, so it is best to add additional RAM if you
+want to use ZFS. A good calculation is 4GB plus 1GB RAM for each TB
+RAW disk space.
 
 ZFS also provides the feature to use a fast SSD drive as write cache. The
 write cache is called the ZFS Intent Log (ZIL). You can add that after
