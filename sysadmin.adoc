@@ -92,8 +92,6 @@ endif::wiki[]
 
 ifndef::wiki[]
 
-include::getting-help.adoc[]
-
 include::pve-package-repos.adoc[]
 
 include::pve-installation.adoc[]
