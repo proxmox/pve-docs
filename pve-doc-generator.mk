@@ -33,6 +33,7 @@ PVESM_MAN1_SOURCES=			\
 	pve-storage-iscsi.adoc		\
 	pve-storage-iscsidirect.adoc	\
 	pve-storage-lvm.adoc		\
+	pve-storage-lvmthin.adoc	\
 	pve-storage-nfs.adoc		\
 	pve-storage-rbd.adoc		\
 	pve-storage-zfspool.adoc	\
