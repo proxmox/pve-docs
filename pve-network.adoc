@@ -150,6 +150,119 @@ iface vmbr0 inet static
         post-down iptables -t nat -D POSTROUTING -s '10.10.10.0/24' -o eth0 -j MASQUERADE
 ----
 
+
+Linux Bond
+~~~~~~~~~~
+
+Bonding is a technique for binding multiple NIC's to a single network
+device.  It is possible to achieve different goals, like make the
+network fault-tolerant, increase the performance or both
+together.
+
+There are 7 modes for bonding:
+
+* *Round-robin (balance-rr):* Transmit network packets in sequential
+order from the first available network interface (NIC) slave through
+the last. This mode provides load balancing and fault tolerance.
+
+* *Active-backup (active-backup):* Only one NIC slave in the bond is
+active. A different slave becomes active if, and only if, the active
+slave fails. The single logical bonded interface's MAC address is
+externally visible on only one NIC (port) to avoid distortion in the
+network switch. This mode provides fault tolerance.
+
+* *XOR (balance-xor):* Transmit network packets based on [(source MAC
+address XOR'd with destination MAC address) modulo NIC slave
+count]. This selects the same NIC slave for each destination MAC
+address. This mode provides load balancing and fault tolerance.
+
+* *Broadcast (broadcast):* Transmit network packets on all slave
+network interfaces. This mode provides fault tolerance.
+
+* *IEEE 802.3ad Dynamic link aggregation (802.3ad)(LACP):* Creates
+aggregation groups that share the same speed and duplex
+settings. Utilizes all slave network interfaces in the active
+aggregator group according to the 802.3ad specification.
+
+* *Adaptive transmit load balancing (balance-tlb):* Linux bonding
+driver mode that does not require any special network-switch
+support. The outgoing network packet traffic is distributed according
+to the current load (computed relative to the speed) on each network
+interface slave. Incoming traffic is received by one currently
+designated slave network interface. If this receiving slave fails,
+another slave takes over the MAC address of the failed receiving
+slave.
+
+* *Adaptive load balancing (balanceIEEE 802.3ad Dynamic link
+aggregation (802.3ad)(LACP):-alb):* Includes balance-tlb plus receive
+load balancing (rlb) for IPV4 traffic, and does not require any
+special network switch support. The receive load balancing is achieved
+by ARP negotiation. The bonding driver intercepts the ARP Replies sent
+by the local system on their way out and overwrites the source
+hardware address with the unique hardware address of one of the NIC
+slaves in the single logical bonded interface such that different
+network-peers use different MAC addresses for their network packet
+traffic.
+
+For the most setups the active-backup are the best choice or if your
+switch support LACP "IEEE 802.3ad" this mode should be preferred.
+
+.Example: Use bond with fixed IP address
+----
+auto lo
+iface lo inet loopback
+
+iface eth1 inet manual
+
+iface eth2 inet manual
+
+auto bond0
+iface bond0 inet static
+      slaves eth1 eth2
+      address  192.168.1.2
+      netmask  255.255.255.0
+      bond_miimon 100
+      bond_mode 802.3ad
+      bond_xmit_hash_policy layer2+3
+
+auto vmbr0
+iface vmbr0 inet static
+        address  10.10.10.2
+        netmask  255.255.255.0
+	gateway  10.10.10.1
+        bridge_ports eth0
+        bridge_stp off
+        bridge_fd 0
+
+----
+
+.Example: Use a bond with a bridge
+----
+auto lo
+iface lo inet loopback
+
+iface eth1 inet manual
+
+iface eth2 inet manual
+
+auto bond0
+iface bond0 inet maunal
+      slaves eth1 eth2
+      bond_miimon 100
+      bond_mode 802.3ad
+      bond_xmit_hash_policy layer2+3
+
+auto vmbr0
+iface vmbr0 inet static
+        address  10.10.10.2
+        netmask  255.255.255.0
+	gateway  10.10.10.1
+        bridge_ports bond0
+        bridge_stp off
+        bridge_fd 0
+
+----
+
 ////
 TODO: explain IPv6 support?
 TODO: explan OVS
