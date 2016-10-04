@@ -170,6 +170,18 @@ Membership information
          4          1 hp4
 ----
 
+Adding Nodes With Separated Cluster Network
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When adding a node to a cluster with a separated cluster network you need to
+use the 'ringX_addr' parameters to set the nodes address on those networks:
+
+[source,bash]
+pvecm add IP-ADDRESS-CLUSTER -ring0_addr IP-ADDRESS-RING0
+
+If you want to use the Redundant Ring Protocol you will also want to pass the
+'ring1_addr' parameter.
+
 
 Remove a Cluster Node
 ---------------------
@@ -368,6 +380,443 @@ majority of nodes are online. The cluster switches to read-only mode
 if it loses quorum.
 
 NOTE: {pve} assigns a single vote to each node by default.
+
+Cluster Network
+---------------
+
+The cluster network is the core of a cluster. All messages sent over it have to
+be delivered reliable to all nodes in their respective order. In {pve} this
+part is done by corosync, an implementation of a high performance low overhead
+high availability development toolkit. It serves our decentralized
+configuration file system (`pmxcfs`).
+
+[[cluster-network-requirements]]
+Network Requirements
+~~~~~~~~~~~~~~~~~~~~
+This needs a reliable network with latencies under 2 milliseconds (LAN
+performance) to work properly. While corosync can also use unicast for
+communication between nodes its **highly recommended** to have a multicast
+capable network. The network should not be used heavily by other members,
+ideally corosync runs on its own network.
+*never* share it with network where storage communicates too.
+
+Before setting up a cluster it is good practice to check if the network is fit
+for that purpose.
+
+* Ensure that all nodes are in the same subnet. This must only be true for the
+  network interfaces used for cluster communication (corosync).
+
+* Ensure all nodes can reach each other over those interfaces, using `ping` is
+  enough for a basic test.
+
+* Ensure that multicast works in general and a high package rates. This can be
+  done with the `omping` tool. The final "%loss" number should be < 1%.
+[source,bash]
+----
+omping -c 10000 -i 0.001 -F -q NODE1-IP NODE2-IP ...
+----
+
+* Ensure that multicast communication works over an extended period of time.
+  This covers up problems where IGMP snooping is activated on the network but
+  no multicast querier is active. This test has a duration of around 10
+  minutes.
+[source,bash]
+omping -c 600 -i 1 -q NODE1-IP NODE2-IP ...
+
+Your network is not ready for clustering if any of these test fails. Recheck
+your network configuration. Especially switches are notorious for having
+multicast disabled by default or IGMP snooping enabled with no IGMP querier
+active.
+
+In smaller cluster its also an option to use unicast if you really cannot get
+multicast to work.
+
+Separate Cluster Network
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+When creating a cluster without any parameters the cluster network is generally
+shared with the Web UI and the VMs and its traffic. Depending on your setup
+even storage traffic may get sent over the same network. Its recommended to
+change that, as corosync is a time critical real time application.
+
+Setting Up A New Network
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+First you have to setup a new network interface. It should be on a physical
+separate network. Ensure that your network fulfills the
+<<cluster-network-requirements,cluster network requirements>>.
+
+Separate On Cluster Creation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This is possible through the 'ring0_addr' and 'bindnet0_addr' parameter of
+the 'pvecm create' command used for creating a new cluster.
+
+If you have setup a additional NIC with a static address on 10.10.10.1/25
+and want to send and receive all cluster communication over this interface
+you would execute:
+
+[source,bash]
+pvecm create test --ring0_addr 10.10.10.1 --bindnet0_addr 10.10.10.0
+
+To check if everything is working properly execute:
+[source,bash]
+systemctl status corosync
+
+[[separate-cluster-net-after-creation]]
+Separate After Cluster Creation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can do this also if you have already created a cluster and want to switch
+its communication to another network, without rebuilding the whole cluster.
+This change may lead to short durations of quorum loss in the cluster, as nodes
+have to restart corosync and come up one after the other on the new network.
+
+Check how to <<edit-corosync-conf,edit the corosync.conf file>> first.
+The open it and you should see a file similar to:
+
+----
+logging {
+  debug: off
+  to_syslog: yes
+}
+
+nodelist {
+
+  node {
+    name: due
+    nodeid: 2
+    quorum_votes: 1
+    ring0_addr: due
+  }
+
+  node {
+    name: tre
+    nodeid: 3
+    quorum_votes: 1
+    ring0_addr: tre
+  }
+
+  node {
+    name: uno
+    nodeid: 1
+    quorum_votes: 1
+    ring0_addr: uno
+  }
+
+}
+
+quorum {
+  provider: corosync_votequorum
+}
+
+totem {
+  cluster_name: thomas-testcluster
+  config_version: 3
+  ip_version: ipv4
+  secauth: on
+  version: 2
+  interface {
+    bindnetaddr: 192.168.30.50
+    ringnumber: 0
+  }
+
+}
+----
+
+The first you want to do is add the 'name' properties in the node entries if
+you do not see them already. Those *must* match the node name.
+
+Then replace the address from the 'ring0_addr' properties with the new
+addresses.  You may use plain IP addresses or also hostnames here. If you use
+hostnames ensure that they are resolvable from all nodes.
+
+In my example I want to switch my cluster communication to the 10.10.10.1/25
+network. So I replace all 'ring0_addr' respectively. I also set the bindetaddr
+in the totem section of the config to an address of the new network. It can be
+any address from the subnet configured on the new network interface.
+
+After you increased the 'config_version' property the new configuration file
+should look like:
+
+----
+
+logging {
+  debug: off
+  to_syslog: yes
+}
+
+nodelist {
+
+  node {
+    name: due
+    nodeid: 2
+    quorum_votes: 1
+    ring0_addr: 10.10.10.2
+  }
+
+  node {
+    name: tre
+    nodeid: 3
+    quorum_votes: 1
+    ring0_addr: 10.10.10.3
+  }
+
+  node {
+    name: uno
+    nodeid: 1
+    quorum_votes: 1
+    ring0_addr: 10.10.10.1
+  }
+
+}
+
+quorum {
+  provider: corosync_votequorum
+}
+
+totem {
+  cluster_name: thomas-testcluster
+  config_version: 4
+  ip_version: ipv4
+  secauth: on
+  version: 2
+  interface {
+    bindnetaddr: 10.10.10.1
+    ringnumber: 0
+  }
+
+}
+----
+
+Now after a final check whether all changed information is correct we save it
+and see again the <<edit-corosync-conf,edit corosync.conf file>> section to
+learn how to bring it in effect.
+
+As our change cannot be enforced live from corosync we have to do an restart.
+
+On a single node execute:
+[source,bash]
+systemctl restart corosync
+
+Now check if everything is fine:
+
+[source,bash]
+systemctl status corosync
+
+If corosync runs again correct restart corosync also on all other nodes.
+They will then join the cluster membership one by one on the new network.
+
+Redundant Ring Protocol
+~~~~~~~~~~~~~~~~~~~~~~~
+To avoid a single point of failure you should implement counter measurements.
+This can be on the hardware and operating system level through network bonding.
+
+Corosync itself offers also a possibility to add redundancy through the so
+called 'Redundant Ring Protocol'. This protocol allows running a second totem
+ring on another network, this network should be physically separated from the
+other rings network to actually increase availability.
+
+RRP On Cluster Creation
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The 'pvecm create' command provides the additional parameters 'bindnetX_addr',
+'ringX_addr' and 'rrp_mode', can be used for RRP configuration.
+
+NOTE: See the <<corosync-conf-glossary,glossary>> if you do not know what each parameter means.
+
+So if you have two networks, one on the 10.10.10.1/24 and the other on the
+10.10.20.1/24 subnet you would execute:
+
+[source,bash]
+pvecm create CLUSTERNAME -bindnet0_addr 10.10.10.1 -ring0_addr 10.10.10.1 \
+-bindnet1_addr 10.10.20.1 -ring1_addr 10.10.20.1
+
+RRP On A Created Cluster
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+When enabling an already running cluster to use RRP you will take similar steps
+as describe in <<separate-cluster-net-after-creation,separating the cluster
+network>>. You just do it on another ring.
+
+First add a new `interface` subsection in the `totem` section, set its
+`ringnumber` property to `1`. Set the interfaces `bindnetaddr` property to an
+address of the subnet you have configured for your new ring.
+Further set the `rrp_mode` to `passive`, this is the only stable mode.
+
+Then add to each node entry in the `nodelist` section its new `ring1_addr`
+property with the nodes additional ring address.
+
+So if you have two networks, one on the 10.10.10.1/24 and the other on the
+10.10.20.1/24 subnet, the final configuration file should look like:
+
+----
+totem {
+  cluster_name: tweak
+  config_version: 9
+  ip_version: ipv4
+  rrp_mode: passive
+  secauth: on
+  version: 2
+  interface {
+    bindnetaddr: 10.10.10.1
+    ringnumber: 0
+  }
+  interface {
+    bindnetaddr: 10.10.20.1
+    ringnumber: 1
+  }
+}
+
+nodelist {
+  node {
+    name: pvecm1
+    nodeid: 1
+    quorum_votes: 1
+    ring0_addr: 10.10.10.1
+    ring1_addr: 10.10.20.1
+  }
+
+ node {
+    name: pvecm2
+    nodeid: 2
+    quorum_votes: 1
+    ring0_addr: 10.10.10.2
+    ring1_addr: 10.10.20.2
+  }
+
+  [...] # other cluster nodes here
+}
+
+[...] # other remaining config sections here
+
+----
+
+Bring it in effect like described in the <<edit-corosync-conf,edit the
+corosync.conf file>> section.
+
+This is a change which cannot take live in effect and needs at least a restart
+of corosync. Recommended is a restart of the whole cluster.
+
+If you cannot reboot the whole cluster ensure no High Availability services are
+configured and the stop the corosync service on all nodes. After corosync is
+stopped on all nodes start it one after the other again.
+
+Corosync Configuration
+----------------------
+
+The `/ect/pve/corosync.conf` file plays a central role in {pve} cluster. It
+controls the cluster member ship and its network.
+For reading more about it check the corosync.conf man page:
+[source,bash]
+man corosync.conf
+
+For node membership you should always use the `pvecm` tool provided by {pve}.
+You may have to edit the configuration file manually for other changes.
+Here are a few best practice tips for doing this.
+
+[[edit-corosync-conf]]
+Edit corosync.conf
+~~~~~~~~~~~~~~~~~~
+
+Editing the corosync.conf file can be not always straight forward. There are
+two on each cluster, one in `/etc/pve/corosync.conf` and the other in
+`/etc/corosync/corosync.conf`. Editing the one in our cluster file system will
+propagate the changes to the local one, but not vice versa.
+
+The configuration will get updated automatically as soon as the file changes.
+This means changes which can be integrated in a running corosync will take
+instantly effect. So you should always make a copy and edit that instead, to
+avoid triggering some unwanted changes by an in between safe.
+
+[source,bash]
+cp /etc/pve/corosync.conf /etc/pve/corosync.conf.new
+
+Then open the Config file with your favorite editor, `nano` and `vim.tiny` are
+preinstalled on {pve} for example.
+
+NOTE: Always increment the 'config_version' number on configuration changes,
+omitting this can lead to problems.
+
+After making the necessary changes create another copy of the current working
+configuration file. This serves as a backup if the new configuration fails to
+apply or makes problems in other ways.
+
+[source,bash]
+cp /etc/pve/corosync.conf /etc/pve/corosync.conf.bak
+
+Then move the new configuration file over the old one:
+[source,bash]
+mv /etc/pve/corosync.conf.new /etc/pve/corosync.conf
+
+You may check with the commands
+[source,bash]
+systemctl status corosync
+journalctl -b -u corosync
+
+If the change could applied automatically. If not you may have to restart the
+corosync service via:
+[source,bash]
+systemctl restart corosync
+
+On errors check the troubleshooting section below.
+
+Troubleshooting
+~~~~~~~~~~~~~~~
+
+Issue: 'quorum.expected_votes must be configured'
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When corosync starts to fail and you get the following message in the system log:
+
+----
+[...]
+corosync[1647]:  [QUORUM] Quorum provider: corosync_votequorum failed to initialize.
+corosync[1647]:  [SERV  ] Service engine 'corosync_quorum' failed to load for reason
+    'configuration error: nodelist or quorum.expected_votes must be configured!'
+[...]
+----
+
+It means that the hostname you set for corosync 'ringX_addr' in the
+configuration could not be resolved.
+
+
+Write Configuration When Not Quorate
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you need to change '/etc/pve/corosync.conf' on an node with no quorum, and you
+know what you do, use:
+[source,bash]
+pvecm expected 1
+
+This sets the expected vote count to 1 and makes the cluster quorate. You can
+now fix your configuration, or revert it back to the last working backup.
+
+This is not enough if corosync cannot start anymore. Here its best to edit the
+local copy of the corosync configuration in '/etc/corosync/corosync.conf' so
+that corosync can start again. Ensure that on all nodes this configuration has
+the same content to avoid split brains. If you are not sure what went wrong
+it's best to ask the Proxmox Community to help you.
+
+
+[[corosync-conf-glossary]]
+Corosync Configuration Glossary
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ringX_addr::
+This names the different ring addresses for the corosync totem rings used for
+the cluster communication.
+
+bindnetaddr::
+Defines to which interface the ring should bind to. It may be any address of
+the subnet configured on the interface we want to use. In general its the
+recommended to just use an address a node uses on this interface.
+
+rrp_mode::
+Specifies the mode of the redundant ring protocol and may be passive, active or
+none. Note that use of active is highly experimental and not official
+supported. Passive is the preferred mode, it may double the cluster
+communication throughput and increases availability.
 
 
 Cluster Cold Start
