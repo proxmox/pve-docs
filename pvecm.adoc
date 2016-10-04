@@ -279,6 +279,76 @@ cluster again, you have to
 
 * then join it, as explained in the previous section.
 
+Separate A Node Without Reinstalling
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+CAUTION: This is *not* the recommended method, proceed with caution. Use the
+above mentioned method if you're unsure.
+
+You can also separate a node from a cluster without reinstalling it from
+scratch.  But after removing the node from the cluster it will still have
+access to the shared storages! This must be resolved before you start removing
+the node from the cluster. A {pve} cluster cannot share the exact same
+storage with another cluster, as it leads to VMID conflicts.
+
+Move the guests which you want to keep on this node now, after the removal you
+can do this only via backup and restore. Its suggested that you create a new
+storage where only the node which you want to separate has access. This can be
+an new export on your NFS or a new Ceph pool, to name a few examples. Its just
+important that the exact same storage does not gets accessed by multiple
+clusters. After setting this storage up move all data from the node and its VMs
+to it. Then you are ready to separate the node from the cluster.
+
+WARNING: Ensure all shared resources are cleanly separated! You will run into
+conflicts and problems else.
+
+First stop the corosync and the pve-cluster services on the node:
+[source,bash]
+systemctl stop pve-cluster
+systemctl stop corosync
+
+Start the cluster filesystem again in local mode:
+[source,bash]
+pmxcfs -l
+
+Delete the corosync configuration files:
+[source,bash]
+rm /etc/pve/corosync.conf
+rm /etc/corosync/*
+
+You can now start the filesystem again as normal service:
+[source,bash]
+killall pmxcfs
+systemctl start pve-cluster
+
+The node is now separated from the cluster. You can deleted it from a remaining
+node of the cluster with:
+[source,bash]
+pvecm delnode oldnode
+
+If the command failed, because the remaining node in the cluster lost quorum
+when the now separate node exited, you may set the expected votes to 1 as a workaround:
+[source,bash]
+pvecm expected 1
+
+And the repeat the 'pvecm delnode' command.
+
+Now switch back to the separated node, here delete all remaining files left
+from the old cluster. This ensures that the node can be added to another
+cluster again without problems.
+
+[source,bash]
+rm /var/lib/corosync/*
+
+As the configuration files from the other nodes are still in the cluster
+filesystem you may want to clean those up too.  Remove simply the whole
+directory recursive from '/etc/pve/nodes/NODENAME', but check three times that
+you used the correct one before deleting it.
+
+CAUTION: The nodes SSH keys are still in the 'authorized_key' file, this means
+the nodes can still connect to each other with public key authentication. This
+should be fixed by removing the respective keys from the
+'/etc/pve/priv/authorized_keys' file.
 
 Quorum
 ------
