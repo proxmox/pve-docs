@@ -207,6 +207,10 @@ traffic.
 For the most setups the active-backup are the best choice or if your
 switch support LACP "IEEE 802.3ad" this mode should be preferred.
 
+The following bond configuration can be used as distributed/shared
+storage network. The benefit would be that you get more speed and the
+network will be fault-tolerant.
+
 .Example: Use bond with fixed IP address
 ----
 auto lo
@@ -236,7 +240,11 @@ iface vmbr0 inet static
 
 ----
 
-.Example: Use a bond with a bridge
+
+Another possibility it to use the bond directly as bridge port.
+This can be used to make the guest network fault-tolerant.
+
+.Example: Use a bond as bridge port
 ----
 auto lo
 iface lo inet loopback
