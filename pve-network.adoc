@@ -154,10 +154,22 @@ iface vmbr0 inet static
 Linux Bond
 ~~~~~~~~~~
 
-Bonding is a technique for binding multiple NIC's to a single network
-device.  It is possible to achieve different goals, like make the
-network fault-tolerant, increase the performance or both
-together.
+Bonding (also called NIC teaming or Link Aggregation) is a technique
+for binding multiple NIC's to a single network device.  It is possible
+to achieve different goals, like make the network fault-tolerant,
+increase the performance or both together.
+
+High-speed hardware like Fibre Channel and the associated switching
+hardware can be quite expensive. By doing link aggregation, two NICs
+can appear as one logical interface, resulting in double speed. This
+is a native Linux kernel feature that is supported by most
+switches. If your nodes have multiple Ethernet ports, you can
+distribute your points of failure by running network cables to
+different switches and the bonded connection will failover to one
+cable or the other in case of network trouble.
+
+Aggregated links can improve live-migration delays and improve the
+speed of replication of data between Proxmox VE Cluster nodes.
 
 There are 7 modes for bonding:
 
