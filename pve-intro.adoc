@@ -271,5 +271,5 @@ article and is an interesting foray in the development of a large
 opensource project.
 
 NOTE: If you are interested in working on the {pve} codebase, the
-https://pve.proxmox.com/wiki/Developer_Documentation[Developer
-Documentation] wiki article will show you where to start.
+{webwiki-url}Developer_Documentation[Developer Documentation] wiki
+article will show you where to start.

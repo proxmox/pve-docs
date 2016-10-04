@@ -2,6 +2,10 @@
 :copyright:   {proxmoxGmbh}
 :pve:         Proxmox VE
 :website:     http://www.proxmox.com/
+:forum-url:   https://forum.proxmox.com/
+:forum:       https://forum.proxmox.com/[{pve} Community Forum]
+:webwiki-url:    https://pve.proxmox.com/wiki/
+:webwiki:        https://pve.proxmox.com/wiki/[{pve} Wiki]
 :manmanual:   {pve} Documentation
 :max-width:   55em
 ifndef::docinfo1[]

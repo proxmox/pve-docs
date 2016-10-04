@@ -15,8 +15,8 @@ additional information.
 
 You should do such updates at regular intervals, or when we release
 versions with security related fixes. Major system upgrades are
-announced at the https://forum.proxmox.com/[Forum]. Those announcement
-also contain detailed upgrade instructions.
+announced at the {forum}. Those announcement also contain detailed
+upgrade instructions.
 
 TIP: We recommend to run regular upgrades, because it is important to
 get the latest security updates.

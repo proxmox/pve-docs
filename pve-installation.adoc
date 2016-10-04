@@ -168,8 +168,8 @@ apt-get update
 apt-get install proxmox-ve
 ----
 
-You can find a detailed step by step howto on the {pve}
-http://pve.proxmox.com/wiki/Install_Proxmox_VE_on_Debian_Jessie[wiki].
+You can find a detailed step by step howto on the
+{webwiki-url}Install_Proxmox_VE_on_Debian_Jessie[wiki].
 
 endif::wiki[]
 
