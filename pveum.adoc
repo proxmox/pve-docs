@@ -27,9 +27,9 @@ endif::manvolnum[]
 
 // Copied from pve wiki: Revision as of 16:10, 27 October 2015
 
-Proxmox VE supports multiple authentication sources, e.g. Microsoft
-Active Directory, LDAP, Linux PAM or the integrated Proxmox VE
-authentication server.
+Proxmox VE supports multiple authentication sources, e.g. Linux PAM,
+an integrated Proxmox VE authentication server, LDAP, Microsoft Active
+Directory.
 
 By using the role based user- and permission management for all
 objects (VMs, storages, nodes, etc.) granular access can be defined.
