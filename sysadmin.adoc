@@ -73,8 +73,6 @@ ifdef::wiki[]
 See Also
 --------
 
-* link:/wiki/Getting_Help[Getting Help]
-
 * link:/wiki/Package_Repositories[Package Repositories]
 
 * link:/wiki/Installation[Installation]
