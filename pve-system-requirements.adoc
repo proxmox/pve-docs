@@ -1,0 +1,43 @@
+System Requirements
+-------------------
+include::attributes.txt[]
+
+For production servers, high quality server equipment is needed. Keep
+in mind, if you run 10 Virtual Servers on one machine and you then
+experience a hardware failure, 10 services are lost. {pve}
+supports clustering, this means that multiple {pve} installations
+can be centrally managed thanks to the included cluster functionality.
+
+{pve} can use local storage (DAS), SAN, NAS and also distributed
+storage (Ceph RBD). For details see xref:chapter-storage[chapter storage].
+
+
+Minimum Requirements, for Evaluation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* CPU: 64bit (Intel EMT64 or AMD64)
+
+* Intel VT/AMD-V capable CPU/Mainboard for KVM Full Virtualization support
+
+* RAM: 1 GB RAM, plus additional RAM used for guests
+
+* Hard drive
+
+* One NIC
+
+
+Recommended System Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* CPU: 64bit (Intel EMT64 or AMD64), Multi core CPU recommended
+
+* Intel VT/AMD-V capable CPU/Mainboard for KVM Full Virtualization support
+
+* RAM: 8 GB RAM, plus additional RAM used for guests
+
+* Hardware RAID with batteries protected write cache (``BBU'') or flash
+ based protection
+
+* Fast hard drives, best results with 15k rpm SAS, Raid10
+
+* At least two NICs, depending on the used storage technology you need more

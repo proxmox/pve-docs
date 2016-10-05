@@ -102,6 +102,7 @@ GEN_SCRIPTS=					\
 
 INSTALLATION_SOURCES=				\
 	pve-usbstick.adoc			\
+	pve-system-requirements.adoc		\
 	pve-installation.adoc
 
 SYSADMIN_PARTS=					\
@@ -159,6 +160,7 @@ PVE_ADMIN_GUIDE_SOURCES=			\
 WIKI_IMPORTS=									\
 	section-pve-usbstick-plain.html						\
 	section-getting-help-plain.html						\
+	section-pve-system-requirements-plain.html				\
 	$(addsuffix -plain.html, $(addprefix sysadmin-, ${SYSADMIN_PARTS})) 	\
 	$(addsuffix -plain.html, $(addprefix chapter-, ${CHAPTER_LIST}))	\
 	$(addsuffix .5-plain.html, ${CONFIG_LIST})				\

@@ -24,6 +24,12 @@ within a few minutes, including the following:
 * Complete toolset
 * Web based management interface
 
+ifndef::wiki[]
+
+include::pve-system-requirements.adoc[]
+
+endif::wiki[]
+
 
 Using the {pve} Installation CD-ROM
 -----------------------------------
@@ -193,6 +199,8 @@ Video Tutorials
 
 See Also
 --------
+
+* link:/wiki/System_Requirements[System Requirements]
 
 * link:/wiki/Package_Repositories[Package Repositories]
 
