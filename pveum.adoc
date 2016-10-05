@@ -35,24 +35,19 @@ By using the role based user- and permission management for all
 objects (VMs, storages, nodes, etc.) granular access can be defined.
 
 
+[[authentication-realms]]
 Authentication Realms
 ---------------------
 
-Proxmox VE stores all user attributes in `/etc/pve/user.cfg`. So there
-must be an entry for each user in that file. The password is not
-stored, instead you can use configure several realms to verify
-passwords.
-
-Microsoft Active Directory::
-
-LDAP::
+As {pve} users are just counterparts for users existing on some external
+realm, the realms have to be configured in `/etc/pve/domains.cfg`.
+The following realms (authentication methods) are available:
 
 Linux PAM standard authentication::
-
-You need to create the system users first with `adduser`
-(e.g. `adduser heinz`) and possibly the group as well. After that you
-can create the user on the GUI.
-
+In this case a system user has to exist (eg. created via the `adduser`
+command) on all nodes the user is allowed to login, and the user
+authenticates with their usual system password.
++
 [source,bash]
 ----
 useradd heinz
@@ -62,10 +57,53 @@ usermod -a -G watchman heinz
 ----
 
 Proxmox VE authentication server::
+This is a unix like password store (`/etc/pve/priv/shadow.cfg`).
+Password are encrypted using the SHA-256 hash method.
+This is the most convenient method for for small (or even medium)
+installations where users do not need access to anything outside of
+{pve}. In this case users are fully managed by {pve} and are able to
+change their own passwords via the GUI.
 
-This is a unix like password store
-(`/etc/pve/priv/shadow.cfg`). Password are encrypted using the SHA-256
-hash method. Users are allowed to change passwords.
+LDAP::
+It is possible to authenticate users via an LDAP server (eq.
+openldap). The server and an optional fallback server can be
+configured and the connection can be encrypted via SSL.
++
+Users are searched under a 'Base Domain Name' (`base_dn`), with the
+user name found in the attribute specified in the 'User Attribute Name'
+(`user_attr`) field.
++
+For instance, if a user is represented via the
+following ldif dataset:
++
+----
+# user1 of People at ldap-test.com
+dn: uid=user1,ou=People,dc=ldap-test,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: user1
+cn: Test User 1
+sn: Testers
+description: This is the first test user.
+----
++
+The 'Base Domain Name' would be `ou=People,dc=ldap-test,dc=com` and the user
+attribute would be `uid`.
++
+If {pve} needs to authenticate (bind) to the ldap server before being
+able to query and authenticate users, a bind domain name can be
+configured via the `bind_dn` property in `/etc/pve/domains.cfg`. Its
+password then has to be stored in `/etc/pve/priv/ldap/<realmname>.pw`
+(eg. `/etc/pve/priv/ldap/my-ldap.pw`). This file should contain a
+single line containing the raw password.
+
+Microsoft Active Directory::
+
+A server and authentication domain need to be specified. Like with
+ldap an optional fallback server, optional port, and SSL
+encryption can be configured.
 
 
 Terms and Definitions
