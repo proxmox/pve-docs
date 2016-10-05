@@ -309,20 +309,6 @@ Some examples are:
 * `/access/realms/{realmid}`: Administrative access to realms
 
 
-Permissions
-~~~~~~~~~~~
-
-Permissions are the way we control access to objects. In technical
-terms they are simply a triple containing `<path,user,role>`. This
-concept is also known as access control lists. Each permission
-specifies a subject (user or group) and a role (set of privileges) on
-a specific path.
-
-When a subject requests an action on an object, the framework looks up
-the roles assigned to that subject (using the object path). The set of
-roles defines the granted privileges.
-
-
 Inheritance
 ^^^^^^^^^^^
 
