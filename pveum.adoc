@@ -241,10 +241,9 @@ Command Line Tool
 
 Most users will simply use the GUI to manage users. But there is also
 a full featured command line tool called `pveum` (short for ``**P**roxmox
-**VE** **U**ser **M**anager''). I will use that tool in the following
-examples. Please note that all Proxmox VE command line tools are
-wrappers around the API, so you can also access those function through
-the REST API.
+**VE** **U**ser **M**anager''). Please note that all Proxmox VE command
+line tools are wrappers around the API, so you can also access those
+function through the REST API.
 
 Here are some simple usage examples. To show help type:
 
