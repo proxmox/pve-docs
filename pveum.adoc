@@ -292,16 +292,9 @@ As mentioned earlier, object paths form a file system like tree, and
 permissions can be inherited down that tree (the propagate flag is set
 by default). We use the following inheritance rules:
 
-* permission for individual users always overwrite group permission.
-* permission for groups apply when the user is member of that group.
-* permission set at higher level always overwrites inherited permissions.
-
-
-What permission do I need?
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-The required API permissions are documented for each individual
-method, and can be found at http://pve.proxmox.com/pve-docs/api-viewer/
+* Permissions for individual users always replace group permissions.
+* Permissions for groups apply when the user is member of that group.
+* Permissions replace the ones inherited from an upper level.
 
 
 Pools
@@ -311,6 +304,62 @@ Pools can be used to group a set of virtual machines and data
 stores. You can then simply set permissions on pools (`/pool/{poolid}`),
 which are inherited to all pool members. This is a great way simplify
 access control.
+
+
+What permission do I need?
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The required API permissions are documented for each individual
+method, and can be found at http://pve.proxmox.com/pve-docs/api-viewer/
+
+The permissions are specified as a list which can be interpreted as a
+tree of logic and access-check functions:
+
+`["and", <subtests>...]` and `["or", <subtests>...]`::
+Each(`and`) or any(`or`) further element in the current list has to be true.
+
+`["perm", <path>, [ <privileges>... ], <options>...]`::
+The `path` is a templated parameter (see <<templated-paths,Objects and
+Paths>>). All (or , if the `any` option is used, any) of the listed
+privileges must be allowed on the specified path. If a `require-param`
+option is specified, then its specified parameter is required even if the
+API call's schema otherwise lists it as being optional.
+
+`["userid-group", [ <privileges>... ], <options>...]`::
+The callermust have any of the listed privileges on `/access/groups`. In
+addition there are two possible checks depending on whether the
+`groups_param` option is set:
++
+* `groups_param` is set: The API call has a non-optional `groups` parameter
+and the caller must have any of the listed privileges on all of the listed
+groups.
+* `groups_param` is not set: The user passed via the `userid` parameter
+must exist and be part of a group on which the caller has any of the listed
+privileges (via the `/access/groups/<group>` path).
+
+`["userid-param", "self"]`::
+The value provided for the API call's `userid` parameter must refer to the
+user performing the action. (Usually in conjunction with `or`, to allow
+users to perform an action on themselves even if they don't have elevated
+privileges.)
+
+`["userid-param", "Realm.AllocateUser"]`::
+The user needs `Realm.AllocateUser` access to `/access/realm/<realm>`, with
+`<realm>` refering to the realm of the user passed via the `userid`
+parameter. Note that the user does not need to exist in order to be
+associated with a realm, since user IDs are passed in the form of
+`<username>@<realm>`.
+
+`["perm-modify", <path>]`::
+The `path` is a templated parameter (see <<templated-paths,Objects and
+Paths>>). The user needs either the `Permissions.Modify` privilege, or,
+depending on the path, the following privileges as a possible substitute:
++
+* `/storage/...`: additionally requires 'Datastore.Allocate`
+* `/vms/...`: additionally requires 'VM.Allocate`
+* `/pool/...`: additionally requires 'Pool.Allocate`
++
+If the path is empty, `Permission.Modify` on `/access` is required.
 
 Command Line Tool
 -----------------
