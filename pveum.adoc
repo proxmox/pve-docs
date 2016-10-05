@@ -106,6 +106,44 @@ ldap an optional fallback server, optional port, and SSL
 encryption can be configured.
 
 
+Two factor authentication
+-------------------------
+
+Each realm can optionally be secured additionally by two factor
+authentication. This can be done by selecting one of the available methods
+via the 'TFA' dropdown box when adding or editing an Authentication Realm.
+When a realm has TFA enabled it becomes a requirement and only users with
+configured TFA will be able to login.
+
+Currently there are two methods available:
+
+Time based OATH (TOTP)::
+This uses the standard HMAC-SHA1 algorithm where the current time is hashed
+with the user's configured key. The time step and password length
+parameters are configured.
++
+A user can have multiple keys configured (separated by spaces), and the
+keys can be specified in Base32 (RFC3548) or hexadecimal notation.
++
+{pve} provides a key generation tool (`oathkeygen`) which prints out a
+random key in Base32 notation which can be used directly with various OTP
+tools, such as the `oathtool` command line tool, the Google authenticator
+or FreeOTP Android apps.
+
+YubiKey OTP::
+For authenticating via a YubiKey a Yubico API ID, API KEY and validation
+server URL must be configured, and users must have a YubiKey available. In
+order to get the key ID from a YubiKey, you can trigger the YubiKey once
+after connecting it to USB and copy the first 12 characters of the typed
+password into the user's 'Key IDs' field.
++
+Please refer to the
+https://developers.yubico.com/OTP/[YubiKey OTP] documentation for how to use the
+https://www.yubico.com/products/services-software/yubicloud/[YubiCloud] or
+https://developers.yubico.com/Software_Projects/YubiKey_OTP/YubiCloud_Validation_Servers/[
+host your own verification server].
+
+
 Terms and Definitions
 ---------------------
 
