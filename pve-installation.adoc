@@ -1,5 +1,5 @@
 Installing Proxmox VE
----------------------
+=====================
 include::attributes.txt[]
 
 {pve} ships as a set of Debian packages, so you can simply install it
@@ -26,7 +26,7 @@ within a few minutes, including the following:
 
 
 Using the {pve} Installation CD-ROM
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------------
 
 This is the preferred and recommended installation method.
 
@@ -97,7 +97,7 @@ defined during the installation process.
 
 [[advanced_lvm_options]]
 Advanced LVM Configuration Options
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The installer creates a Volume Group (VG) called `pve`, and additional
 Logical Volumes (LVs) called `root`, `data` and `swap`. The size of
@@ -133,7 +133,7 @@ required for lvmthin snapshots).
 
 
 ZFS Performance Tips
-^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~
 
 ZFS uses a lot of memory, so it is best to add additional RAM if you
 want to use ZFS. A good calculation is 4GB plus 1GB RAM for each TB
@@ -149,14 +149,14 @@ installation using the following command:
 ifdef::wiki[]
 
 link:/wiki/Install_Proxmox_VE_on_Debian_Jessie[Install Proxmox VE on Debian Jessie]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------------------------------------------------------------
 
 endif::wiki[]
 
 ifndef::wiki[]
 
 Install {pve} on Debian
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
 {pve} ships as a set of Debian packages, so you can simply install it
 on top of a normal Debian installation. After configuring the
@@ -177,7 +177,7 @@ endif::wiki[]
 ifdef::wiki[]
 
 Video Tutorials
-~~~~~~~~~~~~~~~
+---------------
 
 * List of all official tutorials on our
   http://www.youtube.com/proxmoxve[Proxmox VE YouTube Channel]
@@ -188,7 +188,7 @@ Video Tutorials
 
 
 See Also
-~~~~~~~~
+--------
 
 * link:/wiki/Package_Repositories[Package Repositories]
 

@@ -19,6 +19,8 @@ include::attributes.txt[]
 
 include::pve-intro.adoc[]
 
+include::pve-installation.adoc[]
+
 include::sysadmin.adoc[]
 
 include::pvecm.adoc[]

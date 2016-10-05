@@ -75,8 +75,6 @@ See Also
 
 * link:/wiki/Package_Repositories[Package Repositories]
 
-* link:/wiki/Installation[Installation]
-
 * link:/wiki/Network_Configuration[Network Configuration] 
 
 * link:/wiki/System_Software_Updates[System Software Updates]
@@ -91,8 +89,6 @@ endif::wiki[]
 ifndef::wiki[]
 
 include::pve-package-repos.adoc[]
-
-include::pve-installation.adoc[]
 
 include::system-software-updates.adoc[]
 

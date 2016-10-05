@@ -23,6 +23,7 @@ Individual Chapters
 [width="100%",options="header"]
 |===========================================================
 |Title                                |Download link
+|Installation			      |link:chapter-pve-installation.html[]
 |Host System Administration           |link:chapter-sysadmin.html[]
 |Cluster Manager                      |link:chapter-pvecm.html[]
 |Proxmox Cluster File System (pmxcfs) |link:chapter-pmxcfs.html[]

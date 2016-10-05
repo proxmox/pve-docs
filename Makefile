@@ -18,6 +18,7 @@ DOC_DEB=${DOC_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
 MEDIAWIKI_DEB=${MEDIAWIKI_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
 
 CHAPTER_LIST=		\
+	pve-installation 	\
 	sysadmin	\
 	pvecm		\
 	pmxcfs		\
@@ -99,11 +100,13 @@ GEN_SCRIPTS=					\
 	gen-pve-firewall-rules-opts.pl		\
 	gen-pve-firewall-vm-opts.pl
 
+INSTALLATION_SOURCES=				\
+	pve-installation.adoc
+
 SYSADMIN_PARTS=					\
 	getting-help				\
 	pve-network				\
 	pve-package-repos			\
-	pve-installation			\
 	system-software-updates			\
 	local-lvm				\
 	local-zfs
@@ -123,6 +126,7 @@ PVE_ADMIN_GUIDE_SOURCES=			\
 	${SYSADMIN_SOURCES}			\
 	pve-admin-guide.adoc			\
 	pve-intro.adoc				\
+	${INSTALLATION_SOURCES}			\
 	pmxcfs.adoc 				\
 	pmxcfs.8-cli.adoc			\
 	pve-faq.adoc				\
