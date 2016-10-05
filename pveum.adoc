@@ -244,7 +244,8 @@ Privileges
 
 A privilege is the right to perform a specific action. To simplify
 management, lists of privileges are grouped into roles, which can then
-be uses to set permissions.
+be used in the permission table. Note that privileges cannot directly be
+assigned to users and paths without being part of a role.
 
 We currently use the following privileges:
 
