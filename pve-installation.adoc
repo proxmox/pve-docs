@@ -151,6 +151,9 @@ ifdef::wiki[]
 link:/wiki/Install_Proxmox_VE_on_Debian_Jessie[Install Proxmox VE on Debian Jessie]
 -----------------------------------------------------------------------------------
 
+link:/wiki/Install_from_USB_Stick[Install from USB Stick]
+---------------------------------------------------------
+
 endif::wiki[]
 
 ifndef::wiki[]
@@ -171,8 +174,9 @@ apt-get install proxmox-ve
 You can find a detailed step by step howto on the
 {webwiki-url}Install_Proxmox_VE_on_Debian_Jessie[wiki].
 
-endif::wiki[]
+include::pve-usbstick.adoc[]
 
+endif::wiki[]
 
 ifdef::wiki[]
 

@@ -68,6 +68,14 @@ my $docs = {
 	title => "High Availability",
 	category => $cat_refdoc,
     },
+    'chapter-pve-installation-plain.html' => {
+	title => "Installation",
+	category => $cat_refdoc,
+    },
+    'section-pve-usbstick-plain.html' => {
+	title => "Install from USB Stick",
+	category => $cat_refdoc,
+    },
     'sysadmin-getting-help-plain.html' => {
 	title => "Getting Help",
 	category => $cat_refdoc,
@@ -82,10 +90,6 @@ my $docs = {
     },
     'sysadmin-local-lvm-plain.html' => {
 	title => "Logical Volume Manager (LVM)",
-	category => $cat_refdoc,
-    },
-    'sysadmin-pve-installation-plain.html' => {
-	title => "Installation",
 	category => $cat_refdoc,
     },
     'sysadmin-pve-package-repos-plain.html' => {

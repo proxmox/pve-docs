@@ -101,6 +101,7 @@ GEN_SCRIPTS=					\
 	gen-pve-firewall-vm-opts.pl
 
 INSTALLATION_SOURCES=				\
+	pve-usbstick.adoc			\
 	pve-installation.adoc
 
 SYSADMIN_PARTS=					\
@@ -156,6 +157,7 @@ PVE_ADMIN_GUIDE_SOURCES=			\
 	attributes.txt
 
 WIKI_IMPORTS=									\
+	section-pve-usbstick-plain.html						\
 	$(addsuffix -plain.html, $(addprefix sysadmin-, ${SYSADMIN_PARTS})) 	\
 	$(addsuffix -plain.html, $(addprefix chapter-, ${CHAPTER_LIST}))	\
 	$(addsuffix .5-plain.html, ${CONFIG_LIST})				\
@@ -183,6 +185,9 @@ all: index.html
 	nwdiag -T svg $*.nwdiag -o $@;
 
 sysadmin-%-plain.html: %.adoc
+	asciidoc -s -a wiki -a 'leveloffset=-1' ${ADOC_STDARG} -o $@ $*.adoc
+
+section-%-plain.html: %.adoc
 	asciidoc -s -a wiki -a 'leveloffset=-1' ${ADOC_STDARG} -o $@ $*.adoc
 
 chapter-sysadmin.html chapter-sysadmin-plain.html: ${SYSADMIN_SOURCES}

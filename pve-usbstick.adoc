@@ -1,0 +1,121 @@
+Install from USB Stick
+----------------------
+include::attributes.txt[]
+
+The {pve} installation media is now a hybrid ISO image, working in two
+ways:
+
+* An ISO image file ready to burn on CD
+
+* A raw sector (IMG) image file ready to directly copy to flash media
+  (USB Stick)
+
+Using USB sticks is faster and more environmental friendly and
+therefore the recommended way to install {pve}.
+
+
+Prepare a USB flash drive as install medium
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In order to boot the installation media, copy the ISO image to a USB
+media.
+
+First download the ISO image from
+https://www.proxmox.com/en/downloads/category/iso-images-pve
+
+You need at least a 1 GB USB media.
+
+NOTE: Using UNetbootin or Rufus does not work.
+
+IMPORTANT: Make sure that the USB media is not mounted and does not
+contain any important data.
+
+
+Instructions for GNU/Linux
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can simply use `dd` on UNUX like systems. First download the ISO
+image, then plug in the USB stick. You need to find out what device
+name gets assigned to the USB stick (see below). Then run:
+
+----
+dd if=proxmox-ve_*.iso of=/dev/XYZ bs=1M
+----
+
+NOTE: Be sure to replace /dev/XYZ with the correct device name.
+
+CAUTION: Be very careful, and do not overwrite the hard disk!
+
+
+Find Correct USB Device Name
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can compare the last lines of 'dmesg' command before and after the
+insertion, or use the 'lsblk' command. Open a terminal and run:
+
+----
+ lsblk
+----
+
+Then plug in your USB media and run the command again:
+
+----
+ lsblk
+----
+
+A new device will appear, and this is the USB device you want to use.
+
+
+Instructions for OSX
+~~~~~~~~~~~~~~~~~~~~
+
+Open the terminal (query Terminal in Spotlight).
+
+Convert the .iso file to .img using the convert option of hdiutil for example.
+
+----
+hdiutil convert -format UDRW -o proxmox-ve_*.dmg proxmox-ve_*.iso
+----
+
+TIP: OS X tends to put the .dmg ending on the output file automatically.
+
+To get the current list of devices run the command again:
+
+----
+diskutil list
+----
+
+Now insert your USB flash media and run this command again to
+determine the device node assigned to your flash media
+(e.g. /dev/diskX).
+
+----
+diskutil list
+
+diskutil unmountDisk /dev/diskX
+----
+
+NOTE: replace X with the disk number from the last command.
+
+----
+sudo dd if=proxmox-ve_*.dmg of=/dev/rdiskN bs=1m
+----
+
+
+Instructions for Windows
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+In order to copy the ISO, rename it first. Just rename the downloaded
+file from proxmox-ve_*.iso to proxmox-ve_*.raw.
+
+Download the SUSE Studio ImageWriter from https://en.opensuse.org/SDB:Live_USB_stick
+
+If this doesn't work, alternative use the OSForsenics USB
+installer from http://www.osforensics.com/portability.html
+
+
+Boot your server from USB media
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Connect your USB media to your server and make sure that the server
+boots from USB (see server BIOS). Then follow the installation wizard.
