@@ -183,8 +183,19 @@ https://developers.yubico.com/Software_Projects/YubiKey_OTP/YubiCloud_Validation
 host your own verification server].
 
 
-Terms and Definitions
+Permission Management
 ---------------------
+
+In order for a user to perform an action (such as listing, modifying or
+deleting a parts of a VM configuration), the user needs to have the
+appropriate permissions.
+
+{pve} uses a role and path based permission management system. An entry in
+the permissions table allows a user or group to take on a specific role
+when accessing an 'object' or 'path'. This means an such an access rule can
+be represented as a triple of '(path, user, role)' or '(path, group,
+role)', with the role containing a set of allowed actions, and the path
+representing the target of these actions.
 
 
 Objects and Paths
