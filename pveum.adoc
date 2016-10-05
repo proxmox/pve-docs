@@ -35,6 +35,45 @@ By using the role based user- and permission management for all
 objects (VMs, storages, nodes, etc.) granular access can be defined.
 
 
+Users
+-----
+
+{pve} stores user attributes in `/etc/pve/user.cfg`.
+Passwords are not stored here, users are instead associated with
+<<authentication-realms,authentication realms>> described below.
+Therefore a user is internally often identified by its name and
+realm in the form `<userid>@<realm>`.
+
+Each user entry in this file contains the following information:
+
+* First name
+* Last name
+* E-mail address
+* Group memberships
+* An optional Expiration date
+* A comment or note about this user
+* Whether this user is enabled or disabled
+* Optional two factor authentication keys
+
+
+System administrator
+~~~~~~~~~~~~~~~~~~~~
+
+The system's root user can always log in via the Linux PAM realm and is an
+unconfined administrator. This user cannot be deleted, but attributes can
+still be changed and system mails will be sent to the email address
+assigned to this user.
+
+
+Groups
+~~~~~~
+
+Each user can be member of several groups. Groups are the preferred
+way to organize access permissions. You should always grant permission
+to groups instead of using individual users. That way you will get a
+much shorter access control list which is easier to handle.
+
+
 [[authentication-realms]]
 Authentication Realms
 ---------------------
@@ -146,39 +185,6 @@ host your own verification server].
 
 Terms and Definitions
 ---------------------
-
-
-Users
-~~~~~
-
-A Proxmox VE user name consists of two parts: `<userid>@<realm>`. The
-login screen on the GUI shows them a separate items, but it is
-internally used as single string.
-
-We store the following attribute for users (`/etc/pve/user.cfg`):
-
-* first name
-* last name
-* email address
-* expiration date
-* flag to enable/disable account
-* comment
-
-
-Superuser
-^^^^^^^^^
-
-The traditional unix superuser account is called `root@pam`. All
-system mails are forwarded to the email assigned to that account.
-
-
-Groups
-~~~~~~
-
-Each user can be member of several groups. Groups are the preferred
-way to organize access permissions. You should always grant permission
-to groups instead of using individual users. That way you will get a
-much shorter access control list which is easier to handle.
 
 
 Objects and Paths
