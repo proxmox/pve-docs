@@ -229,16 +229,6 @@ pveum roleadd Sys_Power-only -privs "Sys.PowerMgmt Sys.Console"
 ----
 
 
-Objects and Paths
-~~~~~~~~~~~~~~~~~
-
-Access permissions are assigned to objects, such as a virtual machines
-(`/vms/{vmid}`) or a storage (`/storage/{storeid}`) or a pool of
-resources (`/pool/{poolname}`). We use file system like paths to
-address those objects. Those paths form a natural tree, and
-permissions can be inherited down that hierarchy.
-
-
 Privileges
 ~~~~~~~~~~
 
@@ -288,6 +278,35 @@ Storage related privileges::
 * `Datastore.AllocateSpace`: allocate space on a datastore
 * `Datastore.AllocateTemplate`: allocate/upload templates and iso images 
 * `Datastore.Audit`: view/browse a datastore
+
+
+Objects and Paths
+~~~~~~~~~~~~~~~~~
+
+Access permissions are assigned to objects, such as a virtual machines,
+storages or pools of resources.
+We use file system like paths to address these objects. These paths form a
+natural tree, and permissions of higher levels (shorter path) can
+optionally be propagated down within this hierarchy.
+
+[[templated-paths]]
+Paths can be templated. When an API call requires permissions on a
+templated path, the path may contain references to parameters of the API
+call. These references are specified in curly braces. Some parameters are
+implicitly taken from the API call's URI. For instance the permission path
+`/nodes/{node}` when calling '/nodes/mynode/status' requires permissions on
+`/nodes/mynode`, while the path `{path}` in a PUT request to `/access/acl`
+refers to the method's `path` parameter.
+
+Some examples are:
+
+* `/nodes/{node}`: Access to {pve} server machines
+* `/vms`: Covers all VMs
+* `/vms/{vmid}`: Access to specific VMs
+* `/storage/{storeid}`: Access to a storages
+* `/pool/{poolname}`: Access to VMs part of a <<resource-pools,pool>
+* `/access/groups`: Group administration
+* `/access/realms/{realmid}`: Administrative access to realms
 
 
 Permissions
