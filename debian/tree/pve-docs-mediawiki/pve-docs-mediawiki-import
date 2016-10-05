@@ -76,7 +76,7 @@ my $docs = {
 	title => "Install from USB Stick",
 	category => $cat_refdoc,
     },
-    'sysadmin-getting-help-plain.html' => {
+    'section-getting-help-plain.html' => {
 	title => "Getting Help",
 	category => $cat_refdoc,
     },

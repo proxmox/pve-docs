@@ -105,7 +105,6 @@ INSTALLATION_SOURCES=				\
 	pve-installation.adoc
 
 SYSADMIN_PARTS=					\
-	getting-help				\
 	pve-network				\
 	pve-package-repos			\
 	system-software-updates			\
@@ -127,6 +126,7 @@ PVE_ADMIN_GUIDE_SOURCES=			\
 	${SYSADMIN_SOURCES}			\
 	pve-admin-guide.adoc			\
 	pve-intro.adoc				\
+	getting-help.adoc			\
 	${INSTALLATION_SOURCES}			\
 	pmxcfs.adoc 				\
 	pmxcfs.8-cli.adoc			\
@@ -158,6 +158,7 @@ PVE_ADMIN_GUIDE_SOURCES=			\
 
 WIKI_IMPORTS=									\
 	section-pve-usbstick-plain.html						\
+	section-getting-help-plain.html						\
 	$(addsuffix -plain.html, $(addprefix sysadmin-, ${SYSADMIN_PARTS})) 	\
 	$(addsuffix -plain.html, $(addprefix chapter-, ${CHAPTER_LIST}))	\
 	$(addsuffix .5-plain.html, ${CONFIG_LIST})				\
