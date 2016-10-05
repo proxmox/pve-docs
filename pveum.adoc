@@ -198,6 +198,37 @@ role)', with the role containing a set of allowed actions, and the path
 representing the target of these actions.
 
 
+Roles
+~~~~~
+
+A role is simply a list of privileges. Proxmox VE comes with a number
+of predefined roles which satisfies most needs.
+
+* `Administrator`: has all privileges
+* `NoAccess`: has no privileges (used to forbid access)
+* `PVEAdmin`: can do most things, but miss rights to modify system settings (`Sys.PowerMgmt`, `Sys.Modify`, `Realm.Allocate`).
+* `PVEAuditor`: read only access
+* `PVEDatastoreAdmin`: create and allocate backup space and templates
+* `PVEDatastoreUser`: allocate backup space and view storage
+* `PVEPoolAdmin`: allocate pools
+* `PVESysAdmin`: User ACLs, audit, system console and system logs
+* `PVETemplateUser`: view and clone templates
+* `PVEUserAdmin`: user administration
+* `PVEVMAdmin`: fully administer VMs
+* `PVEVMUser`: view, backup, config CDROM, VM console, VM power management
+
+You can see the whole set of predefined roles on the GUI.
+
+Adding new roles can currently only be done from the command line, like
+this:
+
+[source,bash]
+----
+pveum roleadd PVE_Power-only -privs "VM.PowerMgmt VM.Console"
+pveum roleadd Sys_Power-only -privs "Sys.PowerMgmt Sys.Console"
+----
+
+
 Objects and Paths
 ~~~~~~~~~~~~~~~~~
 
@@ -256,36 +287,6 @@ Storage related privileges::
 * `Datastore.AllocateSpace`: allocate space on a datastore
 * `Datastore.AllocateTemplate`: allocate/upload templates and iso images 
 * `Datastore.Audit`: view/browse a datastore
-
-
-Roles
-~~~~~
-
-A role is simply a list of privileges. Proxmox VE comes with a number
-of predefined roles which satisfies most needs.
-
-* `Administrator`: has all privileges
-* `NoAccess`: has no privileges (used to forbid access)
-* `PVEAdmin`: can do most things, but miss rights to modify system settings (`Sys.PowerMgmt`, `Sys.Modify`, `Realm.Allocate`).
-* `PVEAuditor`: read only access
-* `PVEDatastoreAdmin`: create and allocate backup space and templates
-* `PVEDatastoreUser`: allocate backup space and view storage
-* `PVEPoolAdmin`: allocate pools
-* `PVESysAdmin`: User ACLs, audit, system console and system logs
-* `PVETemplateUser`: view and clone templates
-* `PVEUserAdmin`: user administration
-* `PVEVMAdmin`: fully administer VMs
-* `PVEVMUser`: view, backup, config CDROM, VM console, VM power management
-
-You can see the whole set of predefined roles on the GUI.
-
-Adding new roles using the CLI:
-
-[source,bash]
-----
-pveum roleadd PVE_Power-only -privs "VM.PowerMgmt VM.Console"
-pveum roleadd Sys_Power-only -privs "Sys.PowerMgmt Sys.Console"
-----
 
 
 Permissions
