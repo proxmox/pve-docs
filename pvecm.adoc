@@ -177,7 +177,9 @@ When adding a node to a cluster with a separated cluster network you need to
 use the 'ringX_addr' parameters to set the nodes address on those networks:
 
 [source,bash]
+----
 pvecm add IP-ADDRESS-CLUSTER -ring0_addr IP-ADDRESS-RING0
+----
 
 If you want to use the Redundant Ring Protocol you will also want to pass the
 'ring1_addr' parameter.
@@ -315,32 +317,44 @@ conflicts and problems else.
 
 First stop the corosync and the pve-cluster services on the node:
 [source,bash]
+----
 systemctl stop pve-cluster
 systemctl stop corosync
+----
 
 Start the cluster filesystem again in local mode:
 [source,bash]
+----
 pmxcfs -l
+----
 
 Delete the corosync configuration files:
 [source,bash]
+----
 rm /etc/pve/corosync.conf
 rm /etc/corosync/*
+----
 
 You can now start the filesystem again as normal service:
 [source,bash]
+----
 killall pmxcfs
 systemctl start pve-cluster
+----
 
 The node is now separated from the cluster. You can deleted it from a remaining
 node of the cluster with:
 [source,bash]
+----
 pvecm delnode oldnode
+----
 
 If the command failed, because the remaining node in the cluster lost quorum
 when the now separate node exited, you may set the expected votes to 1 as a workaround:
 [source,bash]
+----
 pvecm expected 1
+----
 
 And the repeat the 'pvecm delnode' command.
 
@@ -349,7 +363,9 @@ from the old cluster. This ensures that the node can be added to another
 cluster again without problems.
 
 [source,bash]
+----
 rm /var/lib/corosync/*
+----
 
 As the configuration files from the other nodes are still in the cluster
 filesystem you may want to clean those up too.  Remove simply the whole
@@ -420,7 +436,9 @@ omping -c 10000 -i 0.001 -F -q NODE1-IP NODE2-IP ...
   no multicast querier is active. This test has a duration of around 10
   minutes.
 [source,bash]
+----
 omping -c 600 -i 1 -q NODE1-IP NODE2-IP ...
+----
 
 Your network is not ready for clustering if any of these test fails. Recheck
 your network configuration. Especially switches are notorious for having
@@ -456,11 +474,15 @@ and want to send and receive all cluster communication over this interface
 you would execute:
 
 [source,bash]
+----
 pvecm create test --ring0_addr 10.10.10.1 --bindnet0_addr 10.10.10.0
+----
 
 To check if everything is working properly execute:
 [source,bash]
+----
 systemctl status corosync
+----
 
 [[separate-cluster-net-after-creation]]
 Separate After Cluster Creation
@@ -596,12 +618,16 @@ As our change cannot be enforced live from corosync we have to do an restart.
 
 On a single node execute:
 [source,bash]
+----
 systemctl restart corosync
+----
 
 Now check if everything is fine:
 
 [source,bash]
+----
 systemctl status corosync
+----
 
 If corosync runs again correct restart corosync also on all other nodes.
 They will then join the cluster membership one by one on the new network.
@@ -628,8 +654,10 @@ So if you have two networks, one on the 10.10.10.1/24 and the other on the
 10.10.20.1/24 subnet you would execute:
 
 [source,bash]
+----
 pvecm create CLUSTERNAME -bindnet0_addr 10.10.10.1 -ring0_addr 10.10.10.1 \
 -bindnet1_addr 10.10.20.1 -ring1_addr 10.10.20.1
+----
 
 RRP On A Created Cluster
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -708,7 +736,9 @@ The `/ect/pve/corosync.conf` file plays a central role in {pve} cluster. It
 controls the cluster member ship and its network.
 For reading more about it check the corosync.conf man page:
 [source,bash]
+----
 man corosync.conf
+----
 
 For node membership you should always use the `pvecm` tool provided by {pve}.
 You may have to edit the configuration file manually for other changes.
@@ -729,7 +759,9 @@ instantly effect. So you should always make a copy and edit that instead, to
 avoid triggering some unwanted changes by an in between safe.
 
 [source,bash]
+----
 cp /etc/pve/corosync.conf /etc/pve/corosync.conf.new
+----
 
 Then open the Config file with your favorite editor, `nano` and `vim.tiny` are
 preinstalled on {pve} for example.
@@ -742,21 +774,29 @@ configuration file. This serves as a backup if the new configuration fails to
 apply or makes problems in other ways.
 
 [source,bash]
+----
 cp /etc/pve/corosync.conf /etc/pve/corosync.conf.bak
+----
 
 Then move the new configuration file over the old one:
 [source,bash]
+----
 mv /etc/pve/corosync.conf.new /etc/pve/corosync.conf
+----
 
 You may check with the commands
 [source,bash]
+----
 systemctl status corosync
 journalctl -b -u corosync
+----
 
 If the change could applied automatically. If not you may have to restart the
 corosync service via:
 [source,bash]
+----
 systemctl restart corosync
+----
 
 On errors check the troubleshooting section below.
 
@@ -786,7 +826,9 @@ Write Configuration When Not Quorate
 If you need to change '/etc/pve/corosync.conf' on an node with no quorum, and you
 know what you do, use:
 [source,bash]
+----
 pvecm expected 1
+----
 
 This sets the expected vote count to 1 and makes the cluster quorate. You can
 now fix your configuration, or revert it back to the last working backup.
