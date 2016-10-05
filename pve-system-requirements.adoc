@@ -41,3 +41,18 @@ Recommended System Requirements
 * Fast hard drives, best results with 15k rpm SAS, Raid10
 
 * At least two NICs, depending on the used storage technology you need more
+
+Supported web browsers for accessing the web interface
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To use the web interface you need a modern browser, this includes:
+
+* Firefox, a release from the current year, or the latest Extended
+Support Release
+* Chrome, a release from the current year
+* the Microsoft currently supported versions of Internet Explorer (as
+of 2016, this means IE 11 or IE Edge)
+* the Apple currently supported versions of Safari (as of 2016, this
+means Safari 9)
+
+If {pve} detects you're connecting from a mobile device, you will be
+redirected to a lightweight touch-based UI.

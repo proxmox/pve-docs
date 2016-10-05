@@ -94,8 +94,7 @@ then reboot the server.
 
 Further configuration is done via the Proxmox web interface. Just
 point your browser to the IP address given during installation
-(https://youripaddress:8006). {pve} is tested for IE9, Firefox 10
-and higher, and Google Chrome.
+(https://youripaddress:8006).
 
 NOTE: Default login is "root" (realm 'PAM') and the root password is
 defined during the installation process.
