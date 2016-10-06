@@ -606,6 +606,24 @@ Reduce the memory of the container to 512MB
  pct set 100 -memory 512
 
 
+Obtaining Debugging Logs
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+In case `pct start` is unable to start a specific container, it might be
+helpful to collect debugging output by running `lxc-start` (replace `ID` with
+the container's ID):
+
+ lxc-start -n ID -F -l DEBUG -o /tmp/lxc-ID.log
+
+This command will attempt to start the container in foreground mode, to stop the container run `pct shutdown ID` or `pct stop ID` in a second terminal.
+
+The collected debug log is written to `/tmp/lxc-ID.log`.
+
+NOTE: If you have changed the container's configuration since the last start
+attempt with `pct start`, you need to run `pct start` at least once to also
+update the configuration used by `lxc-start`.
+
+
 Files
 ------
 
