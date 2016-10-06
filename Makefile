@@ -157,6 +157,14 @@ PVE_ADMIN_GUIDE_SOURCES=			\
 	GFDL.adoc				\
 	attributes.txt
 
+link-refs.json: scan-adoc-refs ${PVE_ADMIN_GUIDE_SOURCES}
+	./scan-adoc-refs ${PVE_ADMIN_GUIDE_SOURCES} >link-refs.json
+
+asciidoc-pve: asciidoc-pve.in link-refs.json
+	cat asciidoc-pve.in link-refs.json >asciidoc-pve.tmp
+	chmod +x asciidoc-pve.tmp
+	mv asciidoc-pve.tmp asciidoc-pve
+
 WIKI_IMPORTS=									\
 	section-pve-usbstick-plain.html						\
 	section-getting-help-plain.html						\
@@ -297,5 +305,5 @@ update: clean
 	make all
 
 clean: 
-	rm -rf *.tmp.xml *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html chapter-*-plain.html chapter-*.html pve-admin-guide.chunked
+	rm -rf *.tmp.xml *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html chapter-*-plain.html chapter-*.html pve-admin-guide.chunked asciidoc-pve link-refs.json
 	find . -name '*~' -exec rm {} ';'

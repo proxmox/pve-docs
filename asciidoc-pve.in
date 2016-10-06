@@ -1,0 +1,16 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use JSON;
+
+my $data_str = "";
+while (<main::DATA>) { $data_str .= $_; }
+
+my $fileinfo = decode_json($data_str);
+    
+print to_json($fileinfo, { pretty => 1 });
+
+die "implement something useful instead";
+
+__END__

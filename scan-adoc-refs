@@ -1,0 +1,199 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use IO::File;
+use JSON;
+
+use Data::Dumper;
+
+my $environments = {
+    default => 1,
+    wiki => 1,
+    manvolnum => 1,
+    pvelogo => 0, # ignore
+};
+
+my $resolve_skip_files = {
+    default => {},
+    wiki => { 'pve-admin-guide.adoc' => 1 },
+    manvolnum => {},
+};
+
+my $fileinfo = {};
+
+my $start_env = [];
+foreach my $e (keys %$environments) {
+    push @$start_env, $e if $environments->{$e};
+}
+
+my $env_stack = [$start_env];
+my $env_name_stack = [];
+
+sub reset_environment_stack {
+    $env_stack = [$start_env];
+    $env_name_stack = [];
+}
+
+sub push_environment {
+    my ($env, $not) = @_;
+
+    die "undefined environment '$env'\n" if !defined($environments->{$env});
+
+    return if !$environments->{$env}; # do not track
+    
+    if ($not) {
+	my $new_env = [];
+	foreach my $e (@{$env_stack->[-1]}) {
+	    if ($e ne $env) {
+		push @$new_env, $e;
+	    }
+	}
+	die "empty environment" if !scalar($new_env);
+	push @$env_stack, $new_env;
+    } else {
+	push @$env_stack, [$env];
+    }
+    
+    push @$env_name_stack, $env;
+}
+
+sub pop_environment {
+    my ($env) = @_;
+
+    die "undefined environment '$env'\n" if !defined($environments->{$env});
+   
+    return if !$environments->{$env}; # do not track
+
+    pop @$env_stack;
+    my $res = pop @$env_name_stack;
+    
+    die "environment missmatch ($res != $env)\n" if $res ne $env;
+}
+
+sub register_include {
+    my ($filename, $include_filename, $env_list) = @_;
+
+    return if $include_filename !~ m/\.adoc$/; # skip attributes.txt
+
+    foreach my $e (@$env_list) {
+	$fileinfo->{include}->{$e}->{$filename}->{$include_filename} = 1;
+    }
+}
+
+sub register_blockid {
+    my ($filename, $blockid, $env_list) = @_;
+
+    foreach my $e (@$env_list) {
+	my $fn = $fileinfo->{blockid}->{$e}->{$blockid};
+	die "blockid '$blockid' already defined in $fn" 
+	    if defined($fn);
+	$fileinfo->{blockid}->{$e}->{$blockid} = $filename;
+    }
+}
+
+sub scan_adoc_file {
+    my ($filename) = @_;
+
+    reset_environment_stack();
+    
+    # print "SCAN $filename\n";
+
+    my $fh = IO::File->new("$filename", "r") or
+	die "unable to open file '$filename' - $!\n";
+
+    my $env_last_line = {};
+    
+    while (defined (my $line = <$fh>)) {
+	if ($line =~ m/^if(n?)def::(\S+)\[(.*)\]\s*$/) {
+	    my ($not, $env, $text) = ($1, $2);
+	    die "unsuported ifdef usage - implement me" if $text;
+	    push_environment($env, $not);
+	    next;
+	} elsif ($line =~ m/^endif::(\S+)\[(.*)\]\s*$/) {
+	    my ($env, $text) = ($1, $2);
+	    die "unsuported ifdef usage - implement me" if $text;
+	    pop_environment($env);
+	    next;
+	} elsif ($line =~ m/^include::(\S+)\[.*\]\s*$/) {
+	    register_include($filename, $1, $env_stack->[-1]);
+	    next;
+	}
+
+	# try to detect titles
+	foreach my $e (@{$env_stack->[-1]}) {
+	    my $title = $fileinfo->{titles}->{$e}->{$filename};
+	    next if defined($title);
+
+	    if (($line =~ m/^=====+/) || ($line =~ m/^-----+/)) {
+		$fileinfo->{titles}->{$e}->{$filename} = $env_last_line->{$e};
+	    }
+	    $env_last_line->{$e} = $line;
+	    chomp $env_last_line->{$e};
+	}
+	
+	# fixme: also scan <<>>
+	
+	while ($line =~ m/xref:([^\s\[\]]+)\[([^\]]*)\]/g) {
+	    # print "$filename xref:$1 [$2]\n";
+	}
+
+	if ($line =~ m/^\[\[(.*)\]\]\s*$/) {
+	    my $blockid = $1;
+	    die "implement me" if $blockid =~m/,/;
+	    register_blockid($filename, $blockid, $env_stack->[-1]);
+	}
+    } 
+}
+
+my $scanned_files = {};
+while (my $filename = shift) {
+    next if $filename !~ m/\.adoc$/; # skip attributes.txt
+    next if $scanned_files->{$filename};
+
+    scan_adoc_file($filename);
+    $scanned_files->{$filename} = 1;
+}
+
+sub resolve_link_target {
+    my ($env, $filename) = @_;
+
+    my $include_hash = $fileinfo->{include}->{$env};
+
+    my $repeat = 1;
+
+    while ($repeat) {
+	$repeat = 0;
+	foreach my $fn (keys %$include_hash) {
+	    next if $resolve_skip_files->{$env}->{$fn};
+	    if ($include_hash->{$fn}->{$filename}) {
+		$filename = $fn;
+		$repeat = 1;
+		last;
+	    }
+	}
+    }
+    
+    return $filename;
+}
+
+# now resolve blockids
+foreach my $e (@$start_env) {
+    my $blockid_hash = $fileinfo->{blockid}->{$e};
+    foreach my $blockid (keys %$blockid_hash) {
+	my $fn = resolve_link_target($e, $blockid_hash->{$blockid});
+	if ($e eq 'wiki') {
+	    my $title = $fileinfo->{titles}->{$e}->{$fn};
+	    $title =~ s/\s/_/g;
+	    $title =~ s/\{pve\}/Proxmox VE/g;
+	    die "found not title for '$fn' in env '$e'" if !$title;
+	    $fileinfo->{blockid_target}->{$e}->{$blockid} = "link:/wiki/$title#$blockid";
+	} else {
+	    $fileinfo->{blockid_target}->{$e}->{$blockid} = $fn;
+	}
+    }
+}
+
+
+print to_json($fileinfo, { pretty => 1 } );
+
