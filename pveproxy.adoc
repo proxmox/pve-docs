@@ -9,7 +9,7 @@ NAME
 pveproxy - PVE API Proxy Daemon
 
 
-SYNOPSYS
+SYNOPSIS
 --------
 
 include::pveproxy.8-synopsis.adoc[]

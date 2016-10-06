@@ -8,7 +8,7 @@ NAME
 
 pvestatd - PVE Status Daemon
 
-SYNOPSYS
+SYNOPSIS
 --------
 
 include::pvestatd.8-synopsis.adoc[]

@@ -9,7 +9,7 @@ NAME
 datacenter.cfg - Proxmox VE Datacenter Configuration
 
 
-SYNOPSYS
+SYNOPSIS
 --------
 
 `/etc/pve/datacenter.cfg`

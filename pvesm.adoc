@@ -10,7 +10,7 @@ NAME
 pvesm - Proxmox VE Storage Manager
 
 
-SYNOPSYS
+SYNOPSIS
 --------
 
 include::pvesm.1-synopsis.adoc[]

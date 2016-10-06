@@ -8,7 +8,7 @@ NAME
 
 pmxcfs - Proxmox Cluster File System
 
-SYNOPSYS
+SYNOPSIS
 --------
 
 include::pmxcfs.8-cli.adoc[]

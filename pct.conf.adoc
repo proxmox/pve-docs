@@ -9,7 +9,7 @@ NAME
 pct.conf - Proxmox VE Container Configuration
 
 
-SYNOPSYS
+SYNOPSIS
 --------
 
 `/etc/pve/lxc/<CTID>.conf`

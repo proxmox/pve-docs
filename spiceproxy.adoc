@@ -9,7 +9,7 @@ NAME
 spiceproxy - SPICE Proxy Service
 
 
-SYNOPSYS
+SYNOPSIS
 --------
 
 include::spiceproxy.8-synopsis.adoc[]

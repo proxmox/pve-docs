@@ -8,7 +8,7 @@ NAME
 
 pveceph - Manage CEPH Services on Proxmox VE Nodes
 
-SYNOPSYS
+SYNOPSIS
 --------
 
 include::pveceph.1-synopsis.adoc[]

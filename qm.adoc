@@ -9,7 +9,7 @@ NAME
 qm - Qemu/KVM Virtual Machine Manager
 
 
-SYNOPSYS
+SYNOPSIS
 --------
 
 include::qm.1-synopsis.adoc[]

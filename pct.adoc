@@ -9,7 +9,7 @@ NAME
 pct - Tool to manage Linux Containers (LXC) on Proxmox VE
 
 
-SYNOPSYS
+SYNOPSIS
 --------
 
 include::pct.1-synopsis.adoc[]

@@ -8,7 +8,7 @@ NAME
 
 pvecm - Proxmox VE Cluster Manager
 
-SYNOPSYS
+SYNOPSIS
 --------
 
 include::pvecm.1-synopsis.adoc[]

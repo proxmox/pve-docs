@@ -9,7 +9,7 @@ NAME
 pvedaemon - PVE API Daemon
 
 
-SYNOPSYS
+SYNOPSIS
 --------
 
 include::pvedaemon.8-synopsis.adoc[]

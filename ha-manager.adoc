@@ -9,7 +9,7 @@ NAME
 
 ha-manager - Proxmox VE HA Manager
 
-SYNOPSYS
+SYNOPSIS
 --------
 
 include::ha-manager.1-synopsis.adoc[]

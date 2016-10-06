@@ -9,7 +9,7 @@ NAME
 pveam - Proxmox VE Appliance Manager
 
 
-SYNOPSYS
+SYNOPSIS
 --------
 
 include::pveam.1-synopsis.adoc[]

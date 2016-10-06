@@ -9,7 +9,7 @@ NAME
 pveum - Proxmox VE User Manager
 
 
-SYNOPSYS
+SYNOPSIS
 --------
 
 include::pveum.1-synopsis.adoc[]

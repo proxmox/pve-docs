@@ -9,7 +9,7 @@ NAME
 pve-firewall - PVE Firewall Daemon
 
 
-SYNOPSYS
+SYNOPSIS
 --------
 
 include::pve-firewall.8-synopsis.adoc[]

@@ -9,7 +9,7 @@ NAME
 qm.conf - Proxmox VE Virtual Machine Configuration
 
 
-SYNOPSYS
+SYNOPSIS
 --------
 
 '/etc/pve/qemu-server/<VMID>.conf'
