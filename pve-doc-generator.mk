@@ -152,11 +152,11 @@ attributes.txt docinfo.xml:
 	mv $@.tmp $@
 
 %.1-synopsis.adoc:
-	perl -I. -e "use PVE::CLI::$(subst -,_,$*);print PVE::CLI::$(subst -,_,$*)->generate_asciidoc_synopsys();" > $@.tmp
+	perl -I. -e "use PVE::CLI::$(subst -,_,$*);print PVE::CLI::$(subst -,_,$*)->generate_asciidoc_synopsis();" > $@.tmp
 	mv $@.tmp $@
 
 %.8-synopsis.adoc:
-	perl -I. -e "use PVE::Service::$(subst -,_,$*);print PVE::Service::$(subst -,_,$*)->generate_asciidoc_synopsys();" > $@.tmp
+	perl -I. -e "use PVE::Service::$(subst -,_,$*);print PVE::Service::$(subst -,_,$*)->generate_asciidoc_synopsis();" > $@.tmp
 	mv $@.tmp $@
 
 ifneq (${DGDIR},.)
