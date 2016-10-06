@@ -86,7 +86,6 @@ used.
 NOTE: DH parameters are only used if a cipher suite utilizing the DH key
 exchange algorithm is negotiated.
 
-
 Alternative HTTPS certificate
 -----------------------------
 
@@ -105,6 +104,11 @@ WARNING: Do not replace the automatically generated node certificate
 files in `/etc/pve/local/pve-ssl.pem` and `etc/pve/local/pve-ssl.key` or
 the cluster CA files in `/etc/pve/pve-root-ca.pem` and
 `/etc/pve/priv/pve-root-ca.key`.
+
+NOTE: There is a detailed HOWTO for configuring commercial HTTPS certificates
+on the {webwiki-url}HTTPS_Certificate_Configuration_(Version_4.x_and_newer)[wiki],
+including setup instructions for obtaining certificates from the popular free
+Let's Encrypt certificate authority.
 
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
