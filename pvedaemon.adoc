@@ -19,8 +19,8 @@ DESCRIPTION
 endif::manvolnum[]
 
 ifndef::manvolnum[]
-{pve} API Daemon
-================
+pvedaemon - Proxmox VE API Daemon
+=================================
 include::attributes.txt[]
 endif::manvolnum[]
 

@@ -18,8 +18,8 @@ DESCRIPTION
 endif::manvolnum[]
 
 ifndef::manvolnum[]
-Subscription Management
-=======================
+pvesubscription - Subscription Management
+=========================================
 include::attributes.txt[]
 endif::manvolnum[]
 

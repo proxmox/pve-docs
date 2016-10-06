@@ -18,8 +18,8 @@ DESCRIPTION
 endif::manvolnum[]
 
 ifndef::manvolnum[]
-{pve} Status Daemon
-===================
+pvestatd - Proxmox VE Status Daemon
+===================================
 include::attributes.txt[]
 endif::manvolnum[]
 
