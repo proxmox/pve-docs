@@ -109,6 +109,7 @@ SYSADMIN_PARTS=					\
 	pve-network				\
 	pve-package-repos			\
 	system-software-updates			\
+	pve-disk-health-monitoring		\
 	local-lvm				\
 	local-zfs
 

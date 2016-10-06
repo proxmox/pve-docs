@@ -39,6 +39,8 @@ See Also
 
 * link:/wiki/System_Software_Updates[System Software Updates]
 
+* link:/wiki/Disk_Health_Monitoring[Disk Health Monitoring]
+
 * link:/wiki/Logical_Volume_Manager_(LVM)[Logical Volume Manager (LVM)]
 
 * link:/wiki/ZFS_on_Linux[ZFS on Linux]
@@ -53,6 +55,8 @@ include::pve-package-repos.adoc[]
 include::system-software-updates.adoc[]
 
 include::pve-network.adoc[]
+
+include::pve-disk-health-monitoring.adoc[]
 
 include::local-lvm.adoc[]
 
