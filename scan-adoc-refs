@@ -41,7 +41,7 @@ sub push_environment {
     die "undefined environment '$env'\n" if !defined($environments->{$env});
 
     return if !$environments->{$env}; # do not track
-    
+
     if ($not) {
 	my $new_env = [];
 	foreach my $e (@{$env_stack->[-1]}) {
@@ -54,7 +54,7 @@ sub push_environment {
     } else {
 	push @$env_stack, [$env];
     }
-    
+
     push @$env_name_stack, $env;
 }
 
@@ -62,12 +62,12 @@ sub pop_environment {
     my ($env) = @_;
 
     die "undefined environment '$env'\n" if !defined($environments->{$env});
-   
+
     return if !$environments->{$env}; # do not track
 
     pop @$env_stack;
     my $res = pop @$env_name_stack;
-    
+
     die "environment missmatch ($res != $env)\n" if $res ne $env;
 }
 
@@ -86,7 +86,7 @@ sub register_blockid {
 
     foreach my $e (@$env_list) {
 	my $fn = $fileinfo->{blockid}->{$e}->{$blockid};
-	die "blockid '$blockid' already defined in $fn" 
+	die "blockid '$blockid' already defined in $fn"
 	    if defined($fn);
 	$fileinfo->{blockid}->{$e}->{$blockid} = $filename;
     }
@@ -96,17 +96,17 @@ sub scan_adoc_file {
     my ($filename) = @_;
 
     reset_environment_stack();
-    
+
     # print "SCAN $filename\n";
 
     my $fh = IO::File->new("$filename", "r") or
 	die "unable to open file '$filename' - $!\n";
 
     my $env_last_line = {};
-    
+
     while (defined (my $line = <$fh>)) {
 	if ($line =~ m/^if(n?)def::(\S+)\[(.*)\]\s*$/) {
-	    my ($not, $env, $text) = ($1, $2);
+	    my ($not, $env, $text) = ($1, $2, $3);
 	    die "unsuported ifdef usage - implement me" if $text;
 	    push_environment($env, $not);
 	    next;
@@ -131,9 +131,9 @@ sub scan_adoc_file {
 	    $env_last_line->{$e} = $line;
 	    chomp $env_last_line->{$e};
 	}
-	
+
 	# fixme: also scan <<>>
-	
+
 	while ($line =~ m/xref:([^\s\[\]]+)\[([^\]]*)\]/g) {
 	    # print "$filename xref:$1 [$2]\n";
 	}
@@ -143,7 +143,7 @@ sub scan_adoc_file {
 	    die "implement me" if $blockid =~m/,/;
 	    register_blockid($filename, $blockid, $env_stack->[-1]);
 	}
-    } 
+    }
 }
 
 my $scanned_files = {};
@@ -173,7 +173,7 @@ sub resolve_link_target {
 	    }
 	}
     }
-    
+
     return $filename;
 }
 
@@ -196,4 +196,3 @@ foreach my $e (@$start_env) {
 
 
 print to_json($fileinfo, { pretty => 1 } );
-
