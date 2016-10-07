@@ -1,3 +1,37 @@
+pve-docs (4.3-4) unstable; urgency=medium
+
+  * add pveperf section and man page
+
+  * pve-docs-mediawiki-import: import new pve-disk-health-monitoring page
+
+  * add section disk health monitoring to sysadmin chapter
+
+  * pct: add section about debug logs via lxc-start
+
+  * add note about certificate HOWTO
+
+  * correct spelling of SYNOPSIS in man pages
+
+  * Update the list of supported web browsers
+
+  * pveum: update everything, describe two factor authentication
+
+  * add pve-usbstick.adoc
+
+  * add sections regarding corosync and cluster network
+
+  * add node sparation without re installation section
+
+  * Merge Bonding form Wiki
+
+  * install/use lvm thin file in pvesm man page
+
+  * Add sub chapter on how to improve the reference documentation
+
+  * Explain Linux Bond and examples
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 07 Oct 2016 10:38:26 +0200
+
 pve-docs (4.3-3) unstable; urgency=medium
 
   * add missing wiki link to Storage:_ZFS_over_iSCSI
