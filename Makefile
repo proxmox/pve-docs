@@ -54,7 +54,8 @@ COMMAND_LIST=		\
 	pvesm 		\
 	pveum 		\
 	vzdump 		\
-	ha-manager
+	ha-manager	\
+	pveperf
 
 SERVICE_LIST=		\
 	pve-firewall 	\
@@ -151,6 +152,7 @@ PVE_ADMIN_GUIDE_SOURCES=			\
 	${PVEAM_MAN1_SOURCES}			\
 	${PVESUBSCRIPTION_MAN1_SOURCES}		\
 	${PVECEPH_MAN1_SOURCES}			\
+	${PVEPERF_MAN1_SOURCES}			\
 	pve-bibliography.adoc			\
 	$(addsuffix .adoc, ${COMMAND_LIST}) 	\
 	$(addsuffix .adoc, ${SERVICE_LIST}) 	\

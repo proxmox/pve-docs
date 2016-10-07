@@ -42,6 +42,16 @@ Recommended System Requirements
 
 * At least two NICs, depending on the used storage technology you need more
 
+
+Simple Performance Overview
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+On an installed {pve} system, you can run the included `pveperf` script
+to obtain an overview of the CPU and hard disk performance.
+
+NOTE: this is just a very quick and general benchmark. More detailed tests
+are recommended, especially regarding the I/O performance of your system.
+
 Supported web browsers for accessing the web interface
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 To use the web interface you need a modern browser, this includes:

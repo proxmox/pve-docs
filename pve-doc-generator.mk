@@ -139,6 +139,11 @@ PMXCFS_MAN8_SOURCES=			\
 	pmxcfs.8-cli.adoc		\
 	${PVE_COMMON_DOC_SOURCES}
 
+PVEPERF_MAN1_SOURCES=			\
+	pveperf.adoc			\
+	pveperf.1-synopsis.adoc		\
+	${PVE_COMMON_DOC_SOURCES}
+
 attributes.txt docinfo.xml:
 	cp ${DGDIR}/$@ $@.tmp
 	mv $@.tmp $@
@@ -150,6 +155,9 @@ attributes.txt docinfo.xml:
 %.adoc: ${DGDIR}/gen-%-adoc.pl
 	${DGDIR}/gen-$*-adoc.pl >$@.tmp
 	mv $@.tmp $@
+
+pveperf.1-synopsis.adoc:
+	echo '*pveperf* `[PATH]`' > pveperf.1-synopsis.adoc
 
 %.1-synopsis.adoc:
 	perl -I. -e "use PVE::CLI::$(subst -,_,$*);print PVE::CLI::$(subst -,_,$*)->generate_asciidoc_synopsis();" > $@.tmp

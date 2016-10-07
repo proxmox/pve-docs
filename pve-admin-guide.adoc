@@ -67,6 +67,8 @@ include::pveceph.adoc[]
 
 include::pvesubscription.adoc[]
 
+include::pveperf.adoc[]
+
 
 :leveloffset: 1
 
@@ -93,6 +95,14 @@ include::pvesm.1-synopsis.adoc[]
 
 :leveloffset: 1
 include::pvesubscription.1-synopsis.adoc[]
+
+:leveloffset: 0
+
+*pveperf* - {pve} Benchmark Script
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:leveloffset: 1
+include::pveperf.1-synopsis.adoc[]
 
 :leveloffset: 0
 
