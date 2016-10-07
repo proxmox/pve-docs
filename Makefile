@@ -113,7 +113,8 @@ SYSADMIN_PARTS=					\
 	system-software-updates			\
 	pve-disk-health-monitoring		\
 	local-lvm				\
-	local-zfs
+	local-zfs				\
+	system-timesync
 
 SYSADMIN_SOURCES=				\
 	$(addsuffix .adoc, ${SYSADMIN_PARTS})	\

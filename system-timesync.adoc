@@ -1,0 +1,44 @@
+Time Synchronization
+--------------------
+include::attributes.txt[]
+
+The {pve} cluster stack itself relies heavily on the fact that all
+the nodes have precisely synchronized time. Some other components,
+like Ceph, also refuse to work properly if the local time on nodes is
+not in sync.
+
+Time synchronization between nodes can be achieved with the ``Network
+Time Protocol'' (`NTP`). {pve} uses `systemd-timesyncd` as NTP client
+by default, preconfigured to use a set of public servers. This setup
+works out of the box in most cases.
+
+
+Using Custom NTP Servers
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+In some cases, it might be desired to not use the default NTP
+servers. For example, if your {pve} nodes do not have access to the
+public internet (e.g., because of restrictive firewall rules), you
+need to setup local NTP servers and tell `systemd-timesyncd` to use
+them:
+
+.File `/etc/systemd/timesyncd.conf`
+----
+[Time]
+Servers=ntp1.example.com ntp2.example.com ntp3.example.com ntp4.example.com
+----
+
+After restarting the synchronization service (`systemctl restart
+systemd-timesyncd`) you should verify that your newly configured NTP
+servers are used by checking the journal (`journalctl --since -1h -u
+systemd-timesyncd`):
+
+----
+...
+Oct 07 14:58:36 node1 systemd[1]: Stopping Network Time Synchronization...
+Oct 07 14:58:36 node1 systemd[1]: Starting Network Time Synchronization...
+Oct 07 14:58:36 node1 systemd[1]: Started Network Time Synchronization.
+Oct 07 14:58:36 node1 systemd-timesyncd[13514]: Using NTP server 10.0.0.1:123 (ntp1.example.com).
+Oct 07 14:58:36 nora systemd-timesyncd[13514]: interval/delta/delay/jitter/drift 64s/-0.002s/0.020s/0.000s/-31ppm
+...
+----

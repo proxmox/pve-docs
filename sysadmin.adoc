@@ -59,6 +59,8 @@ include::system-software-updates.adoc[]
 
 include::pve-network.adoc[]
 
+include::system-timesync.adoc[]
+
 include::pve-disk-health-monitoring.adoc[]
 
 include::local-lvm.adoc[]
