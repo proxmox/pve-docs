@@ -88,8 +88,8 @@ my $docs = {
 	title => "Network Configuration",
 	category => $cat_refdoc,
     },
-    'sysadmin-local-zfs-plain.html' => {
-	title => "ZFS on Linux",
+    'sysadmin-pve-disk-health-monitoring-plain.html' => {
+	title => "Disk Health Monitoring",
 	category => $cat_refdoc,
     },
     'sysadmin-local-lvm-plain.html' => {
