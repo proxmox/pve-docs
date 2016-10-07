@@ -1,3 +1,9 @@
+pve-docs (4.3-5) unstable; urgency=medium
+
+  * fix titel page (avoid white border on left side)
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 07 Oct 2016 11:28:54 +0200
+
 pve-docs (4.3-4) unstable; urgency=medium
 
   * add pveperf section and man page
