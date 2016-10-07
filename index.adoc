@@ -57,6 +57,7 @@ Command Line Interface
 | pveum           | link:pveum.1.html[pveum.1]
 | pvesm           | link:pvesm.1.html[pvesm.1]
 | pvesubscription | link:pvesubscription.1.html[pvesubscription.1]
+| pveperf         | link:pveperf.1.html[pveperf.1]
 | vzdump          | link:vzdump.1.html[vzdump.1]
 | ha-manager      | link:ha-manager.1.html[ha-manager.1]
 |===========================================================
