@@ -165,8 +165,13 @@ link-refs.json: scan-adoc-refs ${PVE_ADMIN_GUIDE_SOURCES}
 
 asciidoc-pve: asciidoc-pve.in link-refs.json
 	cat asciidoc-pve.in link-refs.json >asciidoc-pve.tmp
+	sed -e s/@RELEASE@/${DOCRELEASE}/ -i asciidoc-pve.tmp
 	chmod +x asciidoc-pve.tmp
 	mv asciidoc-pve.tmp asciidoc-pve
+
+test: asciidoc-pve
+	./asciidoc-pve compile-wiki-section pve-package-repos.adoc
+	#./asciidoc-pve compile-wiki-chapter ha-manager.adoc
 
 WIKI_IMPORTS=									\
 	section-pve-usbstick-plain.html						\
@@ -198,11 +203,11 @@ all: index.html
 %-nwdiag.svg: %.nwdiag
 	nwdiag -T svg $*.nwdiag -o $@;
 
-sysadmin-%-plain.html: %.adoc
-	asciidoc -s -a wiki -a 'leveloffset=-1' ${ADOC_STDARG} -o $@ $*.adoc
+sysadmin-%-plain.html: asciidoc-pve %.adoc
+	./asciidoc-pve compile-wiki-section -o $@ $*.adoc
 
-section-%-plain.html: %.adoc
-	asciidoc -s -a wiki -a 'leveloffset=-1' ${ADOC_STDARG} -o $@ $*.adoc
+section-%-plain.html: asciidoc-pve %.adoc
+	./asciidoc-pve compile-wiki-section -o $@ $*.adoc
 
 chapter-sysadmin.html chapter-sysadmin-plain.html: ${SYSADMIN_SOURCES}
 
@@ -210,10 +215,10 @@ chapter-%.html: %.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_STDARG} -a toc -o $@ $*.adoc
 
 chapter-%-plain.html: %.adoc ${PVE_COMMON_DOC_SOURCES}
-	asciidoc -s -a wiki ${ADOC_STDARG} -o $@ $*.adoc
+	./asciidoc-pve compile-wiki-chapter -o $@ $*.adoc
 
 pve-storage-%-plain.html: pve-storage-%.adoc ${PVE_COMMON_DOC_SOURCES}
-	asciidoc -s -a wiki -a 'leveloffset=-1' ${ADOC_STDARG} -o $@ pve-storage-$*.adoc
+	./asciidoc-pve compile-wiki-section -o $@ pve-storage-$*.adoc
 
 %.1.html: %.adoc %.1-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_MAN1_HTML_ARGS} -o $@ $*.adoc
@@ -308,5 +313,5 @@ update: clean
 	make all
 
 clean: 
-	rm -rf *.tmp.xml *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html chapter-*-plain.html chapter-*.html pve-admin-guide.chunked asciidoc-pve link-refs.json
+	rm -rf *.tmp.xml *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html chapter-*-plain.html chapter-*.html pve-admin-guide.chunked asciidoc-pve link-refs.json .asciidoc-pve-tmp_*
 	find . -name '*~' -exec rm {} ';'

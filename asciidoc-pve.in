@@ -2,15 +2,229 @@
 
 use strict;
 use warnings;
+use Getopt::Long;
+use File::Path;
+use File::Basename;
+use IO::File;
+
 use JSON;
+
+my $release = '@RELEASE@';
+
+my $clicmd = shift or
+    die "no command specified\n";
 
 my $data_str = "";
 while (<main::DATA>) { $data_str .= $_; }
 
 my $fileinfo = decode_json($data_str);
-    
-print to_json($fileinfo, { pretty => 1 });
 
-die "implement something useful instead";
+my $tmpprefix = ".asciidoc-pve-tmp_";
+
+my $adoc_source_dir = "/usr/share/pve-doc-generator";
+
+# inside pve-docs source dir?
+if (-f "attributes.txt" && -f "pve-admin-guide.adoc") {
+    $adoc_source_dir = "."
+}
+
+my $prepared_files = {};
+
+my $env_stack = [];
+my $env_skip = 0;
+
+sub push_environment {
+    my ($env, $skip) = @_;
+
+    $skip = 1 if $env_skip;
+    $skip = 0 if !defined($skip);
+
+    push @$env_stack, [$env, $skip];
+
+    $env_skip = $skip;
+}
+
+sub pop_environment {
+    my ($env) = @_;
+
+    my $last_stack_entry = pop @$env_stack;
+    die "unable to pop env '$env'" if !defined($last_stack_entry);
+
+    my ($last_env, $skip) = @$last_stack_entry;
+    die "environment missmatch (${last_env} != $env)\n" if $last_env ne $env;
+
+    if (!scalar(@$env_stack)) {
+	$env_skip = 0;
+    } else {
+	my (undef, $skip) = @{$env_stack->[-1]};
+	$env_skip = $skip;
+    }
+}
+
+sub replace_wiki_xref {
+    my ($blockid, $text) = @_;
+
+    my $link = $fileinfo->{blockid_target}->{wiki}->{$blockid};
+
+    die "unable to resolve wiki link (xref:$blockid)\n"
+	if !defined($link);
+
+    return "$link\[$text\]";
+}
+
+sub prepare_adoc_file {
+    my ($filename, $attributes) = @_;
+
+    return if $prepared_files->{$filename};
+
+    print "PREPARE $filename\n";
+
+    $prepared_files->{$filename} = 1;
+
+    my $dirname = dirname($filename);
+    my $basename = basename($filename);
+
+    my $outfilename = "$dirname/${tmpprefix}$basename";
+
+    my $fh = IO::File->new("$filename", "r") or
+	die "unable to open file '$filename' - $!\n";
+
+    my $outfh = IO::File->new("$outfilename", "w") or
+	die "unable to open temporary file '$outfilename'\n";
+
+    while (defined (my $line = <$fh>)) {
+	if ($line =~ m/^if(n?)def::(\S+)\[(.*)\]\s*$/) {
+	    my ($not, $env, $text) = ($1, $2, $3);
+	    die "unsuported ifdef usage - implement me" if $text;
+
+	    my $skip = !exists($attributes->{$env}) ? 1 : 0;
+	    $skip = ($skip ? 0 : 1 ) if $not;
+
+	    push_environment($env, $skip);
+	    next;
+	} elsif ($line =~ m/^endif::(\S+)\[(.*)\]\s*$/) {
+	    my ($env, $text) = ($1, $2);
+	    die "unsuported ifdef usage - implement me" if $text;
+	    pop_environment($env);
+	    next;
+	}
+
+	next if $env_skip;
+
+	if ($line =~ m/^include::(\S+)(\[.*\]\s*)$/) {
+	    my ($fn, $rest) = ($1, $2);
+	    print "INCLUDE: $fn\n";
+	    my $new_fn = prepare_adoc_file($fn, $attributes);
+	    $line = "include::${new_fn}$rest\n";
+	}
+
+	# fix xrefs
+	$line =~ s/xref:([^\s\[\]]+)\[([^\]]*)\]/replace_wiki_xref($1,$2)/ge;
+
+
+	print $outfh $line;
+    }
+
+    return $outfilename;
+}
+
+sub compile_wiki {
+
+    my $verbose;
+    my $outfile;
+    my $target_env;
+
+    GetOptions ("outfile=s" => \$outfile,
+		"verbose"   => \$verbose) or
+		    die("Error in command line arguments\n");
+
+    my $infile = shift(@ARGV) or
+	die "no input file specified\n";
+
+    scalar(@ARGV) == 0 or
+	die "too many arguments...\n";
+
+    my $env = 'wiki';
+
+
+    my $title = $fileinfo->{titles}->{$env}->{$infile} or
+	die "unable to get title for '$infile'\n";
+
+
+    print "compile: $title\n";
+
+    my $leveloffset = 0;
+
+    if ($clicmd eq 'compile-wiki-chapter') {
+	$leveloffset = 0;
+    } elsif ($clicmd eq 'compile-wiki-section') {
+	$leveloffset = -1;
+    }
+
+    my $date = `date`;
+    chomp $date;
+
+    my $attributes = {
+	$env => undef,
+	icons => undef,
+	'data-uri' => undef,
+	date => $date,
+	leveloffset => $leveloffset,
+	revnumber => $release,
+    };
+
+    my $cmd = ['asciidoc', '-s'];
+
+    foreach my $key (keys %$attributes) {
+	my $value = $attributes->{$key};
+	if (defined($value)) {
+	    push @$cmd, '-a', "$key=$value";
+	} else {
+	    push @$cmd, '-a', $key;
+	}
+    }
+
+    push @$cmd, '--verbose' if $verbose;
+
+    if (!defined($outfile)) {
+	$outfile = $infile;
+	$outfile =~ s/\.adoc$//;
+	$outfile .= ".html";
+    }
+
+    push @$cmd, '--out-file', $outfile;
+
+    my $new_infile = prepare_adoc_file($infile, $attributes);
+
+    push @$cmd, $new_infile;
+
+    print "RUN " . join(' ', @$cmd) . "\n";
+
+    system(@$cmd) == 0 or
+	die "aciidoc error";
+}
+
+if ($clicmd eq 'compile-wiki-chapter' ||
+    $clicmd eq 'compile-wiki-section') {
+
+    eval { compile_wiki(); };
+    my $err = $@;
+
+    # cleanup
+
+    die $err if $err;
+
+} else {
+
+    die "unknown command '$clicmd'\n";
+
+}
+
+
+
+
+
+
+exit 0;
 
 __END__
