@@ -192,8 +192,8 @@ foreach my $e (@$start_env) {
 	my $fn = resolve_link_target($e, $blockid_hash->{$blockid});
 	if ($e eq 'wiki') {
 	    my $title = $fileinfo->{titles}->{$e}->{$fn};
-	    $title =~ s/\s/_/g;
 	    $title =~ s/\{pve\}/Proxmox VE/g;
+	    $title =~ s/\s/_/g;
 	    die "found not title for '$fn' in env '$e'" if !$title;
 	    $fileinfo->{blockid_target}->{$e}->{$blockid} = "link:/wiki/$title#$blockid";
 	} else {
