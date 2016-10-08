@@ -144,6 +144,13 @@ sub scan_adoc_file {
 	    die "implement me" if $blockid =~m/,/;
 	    register_blockid($filename, $blockid, $env_stack->[-1]);
 	}
+	# fixme: "anchor:"
+	# bibliography anchors
+	if ($line =~ m/\[\[\[([^\]]*)\]\]\]/) {
+	    my $blockid = $1;
+	    die "implement me" if $blockid =~m/,/;
+	    register_blockid($filename, $blockid, $env_stack->[-1]);
+	}
     }
 }
 
