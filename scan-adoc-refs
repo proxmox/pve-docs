@@ -83,13 +83,15 @@ sub register_include {
 }
 
 sub register_blockid {
-    my ($filename, $blockid, $env_list) = @_;
+    my ($filename, $blockid, $reftext, $env_list) = @_;
 
     foreach my $e (@$env_list) {
 	my $fn = $fileinfo->{blockid}->{$e}->{$blockid};
 	die "blockid '$blockid' already defined in $fn"
 	    if defined($fn);
 	$fileinfo->{blockid}->{$e}->{$blockid} = $filename;
+	$fileinfo->{reftext}->{$e}->{$blockid} = $reftext
+	    if defined($reftext);
     }
 }
 
@@ -142,14 +144,15 @@ sub scan_adoc_file {
 	if ($line =~ m/^\[\[(.*)\]\]\s*$/) {
 	    my $blockid = $1;
 	    die "implement me" if $blockid =~m/,/;
-	    register_blockid($filename, $blockid, $env_stack->[-1]);
+	    my $reftext = '';
+	    register_blockid($filename, $blockid, $reftext, $env_stack->[-1]);
 	}
 	# fixme: "anchor:"
 	# bibliography anchors
 	if ($line =~ m/\[\[\[([^\]]*)\]\]\]/) {
 	    my $blockid = $1;
 	    die "implement me" if $blockid =~m/,/;
-	    register_blockid($filename, $blockid, $env_stack->[-1]);
+	    register_blockid($filename, $blockid, "&#91;$blockid&#93;", $env_stack->[-1]);
 	}
     }
 }

@@ -65,9 +65,12 @@ sub replace_wiki_xref {
     my ($blockid, $text) = @_;
 
     my $link = $fileinfo->{blockid_target}->{wiki}->{$blockid};
+    my $reftext = $fileinfo->{reftext}->{wiki}->{$blockid};
 
     die "unable to resolve wiki link (xref:$blockid)\n"
 	if !defined($link);
+
+    $text = $reftext if !length($text);
 
     return "$link\[$text\]";
 }
