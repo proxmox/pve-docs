@@ -2,6 +2,10 @@ GlusterFS Backend
 -----------------
 include::attributes.txt[]
 
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
+
 Storage pool type: `glusterfs`
 
 GlusterFS is a salable network file system. The system uses a modular

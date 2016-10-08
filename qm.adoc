@@ -3,6 +3,8 @@ PVE({manvolnum})
 ================
 include::attributes.txt[]
 
+:pve-toplevel:
+
 NAME
 ----
 
@@ -23,6 +25,10 @@ Qemu/KVM Virtual Machines
 =========================
 include::attributes.txt[]
 endif::manvolnum[]
+
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
 
 // deprecates
 // http://pve.proxmox.com/wiki/Container_and_Full_Virtualization

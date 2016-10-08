@@ -2,6 +2,10 @@ Getting Help
 ------------
 include::attributes.txt[]
 
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
+
 
 Proxmox VE Wiki
 ~~~~~~~~~~~~~~~

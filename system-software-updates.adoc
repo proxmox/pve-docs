@@ -2,6 +2,10 @@ System Software Updates
 -----------------------
 include::attributes.txt[]
 
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
+
 We provide regular package updates on all repositories. You can
 install those update using the GUI, or you can directly run the CLI
 command `apt-get`:

@@ -2,6 +2,10 @@ ZFS on Linux
 ------------
 include::attributes.txt[]
 
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
+
 ZFS is a combined file system and logical volume manager designed by
 Sun Microsystems. Starting with {pve} 3.4, the native Linux
 kernel port of the ZFS file system is introduced as optional

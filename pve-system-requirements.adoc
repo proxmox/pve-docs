@@ -2,6 +2,10 @@ System Requirements
 -------------------
 include::attributes.txt[]
 
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
+
 For production servers, high quality server equipment is needed. Keep
 in mind, if you run 10 Virtual Servers on one machine and you then
 experience a hardware failure, 10 services are lost. {pve}

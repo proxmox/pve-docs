@@ -2,6 +2,10 @@ http://www.open-iscsi.org/[Open-iSCSI] initiator
 ------------------------------------------------
 include::attributes.txt[]
 
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
+
 Storage pool type: `iscsi`
 
 iSCSI is a widely employed technology used to connect to storage

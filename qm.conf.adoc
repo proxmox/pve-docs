@@ -3,6 +3,8 @@ PVE({manvolnum})
 ================
 include::attributes.txt[]
 
+:pve-toplevel:
+
 NAME
 ----
 
@@ -24,6 +26,10 @@ ifndef::manvolnum[]
 ==============================
 include::attributes.txt[]
 endif::manvolnum[]
+
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
 
 The `/etc/pve/qemu-server/<VMID>.conf` files stores VM configuration,
 where "VMID" is the numeric ID of the given VM.

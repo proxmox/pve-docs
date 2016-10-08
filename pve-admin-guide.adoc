@@ -16,6 +16,7 @@ include::attributes.txt[]
 
 ifndef::wiki[]
 ifndef::manvolnum[]
+:pve-toplevel:
 
 // Push titles down one level.
 :leveloffset: 1

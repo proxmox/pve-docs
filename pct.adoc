@@ -3,6 +3,8 @@ PVE({manvolnum})
 ================
 include::attributes.txt[]
 
+:pve-toplevel:
+
 NAME
 ----
 
@@ -24,6 +26,9 @@ Proxmox Container Toolkit
 include::attributes.txt[]
 endif::manvolnum[]
 
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
 
 Containers are a lightweight alternative to fully virtualized
 VMs. Instead of emulating a complete Operating System (OS), containers

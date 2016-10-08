@@ -2,6 +2,10 @@ Directory Backend
 -----------------
 include::attributes.txt[]
 
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
+
 Storage pool type: `dir`
 
 {pve} can use local directories or locally mounted shares for

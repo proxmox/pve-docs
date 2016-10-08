@@ -129,6 +129,19 @@ sub scan_adoc_file {
 	    chomp $env_last_line->{$e};
 	}
 
+	if ($line =~ m/^:(\S+?):\s*(.*\S)?\s*$/) {
+	    my ($key, $value) = ($1, $2);
+	    if ($key eq 'pve-toplevel') {
+		
+		foreach my $e (@{$env_stack->[-1]}) {
+		    my $title = $fileinfo->{titles}->{$e}->{$filename};
+		    die "not title for toplevel file '$filename' (env=$e)\n"
+			if !defined($title);
+		    $fileinfo->{toplevel}->{$e}->{$filename} = 1;
+		}
+	    }
+	}
+
 	if ($line =~ m/^\[\[(.*)\]\]\s*$/) {
 	    my $blockid = $1;
 	    die "implement me" if $blockid =~m/,/;

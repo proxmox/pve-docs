@@ -2,6 +2,10 @@ Package Repositories
 --------------------
 include::attributes.txt[]
 
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
+
 All Debian based systems use
 http://en.wikipedia.org/wiki/Advanced_Packaging_Tool[APT] as package
 management tool. The list of repositories is defined in

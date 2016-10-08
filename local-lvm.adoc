@@ -2,6 +2,10 @@ Logical Volume Manager (LVM)
 ----------------------------
 include::attributes.txt[]
 
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
+
 Most people install {pve} directly on a local disk. The {pve}
 installation CD offers several options for local disk management, and
 the current default setup uses LVM. The installer let you select a

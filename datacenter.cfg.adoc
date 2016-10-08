@@ -3,6 +3,8 @@ PVE({manvolnum})
 ================
 include::attributes.txt[]
 
+:pve-toplevel:
+
 NAME
 ----
 
@@ -24,6 +26,10 @@ Datacenter Configuration
 ========================
 include::attributes.txt[]
 endif::manvolnum[]
+
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
 
 The file `/etc/pve/datacenter.cfg` is a configuration file for
 {pve}. It contains cluster wide default values used by all nodes.

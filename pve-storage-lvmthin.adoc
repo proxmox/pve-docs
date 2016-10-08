@@ -2,6 +2,10 @@ LVM thin Backend
 ----------------
 include::attributes.txt[]
 
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
+
 Storage pool type: `lvmthin`
 
 LVM normally allocates blocks when you create a volume. LVM thin pools

@@ -3,6 +3,8 @@ PVE({manvolnum})
 ================
 include::attributes.txt[]
 
+:pve-toplevel:
+
 NAME
 ----
 
@@ -24,6 +26,10 @@ ifndef::manvolnum[]
 ==============
 include::attributes.txt[]
 endif::manvolnum[]
+
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
 
 {pve} Firewall provides an easy way to protect your IT
 infrastructure. You can setup firewall rules for all hosts

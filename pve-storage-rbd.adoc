@@ -2,6 +2,10 @@ Ceph RADOS Block Devices (RBD)
 ------------------------------
 include::attributes.txt[]
 
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
+
 Storage pool type: `rbd`
 
 http://ceph.com[Ceph] is a distributed object store and file system

@@ -4,6 +4,8 @@ PVE({manvolnum})
 ================
 include::attributes.txt[]
 
+:pve-toplevel:
+
 NAME
 ----
 
@@ -24,6 +26,9 @@ High Availability
 include::attributes.txt[]
 endif::manvolnum[]
 
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
 
 Our modern society depends heavily on information provided by
 computers over the network. Mobile devices amplified that dependency,

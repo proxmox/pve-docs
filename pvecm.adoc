@@ -3,6 +3,8 @@ PVE({manvolnum})
 ================
 include::attributes.txt[]
 
+:pve-toplevel:
+
 NAME
 ----
 
@@ -22,6 +24,10 @@ Cluster Manager
 ===============
 include::attributes.txt[]
 endif::manvolnum[]
+
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
 
 The {PVE} cluster manager `pvecm` is a tool to create a group of
 physical servers. Such a group is called a *cluster*. We use the

@@ -2,6 +2,10 @@ Installing Proxmox VE
 =====================
 include::attributes.txt[]
 
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
+
 {pve} ships as a set of Debian packages, so you can simply install it
 on top of a normal Debian installation, or download the installation
 CD-ROM and use that to install {pve} on your hardware.

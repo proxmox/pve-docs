@@ -2,6 +2,10 @@ LVM Backend
 -----------
 include::attributes.txt[]
 
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
+
 Storage pool type: `lvm`
 
 LVM is a thin software layer on top of hard disks and partitions. It

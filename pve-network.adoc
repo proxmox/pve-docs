@@ -2,6 +2,10 @@ Network Configuration
 ---------------------
 include::attributes.txt[]
 
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
+
 {pve} uses a bridged networking model. Each host can have up to 4094
 bridges. Bridges are like physical network switches implemented in
 software. All VMs can share a single bridge, as if

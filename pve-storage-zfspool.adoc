@@ -2,6 +2,10 @@ Local ZFS Pool Backend
 ----------------------
 include::attributes.txt[]
 
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
+
 Storage pool type: `zfspool`
 
 This backend allows you to access local ZFS pools (or ZFS file systems

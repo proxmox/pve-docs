@@ -2,6 +2,10 @@ User Mode iSCSI Backend
 -----------------------
 include::attributes.txt[]
 
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
+
 Storage pool type: `iscsidirect`
 
 This backend provides basically the same functionality as the

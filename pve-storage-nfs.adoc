@@ -2,6 +2,10 @@ NFS Backend
 -----------
 include::attributes.txt[]
 
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
+
 Storage pool type: `nfs`
 
 The NFS backend is based on the directory backend, so it shares most
