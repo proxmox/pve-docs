@@ -129,12 +129,6 @@ sub scan_adoc_file {
 	    chomp $env_last_line->{$e};
 	}
 
-	# fixme: also scan <<>>
-
-	while ($line =~ m/xref:([^\s\[\]]+)\[([^\]]*)\]/g) {
-	    # print "$filename xref:$1 [$2]\n";
-	}
-
 	if ($line =~ m/^\[\[(.*)\]\]\s*$/) {
 	    my $blockid = $1;
 	    die "implement me" if $blockid =~m/,/;
