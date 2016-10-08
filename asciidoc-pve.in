@@ -124,6 +124,7 @@ sub prepare_adoc_file {
 	# fix xrefs
 	$line =~ s/xref:([^\s\[\]]+)\[([^\]]*)\]/replace_wiki_xref($1,$2)/ge;
 
+	$line =~ s/<<([^\s,\[\]]+)(?:,(.*?))?>>/replace_wiki_xref($1,$2)/ge;
 
 	print $outfh $line;
     }
