@@ -180,7 +180,7 @@ my $docs = {
     'pve-storage-lvm-plain.html' => {
 	title => "Storage: LVM",
 	category => $cat_refdoc,
-    },q
+    },
     'pve-storage-lvmthin-plain.html' => {
 	title => "Storage: LVM Thin",
 	category => $cat_refdoc,
