@@ -14,12 +14,6 @@ my $environments = {
     pvelogo => 0, # ignore
 };
 
-my $resolve_skip_files = {
-    default => {},
-    wiki => { 'pve-admin-guide.adoc' => 1 },
-    manvolnum => {},
-};
-
 my $fileinfo = {};
 
 my $start_env = [];
@@ -176,7 +170,6 @@ sub resolve_link_target {
     while ($repeat) {
 	$repeat = 0;
 	foreach my $fn (keys %$include_hash) {
-	    next if $resolve_skip_files->{$env}->{$fn};
 	    if ($include_hash->{$fn}->{$filename}) {
 		$filename = $fn;
 		$repeat = 1;
