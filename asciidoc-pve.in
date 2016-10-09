@@ -72,11 +72,14 @@ sub replace_wiki_xref {
 
     $text = $reftext if !length($text);
 
+    die "xref: no text for '$blockid'\n" if !$text;
+
     return "$link\[$text\]";
 }
 
 sub prepare_adoc_file {
     my ($filename, $attributes) = @_;
+
 
     return if $prepared_files->{$filename};
 
