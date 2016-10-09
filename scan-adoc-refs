@@ -122,9 +122,20 @@ sub scan_adoc_file {
 	    my $title = $fileinfo->{titles}->{$e}->{$filename};
 	    next if defined($title);
 
-	    if (($line =~ m/^=====+/) || ($line =~ m/^-----+/)) {
+	    if ($line =~ m/^=====+$/) {
 		$fileinfo->{titles}->{$e}->{$filename} = $env_last_line->{$e};
+		$fileinfo->{doctype}->{$e}->{$filename} = 0;
+	    } elsif ($line =~ m/^-----+$/) {
+		$fileinfo->{titles}->{$e}->{$filename} = $env_last_line->{$e};
+		$fileinfo->{doctype}->{$e}->{$filename} = 1;
+	    } elsif ($line =~ m/^= +(\S.*?)( +=)?$/) {
+		$fileinfo->{titles}->{$e}->{$filename} = $1;
+		$fileinfo->{doctype}->{$e}->{$filename} = 0;
+	    } elsif ($line =~ m/^== +(\S.*?)( +==)?$/) {
+		$fileinfo->{titles}->{$e}->{$filename} = $1;
+		$fileinfo->{doctype}->{$e}->{$filename} = 1;
 	    }
+
 	    $env_last_line->{$e} = $line;
 	    chomp $env_last_line->{$e};
 	}
