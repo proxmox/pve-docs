@@ -1,0 +1,77 @@
+Proxmox WebGUI
+--------------
+include::attributes.txt[]
+
+{pve} is simple. There is no need to install a separate
+management tool, everything can be done via your web browser (Latest
+Firefox and Google Chrome is preferred). To access
+VM/CT console, a built in HTML5 console is used. As alternative, SPICE
+can be used.
+
+As we use Proxmox Cluster file system (pmxcfs),you can connect to any
+node to manage the whole cluster.
+
+To use the Central Web-based Management, you need a modern browser,
+this includes:
+
+* Firefox, a release from the current year, or the latest Enterprise
+* Support Release Chrome, a release from the current year
+* Microsoft currently supported versions of Edge Browser
+* Apple currently supported versions of Safari
+
+If {pve} detect you're connecting from a mobile device, you will
+redirected to a light weight touch based UI.
+
+The web interface can be reached via https://youripaddress:8006
+(default login is: root, the password is specified during the
+installation).
+
+
+Features:
+^^^^^^^^^
+
+* Seamless integration and management of Proxmox VE 4.x Cluster
+* AJAX technologies for dynamic updates of resources
+* Secure access to all Virtual Machines and Containers via SSL encryption (https)
+* Fast search-driven interface, capable of handling hundreds and probably thousands of VMs
+* Secure HTML5 console or SPICE
+* Role based permission management for all objects (VMs, storages, nodes, etc.)
+* Support for multiple authentication sources (e.g. local, MS ADS, LDAP, ...)
+* Two-Factor Authentication
+* Proxmox VE Firewall
+* Based on Ext JS 6.x JavaScript framework
+
+
+Web Gui overview:
+~~~~~~~~~~~~~~~~~
+
+image::pve_gui.png[]
+
+The GUI has 3 sectors:
+
+* On the left side is the navigation bar. The navigation bar is
+  structured into 4 different types. It has 4 different views,
+  which can be selected on the top.
+** Datacenter: contains all the settings belonging to all machines.
+** Nodes: represent the host where the VM/CT runs on. It is named like
+   the hostname. Normally the name was set by the installation.
+** Entity: can be a VM, container or a storage.
+** Logical pools: it is possible to group entities to a group for easy management.
+* On the right side is the main management center, where all content
+  of the selected entity form the navigation bar is shown.
+* On the bottom is the task log section, where all tasks are shown.
+
+ifdef::wiki[]
+
+See Also
+~~~~~~~~
+
+* link:/wiki/Central_Web-based_Management
+
+endif::wiki[]
+////
+TODO:
+
+VM, CT, Storage section
+
+////
