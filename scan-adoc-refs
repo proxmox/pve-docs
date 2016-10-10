@@ -156,7 +156,7 @@ sub scan_adoc_file {
 	if ($line =~ m/^:(\S+?):\s*(.*\S)?\s*$/) {
 	    my ($key, $value) = ($1, $2);
 	    if ($key eq 'pve-toplevel') {
-		
+
 		foreach my $e (@{$env_stack->[-1]}) {
 		    my $title = $fileinfo->{titles}->{$e}->{$filename};
 		    die "not title for toplevel file '$filename' (env=$e)\n"
@@ -205,6 +205,7 @@ sub resolve_link_target {
     while ($repeat) {
 	$repeat = 0;
 	foreach my $fn (keys %$include_hash) {
+	    next if $fn eq 'pve-admin-guide.adoc';
 	    if ($include_hash->{$fn}->{$filename}) {
 		$filename = $fn;
 		$repeat = 1;
@@ -226,6 +227,10 @@ foreach my $e (@$start_env) {
 	    $title =~ s/\s/_/g;
 	    die "found not title for '$fn' in env '$e'" if !$title;
 	    $fileinfo->{blockid_target}->{$e}->{$blockid} = "link:/wiki/$title#$blockid";
+	} elsif ($e eq 'default') {
+	    my $realfn = "chapter-$fn";
+	    $realfn =~ s/\.adoc/.html/;
+	    $fileinfo->{blockid_target}->{$e}->{$blockid} = "link:/pve-docs/$realfn#$blockid";
 	} else {
 	    $fileinfo->{blockid_target}->{$e}->{$blockid} = $fn;
 	}
