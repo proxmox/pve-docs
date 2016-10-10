@@ -89,6 +89,17 @@ sub register_blockid {
     }
 }
 
+sub register_title {
+    my ($filename, $env, $doctype, $title) = @_;
+
+    # fixme: what about other macros?
+    $title =~ s/\{pve\}/Proxmox VE/g;
+    $title =~ s!http://\S+\[(.*?)\]!$1!g;
+
+    $fileinfo->{titles}->{$env}->{$filename} = $title;
+    $fileinfo->{doctype}->{$env}->{$filename} = $doctype;
+}
+
 sub scan_adoc_file {
     my ($filename) = @_;
 
@@ -123,17 +134,13 @@ sub scan_adoc_file {
 	    next if defined($title);
 
 	    if ($line =~ m/^=====+$/) {
-		$fileinfo->{titles}->{$e}->{$filename} = $env_last_line->{$e};
-		$fileinfo->{doctype}->{$e}->{$filename} = 0;
+		register_title($filename, $e, 0, $env_last_line->{$e});
 	    } elsif ($line =~ m/^-----+$/) {
-		$fileinfo->{titles}->{$e}->{$filename} = $env_last_line->{$e};
-		$fileinfo->{doctype}->{$e}->{$filename} = 1;
+		register_title($filename, $e, 1, $env_last_line->{$e});
 	    } elsif ($line =~ m/^= +(\S.*?)( +=)?$/) {
-		$fileinfo->{titles}->{$e}->{$filename} = $1;
-		$fileinfo->{doctype}->{$e}->{$filename} = 0;
+		register_title($filename, $e, 0, $1);
 	    } elsif ($line =~ m/^== +(\S.*?)( +==)?$/) {
-		$fileinfo->{titles}->{$e}->{$filename} = $1;
-		$fileinfo->{doctype}->{$e}->{$filename} = 1;
+		register_title($filename, $e, 1, $1);
 	    }
 
 	    $env_last_line->{$e} = $line;
@@ -206,7 +213,6 @@ foreach my $e (@$start_env) {
 	my $fn = resolve_link_target($e, $blockid_hash->{$blockid});
 	if ($e eq 'wiki') {
 	    my $title = $fileinfo->{titles}->{$e}->{$fn};
-	    $title =~ s/\{pve\}/Proxmox VE/g;
 	    $title =~ s/\s/_/g;
 	    die "found not title for '$fn' in env '$e'" if !$title;
 	    $fileinfo->{blockid_target}->{$e}->{$blockid} = "link:/wiki/$title#$blockid";
