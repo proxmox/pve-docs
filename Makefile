@@ -169,16 +169,21 @@ asciidoc-pve: asciidoc-pve.in link-refs.json
 	chmod +x asciidoc-pve.tmp
 	mv asciidoc-pve.tmp asciidoc-pve
 
+pve-docs-mediawiki-import: pve-docs-mediawiki-import.in link-refs.json
+	cat pve-docs-mediawiki-import.in link-refs.json >  pve-docs-mediawiki-import.tmp
+	chmod +x pve-docs-mediawiki-import.tmp
+	mv pve-docs-mediawiki-import.tmp pve-docs-mediawiki-import
+
 test: asciidoc-pve
 	./asciidoc-pve compile-wiki-section pve-package-repos.adoc
 	#./asciidoc-pve compile-wiki-chapter ha-manager.adoc
 
 WIKI_IMPORTS=									\
-	section-pve-usbstick-plain.html						\
-	section-getting-help-plain.html						\
-	section-pve-system-requirements-plain.html				\
-	$(addsuffix -plain.html, $(addprefix sysadmin-, ${SYSADMIN_PARTS})) 	\
-	$(addsuffix -plain.html, $(addprefix chapter-, ${CHAPTER_LIST}))	\
+	pve-usbstick-plain.html							\
+	getting-help-plain.html							\
+	pve-system-requirements-plain.html					\
+	$(addsuffix -plain.html, ${SYSADMIN_PARTS}) 				\
+	$(addsuffix -plain.html, ${CHAPTER_LIST})				\
 	$(addsuffix .5-plain.html, ${CONFIG_LIST})				\
 	$(addsuffix -plain.html, $(addprefix pve-storage-, ${STORAGE_TYPES}))
 
@@ -203,22 +208,13 @@ all: index.html
 %-nwdiag.svg: %.nwdiag
 	nwdiag -T svg $*.nwdiag -o $@;
 
-sysadmin-%-plain.html: asciidoc-pve %.adoc
-	./asciidoc-pve compile-wiki-section -o $@ $*.adoc
+%-plain.html: asciidoc-pve %.adoc
+	./asciidoc-pve compile-wiki -o $@ $*.adoc
 
-section-%-plain.html: asciidoc-pve %.adoc
-	./asciidoc-pve compile-wiki-section -o $@ $*.adoc
-
-chapter-sysadmin.html chapter-sysadmin-plain.html: ${SYSADMIN_SOURCES}
+chapter-sysadmin.html sysadmin-plain.html: ${SYSADMIN_SOURCES}
 
 chapter-%.html: %.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_STDARG} -a toc -o $@ $*.adoc
-
-chapter-%-plain.html: %.adoc ${PVE_COMMON_DOC_SOURCES}
-	./asciidoc-pve compile-wiki-chapter -o $@ $*.adoc
-
-pve-storage-%-plain.html: pve-storage-%.adoc ${PVE_COMMON_DOC_SOURCES}
-	./asciidoc-pve compile-wiki-section -o $@ pve-storage-$*.adoc
 
 %.1.html: %.adoc %.1-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_MAN1_HTML_ARGS} -o $@ $*.adoc
@@ -277,10 +273,11 @@ deb:
 	rm -f ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB};
 	make ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB};
 
-${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}: index.html ${INDEX_INCLUDES} ${WIKI_IMPORTS} ${API_VIEWER_SOURCES} ${GEN_DEB_SOURCES}
+${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}: index.html ${INDEX_INCLUDES} ${WIKI_IMPORTS} ${API_VIEWER_SOURCES} ${GEN_DEB_SOURCES} asciidoc-pve pve-docs-mediawiki-import
 	rm -rf build
 	mkdir build
 	rsync -a debian/ build/debian
+	cp pve-docs-mediawiki-import build/debian/tree/pve-docs-mediawiki/pve-docs-mediawiki-import
 	echo "git clone git://git.proxmox.com/git/pve-docs.git\\ngit checkout ${GITVERSION}" > build/debian/SOURCE
 	# install files for pve-doc-generator package
 	mkdir -p build/usr/share/${GEN_PACKAGE}
@@ -313,5 +310,5 @@ update: clean
 	make all
 
 clean: 
-	rm -rf *.tmp.xml *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html chapter-*-plain.html chapter-*.html pve-admin-guide.chunked asciidoc-pve link-refs.json .asciidoc-pve-tmp_*
+	rm -rf *.tmp.xml *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html *-plain.html chapter-*.html pve-admin-guide.chunked asciidoc-pve link-refs.json .asciidoc-pve-tmp_* pve-docs-mediawiki-import
 	find . -name '*~' -exec rm {} ';'

@@ -8,6 +8,13 @@ use IO::File;
 use File::Basename;
 use MediaWiki::API;
 
+use JSON;
+
+my $data_str = "";
+while (<main::DATA>) { $data_str .= $_; }
+
+my $fileinfo = decode_json($data_str);
+
 my $config_fn = "/root/.pve-docs"; # format 'username:pw'
 
 my $fh = IO::File->new("$config_fn") || 
@@ -63,88 +70,88 @@ sub update_page {
 
 my $cat_refdoc = "Reference Documentation";
 
-my $docs = {
-    'chapter-ha-manager-plain.html' => {
+my $docs_old = {
+    'ha-manager-plain.html' => {
 	title => "High Availability",
 	category => $cat_refdoc,
     },
-    'chapter-pve-installation-plain.html' => {
+    'pve-installation-plain.html' => {
 	title => "Installation",
 	category => $cat_refdoc,
     },
-    'section-pve-usbstick-plain.html' => {
+    'pve-usbstick-plain.html' => {
 	title => "Install from USB Stick",
 	category => $cat_refdoc,
     },
-    'section-pve-system-requirements-plain.html' => {
+    'pve-system-requirements-plain.html' => {
 	title => "System Requirements",
 	category => $cat_refdoc,
     },
-    'section-getting-help-plain.html' => {
+    'getting-help-plain.html' => {
 	title => "Getting Help",
 	category => $cat_refdoc,
     },
-    'sysadmin-pve-network-plain.html' => {
+    'pve-network-plain.html' => {
 	title => "Network Configuration",
 	category => $cat_refdoc,
     },
-    'sysadmin-pve-disk-health-monitoring-plain.html' => {
+    'pve-disk-health-monitoring-plain.html' => {
 	title => "Disk Health Monitoring",
 	category => $cat_refdoc,
     },
-    'sysadmin-local-lvm-plain.html' => {
+    'local-lvm-plain.html' => {
 	title => "Logical Volume Manager (LVM)",
 	category => $cat_refdoc,
     },
-    'sysadmin-pve-package-repos-plain.html' => {
+    'pve-package-repos-plain.html' => {
 	title => "Package Repositories",
 	category => $cat_refdoc,
     },
-    'sysadmin-system-software-updates-plain.html' => {
+    'system-software-updates-plain.html' => {
 	title => "System Software Updates",
 	category => $cat_refdoc,
     },
-    'chapter-sysadmin-plain.html' => {
+    'sysadmin-plain.html' => {
 	title => "Host System Administration",
 	category => $cat_refdoc,
     },
-    'chapter-pct-plain.html' => {
+    'pct-plain.html' => {
 	title => "Linux Container",
 	category => $cat_refdoc,
     },
-    'chapter-pmxcfs-plain.html' => {
+    'pmxcfs-plain.html' => {
 	title => "Proxmox Cluster File System (pmxcfs)",
 	category => $cat_refdoc,
     },
-    'chapter-pve-bibliography-plain.html' => {
+    'pve-bibliography-plain.html' => {
 	title => "Bibliography",
 	category => $cat_refdoc,
     },
-    'chapter-pvecm-plain.html' => {
+    'pvecm-plain.html' => {
 	title => "Cluster Manager",
 	category => $cat_refdoc,
     },
-    'chapter-pve-faq-plain.html' => {
+    'pve-faq-plain.html' => {
 	title => "FAQ",
 	category => $cat_refdoc,
     },
-    'chapter-pve-firewall-plain.html' => {
+    'pve-firewall-plain.html' => {
 	title => "Firewall",
 	category => $cat_refdoc,
     },
-    'chapter-pvesm-plain.html' => {
+    'pvesm-plain.html' => {
 	title => "Storage",
 	category => $cat_refdoc,
     },
-    'chapter-pveum-plain.html' => {
+    'pveum-plain.html' => {
 	title => "User Management",
 	category => $cat_refdoc,
     },
-    'chapter-qm-plain.html' => {
+    'qm-plain.html' => {
 	title => "Qemu/KVM Virtual Machines",
 	category => $cat_refdoc,
     },
-    'chapter-vzdump-plain.html' => {
+    'vzdump-plain.html' => {
 	title => "Backup and Restore",
 	category => $cat_refdoc,
     },
@@ -199,15 +206,30 @@ my $docs = {
     },
 };
 
-#update_page("testpage1", $filename, $d->{category});
+my $wiki_man5_pages = {
+    'datacenter.cfg.adoc' => 1,
+    'qm.conf.adoc' => 1,
+    'pct.conf.adoc' => 1,
+};
 
-foreach my $filename (keys %$docs) {
+my $docs = {};
+foreach my $source (sort keys %{$fileinfo->{toplevel}->{wiki}}) {
+    my $title = $fileinfo->{titles}->{wiki}->{$source};
+    my $doctype = $fileinfo->{doctype}->{wiki}->{$source};
+
+    my $suffix = $wiki_man5_pages->{$source} ? '.5-plain.html' : '-plain.html';
+    my $filename = $source;
+    $filename =~ s/\.adoc//;
+    $filename .= $suffix;
+
     my $path = "/usr/share/pve-docs/$filename";
     die "no such file '$path'" if ! -f $path;
-    my $d = $docs->{$filename};
-    update_page($d->{title}, $filename, $d->{category});
+    
+    update_page($title, $filename, category => $cat_refdoc);
 }
 
 # also update 'Get support' page, because this is used since a long
 # time and is referenced from outside
-update_page("Get support", 'sysadmin-getting-help-plain.html', 'HOWTO');
+update_page("Get support", 'getting-help-plain.html', 'HOWTO');
+
+__END__

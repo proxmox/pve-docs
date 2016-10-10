@@ -162,11 +162,8 @@ sub compile_wiki {
 
     my $leveloffset = 0;
 
-    if ($clicmd eq 'compile-wiki-chapter') {
-	$leveloffset = 0;
-    } elsif ($clicmd eq 'compile-wiki-section') {
-	$leveloffset = -1;
-    }
+    my $doctype = $fileinfo->{doctype}->{$env}->{$infile} // 0;
+    $leveloffset = - $doctype;
 
     my $date = `date`;
     chomp $date;
@@ -211,8 +208,7 @@ sub compile_wiki {
 	die "aciidoc error";
 }
 
-if ($clicmd eq 'compile-wiki-chapter' ||
-    $clicmd eq 'compile-wiki-section') {
+if ($clicmd eq 'compile-wiki') {
 
     eval { compile_wiki(); };
     my $err = $@;
