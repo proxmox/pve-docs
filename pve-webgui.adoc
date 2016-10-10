@@ -61,6 +61,40 @@ The GUI has 3 sectors:
   of the selected entity form the navigation bar is shown.
 * On the bottom is the task log section, where all tasks are shown.
 
+
+Dataceter level
+^^^^^^^^^^^^^^
+
+image::pve_gui_datacenter.png[]
+
+On the datacenter level you can manage cluster wide settings and get
+information about this cluster.
+
+* *Search:* it is possible to search anything in cluster
+,this can be a node, VM, Container, Storage or a pool.
+
+* *Summery:* gives a brief overview over the cluster health.
+
+* *Options:* can show and set defaults, which apply cluster wide.
+
+* *Storage:* is the place where a storage will add/managed/removed.
+
+* *Backup:* has the capability to schedule Backups. This is
+   cluster wide, so you do not care about where the VM/Container are on
+   your cluster at schedule time.
+
+* *Permissions:* will manage user and group permission, LDAP,
+   MS-AD and Two-Factor authentication can be setup here.
+
+* *HA:* will manage the {pve} High-Availability
+
+* *Firewall:* on this level the Proxmox Firewall works cluster wide and
+   makes templates which are cluster wide available.
+
+* *Support:* here you get all information about your support subscription.
+
+If you like to have more information about this see the corresponding chapter.
+
 ifdef::wiki[]
 
 See Also
