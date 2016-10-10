@@ -1,6 +1,6 @@
 ifdef::manvolnum[]
-PVE({manvolnum})
-================
+PVE(1)
+======
 include::attributes.txt[]
 
 NAME
