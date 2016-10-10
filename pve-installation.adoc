@@ -4,6 +4,7 @@ include::attributes.txt[]
 
 ifdef::wiki[]
 :pve-toplevel:
+:title: Installation
 endif::wiki[]
 
 {pve} ships as a set of Debian packages, so you can simply install it

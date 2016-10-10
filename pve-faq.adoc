@@ -4,6 +4,7 @@ include::attributes.txt[]
 
 ifdef::wiki[]
 :pve-toplevel:
+:title: FAQ
 endif::wiki[]
 
 NOTE: New FAQs are appended to the bottom of this section.

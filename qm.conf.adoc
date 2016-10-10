@@ -29,6 +29,7 @@ endif::manvolnum[]
 
 ifdef::wiki[]
 :pve-toplevel:
+:title: Manual: vm.conf
 endif::wiki[]
 
 The `/etc/pve/qemu-server/<VMID>.conf` files stores VM configuration,

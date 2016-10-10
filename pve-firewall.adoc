@@ -29,6 +29,7 @@ endif::manvolnum[]
 
 ifdef::wiki[]
 :pve-toplevel:
+:title: Firewall
 endif::wiki[]
 
 {pve} Firewall provides an easy way to protect your IT

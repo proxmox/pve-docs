@@ -28,6 +28,7 @@ endif::manvolnum[]
 
 ifdef::wiki[]
 :pve-toplevel:
+:title: Linux Container
 endif::wiki[]
 
 Containers are a lightweight alternative to fully virtualized

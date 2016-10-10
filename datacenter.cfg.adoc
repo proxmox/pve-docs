@@ -29,6 +29,7 @@ endif::manvolnum[]
 
 ifdef::wiki[]
 :pve-toplevel:
+:title: Manual: datacenter.cfg
 endif::wiki[]
 
 The file `/etc/pve/datacenter.cfg` is a configuration file for

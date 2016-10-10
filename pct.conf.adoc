@@ -29,6 +29,7 @@ endif::manvolnum[]
 
 ifdef::wiki[]
 :pve-toplevel:
+:title: Manual: pct.conf
 endif::wiki[]
 
 The `/etc/pve/lxc/<CTID>.conf` files stores container configuration,

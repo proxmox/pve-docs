@@ -29,6 +29,7 @@ endif::manvolnum[]
 
 ifdef::wiki[]
 :pve-toplevel:
+:title: Storage
 endif::wiki[]
 
 The {pve} storage model is very flexible. Virtual machine images

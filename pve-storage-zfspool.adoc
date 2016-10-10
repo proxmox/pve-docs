@@ -4,6 +4,7 @@ include::attributes.txt[]
 
 ifdef::wiki[]
 :pve-toplevel:
+:title: Storage: ZFS
 endif::wiki[]
 
 Storage pool type: `zfspool`
