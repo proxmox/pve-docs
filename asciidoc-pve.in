@@ -82,9 +82,18 @@ sub replace_wiki_xref {
     return "$link\[$text\]";
 }
 
-sub prepare_adoc_file {
-    my ($filename, $attributes) = @_;
+sub replace_xref {
+    my ($env, $blockid, $text) = @_;
 
+    if ($env eq 'wiki') {
+	return replace_wiki_xref($blockid, $text);
+    } else {
+	die "implement me";
+    }
+}
+
+sub prepare_adoc_file {
+    my ($target_env, $filename, $attributes) = @_;
 
     return if $prepared_files->{$filename};
 
@@ -125,14 +134,14 @@ sub prepare_adoc_file {
 	if ($line =~ m/^include::(\S+)(\[.*\]\s*)$/) {
 	    my ($fn, $rest) = ($1, $2);
 	    print "INCLUDE: $fn\n";
-	    my $new_fn = prepare_adoc_file($fn, $attributes);
+	    my $new_fn = prepare_adoc_file($target_env, $fn, $attributes);
 	    $line = "include::${new_fn}$rest\n";
 	}
 
 	# fix xrefs
-	$line =~ s/xref:([^\s\[\]]+)\[([^\]]*)\]/replace_wiki_xref($1,$2)/ge;
+	$line =~ s/xref:([^\s\[\]]+)\[([^\]]*)\]/replace_xref(${target_env},$1,$2)/ge;
 
-	$line =~ s/<<([^\s,\[\]]+)(?:,(.*?))?>>/replace_wiki_xref($1,$2)/ge;
+	$line =~ s/<<([^\s,\[\]]+)(?:,(.*?))?>>/replace_xref(${target_env},$1,$2)/ge;
 
 	print $outfh $line;
     }
@@ -140,11 +149,11 @@ sub prepare_adoc_file {
     return $outfilename;
 }
 
-sub compile_wiki {
+sub compile_asciidoc {
+    my ($env) = @_;
 
     my $verbose;
     my $outfile;
-    my $target_env;
 
     GetOptions ("outfile=s" => \$outfile,
 		"verbose"   => \$verbose) or
@@ -156,12 +165,15 @@ sub compile_wiki {
     scalar(@ARGV) == 0 or
 	die "too many arguments...\n";
 
-    my $env = 'wiki';
+    if ($env eq 'wiki') {
 
+
+    } else {
+	die "unknown environment '$env'";
+    }
 
     my $title = $fileinfo->{titles}->{$env}->{$infile} or
 	die "unable to get title for '$infile'\n";
-
 
     print "compile: $title\n";
 
@@ -181,6 +193,10 @@ sub compile_wiki {
 	leveloffset => $leveloffset,
 	revnumber => $release,
     };
+
+    if (!($env eq 'wiki') || ($env ne 'manvolnum')) {
+	$attributes->{toc} = undef;
+    }
 
     my $cmd = ['asciidoc', '-s'];
 
@@ -203,7 +219,7 @@ sub compile_wiki {
 
     push @$cmd, '--out-file', $outfile;
 
-    my $new_infile = prepare_adoc_file($infile, $attributes);
+    my $new_infile = prepare_adoc_file($env, $infile, $attributes);
 
     push @$cmd, $new_infile;
 
@@ -213,9 +229,10 @@ sub compile_wiki {
 	die "aciidoc error";
 }
 
+
 if ($clicmd eq 'compile-wiki') {
 
-    eval { compile_wiki(); };
+    eval { compile_asciidoc('wiki'); };
     my $err = $@;
 
     cleanup();
