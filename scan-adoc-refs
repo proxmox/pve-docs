@@ -97,7 +97,13 @@ sub register_title {
     $title =~ s!http://\S+\[(.*?)\]!$1!g;
 
     $fileinfo->{titles}->{$env}->{$filename} = $title;
-    $fileinfo->{doctype}->{$env}->{$filename} = $doctype;
+
+    if (defined($doctype)) {
+	$fileinfo->{doctype}->{$env}->{$filename} = $doctype;
+    } else {
+	die "unable to change title (no doctype)"
+	    if !defined($fileinfo->{doctype}->{$env}->{$filename});
+    }
 }
 
 sub scan_adoc_file {
@@ -156,6 +162,10 @@ sub scan_adoc_file {
 		    die "not title for toplevel file '$filename' (env=$e)\n"
 			if !defined($title);
 		    $fileinfo->{toplevel}->{$e}->{$filename} = 1;
+		}
+	    } elsif ($key eq 'title') {
+		foreach my $e (@{$env_stack->[-1]}) {
+		    register_title($filename, $e, undef, $value);
 		}
 	    }
 	}
