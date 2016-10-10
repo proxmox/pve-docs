@@ -61,6 +61,11 @@ sub pop_environment {
     }
 }
 
+sub cleanup {
+
+    # TODO: anything ?
+}
+
 sub replace_wiki_xref {
     my ($blockid, $text) = @_;
 
@@ -213,7 +218,7 @@ if ($clicmd eq 'compile-wiki') {
     eval { compile_wiki(); };
     my $err = $@;
 
-    # cleanup
+    cleanup();
 
     die $err if $err;
 
