@@ -37,6 +37,14 @@ my $man_target_html = 0;
 my $env_stack = [];
 my $env_skip = 0;
 
+sub debug {
+    my $msg = shift;
+
+    return if !$verbose;
+
+    print STDERR "asciidoc-pve: $msg\n";
+}
+
 sub push_environment {
     my ($env, $skip) = @_;
 
@@ -156,7 +164,7 @@ sub prepare_adoc_file {
 
     return $prepared_files->{$filename} if defined($prepared_files->{$filename});
 
-    print "PREPARE $filename\n";
+    debug("prepare $filename");
 
     my $dirname = dirname($filename);
     my $basename = basename($filename);
@@ -195,7 +203,7 @@ sub prepare_adoc_file {
 
 	if ($line =~ m/^include::(\S+)(\[.*\]\s*)$/) {
 	    my ($fn, $rest) = ($1, $2);
-	    print "INCLUDE: $fn\n";
+	    debug("include $fn");
 	    my $new_fn = prepare_adoc_file($target_env, $fn, $attributes);
 
 	    print $outfh "include::${new_fn}$rest\n";
@@ -235,7 +243,7 @@ sub compile_asciidoc {
     my $title = $fileinfo->{titles}->{$env}->{$infile} or
 	die "unable to get title for '$infile'$env\n";
 
-    print "compile: $title\n";
+    debug("compile $title");
 
     my $leveloffset = 0;
 
@@ -308,7 +316,7 @@ sub compile_asciidoc {
 
 	push @$cmd, $new_infile;
 
-	print "RUN " . join(' ', @$cmd) . "\n";
+	debug("run " . join(' ', @$cmd));
 
 	system(@$cmd) == 0 or
 	    die "aciidoc error";
@@ -317,7 +325,7 @@ sub compile_asciidoc {
 
 	push @$cmd, '-v' if $verbose;
 
-	print "RUN " . join(' ', @$cmd) . "\n";
+	debug("run " . join(' ', @$cmd));
 
 	system(@$cmd) == 0 or
 	    die "xmlto error";
@@ -349,7 +357,7 @@ sub compile_asciidoc {
 
 	push @$cmd, $new_infile;
 
-	print "RUN " . join(' ', @$cmd) . "\n";
+	debug("run " . join(' ', @$cmd));
 
 	system(@$cmd) == 0 or
 	    die "aciidoc error";
