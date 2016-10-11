@@ -9,6 +9,9 @@ use IO::File;
 
 use JSON;
 
+my $verbose;
+my $keep_artifacts;
+
 my $release = '@RELEASE@';
 
 my $clicmd = shift or
@@ -62,9 +65,15 @@ sub pop_environment {
     }
 }
 
+my $files_for_cleanup = [];
+
 sub cleanup {
 
-    # TODO: anything ?
+    return if $keep_artifacts;
+
+    foreach my $file (@$files_for_cleanup) {
+	unlink $file;
+    }
 }
 
 sub replace_wiki_xref {
@@ -162,6 +171,8 @@ sub prepare_adoc_file {
     my $outfh = IO::File->new("$outfilename", "w") or
 	die "unable to open temporary file '$outfilename'\n";
 
+    push @$files_for_cleanup, $outfilename;
+
     while (defined (my $line = <$fh>)) {
 	chomp $line;
 	if ($line =~ m/^if(n?)def::(\S+)\[(.*)\]\s*$/) {
@@ -205,10 +216,10 @@ sub prepare_adoc_file {
 sub compile_asciidoc {
     my ($env) = @_;
 
-    my $verbose;
     my $outfile;
 
     GetOptions ("outfile=s" => \$outfile,
+		"keep-artifacts" => \$keep_artifacts,
 		"verbose"   => \$verbose) or
 		    die("Error in command line arguments\n");
 
@@ -290,6 +301,8 @@ sub compile_asciidoc {
 	my $tmpxmlfile = "${outfile}.xml.tmp";
 
 	push @$cmd, '--out-file', $tmpxmlfile;
+
+	push @$files_for_cleanup, $tmpxmlfile;
 
 	my $new_infile = prepare_adoc_file($env, $infile, $attributes);
 
