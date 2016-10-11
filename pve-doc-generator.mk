@@ -3,6 +3,8 @@ DOCRELEASE=4.3
 
 DGDIR?=/usr/share/pve-doc-generator
 
+ASCIIDOC_PVE?=asciidoc-pve
+
 all:
 
 PVE_COMMON_DOC_SOURCES=			\
@@ -173,107 +175,80 @@ ifneq (${DGDIR},.)
 	mv $@.tmp $@
 endif
 
-# asciidoc /etc/asciidoc/docbook-xsl/manpage.xsl skip REFERENCES section
-# like footnotes, so we cannot use a2x. We use xmlto instead.
-#A2MAN_COMMON=a2x -v -k -a docinfo1 -a "manversion=Release ${DOCRELEASE}" -f manpage
-#A2MAN1=${A2MAN_COMMON} -a "manvolnum=1"
-#A2MAN5=${A2MAN_COMMON} -a "manvolnum=5"
-#A2MAN8=${A2MAN_COMMON} -a "manvolnum=8"
-
-A2MAN_COMMON=asciidoc -dmanpage -bdocbook -a docinfo1
-
-define A2MAN1
-${A2MAN_COMMON} -a "manvolnum=1" -o $1.tmp.xml $1.adoc
-xmlto -v man $1.tmp.xml
-@rm -f $1.tmp.xml
-endef
-
-define A2MAN5
-${A2MAN_COMMON} -a "manvolnum=5" -o $1.tmp.xml $1.adoc
-xmlto -v man $1.tmp.xml 
-@rm -f $1.tmp.xml
-endef
-
-define A2MAN8
-${A2MAN_COMMON} -a "manvolnum=8" -o $1.tmp.xml $1.adoc
-xmlto -v man $1.tmp.xml
-@rm -f $1.tmp.xml
-endef
-
-pve-firewall.8: ${PVE_FIREWALL_MAN8_SOURCES}
-	$(call A2MAN8,pve-firewall)
+pve-firewall.8: ${PVE_FIREWALL_MAN8_SOURCES} ${ASCIIDOC_PVE}
+	${ASCIIDOC_PVE} compile-man -o $@ pve-firewall.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
-pvesm.1: ${PVESM_MAN1_SOURCES}
-	$(call A2MAN1,pvesm)
+pvesm.1: ${PVESM_MAN1_SOURCES} ${ASCIIDOC_PVE}
+	${ASCIIDOC_PVE} compile-man -o $@ pvesm.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
-pveceph.1: ${PVECEPH_MAN1_SOURCES}
-	$(call A2MAN1,pveceph)
+pveceph.1: ${PVECEPH_MAN1_SOURCES} ${ASCIIDOC_PVE}
+	${ASCIIDOC_PVE} compile-man -o $@ pveceph.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
-pct.1: ${PCT_MAN1_SOURCES}
-	$(call A2MAN1,pct)
+pct.1: ${PCT_MAN1_SOURCES} ${ASCIIDOC_PVE}
+	${ASCIIDOC_PVE} compile-man -o $@ pct.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
-vzdump.1: ${VZDUMP_MAN1_SOURCES}
-	$(call A2MAN1,vzdump)
+vzdump.1: ${VZDUMP_MAN1_SOURCES} ${ASCIIDOC_PVE}
+	${ASCIIDOC_PVE} compile-man -o $@ vzdump.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
-pvesubscription.1: ${PVESUBSCRIPTION_MAN1_SOURCES}
-	$(call A2MAN1,pvesubscription)
+pvesubscription.1: ${PVESUBSCRIPTION_MAN1_SOURCES} ${ASCIIDOC_PVE}
+	${ASCIIDOC_PVE} compile-man -o $@ pvesubscription.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
-qm.1: ${QM_MAN1_SOURCES}
-	$(call A2MAN1,qm)
+qm.1: ${QM_MAN1_SOURCES} ${ASCIIDOC_PVE}
+	${ASCIIDOC_PVE} compile-man -o $@ qm.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
-qmrestore.1: ${QMRESTORE_MAN1_SOURCES}
-	$(call A2MAN1,qmrestore)
+qmrestore.1: ${QMRESTORE_MAN1_SOURCES} ${ASCIIDOC_PVE}
+	${ASCIIDOC_PVE} compile-man -o $@ qmrestore.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
-pvecm.1: ${PVECM_MAN1_SOURCES}
-	$(call A2MAN1,pvecm)
+pvecm.1: ${PVECM_MAN1_SOURCES} ${ASCIIDOC_PVE}
+	${ASCIIDOC_PVE} compile-man -o $@ pvecm.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
-pveum.1: ${PVEUM_MAN1_SOURCES}
-	$(call A2MAN1,pveum)
+pveum.1: ${PVEUM_MAN1_SOURCES} ${ASCIIDOC_PVE}
+	${ASCIIDOC_PVE} compile-man -o $@ pveum.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
-pveam.1: ${PVEAM_MAN1_SOURCES}
-	$(call A2MAN1,pveam)
+pveam.1: ${PVEAM_MAN1_SOURCES} ${ASCIIDOC_PVE}
+	${ASCIIDOC_PVE} compile-man -o $@ pveam.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
-ha-manager.1: ${HA_MANAGER_MAN1_SOURCES}
-	$(call A2MAN1,ha-manager)
+ha-manager.1: ${HA_MANAGER_MAN1_SOURCES} ${ASCIIDOC_PVE}
+	${ASCIIDOC_PVE} compile-man -o $@ ha-manager.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
-pve-ha-crm.8: ${PVE_HA_CRM_MAN8_SOURCES}
-	$(call A2MAN8,pve-ha-crm)
+pve-ha-crm.8: ${PVE_HA_CRM_MAN8_SOURCES} ${ASCIIDOC_PVE}
+	${ASCIIDOC_PVE} compile-man -o $@ pve-ha-crm.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
-pve-ha-lrm.8: ${PVE_HA_LRM_MAN8_SOURCES}
-	$(call A2MAN8,pve-ha-lrm)
+pve-ha-lrm.8: ${PVE_HA_LRM_MAN8_SOURCES} ${ASCIIDOC_PVE}
+	${ASCIIDOC_PVE} compile-man -o $@ pve-ha-lrm.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
-pvestatd.8: ${PVESTATD_MAN8_SOURCES}
-	$(call A2MAN8,pvestatd)
+pvestatd.8: ${PVESTATD_MAN8_SOURCES} ${ASCIIDOC_PVE}
+	${ASCIIDOC_PVE} compile-man -o $@ pvestatd.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
-pvedaemon.8: ${PVEDAEMON_MAN8_SOURCES}
-	$(call A2MAN8,pvedaemon)
+pvedaemon.8: ${PVEDAEMON_MAN8_SOURCES} ${ASCIIDOC_PVE}
+	${ASCIIDOC_PVE} compile-man -o $@ pvedaemon.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
-pveproxy.8: ${PVEPROXY_MAN8_SOURCES}
-	$(call A2MAN8,pveproxy)
+pveproxy.8: ${PVEPROXY_MAN8_SOURCES} ${ASCIIDOC_PVE}
+	${ASCIIDOC_PVE} compile-man -o $@ pveproxy.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
-spiceproxy.8: ${SPICEPROXY_MAN8_SOURCES}
-	$(call A2MAN8,spiceproxy)
+spiceproxy.8: ${SPICEPROXY_MAN8_SOURCES} ${ASCIIDOC_PVE}
+	${ASCIIDOC_PVE} compile-man -o $@ spiceproxy.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
-pmxcfs.8: ${PMXCFS_MAN8_SOURCES}
-	$(call A2MAN8,pmxcfs)
+pmxcfs.8: ${PMXCFS_MAN8_SOURCES} ${ASCIIDOC_PVE}
+	${ASCIIDOC_PVE} compile-man -o $@ pmxcfs.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 qm.conf.5: ${QM_CONF_MAN5_SOURCES}
@@ -282,8 +257,8 @@ pct.conf.5: ${PCT_CONF_MAN5_SOURCES}
 
 datacenter.cfg.5: ${DATACENTER_CONF_MAN5_SOURCES}
 
-%.5: %.adoc %.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
-	$(call A2MAN5,$*)
+%.5: %.adoc %.5-opts.adoc ${PVE_COMMON_DOC_SOURCES} ${ASCIIDOC_PVE}
+	${ASCIIDOC_PVE} compile-man -o $@ $*.adoc
 	test -n "$${NOVIEW}" || man -l $@
 
 .PHONY: cleanup-docgen

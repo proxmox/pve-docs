@@ -1,4 +1,5 @@
 DGDIR=.
+ASCIIDOC_PVE=./asciidoc-pve
 
 include ./pve-doc-generator.mk
 
@@ -213,11 +214,11 @@ all: index.html
 
 chapter-sysadmin.html sysadmin-plain.html: ${SYSADMIN_SOURCES}
 
-chapter-%.html: %.adoc ${PVE_COMMON_DOC_SOURCES}
-	asciidoc ${ADOC_STDARG} -a toc -o $@ $*.adoc
+chapter-%.html: %.adoc asciidoc-pve ${PVE_COMMON_DOC_SOURCES}
+	./asciidoc-pve compile-chapter -o $@ $*.adoc
 
-%.1.html: %.adoc %.1-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
-	asciidoc ${ADOC_MAN1_HTML_ARGS} -o $@ $*.adoc
+%.1.html: %.adoc %.1-synopsis.adoc asciidoc-pve ${PVE_COMMON_DOC_SOURCES}
+	./asciidoc-pve compile-man-html -o $@ $*.adoc
 
 pmxcfs.8.html: pmxcfs.adoc pmxcfs.8-cli.adoc ${PVE_COMMON_DOC_SOURCES}
 	asciidoc ${ADOC_MAN8_HTML_ARGS} -o $@ pmxcfs.adoc
@@ -310,5 +311,5 @@ update: clean
 	make all
 
 clean: 
-	rm -rf *.tmp.xml *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html *-plain.html chapter-*.html pve-admin-guide.chunked asciidoc-pve link-refs.json .asciidoc-pve-tmp_* pve-docs-mediawiki-import
+	rm -rf *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html *-plain.html chapter-*.html pve-admin-guide.chunked asciidoc-pve link-refs.json .asciidoc-pve-tmp_* pve-docs-mediawiki-import
 	find . -name '*~' -exec rm {} ';'

@@ -30,6 +30,7 @@ if (-f "attributes.txt" && -f "pve-admin-guide.adoc") {
 
 my $prepared_files = {};
 
+my $man_target_html = 0;
 my $env_stack = [];
 my $env_skip = 0;
 
@@ -77,9 +78,54 @@ sub replace_wiki_xref {
 
     $text = $reftext if !length($text);
 
-    die "xref: no text for '$blockid'\n" if !$text;
+    die "xref: no text for wiki link '$blockid'\n" if !$text;
 
     return "$link\[$text\]";
+}
+
+sub replace_default_xref {
+    my ($blockid, $text) = @_;
+
+    my $link = $fileinfo->{blockid_target}->{default}->{$blockid};
+    my $reftext = $fileinfo->{reftext}->{default}->{$blockid};
+
+    die "unable to resolve chapter link (xref:$blockid)\n"
+	if !defined($link);
+
+    $text = $reftext if !length($text);
+
+    die "xref: no text for chapter link '$blockid'\n" if !$text;
+
+    return "$link\[$text\]";
+}
+
+sub replace_man_xref {
+    my ($blockid, $text) = @_;
+
+    my $link = $fileinfo->{blockid_target}->{manvolnum}->{$blockid};
+    my $reftext = $fileinfo->{reftext}->{manvolnum}->{$blockid};
+
+    die "unable to resolve man page link (xref:$blockid)\n"
+	if !defined($link);
+
+    $text = $reftext if !length($text);
+
+    die "xref: no text for man page link '$blockid'\n" if !$text;
+
+    my $section = $fileinfo->{mansection}->{manvolnum}->{$link};
+    die "link target is not a manual page" if !defined($section);
+
+
+    if (0 && $man_target_html) {
+	my $target = $link;
+	$target =~ s/\.adoc//;
+	$target .= ".$section";
+	return "link:${target}.html#${blockid}\[$text\]";
+    } else {
+	my $command = $link;
+	$command =~ s/\.adoc//;
+	return "\*${text}\* (man \*${command}\*($section))";
+    }
 }
 
 sub replace_xref {
@@ -87,24 +133,28 @@ sub replace_xref {
 
     if ($env eq 'wiki') {
 	return replace_wiki_xref($blockid, $text);
+    } elsif ($env eq 'manvolnum') {
+	return replace_man_xref($blockid, $text);
+    } elsif ($env eq 'default') {
+	return replace_default_xref($blockid, $text);
     } else {
-	die "implement me";
+	die "internal error";
     }
 }
 
 sub prepare_adoc_file {
     my ($target_env, $filename, $attributes) = @_;
 
-    return if $prepared_files->{$filename};
+    return $prepared_files->{$filename} if defined($prepared_files->{$filename});
 
     print "PREPARE $filename\n";
-
-    $prepared_files->{$filename} = 1;
 
     my $dirname = dirname($filename);
     my $basename = basename($filename);
 
     my $outfilename = "$dirname/${tmpprefix}$basename";
+
+    $prepared_files->{$filename} = $outfilename;
 
     my $fh = IO::File->new("$filename", "r") or
 	die "unable to open file '$filename' - $!\n";
@@ -113,6 +163,7 @@ sub prepare_adoc_file {
 	die "unable to open temporary file '$outfilename'\n";
 
     while (defined (my $line = <$fh>)) {
+	chomp $line;
 	if ($line =~ m/^if(n?)def::(\S+)\[(.*)\]\s*$/) {
 	    my ($not, $env, $text) = ($1, $2, $3);
 	    die "unsuported ifdef usage - implement me" if $text;
@@ -135,7 +186,9 @@ sub prepare_adoc_file {
 	    my ($fn, $rest) = ($1, $2);
 	    print "INCLUDE: $fn\n";
 	    my $new_fn = prepare_adoc_file($target_env, $fn, $attributes);
-	    $line = "include::${new_fn}$rest\n";
+
+	    print $outfh "include::${new_fn}$rest\n";
+	    next;
 	}
 
 	# fix xrefs
@@ -143,7 +196,7 @@ sub prepare_adoc_file {
 
 	$line =~ s/<<([^\s,\[\]]+)(?:,(.*?))?>>/replace_xref(${target_env},$1,$2)/ge;
 
-	print $outfh $line;
+	print $outfh $line . "\n";
     }
 
     return $outfilename;
@@ -165,21 +218,21 @@ sub compile_asciidoc {
     scalar(@ARGV) == 0 or
 	die "too many arguments...\n";
 
-    if ($env eq 'wiki') {
-
-
-    } else {
+    defined($fileinfo->{titles}->{$env}) ||
 	die "unknown environment '$env'";
-    }
 
     my $title = $fileinfo->{titles}->{$env}->{$infile} or
-	die "unable to get title for '$infile'\n";
+	die "unable to get title for '$infile'$env\n";
 
     print "compile: $title\n";
 
     my $leveloffset = 0;
 
-    my $doctype = $fileinfo->{doctype}->{$env}->{$infile} // 0;
+    my $doctype = $fileinfo->{doctype}->{$env}->{$infile};
+
+    die "unable to get document type for '$infile'\n"
+	if !defined($doctype);
+
     $leveloffset = - $doctype;
 
     my $date = `date`;
@@ -187,52 +240,141 @@ sub compile_asciidoc {
 
     my $attributes = {
 	$env => undef,
-	icons => undef,
-	'data-uri' => undef,
-	date => $date,
 	leveloffset => $leveloffset,
-	revnumber => $release,
     };
 
-    if (!($env eq 'wiki') || ($env ne 'manvolnum')) {
+    my $mansection = $fileinfo->{mansection}->{$env}->{$infile};
+
+    if ($env eq 'wiki') {
+    } elsif ($env eq 'manvolnum') {
+	die "undefined man section" if !defined($mansection);
+	$attributes->{manvolnum} = $mansection;
+    } elsif ($env eq 'default') {
+	die "$infile: wrong doctype\n" if $doctype != 0;
 	$attributes->{toc} = undef;
     }
-
-    my $cmd = ['asciidoc', '-s'];
-
-    foreach my $key (keys %$attributes) {
-	my $value = $attributes->{$key};
-	if (defined($value)) {
-	    push @$cmd, '-a', "$key=$value";
-	} else {
-	    push @$cmd, '-a', $key;
-	}
-    }
-
-    push @$cmd, '--verbose' if $verbose;
 
     if (!defined($outfile)) {
 	$outfile = $infile;
 	$outfile =~ s/\.adoc$//;
-	$outfile .= ".html";
+	if ($env eq 'manvolnum') {
+	    if ($man_target_html) {
+		$outfile .= ".$mansection.html";
+	    } else {
+		$outfile .= ".$mansection";
+	    }
+	} else {
+	    $outfile .= ".html";
+	}
     }
 
-    push @$cmd, '--out-file', $outfile;
+    if (($env eq 'manvolnum') && !$man_target_html) {
 
-    my $new_infile = prepare_adoc_file($env, $infile, $attributes);
+	# asciidoc /etc/asciidoc/docbook-xsl/manpage.xsl skip REFERENCES
+	# section like footnotes, so we cannot use a2x.
+	# We use xmlto instead.
 
-    push @$cmd, $new_infile;
+	my $cmd = ['asciidoc', '-dmanpage', '-bdocbook', '-a', 'docinfo1'];
 
-    print "RUN " . join(' ', @$cmd) . "\n";
+	foreach my $key (keys %$attributes) {
+	    my $value = $attributes->{$key};
+	    if (defined($value)) {
+		push @$cmd, '-a', "$key=$value";
+	    } else {
+		push @$cmd, '-a', $key;
+	    }
+	}
 
-    system(@$cmd) == 0 or
-	die "aciidoc error";
+	push @$cmd, '--verbose' if $verbose;
+
+	my $tmpxmlfile = "${outfile}.xml.tmp";
+
+	push @$cmd, '--out-file', $tmpxmlfile;
+
+	my $new_infile = prepare_adoc_file($env, $infile, $attributes);
+
+	push @$cmd, $new_infile;
+
+	print "RUN " . join(' ', @$cmd) . "\n";
+
+	system(@$cmd) == 0 or
+	    die "aciidoc error";
+
+	$cmd = ['xmlto', 'man', $tmpxmlfile];
+
+	push @$cmd, '-v' if $verbose;
+
+	print "RUN " . join(' ', @$cmd) . "\n";
+
+	system(@$cmd) == 0 or
+	    die "xmlto error";
+
+    } else {
+
+	$attributes->{icons} = undef;
+	$attributes->{'data-uri'} = undef;
+	$attributes->{revnumber} = $release;
+
+	my $cmd = ['asciidoc'];
+
+	push @$cmd, '-s' if $env eq 'wiki';
+
+	foreach my $key (keys %$attributes) {
+	    my $value = $attributes->{$key};
+	    if (defined($value)) {
+		push @$cmd, '-a', "$key=$value";
+	    } else {
+		push @$cmd, '-a', $key;
+	    }
+	}
+
+	push @$cmd, '--verbose' if $verbose;
+
+	push @$cmd, '--out-file', $outfile;
+
+	my $new_infile = prepare_adoc_file($env, $infile, $attributes);
+
+	push @$cmd, $new_infile;
+
+	print "RUN " . join(' ', @$cmd) . "\n";
+
+	system(@$cmd) == 0 or
+	    die "aciidoc error";
+    }
 }
-
 
 if ($clicmd eq 'compile-wiki') {
 
     eval { compile_asciidoc('wiki'); };
+    my $err = $@;
+
+    cleanup();
+
+    die $err if $err;
+
+} elsif ($clicmd eq 'compile-chapter') {
+
+    eval { compile_asciidoc('default'); };
+    my $err = $@;
+
+    cleanup();
+
+    die $err if $err;
+
+} elsif ($clicmd eq 'compile-man-html') {
+
+    $man_target_html = 1;
+
+    eval { compile_asciidoc('manvolnum'); };
+    my $err = $@;
+
+    cleanup();
+
+    die $err if $err;
+
+} elsif ($clicmd eq 'compile-man') {
+
+    eval { compile_asciidoc('manvolnum'); };
     my $err = $@;
 
     cleanup();
