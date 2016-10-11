@@ -175,10 +175,6 @@ pve-docs-mediawiki-import: pve-docs-mediawiki-import.in link-refs.json
 	chmod +x pve-docs-mediawiki-import.tmp
 	mv pve-docs-mediawiki-import.tmp pve-docs-mediawiki-import
 
-test: asciidoc-pve
-	./asciidoc-pve compile-wiki-section pve-package-repos.adoc
-	#./asciidoc-pve compile-wiki-chapter ha-manager.adoc
-
 WIKI_IMPORTS=									\
 	pve-usbstick-plain.html							\
 	getting-help-plain.html							\
