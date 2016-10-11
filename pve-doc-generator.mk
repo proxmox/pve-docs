@@ -3,7 +3,7 @@ DOCRELEASE=4.3
 
 DGDIR?=/usr/share/pve-doc-generator
 
-ASCIIDOC_PVE?=asciidoc-pve
+ASCIIDOC_PVE?=/usr/bin/asciidoc-pve
 
 all:
 
