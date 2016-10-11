@@ -279,8 +279,10 @@ ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}: index.html ${INDEX_INCLUDES} ${WIKI_IMPO
 	# install files for pve-doc-generator package
 	mkdir -p build/usr/share/${GEN_PACKAGE}
 	mkdir -p build/usr/share/doc/${GEN_PACKAGE}
+	mkdir -p build/usr/bin
 	install -m 0644 ${GEN_DEB_SOURCES} build/usr/share/${GEN_PACKAGE}
 	install -m 0755 ${GEN_SCRIPTS} build/usr/share/${GEN_PACKAGE}
+	install -m 0755 asciidoc-pve build/usr/bin/
 	# install files for pvedocs package
 	mkdir -p build/usr/share/${DOC_PACKAGE}
 	mkdir -p build/usr/share/doc/${DOC_PACKAGE}
