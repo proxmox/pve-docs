@@ -19,7 +19,6 @@ include::pvesm.1-synopsis.adoc[]
 DESCRIPTION
 -----------
 endif::manvolnum[]
-
 ifndef::manvolnum[]
 {pve} Storage
 =============

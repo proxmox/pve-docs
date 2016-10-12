@@ -18,7 +18,6 @@ include::ha-manager.1-synopsis.adoc[]
 DESCRIPTION
 -----------
 endif::manvolnum[]
-
 ifndef::manvolnum[]
 High Availability
 =================
