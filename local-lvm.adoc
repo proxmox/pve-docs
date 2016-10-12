@@ -40,6 +40,12 @@ data:: This volume uses LVM-thin, and is used to store VM
 images. LVM-thin is preferable for this task, because it offers
 efficient support for snapshots and clones.
 
+For {pve} versions up to 4.1, the installer creates a Logical Volume
+called ``data'' which is mounted at `/var/lib/vz`
+Starting from 4.2 the Logical Volume ``data'' is a LVM thin volume, used
+for block based storage of guest systems, and `/var/lib/vz` is simply a
+directory on the root file system.
+
 Hardware
 ~~~~~~~~
 
@@ -57,3 +63,66 @@ Bootloader
 We install two boot loaders by default. The first partition contains
 the standard GRUB boot loader. The second partition is an **E**FI **S**ystem
 **P**artition (ESP), which makes it possible to boot on EFI systems.
+
+
+Creating a Volume Group
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Let's assume we have an empty disk `/dev/sdb`, onto which we want to
+create a Volume Group named ``vmdata''.
+
+First create a partition.
+
+ # sgdisk -N 1 /dev/sdb
+
+Create a **P**hysical **V**olumes (PV) without confirmation and 250K
+metadatasize.
+
+ # pvcreate --metadatasize 250k -y -ff /dev/sdb1
+
+Create a **V**olume **G**roup (VG) named ``vmdata'' on `/dev/sdb1`
+
+ # vgcreate vmdata /dev/sdb1
+
+
+Creating an extra LV for `/var/lib/vz`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This can be easily done by creating a new thin LV.
+
+ # lvcreate -n <Name> -V <Size[M,G,T]> <VG>/<LVThin_pool>
+
+A real world example:
+
+ # lvcreate -n vz -V 10G pve/data
+
+Now a filesystem must be created on the LV.
+
+ # mkfs.ext4 /dev/data/vz
+
+At last this has to be mounted.
+
+WARNING: be sure that `/var/lib/vz` is empty. On a default installation it's not.
+
+To make it always accessible add the following line in `/etc/fstab`.
+
+ # echo '/dev/pve/vz /var/lib/vz ext4 defaults 0 2' >> /etc/fstab
+
+
+Resizing the thin pool
+~~~~~~~~~~~~~~~~~~~~~~
+
+NOTE: When extending the data pool, the metadata pool must be extended with it.
+
+Resize the LV and the metadata pool can be achieved with the following command.
+
+ # lvresize --size +<size[\M,G,T]> --poolmetadatasize +<size[\M,G]> <VG>/<LVThin_pool>
+
+
+Create a LVM-Thin pool
+~~~~~~~~~~~~~~~~~~~~~~
+
+A thin pool has to be created on top of a volume group.
+How to create a Volume Group see Section LVM.
+
+ # lvcreate -L 80G -T -n vmstore vmdata
