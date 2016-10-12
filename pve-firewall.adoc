@@ -169,7 +169,7 @@ This sections contains host specific firewall rules.
 VM/Container Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-VM firewall configuration is read xref:vm_container_configuration[AAA] from:
+VM firewall configuration is read from:
 
  /etc/pve/firewall/<VMID>.fw
 
