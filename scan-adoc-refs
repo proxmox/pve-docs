@@ -90,25 +90,35 @@ sub register_blockid {
 }
 
 sub register_title {
-    my ($filename, $env, $doctype, $title) = @_;
+    my ($filename, $env, $doctype, $title, $blockid) = @_;
 
     # fixme: what about other macros?
     $title =~ s/\{pve\}/Proxmox VE/g;
     $title =~ s!http://\S+\[(.*?)\]!$1!g;
 
-    $fileinfo->{titles}->{$env}->{$filename} = $title;
+    # register document title (onyl once)
+    if (!defined($fileinfo->{titles}->{$env}->{$filename})) {
 
-    if (defined($doctype)) {
-	$fileinfo->{doctype}->{$env}->{$filename} = $doctype;
-    } else {
-	die "unable to change title (no doctype)"
-	    if !defined($fileinfo->{doctype}->{$env}->{$filename});
+	$fileinfo->{titles}->{$env}->{$filename} = $title;
+
+	if (defined($doctype)) {
+	    $fileinfo->{doctype}->{$env}->{$filename} = $doctype;
+	} else {
+	    die "unable to change title (no doctype)"
+		if !defined($fileinfo->{doctype}->{$env}->{$filename});
+	}
+
+	if (defined($doctype) && ($env eq 'manvolnum') && ($doctype == 0)) {
+	    if ($title =~ m/.*\(([1-8])\)\s*$/) {
+		$fileinfo->{mansection}->{$env}->{$filename} = $1;
+	    }
+	}
     }
 
-    if (defined($doctype) && ($env eq 'manvolnum') && ($doctype == 0)) {
-	if ($title =~ m/.*\(([1-8])\)\s*$/) {
-	    $fileinfo->{mansection}->{$env}->{$filename} = $1;
-	}
+    if ($blockid) {
+	die "internal error"
+	    if !defined($fileinfo->{blockid}->{$env}->{$blockid});
+	$fileinfo->{reftitle}->{$env}->{$blockid} = $title;
     }
 }
 
@@ -123,6 +133,7 @@ sub scan_adoc_file {
 	die "unable to open file '$filename' - $!\n";
 
     my $env_last_line = {};
+    my $env_last_blockid = {};
 
     while (defined (my $line = <$fh>)) {
 	if ($line =~ m/^if(n?)def::(\S+)\[(.*)\]\s*$/) {
@@ -142,17 +153,26 @@ sub scan_adoc_file {
 
 	# try to detect titles
 	foreach my $e (@{$env_stack->[-1]}) {
-	    my $title = $fileinfo->{titles}->{$e}->{$filename};
-	    next if defined($title);
-
 	    if ($line =~ m/^=====+$/) {
-		register_title($filename, $e, 0, $env_last_line->{$e});
+		register_title($filename, $e, 0, $env_last_line->{$e},
+			       $env_last_blockid->{$e});
 	    } elsif ($line =~ m/^-----+$/) {
-		register_title($filename, $e, 1, $env_last_line->{$e});
+		register_title($filename, $e, 1, $env_last_line->{$e},
+			       $env_last_blockid->{$e});
+	    } elsif ($line =~ m/^~~~~~+$/) {
+		register_title($filename, $e, 2, $env_last_line->{$e},
+			       $env_last_blockid->{$e});
+	    } elsif ($line =~ m/^\^\^\^\^\^+$/) {
+		register_title($filename, $e, 3, $env_last_line->{$e},
+			       $env_last_blockid->{$e});
 	    } elsif ($line =~ m/^= +(\S.*?)( +=)?$/) {
-		register_title($filename, $e, 0, $1);
+		register_title($filename, $e, 0, $1, $env_last_blockid->{$e});
 	    } elsif ($line =~ m/^== +(\S.*?)( +==)?$/) {
-		register_title($filename, $e, 1, $1);
+		register_title($filename, $e, 1, $1, $env_last_blockid->{$e});
+	    } elsif ($line =~ m/^=== +(\S.*?)( +===)?$/) {
+		register_title($filename, $e, 2, $1, $env_last_blockid->{$e});
+	    } elsif ($line =~ m/^==== +(\S.*?)( +====)?$/) {
+		register_title($filename, $e, 3, $1, $env_last_blockid->{$e});
 	    }
 
 	    $env_last_line->{$e} = $line;
@@ -181,7 +201,17 @@ sub scan_adoc_file {
 	    die "implement me" if $blockid =~m/,/;
 	    my $reftext = '';
 	    register_blockid($filename, $blockid, $reftext, $env_stack->[-1]);
+	    foreach my $e (@{$env_stack->[-1]}) {
+		$env_last_blockid->{$e} = $blockid;
+	    }
 	}
+
+	if ($line =~ m/^\s*$/) {
+	    foreach my $e (@{$env_stack->[-1]}) {
+		delete $env_last_blockid->{$e};
+	    }
+	}
+
 	# fixme: "anchor:"
 	# bibliography anchors
 	if ($line =~ m/\[\[\[([^\]]*)\]\]\]/) {
@@ -244,4 +274,4 @@ foreach my $e (@$start_env) {
 }
 
 
-print to_json($fileinfo, { pretty => 1 } );
+print to_json($fileinfo, { pretty => 1,  canonical => 1 } );
