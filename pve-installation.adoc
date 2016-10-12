@@ -1,7 +1,6 @@
 Installing Proxmox VE
 =====================
 include::attributes.txt[]
-
 ifdef::wiki[]
 :pve-toplevel:
 :title: Installation

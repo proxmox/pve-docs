@@ -1,7 +1,6 @@
 Ceph RADOS Block Devices (RBD)
 ------------------------------
 include::attributes.txt[]
-
 ifdef::wiki[]
 :pve-toplevel:
 :title: Storage: RBD

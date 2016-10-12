@@ -1,6 +1,6 @@
 ifdef::manvolnum[]
-PVE(8)
-======
+pmxcfs(8)
+=========
 include::attributes.txt[]
 :pve-toplevel:
 
@@ -23,7 +23,6 @@ Proxmox Cluster File System (pmxcfs)
 ====================================
 include::attributes.txt[]
 endif::manvolnum[]
-
 ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]

@@ -1,7 +1,6 @@
 Install from USB Stick
 ----------------------
 include::attributes.txt[]
-
 ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]

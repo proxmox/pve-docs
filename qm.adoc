@@ -1,6 +1,6 @@
 ifdef::manvolnum[]
-PVE(1)
-======
+qm(1)
+=====
 include::attributes.txt[]
 :pve-toplevel:
 
@@ -24,7 +24,6 @@ Qemu/KVM Virtual Machines
 =========================
 include::attributes.txt[]
 endif::manvolnum[]
-
 ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]

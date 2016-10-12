@@ -1,6 +1,6 @@
 ifdef::manvolnum[]
-PVE(1)
-======
+pvecm(1)
+========
 include::attributes.txt[]
 :pve-toplevel:
 
@@ -23,7 +23,6 @@ Cluster Manager
 ===============
 include::attributes.txt[]
 endif::manvolnum[]
-
 ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]

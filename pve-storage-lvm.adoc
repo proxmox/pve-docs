@@ -1,7 +1,6 @@
 LVM Backend
 -----------
 include::attributes.txt[]
-
 ifdef::wiki[]
 :pve-toplevel:
 :title: Storage: LVM

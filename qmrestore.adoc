@@ -1,6 +1,6 @@
 ifdef::manvolnum[]
-PVE(1)
-======
+qmrestore(1)
+============
 include::attributes.txt[]
 :pve-toplevel:
 

@@ -1,7 +1,6 @@
 System Software Updates
 -----------------------
 include::attributes.txt[]
-
 ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]

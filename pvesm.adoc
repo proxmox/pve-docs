@@ -1,7 +1,7 @@
 [[chapter-storage]]
 ifdef::manvolnum[]
-PVE(1)
-======
+pvesm(1)
+========
 include::attributes.txt[]
 :pve-toplevel:
 
@@ -25,7 +25,6 @@ ifndef::manvolnum[]
 =============
 include::attributes.txt[]
 endif::manvolnum[]
-
 ifdef::wiki[]
 :pve-toplevel:
 :title: Storage

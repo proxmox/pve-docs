@@ -1,6 +1,6 @@
 ifdef::manvolnum[]
-PVE(1)
-======
+pveum(1)
+========
 include::attributes.txt[]
 :pve-toplevel:
 
@@ -25,7 +25,6 @@ User Management
 ===============
 include::attributes.txt[]
 endif::manvolnum[]
-
 ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]

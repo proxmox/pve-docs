@@ -13,7 +13,6 @@ include::attributes.txt[]
 :numbered:
 :data-uri:
 :icons:
-
 ifndef::wiki[]
 ifndef::manvolnum[]
 :pve-toplevel:

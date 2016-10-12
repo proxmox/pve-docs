@@ -1,6 +1,6 @@
 ifdef::manvolnum[]
-PVE(5)
-======
+datacenter.cfg(5)
+=================
 include::attributes.txt[]
 :pve-toplevel:
 
@@ -25,7 +25,6 @@ Datacenter Configuration
 ========================
 include::attributes.txt[]
 endif::manvolnum[]
-
 ifdef::wiki[]
 :pve-toplevel:
 :title: Manual: datacenter.cfg

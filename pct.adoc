@@ -1,5 +1,5 @@
 ifdef::manvolnum[]
-PVE(1)
+pct(1)
 ======
 include::attributes.txt[]
 :pve-toplevel:
@@ -24,7 +24,6 @@ Proxmox Container Toolkit
 =========================
 include::attributes.txt[]
 endif::manvolnum[]
-
 ifdef::wiki[]
 :pve-toplevel:
 :title: Linux Container

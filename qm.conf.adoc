@@ -1,6 +1,6 @@
 ifdef::manvolnum[]
-PVE(5)
-======
+qm.conf(5)
+==========
 include::attributes.txt[]
 
 :pve-toplevel:
@@ -22,11 +22,10 @@ DESCRIPTION
 endif::manvolnum[]
 
 ifndef::manvolnum[]
- Virtual Machine Configuration
-==============================
+Virtual Machine Configuration
+=============================
 include::attributes.txt[]
 endif::manvolnum[]
-
 ifdef::wiki[]
 :pve-toplevel:
 :title: Manual: vm.conf
