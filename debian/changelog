@@ -1,3 +1,18 @@
+pve-docs (4.3-6) unstable; urgency=medium
+
+  * asciidoc-pve: new asciidoc preprocessor to fix links
+
+  * scan-adoc-refs: extract information about block IDs
+
+  * pve-doc-generator package: install asciidoc-pve binary
+
+  * fix manpage titles
+
+  * new file pve-docs-mediawiki-import.in (we now use
+    autogenerate data)
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 12 Oct 2016 12:37:10 +0200
+
 pve-docs (4.3-5) unstable; urgency=medium
 
   * fix titel page (avoid white border on left side)
