@@ -165,11 +165,11 @@ include::pve-firewall-host-opts.adoc[]
 
 This sections contains host specific firewall rules.
 
-
+[[pve_firewall_vm_container_configuration]]
 VM/Container Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-VM firewall configuration is read from:
+VM firewall configuration is read xref:vm_container_configuration[AAA] from:
 
  /etc/pve/firewall/<VMID>.fw
 
@@ -271,7 +271,7 @@ Then, you can add this group to a VM's firewall
 GROUP webserver
 ----
 
-
+[[pve_firewall_ip_aliases]]
 IP Aliases
 ----------
 
@@ -309,7 +309,7 @@ explicitly assign the local IP address
 local_network 1.2.3.4 # use the single ip address
 ----
 
-
+[[pve_firewall_ip_sets]]
 IP Sets
 -------
 
