@@ -216,17 +216,17 @@ chapter-%.html: %.adoc asciidoc-pve ${PVE_COMMON_DOC_SOURCES}
 %.1.html: %.adoc %.1-synopsis.adoc asciidoc-pve ${PVE_COMMON_DOC_SOURCES}
 	./asciidoc-pve compile-man-html -o $@ $*.adoc
 
-pmxcfs.8.html: pmxcfs.adoc pmxcfs.8-cli.adoc ${PVE_COMMON_DOC_SOURCES}
-	asciidoc ${ADOC_MAN8_HTML_ARGS} -o $@ pmxcfs.adoc
+pmxcfs.8.html: pmxcfs.adoc pmxcfs.8-cli.adoc asciidoc-pve ${PVE_COMMON_DOC_SOURCES}
+	./asciidoc-pve compile-man-html -o $@ pmxcfs.adoc
 
-%.8.html: %.adoc %.8-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
-	asciidoc ${ADOC_MAN8_HTML_ARGS} -o $@ $*.adoc
+%.8.html: %.adoc %.8-synopsis.adoc asciidoc-pve ${PVE_COMMON_DOC_SOURCES}
+	./asciidoc-pve compile-man-html -o $@ $*.adoc
 
-%.5.html: %.adoc %.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
-	asciidoc ${ADOC_MAN5_HTML_ARGS} -o $@ $*.adoc
+%.5.html: %.adoc %.5-opts.adoc asciidoc-pve ${PVE_COMMON_DOC_SOURCES}
+	./asciidoc-pve compile-man-html -o $@ $*.adoc
 
-%.5-plain.html: %.adoc %.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
-	asciidoc -s ${ADOC_MAN5_HTML_ARGS} -o $@ $*.adoc
+%.5-plain.html: %.adoc %.5-opts.adoc asciidoc-pve ${PVE_COMMON_DOC_SOURCES}
+	./asciidoc-pve compile-man-wiki -o $@ $*.adoc
 
 README.html: README.adoc
 	asciidoc ${ADOC_STDARG} -o $@ $<

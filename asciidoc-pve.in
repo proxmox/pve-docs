@@ -33,7 +33,7 @@ if (-f "attributes.txt" && -f "pve-admin-guide.adoc") {
 
 my $prepared_files = {};
 
-my $man_target_html = 0;
+my $man_target = 'man';
 my $env_stack = [];
 my $env_skip = 0;
 
@@ -133,15 +133,17 @@ sub replace_man_xref {
     die "link target is not a manual page" if !defined($section);
 
 
-    if (0 && $man_target_html) {
+    if ($man_target eq 'html') {
 	my $target = $link;
 	$target =~ s/\.adoc//;
 	$target .= ".$section";
 	return "link:${target}.html#${blockid}\[$text\]";
-    } else {
+    } elsif ($man_target eq 'man') {
 	my $command = $link;
 	$command =~ s/\.adoc//;
 	return "\*${text}\* (man \*${command}\*($section))";
+    } else {
+	die "internal error"
     }
 }
 
@@ -151,7 +153,13 @@ sub replace_xref {
     if ($env eq 'wiki') {
 	return replace_wiki_xref($blockid, $text);
     } elsif ($env eq 'manvolnum') {
-	return replace_man_xref($blockid, $text);
+	if (($man_target eq 'man') || ($man_target eq 'html')) {
+	    return replace_man_xref($blockid, $text);
+	} elsif ($man_target eq 'wiki') {
+	    return replace_wiki_xref($blockid, $text);
+	} else {
+	    die "internal error"
+	}
     } elsif ($env eq 'default') {
 	return replace_default_xref($blockid, $text);
     } else {
@@ -277,7 +285,7 @@ sub compile_asciidoc {
 	$outfile = $infile;
 	$outfile =~ s/\.adoc$//;
 	if ($env eq 'manvolnum') {
-	    if ($man_target_html) {
+	    if (($man_target eq 'html') || ($man_target eq 'wiki')) {
 		$outfile .= ".$mansection.html";
 	    } else {
 		$outfile .= ".$mansection";
@@ -287,7 +295,7 @@ sub compile_asciidoc {
 	}
     }
 
-    if (($env eq 'manvolnum') && !$man_target_html) {
+    if (($env eq 'manvolnum') && ($man_target eq 'man')) {
 
 	# asciidoc /etc/asciidoc/docbook-xsl/manpage.xsl skip REFERENCES
 	# section like footnotes, so we cannot use a2x.
@@ -338,7 +346,8 @@ sub compile_asciidoc {
 
 	my $cmd = ['asciidoc'];
 
-	push @$cmd, '-s' if $env eq 'wiki';
+	push @$cmd, '-s' if ($env eq 'wiki') ||
+	    (($env eq 'manvolnum') && ($man_target eq 'wiki'));
 
 	foreach my $key (keys %$attributes) {
 	    my $value = $attributes->{$key};
@@ -384,7 +393,18 @@ if ($clicmd eq 'compile-wiki') {
 
 } elsif ($clicmd eq 'compile-man-html') {
 
-    $man_target_html = 1;
+    $man_target = 'html';
+
+    eval { compile_asciidoc('manvolnum'); };
+    my $err = $@;
+
+    cleanup();
+
+    die $err if $err;
+
+} elsif ($clicmd eq 'compile-man-wiki') {
+
+    $man_target = 'wiki';
 
     eval { compile_asciidoc('manvolnum'); };
     my $err = $@;
