@@ -422,6 +422,51 @@ if ($clicmd eq 'compile-wiki') {
 
     die $err if $err;
 
+} elsif ($clicmd eq 'print-links-json') {
+
+    my $outfile;
+
+    GetOptions("outfile=s" => \$outfile,
+	       "verbose"   => \$verbose) or
+		   die("Error in command line arguments\n");
+
+    scalar(@ARGV) == 0 or
+	die "too many arguments...\n";
+
+    my $data = {};
+
+    foreach my $blockid (sort keys %{$fileinfo->{blockid_target}->{default}}) {
+	my $link = $fileinfo->{blockid_target}->{default}->{$blockid};
+	my $reftitle = $fileinfo->{reftitle}->{default}->{$blockid};
+	my $reftext = $fileinfo->{reftext}->{default}->{$blockid};
+	die "internal error" if $link !~ m/^link:/;
+	$link =~ s/^link://;
+
+	my $file = $fileinfo->{blockid}->{default}->{$blockid};
+	die "internal error - no filename" if ! defined($file);
+	my $title =  $fileinfo->{titles}->{default}->{$file} ||
+	    die "internal error - no title";
+
+	$data->{$blockid}->{title} = $title;
+	$data->{$blockid}->{link} = $link;
+	my $subtitle = $reftitle || $reftext;
+	$data->{$blockid}->{subtitle} = $subtitle
+	    if $subtitle && ($title ne $subtitle);
+    }
+
+    my $res = to_json($data, { pretty => 1,  canonical => 1 } );
+
+    if (defined($outfile)) {
+	my $outfh = IO::File->new("$outfile", "w") or
+	    die "unable to open temporary file '$outfile'\n";
+
+	print $outfh $res;
+
+    } else {
+
+	print $res;
+    }
+
 } else {
 
     die "unknown command '$clicmd'\n";
