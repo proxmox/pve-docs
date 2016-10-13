@@ -1,3 +1,11 @@
+pve-docs (4.3-7) unstable; urgency=medium
+
+  * asciidoc-pve.in: add code to auto generate online help data
+
+  * sysadmin: add section about NTP configuration
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 13 Oct 2016 11:14:35 +0200
+
 pve-docs (4.3-6) unstable; urgency=medium
 
   * asciidoc-pve: new asciidoc preprocessor to fix links
