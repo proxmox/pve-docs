@@ -428,6 +428,39 @@ you need to set the client resolution in the OVMF menu(which you can reach
 with a press of the ESC button during boot), or you have to choose
 SPICE as the display type.
 
+[[qm_startup_and_shutdown]]
+Automatic Start and Shutdown of Virtual Machines
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+After creating your VMs, you probably want them to start automatically
+when the host system boots. For this you need to select the option 'Start at
+boot' from the 'Options' Tab of your VM in the web interface, or set it with
+the following command:
+
+ qm set <vmid> -onboot 1
+
+In some case you want to be able to fine tune the boot order of your VMs, for
+instance if one of your VM is providing firewalling or DHCP to other guest
+systems.
+For this you can use the following parameters:
+
+* *Start/Shutdown order*: Defines the start order priority. E.g. set it to 1 if
+you want the VM to be the first to be started. (We use the reverse startup
+order for shutdown, so a machine with a start order of 1 would be the last to
+be shut down)
+* *Startup delay*: Defines the interval between this VM start and subsequent
+VMs starts . E.g. set it to 240 if you want to wait 240 seconds before starting
+other VMs.
+* *Shutdown timeout*: Defines the duration in seconds {pve} should wait
+for the VM to be offline after issuing a shutdown command.
+By default this value is set to 60, which means that {pve} will issue a
+shutdown request, wait 60s for the machine to be offline, and if after 60s
+the machine is still online will notify that the shutdown action failed.
+
+Please note that machines without a Start/Shutdown order parameter will always
+start after those where the parameter is set, and this parameter only
+makes sense between the machines running locally on a host, and not
+cluster-wide.
 
 Managing Virtual Machines with `qm`
 ------------------------------------
