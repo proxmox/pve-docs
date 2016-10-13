@@ -1,3 +1,4 @@
+[[chapter_pve_firewall]]
 ifdef::manvolnum[]
 pve-firewall(8)
 ===============
@@ -19,7 +20,6 @@ include::pve-firewall.8-synopsis.adoc[]
 DESCRIPTION
 -----------
 endif::manvolnum[]
-
 ifndef::manvolnum[]
 {pve} Firewall
 ==============
@@ -82,6 +82,7 @@ comments. Sections starts with a header line containing the section
 name enclosed in `[` and `]`.
 
 
+[[pve_firewall_cluster_wide_setup]]
 Cluster Wide Setup
 ~~~~~~~~~~~~~~~~~~
 
@@ -144,6 +145,7 @@ To simplify that task, you can instead create an IPSet called
 firewall rules to access the GUI from remote.
 
 
+[[pve_firewall_host_specific_configuration]]
 Host Specific Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -247,6 +249,7 @@ OUT ACCEPT # accept all outgoing packages
 ----
 
 
+[[pve_firewall_security_groups]]
 Security Groups
 ---------------
 
@@ -357,7 +360,7 @@ Traffic from these IPs is dropped by every host's and VM's firewall.
 ----
 
 
-[[ipfilter-section]]
+[[pve_firewall_ipfilter_section]]
 Standard IP set `ipfilter-net*`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -486,7 +489,7 @@ As for the link local addresses required for NDP, there's also an ``IP Filter''
 (`ipfilter: 1`) option which can be enabled which has the same effect as adding
 an `ipfilter-net*` ipset for each of the VM's network interfaces containing the
 corresponding link local addresses.  (See the
-<<ipfilter-section,Standard IP set `ipfilter-net*`>> section for details.)
+<<pve_firewall_ipfilter_section,Standard IP set `ipfilter-net*`>> section for details.)
 
 
 Ports used by {pve}

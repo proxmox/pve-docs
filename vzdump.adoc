@@ -1,3 +1,4 @@
+[[chapter_vzdump]]
 ifdef::manvolnum[]
 vzdump(1)
 =========
@@ -19,7 +20,6 @@ include::vzdump.1-synopsis.adoc[]
 DESCRIPTION
 -----------
 endif::manvolnum[]
-
 ifndef::manvolnum[]
 Backup and Restore
 ==================

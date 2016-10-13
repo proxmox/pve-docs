@@ -1,3 +1,4 @@
+[[chapter_system_administration]]
 Host System Administration
 ==========================
 include::attributes.txt[]

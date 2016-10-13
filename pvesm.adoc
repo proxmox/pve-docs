@@ -1,4 +1,4 @@
-[[chapter-storage]]
+[[chapter_storage]]
 ifdef::manvolnum[]
 pvesm(1)
 ========

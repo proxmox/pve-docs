@@ -1,4 +1,4 @@
-[[chapter-ha-manager]]
+[[chapter_ha_manager]]
 ifdef::manvolnum[]
 ha-manager(1)
 =============
@@ -124,6 +124,7 @@ Requirements
 * optional hardware fencing devices
 
 
+[[ha_manager_resources]]
 Resources
 ---------
 
@@ -313,6 +314,7 @@ the update process can be too long which, in the worst case, may result in
 a watchdog reset.
 
 
+[[ha_manager_fencing]]
 Fencing
 -------
 
@@ -382,6 +384,7 @@ That minimizes the possibility of an overload, which else could cause an
 unresponsive node and as a result a chain reaction of node failures in the
 cluster.
 
+[[ha_manager_groups]]
 Groups
 ------
 

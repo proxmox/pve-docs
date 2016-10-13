@@ -12,7 +12,7 @@ supports clustering, this means that multiple {pve} installations
 can be centrally managed thanks to the included cluster functionality.
 
 {pve} can use local storage (DAS), SAN, NAS and also distributed
-storage (Ceph RBD). For details see xref:chapter-storage[chapter storage].
+storage (Ceph RBD). For details see xref:chapter_storage[chapter storage].
 
 
 Minimum Requirements, for Evaluation

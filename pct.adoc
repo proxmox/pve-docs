@@ -1,3 +1,4 @@
+[[chapter_pct]]
 ifdef::manvolnum[]
 pct(1)
 ======
@@ -103,7 +104,7 @@ will affect a random unprivileged user, and so would be a generic
 kernel security bug rather than an LXC issue. The LXC team thinks
 unprivileged containers are safe by design.
 
-
+[[pct_configuration]]
 Configuration
 -------------
 
@@ -164,6 +165,7 @@ or
 Those settings are directly passed to the LXC low-level tools.
 
 
+[[pct_snapshots]]
 Snapshots
 ~~~~~~~~~
 
@@ -260,12 +262,14 @@ NOTE: Container start fails if the configured `ostype` differs from the auto
 detected type.
 
 
+[[pct_options]]
 Options
 ~~~~~~~
 
 include::pct.conf.5-opts.adoc[]
 
 
+[[pct_container_images]]
 Container Images
 ----------------
 
@@ -332,6 +336,7 @@ example you can delete that image later with:
  pveam remove local:vztmpl/debian-8.0-standard_8.0-1_amd64.tar.gz
 
 
+[[pct_container_storage]]
 Container Storage
 -----------------
 
@@ -489,6 +494,7 @@ ACLs allow you to set more detailed file ownership than the traditional user/
 group/others model.
 
 
+[[pct_container_network]]
 Container Network
 -----------------
 

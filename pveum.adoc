@@ -1,3 +1,4 @@
+[[chapter_user_management]]
 ifdef::manvolnum[]
 pveum(1)
 ========
@@ -19,7 +20,6 @@ include::pveum.1-synopsis.adoc[]
 DESCRIPTION
 -----------
 endif::manvolnum[]
-
 ifndef::manvolnum[]
 User Management
 ===============
@@ -39,12 +39,13 @@ By using the role based user- and permission management for all
 objects (VMs, storages, nodes, etc.) granular access can be defined.
 
 
+[[pveum_users]]
 Users
 -----
 
 {pve} stores user attributes in `/etc/pve/user.cfg`.
 Passwords are not stored here, users are instead associated with
-<<authentication-realms,authentication realms>> described below.
+<<pveum_authentication_realms,authentication realms>> described below.
 Therefore a user is internally often identified by its name and
 realm in the form `<userid>@<realm>`.
 
@@ -69,6 +70,7 @@ still be changed and system mails will be sent to the email address
 assigned to this user.
 
 
+[[pveum_groups]]
 Groups
 ~~~~~~
 
@@ -78,7 +80,7 @@ to groups instead of using individual users. That way you will get a
 much shorter access control list which is easier to handle.
 
 
-[[authentication-realms]]
+[[pveum_authentication_realms]]
 Authentication Realms
 ---------------------
 
@@ -187,6 +189,7 @@ https://developers.yubico.com/Software_Projects/YubiKey_OTP/YubiCloud_Validation
 host your own verification server].
 
 
+[[pveum_permission_management]]
 Permission Management
 ---------------------
 
@@ -202,6 +205,7 @@ role)', with the role containing a set of allowed actions, and the path
 representing the target of these actions.
 
 
+[[pveum_roles]]
 Roles
 ~~~~~
 
@@ -325,6 +329,7 @@ by default). We use the following inheritance rules:
 * Permissions replace the ones inherited from an upper level.
 
 
+[[pveum_pools]]
 Pools
 ~~~~~
 

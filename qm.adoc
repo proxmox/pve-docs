@@ -1,3 +1,4 @@
+[[chapter_virtual_machines]]
 ifdef::manvolnum[]
 qm(1)
 =====
@@ -18,7 +19,6 @@ include::qm.1-synopsis.adoc[]
 DESCRIPTION
 -----------
 endif::manvolnum[]
-
 ifndef::manvolnum[]
 Qemu/KVM Virtual Machines
 =========================
@@ -92,15 +92,19 @@ measured with `iperf(1)`. footnote:[See this benchmark on the KVM wiki
 http://www.linux-kvm.org/page/Using_VirtIO_NIC]
 
 
+[[qm_virtual_machines_settings]]
 Virtual Machines settings
 -------------------------
+
 Generally speaking {pve} tries to choose sane defaults for virtual machines
 (VM). Make sure you understand the meaning of the settings you change, as it
 could incur a performance slowdown, or putting your data at risk.
 
 
+[[qm_general_settings]]
 General Settings
 ~~~~~~~~~~~~~~~~
+
 General settings of a VM include
 
 * the *Node* : the physical server on which the VM will run
@@ -109,16 +113,20 @@ General settings of a VM include
 * *Resource Pool*: a logical group of VMs
 
 
+[[qm_os_settings]]
 OS Settings
 ~~~~~~~~~~~
+
 When creating a VM, setting the proper Operating System(OS) allows {pve} to
 optimize some low level parameters. For instance Windows OS expect the BIOS
 clock to use the local time, while Unix based OS expect the BIOS clock to have
 the UTC time.
 
 
+[[qm_hard_disk]]
 Hard Disk
 ~~~~~~~~~
+
 Qemu can emulate a number of storage controllers:
 
 * the *IDE* controller, has a design which goes back to the 1984 PC/AT disk
@@ -186,8 +194,11 @@ With this enabled, Qemu uses one thread per disk, instead of one thread for all,
 so it should increase performance when using multiple disks.
 Note that backups do not currently work with *IO Thread* enabled.
 
+
+[[qm_cpu]]
 CPU
 ~~~
+
 A *CPU socket* is a physical slot on a PC motherboard where you can plug a CPU.
 This CPU can then contain one or many *cores*, which are independent
 processing units. Whether you have a single CPU socket with 4 cores, or two CPU
@@ -242,8 +253,11 @@ option is also required in {pve} to allow hotplugging of cores and RAM to a VM.
 If the NUMA option is used, it is recommended to set the number of sockets to
 the number of sockets of the host system.
 
+
+[[qm_memory]]
 Memory
 ~~~~~~
+
 For each VM you have the option to set a fixed size memory or asking
 {pve} to dynamically allocate memory based on the current RAM usage of the
 host. 
@@ -284,8 +298,11 @@ systems.
 When allocating RAMs to your VMs, a good rule of thumb is always to leave 1GB
 of RAM available to the host.
 
+
+[[qm_network_device]]
 Network Device
 ~~~~~~~~~~~~~~
+
 Each VM can have many _Network interface controllers_ (NIC), of four different
 types:
 
@@ -344,8 +361,10 @@ traffic increases. We recommend to set this option only when the VM has to
 process a great number of incoming connections, such as when the VM is running
 as a router, reverse proxy or a busy HTTP server doing long polling.
 
+
 USB Passthrough
 ~~~~~~~~~~~~~~~
+
 There are two different types of USB passthrough devices:
 
 * Host USB passtrough
@@ -378,6 +397,8 @@ if you use a SPICE client which supports it. If you add a SPICE USB port
 to your VM, you can passthrough a USB device from where your SPICE client is,
 directly to the VM (for example an input device or hardware dongle).
 
+
+[[qm_bios_and_uefi]]
 BIOS and UEFI
 ~~~~~~~~~~~~~
 
@@ -448,6 +469,7 @@ All configuration files consists of lines in the form
 Configuration files are stored inside the Proxmox cluster file
 system, and can be accessed at `/etc/pve/qemu-server/<VMID>.conf`.
 
+[[qm_options]]
 Options
 ~~~~~~~
 
