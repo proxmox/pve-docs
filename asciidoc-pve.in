@@ -37,6 +37,21 @@ my $man_target = 'man';
 my $env_stack = [];
 my $env_skip = 0;
 
+my $online_help_links = {
+    'pve_service_daemons' => {
+	link => '/pve-docs/index.html#_service_daemons',
+	title => 'Service Daemons',
+    },
+    'pve_documentation_index' => {
+	link => '/pve-docs/index.html',
+	title => 'Proxmox VE Documentation Index',
+    },
+    'pve_admin_guide' => {
+	link => '/pve-docs/pve-admin-guide.html',
+	title => 'Proxmox VE Administration Guide',
+    },
+};
+
 sub debug {
     my $msg = shift;
 
@@ -374,6 +389,52 @@ sub compile_asciidoc {
     }
 }
 
+sub get_links {
+
+    my $data = {};
+
+    foreach my $blockid (sort keys %{$fileinfo->{blockid_target}->{default}}) {
+	my $link = $fileinfo->{blockid_target}->{default}->{$blockid};
+	my $reftitle = $fileinfo->{reftitle}->{default}->{$blockid};
+	my $reftext = $fileinfo->{reftext}->{default}->{$blockid};
+	die "internal error" if $link !~ m/^link:/;
+	$link =~ s/^link://;
+
+	my $file = $fileinfo->{blockid}->{default}->{$blockid};
+	die "internal error - no filename" if ! defined($file);
+	my $title =  $fileinfo->{titles}->{default}->{$file} ||
+	    die "internal error - no title";
+
+	$data->{$blockid}->{title} = $title;
+	$data->{$blockid}->{link} = $link;
+	my $subtitle = $reftitle || $reftext;
+	$data->{$blockid}->{subtitle} = $subtitle
+	    if $subtitle && ($title ne $subtitle);
+    }
+
+    return $data;
+}
+
+sub scan_extjs_file {
+    my ($filename, $res_data) = @_;
+
+    my $fh = IO::File->new($filename, "r") ||
+	die "unable to open '$filename' - $!\n";
+
+    debug("scan-extjs $filename");
+
+    while(defined(my $line = <$fh>)) {
+	if ($line =~ m/\s+onlineHelp:\s*[\'\"](.*?)[\'\"]/) {
+	    my $blockid = $1;
+	    my $link = $fileinfo->{blockid_target}->{default}->{$blockid};
+	    die "undefined blockid '$blockid' ($filename, line $.)\n"
+		if !(defined($link) || defined($online_help_links->{$blockid}));
+
+	    $res_data->{$blockid} = 1;
+	}
+    }
+}
+
 if ($clicmd eq 'compile-wiki') {
 
     eval { compile_asciidoc('wiki'); };
@@ -423,7 +484,7 @@ if ($clicmd eq 'compile-wiki') {
 
     die $err if $err;
 
-} elsif ($clicmd eq 'print-links-json') {
+} elsif ($clicmd eq 'print-links') {
 
     my $outfile;
 
@@ -434,26 +495,7 @@ if ($clicmd eq 'compile-wiki') {
     scalar(@ARGV) == 0 or
 	die "too many arguments...\n";
 
-    my $data = {};
-
-    foreach my $blockid (sort keys %{$fileinfo->{blockid_target}->{default}}) {
-	my $link = $fileinfo->{blockid_target}->{default}->{$blockid};
-	my $reftitle = $fileinfo->{reftitle}->{default}->{$blockid};
-	my $reftext = $fileinfo->{reftext}->{default}->{$blockid};
-	die "internal error" if $link !~ m/^link:/;
-	$link =~ s/^link://;
-
-	my $file = $fileinfo->{blockid}->{default}->{$blockid};
-	die "internal error - no filename" if ! defined($file);
-	my $title =  $fileinfo->{titles}->{default}->{$file} ||
-	    die "internal error - no title";
-
-	$data->{$blockid}->{title} = $title;
-	$data->{$blockid}->{link} = $link;
-	my $subtitle = $reftitle || $reftext;
-	$data->{$blockid}->{subtitle} = $subtitle
-	    if $subtitle && ($title ne $subtitle);
-    }
+    my $data = get_links();
 
     my $res = to_json($data, { pretty => 1,  canonical => 1 } );
 
@@ -468,15 +510,41 @@ if ($clicmd eq 'compile-wiki') {
 	print $res;
     }
 
+} elsif ($clicmd eq 'scan-extjs') {
+
+    GetOptions("verbose" => \$verbose) or
+	die("Error in command line arguments\n");
+
+    my $link_hash = {};
+    my $scanned_files = {};
+    while (my $filename = shift) {
+	die "got strange file name '$filename'\n"
+	    if $filename !~ m/\.js$/;
+	next if $scanned_files->{$filename};
+
+	scan_extjs_file($filename, $link_hash);
+	$scanned_files->{$filename} = 1;
+    }
+
+    my $data = get_links();
+
+    my $res_data = {};
+
+    foreach my $blockid (keys %$link_hash) {
+	$res_data->{$blockid} = $data->{$blockid} || $online_help_links->{$blockid} ||
+	    die "internal error - no data for '$blockid'";
+    }
+
+    my $data_str =  to_json($res_data, { pretty => 1,  canonical => 1 });
+    chomp $data_str;
+
+    print "var pveOnlineHelpInfo = ${data_str};\n";
+
 } else {
 
     die "unknown command '$clicmd'\n";
 
 }
-
-
-
-
 
 
 exit 0;
