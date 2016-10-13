@@ -264,8 +264,14 @@ foreach my $e (@$start_env) {
 	    die "found not title for '$fn' in env '$e'" if !$title;
 	    $fileinfo->{blockid_target}->{$e}->{$blockid} = "link:/wiki/$title#$blockid";
 	} elsif ($e eq 'default') {
-	    my $realfn = "chapter-$fn";
-	    $realfn =~ s/\.adoc/.html/;
+	    my $realfn = $fn;
+	    $realfn =~ s/\.adoc//;
+	    if (($realfn eq 'datacenter.cfg') || ($realfn eq 'qm.conf') || ($realfn eq 'pct.conf')) {
+		$realfn .= ".5";
+	    } else {
+		$realfn = "chapter-$realfn";
+	    }
+	    $realfn .= ".html";
 	    $fileinfo->{blockid_target}->{$e}->{$blockid} = "link:/pve-docs/$realfn#$blockid";
 	} else {
 	    $fileinfo->{blockid_target}->{$e}->{$blockid} = $fn;
