@@ -18,75 +18,18 @@ GEN_DEB=${GEN_PACKAGE}_${DOCRELEASE}-${PKGREL}_${ARCH}.deb
 DOC_DEB=${DOC_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
 MEDIAWIKI_DEB=${MEDIAWIKI_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
 
-CHAPTER_LIST=		\
-	pve-installation 	\
-	sysadmin	\
-	pvecm		\
-	pmxcfs		\
-	pvesm		\
-	qm		\
-	pve-firewall	\
-	pveum		\
-	pct		\
-	ha-manager	\
-	vzdump		\
-	pve-faq		\
-	pve-bibliography
+all: index.html
 
-STORAGE_TYPES=		\
-	dir		\
-	glusterfs	\
-	iscsi		\
-	iscsidirect	\
-	lvm		\
-	lvmthin		\
-	nfs		\
-	rbd		\
-	zfspool
+.pve-doc-depends link-refs.json: $(wildcard *.adoc) scan-adoc-refs
+	./scan-adoc-refs *.adoc --depends .pve-doc-depends > link-refs.json
 
-COMMAND_LIST=		\
-	pvesubscription	\
-	pvecm 		\
-	qm 		\
-	qmrestore 	\
-	pveceph		\
-	pct 		\
-	pveam 		\
-	pvesm 		\
-	pveum 		\
-	vzdump 		\
-	ha-manager	\
-	pveperf
-
-SERVICE_LIST=		\
-	pve-firewall 	\
-	pve-ha-crm 	\
-	pve-ha-lrm 	\
-	pvestatd 	\
-	pmxcfs 		\
-	pveproxy	\
-	spiceproxy	\
-	pvedaemon
-
-CONFIG_LIST=datacenter.cfg qm.conf pct.conf
+include .pve-doc-depends
 
 GEN_DEB_SOURCES=				\
 	pve-doc-generator.mk			\
-	attributes.txt				\
-	$(addsuffix .adoc, ${COMMAND_LIST}) 	\
-	$(addsuffix .adoc, ${SERVICE_LIST}) 	\
-	$(addsuffix .adoc, ${CONFIG_LIST}) 	\
-	pve-storage-dir.adoc 			\
-	pve-storage-glusterfs.adoc		\
-	pve-storage-iscsi.adoc			\
-	pve-storage-iscsidirect.adoc		\
-	pve-storage-lvm.adoc			\
-	pve-storage-lvmthin.adoc		\
-	pve-storage-nfs.adoc			\
-	pve-storage-rbd.adoc			\
-	pve-storage-zfspool.adoc		\
+	${MANUAL_SOURCES}			\
+	${PVESM_ADOCSOURCES}			\
 	pmxcfs.8-cli.adoc			\
-	pve-copyright.adoc			\
 	docinfo.xml
 
 GEN_SCRIPTS=					\
@@ -102,68 +45,9 @@ GEN_SCRIPTS=					\
 	gen-pve-firewall-rules-opts.pl		\
 	gen-pve-firewall-vm-opts.pl
 
-INSTALLATION_SOURCES=				\
-	pve-usbstick.adoc			\
-	pve-system-requirements.adoc		\
-	pve-installation.adoc
-
-SYSADMIN_PARTS=					\
-	pve-network				\
-	pve-package-repos			\
-	system-software-updates			\
-	pve-disk-health-monitoring		\
-	local-lvm				\
-	local-zfs				\
-	system-timesync
-
-SYSADMIN_SOURCES=				\
-	$(addsuffix .adoc, ${SYSADMIN_PARTS})	\
-	sysadmin.adoc
-
 API_VIEWER_SOURCES=				\
 	api-viewer/index.html			\
 	api-viewer/apidoc.js
-
-PVE_ADMIN_GUIDE_SOURCES=			\
-	${DATACENTER_CONF_MAN5_SOURCES}		\
-	${QM_CONF_MAN5_SOURCES}			\
-	${PCT_CONF_MAN5_SOURCES}		\
-	${SYSADMIN_SOURCES}			\
-	pve-admin-guide.adoc			\
-	pve-intro.adoc				\
-	getting-help.adoc			\
-	${INSTALLATION_SOURCES}			\
-	pmxcfs.adoc 				\
-	pmxcfs.8-cli.adoc			\
-	pve-faq.adoc				\
-	${PVE_FIREWALL_MAN8_SOURCES}		\
-	${PVESM_MAN1_SOURCES}			\
-	${PCT_MAN1_SOURCES}			\
-	${PVECM_MAN1_SOURCES}			\
-	${PVEUM_MAN1_SOURCES}			\
-	${QM_MAN1_SOURCES}			\
-	${QMRESTORE_MAN1_SOURCES}		\
-	${HA_MANAGER_MAN1_SOURCES}		\
-	${PVESTATD_MAN8_SOURCES}		\
-	${PVEDAEMON_MAN8_SOURCES}		\
-	${PVEPROXY_MAN8_SOURCES}		\
-	${SPICEPROXY_MAN8_SOURCES}		\
-	${PVE_HA_CRM_MAN8_SOURCES}		\
-	${PVE_HA_LRM_MAN8_SOURCES}		\
-	${VZDUMP_MAN1_SOURCES}			\
-	${PVEAM_MAN1_SOURCES}			\
-	${PVESUBSCRIPTION_MAN1_SOURCES}		\
-	${PVECEPH_MAN1_SOURCES}			\
-	${PVEPERF_MAN1_SOURCES}			\
-	pve-bibliography.adoc			\
-	$(addsuffix .adoc, ${COMMAND_LIST}) 	\
-	$(addsuffix .adoc, ${SERVICE_LIST}) 	\
-	$(addsuffix .adoc, ${CONFIG_LIST}) 	\
-	GFDL.adoc				\
-	attributes.txt
-
-link-refs.json: scan-adoc-refs ${PVE_ADMIN_GUIDE_SOURCES}
-	./scan-adoc-refs ${PVE_ADMIN_GUIDE_SOURCES} >link-refs.json
 
 asciidoc-pve: asciidoc-pve.in link-refs.json
 	cat asciidoc-pve.in link-refs.json >asciidoc-pve.tmp
@@ -176,40 +60,21 @@ pve-docs-mediawiki-import: pve-docs-mediawiki-import.in link-refs.json
 	chmod +x pve-docs-mediawiki-import.tmp
 	mv pve-docs-mediawiki-import.tmp pve-docs-mediawiki-import
 
-WIKI_IMPORTS=									\
-	pve-usbstick-plain.html							\
-	getting-help-plain.html							\
-	pve-system-requirements-plain.html					\
-	$(addsuffix -plain.html, ${SYSADMIN_PARTS}) 				\
-	$(addsuffix -plain.html, ${CHAPTER_LIST})				\
-	$(addsuffix .5-plain.html, ${CONFIG_LIST})				\
-	$(addsuffix -plain.html, $(addprefix pve-storage-, ${STORAGE_TYPES}))
-
 INDEX_INCLUDES=								\
 	pve-admin-guide.pdf 						\
-	pve-admin-guide.html 						\
 	pve-admin-guide.epub 						\
-	$(addsuffix .1.html, ${COMMAND_LIST}) 				\
-	$(addsuffix .8.html, ${SERVICE_LIST}) 				\
-	$(addsuffix .5.html, ${CONFIG_LIST}) 				\
-	$(addsuffix .html, $(addprefix chapter-, ${CHAPTER_LIST}))
+	$(sort $(addsuffix .html, ${MANUAL_PAGES}) ${CHAPTER_LIST})
 
 ADOC_STDARG= -a icons -a data-uri -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}"
-ADOC_MAN1_HTML_ARGS=-a "manvolnum=1" ${ADOC_STDARG}
-ADOC_MAN5_HTML_ARGS=-a "manvolnum=5" ${ADOC_STDARG}
-ADOC_MAN8_HTML_ARGS=-a "manvolnum=8" ${ADOC_STDARG}
 
 BROWSER?=xdg-open
 
-all: index.html
 
 %-nwdiag.svg: %.nwdiag
 	nwdiag -T svg $*.nwdiag -o $@;
 
 %-plain.html: asciidoc-pve %.adoc
 	./asciidoc-pve compile-wiki -o $@ $*.adoc
-
-chapter-sysadmin.html sysadmin-plain.html: ${SYSADMIN_SOURCES}
 
 chapter-%.html: %.adoc asciidoc-pve ${PVE_COMMON_DOC_SOURCES}
 	./asciidoc-pve compile-chapter -o $@ $*.adoc
@@ -239,21 +104,21 @@ index: index.html
 index.html: index.adoc ${API_VIEWER_SOURCES} ${INDEX_INCLUDES} 
 	asciidoc -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}" index.adoc
 
-pve-admin-guide.html: ${PVE_ADMIN_GUIDE_SOURCES}
+pve-admin-guide.html: ${PVE_ADMIN_GUIDE_ADOCDEPENDS}
 	asciidoc -a pvelogo -a "revnumber=${DOCRELEASE}" -a "date=$(shell date)" pve-admin-guide.adoc
 
-pve-admin-guide.chunked: ${PVE_ADMIN_GUIDE_SOURCES}
+pve-admin-guide.chunked: ${PVE_ADMIN_GUIDE_ADOCDEPENDS}
 	rm -rf pve-admin-guide.chunked
 	a2x -a docinfo -a docinfo1 -a icons -f chunked pve-admin-guide.adoc
 
-pve-admin-guide.pdf: ${PVE_ADMIN_GUIDE_SOURCES} docinfo.xml pve-admin-guide-docinfo.xml
+pve-admin-guide.pdf: ${PVE_ADMIN_GUIDE_ADOCDEPENDS} docinfo.xml pve-admin-guide-docinfo.xml
 	inkscape -z -D --export-pdf=proxmox-logo.pdf images/proxmox-logo.svg
 	inkscape -z -D --export-pdf=proxmox-ci-header.pdf images/proxmox-ci-header.svg
 	grep ">Release ${DOCRELEASE}<" pve-admin-guide-docinfo.xml || (echo "wrong release in  pve-admin-guide-docinfo.xml" && false);
 	a2x -a docinfo -a docinfo1 -f pdf -L --dblatex-opts "-P latex.output.revhistory=0" --dblatex-opts "-P latex.class.options=12pt" --dblatex-opts "-P doc.section.depth=2 -P toc.section.depth=2" --dblatex-opts "-P doc.publisher.show=0 -s asciidoc-dblatex-custom.sty" pve-admin-guide.adoc
 	rm proxmox-logo.pdf proxmox-ci-header.pdf
 
-pve-admin-guide.epub: ${PVE_ADMIN_GUIDE_SOURCES}
+pve-admin-guide.epub: ${PVE_ADMIN_GUIDE_ADOCDEPENDS}
 	a2x -f epub pve-admin-guide.adoc
 
 api-viewer/apidata.js: extractapi.pl

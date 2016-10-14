@@ -2,10 +2,17 @@
 
 use strict;
 use warnings;
+use Getopt::Long;
 use IO::File;
 use JSON;
 
 use Data::Dumper;
+
+my $generate_depends;
+
+GetOptions("depends=s" => \$generate_depends) or
+    die("Error in command line arguments\n");
+
 
 my $environments = {
     default => 1,
@@ -68,8 +75,6 @@ sub pop_environment {
 
 sub register_include {
     my ($filename, $include_filename, $env_list) = @_;
-
-    return if $include_filename !~ m/\.adoc$/; # skip attributes.txt
 
     foreach my $e (@$env_list) {
 	$fileinfo->{include}->{$e}->{$filename}->{$include_filename} = 1;
@@ -279,14 +284,14 @@ foreach my $e (@$start_env) {
 	    $fileinfo->{outfile}->{$e}->{$fn} = $realfn;
 	} elsif ($e eq 'default') {
 	    my $realfn = $fn;
-	    $realfn =~ s/\.adoc$//;		    
+	    $realfn =~ s/\.adoc$//;
 	    if (defined($mansection) && ($mansection == 5)) {
 		$realfn .= ".$mansection";
 		$realfn = "$realfn.html";
 	    } else {
 		if (($fn ne 'pve-admin-guide.adoc') &&
 		    $fileinfo->{doctype}->{$e}->{$fn} == 0) {
-		    $realfn = "chapter-$realfn.html";	    
+		    $realfn = "chapter-$realfn.html";
 		} else {
 		    $realfn = "$realfn.html";
 		}
@@ -324,5 +329,102 @@ foreach my $e (@$start_env) {
     }
 }
 
+if ($generate_depends) {
+
+    my $tmpfilename = "${generate_depends}.tmp";
+    my $outfh = IO::File->new($tmpfilename, "w") ||
+	die "unable to open temporary file '$tmpfilename'\n";
+
+    my $depends = {};
+    foreach my $e (@$start_env) {
+	my $env_data = $fileinfo->{include}->{$e};
+	foreach my $fn (keys %$env_data) {
+	    foreach my $dep (keys %{$env_data->{$fn}}) {
+		$depends->{$fn}->{$dep} = 1;
+	    }
+	}
+    }
+
+    my $res = '';
+
+    my $depend_varname_hash = {};
+
+    foreach my $fn (sort keys %$depends) {
+	my $basename = uc($fn);
+	$basename =~s/\.adoc$//i;
+	$basename =~s/[^A-Za-z0-9]/_/g;
+
+	my $var1text = "${basename}_ADOCSOURCES =";
+	my $var2text = "${basename}_ADOCDEPENDS = \$\{${basename}_ADOCSOURCES\}";
+	$depend_varname_hash->{$fn} = "${basename}_ADOCDEPENDS";
+
+	foreach my $dep (sort keys %{$depends->{$fn}}) {
+	    if ($dep =~ m/-(opts|synopsis).adoc$/) {
+		$var2text .= " \\\n\t$dep";
+	    } else {
+		$var1text .= " \\\n\t$dep";
+	    }
+	}
+	$res .= "$var1text\n\n";
+	$res .= "$var2text\n\n";
+    }
+
+    my $man_sources_hash = {};
+    foreach my $e (@$start_env) {
+	my $filelist = $fileinfo->{outfile}->{$e};
+	foreach my $sourcefile (sort keys %$filelist) {
+	    my $varname = $depend_varname_hash->{$sourcefile};
+	    my $target = $filelist->{$sourcefile};
+	    $res .= "$target: \$\{$varname\}\n\n";
+
+	    if ($e eq 'manvolnum') {
+		$man_sources_hash->{$sourcefile} = 1;
+
+		$res .= "$target.html: \$\{$varname\}\n\n";
+		$res .= "$target-plain.html: \$\{$varname\}\n\n";
+	    }
+	}
+    }
+
+    my $varname = "MANUAL_SOURCES";
+    $res .= "$varname =";
+    foreach my $sourcefile (sort keys %$man_sources_hash) {
+	$res .= " \\\n\t$sourcefile";
+    }
+    $res .= "\n\n";
+
+    $varname = "CHAPTER_LIST";
+    $res .= "$varname =";
+    my $filelist = $fileinfo->{outfile}->{default};
+    foreach my $sourcefile (sort keys %$filelist) {
+	my $target = $filelist->{$sourcefile};
+	$res .= " \\\n\t$target";
+    }
+    $res .= "\n\n";
+
+    $varname = "MANUAL_PAGES";
+    $res .= "$varname =";
+    $filelist = $fileinfo->{outfile}->{manvolnum};
+    foreach my $manpage (sort keys %$filelist) {
+	my $target = $filelist->{$manpage};
+	$res .= " \\\n\t$target";
+    }
+    $res .= "\n\n";
+
+    $varname = "WIKI_IMPORTS";
+    $res .= "$varname =";
+    $filelist = $fileinfo->{outfile}->{wiki};
+    foreach my $sourcefile (sort keys %$filelist) {
+	my $target = $filelist->{$sourcefile};
+	$res .= " \\\n\t$target";
+    }
+    $res .= "\n\n";
+
+    print $outfh $res;
+    close($outfh);
+
+    rename($tmpfilename, $generate_depends) ||
+	die "rename failed - $!";
+}
 
 print to_json($fileinfo, { pretty => 1,  canonical => 1 } );
