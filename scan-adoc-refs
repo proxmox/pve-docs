@@ -107,11 +107,14 @@ sub register_title {
 	    die "unable to change title (no doctype)"
 		if !defined($fileinfo->{doctype}->{$env}->{$filename});
 	}
+    } elsif (!defined($doctype)) {
+	# change title via :title: attribute
+	$fileinfo->{titles}->{$env}->{$filename} = $title;
+    }
 
-	if (defined($doctype) && ($env eq 'manvolnum') && ($doctype == 0)) {
-	    if ($title =~ m/.*\(([1-8])\)\s*$/) {
-		$fileinfo->{mansection}->{$env}->{$filename} = $1;
-	    }
+    if (defined($doctype) && ($env eq 'manvolnum') && ($doctype == 0)) {
+	if ($title =~ m/.*\(([1-8])\)\s*$/) {
+	    $fileinfo->{mansection}->{$env}->{$filename} = $1;
 	}
     }
 
