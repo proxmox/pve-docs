@@ -233,7 +233,7 @@ include::spiceproxy.8-synopsis.adoc[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pmxcfs.8-cli.adoc[]
+include::pmxcfs.8-synopsis.adoc[]
 
 :leveloffset: 0
 

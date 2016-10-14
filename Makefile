@@ -31,7 +31,7 @@ GEN_DEB_SOURCES=				\
 	pve-doc-generator.mk			\
 	${MANUAL_SOURCES}			\
 	${PVESM_ADOCSOURCES}			\
-	pmxcfs.8-cli.adoc			\
+	pmxcfs.8-synopsis.adoc			\
 	docinfo.xml
 
 GEN_SCRIPTS=					\
@@ -74,27 +74,6 @@ BROWSER?=xdg-open
 
 %-nwdiag.svg: %.nwdiag
 	nwdiag -T svg $*.nwdiag -o $@;
-
-%-plain.html: asciidoc-pve %.adoc
-	./asciidoc-pve compile-wiki -o $@ $*.adoc
-
-chapter-%.html: %.adoc asciidoc-pve ${PVE_COMMON_DOC_SOURCES}
-	./asciidoc-pve compile-chapter -o $@ $*.adoc
-
-%.1.html: %.adoc %.1-synopsis.adoc asciidoc-pve ${PVE_COMMON_DOC_SOURCES}
-	./asciidoc-pve compile-man-html -o $@ $*.adoc
-
-pmxcfs.8.html: pmxcfs.adoc pmxcfs.8-cli.adoc asciidoc-pve ${PVE_COMMON_DOC_SOURCES}
-	./asciidoc-pve compile-man-html -o $@ pmxcfs.adoc
-
-%.8.html: %.adoc %.8-synopsis.adoc asciidoc-pve ${PVE_COMMON_DOC_SOURCES}
-	./asciidoc-pve compile-man-html -o $@ $*.adoc
-
-%.5.html: %.adoc %.5-opts.adoc asciidoc-pve ${PVE_COMMON_DOC_SOURCES}
-	./asciidoc-pve compile-man-html -o $@ $*.adoc
-
-%.5-plain.html: %.adoc %.5-opts.adoc asciidoc-pve ${PVE_COMMON_DOC_SOURCES}
-	./asciidoc-pve compile-man-wiki -o $@ $*.adoc
 
 README.html: README.adoc
 	asciidoc ${ADOC_STDARG} -o $@ $<
