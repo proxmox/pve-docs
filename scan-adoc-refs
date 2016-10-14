@@ -33,31 +33,6 @@ my $fileinfo = {
 	    "pmxcfs.adoc" => "chapter-pmxcfs.html",
 	    "pve-faq.adoc" => "chapter-pve-faq.html",
 	},
-	manvolnum => {
-	    "ha-manager.adoc" => "ha-manager.1",
-	    "pct.adoc" => "pct.1",
-	    "pveam.adoc" => "pveam.1",
-	    "pveceph.adoc" => "pveceph.1",
-	    "pvecm.adoc" => "pvecm.1",
-	    "pveperf.adoc" => "pveperf.1",
-	    "pvesm.adoc" => "pvesm.1",
-	    "pvesubscription.adoc" => "pvesubscription.1",
-	    "pveum.adoc" => "pveum.1",
-	    "qm.adoc" => "qm.1",
-	    "qmrestore.adoc" => "qmrestore.1",
-	    "vzdump.adoc" => "vzdump.1",
-	    "datacenter.cfg.adoc" => "datacenter.cfg.5",
-	    "pct.conf.adoc" => "pct.conf.5",
-	    "qm.conf.adoc" => "qm.conf.5",
-	    "pmxcfs.adoc" => "pmxcfs.8",
-	    "pvedaemon.adoc" => "pvedaemon.8",
-	    "pve-firewall.adoc" => "pve-firewall.8",
-	    "pve-ha-crm.adoc" => "pve-ha-crm.8",
-	    "pve-ha-lrm.adoc" => "pve-ha-lrm.8",
-	    "pveproxy.adoc" => "pveproxy.8",
-	    "pvestatd.adoc" => "pvestatd.8",
-	    "spiceproxy.adoc" => "spiceproxy.8",
-	},
     },
 };
 
@@ -311,7 +286,13 @@ foreach my $e (@$start_env) {
 	    if (defined($mansection) && ($mansection == 5)) {
 		$realfn .= ".$mansection";
 	    }
-	    my $realfn = "$realfn-plain.html";
+	    $realfn = "$realfn-plain.html";
+	    $fileinfo->{outfile}->{$e}->{$fn} = $realfn;
+	} elsif ($e eq 'manvolnum') {
+	    my $realfn = $fn;
+	    $realfn =~ s/\.adoc$//;
+	    die "toplevel file '$fn' is marhes as manual page!" if !$mansection;
+	    $realfn .= ".$mansection";
 	    $fileinfo->{outfile}->{$e}->{$fn} = $realfn;
 	}
     }
