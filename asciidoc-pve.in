@@ -260,6 +260,18 @@ sub compile_asciidoc {
     scalar(@ARGV) == 0 or
 	die "too many arguments...\n";
 
+    my $outfilemap = $fileinfo->{outfile}->{$env}->{$infile} ||
+	die "no output file mapping '$infile => $outfile' ($env)";
+
+    if ($man_target eq 'html') {
+	$outfilemap .= '.html';
+    } elsif ($man_target eq 'wiki') {
+	$outfilemap .= '-plain.html';
+    }
+
+    die "wrong output file name '$outfile != $outfilemap' ($env)"
+	if $outfile ne $outfilemap;
+
     defined($fileinfo->{titles}->{$env}) ||
 	die "unknown environment '$env'";
 
