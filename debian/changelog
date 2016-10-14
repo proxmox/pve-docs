@@ -1,3 +1,13 @@
+pve-docs (4.3-8) unstable; urgency=medium
+
+  * pve-docs-mediawiki-import.in: correctly pass category parameter
+
+  * generate output file mappings automatically
+
+  * mark manual pages as toplevel files
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 14 Oct 2016 08:42:13 +0200
+
 pve-docs (4.3-7) unstable; urgency=medium
 
   * asciidoc-pve.in: add code to auto generate online help data
