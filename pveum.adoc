@@ -24,10 +24,8 @@ ifndef::manvolnum[]
 User Management
 ===============
 include::attributes.txt[]
-endif::manvolnum[]
-ifdef::wiki[]
 :pve-toplevel:
-endif::wiki[]
+endif::manvolnum[]
 
 // Copied from pve wiki: Revision as of 16:10, 27 October 2015
 

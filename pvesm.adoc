@@ -23,9 +23,9 @@ ifndef::manvolnum[]
 {pve} Storage
 =============
 include::attributes.txt[]
+:pve-toplevel:
 endif::manvolnum[]
 ifdef::wiki[]
-:pve-toplevel:
 :title: Storage
 endif::wiki[]
 

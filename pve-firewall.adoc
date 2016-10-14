@@ -24,9 +24,9 @@ ifndef::manvolnum[]
 {pve} Firewall
 ==============
 include::attributes.txt[]
+:pve-toplevel:
 endif::manvolnum[]
 ifdef::wiki[]
-:pve-toplevel:
 :title: Firewall
 endif::wiki[]
 

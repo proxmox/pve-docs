@@ -23,10 +23,8 @@ ifndef::manvolnum[]
 Qemu/KVM Virtual Machines
 =========================
 include::attributes.txt[]
-endif::manvolnum[]
-ifdef::wiki[]
 :pve-toplevel:
-endif::wiki[]
+endif::manvolnum[]
 
 // deprecates
 // http://pve.proxmox.com/wiki/Container_and_Full_Virtualization

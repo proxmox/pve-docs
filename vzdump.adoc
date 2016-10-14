@@ -24,10 +24,8 @@ ifndef::manvolnum[]
 Backup and Restore
 ==================
 include::attributes.txt[]
-endif::manvolnum[]
-ifdef::wiki[]
 :pve-toplevel:
-endif::wiki[]
+endif::manvolnum[]
 
 Backups are a requirements for any sensible IT deployment, and {pve}
 provides a fully integrated solution, using the capabilities of each

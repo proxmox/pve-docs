@@ -22,10 +22,8 @@ ifndef::manvolnum[]
 Proxmox Cluster File System (pmxcfs)
 ====================================
 include::attributes.txt[]
-endif::manvolnum[]
-ifdef::wiki[]
 :pve-toplevel:
-endif::wiki[]
+endif::manvolnum[]
 
 The Proxmox Cluster file system (``pmxcfs'') is a database-driven file
 system for storing configuration files, replicated in real time to all

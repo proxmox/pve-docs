@@ -14,27 +14,7 @@ my $environments = {
     pvelogo => 0, # ignore
 };
 
-my $fileinfo = {
-    outfile => {
-	default => {
-	    "pve-admin-guide.adoc" => "pve-admin-guide.html",
-	    "datacenter.cfg.adoc" => "datacenter.cfg.5.html",
-	    "ha-manager.adoc" => "chapter-ha-manager.html",
-	    "pct.adoc" => "chapter-pct.html",
-	    "pve-bibliography.adoc" => "chapter-pve-bibliography.html",
-	    "pve-firewall.adoc" => "chapter-pve-firewall.html",
-	    "pve-installation.adoc" => "chapter-pve-installation.html",
-	    "pvecm.adoc" => "chapter-pvecm.html",
-	    "pvesm.adoc" => "chapter-pvesm.html",
-	    "pveum.adoc" => "chapter-pveum.html",
-	    "qm.adoc" => "chapter-qm.html",
-	    "sysadmin.adoc" => "chapter-sysadmin.html",
-	    "vzdump.adoc" => "chapter-vzdump.html",
-	    "pmxcfs.adoc" => "chapter-pmxcfs.html",
-	    "pve-faq.adoc" => "chapter-pve-faq.html",
-	},
-    },
-};
+my $fileinfo = {};
 
 my $start_env = [];
 foreach my $e (keys %$environments) {
@@ -291,8 +271,23 @@ foreach my $e (@$start_env) {
 	} elsif ($e eq 'manvolnum') {
 	    my $realfn = $fn;
 	    $realfn =~ s/\.adoc$//;
-	    die "toplevel file '$fn' is marhes as manual page!" if !$mansection;
+	    die "toplevel file '$fn' is not marked as manual page!" if !$mansection;
 	    $realfn .= ".$mansection";
+	    $fileinfo->{outfile}->{$e}->{$fn} = $realfn;
+	} elsif ($e eq 'default') {
+	    my $realfn = $fn;
+	    $realfn =~ s/\.adoc$//;		    
+	    if (defined($mansection) && ($mansection == 5)) {
+		$realfn .= ".$mansection";
+		$realfn = "$realfn.html";
+	    } else {
+		if (($fn ne 'pve-admin-guide.adoc') &&
+		    $fileinfo->{doctype}->{$e}->{$fn} == 0) {
+		    $realfn = "chapter-$realfn.html";	    
+		} else {
+		    $realfn = "$realfn.html";
+		}
+	    }
 	    $fileinfo->{outfile}->{$e}->{$fn} = $realfn;
 	}
     }

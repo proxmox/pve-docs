@@ -2,9 +2,9 @@
 Host System Administration
 ==========================
 include::attributes.txt[]
-ifdef::wiki[]
+ifndef::manvolnum[]
 :pve-toplevel:
-endif::wiki[]
+endif::manvolnum[]
 
 {pve} is based on the famous https://www.debian.org/[Debian] Linux
 distribution. That means that you have access to the whole world of

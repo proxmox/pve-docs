@@ -22,10 +22,8 @@ ifndef::manvolnum[]
 High Availability
 =================
 include::attributes.txt[]
-endif::manvolnum[]
-ifdef::wiki[]
 :pve-toplevel:
-endif::wiki[]
+endif::manvolnum[]
 
 Our modern society depends heavily on information provided by
 computers over the network. Mobile devices amplified that dependency,

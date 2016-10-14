@@ -2,9 +2,9 @@
 Bibliography
 ============
 include::attributes.txt[]
-ifdef::wiki[]
+ifndef::manvolnum[]
 :pve-toplevel:
-endif::wiki[]
+endif::manvolnum[]
 
 [bibliography]
 .Books about {pve}
