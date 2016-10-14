@@ -1,6 +1,9 @@
 Time Synchronization
 --------------------
 include::attributes.txt[]
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
 
 The {pve} cluster stack itself relies heavily on the fact that all
 the nodes have precisely synchronized time. Some other components,
