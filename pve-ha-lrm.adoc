@@ -2,6 +2,7 @@ ifdef::manvolnum[]
 PVE(8)
 ======
 include::attributes.txt[]
+:pve-toplevel:
 
 NAME
 ----
