@@ -2,7 +2,6 @@ ifdef::manvolnum[]
 qm.conf(5)
 ==========
 include::attributes.txt[]
-
 :pve-toplevel:
 
 NAME
