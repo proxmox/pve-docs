@@ -1,6 +1,6 @@
 ifdef::manvolnum[]
-PVE(8)
-======
+pveproxy(8)
+===========
 include::attributes.txt[]
 :pve-toplevel:
 
