@@ -180,7 +180,6 @@ WIKI_IMPORTS=									\
 	pve-usbstick-plain.html							\
 	getting-help-plain.html							\
 	pve-system-requirements-plain.html					\
-	system-timesync-plain.html						\
 	$(addsuffix -plain.html, ${SYSADMIN_PARTS}) 				\
 	$(addsuffix -plain.html, ${CHAPTER_LIST})				\
 	$(addsuffix .5-plain.html, ${CONFIG_LIST})				\
