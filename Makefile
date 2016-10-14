@@ -1,8 +1,6 @@
 DGDIR=.
 ASCIIDOC_PVE=./asciidoc-pve
 
-include ./pve-doc-generator.mk
-
 GEN_PACKAGE=pve-doc-generator
 DOC_PACKAGE=pve-docs
 MEDIAWIKI_PACKAGE=pve-docs-mediawiki
@@ -23,7 +21,11 @@ all: index.html
 .pve-doc-depends link-refs.json: $(wildcard *.adoc) scan-adoc-refs
 	./scan-adoc-refs *.adoc --depends .pve-doc-depends > link-refs.json
 
-include .pve-doc-depends
+pve-doc-generator.mk: .pve-doc-depends pve-doc-generator.mk.in
+	cat pve-doc-generator.mk.in .pve-doc-depends > $@.tmp
+	mv $@.tmp $@
+
+include ./pve-doc-generator.mk
 
 GEN_DEB_SOURCES=				\
 	pve-doc-generator.mk			\
@@ -175,5 +177,5 @@ update: clean
 	make all
 
 clean: 
-	rm -rf *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html *-plain.html chapter-*.html pve-admin-guide.chunked asciidoc-pve link-refs.json .asciidoc-pve-tmp_* pve-docs-mediawiki-import
+	rm -rf *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html *-plain.html chapter-*.html pve-admin-guide.chunked asciidoc-pve link-refs.json .asciidoc-pve-tmp_* pve-docs-mediawiki-import .pve-doc-depends pve-doc-generator.mk
 	find . -name '*~' -exec rm {} ';'

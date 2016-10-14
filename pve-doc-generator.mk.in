@@ -1,0 +1,79 @@
+# also update debian/changelog
+DOCRELEASE=4.3
+
+DGDIR?=/usr/share/pve-doc-generator
+
+ASCIIDOC_PVE?=/usr/bin/asciidoc-pve
+
+PVE_COMMON_DOC_SOURCES=                 \
+	${ASCIIDOC_PVE}			\
+	attributes.txt                  \
+	pve-copyright.adoc              \
+	docinfo.xml
+
+all:
+
+attributes.txt docinfo.xml:
+	cp ${DGDIR}/$@ $@.tmp
+	mv $@.tmp $@
+
+%-opts.adoc: ${DGDIR}/gen-%-opts.pl
+	${DGDIR}/gen-$*-opts.pl >$@.tmp
+	mv $@.tmp $@
+
+%.adoc: ${DGDIR}/gen-%-adoc.pl
+	${DGDIR}/gen-$*-adoc.pl >$@.tmp
+	mv $@.tmp $@
+
+pveperf.1-synopsis.adoc:
+	echo '*pveperf* `[PATH]`' > pveperf.1-synopsis.adoc
+
+%.1-synopsis.adoc:
+	perl -I. -e "use PVE::CLI::$(subst -,_,$*);print PVE::CLI::$(subst -,_,$*)->generate_asciidoc_synopsis();" > $@.tmp
+	mv $@.tmp $@
+
+%.8-synopsis.adoc:
+	perl -I. -e "use PVE::Service::$(subst -,_,$*);print PVE::Service::$(subst -,_,$*)->generate_asciidoc_synopsis();" > $@.tmp
+	mv $@.tmp $@
+
+ifneq (${DGDIR},.)
+%.adoc: ${DGDIR}/%.adoc
+	cp $< $@.tmp
+	mv $@.tmp $@
+endif
+
+
+%-plain.html: %.adoc ${PVE_COMMON_DOC_SOURCES}
+	${ASCIIDOC_PVE} compile-wiki -o $@ $*.adoc
+
+chapter-%.html: %.adoc ${PVE_COMMON_DOC_SOURCES}
+	${ASCIIDOC_PVE} compile-chapter -o $@ $*.adoc
+
+%.1: %.adoc %.1-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
+	${ASCIIDOC_PVE} compile-man -o $@ $*.adoc
+	test -n "$${NOVIEW}" || man -l $@
+
+%.1.html: %.adoc %.1-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
+	${ASCIIDOC_PVE} compile-man-html -o $@ $*.adoc
+
+%.8: %.adoc %.8-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
+	${ASCIIDOC_PVE} compile-man -o $@ $*.adoc
+	test -n "$${NOVIEW}" || man -l $@
+
+%.8.html: %.adoc %.8-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
+	${ASCIIDOC_PVE} compile-man-html -o $@ $*.adoc
+
+%.5: %.adoc %.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
+	${ASCIIDOC_PVE} compile-man -o $@ $*.adoc
+	test -n "$${NOVIEW}" || man -l $@
+
+%.5.html: %.adoc %.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
+	${ASCIIDOC_PVE} compile-man-html -o $@ $*.adoc
+
+%.5-plain.html: %.adoc %.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
+	${ASCIIDOC_PVE} compile-man-wiki -o $@ $*.adoc
+
+
+.PHONY: cleanup-docgen
+cleanup-docgen:
+	rm -f *.xml.tmp *.1 *.5 *.8 *.adoc attributes.txt docinfo.xml
