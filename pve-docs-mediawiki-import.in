@@ -17,7 +17,7 @@ my $fileinfo = decode_json($data_str);
 
 my $config_fn = "/root/.pve-docs"; # format 'username:pw'
 
-my $fh = IO::File->new("$config_fn") || 
+my $fh = IO::File->new("$config_fn") ||
     die "Please configure the mediawiki user/passswd in '$config_fn'\n";
 
 my $api_url = "http://localhost/mediawiki/api.php";
@@ -55,7 +55,7 @@ sub update_page {
 	    $page .= "\n[[$catstr]]\n";
 	}
     }
-    
+
     my $timestamp = $ref->{timestamp};
     my $wcmd = {
 	action => 'edit',
@@ -64,7 +64,7 @@ sub update_page {
 	text => $page,
     };
 
-    $mw->edit($wcmd) || 
+    $mw->edit($wcmd) ||
 	die $mw->{error}->{code} . ': ' . $mw->{error}->{details};
 }
 
@@ -79,8 +79,8 @@ foreach my $source (sort keys %{$fileinfo->{toplevel}->{wiki}}) {
 
     my $path = "/usr/share/pve-docs/$filename";
     die "no such file '$path'" if ! -f $path;
-    
-    update_page($title, $filename, category => $cat_refdoc);
+
+    update_page($title, $filename, $cat_refdoc);
 }
 
 # also update 'Get support' page, because this is used since a long
