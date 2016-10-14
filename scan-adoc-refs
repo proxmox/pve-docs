@@ -58,40 +58,6 @@ my $fileinfo = {
 	    "pvestatd.adoc" => "pvestatd.8",
 	    "spiceproxy.adoc" => "spiceproxy.8",
 	},
-	wiki => {
-	    "pve-usbstick.adoc" => "pve-usbstick-plain.html",
-	    "getting-help.adoc" => "getting-help-plain.html",
-	    "pve-system-requirements.adoc" => "pve-system-requirements-plain.html",
-	    "pve-network.adoc" => "pve-network-plain.html",
-	    "pve-package-repos.adoc" => "pve-package-repos-plain.html",
-	    "system-software-updates.adoc" => "system-software-updates-plain.html",
-	    "pve-disk-health-monitoring.adoc" => "pve-disk-health-monitoring-plain.html",
-	    "local-lvm.adoc" => "local-lvm-plain.html",
-	    "local-zfs.adoc" => "local-zfs-plain.html",
-	    "system-timesync.adoc" => "system-timesync-plain.html",
-	    "pve-installation.adoc" => "pve-installation-plain.html",
-	    "sysadmin.adoc" => "sysadmin-plain.html",
-	    "pvecm.adoc" => "pvecm-plain.html",
-	    "pmxcfs.adoc" => "pmxcfs-plain.html",
-	    "pvesm.adoc" => "pvesm-plain.html",
-	    "qm.adoc" => "qm-plain.html",
-	    "pve-firewall.adoc" => "pve-firewall-plain.html",
-	    "pveum.adoc" => "pveum-plain.html",
-	    "pct.adoc" => "pct-plain.html",
-	    "ha-manager.adoc" => "ha-manager-plain.html",
-	    "vzdump.adoc" => "vzdump-plain.html",
-	    "pve-faq.adoc" => "pve-faq-plain.html",
-	    "pve-bibliography.adoc" => "pve-bibliography-plain.html",
-	    "pve-storage-dir.adoc" => "pve-storage-dir-plain.html",
-	    "pve-storage-glusterfs.adoc" => "pve-storage-glusterfs-plain.html",
-	    "pve-storage-iscsi.adoc" => "pve-storage-iscsi-plain.html",
-	    "pve-storage-iscsidirect.adoc" => "pve-storage-iscsidirect-plain.html",
-	    "pve-storage-lvm.adoc" => "pve-storage-lvm-plain.html",
-	    "pve-storage-lvmthin.adoc" => "pve-storage-lvmthin-plain.html",
-	    "pve-storage-nfs.adoc" => "pve-storage-nfs-plain.html",
-	    "pve-storage-rbd.adoc" => "pve-storage-rbd-plain.html",
-	    "pve-storage-zfspool.adoc" => "pve-storage-zfspool-plain.html",
-	},
     },
 };
 
@@ -333,6 +299,24 @@ sub resolve_link_target {
     return $filename;
 }
 
+
+# try to generate output file mapping
+foreach my $e (@$start_env) {
+    my $toplevel_hash = $fileinfo->{toplevel}->{$e};
+    foreach my $fn (sort keys %$toplevel_hash) {
+	my $mansection = $fileinfo->{mansection}->{manvolnum}->{$fn};
+	if ($e eq 'wiki') {
+	    my $realfn = $fn;
+	    $realfn =~ s/\.adoc$//;
+	    if (defined($mansection) && ($mansection == 5)) {
+		$realfn .= ".$mansection";
+	    }
+	    my $realfn = "$realfn-plain.html";
+	    $fileinfo->{outfile}->{$e}->{$fn} = $realfn;
+	}
+    }
+}
+
 # now resolve blockids
 foreach my $e (@$start_env) {
     my $blockid_hash = $fileinfo->{blockid}->{$e};
@@ -343,6 +327,11 @@ foreach my $e (@$start_env) {
 	    $title =~ s/\s/_/g;
 	    die "found not title for '$fn' in env '$e'" if !$title;
 	    $fileinfo->{blockid_target}->{$e}->{$blockid} = "link:/wiki/$title#$blockid";
+
+	    # we do not produce wiki pages for all content
+	    #my $realfn = $fileinfo->{outfile}->{$e}->{$fn};
+	    #warn "no output file mapping for '$fn' ($e)\n" if !$realfn;
+
 	} elsif ($e eq 'default') {
 	    my $realfn = $fileinfo->{outfile}->{$e}->{$fn} ||
 		die "no output file mapping for '$fn'\n";
