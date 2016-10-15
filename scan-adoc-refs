@@ -329,6 +329,40 @@ foreach my $e (@$start_env) {
     }
 }
 
+my $makevar_hash = {};
+
+sub makevar_define {
+    my ($varname) = @_;
+
+    die "makefile variable '$varname' already defined\n"
+	if exists($makevar_hash->{$varname});
+
+    $makevar_hash->{$varname} = {};
+}
+
+sub makevar_list_add {
+    my ($varname, $value) = @_;
+
+    die "makefile variable '$varname' not defined\n"
+	if !exists($makevar_hash->{$varname});
+
+    $makevar_hash->{$varname}->{$value} = 1;
+}
+
+sub makevar_dump {
+    my $txt = '';
+
+    foreach my $varname (sort keys %$makevar_hash) {
+	$txt .= "$varname =";
+	foreach my $value (sort keys %{$makevar_hash->{$varname}}) {
+	    $txt .= " \\\n\t$value";
+	}
+	$txt .= "\n\n";
+    }
+
+    return $txt;
+}
+
 if ($generate_depends) {
 
     my $tmpfilename = "${generate_depends}.tmp";
@@ -345,8 +379,6 @@ if ($generate_depends) {
 	}
     }
 
-    my $res = '';
-
     my $depend_varname_hash = {};
 
     foreach my $fn (sort keys %$depends) {
@@ -354,19 +386,24 @@ if ($generate_depends) {
 	$basename =~s/\.adoc$//i;
 	$basename =~s/[^A-Za-z0-9]/_/g;
 
-	my $var1text = "${basename}_ADOCSOURCES =";
-	my $var2text = "${basename}_ADOCDEPENDS = \$\{${basename}_ADOCSOURCES\}";
-	$depend_varname_hash->{$fn} = "${basename}_ADOCDEPENDS";
+	my $varname1 = "${basename}_ADOCSOURCES";
+	my $varname2 = "${basename}_ADOCDEPENDS";
+
+	makevar_define($varname1);
+	makevar_define($varname2);
+
+	$depend_varname_hash->{$fn} = $varname2;
+
+	makevar_list_add($varname1, $fn);
+	makevar_list_add($varname2, "\$\{$varname1\}");
 
 	foreach my $dep (sort keys %{$depends->{$fn}}) {
 	    if ($dep =~ m/-(opts|synopsis).adoc$/) {
-		$var2text .= " \\\n\t$dep";
+		makevar_list_add($varname2, $dep);
 	    } else {
-		$var1text .= " \\\n\t$dep";
+		makevar_list_add($varname1, $dep);
 	    }
 	}
-	$res .= "$var1text\n\n";
-	$res .= "$var2text\n\n";
     }
 
     my $man_sources_hash = {};
@@ -379,6 +416,38 @@ if ($generate_depends) {
 	    }
 	}
     }
+
+    my $varname = "MANUAL_SOURCES";
+    makevar_define($varname);
+    foreach my $sourcefile (sort keys %$man_sources_hash) {
+	makevar_list_add($varname, $sourcefile);
+    }
+
+    $varname = "CHAPTER_LIST";
+    makevar_define($varname);
+    my $filelist = $fileinfo->{outfile}->{default};
+    foreach my $sourcefile (sort keys %$filelist) {
+	my $target = $filelist->{$sourcefile};
+	makevar_list_add($varname, $target);
+    }
+
+    $varname = "MANUAL_PAGES";
+    makevar_define($varname);
+    $filelist = $fileinfo->{outfile}->{manvolnum};
+    foreach my $manpage (sort keys %$filelist) {
+	my $target = $filelist->{$manpage};
+	makevar_list_add($varname, $target);
+    }
+
+    $varname = "WIKI_IMPORTS";
+    makevar_define($varname);
+    $filelist = $fileinfo->{outfile}->{wiki};
+    foreach my $sourcefile (sort keys %$filelist) {
+	my $target = $filelist->{$sourcefile};
+	makevar_list_add($varname, $target);
+    }
+
+    my $res = makevar_dump();
 
     my $make_targets = {};
     foreach my $e (@$start_env) {
@@ -398,40 +467,6 @@ if ($generate_depends) {
 	my $dep = $make_targets->{$target};
 	$res .= "$target: $dep\n\n";
     }
-
-    my $varname = "MANUAL_SOURCES";
-    $res .= "$varname =";
-    foreach my $sourcefile (sort keys %$man_sources_hash) {
-	$res .= " \\\n\t$sourcefile";
-    }
-    $res .= "\n\n";
-
-    $varname = "CHAPTER_LIST";
-    $res .= "$varname =";
-    my $filelist = $fileinfo->{outfile}->{default};
-    foreach my $sourcefile (sort keys %$filelist) {
-	my $target = $filelist->{$sourcefile};
-	$res .= " \\\n\t$target";
-    }
-    $res .= "\n\n";
-
-    $varname = "MANUAL_PAGES";
-    $res .= "$varname =";
-    $filelist = $fileinfo->{outfile}->{manvolnum};
-    foreach my $manpage (sort keys %$filelist) {
-	my $target = $filelist->{$manpage};
-	$res .= " \\\n\t$target";
-    }
-    $res .= "\n\n";
-
-    $varname = "WIKI_IMPORTS";
-    $res .= "$varname =";
-    $filelist = $fileinfo->{outfile}->{wiki};
-    foreach my $sourcefile (sort keys %$filelist) {
-	my $target = $filelist->{$sourcefile};
-	$res .= " \\\n\t$target";
-    }
-    $res .= "\n\n";
 
     print $outfh $res;
     close($outfh);
