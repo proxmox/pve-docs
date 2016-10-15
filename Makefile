@@ -30,7 +30,6 @@ include ./pve-doc-generator.mk
 GEN_DEB_SOURCES=				\
 	pve-doc-generator.mk			\
 	${MANUAL_SOURCES}			\
-	${PVESM_ADOCSOURCES}			\
 	pmxcfs.8-synopsis.adoc			\
 	docinfo.xml
 

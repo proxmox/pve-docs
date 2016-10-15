@@ -372,6 +372,12 @@ if ($generate_depends) {
     my $man_sources_hash = {};
     foreach my $sourcefile (keys %{$fileinfo->{outfile}->{manvolnum}}) {
 	$man_sources_hash->{$sourcefile} = 1;
+	my $ihash = $fileinfo->{include}->{manvolnum}->{$sourcefile};
+	foreach my $include (keys %$ihash) {
+	    if ($include !~ m/-(opts|synopsis).adoc$/) {
+		$man_sources_hash->{$include} = 1;
+	    }
+	}
     }
 
     foreach my $e (@$start_env) {
