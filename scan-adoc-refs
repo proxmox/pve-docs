@@ -370,6 +370,10 @@ if ($generate_depends) {
     }
 
     my $man_sources_hash = {};
+    foreach my $sourcefile (keys %{$fileinfo->{outfile}->{manvolnum}}) {
+	$man_sources_hash->{$sourcefile} = 1;
+    }
+
     foreach my $e (@$start_env) {
 	my $filelist = $fileinfo->{outfile}->{$e};
 	foreach my $sourcefile (sort keys %$filelist) {
@@ -378,7 +382,6 @@ if ($generate_depends) {
 	    $res .= "$target: \$\{$varname\}\n\n";
 
 	    if ($e eq 'manvolnum') {
-		$man_sources_hash->{$sourcefile} = 1;
 
 		$res .= "$target.html: \$\{$varname\}\n\n";
 		$res .= "$target-plain.html: \$\{$varname\}\n\n";
