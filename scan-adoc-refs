@@ -233,6 +233,7 @@ sub scan_adoc_file {
 my $scanned_files = {};
 while (my $filename = shift) {
     next if $filename !~ m/\.adoc$/; # skip attributes.txt
+    next if $filename =~ m/-(opts|synopsis)\.adoc$/;
     next if $scanned_files->{$filename};
 
     scan_adoc_file($filename);
