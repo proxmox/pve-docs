@@ -380,19 +380,23 @@ if ($generate_depends) {
 	}
     }
 
+    my $make_targets = {};
     foreach my $e (@$start_env) {
 	my $filelist = $fileinfo->{outfile}->{$e};
 	foreach my $sourcefile (sort keys %$filelist) {
 	    my $varname = $depend_varname_hash->{$sourcefile};
 	    my $target = $filelist->{$sourcefile};
-	    $res .= "$target: \$\{$varname\}\n\n";
-
+	    my $dep = "\$\{$varname\}";
+	    $make_targets->{$target} = $dep;
 	    if ($e eq 'manvolnum') {
-
-		$res .= "$target.html: \$\{$varname\}\n\n";
-		$res .= "$target-plain.html: \$\{$varname\}\n\n";
+		$make_targets->{"$target.html"} = $dep;
+		$make_targets->{"$target-plain.html"} = $dep;
 	    }
 	}
+    }
+    foreach my $target (sort keys%$make_targets) {
+	my $dep = $make_targets->{$target};
+	$res .= "$target: $dep\n\n";
     }
 
     my $varname = "MANUAL_SOURCES";
