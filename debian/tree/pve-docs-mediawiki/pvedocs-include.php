@@ -18,8 +18,19 @@ function efPvedocsParserFunction_Setup(&$parser) {
     # Set a function hook associating the "pvedocs" magic
     # word with our function
     $parser->setFunctionHook( 'pvedocs', 'efPvedocsParserFunction_Render' );
+
+    $parser->setHook('pvehide', 'renderTagPveHideContent' );
+
     return true;
 }
+
+// Render <pvehide>
+function renderTagPveHideContent($input, array $args, Parser $parser,
+PPFrame $frame ) {
+    // simpry return nothing
+    return '';
+}
+
  
 function efPvedocsParserFunction_Magic(&$magicWords, $langCode) {
     # Add the magic word
