@@ -70,10 +70,8 @@ sub update_page {
 
     chomp $pve_content;
 
-    if ($page =~ m/^(.*)$starttag\n.*\n$endtag(.*)$/s) {
+    if ($page =~ m/^(.*)$starttag\n.*\n$endtag\n?(.*)$/s) {
 	my ($top_content, $bottom_content) = ($1, $2);
-	chomp $top_content;
-	chomp $bottom_content;
 	$page = $top_content;
 	$page .= "$starttag\n";
 	$page .= $pve_content;
