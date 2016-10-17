@@ -8,27 +8,17 @@ ifdef::wiki[]
 :title: Installation
 endif::wiki[]
 
-{pve} ships as a set of Debian packages, so you can simply install it
-on top of a normal Debian installation, or download the installation
-CD-ROM and use that to install {pve} on your hardware.
-
-Installing on top of an existing Debian installation looks easy, but
-it presumes that you have correctly installed the base system, and you
-know how you want to configure and use the local storage. Network
-configuration is also completely up to you.
-
-In general, this is not trivial, especially when you use LVM or
-ZFS. This is why we provide an installation CD-ROM for {pve}. That
-installer just ask you a few questions, then partitions the local
-disk(s), installs all required packages and configures the system
+{pve} is based on Debian and comes with an installation CD-ROM 
+which includes a complete Debian ("jessie" for Proxmox VE 4.x) system as 
+well as all necessary Proxmox VE packages. The
+installer just asks you a few questions, then partitions the local
+disk(s), installs all required packages, and configures the system
 including a basic network setup. You can get a fully functional system
-within a few minutes, including the following:
+within a few minutes. This is the preferred and recommended installation method.
 
-* Complete operating system (Debian Linux, 64-bit)
-* Partition the hard drive with ext4 (alternative ext3 or xfs) or ZFS
-* {pve} Kernel with LXC and KVM support
-* Complete toolset
-* Web based management interface
+Alternatively, Proxmox VE can be installed on top of an existing Debian system. 
+This option is only recommended for advanced users since detail knowledge about 
+Proxmox VE is necessary.
 
 ifndef::wiki[]
 
@@ -40,7 +30,14 @@ endif::wiki[]
 Using the {pve} Installation CD-ROM
 -----------------------------------
 
-This is the preferred and recommended installation method.
+Includes the following:
+
+* Complete operating system (Debian Linux, 64-bit)
+* Partition the hard drive with ext4 (alternative ext3 or xfs) or ZFS
+* {pve} Kernel with LXC and KVM support
+* Complete toolset
+* Web based management interface
+
 
 NOTE: By default, the complete server is used and all existing data is
 removed.
@@ -172,7 +169,7 @@ ifndef::wiki[]
 Install {pve} on Debian
 -----------------------
 
-{pve} ships as a set of Debian packages, so you can simply install it
+{pve} ships as a set of Debian packages, so you can install it
 on top of a normal Debian installation. After configuring the
 repositories, you need to run:
 
@@ -181,6 +178,14 @@ repositories, you need to run:
 apt-get update
 apt-get install proxmox-ve
 ----
+
+Installing on top of an existing Debian installation looks easy, but
+it presumes that you have correctly installed the base system, and you
+know how you want to configure and use the local storage. Network
+configuration is also completely up to you.
+
+In general, this is not trivial, especially when you use LVM or
+ZFS.
 
 You can find a detailed step by step howto on the
 {webwiki-url}Install_Proxmox_VE_on_Debian_Jessie[wiki].
