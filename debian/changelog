@@ -1,3 +1,15 @@
+pve-docs (4.3-10) unstable; urgency=medium
+
+  * pve-docs-mediawiki-import.in: include text version inside pvehide tag
+
+  * pvedocs-include.php: avoid to use javascript
+
+  * pvedocs-include.php: add new mediawiki tag <pvehide>
+
+  * scan-adoc-refs: cleanup makefile generation
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 17 Oct 2016 10:56:07 +0200
+
 pve-docs (4.3-9) unstable; urgency=medium
 
   * renamed pmxcfs.8-cli.adoc to pmxcfs.8-synopsis.adoc
