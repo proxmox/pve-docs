@@ -27,7 +27,7 @@ function efPvedocsParserFunction_Setup(&$parser) {
 // Render <pvehide>
 function renderTagPveHideContent($input, array $args, Parser $parser,
 PPFrame $frame ) {
-    // simpry return nothing
+    // simply return nothing
     return '';
 }
 
