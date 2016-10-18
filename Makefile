@@ -149,7 +149,7 @@ upload: ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}
 
 .PHONY: update
 update: clean
-	rm -f *.5-opts.adoc *.1-synopsis.adoc *.8-synopsis.adoc
+	find . -regex '.*-\(opts\|synopsis\)\.adoc' -not -name pmxcfs.8-synopsis.adoc -exec rm -f \{\} \;
 	rm -f api-viewer/apidata.js
 	rm -f pve-firewall-macros.adoc pct-network-opts.adoc pct-mountpoint-opts.adoc
 	make all
