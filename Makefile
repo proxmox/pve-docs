@@ -68,7 +68,7 @@ INDEX_INCLUDES=								\
 	pve-admin-guide.epub 						\
 	$(sort $(addsuffix .html, ${MANUAL_PAGES}) ${CHAPTER_LIST})
 
-ADOC_STDARG= -a icons -a data-uri -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}"
+ADOC_STDARG= -b html5 -a icons -a data-uri -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}"
 
 BROWSER?=xdg-open
 

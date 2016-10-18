@@ -372,7 +372,7 @@ sub compile_asciidoc {
 	$attributes->{icons} = undef;
 	$attributes->{'data-uri'} = undef;
 
-	my $cmd = ['asciidoc'];
+	my $cmd = ['asciidoc', '-b', 'html5'];
 
 	push @$cmd, '-s' if ($env eq 'wiki') ||
 	    (($env eq 'manvolnum') && ($man_target eq 'wiki'));
