@@ -373,9 +373,21 @@ if ($generate_depends) {
     my $depends = {};
     foreach my $e (@$start_env) {
 	my $env_data = $fileinfo->{include}->{$e};
+
+	my $add_depends;
+
+	$add_depends = sub {
+	    my ($fn, $dep) = @_;
+
+	    $depends->{$fn}->{$dep} = 1;
+	    foreach my $nd (keys %{$env_data->{$dep}}) {
+		&$add_depends($fn, $nd);
+	    }
+	};
+
 	foreach my $fn (keys %$env_data) {
 	    foreach my $dep (keys %{$env_data->{$fn}}) {
-		$depends->{$fn}->{$dep} = 1;
+		&$add_depends($fn, $dep);
 	    }
 	}
     }
