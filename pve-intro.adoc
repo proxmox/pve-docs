@@ -241,35 +241,5 @@ https://linuxcontainers.org/[LXC]. Containers are now deeply
 integrated, and they can use the same storage and network features
 as virtual machines.
 
-Improving the {pve} documentation
----------------------------------
+include::howto-improve-pve-docs.adoc[]
 
-Depending on which issue you want to improve, you can use a variety of
-communication mediums to reach the developers.
-
-If you notice an error in the current documentation, use the·
-http://bugzilla.proxmox.com[Proxmox bug tracker] and propose an·
-alternate text/wording.
-
-If you want to propose new content, it depends on what you want to
-document:
-
-* if the content is specific to your setup, a wiki article is the best
-option. For instance if you want to document specific options for guest
-systems, like which combination of Qemu drivers work best with a less popular
-OS, this is a perfect fit for a wiki article.
-
-* if you think the content is generic enough to be of interest for all users,
-then you should try to get it into the reference documentation. The reference
-documentation is written in the easy to use 'asciidoc' document format.
-Editing the official documentation requires to clone the git repository at
-`git://git.proxmox.com/git/pve-docs.git` and then follow the 
-https://git.proxmox.com/?p=pve-docs.git;a=blob_plain;f=README.adoc;hb=HEAD[REAME.adoc] document.
-
-Improving the documentation is just as easy as editing a Wikipedia
-article and is an interesting foray in the development of a large
-opensource project.
-
-NOTE: If you are interested in working on the {pve} codebase, the
-{webwiki-url}Developer_Documentation[Developer Documentation] wiki
-article will show you where to start.
