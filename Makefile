@@ -87,7 +87,7 @@ index.html: index.adoc ${API_VIEWER_SOURCES} ${INDEX_INCLUDES}
 	asciidoc ${ADOC_STDARG} -o $@ index.adoc
 
 pve-admin-guide.html: ${PVE_ADMIN_GUIDE_ADOCDEPENDS}
-	asciidoc -a pvelogo -a "revnumber=${DOCRELEASE}" -a "date=$(shell date)" pve-admin-guide.adoc
+	asciidoc -a pvelogo ${ADOC_STDARG} pve-admin-guide.adoc
 
 pve-admin-guide.chunked: ${PVE_ADMIN_GUIDE_ADOCDEPENDS}
 	rm -rf pve-admin-guide.chunked
