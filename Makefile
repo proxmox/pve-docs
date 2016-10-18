@@ -84,7 +84,7 @@ index: index.html
 	$(BROWSER) index.html &
 
 index.html: index.adoc ${API_VIEWER_SOURCES} ${INDEX_INCLUDES} 
-	asciidoc -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}" index.adoc
+	asciidoc ${ADOC_STDARG} -o $@ index.adoc
 
 pve-admin-guide.html: ${PVE_ADMIN_GUIDE_ADOCDEPENDS}
 	asciidoc -a pvelogo -a "revnumber=${DOCRELEASE}" -a "date=$(shell date)" pve-admin-guide.adoc
