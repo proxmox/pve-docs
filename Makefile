@@ -97,7 +97,7 @@ pve-admin-guide.pdf: ${PVE_ADMIN_GUIDE_ADOCDEPENDS} docinfo.xml pve-admin-guide-
 	inkscape -z -D --export-pdf=proxmox-logo.pdf images/proxmox-logo.svg
 	inkscape -z -D --export-pdf=proxmox-ci-header.pdf images/proxmox-ci-header.svg
 	grep ">Release ${DOCRELEASE}<" pve-admin-guide-docinfo.xml || (echo "wrong release in  pve-admin-guide-docinfo.xml" && false);
-	a2x -a docinfo -a docinfo1 -f pdf -L --dblatex-opts "-P latex.output.revhistory=0" --dblatex-opts "-P latex.class.options=12pt" --dblatex-opts "-P doc.section.depth=2 -P toc.section.depth=2" --dblatex-opts "-P doc.publisher.show=0 -s asciidoc-dblatex-custom.sty" pve-admin-guide.adoc
+	a2x -a docinfo -a docinfo1 -f pdf -L --dblatex-opts "-P latex.output.revhistory=0" --dblatex-opts "-P latex.class.options=12pt" --dblatex-opts "-P doc.section.depth=2 -P toc.section.depth=2" --dblatex-opts "-P doc.publisher.show=0 -s asciidoc/dblatex-custom.sty" pve-admin-guide.adoc
 	rm proxmox-logo.pdf proxmox-ci-header.pdf
 
 pve-admin-guide.epub: ${PVE_ADMIN_GUIDE_ADOCDEPENDS}
