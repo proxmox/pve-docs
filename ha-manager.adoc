@@ -484,6 +484,7 @@ killing its process)
 * *after* you fixed all errors you may enable the service again
 
 
+[[ha_manager_service_operations]]
 Service Operations
 ------------------
 
