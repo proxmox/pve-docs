@@ -6,6 +6,7 @@ use Getopt::Long;
 use File::Path;
 use File::Basename;
 use IO::File;
+use Cwd;
 
 use JSON;
 
@@ -372,10 +373,20 @@ sub compile_asciidoc {
 	$attributes->{icons} = undef;
 	$attributes->{'data-uri'} = undef;
 
-	my $cmd = ['asciidoc', '-b', 'html5'];
+	my $cmd = ['asciidoc'];
 
-	push @$cmd, '-s' if ($env eq 'wiki') ||
-	    (($env eq 'manvolnum') && ($man_target eq 'wiki'));
+	if (($env eq 'wiki') ||
+	    (($env eq 'manvolnum') && ($man_target eq 'wiki'))) {
+
+	    push @$cmd, '-s';
+
+	    if (-f "./asciidoc/mediawiki.conf") {
+		my $cwd = getcwd();
+		push @$cmd, '-b', "$cwd/asciidoc/mediawiki";
+	    } else {
+		push @$cmd, '-b', "mediawiki";
+	    }
+	}
 
 	foreach my $key (keys %$attributes) {
 	    my $value = $attributes->{$key};
