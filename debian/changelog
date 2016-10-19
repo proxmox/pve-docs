@@ -1,3 +1,21 @@
+pve-docs (4.3-11) unstable; urgency=medium
+
+  * asciidoc-pve: improve rendering of wiki pages
+
+  * move asciidoc related data into asciidoc subdir
+
+  * use the html5 backend for asciidoc
+
+  * bibliography: add Ceph Cookbook
+
+  * Add subchapter documenting the startup/shutdown option
+
+  * howto-improve-pve-docs.adoc: moved from pve-intro.adoc
+
+  * scan-adoc-refs: fix dependency computation (make it recusive)
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 19 Oct 2016 09:52:27 +0200
+
 pve-docs (4.3-10) unstable; urgency=medium
 
   * pve-docs-mediawiki-import.in: include text version inside pvehide tag
