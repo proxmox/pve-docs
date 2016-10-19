@@ -118,7 +118,7 @@ deb:
 	rm -f ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB};
 	make ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB};
 
-${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}: index.html ${INDEX_INCLUDES} ${WIKI_IMPORTS} ${API_VIEWER_SOURCES} ${GEN_DEB_SOURCES} asciidoc-pve pve-docs-mediawiki-import
+${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}: index.html ${INDEX_INCLUDES} ${WIKI_IMPORTS} ${API_VIEWER_SOURCES} ${GEN_DEB_SOURCES} asciidoc-pve pve-docs-mediawiki-import asciidoc/mediawiki.conf
 	rm -rf build
 	mkdir build
 	rsync -a debian/ build/debian
@@ -131,6 +131,7 @@ ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}: index.html ${INDEX_INCLUDES} ${WIKI_IMPO
 	install -m 0644 ${GEN_DEB_SOURCES} build/usr/share/${GEN_PACKAGE}
 	install -m 0755 ${GEN_SCRIPTS} build/usr/share/${GEN_PACKAGE}
 	install -m 0755 asciidoc-pve build/usr/bin/
+	install -D -m 0644 asciidoc/mediawiki.conf build/etc/asciidoc/mediawiki.conf
 	# install files for pvedocs package
 	mkdir -p build/usr/share/${DOC_PACKAGE}
 	mkdir -p build/usr/share/doc/${DOC_PACKAGE}
