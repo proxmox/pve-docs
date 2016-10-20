@@ -22,7 +22,7 @@ Individual Chapters
 -------------------
 [width="100%",options="header"]
 |===========================================================
-|Title                                |Download link
+|Title                                |Link
 |Installation			      |link:chapter-pve-installation.html[]
 |Host System Administration           |link:chapter-sysadmin.html[]
 |Cluster Manager                      |link:chapter-pvecm.html[]
@@ -47,7 +47,7 @@ Command Line Interface
 
 [width="100%",options="header"]
 |===========================================================
-| Command name    | Download link
+| Command name    | Link
 | qm              | link:qm.1.html[qm.1]
 | qmrestore       | link:qmrestore.1.html[qmrestore.1]
 | pct             | link:pct.1.html[pct.1]
@@ -68,7 +68,7 @@ Service Daemons
 
 [width="100%",options="header"]
 |===========================================================
-| Command name |'systemd' Service     | Download link
+| Command name |'systemd' Service     | Link
 | pvedaemon    | pvedaemon.service    |link:pvedaemon.8.html[pvedaemon.8]
 | pveproxy     | pveproxy.service     |link:pveproxy.8.html[pveproxy.8]
 | pvestatd     | pvestatd.service     |link:pvestatd.8.html[pvestatd.8]
@@ -85,7 +85,7 @@ Configuration Options
 
 [width="100%",options="header"]
 |===========================================================
-| File name |Download link
+| File name |Link
 | `/etc/pve/datacenter.cfg`          | link:datacenter.cfg.5.html[datacenter.cfg.5]
 | `/etc/pve/qemu-server/<VMID>.conf` | link:qm.conf.5.html[qm.conf.5]
 | `/etc/pve/lxc/<CTID>.conf`         | link:pct.conf.5.html[pct.conf.5]
