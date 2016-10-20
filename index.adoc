@@ -11,7 +11,7 @@ include::attributes.txt[]
 
 [width="100%",options="header"]
 |===========================================================
-|Format               |Download link
+|Format               |Link
 |Printable version    |link:pve-admin-guide.pdf[]
 |Online HTML version  |link:pve-admin-guide.html[]
 |E-Book version       |link:pve-admin-guide.epub[]
