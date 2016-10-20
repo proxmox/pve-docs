@@ -295,6 +295,7 @@ cluster again, you have to
 
 * then join it, as explained in the previous section.
 
+[[pvecm_separate_node_without_reinstall]]
 Separate A Node Without Reinstalling
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

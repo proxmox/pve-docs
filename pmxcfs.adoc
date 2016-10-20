@@ -174,34 +174,9 @@ The recommended way is to reinstall the node after you removed it from
 your cluster. This makes sure that all secret cluster/ssh keys and any
 shared configuration data is destroyed.
 
-In some cases, you might prefer to put a node back to local mode
-without reinstall, which is described here:
-
-* stop the cluster file system in `/etc/pve/`
-
- # systemctl stop pve-cluster
-
-* start it again but forcing local mode
-
- # pmxcfs -l
-
-* remove the cluster configuration
-
- # rm /etc/pve/cluster.conf
- # rm /etc/cluster/cluster.conf
- # rm /var/lib/pve-cluster/corosync.authkey
-
-* stop the cluster file system again
-
- # systemctl stop pve-cluster
-
-* restart PVE services (or reboot)
-
- # systemctl start pve-cluster
- # systemctl restart pvedaemon
- # systemctl restart pveproxy
- # systemctl restart pvestatd
-
+In some cases, you might prefer to put a node back to local mode without
+reinstall, which is described in
+<<pvecm_separate_node_without_reinstall,Separate A Node Without Reinstalling>>
 
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
