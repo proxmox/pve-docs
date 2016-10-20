@@ -66,6 +66,10 @@ pve-docs-mediawiki-import: pve-docs-mediawiki-import.in link-refs.json
 INDEX_INCLUDES=								\
 	pve-admin-guide.pdf 						\
 	pve-admin-guide.epub 						\
+	chapter-index-table.adoc					\
+	man1-index-table.adoc						\
+	man5-index-table.adoc						\
+	man8-index-table.adoc						\
 	$(sort $(addsuffix .html, ${MANUAL_PAGES}) ${CHAPTER_LIST})
 
 ADOC_STDARG= -b html5 -a icons -a data-uri -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}"
@@ -83,7 +87,23 @@ README.html: README.adoc
 index: index.html
 	$(BROWSER) index.html &
 
-index.html: index.adoc ${API_VIEWER_SOURCES} ${INDEX_INCLUDES} 
+chapter-index-table.adoc: gen-index-includes.pl
+	./gen-index-includes.pl chapter-table >$@.tmp
+	mv $@.tmp $@
+
+man1-index-table.adoc: gen-index-includes.pl
+	./gen-index-includes.pl man1page-table >$@.tmp
+	mv $@.tmp $@
+
+man5-index-table.adoc: gen-index-includes.pl
+	./gen-index-includes.pl man5page-table >$@.tmp
+	mv $@.tmp $@
+
+man8-index-table.adoc: link-refs.json gen-index-includes.pl
+	./gen-index-includes.pl man8page-table >$@.tmp
+	mv $@.tmp $@
+
+index.html: index.adoc ${API_VIEWER_SOURCES} ${INDEX_INCLUDES}
 	asciidoc ${ADOC_STDARG} -o $@ index.adoc
 
 pve-admin-guide.html: ${PVE_ADMIN_GUIDE_ADOCDEPENDS}
@@ -158,5 +178,5 @@ update: clean
 	make all
 
 clean: 
-	rm -rf *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html *-plain.html chapter-*.html pve-admin-guide.chunked asciidoc-pve link-refs.json .asciidoc-pve-tmp_* pve-docs-mediawiki-import .pve-doc-depends pve-doc-generator.mk
+	rm -rf *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html *-plain.html chapter-*.html pve-admin-guide.chunked asciidoc-pve link-refs.json .asciidoc-pve-tmp_* pve-docs-mediawiki-import .pve-doc-depends pve-doc-generator.mk chapter-index-table.adoc man1-index-table.adoc man5-index-table.adoc man8-index-table.adoc
 	find . -name '*~' -exec rm {} ';'

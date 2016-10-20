@@ -20,23 +20,8 @@ include::attributes.txt[]
 
 Individual Chapters
 -------------------
-[width="100%",options="header"]
-|===========================================================
-|Title                                |Link
-|Installation			      |link:chapter-pve-installation.html[]
-|Host System Administration           |link:chapter-sysadmin.html[]
-|Cluster Manager                      |link:chapter-pvecm.html[]
-|Proxmox Cluster File System (pmxcfs) |link:chapter-pmxcfs.html[]
-|{pve} Storage                        |link:chapter-pvesm.html[]
-|Qemu/KVM Virtual Machines            |link:chapter-qm.html[]
-|Proxmox Container Toolkit            |link:chapter-pct.html[]
-|{pve} Firewall                       |link:chapter-pve-firewall.html[]
-|User Management                      |link:chapter-pveum.html[]
-|High Availability                    |link:chapter-ha-manager.html[]
-|Backup and Restore                   |link:chapter-vzdump.html[]
-|Frequently Asked Questions           |link:chapter-pve-faq.html[]
-|Bibliography                         |link:chapter-pve-bibliography.html[]
-|===========================================================
+
+include::chapter-index-table.adoc[]
 
 
 {pve} Manual Pages
@@ -45,51 +30,19 @@ Individual Chapters
 Command Line Interface
 ~~~~~~~~~~~~~~~~~~~~~~
 
-[width="100%",options="header"]
-|===========================================================
-| Command name    | Link
-| qm              | link:qm.1.html[qm.1]
-| qmrestore       | link:qmrestore.1.html[qmrestore.1]
-| pct             | link:pct.1.html[pct.1]
-| pveam           | link:pveam.1.html[pveam.1]
-| pveceph         | link:pveceph.1.html[pveceph.1]
-| pvecm           | link:pvecm.1.html[pvecm.1]
-| pveum           | link:pveum.1.html[pveum.1]
-| pvesm           | link:pvesm.1.html[pvesm.1]
-| pvesubscription | link:pvesubscription.1.html[pvesubscription.1]
-| pveperf         | link:pveperf.1.html[pveperf.1]
-| vzdump          | link:vzdump.1.html[vzdump.1]
-| ha-manager      | link:ha-manager.1.html[ha-manager.1]
-|===========================================================
+include::man1-index-table.adoc[]
 
 
 Service Daemons
 ~~~~~~~~~~~~~~~
 
-[width="100%",options="header"]
-|===========================================================
-| Command name |'systemd' Service     | Link
-| pvedaemon    | pvedaemon.service    |link:pvedaemon.8.html[pvedaemon.8]
-| pveproxy     | pveproxy.service     |link:pveproxy.8.html[pveproxy.8]
-| pvestatd     | pvestatd.service     |link:pvestatd.8.html[pvestatd.8]
-| spiceproxy   | spiceproxy.service   |link:spiceproxy.8.html[spiceproxy.8]
-| pve-ha-crm   | pve-ha-crm.service   |link:pve-ha-crm.8.html[pve-ha-crm.8]
-| pve-ha-lrm   | pve-ha-lrm.service   |link:pve-ha-lrm.8.html[pve-ha-lrm.8]
-| pve-firewall | pve-firewall.service |link:pve-firewall.8.html[pve-firewall.8]
-| pmxcfs       | pve-cluster.service  |link:pmxcfs.8.html[pmxcfs.8]
-|===========================================================
+include::man8-index-table.adoc[]
 
 
 Configuration Options
 ~~~~~~~~~~~~~~~~~~~~~
 
-[width="100%",options="header"]
-|===========================================================
-| File name |Link
-| `/etc/pve/datacenter.cfg`          | link:datacenter.cfg.5.html[datacenter.cfg.5]
-| `/etc/pve/qemu-server/<VMID>.conf` | link:qm.conf.5.html[qm.conf.5]
-| `/etc/pve/lxc/<CTID>.conf`         | link:pct.conf.5.html[pct.conf.5]
-|===========================================================
+include::man5-index-table.adoc[]
 
 
 API Viewer
