@@ -1,3 +1,19 @@
+pve-docs (4.3-12) unstable; urgency=medium
+
+  * asciidoc-pve: detect and avoid xrefs spanning multiple lines
+
+  * pmxcfs: fix wrong information now covered in pvecm
+
+  * add external metric server to sysadmin.adoc
+
+  * index.adoc: auto generate tables with gen-index-includes.pl
+
+  * rename Download Link to Link
+
+  * Add reference for onlineHelp for HA resource management
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 21 Oct 2016 08:38:05 +0200
+
 pve-docs (4.3-11) unstable; urgency=medium
 
   * asciidoc-pve: improve rendering of wiki pages
