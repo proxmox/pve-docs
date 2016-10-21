@@ -55,9 +55,10 @@ sub update_page {
 
     my $parser_opts = {
 	api_version => 3,
-	text_h => [ sub { $pve_content .= shift }, "dtext" ],
+	text_h => [ sub { $pve_content .= shift }, "text" ],
     };
     my $parser = HTML::Parser->new(%$parser_opts);
+    $parser->ignore_elements(qw(script style));
 
     my $fh = IO::File->new("/usr/share/pve-docs/$filename", "r") or
 	die "unable to open file '$filename' - $!\n";
