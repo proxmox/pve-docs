@@ -268,7 +268,7 @@ sub compile_asciidoc {
 	die "too many arguments...\n";
 
     my $outfilemap = $fileinfo->{outfile}->{$env}->{$infile} ||
-	die "no output file mapping '$infile => $outfile' ($env)";
+	die "no output file mapping for '$infile' ($env)";
 
     if ($man_target eq 'html') {
 	$outfilemap .= '.html';
@@ -276,8 +276,12 @@ sub compile_asciidoc {
 	$outfilemap .= '-plain.html';
     }
 
-    die "wrong output file name '$outfile != $outfilemap' ($env)"
-	if $outfile ne $outfilemap;
+    if (defined($outfile)) {
+	die "wrong output file name '$outfile != $outfilemap' ($env)"
+	    if $outfile ne $outfilemap;
+    } else {
+	$outfile = $outfilemap;
+    }
 
     defined($fileinfo->{titles}->{$env}) ||
 	die "unknown environment '$env'";
