@@ -16,9 +16,12 @@ GEN_DEB=${GEN_PACKAGE}_${DOCRELEASE}-${PKGREL}_${ARCH}.deb
 DOC_DEB=${DOC_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
 MEDIAWIKI_DEB=${MEDIAWIKI_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
 
+
 all: index.html
 
-.pve-doc-depends link-refs.json: $(wildcard *.adoc) scan-adoc-refs
+
+ADOC_SOURCES_GUESS=$(filter-out %-synopsis.adoc %-opts.adoc %-table.adoc, $(wildcard *.adoc))
+.pve-doc-depends link-refs.json: ${ADOC_SOURCES_GUESS} scan-adoc-refs
 	./scan-adoc-refs *.adoc --depends .pve-doc-depends.tmp > link-refs.json.tmp
 	@cmp --quiet .pve-doc-depends .pve-doc-depends.tmp || mv .pve-doc-depends.tmp .pve-doc-depends
 	@cmp --quiet link-refs.json link-refs.json.tmp || mv link-refs.json.tmp link-refs.json
