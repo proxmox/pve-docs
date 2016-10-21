@@ -295,7 +295,7 @@ We use file system like paths to address these objects. These paths form a
 natural tree, and permissions of higher levels (shorter path) can
 optionally be propagated down within this hierarchy.
 
-[[templated-paths]]
+[[pveum_templated_paths]]
 Paths can be templated. When an API call requires permissions on a
 templated path, the path may contain references to parameters of the API
 call. These references are specified in curly braces. Some parameters are
@@ -310,7 +310,7 @@ Some examples are:
 * `/vms`: Covers all VMs
 * `/vms/{vmid}`: Access to specific VMs
 * `/storage/{storeid}`: Access to a storages
-* `/pool/{poolname}`: Access to VMs part of a <<resource-pools,pool>
+* `/pool/{poolname}`: Access to VMs part of a <<pveum_pools,pool>>
 * `/access/groups`: Group administration
 * `/access/realms/{realmid}`: Administrative access to realms
 
@@ -350,8 +350,9 @@ tree of logic and access-check functions:
 Each(`and`) or any(`or`) further element in the current list has to be true.
 
 `["perm", <path>, [ <privileges>... ], <options>...]`::
-The `path` is a templated parameter (see <<templated-paths,Objects and
-Paths>>). All (or , if the `any` option is used, any) of the listed
+The `path` is a templated parameter (see
+<<pveum_templated_paths,Objects and Paths>>). All (or , if the `any`
+option is used, any) of the listed
 privileges must be allowed on the specified path. If a `require-param`
 option is specified, then its specified parameter is required even if the
 API call's schema otherwise lists it as being optional.
@@ -382,8 +383,9 @@ associated with a realm, since user IDs are passed in the form of
 `<username>@<realm>`.
 
 `["perm-modify", <path>]`::
-The `path` is a templated parameter (see <<templated-paths,Objects and
-Paths>>). The user needs either the `Permissions.Modify` privilege, or,
+The `path` is a templated parameter (see
+<<pveum_templated_paths,Objects and Paths>>). The user needs either the
+`Permissions.Modify` privilege, or,
 depending on the path, the following privileges as a possible substitute:
 +
 * `/storage/...`: additionally requires 'Datastore.Allocate`

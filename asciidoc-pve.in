@@ -234,6 +234,12 @@ sub prepare_adoc_file {
 	    next;
 	}
 
+	if ($line =~ m/xref:\S+?\[[^\]]*$/) {
+	    die "possible xref spanning multiple lines in '$filename':\n(line $.): $line\n";
+	}
+	if ($line =~ m/<<((?!\>\>).)*$/) {
+	    die "possible xref spanning multiple lines in '$filename':\n(line $.): $line\n";
+	}
 	# fix xrefs
 	$line =~ s/xref:([^\s\[\]]+)\[([^\]]*)\]/replace_xref(${target_env},$1,$2)/ge;
 

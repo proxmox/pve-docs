@@ -666,8 +666,9 @@ RRP On A Created Cluster
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 When enabling an already running cluster to use RRP you will take similar steps
-as describe in <<separate-cluster-net-after-creation,separating the cluster
-network>>. You just do it on another ring.
+as describe in
+<<separate-cluster-net-after-creation,separating the cluster network>>. You
+just do it on another ring.
 
 First add a new `interface` subsection in the `totem` section, set its
 `ringnumber` property to `1`. Set the interfaces `bindnetaddr` property to an
@@ -722,8 +723,8 @@ nodelist {
 
 ----
 
-Bring it in effect like described in the <<edit-corosync-conf,edit the
-corosync.conf file>> section.
+Bring it in effect like described in the
+<<edit-corosync-conf,edit the corosync.conf file>> section.
 
 This is a change which cannot take live in effect and needs at least a restart
 of corosync. Recommended is a restart of the whole cluster.
