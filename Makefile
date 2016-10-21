@@ -87,20 +87,20 @@ README.html: README.adoc
 index: index.html
 	$(BROWSER) index.html &
 
-chapter-index-table.adoc: gen-index-includes.pl
-	./gen-index-includes.pl chapter-table >$@.tmp
+chapter-index-table.adoc: asciidoc-pve
+	./asciidoc-pve chapter-table >$@.tmp
 	mv $@.tmp $@
 
-man1-index-table.adoc: gen-index-includes.pl
-	./gen-index-includes.pl man1page-table >$@.tmp
+man1-index-table.adoc: asciidoc-pve
+	./asciidoc-pve man1page-table >$@.tmp
 	mv $@.tmp $@
 
-man5-index-table.adoc: gen-index-includes.pl
-	./gen-index-includes.pl man5page-table >$@.tmp
+man5-index-table.adoc: asciidoc-pve
+	./asciidoc-pve man5page-table >$@.tmp
 	mv $@.tmp $@
 
-man8-index-table.adoc: link-refs.json gen-index-includes.pl
-	./gen-index-includes.pl man8page-table >$@.tmp
+man8-index-table.adoc: asciidoc-pve
+	./asciidoc-pve man8page-table >$@.tmp
 	mv $@.tmp $@
 
 index.html: index.adoc ${API_VIEWER_SOURCES} ${INDEX_INCLUDES}
