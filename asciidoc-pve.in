@@ -388,8 +388,6 @@ sub compile_asciidoc {
 	if (($env eq 'wiki') ||
 	    (($env eq 'manvolnum') && ($man_target eq 'wiki'))) {
 
-	    push @$cmd, '-s';
-
 	    if (-f "./asciidoc/mediawiki.conf") {
 		my $cwd = getcwd();
 		push @$cmd, '-b', "$cwd/asciidoc/mediawiki";
