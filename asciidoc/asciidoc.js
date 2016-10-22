@@ -92,8 +92,8 @@ var asciidoc = {
     }
 };
 
-jQuery(document).ready(function(){
+// add init to mediawiki resource loader queue
+(window.RLQ=window.RLQ||[]).push(function(){
     asciidoc.footnotes();
     asciidoc.toc();
 });
-
