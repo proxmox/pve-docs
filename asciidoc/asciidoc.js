@@ -7,6 +7,39 @@
 
 var asciidoc = {
 
+    // toc generator
+    toc: function () {
+	var tocholder = $("#toc");
+	if (!tocholder) {
+	    return;
+	}
+
+	tocholder.html('');
+	tocholder.hide();
+
+	var html = "<div id=\"toctitle\"><h2>Contents</h2></div><ul>";
+
+	var n = 0;
+	$("#asciidoccontent div.sect1").each(function(){
+	    var h = $(this).find("h2").first();
+	    var id = h.attr("id");
+	    if (id != null) {
+		n++;
+		html += "<li class=\"toclevel-1\">" +
+		    "<a href=\"#" + id + "\">" +
+		    "<span class=\"toctext\">" + h.html() +
+		    "</span></a></li>";
+	    }
+	});
+
+	html += "</ul>";
+
+	if (n > 3) {
+	    tocholder.html(html);
+	    tocholder.show();
+	}
+    },
+
     // footnote generator
     footnotes: function () {
 	var noteholder = $("#footnotes");
@@ -61,5 +94,6 @@ var asciidoc = {
 
 $(document).ready(function(){
     asciidoc.footnotes();
+    asciidoc.toc();
 });
 
