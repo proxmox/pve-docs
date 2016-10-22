@@ -9,7 +9,7 @@ var asciidoc = {
 
     // toc generator
     toc: function () {
-	var tocholder = $("#toc");
+	var tocholder = jQuery("#toc");
 	if (!tocholder) {
 	    return;
 	}
@@ -20,8 +20,8 @@ var asciidoc = {
 	var html = "<div id=\"toctitle\"><h2>Contents</h2></div><ul>";
 
 	var n = 0;
-	$("#asciidoccontent div.sect1").each(function(){
-	    var h = $(this).find("h2").first();
+	jQuery("#asciidoccontent div.sect1").each(function(){
+	    var h = jQuery(this).find("h2").first();
 	    var id = h.attr("id");
 	    if (id != null) {
 		n++;
@@ -42,7 +42,7 @@ var asciidoc = {
 
     // footnote generator
     footnotes: function () {
-	var noteholder = $("#footnotes");
+	var noteholder = jQuery("#footnotes");
 	if (!noteholder) {
 	    return;
 	}
@@ -54,9 +54,9 @@ var asciidoc = {
 	var n = 0;
 	var inner_html = '';
 
-	$("#asciidoccontent span.footnote").each(function(){
+	jQuery("#asciidoccontent span.footnote").each(function(){
 	    n++;
-	    var span = $(this);
+	    var span = jQuery(this);
 	    var note = span.attr("data-note");
 	    var id = span.attr("id");
 	    if (!note) {
@@ -80,8 +80,8 @@ var asciidoc = {
     
 	if (n != 0) {
 	    // process footnoterefs.
-	    $("#asciidoccontent span.footnoteref").each(function(){
-		var span = $(this);
+	    jQuery("#asciidoccontent span.footnoteref").each(function(){
+		var span = jQuery(this);
 		var href = span.find("a").first().attr("href");
 		href = href.match(/#.*/)[0];  // in case it return full URL.
 		n = refs[href];
@@ -92,7 +92,7 @@ var asciidoc = {
     }
 };
 
-$(document).ready(function(){
+jQuery(document).ready(function(){
     asciidoc.footnotes();
     asciidoc.toc();
 });
