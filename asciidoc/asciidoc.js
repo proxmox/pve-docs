@@ -8,8 +8,9 @@
 var asciidoc = {
 
     // toc generator
-    toc: function () {
-	var tocholder = jQuery("#toc");
+    toc: function ($content) {
+	var tocholder = $content.find('#toc');
+
 	if (!tocholder) {
 	    return;
 	}
@@ -20,7 +21,7 @@ var asciidoc = {
 	var html = "<div id=\"toctitle\"><h2>Contents</h2></div><ul>";
 
 	var n = 0;
-	jQuery("#asciidoccontent div.sect1").each(function(){
+	$content.find("div.sect1").each(function(){
 	    var h = jQuery(this).find("h2").first();
 	    var id = h.attr("id");
 	    if (id != null) {
@@ -41,8 +42,8 @@ var asciidoc = {
     },
 
     // footnote generator
-    footnotes: function () {
-	var noteholder = jQuery("#footnotes");
+    footnotes: function ($content) {
+	var noteholder = $content.find('#footnotes');
 	if (!noteholder) {
 	    return;
 	}
@@ -54,7 +55,7 @@ var asciidoc = {
 	var n = 0;
 	var inner_html = '';
 
-	jQuery("#asciidoccontent span.footnote").each(function(){
+	$content.find("span.footnote").each(function(){
 	    n++;
 	    var span = jQuery(this);
 	    var note = span.attr("data-note");
@@ -72,15 +73,15 @@ var asciidoc = {
             "<div class='footnote' id='_footnote_" + n + "'>" +
 		"<a href='#_footnoteref_" + n + "' title='Return to text'>" +
 		n + "</a>. " + note + "</div>";
-	    
+
 	    if (id != null) { refs["#"+id] = n; }
 	});
 
 	if (inner_html) { noteholder.html("<hr>" + inner_html); }
-    
+
 	if (n != 0) {
 	    // process footnoterefs.
-	    jQuery("#asciidoccontent span.footnoteref").each(function(){
+	    $content.find("span.footnoteref").each(function(){
 		var span = jQuery(this);
 		var href = span.find("a").first().attr("href");
 		href = href.match(/#.*/)[0];  // in case it return full URL.
@@ -94,6 +95,8 @@ var asciidoc = {
 
 // add init to mediawiki resource loader queue
 (window.RLQ=window.RLQ||[]).push(function(){
-    asciidoc.footnotes();
-    asciidoc.toc();
+    mw.hook('wikipage.content').add(function($content) {
+	asciidoc.toc($content);
+	asciidoc.footnotes($content);
+    });
 });
