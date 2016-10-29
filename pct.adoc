@@ -634,6 +634,18 @@ NOTE: If you have changed the container's configuration since the last start
 attempt with `pct start`, you need to run `pct start` at least once to also
 update the configuration used by `lxc-start`.
 
+Locks
+-----
+
+Container migrations, snapshots and backups (`vzdump`) set a lock to
+prevent incompatible concurrent actions on the affected container. Sometimes
+you need to remove such a lock manually (e.g., after a power failure).
+
+ pct unlock <CTID>
+
+CAUTION: Only do that if you are sure the action which set the lock is
+no longer running.
+
 
 Container Advantages
 --------------------
