@@ -104,6 +104,7 @@ will affect a random unprivileged user, and so would be a generic
 kernel security bug rather than an LXC issue. The LXC team thinks
 unprivileged containers are safe by design.
 
+
 [[pct_configuration]]
 Configuration
 -------------
@@ -634,14 +635,6 @@ attempt with `pct start`, you need to run `pct start` at least once to also
 update the configuration used by `lxc-start`.
 
 
-Files
-------
-
-`/etc/pve/lxc/<CTID>.conf`::
-
-Configuration file for the container '<CTID>'.
-
-
 Container Advantages
 --------------------
 
@@ -686,6 +679,15 @@ Technology Overview
 
 
 ifdef::manvolnum[]
+
+Files
+------
+
+`/etc/pve/lxc/<CTID>.conf`::
+
+Configuration file for the container '<CTID>'.
+
+
 include::pve-copyright.adoc[]
 endif::manvolnum[]
 
