@@ -589,5 +589,14 @@ lock manually (e.g., after a power failure).
 
 
 ifdef::manvolnum[]
+
+Files
+------
+
+`/etc/pve/qemu-server/<VMID>.conf`::
+
+Configuration file for the VM '<VMID>'.
+
+
 include::pve-copyright.adoc[]
 endif::manvolnum[]
