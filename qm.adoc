@@ -490,15 +490,86 @@ Same as above, but only wait for 40 seconds.
 
  qm shutdown 300 && qm wait 300 -timeout 40
 
+
+[[qm_configuration]]
 Configuration
 -------------
 
-All configuration files consists of lines in the form
-
- PARAMETER: value
-
-Configuration files are stored inside the Proxmox cluster file
+VM configuration files are stored inside the Proxmox cluster file
 system, and can be accessed at `/etc/pve/qemu-server/<VMID>.conf`.
+Like other files stored inside `/etc/pve/`, they get automatically
+replicated to all other cluster nodes.
+
+NOTE: VMIDs < 100 are reserved for internal purposes, and VMIDs need to be
+unique cluster wide.
+
+.Example VM Configuration
+----
+cores: 1
+sockets: 1
+memory: 512
+name: webmail
+ostype: l26
+bootdisk: virtio0
+net0: e1000=EE:D2:28:5F:B6:3E,bridge=vmbr0
+virtio0: local:vm-100-disk-1,size=32G
+----
+
+Those configuration files are simple text files, and you can edit them
+using a normal text editor (`vi`, `nano`, ...). This is sometimes
+useful to do small corrections, but keep in mind that you need to
+restart the VM to apply such changes.
+
+For that reason, it is usually better to use the `qm` command to
+generate and modify those files, or do the whole thing using the GUI.
+Our toolkit is smart enough to instantaneously apply most changes to
+running VM. This feature is called "hot plug", and there is no
+need to restart the VM in that case.
+
+
+File Format
+~~~~~~~~~~~
+
+VM configuration files use a simple colon separated key/value
+format. Each line has the following format:
+
+-----
+# this is a comment
+OPTION: value
+-----
+
+Blank lines in those files are ignored, and lines starting with a `#`
+character are treated as comments and are also ignored.
+
+
+[[qm_snapshots]]
+Snapshots
+~~~~~~~~~
+
+When you create a snapshot, `qm` stores the configuration at snapshot
+time into a separate snapshot section within the same configuration
+file. For example, after creating a snapshot called ``testsnapshot'',
+your configuration file will look like this:
+
+.VM configuration with snapshot
+----
+memory: 512
+swap: 512
+parent: testsnaphot
+...
+
+[testsnaphot]
+memory: 512
+swap: 512
+snaptime: 1457170803
+...
+----
+
+There are a few snapshot related properties like `parent` and
+`snaptime`. The `parent` property is used to store the parent/child
+relationship between snapshots. `snaptime` is the snapshot creation
+time stamp (Unix epoch).
+
 
 [[qm_options]]
 Options
