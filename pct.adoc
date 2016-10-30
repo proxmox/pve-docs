@@ -173,103 +173,6 @@ NOTE: Container start fails if the configured `ostype` differs from the auto
 detected type.
 
 
-[[pct_configuration]]
-Configuration
--------------
-
-The `/etc/pve/lxc/<CTID>.conf` file stores container configuration,
-where `<CTID>` is the numeric ID of the given container. Like all
-other files stored inside `/etc/pve/`, they get automatically
-replicated to all other cluster nodes.
-
-NOTE: CTIDs < 100 are reserved for internal purposes, and CTIDs need to be
-unique cluster wide.
-
-.Example Container Configuration
-----
-ostype: debian
-arch: amd64
-hostname: www
-memory: 512
-swap: 512
-net0: bridge=vmbr0,hwaddr=66:64:66:64:64:36,ip=dhcp,name=eth0,type=veth
-rootfs: local:107/vm-107-disk-1.raw,size=7G
-----
-
-Those configuration files are simple text files, and you can edit them
-using a normal text editor (`vi`, `nano`, ...). This is sometimes
-useful to do small corrections, but keep in mind that you need to
-restart the container to apply such changes.
-
-For that reason, it is usually better to use the `pct` command to
-generate and modify those files, or do the whole thing using the GUI.
-Our toolkit is smart enough to instantaneously apply most changes to
-running containers. This feature is called "hot plug", and there is no
-need to restart the container in that case.
-
-
-File Format
-~~~~~~~~~~~
-
-Container configuration files use a simple colon separated key/value
-format. Each line has the following format:
-
------
-# this is a comment
-OPTION: value
------
-
-Blank lines in those files are ignored, and lines starting with a `#`
-character are treated as comments and are also ignored.
-
-It is possible to add low-level, LXC style configuration directly, for
-example:
-
- lxc.init_cmd: /sbin/my_own_init
-
-or
-
- lxc.init_cmd = /sbin/my_own_init
-
-Those settings are directly passed to the LXC low-level tools.
-
-
-[[pct_snapshots]]
-Snapshots
-~~~~~~~~~
-
-When you create a snapshot, `pct` stores the configuration at snapshot
-time into a separate snapshot section within the same configuration
-file. For example, after creating a snapshot called ``testsnapshot'',
-your configuration file will look like this:
-
-.Container configuration with snapshot
-----
-memory: 512
-swap: 512
-parent: testsnaphot
-...
-
-[testsnaphot]
-memory: 512
-swap: 512
-snaptime: 1457170803
-...
-----
-
-There are a few snapshot related properties like `parent` and
-`snaptime`. The `parent` property is used to store the parent/child
-relationship between snapshots. `snaptime` is the snapshot creation
-time stamp (Unix epoch).
-
-
-[[pct_options]]
-Options
-~~~~~~~
-
-include::pct.conf.5-opts.adoc[]
-
-
 [[pct_container_images]]
 Container Images
 ----------------
@@ -633,6 +536,104 @@ The collected debug log is written to `/tmp/lxc-ID.log`.
 NOTE: If you have changed the container's configuration since the last start
 attempt with `pct start`, you need to run `pct start` at least once to also
 update the configuration used by `lxc-start`.
+
+
+[[pct_configuration]]
+Configuration
+-------------
+
+The `/etc/pve/lxc/<CTID>.conf` file stores container configuration,
+where `<CTID>` is the numeric ID of the given container. Like all
+other files stored inside `/etc/pve/`, they get automatically
+replicated to all other cluster nodes.
+
+NOTE: CTIDs < 100 are reserved for internal purposes, and CTIDs need to be
+unique cluster wide.
+
+.Example Container Configuration
+----
+ostype: debian
+arch: amd64
+hostname: www
+memory: 512
+swap: 512
+net0: bridge=vmbr0,hwaddr=66:64:66:64:64:36,ip=dhcp,name=eth0,type=veth
+rootfs: local:107/vm-107-disk-1.raw,size=7G
+----
+
+Those configuration files are simple text files, and you can edit them
+using a normal text editor (`vi`, `nano`, ...). This is sometimes
+useful to do small corrections, but keep in mind that you need to
+restart the container to apply such changes.
+
+For that reason, it is usually better to use the `pct` command to
+generate and modify those files, or do the whole thing using the GUI.
+Our toolkit is smart enough to instantaneously apply most changes to
+running containers. This feature is called "hot plug", and there is no
+need to restart the container in that case.
+
+
+File Format
+~~~~~~~~~~~
+
+Container configuration files use a simple colon separated key/value
+format. Each line has the following format:
+
+-----
+# this is a comment
+OPTION: value
+-----
+
+Blank lines in those files are ignored, and lines starting with a `#`
+character are treated as comments and are also ignored.
+
+It is possible to add low-level, LXC style configuration directly, for
+example:
+
+ lxc.init_cmd: /sbin/my_own_init
+
+or
+
+ lxc.init_cmd = /sbin/my_own_init
+
+Those settings are directly passed to the LXC low-level tools.
+
+
+[[pct_snapshots]]
+Snapshots
+~~~~~~~~~
+
+When you create a snapshot, `pct` stores the configuration at snapshot
+time into a separate snapshot section within the same configuration
+file. For example, after creating a snapshot called ``testsnapshot'',
+your configuration file will look like this:
+
+.Container configuration with snapshot
+----
+memory: 512
+swap: 512
+parent: testsnaphot
+...
+
+[testsnaphot]
+memory: 512
+swap: 512
+snaptime: 1457170803
+...
+----
+
+There are a few snapshot related properties like `parent` and
+`snaptime`. The `parent` property is used to store the parent/child
+relationship between snapshots. `snaptime` is the snapshot creation
+time stamp (Unix epoch).
+
+
+[[pct_options]]
+Options
+~~~~~~~
+
+include::pct.conf.5-opts.adoc[]
+
 
 Locks
 -----
