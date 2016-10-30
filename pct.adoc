@@ -68,6 +68,32 @@ NOTE: If you want to run micro-containers (with docker, rkt, ...), it
 is best to run them inside a VM.
 
 
+Technology Overview
+-------------------
+
+* LXC (https://linuxcontainers.org/)
+
+* Integrated into {pve} graphical user interface (GUI)
+
+* Easy to use command line tool `pct`
+
+* Access via {pve} REST API
+
+* lxcfs to provide containerized /proc file system
+
+* AppArmor/Seccomp to improve security
+
+* CRIU: for live migration (planned)
+
+* Use latest available kernels (4.4.X)
+
+* Image based deployment (templates)
+
+* Use {pve} storage library
+
+* Container setup from host (network, DNS, storage, ...)
+
+
 Security Considerations
 -----------------------
 
@@ -646,26 +672,6 @@ you need to remove such a lock manually (e.g., after a power failure).
 
 CAUTION: Only do that if you are sure the action which set the lock is
 no longer running.
-
-
-Technology Overview
--------------------
-
-* Integrated into {pve} graphical user interface (GUI)
-
-* LXC (https://linuxcontainers.org/)
-
-* lxcfs to provide containerized /proc file system
-
-* AppArmor
-
-* CRIU: for live migration (planned)
-
-* We use latest available kernels (4.4.X)
-
-* Image based deployment (templates)
-
-* Container setup from host (network, DNS, storage, ...)
 
 
 ifdef::manvolnum[]
