@@ -648,29 +648,6 @@ CAUTION: Only do that if you are sure the action which set the lock is
 no longer running.
 
 
-Container Advantages
---------------------
-
-* Simple, and fully integrated into {pve}. Setup looks similar to a normal
-  VM setup. 
-
-** Storage (ZFS, LVM, NFS, Ceph, ...)
-
-** Network
-
-** Authentication
-
-** Cluster
-
-* Fast: minimal overhead, as fast as bare metal
-
-* High density (perfect for idle workloads)
-
-* REST API
-
-* Direct hardware access
-
-
 Technology Overview
 -------------------
 
