@@ -91,7 +91,7 @@ http://www.linux-kvm.org/page/Using_VirtIO_NIC]
 
 
 [[qm_virtual_machines_settings]]
-Virtual Machines settings
+Virtual Machines Settings
 -------------------------
 
 Generally speaking {pve} tries to choose sane defaults for virtual machines
