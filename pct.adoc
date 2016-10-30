@@ -282,7 +282,8 @@ allows you to choose a suitable storage for each application. For
 example, you can use a relatively slow (and thus cheap) storage for
 the container root file system. Then you can use a second mount point
 to mount a very fast, distributed storage for your database
-application.
+application. See section <<pct_mount_points,Mount Points>> for further
+details.
 
 The second big improvement is that you can use any storage type
 supported by the {pve} storage library. That means that you can store
@@ -298,6 +299,60 @@ local storage inside containers with zero overhead. Such bind mounts
 also provide an easy way to share data between different containers.
 
 
+FUSE Mounts
+~~~~~~~~~~~
+
+WARNING: Because of existing issues in the Linux kernel's freezer
+subsystem the usage of FUSE mounts inside a container is strongly
+advised against, as containers need to be frozen for suspend or
+snapshot mode backups.
+
+If FUSE mounts cannot be replaced by other mounting mechanisms or storage
+technologies, it is possible to establish the FUSE mount on the Proxmox host
+and use a bind mount point to make it accessible inside the container.
+
+
+Using Quotas Inside Containers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Quotas allow to set limits inside a container for the amount of disk
+space that each user can use.  This only works on ext4 image based
+storage types and currently does not work with unprivileged
+containers.
+
+Activating the `quota` option causes the following mount options to be
+used for a mount point:
+`usrjquota=aquota.user,grpjquota=aquota.group,jqfmt=vfsv0`
+
+This allows quotas to be used like you would on any other system. You
+can initialize the `/aquota.user` and `/aquota.group` files by running
+
+----
+quotacheck -cmug /
+quotaon /
+----
+
+and edit the quotas via the `edquota` command. Refer to the documentation
+of the distribution running inside the container for details.
+
+NOTE: You need to run the above commands for every mount point by passing
+the mount point's path instead of just `/`.
+
+
+Using ACLs Inside Containers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The standard Posix **A**ccess **C**ontrol **L**ists are also available inside containers.
+ACLs allow you to set more detailed file ownership than the traditional user/
+group/others model.
+
+
+[[pct_setting]]
+Container Settings
+------------------
+
+
+[[pct_mount_points]]
 Mount Points
 ~~~~~~~~~~~~
 
@@ -376,57 +431,9 @@ more features.
 NOTE: The contents of device mount points are not backed up when using `vzdump`.
 
 
-FUSE Mounts
-~~~~~~~~~~~
-
-WARNING: Because of existing issues in the Linux kernel's freezer
-subsystem the usage of FUSE mounts inside a container is strongly
-advised against, as containers need to be frozen for suspend or
-snapshot mode backups.
-
-If FUSE mounts cannot be replaced by other mounting mechanisms or storage
-technologies, it is possible to establish the FUSE mount on the Proxmox host
-and use a bind mount point to make it accessible inside the container.
-
-
-Using Quotas Inside Containers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Quotas allow to set limits inside a container for the amount of disk
-space that each user can use.  This only works on ext4 image based
-storage types and currently does not work with unprivileged
-containers.
-
-Activating the `quota` option causes the following mount options to be
-used for a mount point:
-`usrjquota=aquota.user,grpjquota=aquota.group,jqfmt=vfsv0`
-
-This allows quotas to be used like you would on any other system. You
-can initialize the `/aquota.user` and `/aquota.group` files by running
-
-----
-quotacheck -cmug /
-quotaon /
-----
-
-and edit the quotas via the `edquota` command. Refer to the documentation
-of the distribution running inside the container for details.
-
-NOTE: You need to run the above commands for every mount point by passing
-the mount point's path instead of just `/`.
-
-
-Using ACLs Inside Containers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The standard Posix **A**ccess **C**ontrol **L**ists are also available inside containers.
-ACLs allow you to set more detailed file ownership than the traditional user/
-group/others model.
-
-
 [[pct_container_network]]
 Container Network
------------------
+~~~~~~~~~~~~~~~~~
 
 You can configure up to 10 network interfaces for a single
 container. The corresponding options are called `net0` to `net9`, and
