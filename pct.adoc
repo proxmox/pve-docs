@@ -491,8 +491,8 @@ NOTE: The contents of device mount points are not backed up when using `vzdump`.
 
 
 [[pct_container_network]]
-Container Network
-~~~~~~~~~~~~~~~~~
+Network
+~~~~~~~
 
 You can configure up to 10 network interfaces for a single
 container. The corresponding options are called `net0` to `net9`, and
