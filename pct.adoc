@@ -351,6 +351,65 @@ group/others model.
 Container Settings
 ------------------
 
+[[pct_cpu]]
+
+CPU
+~~~
+
+You can restrict the number of visible CPUs inside the container using
+the `cores` option. This is implemented using the Linux 'cpuset'
+cgroup (**c**ontrol *group*). A special task inside `pvestatd` tries
+to distribute running containers among available CPUs. You can view
+the assigned CPUs using the following command:
+
+----
+# pct cpusets
+ ---------------------
+ 102:              6 7
+ 105:      2 3 4 5
+ 108:  0 1
+ ---------------------
+----
+
+Containers use the host kernel directly, so all task inside a
+container are handled by the host CPU scheduler. {pve} uses the Linux
+'CFS' (**C**ompletely **F**air **S**cheduler) scheduler by default,
+which has additional bandwidth control options.
+
+[horizontal]
+cpulimit: :: You can use this option to further limit assigned CPU
+time. Please note that this is a floating point number, so it is
+perfectly valid to assign two cores to a container, but restrict
+overall CPU consumption to half a core.
++
+----
+cores: 2
+cpulimit: 0.5
+----
+
+cpuunits: :: This is a relative weight passed to the kernel
+scheduler. The larger the number is, the more CPU time this container
+gets. Number is relative to the weights of all the other running
+containers. The default is 1024. You can use this setting to
+prioritize some containers.
+
+
+[[pct_memory]]
+Memory
+~~~~~~
+
+Container memory is controlled using the cgroup memory controller.
+
+[horizontal]
+
+memory: :: Limit overall memory usage. This corresponds
+to the `memory.limit_in_bytes` cgroup setting.
+
+swap: :: Allows the container to use additional swap memory from the
+host swap space. This corresponds to the `memory.memsw.limit_in_bytes`
+cgroup setting, which is set to the sum of both value (`memory +
+swap`).
+
 
 [[pct_mount_points]]
 Mount Points
