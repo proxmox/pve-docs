@@ -377,7 +377,8 @@ container are handled by the host CPU scheduler. {pve} uses the Linux
 which has additional bandwidth control options.
 
 [horizontal]
-cpulimit: :: You can use this option to further limit assigned CPU
+
+`cpulimit`: :: You can use this option to further limit assigned CPU
 time. Please note that this is a floating point number, so it is
 perfectly valid to assign two cores to a container, but restrict
 overall CPU consumption to half a core.
@@ -387,7 +388,7 @@ cores: 2
 cpulimit: 0.5
 ----
 
-cpuunits: :: This is a relative weight passed to the kernel
+`cpuunits`: :: This is a relative weight passed to the kernel
 scheduler. The larger the number is, the more CPU time this container
 gets. Number is relative to the weights of all the other running
 containers. The default is 1024. You can use this setting to
@@ -402,10 +403,10 @@ Container memory is controlled using the cgroup memory controller.
 
 [horizontal]
 
-memory: :: Limit overall memory usage. This corresponds
+`memory`: :: Limit overall memory usage. This corresponds
 to the `memory.limit_in_bytes` cgroup setting.
 
-swap: :: Allows the container to use additional swap memory from the
+`swap`: :: Allows the container to use additional swap memory from the
 host swap space. This corresponds to the `memory.memsw.limit_in_bytes`
 cgroup setting, which is set to the sum of both value (`memory +
 swap`).
