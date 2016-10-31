@@ -352,7 +352,6 @@ Container Settings
 ------------------
 
 [[pct_cpu]]
-
 CPU
 ~~~
 
