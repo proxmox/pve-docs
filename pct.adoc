@@ -347,7 +347,7 @@ ACLs allow you to set more detailed file ownership than the traditional user/
 group/others model.
 
 
-[[pct_setting]]
+[[pct_settings]]
 Container Settings
 ------------------
 
