@@ -139,7 +139,8 @@ connected. You can connect up to 6 devices on this controller.
 
 * the *SCSI* controller, designed in 1985, is commonly found on server grade
 hardware, and can connect up to 14 storage devices. {pve} emulates by default a
-LSI 53C895A controller. +
+LSI 53C895A controller.
++
 A SCSI controller of type _Virtio_ is the recommended setting if you aim for
 performance and is automatically selected for newly created Linux VMs since
 {pve} 4.3. Linux distributions have support for this controller since 2012, and
@@ -203,7 +204,8 @@ processing units. Whether you have a single CPU socket with 4 cores, or two CPU
 sockets with two cores is mostly irrelevant from a performance point of view.
 However some software is licensed depending on the number of sockets you have in
 your machine, in that case it makes sense to set the number of of sockets to
-what the license allows you, and increase the number of cores. +
+what the license allows you, and increase the number of cores.
+
 Increasing the number of virtual cpus (cores and sockets) will usually provide a
 performance improvement though that is heavily dependent on the use of the VM.
 Multithreaded applications will of course benefit from a large number of
@@ -227,14 +229,16 @@ Usually you should select for your VM a processor type which closely matches the
 CPU of the host system, as it means that the host CPU features (also called _CPU
 flags_ ) will be available in your VMs. If you want an exact match, you can set
 the CPU type to *host* in which case the VM will have exactly the same CPU flags
-as your host system. +
+as your host system.
+
 This has a downside though. If you want to do a live migration of VMs between
 different hosts, your VM might end up on a new system with a different CPU type.
 If the CPU flags passed to the guest are missing, the qemu process will stop. To
 remedy this Qemu has also its own CPU type *kvm64*, that {pve} uses by defaults.
 kvm64 is a Pentium 4 look a like CPU type, which has a reduced CPU flags set,
-but is guaranteed to work everywhere. +
- In short, if you care about live migration and moving VMs between nodes, leave
+but is guaranteed to work everywhere.
+
+In short, if you care about live migration and moving VMs between nodes, leave
 the kvm64 default. If you don’t care about live migration, set the CPU type to
 host, as in theory this will give your guests maximum performance.
 
@@ -267,7 +271,8 @@ specify to your VM.
 When choosing to *automatically allocate memory*, {pve} will make sure that the
 minimum amount you specified is always available to the VM, and if RAM usage on
 the host is below 80%, will dynamically add memory to the guest up to the
-maximum memory specified. +
+maximum memory specified.
+
 When the host is becoming short on RAM, the VM will then release some memory
 back to the host, swapping running processes if needed and starting the oom
 killer in last resort. The passing around of memory between host and guest is
