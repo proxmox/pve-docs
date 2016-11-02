@@ -32,10 +32,16 @@ Using the {pve} Installation CD-ROM
 
 Includes the following:
 
-* Complete operating system (Debian Linux, 64-bit, "jessie" for {pve} 4.x)
-* Partitioning of the hard drive(s) containing the OS with ext4, ext3, xfs or ZFS
-* {pve} Kernel derived from Unbuntu 16.04 LTS with LXC and KVM support
-* Complete toolset for administering virtual machines, containers and all necessary resources
+* Complete operating system (Debian Linux, 64-bit)
+
+* Partitioning of the hard drive(s) containing the operating system
+  with ext4, ext3, xfs or ZFS
+
+* {pve} kernel with LXC and KVM support
+
+* Complete toolset for administering virtual machines, containers and
+  all necessary resources
+
 * Web based management interface for using the toolset
 
 
