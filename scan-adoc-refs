@@ -161,16 +161,16 @@ sub scan_adoc_file {
 
 	# try to detect titles
 	foreach my $e (@{$env_stack->[-1]}) {
-	    if ($line =~ m/^=====+$/) {
+	    if ($line =~ m/^===+$/) {
 		register_title($filename, $e, 0, $env_last_line->{$e},
 			       $env_last_blockid->{$e});
-	    } elsif ($line =~ m/^-----+$/) {
+	    } elsif ($line =~ m/^---+$/) {
 		register_title($filename, $e, 1, $env_last_line->{$e},
 			       $env_last_blockid->{$e});
-	    } elsif ($line =~ m/^~~~~~+$/) {
+	    } elsif ($line =~ m/^~~~+$/) {
 		register_title($filename, $e, 2, $env_last_line->{$e},
 			       $env_last_blockid->{$e});
-	    } elsif ($line =~ m/^\^\^\^\^\^+$/) {
+	    } elsif ($line =~ m/^\^\^\^+$/) {
 		register_title($filename, $e, 3, $env_last_line->{$e},
 			       $env_last_blockid->{$e});
 	    } elsif ($line =~ m/^= +(\S.*?)( +=)?$/) {
