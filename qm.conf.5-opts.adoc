@@ -38,6 +38,162 @@ Enable booting from specified disk.
 
 This is an alias for option -ide2
 
+`aio`=`(native | threads)` ;;
+
+AIO type to use.
+
+`backup`=`boolean` ;;
+
+Whether the drive should be included when making backups.
+
+`bps`=`<bps>` ;;
+
+Maximum r/w speed in bytes per second.
+
+`bps_max_length`=`<seconds>` ;;
+
+Maximum length of I/O bursts in seconds.
+
+`bps_rd`=`<bps>` ;;
+
+Maximum read speed in bytes per second.
+
+`bps_rd_length`=`<seconds>` ;;
+
+Maximum length of read I/O bursts in seconds.
+
+`bps_wr`=`<bps>` ;;
+
+Maximum write speed in bytes per second.
+
+`bps_wr_length`=`<seconds>` ;;
+
+Maximum length of write I/O bursts in seconds.
+
+`cache`=`(directsync | none | unsafe | writeback | writethrough)` ;;
+
+The drive's cache mode
+
+`cyls`=`integer` ;;
+
+Force the drive's physical geometry to have a specific cylinder count.
+
+`detect_zeroes`=`boolean` ;;
+
+Controls whether to detect and try to optimize writes of zeroes.
+
+`discard`=`(ignore | on)` ;;
+
+Controls whether to pass discard/trim requests to the underlying storage.
+
+`file`=`<volume>` ;;
+
+The drive's backing volume.
+
+`format`=`(cloop | cow | qcow | qcow2 | qed | raw | vmdk)` ;;
+
+The drive's backing file's data format.
+
+`heads`=`integer` ;;
+
+Force the drive's physical geometry to have a specific head count.
+
+`iops`=`<iops>` ;;
+
+Maximum r/w I/O in operations per second.
+
+`iops_max`=`<iops>` ;;
+
+Maximum unthrottled r/w I/O pool in operations per second.
+
+`iops_max_length`=`<seconds>` ;;
+
+Maximum length of I/O bursts in seconds.
+
+`iops_rd`=`<iops>` ;;
+
+Maximum read I/O in operations per second.
+
+`iops_rd_length`=`<seconds>` ;;
+
+Maximum length of read I/O bursts in seconds.
+
+`iops_rd_max`=`<iops>` ;;
+
+Maximum unthrottled read I/O pool in operations per second.
+
+`iops_wr`=`<iops>` ;;
+
+Maximum write I/O in operations per second.
+
+`iops_wr_length`=`<seconds>` ;;
+
+Maximum length of write I/O bursts in seconds.
+
+`iops_wr_max`=`<iops>` ;;
+
+Maximum unthrottled write I/O pool in operations per second.
+
+`mbps`=`<mbps>` ;;
+
+Maximum r/w speed in megabytes per second.
+
+`mbps_max`=`<mbps>` ;;
+
+Maximum unthrottled r/w pool in megabytes per second.
+
+`mbps_rd`=`<mbps>` ;;
+
+Maximum read speed in megabytes per second.
+
+`mbps_rd_max`=`<mbps>` ;;
+
+Maximum unthrottled read pool in megabytes per second.
+
+`mbps_wr`=`<mbps>` ;;
+
+Maximum write speed in megabytes per second.
+
+`mbps_wr_max`=`<mbps>` ;;
+
+Maximum unthrottled write pool in megabytes per second.
+
+`media`=`(cdrom | disk)` (default=`disk`);;
+
+The drive's media type.
+
+`model`=`<model>` ;;
+
+The drive's reported model name, url-encoded, up to 40 bytes long.
+
+`rerror`=`(ignore | report | stop)` ;;
+
+Read error action.
+
+`secs`=`integer` ;;
+
+Force the drive's physical geometry to have a specific sector count.
+
+`serial`=`<serial>` ;;
+
+The drive's reported serial number, url-encoded, up to 20 bytes long.
+
+`size`=`<DiskSize>` ;;
+
+Disk size. This is purely informational and has no effect.
+
+`snapshot`=`boolean` ;;
+
+Whether the drive should be included when making snapshots.
+
+`trans`=`(auto | lba | none)` ;;
+
+Force disk geometry bios translation mode.
+
+`werror`=`(enospc | ignore | report | stop)` ;;
+
+Write error action.
+
 `cores`: `integer (1 - N)` (default=`1`)::
 
 The number of cores per socket.
@@ -60,7 +216,7 @@ Limit of CPU usage.
 +
 NOTE: If the computer has 2 CPUs, it has total of '2' CPU time. Value '0' indicates no CPU limit.
 
-`cpuunits`: `integer (0 - 500000)` (default=`1000`)::
+`cpuunits`: `integer (0 - 500000)` (default=`1024`)::
 
 CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs.
 +
@@ -70,7 +226,7 @@ NOTE: You can disable fair-scheduler configuration by setting this to 0.
 
 Description for the VM. Only used on the configuration web interface. This is saved as comment inside the configuration file.
 
-`efidisk0`: `[file=]<volume> [,format=<image format>] [,size=<DiskSize>]` ::
+`efidisk0`: `[file=]<volume> [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,size=<DiskSize>]` ::
 
 Configure a Disk for storing EFI vars
 
@@ -78,7 +234,7 @@ Configure a Disk for storing EFI vars
 
 The drive's backing volume.
 
-`format`=`<image format>` ;;
+`format`=`(cloop | cow | qcow | qcow2 | qed | raw | vmdk)` ;;
 
 The drive's backing file's data format.
 
@@ -128,7 +284,7 @@ Selectively enable hotplug features. This is a comma separated list of hotplug f
 
 Enable/disable hugepages memory.
 
-`ide[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
+`ide[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
 
 Use volume as IDE hard disk or CD-ROM (n is 0 to 3).
 
@@ -142,15 +298,27 @@ Whether the drive should be included when making backups.
 
 `bps`=`<bps>` ;;
 
-Maximum r/w speed speed in bytes per second.
+Maximum r/w speed in bytes per second.
+
+`bps_max_length`=`<seconds>` ;;
+
+Maximum length of I/O bursts in seconds.
 
 `bps_rd`=`<bps>` ;;
 
-Maximum read speed speed in bytes per second.
+Maximum read speed in bytes per second.
+
+`bps_rd_length`=`<seconds>` ;;
+
+Maximum length of read I/O bursts in seconds.
 
 `bps_wr`=`<bps>` ;;
 
-Maximum write speed speed in bytes per second.
+Maximum write speed in bytes per second.
+
+`bps_wr_length`=`<seconds>` ;;
+
+Maximum length of write I/O bursts in seconds.
 
 `cache`=`(directsync | none | unsafe | writeback | writethrough)` ;;
 
@@ -172,7 +340,7 @@ Controls whether to pass discard/trim requests to the underlying storage.
 
 The drive's backing volume.
 
-`format`=`<image format>` ;;
+`format`=`(cloop | cow | qcow | qcow2 | qed | raw | vmdk)` ;;
 
 The drive's backing file's data format.
 
@@ -182,51 +350,63 @@ Force the drive's physical geometry to have a specific head count.
 
 `iops`=`<iops>` ;;
 
-Maximum r/w I/O speed in operations per second.
+Maximum r/w I/O in operations per second.
 
 `iops_max`=`<iops>` ;;
 
-Maximum unthrottled r/w I/O pool speed in operations per second.
+Maximum unthrottled r/w I/O pool in operations per second.
+
+`iops_max_length`=`<seconds>` ;;
+
+Maximum length of I/O bursts in seconds.
 
 `iops_rd`=`<iops>` ;;
 
-Maximum read I/O speed in operations per second.
+Maximum read I/O in operations per second.
+
+`iops_rd_length`=`<seconds>` ;;
+
+Maximum length of read I/O bursts in seconds.
 
 `iops_rd_max`=`<iops>` ;;
 
-Maximum unthrottled read I/O pool speed in operations per second.
+Maximum unthrottled read I/O pool in operations per second.
 
 `iops_wr`=`<iops>` ;;
 
-Maximum write I/O speed in operations per second.
+Maximum write I/O in operations per second.
+
+`iops_wr_length`=`<seconds>` ;;
+
+Maximum length of write I/O bursts in seconds.
 
 `iops_wr_max`=`<iops>` ;;
 
-Maximum unthrottled write I/O pool speed in operations per second.
+Maximum unthrottled write I/O pool in operations per second.
 
 `mbps`=`<mbps>` ;;
 
-Maximum r/w speed speed in megabytes per second.
+Maximum r/w speed in megabytes per second.
 
 `mbps_max`=`<mbps>` ;;
 
-Maximum unthrottled r/w pool speed in megabytes per second.
+Maximum unthrottled r/w pool in megabytes per second.
 
 `mbps_rd`=`<mbps>` ;;
 
-Maximum read speed speed in megabytes per second.
+Maximum read speed in megabytes per second.
 
 `mbps_rd_max`=`<mbps>` ;;
 
-Maximum unthrottled read pool speed in megabytes per second.
+Maximum unthrottled read pool in megabytes per second.
 
 `mbps_wr`=`<mbps>` ;;
 
-Maximum write speed speed in megabytes per second.
+Maximum write speed in megabytes per second.
 
 `mbps_wr_max`=`<mbps>` ;;
 
-Maximum unthrottled write pool speed in megabytes per second.
+Maximum unthrottled write pool in megabytes per second.
 
 `media`=`(cdrom | disk)` (default=`disk`);;
 
@@ -413,7 +593,7 @@ Sets the protection flag of the VM. This will disable the remove VM and remove d
 
 Allow reboot. If set to '0' the VM exit on reboot.
 
-`sata[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
+`sata[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
 
 Use volume as SATA hard disk or CD-ROM (n is 0 to 5).
 
@@ -427,15 +607,27 @@ Whether the drive should be included when making backups.
 
 `bps`=`<bps>` ;;
 
-Maximum r/w speed speed in bytes per second.
+Maximum r/w speed in bytes per second.
+
+`bps_max_length`=`<seconds>` ;;
+
+Maximum length of I/O bursts in seconds.
 
 `bps_rd`=`<bps>` ;;
 
-Maximum read speed speed in bytes per second.
+Maximum read speed in bytes per second.
+
+`bps_rd_length`=`<seconds>` ;;
+
+Maximum length of read I/O bursts in seconds.
 
 `bps_wr`=`<bps>` ;;
 
-Maximum write speed speed in bytes per second.
+Maximum write speed in bytes per second.
+
+`bps_wr_length`=`<seconds>` ;;
+
+Maximum length of write I/O bursts in seconds.
 
 `cache`=`(directsync | none | unsafe | writeback | writethrough)` ;;
 
@@ -457,7 +649,7 @@ Controls whether to pass discard/trim requests to the underlying storage.
 
 The drive's backing volume.
 
-`format`=`<image format>` ;;
+`format`=`(cloop | cow | qcow | qcow2 | qed | raw | vmdk)` ;;
 
 The drive's backing file's data format.
 
@@ -467,51 +659,63 @@ Force the drive's physical geometry to have a specific head count.
 
 `iops`=`<iops>` ;;
 
-Maximum r/w I/O speed in operations per second.
+Maximum r/w I/O in operations per second.
 
 `iops_max`=`<iops>` ;;
 
-Maximum unthrottled r/w I/O pool speed in operations per second.
+Maximum unthrottled r/w I/O pool in operations per second.
+
+`iops_max_length`=`<seconds>` ;;
+
+Maximum length of I/O bursts in seconds.
 
 `iops_rd`=`<iops>` ;;
 
-Maximum read I/O speed in operations per second.
+Maximum read I/O in operations per second.
+
+`iops_rd_length`=`<seconds>` ;;
+
+Maximum length of read I/O bursts in seconds.
 
 `iops_rd_max`=`<iops>` ;;
 
-Maximum unthrottled read I/O pool speed in operations per second.
+Maximum unthrottled read I/O pool in operations per second.
 
 `iops_wr`=`<iops>` ;;
 
-Maximum write I/O speed in operations per second.
+Maximum write I/O in operations per second.
+
+`iops_wr_length`=`<seconds>` ;;
+
+Maximum length of write I/O bursts in seconds.
 
 `iops_wr_max`=`<iops>` ;;
 
-Maximum unthrottled write I/O pool speed in operations per second.
+Maximum unthrottled write I/O pool in operations per second.
 
 `mbps`=`<mbps>` ;;
 
-Maximum r/w speed speed in megabytes per second.
+Maximum r/w speed in megabytes per second.
 
 `mbps_max`=`<mbps>` ;;
 
-Maximum unthrottled r/w pool speed in megabytes per second.
+Maximum unthrottled r/w pool in megabytes per second.
 
 `mbps_rd`=`<mbps>` ;;
 
-Maximum read speed speed in megabytes per second.
+Maximum read speed in megabytes per second.
 
 `mbps_rd_max`=`<mbps>` ;;
 
-Maximum unthrottled read pool speed in megabytes per second.
+Maximum unthrottled read pool in megabytes per second.
 
 `mbps_wr`=`<mbps>` ;;
 
-Maximum write speed speed in megabytes per second.
+Maximum write speed in megabytes per second.
 
 `mbps_wr_max`=`<mbps>` ;;
 
-Maximum unthrottled write pool speed in megabytes per second.
+Maximum unthrottled write pool in megabytes per second.
 
 `media`=`(cdrom | disk)` (default=`disk`);;
 
@@ -545,7 +749,7 @@ Force disk geometry bios translation mode.
 
 Write error action.
 
-`scsi[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
+`scsi[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
 
 Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).
 
@@ -559,15 +763,27 @@ Whether the drive should be included when making backups.
 
 `bps`=`<bps>` ;;
 
-Maximum r/w speed speed in bytes per second.
+Maximum r/w speed in bytes per second.
+
+`bps_max_length`=`<seconds>` ;;
+
+Maximum length of I/O bursts in seconds.
 
 `bps_rd`=`<bps>` ;;
 
-Maximum read speed speed in bytes per second.
+Maximum read speed in bytes per second.
+
+`bps_rd_length`=`<seconds>` ;;
+
+Maximum length of read I/O bursts in seconds.
 
 `bps_wr`=`<bps>` ;;
 
-Maximum write speed speed in bytes per second.
+Maximum write speed in bytes per second.
+
+`bps_wr_length`=`<seconds>` ;;
+
+Maximum length of write I/O bursts in seconds.
 
 `cache`=`(directsync | none | unsafe | writeback | writethrough)` ;;
 
@@ -589,7 +805,7 @@ Controls whether to pass discard/trim requests to the underlying storage.
 
 The drive's backing volume.
 
-`format`=`<image format>` ;;
+`format`=`(cloop | cow | qcow | qcow2 | qed | raw | vmdk)` ;;
 
 The drive's backing file's data format.
 
@@ -599,27 +815,39 @@ Force the drive's physical geometry to have a specific head count.
 
 `iops`=`<iops>` ;;
 
-Maximum r/w I/O speed in operations per second.
+Maximum r/w I/O in operations per second.
 
 `iops_max`=`<iops>` ;;
 
-Maximum unthrottled r/w I/O pool speed in operations per second.
+Maximum unthrottled r/w I/O pool in operations per second.
+
+`iops_max_length`=`<seconds>` ;;
+
+Maximum length of I/O bursts in seconds.
 
 `iops_rd`=`<iops>` ;;
 
-Maximum read I/O speed in operations per second.
+Maximum read I/O in operations per second.
+
+`iops_rd_length`=`<seconds>` ;;
+
+Maximum length of read I/O bursts in seconds.
 
 `iops_rd_max`=`<iops>` ;;
 
-Maximum unthrottled read I/O pool speed in operations per second.
+Maximum unthrottled read I/O pool in operations per second.
 
 `iops_wr`=`<iops>` ;;
 
-Maximum write I/O speed in operations per second.
+Maximum write I/O in operations per second.
+
+`iops_wr_length`=`<seconds>` ;;
+
+Maximum length of write I/O bursts in seconds.
 
 `iops_wr_max`=`<iops>` ;;
 
-Maximum unthrottled write I/O pool speed in operations per second.
+Maximum unthrottled write I/O pool in operations per second.
 
 `iothread`=`boolean` ;;
 
@@ -627,27 +855,27 @@ Whether to use iothreads for this drive
 
 `mbps`=`<mbps>` ;;
 
-Maximum r/w speed speed in megabytes per second.
+Maximum r/w speed in megabytes per second.
 
 `mbps_max`=`<mbps>` ;;
 
-Maximum unthrottled r/w pool speed in megabytes per second.
+Maximum unthrottled r/w pool in megabytes per second.
 
 `mbps_rd`=`<mbps>` ;;
 
-Maximum read speed speed in megabytes per second.
+Maximum read speed in megabytes per second.
 
 `mbps_rd_max`=`<mbps>` ;;
 
-Maximum unthrottled read pool speed in megabytes per second.
+Maximum unthrottled read pool in megabytes per second.
 
 `mbps_wr`=`<mbps>` ;;
 
-Maximum write speed speed in megabytes per second.
+Maximum write speed in megabytes per second.
 
 `mbps_wr_max`=`<mbps>` ;;
 
-Maximum unthrottled write pool speed in megabytes per second.
+Maximum unthrottled write pool in megabytes per second.
 
 `media`=`(cdrom | disk)` (default=`disk`);;
 
@@ -793,7 +1021,7 @@ Number of hotplugged vcpus.
 
 Select the VGA type. If you want to use high resolution modes (>= 1280x1024x16) then you should use the options 'std' or 'vmware'. Default is 'std' for win8/win7/w2k8, and 'cirrus' for other OS types. The 'qxl' option enables the SPICE display sever. For win* OS you can select how many independent displays you want, Linux guests can add displays them self. You can also run without any graphic card, using a serial device as terminal.
 
-`virtio[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
+`virtio[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
 
 Use volume as VIRTIO hard disk (n is 0 to 15).
 
@@ -807,15 +1035,27 @@ Whether the drive should be included when making backups.
 
 `bps`=`<bps>` ;;
 
-Maximum r/w speed speed in bytes per second.
+Maximum r/w speed in bytes per second.
+
+`bps_max_length`=`<seconds>` ;;
+
+Maximum length of I/O bursts in seconds.
 
 `bps_rd`=`<bps>` ;;
 
-Maximum read speed speed in bytes per second.
+Maximum read speed in bytes per second.
+
+`bps_rd_length`=`<seconds>` ;;
+
+Maximum length of read I/O bursts in seconds.
 
 `bps_wr`=`<bps>` ;;
 
-Maximum write speed speed in bytes per second.
+Maximum write speed in bytes per second.
+
+`bps_wr_length`=`<seconds>` ;;
+
+Maximum length of write I/O bursts in seconds.
 
 `cache`=`(directsync | none | unsafe | writeback | writethrough)` ;;
 
@@ -837,7 +1077,7 @@ Controls whether to pass discard/trim requests to the underlying storage.
 
 The drive's backing volume.
 
-`format`=`<image format>` ;;
+`format`=`(cloop | cow | qcow | qcow2 | qed | raw | vmdk)` ;;
 
 The drive's backing file's data format.
 
@@ -847,27 +1087,39 @@ Force the drive's physical geometry to have a specific head count.
 
 `iops`=`<iops>` ;;
 
-Maximum r/w I/O speed in operations per second.
+Maximum r/w I/O in operations per second.
 
 `iops_max`=`<iops>` ;;
 
-Maximum unthrottled r/w I/O pool speed in operations per second.
+Maximum unthrottled r/w I/O pool in operations per second.
+
+`iops_max_length`=`<seconds>` ;;
+
+Maximum length of I/O bursts in seconds.
 
 `iops_rd`=`<iops>` ;;
 
-Maximum read I/O speed in operations per second.
+Maximum read I/O in operations per second.
+
+`iops_rd_length`=`<seconds>` ;;
+
+Maximum length of read I/O bursts in seconds.
 
 `iops_rd_max`=`<iops>` ;;
 
-Maximum unthrottled read I/O pool speed in operations per second.
+Maximum unthrottled read I/O pool in operations per second.
 
 `iops_wr`=`<iops>` ;;
 
-Maximum write I/O speed in operations per second.
+Maximum write I/O in operations per second.
+
+`iops_wr_length`=`<seconds>` ;;
+
+Maximum length of write I/O bursts in seconds.
 
 `iops_wr_max`=`<iops>` ;;
 
-Maximum unthrottled write I/O pool speed in operations per second.
+Maximum unthrottled write I/O pool in operations per second.
 
 `iothread`=`boolean` ;;
 
@@ -875,27 +1127,27 @@ Whether to use iothreads for this drive
 
 `mbps`=`<mbps>` ;;
 
-Maximum r/w speed speed in megabytes per second.
+Maximum r/w speed in megabytes per second.
 
 `mbps_max`=`<mbps>` ;;
 
-Maximum unthrottled r/w pool speed in megabytes per second.
+Maximum unthrottled r/w pool in megabytes per second.
 
 `mbps_rd`=`<mbps>` ;;
 
-Maximum read speed speed in megabytes per second.
+Maximum read speed in megabytes per second.
 
 `mbps_rd_max`=`<mbps>` ;;
 
-Maximum unthrottled read pool speed in megabytes per second.
+Maximum unthrottled read pool in megabytes per second.
 
 `mbps_wr`=`<mbps>` ;;
 
-Maximum write speed speed in megabytes per second.
+Maximum write speed in megabytes per second.
 
 `mbps_wr_max`=`<mbps>` ;;
 
-Maximum unthrottled write pool speed in megabytes per second.
+Maximum unthrottled write pool in megabytes per second.
 
 `media`=`(cdrom | disk)` (default=`disk`);;
 

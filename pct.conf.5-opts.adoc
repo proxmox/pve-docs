@@ -10,6 +10,10 @@ Console mode. By default, the console command tries to open a connection to one 
 
 Attach a console device (/dev/console) to the container.
 
+`cores`: `integer (1 - 128)` ::
+
+The number of cores assigned to the container. A container can use all available cores by default.
+
 `cpulimit`: `number (0 - 128)` (default=`0`)::
 
 Limit of CPU usage.
@@ -38,7 +42,7 @@ Lock/unlock the VM.
 
 Amount of RAM for the VM in MB.
 
-`mp[n]`: `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,size=<DiskSize>]` ::
+`mp[n]`: `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
 Use volume as container mount point.
 
@@ -48,11 +52,11 @@ Explicitly enable or disable ACL support.
 
 `backup`=`boolean` ;;
 
-Whether to include the mountpoint in backups (only used for volume mountpoints).
+Whether to include the mount point in backups (only used for volume mount points).
 
 `mp`=`<Path>` ;;
 
-Path to the mountpoint as seen from inside the container.
+Path to the mount point as seen from inside the container.
 +
 NOTE: Must not contain any symlinks for security reasons.
 
@@ -62,7 +66,13 @@ Enable user quotas inside the container (not supported with zfs subvolumes)
 
 `ro`=`boolean` ;;
 
-Read-only mountpoint
+Read-only mount point
+
+`shared`=`boolean` (default=`0`);;
+
+Mark this non-volume mount point as available on all nodes.
++
+WARNING: This option does not share the mount point automatically, it assumes it is shared already!
 
 `size`=`<DiskSize>` ;;
 
@@ -144,7 +154,7 @@ OS type. This is used to setup configuration inside the container, and correspon
 
 Sets the protection flag of the container. This will prevent the CT or CT's disk remove/update operation.
 
-`rootfs`: `[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,size=<DiskSize>]` ::
+`rootfs`: `[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
 Use volume as container root.
 
@@ -158,7 +168,13 @@ Enable user quotas inside the container (not supported with zfs subvolumes)
 
 `ro`=`boolean` ;;
 
-Read-only mountpoint
+Read-only mount point
+
+`shared`=`boolean` (default=`0`);;
+
+Mark this non-volume mount point as available on all nodes.
++
+WARNING: This option does not share the mount point automatically, it assumes it is shared already!
 
 `size`=`<DiskSize>` ;;
 

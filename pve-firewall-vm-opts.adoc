@@ -8,11 +8,7 @@ Enable/disable firewall rules.
 
 `ipfilter`: `boolean` ::
 
-Enable default IP filters. This is equivalent to adding an empty
-ipfilter-net<id> ipset for every interface. Such ipsets implicitly contain
-sane default restrictions such as restricting IPv6 link local addresses to
-the one derived from the interface's MAC address. For containers the
-configured IP addresses will be implicitly added.
+Enable default IP filters. This is equivalent to adding an empty ipfilter-net<id> ipset for every interface. Such ipsets implicitly contain sane default restrictions such as restricting IPv6 link local addresses to the one derived from the interface's MAC address. For containers the configured IP addresses will be implicitly added.
 
 `log_level_in`: `(alert | crit | debug | emerg | err | info | nolog | notice | warning)` ::
 

@@ -2248,7 +2248,8 @@ var pveapi = [
                         [
                            "Sys.Modify"
                         ]
-                     ]
+                     ],
+                     "description" : "The 'tmpdir', 'dumpdir' and 'script' parameters are additionally restricted to the 'root@pam' user."
                   },
                   "protected" : 1,
                   "returns" : {
@@ -3202,8 +3203,33 @@ var pveapi = [
                            "type" : "integer",
                            "typetext" : "integer (1 - N)"
                         },
+                        "migration" : {
+                           "description" : "For cluster wide migration settings.",
+                           "format" : {
+                              "network" : {
+                                 "description" : "CIDR of the (sub) network that is used for migration.",
+                                 "format" : "CIDR",
+                                 "format_description" : "CIDR",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "type" : {
+                                 "default" : "secure",
+                                 "default_key" : 1,
+                                 "description" : "Migration traffic is encrypted using an SSH tunnel by default. On secure, completely private networks this can be disabled to increase performance.",
+                                 "enum" : [
+                                    "secure",
+                                    "insecure"
+                                 ],
+                                 "type" : "string"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "[type=]<secure|insecure> [,network=<CIDR>]"
+                        },
                         "migration_unsecure" : {
-                           "description" : "Migration is secure using SSH tunnel by default. For secure private networks you can disable it to speed up migration.",
+                           "description" : "Migration is secure using SSH tunnel by default. For secure private networks you can disable it to speed up migration. Deprecated, use the 'migration' property instead!",
                            "optional" : 1,
                            "type" : "boolean"
                         }
@@ -5210,7 +5236,7 @@ var pveapi = [
                                           },
                                           "cdrom" : {
                                              "description" : "This is an alias for option -ide2",
-                                             "format" : "pve-qm-drive",
+                                             "format" : "pve-qm-ide",
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "volume"
@@ -5285,7 +5311,7 @@ var pveapi = [
                                              "verbose_description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has total of '2' CPU time. Value '0' indicates no CPU limit."
                                           },
                                           "cpuunits" : {
-                                             "default" : 1000,
+                                             "default" : 1024,
                                              "description" : "CPU weight for a VM.",
                                              "maximum" : 500000,
                                              "minimum" : 0,
@@ -5365,20 +5391,41 @@ var pveapi = [
                                                    "type" : "boolean"
                                                 },
                                                 "bps" : {
-                                                   "description" : "Maximum r/w speed speed in bytes per second.",
+                                                   "description" : "Maximum r/w speed in bytes per second.",
                                                    "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd" : {
-                                                   "description" : "Maximum read speed speed in bytes per second.",
+                                                   "description" : "Maximum read speed in bytes per second.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "bps_rd_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "bps_wr" : {
-                                                   "description" : "Maximum write speed speed in bytes per second.",
+                                                   "description" : "Maximum write speed in bytes per second.",
                                                    "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_wr_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -5431,7 +5478,6 @@ var pveapi = [
                                                       "vmdk",
                                                       "cloop"
                                                    ],
-                                                   "format_description" : "image format",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -5441,73 +5487,94 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops" : {
-                                                   "description" : "Maximum r/w I/O speed in operations per second.",
+                                                   "description" : "Maximum r/w I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_max" : {
-                                                   "description" : "Maximum unthrottled r/w I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled r/w I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_rd" : {
-                                                   "description" : "Maximum read I/O speed in operations per second.",
+                                                   "description" : "Maximum read I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "iops_rd_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "iops_rd_max" : {
-                                                   "description" : "Maximum unthrottled read I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_wr" : {
-                                                   "description" : "Maximum write I/O speed in operations per second.",
+                                                   "description" : "Maximum write I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "iops_wr_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "iops_wr_max" : {
-                                                   "description" : "Maximum unthrottled write I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "mbps" : {
-                                                   "description" : "Maximum r/w speed speed in megabytes per second.",
+                                                   "description" : "Maximum r/w speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_max" : {
-                                                   "description" : "Maximum unthrottled r/w pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled r/w pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_rd" : {
-                                                   "description" : "Maximum read speed speed in megabytes per second.",
+                                                   "description" : "Maximum read speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_rd_max" : {
-                                                   "description" : "Maximum unthrottled read pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled read pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_wr" : {
-                                                   "description" : "Maximum write speed speed in megabytes per second.",
+                                                   "description" : "Maximum write speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_wr_max" : {
-                                                   "description" : "Maximum unthrottled write pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled write pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
@@ -5592,7 +5659,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
                                           },
                                           "keyboard" : {
                                              "default" : "en-us",
@@ -5932,20 +5999,41 @@ var pveapi = [
                                                    "type" : "boolean"
                                                 },
                                                 "bps" : {
-                                                   "description" : "Maximum r/w speed speed in bytes per second.",
+                                                   "description" : "Maximum r/w speed in bytes per second.",
                                                    "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd" : {
-                                                   "description" : "Maximum read speed speed in bytes per second.",
+                                                   "description" : "Maximum read speed in bytes per second.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "bps_rd_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "bps_wr" : {
-                                                   "description" : "Maximum write speed speed in bytes per second.",
+                                                   "description" : "Maximum write speed in bytes per second.",
                                                    "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_wr_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -5998,7 +6086,6 @@ var pveapi = [
                                                       "vmdk",
                                                       "cloop"
                                                    ],
-                                                   "format_description" : "image format",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -6008,73 +6095,94 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops" : {
-                                                   "description" : "Maximum r/w I/O speed in operations per second.",
+                                                   "description" : "Maximum r/w I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_max" : {
-                                                   "description" : "Maximum unthrottled r/w I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled r/w I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_rd" : {
-                                                   "description" : "Maximum read I/O speed in operations per second.",
+                                                   "description" : "Maximum read I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "iops_rd_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "iops_rd_max" : {
-                                                   "description" : "Maximum unthrottled read I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_wr" : {
-                                                   "description" : "Maximum write I/O speed in operations per second.",
+                                                   "description" : "Maximum write I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "iops_wr_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "iops_wr_max" : {
-                                                   "description" : "Maximum unthrottled write I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "mbps" : {
-                                                   "description" : "Maximum r/w speed speed in megabytes per second.",
+                                                   "description" : "Maximum r/w speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_max" : {
-                                                   "description" : "Maximum unthrottled r/w pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled r/w pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_rd" : {
-                                                   "description" : "Maximum read speed speed in megabytes per second.",
+                                                   "description" : "Maximum read speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_rd_max" : {
-                                                   "description" : "Maximum unthrottled read pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled read pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_wr" : {
-                                                   "description" : "Maximum write speed speed in megabytes per second.",
+                                                   "description" : "Maximum write speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_wr_max" : {
-                                                   "description" : "Maximum unthrottled write pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled write pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
@@ -6151,7 +6259,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
                                           },
                                           "scsi[n]" : {
                                              "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).",
@@ -6171,20 +6279,41 @@ var pveapi = [
                                                    "type" : "boolean"
                                                 },
                                                 "bps" : {
-                                                   "description" : "Maximum r/w speed speed in bytes per second.",
+                                                   "description" : "Maximum r/w speed in bytes per second.",
                                                    "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd" : {
-                                                   "description" : "Maximum read speed speed in bytes per second.",
+                                                   "description" : "Maximum read speed in bytes per second.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "bps_rd_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "bps_wr" : {
-                                                   "description" : "Maximum write speed speed in bytes per second.",
+                                                   "description" : "Maximum write speed in bytes per second.",
                                                    "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_wr_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -6237,7 +6366,6 @@ var pveapi = [
                                                       "vmdk",
                                                       "cloop"
                                                    ],
-                                                   "format_description" : "image format",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -6247,37 +6375,58 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops" : {
-                                                   "description" : "Maximum r/w I/O speed in operations per second.",
+                                                   "description" : "Maximum r/w I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_max" : {
-                                                   "description" : "Maximum unthrottled r/w I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled r/w I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_rd" : {
-                                                   "description" : "Maximum read I/O speed in operations per second.",
+                                                   "description" : "Maximum read I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "iops_rd_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "iops_rd_max" : {
-                                                   "description" : "Maximum unthrottled read I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_wr" : {
-                                                   "description" : "Maximum write I/O speed in operations per second.",
+                                                   "description" : "Maximum write I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "iops_wr_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "iops_wr_max" : {
-                                                   "description" : "Maximum unthrottled write I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -6288,37 +6437,37 @@ var pveapi = [
                                                    "type" : "boolean"
                                                 },
                                                 "mbps" : {
-                                                   "description" : "Maximum r/w speed speed in megabytes per second.",
+                                                   "description" : "Maximum r/w speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_max" : {
-                                                   "description" : "Maximum unthrottled r/w pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled r/w pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_rd" : {
-                                                   "description" : "Maximum read speed speed in megabytes per second.",
+                                                   "description" : "Maximum read speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_rd_max" : {
-                                                   "description" : "Maximum unthrottled read pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled read pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_wr" : {
-                                                   "description" : "Maximum write speed speed in megabytes per second.",
+                                                   "description" : "Maximum write speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_wr_max" : {
-                                                   "description" : "Maximum unthrottled write pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled write pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
@@ -6391,7 +6540,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
                                           },
                                           "scsihw" : {
                                              "default" : "lsi",
@@ -6558,20 +6707,41 @@ var pveapi = [
                                                    "type" : "boolean"
                                                 },
                                                 "bps" : {
-                                                   "description" : "Maximum r/w speed speed in bytes per second.",
+                                                   "description" : "Maximum r/w speed in bytes per second.",
                                                    "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd" : {
-                                                   "description" : "Maximum read speed speed in bytes per second.",
+                                                   "description" : "Maximum read speed in bytes per second.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "bps_rd_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "bps_wr" : {
-                                                   "description" : "Maximum write speed speed in bytes per second.",
+                                                   "description" : "Maximum write speed in bytes per second.",
                                                    "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_wr_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -6624,7 +6794,6 @@ var pveapi = [
                                                       "vmdk",
                                                       "cloop"
                                                    ],
-                                                   "format_description" : "image format",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -6634,37 +6803,58 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops" : {
-                                                   "description" : "Maximum r/w I/O speed in operations per second.",
+                                                   "description" : "Maximum r/w I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_max" : {
-                                                   "description" : "Maximum unthrottled r/w I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled r/w I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_rd" : {
-                                                   "description" : "Maximum read I/O speed in operations per second.",
+                                                   "description" : "Maximum read I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "iops_rd_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "iops_rd_max" : {
-                                                   "description" : "Maximum unthrottled read I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_wr" : {
-                                                   "description" : "Maximum write I/O speed in operations per second.",
+                                                   "description" : "Maximum write I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "iops_wr_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "iops_wr_max" : {
-                                                   "description" : "Maximum unthrottled write I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -6675,37 +6865,37 @@ var pveapi = [
                                                    "type" : "boolean"
                                                 },
                                                 "mbps" : {
-                                                   "description" : "Maximum r/w speed speed in megabytes per second.",
+                                                   "description" : "Maximum r/w speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_max" : {
-                                                   "description" : "Maximum unthrottled r/w pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled r/w pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_rd" : {
-                                                   "description" : "Maximum read speed speed in megabytes per second.",
+                                                   "description" : "Maximum read speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_rd_max" : {
-                                                   "description" : "Maximum unthrottled read pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled read pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_wr" : {
-                                                   "description" : "Maximum write speed speed in megabytes per second.",
+                                                   "description" : "Maximum write speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_wr_max" : {
-                                                   "description" : "Maximum unthrottled write pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled write pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
@@ -6782,7 +6972,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
                                           },
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
@@ -6889,7 +7079,7 @@ var pveapi = [
                                           },
                                           "cdrom" : {
                                              "description" : "This is an alias for option -ide2",
-                                             "format" : "pve-qm-drive",
+                                             "format" : "pve-qm-ide",
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "volume"
@@ -6964,7 +7154,7 @@ var pveapi = [
                                              "verbose_description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has total of '2' CPU time. Value '0' indicates no CPU limit."
                                           },
                                           "cpuunits" : {
-                                             "default" : 1000,
+                                             "default" : 1024,
                                              "description" : "CPU weight for a VM.",
                                              "maximum" : 500000,
                                              "minimum" : 0,
@@ -7044,20 +7234,41 @@ var pveapi = [
                                                    "type" : "boolean"
                                                 },
                                                 "bps" : {
-                                                   "description" : "Maximum r/w speed speed in bytes per second.",
+                                                   "description" : "Maximum r/w speed in bytes per second.",
                                                    "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd" : {
-                                                   "description" : "Maximum read speed speed in bytes per second.",
+                                                   "description" : "Maximum read speed in bytes per second.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "bps_rd_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "bps_wr" : {
-                                                   "description" : "Maximum write speed speed in bytes per second.",
+                                                   "description" : "Maximum write speed in bytes per second.",
                                                    "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_wr_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -7110,7 +7321,6 @@ var pveapi = [
                                                       "vmdk",
                                                       "cloop"
                                                    ],
-                                                   "format_description" : "image format",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -7120,73 +7330,94 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops" : {
-                                                   "description" : "Maximum r/w I/O speed in operations per second.",
+                                                   "description" : "Maximum r/w I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_max" : {
-                                                   "description" : "Maximum unthrottled r/w I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled r/w I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_rd" : {
-                                                   "description" : "Maximum read I/O speed in operations per second.",
+                                                   "description" : "Maximum read I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "iops_rd_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "iops_rd_max" : {
-                                                   "description" : "Maximum unthrottled read I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_wr" : {
-                                                   "description" : "Maximum write I/O speed in operations per second.",
+                                                   "description" : "Maximum write I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "iops_wr_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "iops_wr_max" : {
-                                                   "description" : "Maximum unthrottled write I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "mbps" : {
-                                                   "description" : "Maximum r/w speed speed in megabytes per second.",
+                                                   "description" : "Maximum r/w speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_max" : {
-                                                   "description" : "Maximum unthrottled r/w pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled r/w pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_rd" : {
-                                                   "description" : "Maximum read speed speed in megabytes per second.",
+                                                   "description" : "Maximum read speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_rd_max" : {
-                                                   "description" : "Maximum unthrottled read pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled read pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_wr" : {
-                                                   "description" : "Maximum write speed speed in megabytes per second.",
+                                                   "description" : "Maximum write speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_wr_max" : {
-                                                   "description" : "Maximum unthrottled write pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled write pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
@@ -7271,7 +7502,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
                                           },
                                           "keyboard" : {
                                              "default" : "en-us",
@@ -7611,20 +7842,41 @@ var pveapi = [
                                                    "type" : "boolean"
                                                 },
                                                 "bps" : {
-                                                   "description" : "Maximum r/w speed speed in bytes per second.",
+                                                   "description" : "Maximum r/w speed in bytes per second.",
                                                    "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd" : {
-                                                   "description" : "Maximum read speed speed in bytes per second.",
+                                                   "description" : "Maximum read speed in bytes per second.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "bps_rd_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "bps_wr" : {
-                                                   "description" : "Maximum write speed speed in bytes per second.",
+                                                   "description" : "Maximum write speed in bytes per second.",
                                                    "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_wr_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -7677,7 +7929,6 @@ var pveapi = [
                                                       "vmdk",
                                                       "cloop"
                                                    ],
-                                                   "format_description" : "image format",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -7687,73 +7938,94 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops" : {
-                                                   "description" : "Maximum r/w I/O speed in operations per second.",
+                                                   "description" : "Maximum r/w I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_max" : {
-                                                   "description" : "Maximum unthrottled r/w I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled r/w I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_rd" : {
-                                                   "description" : "Maximum read I/O speed in operations per second.",
+                                                   "description" : "Maximum read I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "iops_rd_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "iops_rd_max" : {
-                                                   "description" : "Maximum unthrottled read I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_wr" : {
-                                                   "description" : "Maximum write I/O speed in operations per second.",
+                                                   "description" : "Maximum write I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "iops_wr_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "iops_wr_max" : {
-                                                   "description" : "Maximum unthrottled write I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "mbps" : {
-                                                   "description" : "Maximum r/w speed speed in megabytes per second.",
+                                                   "description" : "Maximum r/w speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_max" : {
-                                                   "description" : "Maximum unthrottled r/w pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled r/w pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_rd" : {
-                                                   "description" : "Maximum read speed speed in megabytes per second.",
+                                                   "description" : "Maximum read speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_rd_max" : {
-                                                   "description" : "Maximum unthrottled read pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled read pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_wr" : {
-                                                   "description" : "Maximum write speed speed in megabytes per second.",
+                                                   "description" : "Maximum write speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_wr_max" : {
-                                                   "description" : "Maximum unthrottled write pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled write pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
@@ -7830,7 +8102,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
                                           },
                                           "scsi[n]" : {
                                              "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).",
@@ -7850,20 +8122,41 @@ var pveapi = [
                                                    "type" : "boolean"
                                                 },
                                                 "bps" : {
-                                                   "description" : "Maximum r/w speed speed in bytes per second.",
+                                                   "description" : "Maximum r/w speed in bytes per second.",
                                                    "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd" : {
-                                                   "description" : "Maximum read speed speed in bytes per second.",
+                                                   "description" : "Maximum read speed in bytes per second.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "bps_rd_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "bps_wr" : {
-                                                   "description" : "Maximum write speed speed in bytes per second.",
+                                                   "description" : "Maximum write speed in bytes per second.",
                                                    "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_wr_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -7916,7 +8209,6 @@ var pveapi = [
                                                       "vmdk",
                                                       "cloop"
                                                    ],
-                                                   "format_description" : "image format",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -7926,37 +8218,58 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops" : {
-                                                   "description" : "Maximum r/w I/O speed in operations per second.",
+                                                   "description" : "Maximum r/w I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_max" : {
-                                                   "description" : "Maximum unthrottled r/w I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled r/w I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_rd" : {
-                                                   "description" : "Maximum read I/O speed in operations per second.",
+                                                   "description" : "Maximum read I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "iops_rd_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "iops_rd_max" : {
-                                                   "description" : "Maximum unthrottled read I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_wr" : {
-                                                   "description" : "Maximum write I/O speed in operations per second.",
+                                                   "description" : "Maximum write I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "iops_wr_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "iops_wr_max" : {
-                                                   "description" : "Maximum unthrottled write I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -7967,37 +8280,37 @@ var pveapi = [
                                                    "type" : "boolean"
                                                 },
                                                 "mbps" : {
-                                                   "description" : "Maximum r/w speed speed in megabytes per second.",
+                                                   "description" : "Maximum r/w speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_max" : {
-                                                   "description" : "Maximum unthrottled r/w pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled r/w pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_rd" : {
-                                                   "description" : "Maximum read speed speed in megabytes per second.",
+                                                   "description" : "Maximum read speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_rd_max" : {
-                                                   "description" : "Maximum unthrottled read pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled read pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_wr" : {
-                                                   "description" : "Maximum write speed speed in megabytes per second.",
+                                                   "description" : "Maximum write speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_wr_max" : {
-                                                   "description" : "Maximum unthrottled write pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled write pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
@@ -8070,7 +8383,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
                                           },
                                           "scsihw" : {
                                              "default" : "lsi",
@@ -8237,20 +8550,41 @@ var pveapi = [
                                                    "type" : "boolean"
                                                 },
                                                 "bps" : {
-                                                   "description" : "Maximum r/w speed speed in bytes per second.",
+                                                   "description" : "Maximum r/w speed in bytes per second.",
                                                    "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd" : {
-                                                   "description" : "Maximum read speed speed in bytes per second.",
+                                                   "description" : "Maximum read speed in bytes per second.",
                                                    "format_description" : "bps",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "bps_rd_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "bps_wr" : {
-                                                   "description" : "Maximum write speed speed in bytes per second.",
+                                                   "description" : "Maximum write speed in bytes per second.",
                                                    "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_wr_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -8303,7 +8637,6 @@ var pveapi = [
                                                       "vmdk",
                                                       "cloop"
                                                    ],
-                                                   "format_description" : "image format",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -8313,37 +8646,58 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops" : {
-                                                   "description" : "Maximum r/w I/O speed in operations per second.",
+                                                   "description" : "Maximum r/w I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_max" : {
-                                                   "description" : "Maximum unthrottled r/w I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled r/w I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_rd" : {
-                                                   "description" : "Maximum read I/O speed in operations per second.",
+                                                   "description" : "Maximum read I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "iops_rd_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "iops_rd_max" : {
-                                                   "description" : "Maximum unthrottled read I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
                                                 "iops_wr" : {
-                                                   "description" : "Maximum write I/O speed in operations per second.",
+                                                   "description" : "Maximum write I/O in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "iops_wr_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "iops_wr_max" : {
-                                                   "description" : "Maximum unthrottled write I/O pool speed in operations per second.",
+                                                   "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                                    "format_description" : "iops",
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -8354,37 +8708,37 @@ var pveapi = [
                                                    "type" : "boolean"
                                                 },
                                                 "mbps" : {
-                                                   "description" : "Maximum r/w speed speed in megabytes per second.",
+                                                   "description" : "Maximum r/w speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_max" : {
-                                                   "description" : "Maximum unthrottled r/w pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled r/w pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_rd" : {
-                                                   "description" : "Maximum read speed speed in megabytes per second.",
+                                                   "description" : "Maximum read speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_rd_max" : {
-                                                   "description" : "Maximum unthrottled read pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled read pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_wr" : {
-                                                   "description" : "Maximum write speed speed in megabytes per second.",
+                                                   "description" : "Maximum write speed in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
                                                 "mbps_wr_max" : {
-                                                   "description" : "Maximum unthrottled write pool speed in megabytes per second.",
+                                                   "description" : "Maximum unthrottled write pool in megabytes per second.",
                                                    "format_description" : "mbps",
                                                    "optional" : 1,
                                                    "type" : "number"
@@ -8461,7 +8815,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
                                           },
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
@@ -8886,6 +9240,21 @@ var pveapi = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "migration_network" : {
+                                                   "description" : "CIDR of the (sub) network that is used for migration.",
+                                                   "format" : "CIDR",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "migration_type" : {
+                                                   "description" : "Migration traffic is encrypted using an SSH tunnel by default. On secure, completely private networks this can be disabled to increase performance.",
+                                                   "enum" : [
+                                                      "secure",
+                                                      "insecure"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
                                                 "node" : {
                                                    "description" : "The cluster node name.",
                                                    "format" : "pve-node",
@@ -8942,7 +9311,7 @@ var pveapi = [
                                              "properties" : {
                                                 "keepActive" : {
                                                    "default" : 0,
-                                                   "description" : "Do not decativate storage volumes.",
+                                                   "description" : "Do not deactivate storage volumes.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -9063,7 +9432,7 @@ var pveapi = [
                                                 },
                                                 "keepActive" : {
                                                    "default" : 0,
-                                                   "description" : "Do not decativate storage volumes.",
+                                                   "description" : "Do not deactivate storage volumes.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -9654,6 +10023,21 @@ var pveapi = [
                                              "description" : "Allow to migrate VMs which use local devices. Only root may use this option.",
                                              "optional" : 1,
                                              "type" : "boolean"
+                                          },
+                                          "migration_network" : {
+                                             "description" : "CIDR of the (sub) network that is used for migration.",
+                                             "format" : "CIDR",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "migration_type" : {
+                                             "description" : "Migration traffic is encrypted using an SSH tunnel by default. On secure, completely private networks this can be disabled to increase performance.",
+                                             "enum" : [
+                                                "secure",
+                                                "insecure"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
                                           },
                                           "node" : {
                                              "description" : "The cluster node name.",
@@ -10501,7 +10885,7 @@ var pveapi = [
                               },
                               "cdrom" : {
                                  "description" : "This is an alias for option -ide2",
-                                 "format" : "pve-qm-drive",
+                                 "format" : "pve-qm-ide",
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "volume"
@@ -10576,7 +10960,7 @@ var pveapi = [
                                  "verbose_description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has total of '2' CPU time. Value '0' indicates no CPU limit."
                               },
                               "cpuunits" : {
-                                 "default" : 1000,
+                                 "default" : 1024,
                                  "description" : "CPU weight for a VM.",
                                  "maximum" : 500000,
                                  "minimum" : 0,
@@ -10644,20 +11028,41 @@ var pveapi = [
                                        "type" : "boolean"
                                     },
                                     "bps" : {
-                                       "description" : "Maximum r/w speed speed in bytes per second.",
+                                       "description" : "Maximum r/w speed in bytes per second.",
                                        "format_description" : "bps",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "bps_max_length" : {
+                                       "description" : "Maximum length of I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
                                     "bps_rd" : {
-                                       "description" : "Maximum read speed speed in bytes per second.",
+                                       "description" : "Maximum read speed in bytes per second.",
                                        "format_description" : "bps",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
+                                    "bps_rd_length" : {
+                                       "description" : "Maximum length of read I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
                                     "bps_wr" : {
-                                       "description" : "Maximum write speed speed in bytes per second.",
+                                       "description" : "Maximum write speed in bytes per second.",
                                        "format_description" : "bps",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "bps_wr_length" : {
+                                       "description" : "Maximum length of write I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -10710,7 +11115,6 @@ var pveapi = [
                                           "vmdk",
                                           "cloop"
                                        ],
-                                       "format_description" : "image format",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
@@ -10720,73 +11124,94 @@ var pveapi = [
                                        "type" : "integer"
                                     },
                                     "iops" : {
-                                       "description" : "Maximum r/w I/O speed in operations per second.",
+                                       "description" : "Maximum r/w I/O in operations per second.",
                                        "format_description" : "iops",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
                                     "iops_max" : {
-                                       "description" : "Maximum unthrottled r/w I/O pool speed in operations per second.",
+                                       "description" : "Maximum unthrottled r/w I/O pool in operations per second.",
                                        "format_description" : "iops",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "iops_max_length" : {
+                                       "description" : "Maximum length of I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
                                     "iops_rd" : {
-                                       "description" : "Maximum read I/O speed in operations per second.",
+                                       "description" : "Maximum read I/O in operations per second.",
                                        "format_description" : "iops",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
+                                    "iops_rd_length" : {
+                                       "description" : "Maximum length of read I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
                                     "iops_rd_max" : {
-                                       "description" : "Maximum unthrottled read I/O pool speed in operations per second.",
+                                       "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                        "format_description" : "iops",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
                                     "iops_wr" : {
-                                       "description" : "Maximum write I/O speed in operations per second.",
+                                       "description" : "Maximum write I/O in operations per second.",
                                        "format_description" : "iops",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
+                                    "iops_wr_length" : {
+                                       "description" : "Maximum length of write I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
                                     "iops_wr_max" : {
-                                       "description" : "Maximum unthrottled write I/O pool speed in operations per second.",
+                                       "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                        "format_description" : "iops",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
                                     "mbps" : {
-                                       "description" : "Maximum r/w speed speed in megabytes per second.",
+                                       "description" : "Maximum r/w speed in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
                                     },
                                     "mbps_max" : {
-                                       "description" : "Maximum unthrottled r/w pool speed in megabytes per second.",
+                                       "description" : "Maximum unthrottled r/w pool in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
                                     },
                                     "mbps_rd" : {
-                                       "description" : "Maximum read speed speed in megabytes per second.",
+                                       "description" : "Maximum read speed in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
                                     },
                                     "mbps_rd_max" : {
-                                       "description" : "Maximum unthrottled read pool speed in megabytes per second.",
+                                       "description" : "Maximum unthrottled read pool in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
                                     },
                                     "mbps_wr" : {
-                                       "description" : "Maximum write speed speed in megabytes per second.",
+                                       "description" : "Maximum write speed in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
                                     },
                                     "mbps_wr_max" : {
-                                       "description" : "Maximum unthrottled write pool speed in megabytes per second.",
+                                       "description" : "Maximum unthrottled write pool in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
@@ -10871,7 +11296,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
                               },
                               "keyboard" : {
                                  "default" : "en-us",
@@ -11211,20 +11636,41 @@ var pveapi = [
                                        "type" : "boolean"
                                     },
                                     "bps" : {
-                                       "description" : "Maximum r/w speed speed in bytes per second.",
+                                       "description" : "Maximum r/w speed in bytes per second.",
                                        "format_description" : "bps",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "bps_max_length" : {
+                                       "description" : "Maximum length of I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
                                     "bps_rd" : {
-                                       "description" : "Maximum read speed speed in bytes per second.",
+                                       "description" : "Maximum read speed in bytes per second.",
                                        "format_description" : "bps",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
+                                    "bps_rd_length" : {
+                                       "description" : "Maximum length of read I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
                                     "bps_wr" : {
-                                       "description" : "Maximum write speed speed in bytes per second.",
+                                       "description" : "Maximum write speed in bytes per second.",
                                        "format_description" : "bps",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "bps_wr_length" : {
+                                       "description" : "Maximum length of write I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -11277,7 +11723,6 @@ var pveapi = [
                                           "vmdk",
                                           "cloop"
                                        ],
-                                       "format_description" : "image format",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
@@ -11287,73 +11732,94 @@ var pveapi = [
                                        "type" : "integer"
                                     },
                                     "iops" : {
-                                       "description" : "Maximum r/w I/O speed in operations per second.",
+                                       "description" : "Maximum r/w I/O in operations per second.",
                                        "format_description" : "iops",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
                                     "iops_max" : {
-                                       "description" : "Maximum unthrottled r/w I/O pool speed in operations per second.",
+                                       "description" : "Maximum unthrottled r/w I/O pool in operations per second.",
                                        "format_description" : "iops",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "iops_max_length" : {
+                                       "description" : "Maximum length of I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
                                     "iops_rd" : {
-                                       "description" : "Maximum read I/O speed in operations per second.",
+                                       "description" : "Maximum read I/O in operations per second.",
                                        "format_description" : "iops",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
+                                    "iops_rd_length" : {
+                                       "description" : "Maximum length of read I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
                                     "iops_rd_max" : {
-                                       "description" : "Maximum unthrottled read I/O pool speed in operations per second.",
+                                       "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                        "format_description" : "iops",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
                                     "iops_wr" : {
-                                       "description" : "Maximum write I/O speed in operations per second.",
+                                       "description" : "Maximum write I/O in operations per second.",
                                        "format_description" : "iops",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
+                                    "iops_wr_length" : {
+                                       "description" : "Maximum length of write I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
                                     "iops_wr_max" : {
-                                       "description" : "Maximum unthrottled write I/O pool speed in operations per second.",
+                                       "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                        "format_description" : "iops",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
                                     "mbps" : {
-                                       "description" : "Maximum r/w speed speed in megabytes per second.",
+                                       "description" : "Maximum r/w speed in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
                                     },
                                     "mbps_max" : {
-                                       "description" : "Maximum unthrottled r/w pool speed in megabytes per second.",
+                                       "description" : "Maximum unthrottled r/w pool in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
                                     },
                                     "mbps_rd" : {
-                                       "description" : "Maximum read speed speed in megabytes per second.",
+                                       "description" : "Maximum read speed in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
                                     },
                                     "mbps_rd_max" : {
-                                       "description" : "Maximum unthrottled read pool speed in megabytes per second.",
+                                       "description" : "Maximum unthrottled read pool in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
                                     },
                                     "mbps_wr" : {
-                                       "description" : "Maximum write speed speed in megabytes per second.",
+                                       "description" : "Maximum write speed in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
                                     },
                                     "mbps_wr_max" : {
-                                       "description" : "Maximum unthrottled write pool speed in megabytes per second.",
+                                       "description" : "Maximum unthrottled write pool in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
@@ -11430,7 +11896,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
                               },
                               "scsi[n]" : {
                                  "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).",
@@ -11450,20 +11916,41 @@ var pveapi = [
                                        "type" : "boolean"
                                     },
                                     "bps" : {
-                                       "description" : "Maximum r/w speed speed in bytes per second.",
+                                       "description" : "Maximum r/w speed in bytes per second.",
                                        "format_description" : "bps",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "bps_max_length" : {
+                                       "description" : "Maximum length of I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
                                     "bps_rd" : {
-                                       "description" : "Maximum read speed speed in bytes per second.",
+                                       "description" : "Maximum read speed in bytes per second.",
                                        "format_description" : "bps",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
+                                    "bps_rd_length" : {
+                                       "description" : "Maximum length of read I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
                                     "bps_wr" : {
-                                       "description" : "Maximum write speed speed in bytes per second.",
+                                       "description" : "Maximum write speed in bytes per second.",
                                        "format_description" : "bps",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "bps_wr_length" : {
+                                       "description" : "Maximum length of write I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -11516,7 +12003,6 @@ var pveapi = [
                                           "vmdk",
                                           "cloop"
                                        ],
-                                       "format_description" : "image format",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
@@ -11526,37 +12012,58 @@ var pveapi = [
                                        "type" : "integer"
                                     },
                                     "iops" : {
-                                       "description" : "Maximum r/w I/O speed in operations per second.",
+                                       "description" : "Maximum r/w I/O in operations per second.",
                                        "format_description" : "iops",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
                                     "iops_max" : {
-                                       "description" : "Maximum unthrottled r/w I/O pool speed in operations per second.",
+                                       "description" : "Maximum unthrottled r/w I/O pool in operations per second.",
                                        "format_description" : "iops",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "iops_max_length" : {
+                                       "description" : "Maximum length of I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
                                     "iops_rd" : {
-                                       "description" : "Maximum read I/O speed in operations per second.",
+                                       "description" : "Maximum read I/O in operations per second.",
                                        "format_description" : "iops",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
+                                    "iops_rd_length" : {
+                                       "description" : "Maximum length of read I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
                                     "iops_rd_max" : {
-                                       "description" : "Maximum unthrottled read I/O pool speed in operations per second.",
+                                       "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                        "format_description" : "iops",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
                                     "iops_wr" : {
-                                       "description" : "Maximum write I/O speed in operations per second.",
+                                       "description" : "Maximum write I/O in operations per second.",
                                        "format_description" : "iops",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
+                                    "iops_wr_length" : {
+                                       "description" : "Maximum length of write I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
                                     "iops_wr_max" : {
-                                       "description" : "Maximum unthrottled write I/O pool speed in operations per second.",
+                                       "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                        "format_description" : "iops",
                                        "optional" : 1,
                                        "type" : "integer"
@@ -11567,37 +12074,37 @@ var pveapi = [
                                        "type" : "boolean"
                                     },
                                     "mbps" : {
-                                       "description" : "Maximum r/w speed speed in megabytes per second.",
+                                       "description" : "Maximum r/w speed in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
                                     },
                                     "mbps_max" : {
-                                       "description" : "Maximum unthrottled r/w pool speed in megabytes per second.",
+                                       "description" : "Maximum unthrottled r/w pool in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
                                     },
                                     "mbps_rd" : {
-                                       "description" : "Maximum read speed speed in megabytes per second.",
+                                       "description" : "Maximum read speed in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
                                     },
                                     "mbps_rd_max" : {
-                                       "description" : "Maximum unthrottled read pool speed in megabytes per second.",
+                                       "description" : "Maximum unthrottled read pool in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
                                     },
                                     "mbps_wr" : {
-                                       "description" : "Maximum write speed speed in megabytes per second.",
+                                       "description" : "Maximum write speed in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
                                     },
                                     "mbps_wr_max" : {
-                                       "description" : "Maximum unthrottled write pool speed in megabytes per second.",
+                                       "description" : "Maximum unthrottled write pool in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
@@ -11670,7 +12177,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
                               },
                               "scsihw" : {
                                  "default" : "lsi",
@@ -11844,20 +12351,41 @@ var pveapi = [
                                        "type" : "boolean"
                                     },
                                     "bps" : {
-                                       "description" : "Maximum r/w speed speed in bytes per second.",
+                                       "description" : "Maximum r/w speed in bytes per second.",
                                        "format_description" : "bps",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "bps_max_length" : {
+                                       "description" : "Maximum length of I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
                                     "bps_rd" : {
-                                       "description" : "Maximum read speed speed in bytes per second.",
+                                       "description" : "Maximum read speed in bytes per second.",
                                        "format_description" : "bps",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
+                                    "bps_rd_length" : {
+                                       "description" : "Maximum length of read I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
                                     "bps_wr" : {
-                                       "description" : "Maximum write speed speed in bytes per second.",
+                                       "description" : "Maximum write speed in bytes per second.",
                                        "format_description" : "bps",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "bps_wr_length" : {
+                                       "description" : "Maximum length of write I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -11910,7 +12438,6 @@ var pveapi = [
                                           "vmdk",
                                           "cloop"
                                        ],
-                                       "format_description" : "image format",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
@@ -11920,37 +12447,58 @@ var pveapi = [
                                        "type" : "integer"
                                     },
                                     "iops" : {
-                                       "description" : "Maximum r/w I/O speed in operations per second.",
+                                       "description" : "Maximum r/w I/O in operations per second.",
                                        "format_description" : "iops",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
                                     "iops_max" : {
-                                       "description" : "Maximum unthrottled r/w I/O pool speed in operations per second.",
+                                       "description" : "Maximum unthrottled r/w I/O pool in operations per second.",
                                        "format_description" : "iops",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "iops_max_length" : {
+                                       "description" : "Maximum length of I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
                                     "iops_rd" : {
-                                       "description" : "Maximum read I/O speed in operations per second.",
+                                       "description" : "Maximum read I/O in operations per second.",
                                        "format_description" : "iops",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
+                                    "iops_rd_length" : {
+                                       "description" : "Maximum length of read I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
                                     "iops_rd_max" : {
-                                       "description" : "Maximum unthrottled read I/O pool speed in operations per second.",
+                                       "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                        "format_description" : "iops",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
                                     "iops_wr" : {
-                                       "description" : "Maximum write I/O speed in operations per second.",
+                                       "description" : "Maximum write I/O in operations per second.",
                                        "format_description" : "iops",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
+                                    "iops_wr_length" : {
+                                       "description" : "Maximum length of write I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
                                     "iops_wr_max" : {
-                                       "description" : "Maximum unthrottled write I/O pool speed in operations per second.",
+                                       "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                        "format_description" : "iops",
                                        "optional" : 1,
                                        "type" : "integer"
@@ -11961,37 +12509,37 @@ var pveapi = [
                                        "type" : "boolean"
                                     },
                                     "mbps" : {
-                                       "description" : "Maximum r/w speed speed in megabytes per second.",
+                                       "description" : "Maximum r/w speed in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
                                     },
                                     "mbps_max" : {
-                                       "description" : "Maximum unthrottled r/w pool speed in megabytes per second.",
+                                       "description" : "Maximum unthrottled r/w pool in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
                                     },
                                     "mbps_rd" : {
-                                       "description" : "Maximum read speed speed in megabytes per second.",
+                                       "description" : "Maximum read speed in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
                                     },
                                     "mbps_rd_max" : {
-                                       "description" : "Maximum unthrottled read pool speed in megabytes per second.",
+                                       "description" : "Maximum unthrottled read pool in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
                                     },
                                     "mbps_wr" : {
-                                       "description" : "Maximum write speed speed in megabytes per second.",
+                                       "description" : "Maximum write speed in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
                                     },
                                     "mbps_wr_max" : {
-                                       "description" : "Maximum unthrottled write pool speed in megabytes per second.",
+                                       "description" : "Maximum unthrottled write pool in megabytes per second.",
                                        "format_description" : "mbps",
                                        "optional" : 1,
                                        "type" : "number"
@@ -12068,7 +12616,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_rd=<bps>] [,bps_wr=<bps>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<image format>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]"
                               },
                               "vmid" : {
                                  "description" : "The (unique) ID of the VM.",
@@ -12183,6 +12731,14 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "boolean"
                                           },
+                                          "cores" : {
+                                             "description" : "The number of cores assigned to the container. A container can use all available cores by default.",
+                                             "maximum" : 128,
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "integer (1 - 128)"
+                                          },
                                           "cpulimit" : {
                                              "default" : 0,
                                              "description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has a total of '2' CPU time. Value '0' indicates no CPU limit.",
@@ -12253,17 +12809,17 @@ var pveapi = [
                                                    "type" : "boolean"
                                                 },
                                                 "backup" : {
-                                                   "description" : "Whether to include the mountpoint in backups.",
+                                                   "description" : "Whether to include the mount point in backups.",
                                                    "optional" : 1,
                                                    "type" : "boolean",
-                                                   "verbose_description" : "Whether to include the mountpoint in backups (only used for volume mountpoints)."
+                                                   "verbose_description" : "Whether to include the mount point in backups (only used for volume mount points)."
                                                 },
                                                 "mp" : {
-                                                   "description" : "Path to the mountpoint as seen from inside the container (must not contain symlinks).",
+                                                   "description" : "Path to the mount point as seen from inside the container (must not contain symlinks).",
                                                    "format" : "pve-lxc-mp-string",
                                                    "format_description" : "Path",
                                                    "type" : "string",
-                                                   "verbose_description" : "Path to the mountpoint as seen from inside the container.\n\nNOTE: Must not contain any symlinks for security reasons."
+                                                   "verbose_description" : "Path to the mount point as seen from inside the container.\n\nNOTE: Must not contain any symlinks for security reasons."
                                                 },
                                                 "quota" : {
                                                    "description" : "Enable user quotas inside the container (not supported with zfs subvolumes)",
@@ -12271,9 +12827,16 @@ var pveapi = [
                                                    "type" : "boolean"
                                                 },
                                                 "ro" : {
-                                                   "description" : "Read-only mountpoint",
+                                                   "description" : "Read-only mount point",
                                                    "optional" : 1,
                                                    "type" : "boolean"
+                                                },
+                                                "shared" : {
+                                                   "default" : 0,
+                                                   "description" : "Mark this non-volume mount point as available on multiple nodes (see 'nodes')",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Mark this non-volume mount point as available on all nodes.\n\nWARNING: This option does not share the mount point automatically, it assumes it is shared already!"
                                                 },
                                                 "size" : {
                                                    "description" : "Volume size (read only value).",
@@ -12292,7 +12855,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,size=<DiskSize>]"
+                                             "typetext" : "[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
                                           },
                                           "nameserver" : {
                                              "description" : "Sets DNS server IP address for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.",
@@ -12442,9 +13005,16 @@ var pveapi = [
                                                    "type" : "boolean"
                                                 },
                                                 "ro" : {
-                                                   "description" : "Read-only mountpoint",
+                                                   "description" : "Read-only mount point",
                                                    "optional" : 1,
                                                    "type" : "boolean"
+                                                },
+                                                "shared" : {
+                                                   "default" : 0,
+                                                   "description" : "Mark this non-volume mount point as available on multiple nodes (see 'nodes')",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Mark this non-volume mount point as available on all nodes.\n\nWARNING: This option does not share the mount point automatically, it assumes it is shared already!"
                                                 },
                                                 "size" : {
                                                    "description" : "Volume size (read only value).",
@@ -12463,7 +13033,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,size=<DiskSize>]"
+                                             "typetext" : "[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
                                           },
                                           "searchdomain" : {
                                              "description" : "Sets DNS search domains for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.",
@@ -15185,7 +15755,7 @@ var pveapi = [
                                        "additionalProperties" : 0,
                                        "properties" : {
                                           "force" : {
-                                             "description" : "Force migration despite local bind / device mounts. WARNING: identical bind / device mounts need to  be available on the target node.",
+                                             "description" : "Force migration despite local bind / device mounts. NOTE: deprecated, use 'shared' property of mount point instead.",
                                              "optional" : 1,
                                              "type" : "boolean"
                                           },
@@ -15463,7 +16033,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "PUT" : {
-                                    "description" : "Resize a container mountpoint.",
+                                    "description" : "Resize a container mount point.",
                                     "method" : "PUT",
                                     "name" : "resize_vm",
                                     "parameters" : {
@@ -15690,6 +16260,14 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "boolean"
                               },
+                              "cores" : {
+                                 "description" : "The number of cores assigned to the container. A container can use all available cores by default.",
+                                 "maximum" : 128,
+                                 "minimum" : 1,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "integer (1 - 128)"
+                              },
                               "cpulimit" : {
                                  "default" : 0,
                                  "description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has a total of '2' CPU time. Value '0' indicates no CPU limit.",
@@ -15758,17 +16336,17 @@ var pveapi = [
                                        "type" : "boolean"
                                     },
                                     "backup" : {
-                                       "description" : "Whether to include the mountpoint in backups.",
+                                       "description" : "Whether to include the mount point in backups.",
                                        "optional" : 1,
                                        "type" : "boolean",
-                                       "verbose_description" : "Whether to include the mountpoint in backups (only used for volume mountpoints)."
+                                       "verbose_description" : "Whether to include the mount point in backups (only used for volume mount points)."
                                     },
                                     "mp" : {
-                                       "description" : "Path to the mountpoint as seen from inside the container (must not contain symlinks).",
+                                       "description" : "Path to the mount point as seen from inside the container (must not contain symlinks).",
                                        "format" : "pve-lxc-mp-string",
                                        "format_description" : "Path",
                                        "type" : "string",
-                                       "verbose_description" : "Path to the mountpoint as seen from inside the container.\n\nNOTE: Must not contain any symlinks for security reasons."
+                                       "verbose_description" : "Path to the mount point as seen from inside the container.\n\nNOTE: Must not contain any symlinks for security reasons."
                                     },
                                     "quota" : {
                                        "description" : "Enable user quotas inside the container (not supported with zfs subvolumes)",
@@ -15776,9 +16354,16 @@ var pveapi = [
                                        "type" : "boolean"
                                     },
                                     "ro" : {
-                                       "description" : "Read-only mountpoint",
+                                       "description" : "Read-only mount point",
                                        "optional" : 1,
                                        "type" : "boolean"
+                                    },
+                                    "shared" : {
+                                       "default" : 0,
+                                       "description" : "Mark this non-volume mount point as available on multiple nodes (see 'nodes')",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "verbose_description" : "Mark this non-volume mount point as available on all nodes.\n\nWARNING: This option does not share the mount point automatically, it assumes it is shared already!"
                                     },
                                     "size" : {
                                        "description" : "Volume size (read only value).",
@@ -15797,7 +16382,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,size=<DiskSize>]"
+                                 "typetext" : "[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
                               },
                               "nameserver" : {
                                  "description" : "Sets DNS server IP address for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.",
@@ -15969,9 +16554,16 @@ var pveapi = [
                                        "type" : "boolean"
                                     },
                                     "ro" : {
-                                       "description" : "Read-only mountpoint",
+                                       "description" : "Read-only mount point",
                                        "optional" : 1,
                                        "type" : "boolean"
+                                    },
+                                    "shared" : {
+                                       "default" : 0,
+                                       "description" : "Mark this non-volume mount point as available on multiple nodes (see 'nodes')",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "verbose_description" : "Mark this non-volume mount point as available on all nodes.\n\nWARNING: This option does not share the mount point automatically, it assumes it is shared already!"
                                     },
                                     "size" : {
                                        "description" : "Volume size (read only value).",
@@ -15990,7 +16582,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,size=<DiskSize>]"
+                                 "typetext" : "[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
                               },
                               "searchdomain" : {
                                  "description" : "Sets DNS search domains for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.",
@@ -17253,7 +17845,7 @@ var pveapi = [
                            }
                         },
                         "permissions" : {
-                           "description" : "The user needs 'VM.Backup' permissions on any VM, and 'Datastore.AllocateSpace' on the backup storage.",
+                           "description" : "The user needs 'VM.Backup' permissions on any VM, and 'Datastore.AllocateSpace' on the backup storage. The 'maxfiles', 'tmpdir', 'dumpdir', 'script', 'bwlimit' and 'ionice' parameters are restricted to the 'root@pam' user.",
                            "user" : "all"
                         },
                         "protected" : 1,
@@ -19711,6 +20303,23 @@ var pveapi = [
                               "protected" : 1,
                               "proxyto" : "node",
                               "returns" : {
+                                 "properties" : {
+                                    "attributes" : {
+                                       "optional" : 1,
+                                       "type" : "array"
+                                    },
+                                    "health" : {
+                                       "type" : "string"
+                                    },
+                                    "text" : {
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "type" : {
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    }
+                                 },
                                  "type" : "object"
                               }
                            }

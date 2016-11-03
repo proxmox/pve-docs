@@ -66,6 +66,12 @@ The (unique) ID of the VM.
 
 
 
+*pct cpusets*
+
+Print the list of assigned CPU sets.
+
+
+
 
 *pct create* `<vmid> <ostemplate>` `[OPTIONS]`
 
@@ -90,6 +96,10 @@ Console mode. By default, the console command tries to open a connection to one 
 `-console` `boolean` (default=`1`)::
 
 Attach a console device (/dev/console) to the container.
+
+`-cores` `integer (1 - 128)` ::
+
+The number of cores assigned to the container. A container can use all available cores by default.
 
 `-cpulimit` `number (0 - 128)` (default=`0`)::
 
@@ -127,7 +137,7 @@ Lock/unlock the VM.
 
 Amount of RAM for the VM in MB.
 
-`-mp[n]` `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,size=<DiskSize>]` ::
+`-mp[n]` `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
 Use volume as container mount point.
 
@@ -163,7 +173,7 @@ Sets the protection flag of the container. This will prevent the CT or CT's disk
 
 Mark this as restore task.
 
-`-rootfs` `[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,size=<DiskSize>]` ::
+`-rootfs` `[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
 Use volume as container root.
 
@@ -336,7 +346,7 @@ Target node.
 
 `-force` `boolean` ::
 
-Force migration despite local bind / device mounts. WARNING: identical bind / device mounts need to  be available on the target node.
+Force migration despite local bind / device mounts. NOTE: deprecated, use 'shared' property of mount point instead.
 
 `-online` `boolean` ::
 
@@ -420,7 +430,7 @@ Owner user name or id. When using a name it must exist inside the container.
 
 *pct resize* `<vmid> <disk> <size>` `[OPTIONS]`
 
-Resize a container mountpoint.
+Resize a container mount point.
 
 `<vmid>` `integer (1 - N)` ::
 
@@ -464,6 +474,10 @@ Console mode. By default, the console command tries to open a connection to one 
 
 Attach a console device (/dev/console) to the container.
 
+`-cores` `integer (1 - 128)` ::
+
+The number of cores assigned to the container. A container can use all available cores by default.
+
 `-cpulimit` `number (0 - 128)` (default=`0`)::
 
 Limit of CPU usage.
@@ -500,7 +514,7 @@ Lock/unlock the VM.
 
 Amount of RAM for the VM in MB.
 
-`-mp[n]` `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,size=<DiskSize>]` ::
+`-mp[n]` `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
 Use volume as container mount point.
 
@@ -532,7 +546,7 @@ Add the VM to the specified pool.
 
 Sets the protection flag of the container. This will prevent the CT or CT's disk remove/update operation.
 
-`-rootfs` `[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,size=<DiskSize>]` ::
+`-rootfs` `[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
 Use volume as container root.
 
@@ -621,6 +635,10 @@ Console mode. By default, the console command tries to open a connection to one 
 
 Attach a console device (/dev/console) to the container.
 
+`-cores` `integer (1 - 128)` ::
+
+The number of cores assigned to the container. A container can use all available cores by default.
+
 `-cpulimit` `number (0 - 128)` (default=`0`)::
 
 Limit of CPU usage.
@@ -657,7 +675,7 @@ Lock/unlock the VM.
 
 Amount of RAM for the VM in MB.
 
-`-mp[n]` `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,size=<DiskSize>]` ::
+`-mp[n]` `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
 Use volume as container mount point.
 
@@ -681,7 +699,7 @@ OS type. This is used to setup configuration inside the container, and correspon
 
 Sets the protection flag of the container. This will prevent the CT or CT's disk remove/update operation.
 
-`-rootfs` `[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,size=<DiskSize>]` ::
+`-rootfs` `[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
 Use volume as container root.
 

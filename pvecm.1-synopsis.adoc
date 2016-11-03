@@ -144,6 +144,20 @@ Output file name
 
 
 
+*pvecm mtunnel* `[OPTIONS]`
+
+Used by VM/CT migration - do not use manually.
+
+`-get_migration_ip` `boolean` (default=`0`)::
+
+return the migration IP, if configured
+
+`-migration_network` `string` ::
+
+the migration network used to detect the local migration IP
+
+
+
 *pvecm nodes*
 
 Displays the local view of the cluster nodes.
