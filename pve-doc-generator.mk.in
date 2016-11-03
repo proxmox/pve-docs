@@ -18,11 +18,11 @@ attributes.txt docinfo.xml pmxcfs.8-synopsis.adoc:
 	mv $@.tmp $@
 
 %-opts.adoc: ${DGDIR}/gen-%-opts.pl
-	${DGDIR}/gen-$*-opts.pl >$@.tmp
+	perl -I. ${DGDIR}/gen-$*-opts.pl >$@.tmp
 	mv $@.tmp $@
 
 %.adoc: ${DGDIR}/gen-%-adoc.pl
-	${DGDIR}/gen-$*-adoc.pl >$@.tmp
+	perl -I. ${DGDIR}/gen-$*-adoc.pl >$@.tmp
 	mv $@.tmp $@
 
 pveperf.1-synopsis.adoc:
