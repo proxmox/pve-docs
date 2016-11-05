@@ -1,44 +1,44 @@
-`arch`: `(amd64 | i386)` (default=`amd64`)::
+`arch`: `<amd64 | i386>` ('default =' `amd64`)::
 
 OS architecture type.
 
-`cmode`: `(console | shell | tty)` (default=`tty`)::
+`cmode`: `<console | shell | tty>` ('default =' `tty`)::
 
 Console mode. By default, the console command tries to open a connection to one of the available tty devices. By setting cmode to 'console' it tries to attach to /dev/console instead. If you set cmode to 'shell', it simply invokes a shell inside the container (no login).
 
-`console`: `boolean` (default=`1`)::
+`console`: `<boolean>` ('default =' `1`)::
 
 Attach a console device (/dev/console) to the container.
 
-`cores`: `integer (1 - 128)` ::
+`cores`: `<integer> (1 - 128)` ::
 
 The number of cores assigned to the container. A container can use all available cores by default.
 
-`cpulimit`: `number (0 - 128)` (default=`0`)::
+`cpulimit`: `<number> (0 - 128)` ('default =' `0`)::
 
 Limit of CPU usage.
 +
 NOTE: If the computer has 2 CPUs, it has a total of '2' CPU time. Value '0' indicates no CPU limit.
 
-`cpuunits`: `integer (0 - 500000)` (default=`1024`)::
+`cpuunits`: `<integer> (0 - 500000)` ('default =' `1024`)::
 
 CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to the weights of all the other running VMs.
 +
 NOTE: You can disable fair-scheduler configuration by setting this to 0.
 
-`description`: `string` ::
+`description`: `<string>` ::
 
 Container description. Only used on the configuration web interface.
 
-`hostname`: `string` ::
+`hostname`: `<string>` ::
 
 Set a host name for the container.
 
-`lock`: `(backup | migrate | rollback | snapshot)` ::
+`lock`: `<backup | migrate | rollback | snapshot>` ::
 
 Lock/unlock the VM.
 
-`memory`: `integer (16 - N)` (default=`512`)::
+`memory`: `<integer> (16 - N)` ('default =' `512`)::
 
 Amount of RAM for the VM in MB.
 
@@ -46,11 +46,11 @@ Amount of RAM for the VM in MB.
 
 Use volume as container mount point.
 
-`acl`=`boolean` ;;
+`acl`=`<boolean>` ;;
 
 Explicitly enable or disable ACL support.
 
-`backup`=`boolean` ;;
+`backup`=`<boolean>` ;;
 
 Whether to include the mount point in backups (only used for volume mount points).
 
@@ -60,15 +60,15 @@ Path to the mount point as seen from inside the container.
 +
 NOTE: Must not contain any symlinks for security reasons.
 
-`quota`=`boolean` ;;
+`quota`=`<boolean>` ;;
 
 Enable user quotas inside the container (not supported with zfs subvolumes)
 
-`ro`=`boolean` ;;
+`ro`=`<boolean>` ;;
 
 Read-only mount point
 
-`shared`=`boolean` (default=`0`);;
+`shared`=`<boolean>` ('default =' `0`);;
 
 Mark this non-volume mount point as available on all nodes.
 +
@@ -82,7 +82,7 @@ Volume size (read only value).
 
 Volume, device or directory to mount into the container.
 
-`nameserver`: `string` ::
+`nameserver`: `<string>` ::
 
 Sets DNS server IP address for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.
 
@@ -94,7 +94,7 @@ Specifies network interfaces for the container.
 
 Bridge to attach the network device to.
 
-`firewall`=`boolean` ;;
+`firewall`=`<boolean>` ;;
 
 Controls whether this interface's firewall rules should be used.
 
@@ -118,7 +118,7 @@ IPv4 address in CIDR format.
 
 IPv6 address in CIDR format.
 
-`mtu`=`integer (64 - N)` ;;
+`mtu`=`<integer> (64 - N)` ;;
 
 Maximum transfer unit of the interface. (lxc.network.mtu)
 
@@ -130,7 +130,7 @@ Name of the network device as seen from inside the container. (lxc.network.name)
 
 Apply rate limiting to the interface
 
-`tag`=`integer (1 - 4094)` ;;
+`tag`=`<integer> (1 - 4094)` ;;
 
 VLAN tag for this interface.
 
@@ -138,19 +138,19 @@ VLAN tag for this interface.
 
 VLAN ids to pass through the interface
 
-`type`=`(veth)` ;;
+`type`=`<veth>` ;;
 
 Network interface type.
 
-`onboot`: `boolean` (default=`0`)::
+`onboot`: `<boolean>` ('default =' `0`)::
 
 Specifies whether a VM will be started during system bootup.
 
-`ostype`: `(alpine | archlinux | centos | debian | fedora | gentoo | opensuse | ubuntu | unmanaged)` ::
+`ostype`: `<alpine | archlinux | centos | debian | fedora | gentoo | opensuse | ubuntu | unmanaged>` ::
 
 OS type. This is used to setup configuration inside the container, and corresponds to lxc setup scripts in /usr/share/lxc/config/<ostype>.common.conf. Value 'unmanaged' can be used to skip and OS specific setup.
 
-`protection`: `boolean` (default=`0`)::
+`protection`: `<boolean>` ('default =' `0`)::
 
 Sets the protection flag of the container. This will prevent the CT or CT's disk remove/update operation.
 
@@ -158,19 +158,19 @@ Sets the protection flag of the container. This will prevent the CT or CT's disk
 
 Use volume as container root.
 
-`acl`=`boolean` ;;
+`acl`=`<boolean>` ;;
 
 Explicitly enable or disable ACL support.
 
-`quota`=`boolean` ;;
+`quota`=`<boolean>` ;;
 
 Enable user quotas inside the container (not supported with zfs subvolumes)
 
-`ro`=`boolean` ;;
+`ro`=`<boolean>` ;;
 
 Read-only mount point
 
-`shared`=`boolean` (default=`0`);;
+`shared`=`<boolean>` ('default =' `0`);;
 
 Mark this non-volume mount point as available on all nodes.
 +
@@ -184,7 +184,7 @@ Volume size (read only value).
 
 Volume, device or directory to mount into the container.
 
-`searchdomain`: `string` ::
+`searchdomain`: `<string>` ::
 
 Sets DNS search domains for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.
 
@@ -192,23 +192,23 @@ Sets DNS search domains for a container. Create will automatically use the setti
 
 Startup and shutdown behavior. Order is a non-negative number defining the general startup order. Shutdown in done with reverse ordering. Additionally you can set the 'up' or 'down' delay in seconds, which specifies a delay to wait before the next VM is started or stopped.
 
-`swap`: `integer (0 - N)` (default=`512`)::
+`swap`: `<integer> (0 - N)` ('default =' `512`)::
 
 Amount of SWAP for the VM in MB.
 
-`template`: `boolean` (default=`0`)::
+`template`: `<boolean>` ('default =' `0`)::
 
 Enable/disable Template.
 
-`tty`: `integer (0 - 6)` (default=`2`)::
+`tty`: `<integer> (0 - 6)` ('default =' `2`)::
 
 Specify the number of tty available to the container
 
-`unprivileged`: `boolean` (default=`0`)::
+`unprivileged`: `<boolean>` ('default =' `0`)::
 
 Makes the container run as unprivileged user. (Should not be modified manually.)
 
-`unused[n]`: `string` ::
+`unused[n]`: `<string>` ::
 
 Reference to unused volumes. This is used internally, and should not be modified manually.
 

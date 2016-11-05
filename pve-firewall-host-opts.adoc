@@ -1,40 +1,40 @@
-`enable`: `boolean` ::
+`enable`: `<boolean>` ::
 
 Enable host firewall rules.
 
-`log_level_in`: `(alert | crit | debug | emerg | err | info | nolog | notice | warning)` ::
+`log_level_in`: `<alert | crit | debug | emerg | err | info | nolog | notice | warning>` ::
 
 Log level for incoming traffic.
 
-`log_level_out`: `(alert | crit | debug | emerg | err | info | nolog | notice | warning)` ::
+`log_level_out`: `<alert | crit | debug | emerg | err | info | nolog | notice | warning>` ::
 
 Log level for outgoing traffic.
 
-`ndp`: `boolean` ::
+`ndp`: `<boolean>` ::
 
 Enable NDP.
 
-`nf_conntrack_max`: `integer (32768 - N)` ::
+`nf_conntrack_max`: `<integer> (32768 - N)` ::
 
 Maximum number of tracked connections.
 
-`nf_conntrack_tcp_timeout_established`: `integer (7875 - N)` ::
+`nf_conntrack_tcp_timeout_established`: `<integer> (7875 - N)` ::
 
 Conntrack established timeout.
 
-`nosmurfs`: `boolean` ::
+`nosmurfs`: `<boolean>` ::
 
 Enable SMURFS filter.
 
-`smurf_log_level`: `(alert | crit | debug | emerg | err | info | nolog | notice | warning)` ::
+`smurf_log_level`: `<alert | crit | debug | emerg | err | info | nolog | notice | warning>` ::
 
 Log level for SMURFS filter.
 
-`tcp_flags_log_level`: `(alert | crit | debug | emerg | err | info | nolog | notice | warning)` ::
+`tcp_flags_log_level`: `<alert | crit | debug | emerg | err | info | nolog | notice | warning>` ::
 
 Log level for illegal tcp flags filter.
 
-`tcpflags`: `boolean` ::
+`tcpflags`: `<boolean>` ::
 
 Filter illegal combinations of TCP flags.
 

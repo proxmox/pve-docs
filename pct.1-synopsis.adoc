@@ -4,39 +4,39 @@
 
 Create a container clone/copy
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`<newid>` `integer (1 - N)` ::
+`<newid>`: `<integer> (1 - N)` ::
 
 VMID for the clone.
 
-`-description` `string` ::
+`-description` `<string>` ::
 
 Description for the new CT.
 
-`-experimental` `boolean` (default=`0`)::
+`-experimental` `<boolean>` ('default =' `0`)::
 
 The clone feature is experimental, set this flag if you know what you are doing.
 
-`-full` `boolean` (default=`0`)::
+`-full` `<boolean>` ('default =' `0`)::
 
 Create a full copy of all disk. This is always done when you clone a normal CT. For CT templates, we try to create a linked clone by default.
 
-`-hostname` `string` ::
+`-hostname` `<string>` ::
 
 Set a hostname for the new CT.
 
-`-pool` `string` ::
+`-pool` `<string>` ::
 
 Add the new CT to the specified pool.
 
-`-snapname` `string` ::
+`-snapname` `<string>` ::
 
 The name of the snapshot.
 
-`-storage` `string` ::
+`-storage` `<string>` ::
 
 Target storage for full clone.
 +
@@ -49,7 +49,7 @@ NOTE: Requires option(s): `full`
 
 Get container configuration.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
@@ -60,7 +60,7 @@ The (unique) ID of the VM.
 
 Launch a console for the specified container.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
@@ -77,63 +77,63 @@ Print the list of assigned CPU sets.
 
 Create or restore a container.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`<ostemplate>` `string` ::
+`<ostemplate>`: `<string>` ::
 
 The OS template or backup file.
 
-`-arch` `(amd64 | i386)` (default=`amd64`)::
+`-arch` `<amd64 | i386>` ('default =' `amd64`)::
 
 OS architecture type.
 
-`-cmode` `(console | shell | tty)` (default=`tty`)::
+`-cmode` `<console | shell | tty>` ('default =' `tty`)::
 
 Console mode. By default, the console command tries to open a connection to one of the available tty devices. By setting cmode to 'console' it tries to attach to /dev/console instead. If you set cmode to 'shell', it simply invokes a shell inside the container (no login).
 
-`-console` `boolean` (default=`1`)::
+`-console` `<boolean>` ('default =' `1`)::
 
 Attach a console device (/dev/console) to the container.
 
-`-cores` `integer (1 - 128)` ::
+`-cores` `<integer> (1 - 128)` ::
 
 The number of cores assigned to the container. A container can use all available cores by default.
 
-`-cpulimit` `number (0 - 128)` (default=`0`)::
+`-cpulimit` `<number> (0 - 128)` ('default =' `0`)::
 
 Limit of CPU usage.
 +
 NOTE: If the computer has 2 CPUs, it has a total of '2' CPU time. Value '0' indicates no CPU limit.
 
-`-cpuunits` `integer (0 - 500000)` (default=`1024`)::
+`-cpuunits` `<integer> (0 - 500000)` ('default =' `1024`)::
 
 CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to the weights of all the other running VMs.
 +
 NOTE: You can disable fair-scheduler configuration by setting this to 0.
 
-`-description` `string` ::
+`-description` `<string>` ::
 
 Container description. Only used on the configuration web interface.
 
-`-force` `boolean` ::
+`-force` `<boolean>` ::
 
 Allow to overwrite existing container.
 
-`-hostname` `string` ::
+`-hostname` `<string>` ::
 
 Set a host name for the container.
 
-`-ignore-unpack-errors` `boolean` ::
+`-ignore-unpack-errors` `<boolean>` ::
 
 Ignore errors when extracting the template.
 
-`-lock` `(backup | migrate | rollback | snapshot)` ::
+`-lock` `<backup | migrate | rollback | snapshot>` ::
 
 Lock/unlock the VM.
 
-`-memory` `integer (16 - N)` (default=`512`)::
+`-memory` `<integer> (16 - N)` ('default =' `512`)::
 
 Amount of RAM for the VM in MB.
 
@@ -141,7 +141,7 @@ Amount of RAM for the VM in MB.
 
 Use volume as container mount point.
 
-`-nameserver` `string` ::
+`-nameserver` `<string>` ::
 
 Sets DNS server IP address for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.
 
@@ -149,11 +149,11 @@ Sets DNS server IP address for a container. Create will automatically use the se
 
 Specifies network interfaces for the container.
 
-`-onboot` `boolean` (default=`0`)::
+`-onboot` `<boolean>` ('default =' `0`)::
 
 Specifies whether a VM will be started during system bootup.
 
-`-ostype` `(alpine | archlinux | centos | debian | fedora | gentoo | opensuse | ubuntu | unmanaged)` ::
+`-ostype` `<alpine | archlinux | centos | debian | fedora | gentoo | opensuse | ubuntu | unmanaged>` ::
 
 OS type. This is used to setup configuration inside the container, and corresponds to lxc setup scripts in /usr/share/lxc/config/<ostype>.common.conf. Value 'unmanaged' can be used to skip and OS specific setup.
 
@@ -161,15 +161,15 @@ OS type. This is used to setup configuration inside the container, and correspon
 
 Sets root password inside container.
 
-`-pool` `string` ::
+`-pool` `<string>` ::
 
 Add the VM to the specified pool.
 
-`-protection` `boolean` (default=`0`)::
+`-protection` `<boolean>` ('default =' `0`)::
 
 Sets the protection flag of the container. This will prevent the CT or CT's disk remove/update operation.
 
-`-restore` `boolean` ::
+`-restore` `<boolean>` ::
 
 Mark this as restore task.
 
@@ -177,11 +177,11 @@ Mark this as restore task.
 
 Use volume as container root.
 
-`-searchdomain` `string` ::
+`-searchdomain` `<string>` ::
 
 Sets DNS search domains for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.
 
-`-ssh-public-keys` `filepath` ::
+`-ssh-public-keys` `<string>` ::
 
 Setup public SSH keys (one key per line, OpenSSH format).
 
@@ -189,27 +189,27 @@ Setup public SSH keys (one key per line, OpenSSH format).
 
 Startup and shutdown behavior. Order is a non-negative number defining the general startup order. Shutdown in done with reverse ordering. Additionally you can set the 'up' or 'down' delay in seconds, which specifies a delay to wait before the next VM is started or stopped.
 
-`-storage` `string` (default=`local`)::
+`-storage` `<string>` ('default =' `local`)::
 
 Default Storage.
 
-`-swap` `integer (0 - N)` (default=`512`)::
+`-swap` `<integer> (0 - N)` ('default =' `512`)::
 
 Amount of SWAP for the VM in MB.
 
-`-template` `boolean` (default=`0`)::
+`-template` `<boolean>` ('default =' `0`)::
 
 Enable/disable Template.
 
-`-tty` `integer (0 - 6)` (default=`2`)::
+`-tty` `<integer> (0 - 6)` ('default =' `2`)::
 
 Specify the number of tty available to the container
 
-`-unprivileged` `boolean` (default=`0`)::
+`-unprivileged` `<boolean>` ('default =' `0`)::
 
 Makes the container run as unprivileged user. (Should not be modified manually.)
 
-`-unused[n]` `string` ::
+`-unused[n]` `<string>` ::
 
 Reference to unused volumes. This is used internally, and should not be modified manually.
 
@@ -220,15 +220,15 @@ Reference to unused volumes. This is used internally, and should not be modified
 
 Delete a LXC snapshot.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`<snapname>` `string` ::
+`<snapname>`: `<string>` ::
 
 The name of the snapshot.
 
-`-force` `boolean` ::
+`-force` `<boolean>` ::
 
 For removal from config file, even if removing disk snapshots fails.
 
@@ -239,7 +239,7 @@ For removal from config file, even if removing disk snapshots fails.
 
 Destroy the container (also delete all uses files).
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
@@ -250,7 +250,7 @@ The (unique) ID of the VM.
 
 Get the container's current disk usage.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
@@ -260,7 +260,7 @@ The (unique) ID of the VM.
 
 Launch a shell for the specified container.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
@@ -270,11 +270,11 @@ The (unique) ID of the VM.
 
 Launch a command inside the specified container.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`<extra-args>` `array` ::
+`<extra-args>`: `<array>` ::
 
 Extra arguments as array
 
@@ -284,15 +284,15 @@ Extra arguments as array
 
 Run a filesystem check (fsck) on a container volume.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`-device` `(mp0 | mp1 | mp2 | mp3 | mp4 | mp5 | mp6 | mp7 | mp8 | mp9 | rootfs)` ::
+`-device` `<mp0 | mp1 | mp2 | mp3 | mp4 | mp5 | mp6 | mp7 | mp8 | mp9 | rootfs>` ::
 
 A volume on which to run the filesystem check
 
-`-force` `boolean` (default=`0`)::
+`-force` `<boolean>` ('default =' `0`)::
 
 Force checking, even if the filesystem seems clean
 
@@ -303,11 +303,11 @@ Force checking, even if the filesystem seems clean
 
 Get help about specified command.
 
-`<cmd>` `string` ::
+`<cmd>`: `<string>` ::
 
 Command name
 
-`-verbose` `boolean` ::
+`-verbose` `<boolean>` ::
 
 Verbose output format.
 
@@ -325,7 +325,7 @@ LXC container index (per node).
 
 List all snapshots.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
@@ -336,19 +336,19 @@ The (unique) ID of the VM.
 
 Migrate the container to another node. Creates a new migration task.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`<target>` `string` ::
+`<target>`: `<string>` ::
 
 Target node.
 
-`-force` `boolean` ::
+`-force` `<boolean>` ::
 
 Force migration despite local bind / device mounts. NOTE: deprecated, use 'shared' property of mount point instead.
 
-`-online` `boolean` ::
+`-online` `<boolean>` ::
 
 Use online/live migration.
 
@@ -361,7 +361,7 @@ Mount the container's filesystem on the host. This will hold a lock on the
 container and is meant for emergency maintenance only as it will prevent
 further operations on the container other than start and stop.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
@@ -371,27 +371,27 @@ The (unique) ID of the VM.
 
 Copy a file from the container to the local system.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`<path>` `string` ::
+`<path>`: `<string>` ::
 
 Path to a file inside the container to pull.
 
-`<destination>` `string` ::
+`<destination>`: `<string>` ::
 
 Destination
 
-`-group` `string` ::
+`-group` `<string>` ::
 
 Owner group name or id.
 
-`-perms` `string` ::
+`-perms` `<string>` ::
 
 File permissions to use (octal by default, prefix with '0x' for hexadecimal).
 
-`-user` `string` ::
+`-user` `<string>` ::
 
 Owner user name or id.
 
@@ -401,27 +401,27 @@ Owner user name or id.
 
 Copy a local file to the container.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`<file>` `string` ::
+`<file>`: `<string>` ::
 
 Path to a local file.
 
-`<destination>` `string` ::
+`<destination>`: `<string>` ::
 
 Destination inside the container to write to.
 
-`-group` `string` ::
+`-group` `<string>` ::
 
 Owner group name or id. When using a name it must exist inside the container.
 
-`-perms` `string` ::
+`-perms` `<string>` ::
 
 File permissions to use (octal by default, prefix with '0x' for hexadecimal).
 
-`-user` `string` ::
+`-user` `<string>` ::
 
 Owner user name or id. When using a name it must exist inside the container.
 
@@ -432,19 +432,19 @@ Owner user name or id. When using a name it must exist inside the container.
 
 Resize a container mount point.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`<disk>` `(mp0 | mp1 | mp2 | mp3 | mp4 | mp5 | mp6 | mp7 | mp8 | mp9 | rootfs)` ::
+`<disk>`: `<mp0 | mp1 | mp2 | mp3 | mp4 | mp5 | mp6 | mp7 | mp8 | mp9 | rootfs>` ::
 
 The disk you want to resize.
 
-`<size>` `\+?\d+(\.\d+)?[KMGT]?` ::
+`<size>`: `\+?\d+(\.\d+)?[KMGT]?` ::
 
 The new size. With the '+' sign the value is added to the actual size of the volume and without it, the value is taken as an absolute one. Shrinking disk size is not supported.
 
-`-digest` `string` ::
+`-digest` `<string>` ::
 
 Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
 
@@ -454,63 +454,63 @@ Prevent changes if current configuration file has different SHA1 digest. This ca
 
 Create or restore a container.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`<ostemplate>` `string` ::
+`<ostemplate>`: `<string>` ::
 
 The OS template or backup file.
 
-`-arch` `(amd64 | i386)` (default=`amd64`)::
+`-arch` `<amd64 | i386>` ('default =' `amd64`)::
 
 OS architecture type.
 
-`-cmode` `(console | shell | tty)` (default=`tty`)::
+`-cmode` `<console | shell | tty>` ('default =' `tty`)::
 
 Console mode. By default, the console command tries to open a connection to one of the available tty devices. By setting cmode to 'console' it tries to attach to /dev/console instead. If you set cmode to 'shell', it simply invokes a shell inside the container (no login).
 
-`-console` `boolean` (default=`1`)::
+`-console` `<boolean>` ('default =' `1`)::
 
 Attach a console device (/dev/console) to the container.
 
-`-cores` `integer (1 - 128)` ::
+`-cores` `<integer> (1 - 128)` ::
 
 The number of cores assigned to the container. A container can use all available cores by default.
 
-`-cpulimit` `number (0 - 128)` (default=`0`)::
+`-cpulimit` `<number> (0 - 128)` ('default =' `0`)::
 
 Limit of CPU usage.
 +
 NOTE: If the computer has 2 CPUs, it has a total of '2' CPU time. Value '0' indicates no CPU limit.
 
-`-cpuunits` `integer (0 - 500000)` (default=`1024`)::
+`-cpuunits` `<integer> (0 - 500000)` ('default =' `1024`)::
 
 CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to the weights of all the other running VMs.
 +
 NOTE: You can disable fair-scheduler configuration by setting this to 0.
 
-`-description` `string` ::
+`-description` `<string>` ::
 
 Container description. Only used on the configuration web interface.
 
-`-force` `boolean` ::
+`-force` `<boolean>` ::
 
 Allow to overwrite existing container.
 
-`-hostname` `string` ::
+`-hostname` `<string>` ::
 
 Set a host name for the container.
 
-`-ignore-unpack-errors` `boolean` ::
+`-ignore-unpack-errors` `<boolean>` ::
 
 Ignore errors when extracting the template.
 
-`-lock` `(backup | migrate | rollback | snapshot)` ::
+`-lock` `<backup | migrate | rollback | snapshot>` ::
 
 Lock/unlock the VM.
 
-`-memory` `integer (16 - N)` (default=`512`)::
+`-memory` `<integer> (16 - N)` ('default =' `512`)::
 
 Amount of RAM for the VM in MB.
 
@@ -518,7 +518,7 @@ Amount of RAM for the VM in MB.
 
 Use volume as container mount point.
 
-`-nameserver` `string` ::
+`-nameserver` `<string>` ::
 
 Sets DNS server IP address for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.
 
@@ -526,11 +526,11 @@ Sets DNS server IP address for a container. Create will automatically use the se
 
 Specifies network interfaces for the container.
 
-`-onboot` `boolean` (default=`0`)::
+`-onboot` `<boolean>` ('default =' `0`)::
 
 Specifies whether a VM will be started during system bootup.
 
-`-ostype` `(alpine | archlinux | centos | debian | fedora | gentoo | opensuse | ubuntu | unmanaged)` ::
+`-ostype` `<alpine | archlinux | centos | debian | fedora | gentoo | opensuse | ubuntu | unmanaged>` ::
 
 OS type. This is used to setup configuration inside the container, and corresponds to lxc setup scripts in /usr/share/lxc/config/<ostype>.common.conf. Value 'unmanaged' can be used to skip and OS specific setup.
 
@@ -538,11 +538,11 @@ OS type. This is used to setup configuration inside the container, and correspon
 
 Sets root password inside container.
 
-`-pool` `string` ::
+`-pool` `<string>` ::
 
 Add the VM to the specified pool.
 
-`-protection` `boolean` (default=`0`)::
+`-protection` `<boolean>` ('default =' `0`)::
 
 Sets the protection flag of the container. This will prevent the CT or CT's disk remove/update operation.
 
@@ -550,11 +550,11 @@ Sets the protection flag of the container. This will prevent the CT or CT's disk
 
 Use volume as container root.
 
-`-searchdomain` `string` ::
+`-searchdomain` `<string>` ::
 
 Sets DNS search domains for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.
 
-`-ssh-public-keys` `filepath` ::
+`-ssh-public-keys` `<string>` ::
 
 Setup public SSH keys (one key per line, OpenSSH format).
 
@@ -562,27 +562,27 @@ Setup public SSH keys (one key per line, OpenSSH format).
 
 Startup and shutdown behavior. Order is a non-negative number defining the general startup order. Shutdown in done with reverse ordering. Additionally you can set the 'up' or 'down' delay in seconds, which specifies a delay to wait before the next VM is started or stopped.
 
-`-storage` `string` (default=`local`)::
+`-storage` `<string>` ('default =' `local`)::
 
 Default Storage.
 
-`-swap` `integer (0 - N)` (default=`512`)::
+`-swap` `<integer> (0 - N)` ('default =' `512`)::
 
 Amount of SWAP for the VM in MB.
 
-`-template` `boolean` (default=`0`)::
+`-template` `<boolean>` ('default =' `0`)::
 
 Enable/disable Template.
 
-`-tty` `integer (0 - 6)` (default=`2`)::
+`-tty` `<integer> (0 - 6)` ('default =' `2`)::
 
 Specify the number of tty available to the container
 
-`-unprivileged` `boolean` (default=`0`)::
+`-unprivileged` `<boolean>` ('default =' `0`)::
 
 Makes the container run as unprivileged user. (Should not be modified manually.)
 
-`-unused[n]` `string` ::
+`-unused[n]` `<string>` ::
 
 Reference to unused volumes. This is used internally, and should not be modified manually.
 
@@ -593,7 +593,7 @@ Reference to unused volumes. This is used internally, and should not be modified
 
 Resume the container.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
@@ -604,11 +604,11 @@ The (unique) ID of the VM.
 
 Rollback LXC state to specified snapshot.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`<snapname>` `string` ::
+`<snapname>`: `<string>` ::
 
 The name of the snapshot.
 
@@ -619,59 +619,59 @@ The name of the snapshot.
 
 Set container options.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`-arch` `(amd64 | i386)` (default=`amd64`)::
+`-arch` `<amd64 | i386>` ('default =' `amd64`)::
 
 OS architecture type.
 
-`-cmode` `(console | shell | tty)` (default=`tty`)::
+`-cmode` `<console | shell | tty>` ('default =' `tty`)::
 
 Console mode. By default, the console command tries to open a connection to one of the available tty devices. By setting cmode to 'console' it tries to attach to /dev/console instead. If you set cmode to 'shell', it simply invokes a shell inside the container (no login).
 
-`-console` `boolean` (default=`1`)::
+`-console` `<boolean>` ('default =' `1`)::
 
 Attach a console device (/dev/console) to the container.
 
-`-cores` `integer (1 - 128)` ::
+`-cores` `<integer> (1 - 128)` ::
 
 The number of cores assigned to the container. A container can use all available cores by default.
 
-`-cpulimit` `number (0 - 128)` (default=`0`)::
+`-cpulimit` `<number> (0 - 128)` ('default =' `0`)::
 
 Limit of CPU usage.
 +
 NOTE: If the computer has 2 CPUs, it has a total of '2' CPU time. Value '0' indicates no CPU limit.
 
-`-cpuunits` `integer (0 - 500000)` (default=`1024`)::
+`-cpuunits` `<integer> (0 - 500000)` ('default =' `1024`)::
 
 CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to the weights of all the other running VMs.
 +
 NOTE: You can disable fair-scheduler configuration by setting this to 0.
 
-`-delete` `string` ::
+`-delete` `<string>` ::
 
 A list of settings you want to delete.
 
-`-description` `string` ::
+`-description` `<string>` ::
 
 Container description. Only used on the configuration web interface.
 
-`-digest` `string` ::
+`-digest` `<string>` ::
 
 Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
 
-`-hostname` `string` ::
+`-hostname` `<string>` ::
 
 Set a host name for the container.
 
-`-lock` `(backup | migrate | rollback | snapshot)` ::
+`-lock` `<backup | migrate | rollback | snapshot>` ::
 
 Lock/unlock the VM.
 
-`-memory` `integer (16 - N)` (default=`512`)::
+`-memory` `<integer> (16 - N)` ('default =' `512`)::
 
 Amount of RAM for the VM in MB.
 
@@ -679,7 +679,7 @@ Amount of RAM for the VM in MB.
 
 Use volume as container mount point.
 
-`-nameserver` `string` ::
+`-nameserver` `<string>` ::
 
 Sets DNS server IP address for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.
 
@@ -687,15 +687,15 @@ Sets DNS server IP address for a container. Create will automatically use the se
 
 Specifies network interfaces for the container.
 
-`-onboot` `boolean` (default=`0`)::
+`-onboot` `<boolean>` ('default =' `0`)::
 
 Specifies whether a VM will be started during system bootup.
 
-`-ostype` `(alpine | archlinux | centos | debian | fedora | gentoo | opensuse | ubuntu | unmanaged)` ::
+`-ostype` `<alpine | archlinux | centos | debian | fedora | gentoo | opensuse | ubuntu | unmanaged>` ::
 
 OS type. This is used to setup configuration inside the container, and corresponds to lxc setup scripts in /usr/share/lxc/config/<ostype>.common.conf. Value 'unmanaged' can be used to skip and OS specific setup.
 
-`-protection` `boolean` (default=`0`)::
+`-protection` `<boolean>` ('default =' `0`)::
 
 Sets the protection flag of the container. This will prevent the CT or CT's disk remove/update operation.
 
@@ -703,7 +703,7 @@ Sets the protection flag of the container. This will prevent the CT or CT's disk
 
 Use volume as container root.
 
-`-searchdomain` `string` ::
+`-searchdomain` `<string>` ::
 
 Sets DNS search domains for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.
 
@@ -711,23 +711,23 @@ Sets DNS search domains for a container. Create will automatically use the setti
 
 Startup and shutdown behavior. Order is a non-negative number defining the general startup order. Shutdown in done with reverse ordering. Additionally you can set the 'up' or 'down' delay in seconds, which specifies a delay to wait before the next VM is started or stopped.
 
-`-swap` `integer (0 - N)` (default=`512`)::
+`-swap` `<integer> (0 - N)` ('default =' `512`)::
 
 Amount of SWAP for the VM in MB.
 
-`-template` `boolean` (default=`0`)::
+`-template` `<boolean>` ('default =' `0`)::
 
 Enable/disable Template.
 
-`-tty` `integer (0 - 6)` (default=`2`)::
+`-tty` `<integer> (0 - 6)` ('default =' `2`)::
 
 Specify the number of tty available to the container
 
-`-unprivileged` `boolean` (default=`0`)::
+`-unprivileged` `<boolean>` ('default =' `0`)::
 
 Makes the container run as unprivileged user. (Should not be modified manually.)
 
-`-unused[n]` `string` ::
+`-unused[n]` `<string>` ::
 
 Reference to unused volumes. This is used internally, and should not be modified manually.
 
@@ -739,15 +739,15 @@ Reference to unused volumes. This is used internally, and should not be modified
 Shutdown the container. This will trigger a clean shutdown of the
 container, see lxc-stop(1) for details.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`-forceStop` `boolean` (default=`0`)::
+`-forceStop` `<boolean>` ('default =' `0`)::
 
 Make sure the Container stops.
 
-`-timeout` `integer (0 - N)` (default=`60`)::
+`-timeout` `<integer> (0 - N)` ('default =' `60`)::
 
 Wait maximal timeout seconds.
 
@@ -758,15 +758,15 @@ Wait maximal timeout seconds.
 
 Snapshot a container.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`<snapname>` `string` ::
+`<snapname>`: `<string>` ::
 
 The name of the snapshot.
 
-`-description` `string` ::
+`-description` `<string>` ::
 
 A textual description or comment.
 
@@ -777,11 +777,11 @@ A textual description or comment.
 
 Start the container.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`-skiplock` `boolean` ::
+`-skiplock` `<boolean>` ::
 
 Ignore locks - only root is allowed to use this option.
 
@@ -792,11 +792,11 @@ Ignore locks - only root is allowed to use this option.
 
 Show CT status.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`-verbose` `boolean` ::
+`-verbose` `<boolean>` ::
 
 Verbose output format
 
@@ -808,11 +808,11 @@ Verbose output format
 Stop the container. This will abruptly stop all processes running in the
 container.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`-skiplock` `boolean` ::
+`-skiplock` `<boolean>` ::
 
 Ignore locks - only root is allowed to use this option.
 
@@ -822,7 +822,7 @@ Ignore locks - only root is allowed to use this option.
 
 Suspend the container.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
@@ -833,11 +833,11 @@ The (unique) ID of the VM.
 
 Create a Template.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`-experimental` `boolean` (default=`0`)::
+`-experimental` `<boolean>` ('default =' `0`)::
 
 The template feature is experimental, set this flag if you know what you are doing.
 
@@ -848,7 +848,7 @@ The template feature is experimental, set this flag if you know what you are doi
 
 Unlock the VM.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
@@ -858,7 +858,7 @@ The (unique) ID of the VM.
 
 Unmount the container's filesystem.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 

@@ -1,40 +1,40 @@
-`dhcp`: `boolean` ::
+`dhcp`: `<boolean>` ::
 
 Enable DHCP.
 
-`enable`: `boolean` ::
+`enable`: `<boolean>` ::
 
 Enable/disable firewall rules.
 
-`ipfilter`: `boolean` ::
+`ipfilter`: `<boolean>` ::
 
 Enable default IP filters. This is equivalent to adding an empty ipfilter-net<id> ipset for every interface. Such ipsets implicitly contain sane default restrictions such as restricting IPv6 link local addresses to the one derived from the interface's MAC address. For containers the configured IP addresses will be implicitly added.
 
-`log_level_in`: `(alert | crit | debug | emerg | err | info | nolog | notice | warning)` ::
+`log_level_in`: `<alert | crit | debug | emerg | err | info | nolog | notice | warning>` ::
 
 Log level for incoming traffic.
 
-`log_level_out`: `(alert | crit | debug | emerg | err | info | nolog | notice | warning)` ::
+`log_level_out`: `<alert | crit | debug | emerg | err | info | nolog | notice | warning>` ::
 
 Log level for outgoing traffic.
 
-`macfilter`: `boolean` ::
+`macfilter`: `<boolean>` ::
 
 Enable/disable MAC address filter.
 
-`ndp`: `boolean` ::
+`ndp`: `<boolean>` ::
 
 Enable NDP.
 
-`policy_in`: `(ACCEPT | DROP | REJECT)` ::
+`policy_in`: `<ACCEPT | DROP | REJECT>` ::
 
 Input policy.
 
-`policy_out`: `(ACCEPT | DROP | REJECT)` ::
+`policy_out`: `<ACCEPT | DROP | REJECT>` ::
 
 Output policy.
 
-`radv`: `boolean` ::
+`radv`: `<boolean>` ::
 
 Allow sending Router Advertisement.
 

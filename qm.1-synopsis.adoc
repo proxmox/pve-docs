@@ -4,47 +4,47 @@
 
 Create a copy of virtual machine/template.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`<newid>` `integer (1 - N)` ::
+`<newid>`: `<integer> (1 - N)` ::
 
 VMID for the clone.
 
-`-description` `string` ::
+`-description` `<string>` ::
 
 Description for the new VM.
 
-`-format` `(qcow2 | raw | vmdk)` ::
+`-format` `<qcow2 | raw | vmdk>` ::
 
 Target format for file storage.
 +
 NOTE: Requires option(s): `full`
 
-`-full` `boolean` (default=`0`)::
+`-full` `<boolean>` ('default =' `0`)::
 
 Create a full copy of all disk. This is always done when you clone a normal VM. For VM templates, we try to create a linked clone by default.
 
-`-name` `string` ::
+`-name` `<string>` ::
 
 Set a name for the new VM.
 
-`-pool` `string` ::
+`-pool` `<string>` ::
 
 Add the new VM to the specified pool.
 
-`-snapname` `string` ::
+`-snapname` `<string>` ::
 
 The name of the snapshot.
 
-`-storage` `string` ::
+`-storage` `<string>` ::
 
 Target storage for full clone.
 +
 NOTE: Requires option(s): `full`
 
-`-target` `string` ::
+`-target` `<string>` ::
 
 Target node. Only allowed if the original VM is on shared storage.
 
@@ -55,11 +55,11 @@ Target node. Only allowed if the original VM is on shared storage.
 Get current virtual machine configuration. This does not include pending
 configuration changes (see 'pending' API).
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`-current` `boolean` (default=`0`)::
+`-current` `<boolean>` ('default =' `0`)::
 
 Get current values (instead of pending values).
 
@@ -69,39 +69,39 @@ Get current values (instead of pending values).
 
 Create or restore a virtual machine.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`-acpi` `boolean` (default=`1`)::
+`-acpi` `<boolean>` ('default =' `1`)::
 
 Enable/disable ACPI.
 
-`-agent` `boolean` (default=`0`)::
+`-agent` `<boolean>` ('default =' `0`)::
 
 Enable/disable Qemu GuestAgent.
 
-`-archive` `string` ::
+`-archive` `<string>` ::
 
 The backup file.
 
-`-args` `string` ::
+`-args` `<string>` ::
 
 Arbitrary arguments passed to kvm.
 
-`-autostart` `boolean` (default=`0`)::
+`-autostart` `<boolean>` ('default =' `0`)::
 
 Automatic restart after crash (currently ignored).
 
-`-balloon` `integer (0 - N)` ::
+`-balloon` `<integer> (0 - N)` ::
 
 Amount of target RAM for the VM in MB. Using zero disables the ballon driver.
 
-`-bios` `(ovmf | seabios)` (default=`seabios`)::
+`-bios` `<ovmf | seabios>` ('default =' `seabios`)::
 
 Select BIOS implementation.
 
-`-boot` `[acdn]{1,4}` (default=`cdn`)::
+`-boot` `[acdn]{1,4}` ('default =' `cdn`)::
 
 Boot on floppy (a), hard disk (c), CD-ROM (d), or network (n).
 
@@ -109,41 +109,41 @@ Boot on floppy (a), hard disk (c), CD-ROM (d), or network (n).
 
 Enable booting from specified disk.
 
-`-cdrom` `volume` ::
+`-cdrom` `<volume>` ::
 
 This is an alias for option -ide2
 
-`-cores` `integer (1 - N)` (default=`1`)::
+`-cores` `<integer> (1 - N)` ('default =' `1`)::
 
 The number of cores per socket.
 
-`-cpu` `[cputype=]<cputype> [,hidden=<1|0>]` ::
+`-cpu` `[cputype=]<enum> [,hidden=<1|0>]` ::
 
 Emulated CPU type.
 
-`-cpulimit` `number (0 - 128)` (default=`0`)::
+`-cpulimit` `<number> (0 - 128)` ('default =' `0`)::
 
 Limit of CPU usage.
 
-`-cpuunits` `integer (0 - 500000)` (default=`1024`)::
+`-cpuunits` `<integer> (0 - 500000)` ('default =' `1024`)::
 
 CPU weight for a VM.
 
-`-description` `string` ::
+`-description` `<string>` ::
 
 Description for the VM. Only used on the configuration web interface. This is saved as comment inside the configuration file.
 
-`-efidisk0` `[file=]<volume> [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,size=<DiskSize>]` ::
+`-efidisk0` `[file=]<volume> [,format=<enum>] [,size=<DiskSize>]` ::
 
 Configure a Disk for storing EFI vars
 
-`-force` `boolean` ::
+`-force` `<boolean>` ::
 
 Allow to overwrite existing VM.
 +
 NOTE: Requires option(s): `archive`
 
-`-freeze` `boolean` ::
+`-freeze` `<boolean>` ::
 
 Freeze CPU at startup (use 'c' monitor command to start execution).
 
@@ -151,31 +151,31 @@ Freeze CPU at startup (use 'c' monitor command to start execution).
 
 Map host PCI devices into guest.
 
-`-hotplug` `string` (default=`network,disk,usb`)::
+`-hotplug` `<string>` ('default =' `network,disk,usb`)::
 
 Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to disable hotplug completely. Value '1' is an alias for the default 'network,disk,usb'.
 
-`-hugepages` `(1024 | 2 | any)` ::
+`-hugepages` `<1024 | 2 | any>` ::
 
 Enable/disable hugepages memory.
 
-`-ide[n]` `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
+`-ide[n]` `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]` ::
 
 Use volume as IDE hard disk or CD-ROM (n is 0 to 3).
 
-`-keyboard` `(da | de | de-ch | en-gb | en-us | es | fi | fr | fr-be | fr-ca | fr-ch | hu | is | it | ja | lt | mk | nl | no | pl | pt | pt-br | sl | sv | tr)` (default=`en-us`)::
+`-keyboard` `<da | de | de-ch | en-gb | en-us | es | fi | fr | fr-be | fr-ca | fr-ch | hu | is | it | ja | lt | mk | nl | no | pl | pt | pt-br | sl | sv | tr>` ('default =' `en-us`)::
 
 Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.conf' configuration file.
 
-`-kvm` `boolean` (default=`1`)::
+`-kvm` `<boolean>` ('default =' `1`)::
 
 Enable/disable KVM hardware virtualization.
 
-`-localtime` `boolean` ::
+`-localtime` `<boolean>` ::
 
 Set the real time clock to local time. This is enabled by default if ostype indicates a Microsoft OS.
 
-`-lock` `(backup | migrate | rollback | snapshot)` ::
+`-lock` `<backup | migrate | rollback | snapshot>` ::
 
 Lock/unlock the VM.
 
@@ -183,27 +183,27 @@ Lock/unlock the VM.
 
 Specific the Qemu machine type.
 
-`-memory` `integer (16 - N)` (default=`512`)::
+`-memory` `<integer> (16 - N)` ('default =' `512`)::
 
 Amount of RAM for the VM in MB. This is the maximum available memory when you use the balloon device.
 
-`-migrate_downtime` `number (0 - N)` (default=`0.1`)::
+`-migrate_downtime` `<number> (0 - N)` ('default =' `0.1`)::
 
 Set maximum tolerated downtime (in seconds) for migrations.
 
-`-migrate_speed` `integer (0 - N)` (default=`0`)::
+`-migrate_speed` `<integer> (0 - N)` ('default =' `0`)::
 
 Set maximum speed (in MB/s) for migrations. Value 0 is no limit.
 
-`-name` `string` ::
+`-name` `<string>` ::
 
 Set a name for the VM. Only used on the configuration web interface.
 
-`-net[n]` `[model=]<model> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
+`-net[n]` `[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
 
 Specify network devices.
 
-`-numa` `boolean` (default=`0`)::
+`-numa` `<boolean>` ('default =' `0`)::
 
 Enable/disable NUMA.
 
@@ -211,11 +211,11 @@ Enable/disable NUMA.
 
 NUMA topology.
 
-`-onboot` `boolean` (default=`0`)::
+`-onboot` `<boolean>` ('default =' `0`)::
 
 Specifies whether a VM will be started during system bootup.
 
-`-ostype` `(l24 | l26 | other | solaris | w2k | w2k3 | w2k8 | win7 | win8 | wvista | wxp)` ::
+`-ostype` `<l24 | l26 | other | solaris | w2k | w2k3 | w2k8 | win7 | win8 | wvista | wxp>` ::
 
 Specify guest operating system.
 
@@ -223,27 +223,27 @@ Specify guest operating system.
 
 Map host parallel devices (n is 0 to 2).
 
-`-pool` `string` ::
+`-pool` `<string>` ::
 
 Add the VM to the specified pool.
 
-`-protection` `boolean` (default=`0`)::
+`-protection` `<boolean>` ('default =' `0`)::
 
 Sets the protection flag of the VM. This will disable the remove VM and remove disk operations.
 
-`-reboot` `boolean` (default=`1`)::
+`-reboot` `<boolean>` ('default =' `1`)::
 
 Allow reboot. If set to '0' the VM exit on reboot.
 
-`-sata[n]` `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
+`-sata[n]` `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]` ::
 
 Use volume as SATA hard disk or CD-ROM (n is 0 to 5).
 
-`-scsi[n]` `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
+`-scsi[n]` `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]` ::
 
 Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).
 
-`-scsihw` `(lsi | lsi53c810 | megasas | pvscsi | virtio-scsi-pci | virtio-scsi-single)` (default=`lsi`)::
+`-scsihw` `<lsi | lsi53c810 | megasas | pvscsi | virtio-scsi-pci | virtio-scsi-single>` ('default =' `lsi`)::
 
 SCSI controller model
 
@@ -251,7 +251,7 @@ SCSI controller model
 
 Create a serial device inside the VM (n is 0 to 3)
 
-`-shares` `integer (0 - 50000)` (default=`1000`)::
+`-shares` `<integer> (0 - 50000)` ('default =' `1000`)::
 
 Amount of memory shares for auto-ballooning. The larger the number is, the more memory this VM gets. Number is relative to weights of all other running VMs. Using zero disables auto-ballooning
 
@@ -259,15 +259,15 @@ Amount of memory shares for auto-ballooning. The larger the number is, the more 
 
 Specify SMBIOS type 1 fields.
 
-`-smp` `integer (1 - N)` (default=`1`)::
+`-smp` `<integer> (1 - N)` ('default =' `1`)::
 
 The number of CPUs. Please use option -sockets instead.
 
-`-sockets` `integer (1 - N)` (default=`1`)::
+`-sockets` `<integer> (1 - N)` ('default =' `1`)::
 
 The number of CPU sockets.
 
-`-startdate` `(now | YYYY-MM-DD | YYYY-MM-DDTHH:MM:SS)` (default=`now`)::
+`-startdate` `(now | YYYY-MM-DD | YYYY-MM-DDTHH:MM:SS)` ('default =' `now`)::
 
 Set the initial date of the real time clock. Valid format for date are: 'now' or '2006-06-17T16:01:21' or '2006-06-17'.
 
@@ -275,29 +275,29 @@ Set the initial date of the real time clock. Valid format for date are: 'now' or
 
 Startup and shutdown behavior. Order is a non-negative number defining the general startup order. Shutdown in done with reverse ordering. Additionally you can set the 'up' or 'down' delay in seconds, which specifies a delay to wait before the next VM is started or stopped.
 
-`-storage` `string` ::
+`-storage` `<string>` ::
 
 Default storage.
 
-`-tablet` `boolean` (default=`1`)::
+`-tablet` `<boolean>` ('default =' `1`)::
 
 Enable/disable the USB tablet device.
 
-`-tdf` `boolean` (default=`0`)::
+`-tdf` `<boolean>` ('default =' `0`)::
 
 Enable/disable time drift fix.
 
-`-template` `boolean` (default=`0`)::
+`-template` `<boolean>` ('default =' `0`)::
 
 Enable/disable Template.
 
-`-unique` `boolean` ::
+`-unique` `<boolean>` ::
 
 Assign a unique random ethernet address.
 +
 NOTE: Requires option(s): `archive`
 
-`-unused[n]` `string` ::
+`-unused[n]` `<string>` ::
 
 Reference to unused volumes. This is used internally, and should not be modified manually.
 
@@ -305,19 +305,19 @@ Reference to unused volumes. This is used internally, and should not be modified
 
 Configure an USB device (n is 0 to 4).
 
-`-vcpus` `integer (1 - N)` (default=`0`)::
+`-vcpus` `<integer> (1 - N)` ('default =' `0`)::
 
 Number of hotplugged vcpus.
 
-`-vga` `(cirrus | qxl | qxl2 | qxl3 | qxl4 | serial0 | serial1 | serial2 | serial3 | std | vmware)` ::
+`-vga` `<cirrus | qxl | qxl2 | qxl3 | qxl4 | serial0 | serial1 | serial2 | serial3 | std | vmware>` ::
 
 Select the VGA type.
 
-`-virtio[n]` `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
+`-virtio[n]` `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]` ::
 
 Use volume as VIRTIO hard disk (n is 0 to 15).
 
-`-watchdog` `[[model=]<i6300esb|ib700>] [,action=<reset|shutdown|poweroff|pause|debug|none>]` ::
+`-watchdog` `[[model=]<i6300esb|ib700>] [,action=<enum>]` ::
 
 Create a virtual hardware watchdog device.
 
@@ -327,15 +327,15 @@ Create a virtual hardware watchdog device.
 
 Delete a VM snapshot.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`<snapname>` `string` ::
+`<snapname>`: `<string>` ::
 
 The name of the snapshot.
 
-`-force` `boolean` ::
+`-force` `<boolean>` ::
 
 For removal from config file, even if removing disk snapshots fails.
 
@@ -345,11 +345,11 @@ For removal from config file, even if removing disk snapshots fails.
 
 Destroy the vm (also delete all used/owned volumes).
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`-skiplock` `boolean` ::
+`-skiplock` `<boolean>` ::
 
 Ignore locks - only root is allowed to use this option.
 
@@ -360,11 +360,11 @@ Ignore locks - only root is allowed to use this option.
 
 Get help about specified command.
 
-`<cmd>` `string` ::
+`<cmd>`: `<string>` ::
 
 Command name
 
-`-verbose` `boolean` ::
+`-verbose` `<boolean>` ::
 
 Verbose output format.
 
@@ -375,7 +375,7 @@ Verbose output format.
 
 Virtual machine index (per node).
 
-`-full` `boolean` ::
+`-full` `<boolean>` ::
 
 Determine the full status of active VMs.
 
@@ -385,7 +385,7 @@ Determine the full status of active VMs.
 
 List all snapshots.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
@@ -395,27 +395,27 @@ The (unique) ID of the VM.
 
 Migrate virtual machine. Creates a new migration task.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`<target>` `string` ::
+`<target>`: `<string>` ::
 
 Target node.
 
-`-force` `boolean` ::
+`-force` `<boolean>` ::
 
 Allow to migrate VMs which use local devices. Only root may use this option.
 
-`-migration_network` `string` ::
+`-migration_network` `<string>` ::
 
 CIDR of the (sub) network that is used for migration.
 
-`-migration_type` `(insecure | secure)` ::
+`-migration_type` `<insecure | secure>` ::
 
 Migration traffic is encrypted using an SSH tunnel by default. On secure, completely private networks this can be disabled to increase performance.
 
-`-online` `boolean` ::
+`-online` `<boolean>` ::
 
 Use online/live migration.
 
@@ -426,7 +426,7 @@ Use online/live migration.
 
 Enter Qemu Monitor interface.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
@@ -437,27 +437,27 @@ The (unique) ID of the VM.
 
 Move volume to different storage.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`<disk>` `(efidisk0 | ide0 | ide1 | ide2 | ide3 | sata0 | sata1 | sata2 | sata3 | sata4 | sata5 | scsi0 | scsi1 | scsi10 | scsi11 | scsi12 | scsi13 | scsi2 | scsi3 | scsi4 | scsi5 | scsi6 | scsi7 | scsi8 | scsi9 | virtio0 | virtio1 | virtio10 | virtio11 | virtio12 | virtio13 | virtio14 | virtio15 | virtio2 | virtio3 | virtio4 | virtio5 | virtio6 | virtio7 | virtio8 | virtio9)` ::
+`<disk>`: `<efidisk0 | ide0 | ide1 | ide2 | ide3 | sata0 | sata1 | sata2 | sata3 | sata4 | sata5 | scsi0 | scsi1 | scsi10 | scsi11 | scsi12 | scsi13 | scsi2 | scsi3 | scsi4 | scsi5 | scsi6 | scsi7 | scsi8 | scsi9 | virtio0 | virtio1 | virtio10 | virtio11 | virtio12 | virtio13 | virtio14 | virtio15 | virtio2 | virtio3 | virtio4 | virtio5 | virtio6 | virtio7 | virtio8 | virtio9>` ::
 
 The disk you want to move.
 
-`<storage>` `string` ::
+`<storage>`: `<string>` ::
 
 Target storage.
 
-`-delete` `boolean` (default=`0`)::
+`-delete` `<boolean>` ('default =' `0`)::
 
 Delete the original disk after successful copy. By default the original disk is kept as unused disk.
 
-`-digest` `string` ::
+`-digest` `<string>` ::
 
 Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
 
-`-format` `(qcow2 | raw | vmdk)` ::
+`-format` `<qcow2 | raw | vmdk>` ::
 
 Target Format.
 
@@ -475,7 +475,7 @@ Used by qmigrate - do not use manually.
 
 Get virtual machine configuration, including pending changes.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
@@ -486,7 +486,7 @@ The (unique) ID of the VM.
 
 Rescan all storages and update disk sizes and unused disk images.
 
-`-vmid` `integer (1 - N)` ::
+`-vmid` `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
@@ -497,11 +497,11 @@ The (unique) ID of the VM.
 
 Reset virtual machine.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`-skiplock` `boolean` ::
+`-skiplock` `<boolean>` ::
 
 Ignore locks - only root is allowed to use this option.
 
@@ -511,23 +511,23 @@ Ignore locks - only root is allowed to use this option.
 
 Extend volume size.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`<disk>` `(efidisk0 | ide0 | ide1 | ide2 | ide3 | sata0 | sata1 | sata2 | sata3 | sata4 | sata5 | scsi0 | scsi1 | scsi10 | scsi11 | scsi12 | scsi13 | scsi2 | scsi3 | scsi4 | scsi5 | scsi6 | scsi7 | scsi8 | scsi9 | virtio0 | virtio1 | virtio10 | virtio11 | virtio12 | virtio13 | virtio14 | virtio15 | virtio2 | virtio3 | virtio4 | virtio5 | virtio6 | virtio7 | virtio8 | virtio9)` ::
+`<disk>`: `<efidisk0 | ide0 | ide1 | ide2 | ide3 | sata0 | sata1 | sata2 | sata3 | sata4 | sata5 | scsi0 | scsi1 | scsi10 | scsi11 | scsi12 | scsi13 | scsi2 | scsi3 | scsi4 | scsi5 | scsi6 | scsi7 | scsi8 | scsi9 | virtio0 | virtio1 | virtio10 | virtio11 | virtio12 | virtio13 | virtio14 | virtio15 | virtio2 | virtio3 | virtio4 | virtio5 | virtio6 | virtio7 | virtio8 | virtio9>` ::
 
 The disk you want to resize.
 
-`<size>` `\+?\d+(\.\d+)?[KMGT]?` ::
+`<size>`: `\+?\d+(\.\d+)?[KMGT]?` ::
 
 The new size. With the '+' sign the value is added to the actual size of the volume and without it, the value is taken as an absolute one. Shrinking disk size is not supported.
 
-`-digest` `string` ::
+`-digest` `<string>` ::
 
 Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
 
-`-skiplock` `boolean` ::
+`-skiplock` `<boolean>` ::
 
 Ignore locks - only root is allowed to use this option.
 
@@ -537,15 +537,15 @@ Ignore locks - only root is allowed to use this option.
 
 Resume virtual machine.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`-nocheck` `boolean` ::
+`-nocheck` `<boolean>` ::
 
 no description available
 
-`-skiplock` `boolean` ::
+`-skiplock` `<boolean>` ::
 
 Ignore locks - only root is allowed to use this option.
 
@@ -555,11 +555,11 @@ Ignore locks - only root is allowed to use this option.
 
 Rollback VM state to specified snapshot.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`<snapname>` `string` ::
+`<snapname>`: `<string>` ::
 
 The name of the snapshot.
 
@@ -569,15 +569,15 @@ The name of the snapshot.
 
 Send key event to virtual machine.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`<key>` `string` ::
+`<key>`: `<string>` ::
 
 The key (qemu monitor encoding).
 
-`-skiplock` `boolean` ::
+`-skiplock` `<boolean>` ::
 
 Ignore locks - only root is allowed to use this option.
 
@@ -589,35 +589,35 @@ Set virtual machine options (synchrounous API) - You should consider using
 the POST method instead for any actions involving hotplug or storage
 allocation.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`-acpi` `boolean` (default=`1`)::
+`-acpi` `<boolean>` ('default =' `1`)::
 
 Enable/disable ACPI.
 
-`-agent` `boolean` (default=`0`)::
+`-agent` `<boolean>` ('default =' `0`)::
 
 Enable/disable Qemu GuestAgent.
 
-`-args` `string` ::
+`-args` `<string>` ::
 
 Arbitrary arguments passed to kvm.
 
-`-autostart` `boolean` (default=`0`)::
+`-autostart` `<boolean>` ('default =' `0`)::
 
 Automatic restart after crash (currently ignored).
 
-`-balloon` `integer (0 - N)` ::
+`-balloon` `<integer> (0 - N)` ::
 
 Amount of target RAM for the VM in MB. Using zero disables the ballon driver.
 
-`-bios` `(ovmf | seabios)` (default=`seabios`)::
+`-bios` `<ovmf | seabios>` ('default =' `seabios`)::
 
 Select BIOS implementation.
 
-`-boot` `[acdn]{1,4}` (default=`cdn`)::
+`-boot` `[acdn]{1,4}` ('default =' `cdn`)::
 
 Boot on floppy (a), hard disk (c), CD-ROM (d), or network (n).
 
@@ -625,49 +625,49 @@ Boot on floppy (a), hard disk (c), CD-ROM (d), or network (n).
 
 Enable booting from specified disk.
 
-`-cdrom` `volume` ::
+`-cdrom` `<volume>` ::
 
 This is an alias for option -ide2
 
-`-cores` `integer (1 - N)` (default=`1`)::
+`-cores` `<integer> (1 - N)` ('default =' `1`)::
 
 The number of cores per socket.
 
-`-cpu` `[cputype=]<cputype> [,hidden=<1|0>]` ::
+`-cpu` `[cputype=]<enum> [,hidden=<1|0>]` ::
 
 Emulated CPU type.
 
-`-cpulimit` `number (0 - 128)` (default=`0`)::
+`-cpulimit` `<number> (0 - 128)` ('default =' `0`)::
 
 Limit of CPU usage.
 
-`-cpuunits` `integer (0 - 500000)` (default=`1024`)::
+`-cpuunits` `<integer> (0 - 500000)` ('default =' `1024`)::
 
 CPU weight for a VM.
 
-`-delete` `string` ::
+`-delete` `<string>` ::
 
 A list of settings you want to delete.
 
-`-description` `string` ::
+`-description` `<string>` ::
 
 Description for the VM. Only used on the configuration web interface. This is saved as comment inside the configuration file.
 
-`-digest` `string` ::
+`-digest` `<string>` ::
 
 Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
 
-`-efidisk0` `[file=]<volume> [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,size=<DiskSize>]` ::
+`-efidisk0` `[file=]<volume> [,format=<enum>] [,size=<DiskSize>]` ::
 
 Configure a Disk for storing EFI vars
 
-`-force` `boolean` ::
+`-force` `<boolean>` ::
 
 Force physical removal. Without this, we simple remove the disk from the config file and create an additional configuration entry called 'unused[n]', which contains the volume ID. Unlink of unused[n] always cause physical removal.
 +
 NOTE: Requires option(s): `delete`
 
-`-freeze` `boolean` ::
+`-freeze` `<boolean>` ::
 
 Freeze CPU at startup (use 'c' monitor command to start execution).
 
@@ -675,31 +675,31 @@ Freeze CPU at startup (use 'c' monitor command to start execution).
 
 Map host PCI devices into guest.
 
-`-hotplug` `string` (default=`network,disk,usb`)::
+`-hotplug` `<string>` ('default =' `network,disk,usb`)::
 
 Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to disable hotplug completely. Value '1' is an alias for the default 'network,disk,usb'.
 
-`-hugepages` `(1024 | 2 | any)` ::
+`-hugepages` `<1024 | 2 | any>` ::
 
 Enable/disable hugepages memory.
 
-`-ide[n]` `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
+`-ide[n]` `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]` ::
 
 Use volume as IDE hard disk or CD-ROM (n is 0 to 3).
 
-`-keyboard` `(da | de | de-ch | en-gb | en-us | es | fi | fr | fr-be | fr-ca | fr-ch | hu | is | it | ja | lt | mk | nl | no | pl | pt | pt-br | sl | sv | tr)` (default=`en-us`)::
+`-keyboard` `<da | de | de-ch | en-gb | en-us | es | fi | fr | fr-be | fr-ca | fr-ch | hu | is | it | ja | lt | mk | nl | no | pl | pt | pt-br | sl | sv | tr>` ('default =' `en-us`)::
 
 Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.conf' configuration file.
 
-`-kvm` `boolean` (default=`1`)::
+`-kvm` `<boolean>` ('default =' `1`)::
 
 Enable/disable KVM hardware virtualization.
 
-`-localtime` `boolean` ::
+`-localtime` `<boolean>` ::
 
 Set the real time clock to local time. This is enabled by default if ostype indicates a Microsoft OS.
 
-`-lock` `(backup | migrate | rollback | snapshot)` ::
+`-lock` `<backup | migrate | rollback | snapshot>` ::
 
 Lock/unlock the VM.
 
@@ -707,27 +707,27 @@ Lock/unlock the VM.
 
 Specific the Qemu machine type.
 
-`-memory` `integer (16 - N)` (default=`512`)::
+`-memory` `<integer> (16 - N)` ('default =' `512`)::
 
 Amount of RAM for the VM in MB. This is the maximum available memory when you use the balloon device.
 
-`-migrate_downtime` `number (0 - N)` (default=`0.1`)::
+`-migrate_downtime` `<number> (0 - N)` ('default =' `0.1`)::
 
 Set maximum tolerated downtime (in seconds) for migrations.
 
-`-migrate_speed` `integer (0 - N)` (default=`0`)::
+`-migrate_speed` `<integer> (0 - N)` ('default =' `0`)::
 
 Set maximum speed (in MB/s) for migrations. Value 0 is no limit.
 
-`-name` `string` ::
+`-name` `<string>` ::
 
 Set a name for the VM. Only used on the configuration web interface.
 
-`-net[n]` `[model=]<model> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
+`-net[n]` `[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
 
 Specify network devices.
 
-`-numa` `boolean` (default=`0`)::
+`-numa` `<boolean>` ('default =' `0`)::
 
 Enable/disable NUMA.
 
@@ -735,11 +735,11 @@ Enable/disable NUMA.
 
 NUMA topology.
 
-`-onboot` `boolean` (default=`0`)::
+`-onboot` `<boolean>` ('default =' `0`)::
 
 Specifies whether a VM will be started during system bootup.
 
-`-ostype` `(l24 | l26 | other | solaris | w2k | w2k3 | w2k8 | win7 | win8 | wvista | wxp)` ::
+`-ostype` `<l24 | l26 | other | solaris | w2k | w2k3 | w2k8 | win7 | win8 | wvista | wxp>` ::
 
 Specify guest operating system.
 
@@ -747,27 +747,27 @@ Specify guest operating system.
 
 Map host parallel devices (n is 0 to 2).
 
-`-protection` `boolean` (default=`0`)::
+`-protection` `<boolean>` ('default =' `0`)::
 
 Sets the protection flag of the VM. This will disable the remove VM and remove disk operations.
 
-`-reboot` `boolean` (default=`1`)::
+`-reboot` `<boolean>` ('default =' `1`)::
 
 Allow reboot. If set to '0' the VM exit on reboot.
 
-`-revert` `string` ::
+`-revert` `<string>` ::
 
 Revert a pending change.
 
-`-sata[n]` `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
+`-sata[n]` `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]` ::
 
 Use volume as SATA hard disk or CD-ROM (n is 0 to 5).
 
-`-scsi[n]` `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
+`-scsi[n]` `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]` ::
 
 Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).
 
-`-scsihw` `(lsi | lsi53c810 | megasas | pvscsi | virtio-scsi-pci | virtio-scsi-single)` (default=`lsi`)::
+`-scsihw` `<lsi | lsi53c810 | megasas | pvscsi | virtio-scsi-pci | virtio-scsi-single>` ('default =' `lsi`)::
 
 SCSI controller model
 
@@ -775,11 +775,11 @@ SCSI controller model
 
 Create a serial device inside the VM (n is 0 to 3)
 
-`-shares` `integer (0 - 50000)` (default=`1000`)::
+`-shares` `<integer> (0 - 50000)` ('default =' `1000`)::
 
 Amount of memory shares for auto-ballooning. The larger the number is, the more memory this VM gets. Number is relative to weights of all other running VMs. Using zero disables auto-ballooning
 
-`-skiplock` `boolean` ::
+`-skiplock` `<boolean>` ::
 
 Ignore locks - only root is allowed to use this option.
 
@@ -787,15 +787,15 @@ Ignore locks - only root is allowed to use this option.
 
 Specify SMBIOS type 1 fields.
 
-`-smp` `integer (1 - N)` (default=`1`)::
+`-smp` `<integer> (1 - N)` ('default =' `1`)::
 
 The number of CPUs. Please use option -sockets instead.
 
-`-sockets` `integer (1 - N)` (default=`1`)::
+`-sockets` `<integer> (1 - N)` ('default =' `1`)::
 
 The number of CPU sockets.
 
-`-startdate` `(now | YYYY-MM-DD | YYYY-MM-DDTHH:MM:SS)` (default=`now`)::
+`-startdate` `(now | YYYY-MM-DD | YYYY-MM-DDTHH:MM:SS)` ('default =' `now`)::
 
 Set the initial date of the real time clock. Valid format for date are: 'now' or '2006-06-17T16:01:21' or '2006-06-17'.
 
@@ -803,19 +803,19 @@ Set the initial date of the real time clock. Valid format for date are: 'now' or
 
 Startup and shutdown behavior. Order is a non-negative number defining the general startup order. Shutdown in done with reverse ordering. Additionally you can set the 'up' or 'down' delay in seconds, which specifies a delay to wait before the next VM is started or stopped.
 
-`-tablet` `boolean` (default=`1`)::
+`-tablet` `<boolean>` ('default =' `1`)::
 
 Enable/disable the USB tablet device.
 
-`-tdf` `boolean` (default=`0`)::
+`-tdf` `<boolean>` ('default =' `0`)::
 
 Enable/disable time drift fix.
 
-`-template` `boolean` (default=`0`)::
+`-template` `<boolean>` ('default =' `0`)::
 
 Enable/disable Template.
 
-`-unused[n]` `string` ::
+`-unused[n]` `<string>` ::
 
 Reference to unused volumes. This is used internally, and should not be modified manually.
 
@@ -823,19 +823,19 @@ Reference to unused volumes. This is used internally, and should not be modified
 
 Configure an USB device (n is 0 to 4).
 
-`-vcpus` `integer (1 - N)` (default=`0`)::
+`-vcpus` `<integer> (1 - N)` ('default =' `0`)::
 
 Number of hotplugged vcpus.
 
-`-vga` `(cirrus | qxl | qxl2 | qxl3 | qxl4 | serial0 | serial1 | serial2 | serial3 | std | vmware)` ::
+`-vga` `<cirrus | qxl | qxl2 | qxl3 | qxl4 | serial0 | serial1 | serial2 | serial3 | std | vmware>` ::
 
 Select the VGA type.
 
-`-virtio[n]` `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
+`-virtio[n]` `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]` ::
 
 Use volume as VIRTIO hard disk (n is 0 to 15).
 
-`-watchdog` `[[model=]<i6300esb|ib700>] [,action=<reset|shutdown|poweroff|pause|debug|none>]` ::
+`-watchdog` `[[model=]<i6300esb|ib700>] [,action=<enum>]` ::
 
 Create a virtual hardware watchdog device.
 
@@ -846,7 +846,7 @@ Create a virtual hardware watchdog device.
 
 Show command line which is used to start the VM (debug info).
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
@@ -859,23 +859,23 @@ Shutdown virtual machine. This is similar to pressing the power button on a
 physical machine.This will send an ACPI event for the guest OS, which
 should then proceed to a clean shutdown.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`-forceStop` `boolean` (default=`0`)::
+`-forceStop` `<boolean>` ('default =' `0`)::
 
 Make sure the VM stops.
 
-`-keepActive` `boolean` (default=`0`)::
+`-keepActive` `<boolean>` ('default =' `0`)::
 
 Do not deactivate storage volumes.
 
-`-skiplock` `boolean` ::
+`-skiplock` `<boolean>` ::
 
 Ignore locks - only root is allowed to use this option.
 
-`-timeout` `integer (0 - N)` ::
+`-timeout` `<integer> (0 - N)` ::
 
 Wait maximal timeout seconds.
 
@@ -885,19 +885,19 @@ Wait maximal timeout seconds.
 
 Snapshot a VM.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`<snapname>` `string` ::
+`<snapname>`: `<string>` ::
 
 The name of the snapshot.
 
-`-description` `string` ::
+`-description` `<string>` ::
 
 A textual description or comment.
 
-`-vmstate` `boolean` ::
+`-vmstate` `<boolean>` ::
 
 Save the vmstate
 
@@ -907,7 +907,7 @@ Save the vmstate
 
 Start virtual machine.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
@@ -915,23 +915,23 @@ The (unique) ID of the VM.
 
 Specific the Qemu machine type.
 
-`-migratedfrom` `string` ::
+`-migratedfrom` `<string>` ::
 
 The cluster node name.
 
-`-migration_network` `string` ::
+`-migration_network` `<string>` ::
 
 CIDR of the (sub) network that is used for migration.
 
-`-migration_type` `(insecure | secure)` ::
+`-migration_type` `<insecure | secure>` ::
 
 Migration traffic is encrypted using an SSH tunnel by default. On secure, completely private networks this can be disabled to increase performance.
 
-`-skiplock` `boolean` ::
+`-skiplock` `<boolean>` ::
 
 Ignore locks - only root is allowed to use this option.
 
-`-stateuri` `string` ::
+`-stateuri` `<string>` ::
 
 Some command save/restore state from this location.
 
@@ -942,11 +942,11 @@ Some command save/restore state from this location.
 
 Show VM status.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`-verbose` `boolean` ::
+`-verbose` `<boolean>` ::
 
 Verbose output format
 
@@ -958,23 +958,23 @@ Verbose output format
 Stop virtual machine. The qemu process will exit immediately. Thisis akin
 to pulling the power plug of a running computer and may damage the VM data
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`-keepActive` `boolean` (default=`0`)::
+`-keepActive` `<boolean>` ('default =' `0`)::
 
 Do not deactivate storage volumes.
 
-`-migratedfrom` `string` ::
+`-migratedfrom` `<string>` ::
 
 The cluster node name.
 
-`-skiplock` `boolean` ::
+`-skiplock` `<boolean>` ::
 
 Ignore locks - only root is allowed to use this option.
 
-`-timeout` `integer (0 - N)` ::
+`-timeout` `<integer> (0 - N)` ::
 
 Wait maximal timeout seconds.
 
@@ -984,11 +984,11 @@ Wait maximal timeout seconds.
 
 Suspend virtual machine.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`-skiplock` `boolean` ::
+`-skiplock` `<boolean>` ::
 
 Ignore locks - only root is allowed to use this option.
 
@@ -998,11 +998,11 @@ Ignore locks - only root is allowed to use this option.
 
 Create a Template.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`-disk` `(efidisk0 | ide0 | ide1 | ide2 | ide3 | sata0 | sata1 | sata2 | sata3 | sata4 | sata5 | scsi0 | scsi1 | scsi10 | scsi11 | scsi12 | scsi13 | scsi2 | scsi3 | scsi4 | scsi5 | scsi6 | scsi7 | scsi8 | scsi9 | virtio0 | virtio1 | virtio10 | virtio11 | virtio12 | virtio13 | virtio14 | virtio15 | virtio2 | virtio3 | virtio4 | virtio5 | virtio6 | virtio7 | virtio8 | virtio9)` ::
+`-disk` `<efidisk0 | ide0 | ide1 | ide2 | ide3 | sata0 | sata1 | sata2 | sata3 | sata4 | sata5 | scsi0 | scsi1 | scsi10 | scsi11 | scsi12 | scsi13 | scsi2 | scsi3 | scsi4 | scsi5 | scsi6 | scsi7 | scsi8 | scsi9 | virtio0 | virtio1 | virtio10 | virtio11 | virtio12 | virtio13 | virtio14 | virtio15 | virtio2 | virtio3 | virtio4 | virtio5 | virtio6 | virtio7 | virtio8 | virtio9>` ::
 
 If you want to convert only 1 disk to base image.
 
@@ -1014,11 +1014,11 @@ If you want to convert only 1 disk to base image.
 Open a terminal using a serial device (The VM need to have a serial device
 configured, for example 'serial0: socket')
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`-iface` `(serial0 | serial1 | serial2 | serial3)` ::
+`-iface` `<serial0 | serial1 | serial2 | serial3>` ::
 
 Select the serial device. By default we simply use the first suitable device.
 
@@ -1029,15 +1029,15 @@ Select the serial device. By default we simply use the first suitable device.
 
 Unlink/delete disk images.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`-force` `boolean` ::
+`-force` `<boolean>` ::
 
 Force physical removal. Without this, we simple remove the disk from the config file and create an additional configuration entry called 'unused[n]', which contains the volume ID. Unlink of unused[n] always cause physical removal.
 
-`-idlist` `string` ::
+`-idlist` `<string>` ::
 
 A list of disk IDs you want to delete.
 
@@ -1048,7 +1048,7 @@ A list of disk IDs you want to delete.
 
 Unlock the VM.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
@@ -1058,7 +1058,7 @@ The (unique) ID of the VM.
 
 Proxy VM VNC traffic to stdin/stdout
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
@@ -1068,11 +1068,11 @@ The (unique) ID of the VM.
 
 Wait until the VM is stopped.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`-timeout` `integer (1 - N)` ::
+`-timeout` `<integer> (1 - N)` ::
 
 Timeout in seconds. Default is to wait forever.
 

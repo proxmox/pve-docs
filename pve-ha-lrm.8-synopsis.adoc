@@ -4,11 +4,11 @@
 
 Get help about specified command.
 
-`<cmd>` `string` ::
+`<cmd>`: `<string>` ::
 
 Command name
 
-`-verbose` `boolean` ::
+`-verbose` `<boolean>` ::
 
 Verbose output format.
 
@@ -19,7 +19,7 @@ Verbose output format.
 
 Start the daemon.
 
-`-debug` `boolean` (default=`0`)::
+`-debug` `<boolean>` ('default =' `0`)::
 
 Debug mode - stay in foreground
 

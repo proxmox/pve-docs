@@ -4,27 +4,27 @@
 
 Restore QemuServer vzdump backups.
 
-`<archive>` `string` ::
+`<archive>`: `<string>` ::
 
 The backup file. You can pass '-' to read from standard input.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
 
-`-force` `boolean` ::
+`-force` `<boolean>` ::
 
 Allow to overwrite existing VM.
 
-`-pool` `string` ::
+`-pool` `<string>` ::
 
 Add the VM to the specified pool.
 
-`-storage` `string` ::
+`-storage` `<string>` ::
 
 Default storage.
 
-`-unique` `boolean` ::
+`-unique` `<boolean>` ::
 
 Assign a unique random ethernet address.
 

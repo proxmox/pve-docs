@@ -11,15 +11,15 @@ Create Ceph Monitor
 
 Create OSD
 
-`<dev>` `string` ::
+`<dev>`: `<string>` ::
 
 Block device name.
 
-`-fstype` `(btrfs | ext4 | xfs)` (default=`xfs`)::
+`-fstype` `<btrfs | ext4 | xfs>` ('default =' `xfs`)::
 
 File system type.
 
-`-journal_dev` `string` ::
+`-journal_dev` `<string>` ::
 
 Block device name for journal.
 
@@ -30,23 +30,23 @@ Block device name for journal.
 
 Create POOL
 
-`<name>` `string` ::
+`<name>`: `<string>` ::
 
 The name of the pool. It must be unique.
 
-`-crush_ruleset` `integer (0 - 32768)` (default=`0`)::
+`-crush_ruleset` `<integer> (0 - 32768)` ('default =' `0`)::
 
 The ruleset to use for mapping object placement in the cluster.
 
-`-min_size` `integer (1 - 3)` (default=`1`)::
+`-min_size` `<integer> (1 - 3)` ('default =' `1`)::
 
 Minimum number of replicas per object
 
-`-pg_num` `integer (8 - 32768)` (default=`64`)::
+`-pg_num` `<integer> (8 - 32768)` ('default =' `64`)::
 
 Number of placement groups.
 
-`-size` `integer (1 - 3)` (default=`2`)::
+`-size` `<integer> (1 - 3)` ('default =' `2`)::
 
 Number of replicas per object
 
@@ -56,7 +56,7 @@ Number of replicas per object
 
 Destroy Ceph monitor.
 
-`<monid>` `integer` ::
+`<monid>`: `<integer>` ::
 
 Monitor ID
 
@@ -67,11 +67,11 @@ Monitor ID
 
 Destroy OSD
 
-`<osdid>` `integer` ::
+`<osdid>`: `<integer>` ::
 
 OSD ID
 
-`-cleanup` `boolean` (default=`0`)::
+`-cleanup` `<boolean>` ('default =' `0`)::
 
 If set, we remove partition table entries.
 
@@ -82,11 +82,11 @@ If set, we remove partition table entries.
 
 Destroy pool
 
-`<name>` `string` ::
+`<name>`: `<string>` ::
 
 The name of the pool. It must be unique.
 
-`-force` `boolean` (default=`0`)::
+`-force` `<boolean>` ('default =' `0`)::
 
 If true, destroys pool even if in use
 
@@ -97,11 +97,11 @@ If true, destroys pool even if in use
 
 Get help about specified command.
 
-`<cmd>` `string` ::
+`<cmd>`: `<string>` ::
 
 Command name
 
-`-verbose` `boolean` ::
+`-verbose` `<boolean>` ::
 
 Verbose output format.
 
@@ -112,17 +112,17 @@ Verbose output format.
 
 Create initial ceph default configuration and setup symlinks.
 
-`-network` `string` ::
+`-network` `<string>` ::
 
 Use specific network for all ceph related traffic
 
-`-pg_bits` `integer (6 - 14)` (default=`6`)::
+`-pg_bits` `<integer> (6 - 14)` ('default =' `6`)::
 
 Placement group bits, used to specify the default number of placement groups.
 +
 NOTE: 'osd pool default pg num' does not work for default pools.
 
-`-size` `integer (1 - 3)` (default=`2`)::
+`-size` `<integer> (1 - 3)` ('default =' `2`)::
 
 Number of replicas per object
 
@@ -133,7 +133,7 @@ Number of replicas per object
 
 Install ceph related packages.
 
-`-version` `(hammer)` ::
+`-version` `<hammer>` ::
 
 no description available
 
@@ -158,7 +158,7 @@ Destroy ceph related data and configuration files.
 
 Start ceph services.
 
-`<service>` `(mon|mds|osd)\.[A-Za-z0-9]{1,32}` ::
+`<service>`: `(mon|mds|osd)\.[A-Za-z0-9]{1,32}` ::
 
 Ceph service name.
 
@@ -174,7 +174,7 @@ Get ceph status.
 
 Stop ceph services.
 
-`<service>` `(mon|mds|osd)\.[A-Za-z0-9]{1,32}` ::
+`<service>`: `(mon|mds|osd)\.[A-Za-z0-9]{1,32}` ::
 
 Ceph service name.
 

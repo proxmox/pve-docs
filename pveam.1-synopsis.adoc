@@ -4,7 +4,7 @@
 
 List available templates.
 
-`-section` `(system | turnkeylinux)` ::
+`-section` `<system | turnkeylinux>` ::
 
 Restrict list to specified section.
 
@@ -15,11 +15,11 @@ Restrict list to specified section.
 
 Download appliance templates.
 
-`<storage>` `string` ::
+`<storage>`: `<string>` ::
 
 The storage where the template will be stored
 
-`<template>` `string` ::
+`<template>`: `<string>` ::
 
 The template wich will downloaded
 
@@ -30,11 +30,11 @@ The template wich will downloaded
 
 Get help about specified command.
 
-`<cmd>` `string` ::
+`<cmd>`: `<string>` ::
 
 Command name
 
-`-verbose` `boolean` ::
+`-verbose` `<boolean>` ::
 
 Verbose output format.
 
@@ -45,7 +45,7 @@ Verbose output format.
 
 Get list of all templates on storage
 
-`<storage>` `string` ::
+`<storage>`: `<string>` ::
 
 Only list templates on specified storage
 
@@ -55,7 +55,7 @@ Only list templates on specified storage
 
 Remove a template.
 
-`<template_path>` `string` ::
+`<template_path>`: `<string>` ::
 
 The template to remove.
 

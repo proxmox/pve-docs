@@ -4,27 +4,27 @@
 
 Adds the current node to an existing cluster.
 
-`<hostname>` `string` ::
+`<hostname>`: `<string>` ::
 
 Hostname (or IP) of an existing cluster member.
 
-`-force` `boolean` ::
+`-force` `<boolean>` ::
 
 Do not throw error if node already exists.
 
-`-nodeid` `integer (1 - N)` ::
+`-nodeid` `<integer> (1 - N)` ::
 
 Node id for this node.
 
-`-ring0_addr` `string` ::
+`-ring0_addr` `<string>` ::
 
 Hostname (or IP) of the corosync ring0 address of this node. Defaults to nodes hostname.
 
-`-ring1_addr` `string` ::
+`-ring1_addr` `<string>` ::
 
 Hostname (or IP) of the corosync ring1 address, this needs an valid configured ring 1 interface in the cluster.
 
-`-votes` `integer (0 - N)` ::
+`-votes` `<integer> (0 - N)` ::
 
 Number of votes for this node
 
@@ -34,27 +34,27 @@ Number of votes for this node
 
 Adds a node to the cluster configuration.
 
-`<node>` `string` ::
+`<node>`: `<string>` ::
 
 The cluster node name.
 
-`-force` `boolean` ::
+`-force` `<boolean>` ::
 
 Do not throw error if node already exists.
 
-`-nodeid` `integer (1 - N)` ::
+`-nodeid` `<integer> (1 - N)` ::
 
 Node id for this node.
 
-`-ring0_addr` `string` ::
+`-ring0_addr` `<string>` ::
 
 Hostname (or IP) of the corosync ring0 address of this node. Defaults to nodes hostname.
 
-`-ring1_addr` `string` ::
+`-ring1_addr` `<string>` ::
 
 Hostname (or IP) of the corosync ring1 address, this needs an valid bindnet1_addr.
 
-`-votes` `integer (0 - N)` ::
+`-votes` `<integer> (0 - N)` ::
 
 Number of votes for this node
 
@@ -64,35 +64,35 @@ Number of votes for this node
 
 Generate new cluster configuration.
 
-`<clustername>` `string` ::
+`<clustername>`: `<string>` ::
 
 The name of the cluster.
 
-`-bindnet0_addr` `string` ::
+`-bindnet0_addr` `<string>` ::
 
 This specifies the network address the corosync ring 0 executive should bind to and defaults to the local IP address of the node.
 
-`-bindnet1_addr` `string` ::
+`-bindnet1_addr` `<string>` ::
 
 This specifies the network address the corosync ring 1 executive should bind to and is optional.
 
-`-nodeid` `integer (1 - N)` ::
+`-nodeid` `<integer> (1 - N)` ::
 
 Node id for this node.
 
-`-ring0_addr` `string` ::
+`-ring0_addr` `<string>` ::
 
 Hostname (or IP) of the corosync ring0 address of this node. Defaults to the hostname of the node.
 
-`-ring1_addr` `string` ::
+`-ring1_addr` `<string>` ::
 
 Hostname (or IP) of the corosync ring1 address, this needs an valid bindnet1_addr.
 
-`-rrp_mode` `(active | none | passive)` (default=`none`)::
+`-rrp_mode` `<active | none | passive>` ('default =' `none`)::
 
 This specifies the mode of redundant ring, which may be none, active or passive. Using multiple interfaces only allows 'active' or 'passive'.
 
-`-votes` `integer (1 - N)` ::
+`-votes` `<integer> (1 - N)` ::
 
 Number of votes for this node.
 
@@ -102,7 +102,7 @@ Number of votes for this node.
 
 Removes a node to the cluster configuration.
 
-`<node>` `string` ::
+`<node>`: `<string>` ::
 
 Hostname or IP of the corosync ring0 address of this node.
 
@@ -112,7 +112,7 @@ Hostname or IP of the corosync ring0 address of this node.
 
 Tells corosync a new value of expected votes.
 
-`<expected>` `integer (1 - N)` ::
+`<expected>`: `<integer> (1 - N)` ::
 
 Expected votes
 
@@ -123,11 +123,11 @@ Expected votes
 
 Get help about specified command.
 
-`<cmd>` `string` ::
+`<cmd>`: `<string>` ::
 
 Command name
 
-`-verbose` `boolean` ::
+`-verbose` `<boolean>` ::
 
 Verbose output format.
 
@@ -138,7 +138,7 @@ Verbose output format.
 
 Generate new cryptographic key for corosync.
 
-`<filename>` `string` ::
+`<filename>`: `<string>` ::
 
 Output file name
 
@@ -148,11 +148,11 @@ Output file name
 
 Used by VM/CT migration - do not use manually.
 
-`-get_migration_ip` `boolean` (default=`0`)::
+`-get_migration_ip` `<boolean>` ('default =' `0`)::
 
 return the migration IP, if configured
 
-`-migration_network` `string` ::
+`-migration_network` `<string>` ::
 
 the migration network used to detect the local migration IP
 
@@ -174,11 +174,11 @@ Displays the local view of the cluster status.
 
 Update node certificates (and generate all needed files/directories).
 
-`-force` `boolean` ::
+`-force` `<boolean>` ::
 
 Force generation of new SSL certifate.
 
-`-silent` `boolean` ::
+`-silent` `<boolean>` ::
 
 Ignore errors (i.e. when cluster has no quorum).
 

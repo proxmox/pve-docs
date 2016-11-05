@@ -4,23 +4,23 @@
 
 Update Access Control List (add or remove permissions).
 
-`<path>` `string` ::
+`<path>`: `<string>` ::
 
 Access control path
 
-`-groups` `string` ::
+`-groups` `<string>` ::
 
 List of groups.
 
-`-propagate` `boolean` (default=`1`)::
+`-propagate` `<boolean>` ('default =' `1`)::
 
 Allow to propagate (inherit) permissions.
 
-`-roles` `string` ::
+`-roles` `<string>` ::
 
 List of roles.
 
-`-users` `string` ::
+`-users` `<string>` ::
 
 List of users.
 
@@ -30,23 +30,23 @@ List of users.
 
 Update Access Control List (add or remove permissions).
 
-`<path>` `string` ::
+`<path>`: `<string>` ::
 
 Access control path
 
-`-groups` `string` ::
+`-groups` `<string>` ::
 
 List of groups.
 
-`-propagate` `boolean` (default=`1`)::
+`-propagate` `<boolean>` ('default =' `1`)::
 
 Allow to propagate (inherit) permissions.
 
-`-roles` `string` ::
+`-roles` `<string>` ::
 
 List of roles.
 
-`-users` `string` ::
+`-users` `<string>` ::
 
 List of users.
 
@@ -57,11 +57,11 @@ List of users.
 
 Create new group.
 
-`<groupid>` `string` ::
+`<groupid>`: `<string>` ::
 
 no description available
 
-`-comment` `string` ::
+`-comment` `<string>` ::
 
 no description available
 
@@ -71,7 +71,7 @@ no description available
 
 Delete group.
 
-`<groupid>` `string` ::
+`<groupid>`: `<string>` ::
 
 no description available
 
@@ -81,11 +81,11 @@ no description available
 
 Update group data.
 
-`<groupid>` `string` ::
+`<groupid>`: `<string>` ::
 
 no description available
 
-`-comment` `string` ::
+`-comment` `<string>` ::
 
 no description available
 
@@ -96,11 +96,11 @@ no description available
 
 Get help about specified command.
 
-`<cmd>` `string` ::
+`<cmd>`: `<string>` ::
 
 Command name
 
-`-verbose` `boolean` ::
+`-verbose` `<boolean>` ::
 
 Verbose output format.
 
@@ -111,7 +111,7 @@ Verbose output format.
 
 Change user password.
 
-`<userid>` `string` ::
+`<userid>`: `<string>` ::
 
 User ID
 
@@ -122,11 +122,11 @@ User ID
 
 Create new role.
 
-`<roleid>` `string` ::
+`<roleid>`: `<string>` ::
 
 no description available
 
-`-privs` `string` ::
+`-privs` `<string>` ::
 
 no description available
 
@@ -136,7 +136,7 @@ no description available
 
 Delete role.
 
-`<roleid>` `string` ::
+`<roleid>`: `<string>` ::
 
 no description available
 
@@ -146,17 +146,17 @@ no description available
 
 Create new role.
 
-`<roleid>` `string` ::
+`<roleid>`: `<string>` ::
 
 no description available
 
-`-append` `boolean` ::
+`-append` `<boolean>` ::
 
 no description available
 +
 NOTE: Requires option(s): `privs`
 
-`-privs` `string` ::
+`-privs` `<string>` ::
 
 no description available
 
@@ -167,27 +167,27 @@ no description available
 
 Create or verify authentication ticket.
 
-`<username>` `string` ::
+`<username>`: `<string>` ::
 
 User name
 
-`-otp` `string` ::
+`-otp` `<string>` ::
 
 One-time password for Two-factor authentication.
 
-`-path` `string` ::
+`-path` `<string>` ::
 
 Verify ticket, and check if user have access 'privs' on 'path'
 +
 NOTE: Requires option(s): `privs`
 
-`-privs` `string` ::
+`-privs` `<string>` ::
 
 Verify ticket, and check if user have access 'privs' on 'path'
 +
 NOTE: Requires option(s): `path`
 
-`-realm` `string` ::
+`-realm` `<string>` ::
 
 You can optionally pass the realm using this parameter. Normally the realm is simply added to the username <username>@<relam>.
 
@@ -198,39 +198,39 @@ You can optionally pass the realm using this parameter. Normally the realm is si
 
 Create new user.
 
-`<userid>` `string` ::
+`<userid>`: `<string>` ::
 
 User ID
 
-`-comment` `string` ::
+`-comment` `<string>` ::
 
 no description available
 
-`-email` `string` ::
+`-email` `<string>` ::
 
 no description available
 
-`-enable` `boolean` (default=`1`)::
+`-enable` `<boolean>` ('default =' `1`)::
 
 Enable the account (default). You can set this to '0' to disable the accout
 
-`-expire` `integer (0 - N)` ::
+`-expire` `<integer> (0 - N)` ::
 
 Account expiration date (seconds since epoch). '0' means no expiration date.
 
-`-firstname` `string` ::
+`-firstname` `<string>` ::
 
 no description available
 
-`-groups` `string` ::
+`-groups` `<string>` ::
 
 no description available
 
-`-keys` `string` ::
+`-keys` `<string>` ::
 
 Keys for two factor auth (yubico).
 
-`-lastname` `string` ::
+`-lastname` `<string>` ::
 
 no description available
 
@@ -244,7 +244,7 @@ Initial password.
 
 Delete user.
 
-`<userid>` `string` ::
+`<userid>`: `<string>` ::
 
 User ID
 
@@ -254,45 +254,45 @@ User ID
 
 Update user configuration.
 
-`<userid>` `string` ::
+`<userid>`: `<string>` ::
 
 User ID
 
-`-append` `boolean` ::
+`-append` `<boolean>` ::
 
 no description available
 +
 NOTE: Requires option(s): `groups`
 
-`-comment` `string` ::
+`-comment` `<string>` ::
 
 no description available
 
-`-email` `string` ::
+`-email` `<string>` ::
 
 no description available
 
-`-enable` `boolean` ::
+`-enable` `<boolean>` ::
 
 Enable/disable the account.
 
-`-expire` `integer (0 - N)` ::
+`-expire` `<integer> (0 - N)` ::
 
 Account expiration date (seconds since epoch). '0' means no expiration date.
 
-`-firstname` `string` ::
+`-firstname` `<string>` ::
 
 no description available
 
-`-groups` `string` ::
+`-groups` `<string>` ::
 
 no description available
 
-`-keys` `string` ::
+`-keys` `<string>` ::
 
 Keys for two factor auth (yubico).
 
-`-lastname` `string` ::
+`-lastname` `<string>` ::
 
 no description available
 

@@ -4,7 +4,7 @@
 
 Bridge to attach the network device to.
 
-`firewall`: `boolean` ::
+`firewall`: `<boolean>` ::
 
 Controls whether this interface's firewall rules should be used.
 
@@ -28,7 +28,7 @@ IPv4 address in CIDR format.
 
 IPv6 address in CIDR format.
 
-`mtu`: `integer (64 - N)` ::
+`mtu`: `<integer> (64 - N)` ::
 
 Maximum transfer unit of the interface. (lxc.network.mtu)
 
@@ -40,7 +40,7 @@ Name of the network device as seen from inside the container. (lxc.network.name)
 
 Apply rate limiting to the interface
 
-`tag`: `integer (1 - 4094)` ::
+`tag`: `<integer> (1 - 4094)` ::
 
 VLAN tag for this interface.
 
@@ -48,7 +48,7 @@ VLAN tag for this interface.
 
 VLAN ids to pass through the interface
 
-`type`: `(veth)` ::
+`type`: `<veth>` ::
 
 Network interface type.
 

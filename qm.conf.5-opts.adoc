@@ -1,12 +1,12 @@
-`acpi`: `boolean` (default=`1`)::
+`acpi`: `<boolean>` ('default =' `1`)::
 
 Enable/disable ACPI.
 
-`agent`: `boolean` (default=`0`)::
+`agent`: `<boolean>` ('default =' `0`)::
 
 Enable/disable Qemu GuestAgent.
 
-`args`: `string` ::
+`args`: `<string>` ::
 
 Arbitrary arguments passed to kvm, for example:
 +
@@ -14,19 +14,19 @@ args: -no-reboot -no-hpet
 +
 NOTE: this option is for experts only.
 
-`autostart`: `boolean` (default=`0`)::
+`autostart`: `<boolean>` ('default =' `0`)::
 
 Automatic restart after crash (currently ignored).
 
-`balloon`: `integer (0 - N)` ::
+`balloon`: `<integer> (0 - N)` ::
 
 Amount of target RAM for the VM in MB. Using zero disables the ballon driver.
 
-`bios`: `(ovmf | seabios)` (default=`seabios`)::
+`bios`: `<ovmf | seabios>` ('default =' `seabios`)::
 
 Select BIOS implementation.
 
-`boot`: `[acdn]{1,4}` (default=`cdn`)::
+`boot`: `[acdn]{1,4}` ('default =' `cdn`)::
 
 Boot on floppy (a), hard disk (c), CD-ROM (d), or network (n).
 
@@ -34,43 +34,43 @@ Boot on floppy (a), hard disk (c), CD-ROM (d), or network (n).
 
 Enable booting from specified disk.
 
-`cdrom`: `volume` ::
+`cdrom`: `<volume>` ::
 
 This is an alias for option -ide2
 
-`cores`: `integer (1 - N)` (default=`1`)::
+`cores`: `<integer> (1 - N)` ('default =' `1`)::
 
 The number of cores per socket.
 
-`cpu`: `[cputype=]<cputype> [,hidden=<1|0>]` ::
+`cpu`: `[cputype=]<enum> [,hidden=<1|0>]` ::
 
 Emulated CPU type.
 
-`cputype`=`<cputype>` (default=`kvm64`);;
+`cputype`=`<486 | Broadwell | Broadwell-noTSX | Conroe | Haswell | Haswell-noTSX | IvyBridge | Nehalem | Opteron_G1 | Opteron_G2 | Opteron_G3 | Opteron_G4 | Opteron_G5 | Penryn | SandyBridge | Westmere | athlon | core2duo | coreduo | host | kvm32 | kvm64 | pentium | pentium2 | pentium3 | phenom | qemu32 | qemu64>` ('default =' `kvm64`);;
 
 Emulated CPU type.
 
-`hidden`=`boolean` (default=`0`);;
+`hidden`=`<boolean>` ('default =' `0`);;
 
 Do not identify as a KVM virtual machine.
 
-`cpulimit`: `number (0 - 128)` (default=`0`)::
+`cpulimit`: `<number> (0 - 128)` ('default =' `0`)::
 
 Limit of CPU usage.
 +
 NOTE: If the computer has 2 CPUs, it has total of '2' CPU time. Value '0' indicates no CPU limit.
 
-`cpuunits`: `integer (0 - 500000)` (default=`1024`)::
+`cpuunits`: `<integer> (0 - 500000)` ('default =' `1024`)::
 
 CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs.
 +
 NOTE: You can disable fair-scheduler configuration by setting this to 0.
 
-`description`: `string` ::
+`description`: `<string>` ::
 
 Description for the VM. Only used on the configuration web interface. This is saved as comment inside the configuration file.
 
-`efidisk0`: `[file=]<volume> [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,size=<DiskSize>]` ::
+`efidisk0`: `[file=]<volume> [,format=<enum>] [,size=<DiskSize>]` ::
 
 Configure a Disk for storing EFI vars
 
@@ -78,7 +78,7 @@ Configure a Disk for storing EFI vars
 
 The drive's backing volume.
 
-`format`=`(cloop | cow | qcow | qcow2 | qed | raw | vmdk)` ;;
+`format`=`<cloop | cow | qcow | qcow2 | qed | raw | vmdk>` ;;
 
 The drive's backing file's data format.
 
@@ -86,7 +86,7 @@ The drive's backing file's data format.
 
 Disk size. This is purely informational and has no effect.
 
-`freeze`: `boolean` ::
+`freeze`: `<boolean>` ::
 
 Freeze CPU at startup (use 'c' monitor command to start execution).
 
@@ -108,35 +108,35 @@ of PCI virtual functions of the host. HOSTPCIID syntax is:
 +
 You can us the 'lspci' command to list existing PCI devices.
 
-`pcie`=`boolean` (default=`0`);;
+`pcie`=`<boolean>` ('default =' `0`);;
 
 Choose the PCI-express bus (needs the 'q35' machine model).
 
-`rombar`=`boolean` (default=`1`);;
+`rombar`=`<boolean>` ('default =' `1`);;
 
 Specify whether or not the device's ROM will be visible in the guest's memory map.
 
-`x-vga`=`boolean` (default=`0`);;
+`x-vga`=`<boolean>` ('default =' `0`);;
 
 Enable vfio-vga device support.
 
-`hotplug`: `string` (default=`network,disk,usb`)::
+`hotplug`: `<string>` ('default =' `network,disk,usb`)::
 
 Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to disable hotplug completely. Value '1' is an alias for the default 'network,disk,usb'.
 
-`hugepages`: `(1024 | 2 | any)` ::
+`hugepages`: `<1024 | 2 | any>` ::
 
 Enable/disable hugepages memory.
 
-`ide[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
+`ide[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]` ::
 
 Use volume as IDE hard disk or CD-ROM (n is 0 to 3).
 
-`aio`=`(native | threads)` ;;
+`aio`=`<native | threads>` ;;
 
 AIO type to use.
 
-`backup`=`boolean` ;;
+`backup`=`<boolean>` ;;
 
 Whether the drive should be included when making backups.
 
@@ -164,19 +164,19 @@ Maximum write speed in bytes per second.
 
 Maximum length of write I/O bursts in seconds.
 
-`cache`=`(directsync | none | unsafe | writeback | writethrough)` ;;
+`cache`=`<directsync | none | unsafe | writeback | writethrough>` ;;
 
 The drive's cache mode
 
-`cyls`=`integer` ;;
+`cyls`=`<integer>` ;;
 
 Force the drive's physical geometry to have a specific cylinder count.
 
-`detect_zeroes`=`boolean` ;;
+`detect_zeroes`=`<boolean>` ;;
 
 Controls whether to detect and try to optimize writes of zeroes.
 
-`discard`=`(ignore | on)` ;;
+`discard`=`<ignore | on>` ;;
 
 Controls whether to pass discard/trim requests to the underlying storage.
 
@@ -184,11 +184,11 @@ Controls whether to pass discard/trim requests to the underlying storage.
 
 The drive's backing volume.
 
-`format`=`(cloop | cow | qcow | qcow2 | qed | raw | vmdk)` ;;
+`format`=`<cloop | cow | qcow | qcow2 | qed | raw | vmdk>` ;;
 
 The drive's backing file's data format.
 
-`heads`=`integer` ;;
+`heads`=`<integer>` ;;
 
 Force the drive's physical geometry to have a specific head count.
 
@@ -252,7 +252,7 @@ Maximum write speed in megabytes per second.
 
 Maximum unthrottled write pool in megabytes per second.
 
-`media`=`(cdrom | disk)` (default=`disk`);;
+`media`=`<cdrom | disk>` ('default =' `disk`);;
 
 The drive's media type.
 
@@ -260,11 +260,11 @@ The drive's media type.
 
 The drive's reported model name, url-encoded, up to 40 bytes long.
 
-`rerror`=`(ignore | report | stop)` ;;
+`rerror`=`<ignore | report | stop>` ;;
 
 Read error action.
 
-`secs`=`integer` ;;
+`secs`=`<integer>` ;;
 
 Force the drive's physical geometry to have a specific sector count.
 
@@ -276,31 +276,31 @@ The drive's reported serial number, url-encoded, up to 20 bytes long.
 
 Disk size. This is purely informational and has no effect.
 
-`snapshot`=`boolean` ;;
+`snapshot`=`<boolean>` ;;
 
 Whether the drive should be included when making snapshots.
 
-`trans`=`(auto | lba | none)` ;;
+`trans`=`<auto | lba | none>` ;;
 
 Force disk geometry bios translation mode.
 
-`werror`=`(enospc | ignore | report | stop)` ;;
+`werror`=`<enospc | ignore | report | stop>` ;;
 
 Write error action.
 
-`keyboard`: `(da | de | de-ch | en-gb | en-us | es | fi | fr | fr-be | fr-ca | fr-ch | hu | is | it | ja | lt | mk | nl | no | pl | pt | pt-br | sl | sv | tr)` (default=`en-us`)::
+`keyboard`: `<da | de | de-ch | en-gb | en-us | es | fi | fr | fr-be | fr-ca | fr-ch | hu | is | it | ja | lt | mk | nl | no | pl | pt | pt-br | sl | sv | tr>` ('default =' `en-us`)::
 
 Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.conf' configuration file.
 
-`kvm`: `boolean` (default=`1`)::
+`kvm`: `<boolean>` ('default =' `1`)::
 
 Enable/disable KVM hardware virtualization.
 
-`localtime`: `boolean` ::
+`localtime`: `<boolean>` ::
 
 Set the real time clock to local time. This is enabled by default if ostype indicates a Microsoft OS.
 
-`lock`: `(backup | migrate | rollback | snapshot)` ::
+`lock`: `<backup | migrate | rollback | snapshot>` ::
 
 Lock/unlock the VM.
 
@@ -308,23 +308,23 @@ Lock/unlock the VM.
 
 Specific the Qemu machine type.
 
-`memory`: `integer (16 - N)` (default=`512`)::
+`memory`: `<integer> (16 - N)` ('default =' `512`)::
 
 Amount of RAM for the VM in MB. This is the maximum available memory when you use the balloon device.
 
-`migrate_downtime`: `number (0 - N)` (default=`0.1`)::
+`migrate_downtime`: `<number> (0 - N)` ('default =' `0.1`)::
 
 Set maximum tolerated downtime (in seconds) for migrations.
 
-`migrate_speed`: `integer (0 - N)` (default=`0`)::
+`migrate_speed`: `<integer> (0 - N)` ('default =' `0`)::
 
 Set maximum speed (in MB/s) for migrations. Value 0 is no limit.
 
-`name`: `string` ::
+`name`: `<string>` ::
 
 Set a name for the VM. Only used on the configuration web interface.
 
-`net[n]`: `[model=]<model> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
+`net[n]`: `[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
 
 Specify network devices.
 
@@ -343,11 +343,11 @@ are used:
 +
 The DHCP server assign addresses to the guest starting from 10.0.2.15.
 
-`firewall`=`boolean` ;;
+`firewall`=`<boolean>` ;;
 
 Whether this interface should be protected by the firewall.
 
-`link_down`=`boolean` ;;
+`link_down`=`<boolean>` ;;
 
 Whether this interface should be disconnected (like pulling the plug).
 
@@ -355,19 +355,19 @@ Whether this interface should be disconnected (like pulling the plug).
 
 MAC address. That address must be unique withing your network. This is automatically generated if not specified.
 
-`model`=`<model>` ;;
+`model`=`<e1000 | e1000-82540em | e1000-82544gc | e1000-82545em | i82551 | i82557b | i82559er | ne2k_isa | ne2k_pci | pcnet | rtl8139 | virtio | vmxnet3>` ;;
 
 Network Card Model. The 'virtio' model provides the best performance with very low CPU overhead. If your guest does not support this driver, it is usually best to use 'e1000'.
 
-`queues`=`integer (0 - 16)` ;;
+`queues`=`<integer> (0 - 16)` ;;
 
 Number of packet queues to be used on the device.
 
-`rate`=`number (0 - N)` ;;
+`rate`=`<number> (0 - N)` ;;
 
 Rate limit in mbps (megabytes per second) as floating point number.
 
-`tag`=`integer (1 - 4094)` ;;
+`tag`=`<integer> (1 - 4094)` ;;
 
 VLAN tag to apply to packets on this interface.
 
@@ -375,7 +375,7 @@ VLAN tag to apply to packets on this interface.
 
 VLAN trunks to pass through this interface.
 
-`numa`: `boolean` (default=`0`)::
+`numa`: `<boolean>` ('default =' `0`)::
 
 Enable/disable NUMA.
 
@@ -391,19 +391,19 @@ CPUs accessing this NUMA node.
 
 Host NUMA nodes to use.
 
-`memory`=`number` ;;
+`memory`=`<number>` ;;
 
 Amount of memory this NUMA node provides.
 
-`policy`=`(bind | interleave | preferred)` ;;
+`policy`=`<bind | interleave | preferred>` ;;
 
 NUMA allocation policy.
 
-`onboot`: `boolean` (default=`0`)::
+`onboot`: `<boolean>` ('default =' `0`)::
 
 Specifies whether a VM will be started during system bootup.
 
-`ostype`: `(l24 | l26 | other | solaris | w2k | w2k3 | w2k8 | win7 | win8 | wvista | wxp)` ::
+`ostype`: `<l24 | l26 | other | solaris | w2k | w2k3 | w2k8 | win7 | win8 | wvista | wxp>` ::
 
 Specify guest operating system. This is used to enable special
 optimization/features for specific operating systems:
@@ -429,23 +429,23 @@ NOTE: This option allows direct access to host hardware. So it is no longer poss
 +
 CAUTION: Experimental! User reported problems with this option.
 
-`protection`: `boolean` (default=`0`)::
+`protection`: `<boolean>` ('default =' `0`)::
 
 Sets the protection flag of the VM. This will disable the remove VM and remove disk operations.
 
-`reboot`: `boolean` (default=`1`)::
+`reboot`: `<boolean>` ('default =' `1`)::
 
 Allow reboot. If set to '0' the VM exit on reboot.
 
-`sata[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
+`sata[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]` ::
 
 Use volume as SATA hard disk or CD-ROM (n is 0 to 5).
 
-`aio`=`(native | threads)` ;;
+`aio`=`<native | threads>` ;;
 
 AIO type to use.
 
-`backup`=`boolean` ;;
+`backup`=`<boolean>` ;;
 
 Whether the drive should be included when making backups.
 
@@ -473,19 +473,19 @@ Maximum write speed in bytes per second.
 
 Maximum length of write I/O bursts in seconds.
 
-`cache`=`(directsync | none | unsafe | writeback | writethrough)` ;;
+`cache`=`<directsync | none | unsafe | writeback | writethrough>` ;;
 
 The drive's cache mode
 
-`cyls`=`integer` ;;
+`cyls`=`<integer>` ;;
 
 Force the drive's physical geometry to have a specific cylinder count.
 
-`detect_zeroes`=`boolean` ;;
+`detect_zeroes`=`<boolean>` ;;
 
 Controls whether to detect and try to optimize writes of zeroes.
 
-`discard`=`(ignore | on)` ;;
+`discard`=`<ignore | on>` ;;
 
 Controls whether to pass discard/trim requests to the underlying storage.
 
@@ -493,11 +493,11 @@ Controls whether to pass discard/trim requests to the underlying storage.
 
 The drive's backing volume.
 
-`format`=`(cloop | cow | qcow | qcow2 | qed | raw | vmdk)` ;;
+`format`=`<cloop | cow | qcow | qcow2 | qed | raw | vmdk>` ;;
 
 The drive's backing file's data format.
 
-`heads`=`integer` ;;
+`heads`=`<integer>` ;;
 
 Force the drive's physical geometry to have a specific head count.
 
@@ -561,15 +561,15 @@ Maximum write speed in megabytes per second.
 
 Maximum unthrottled write pool in megabytes per second.
 
-`media`=`(cdrom | disk)` (default=`disk`);;
+`media`=`<cdrom | disk>` ('default =' `disk`);;
 
 The drive's media type.
 
-`rerror`=`(ignore | report | stop)` ;;
+`rerror`=`<ignore | report | stop>` ;;
 
 Read error action.
 
-`secs`=`integer` ;;
+`secs`=`<integer>` ;;
 
 Force the drive's physical geometry to have a specific sector count.
 
@@ -581,27 +581,27 @@ The drive's reported serial number, url-encoded, up to 20 bytes long.
 
 Disk size. This is purely informational and has no effect.
 
-`snapshot`=`boolean` ;;
+`snapshot`=`<boolean>` ;;
 
 Whether the drive should be included when making snapshots.
 
-`trans`=`(auto | lba | none)` ;;
+`trans`=`<auto | lba | none>` ;;
 
 Force disk geometry bios translation mode.
 
-`werror`=`(enospc | ignore | report | stop)` ;;
+`werror`=`<enospc | ignore | report | stop>` ;;
 
 Write error action.
 
-`scsi[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
+`scsi[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]` ::
 
 Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).
 
-`aio`=`(native | threads)` ;;
+`aio`=`<native | threads>` ;;
 
 AIO type to use.
 
-`backup`=`boolean` ;;
+`backup`=`<boolean>` ;;
 
 Whether the drive should be included when making backups.
 
@@ -629,19 +629,19 @@ Maximum write speed in bytes per second.
 
 Maximum length of write I/O bursts in seconds.
 
-`cache`=`(directsync | none | unsafe | writeback | writethrough)` ;;
+`cache`=`<directsync | none | unsafe | writeback | writethrough>` ;;
 
 The drive's cache mode
 
-`cyls`=`integer` ;;
+`cyls`=`<integer>` ;;
 
 Force the drive's physical geometry to have a specific cylinder count.
 
-`detect_zeroes`=`boolean` ;;
+`detect_zeroes`=`<boolean>` ;;
 
 Controls whether to detect and try to optimize writes of zeroes.
 
-`discard`=`(ignore | on)` ;;
+`discard`=`<ignore | on>` ;;
 
 Controls whether to pass discard/trim requests to the underlying storage.
 
@@ -649,11 +649,11 @@ Controls whether to pass discard/trim requests to the underlying storage.
 
 The drive's backing volume.
 
-`format`=`(cloop | cow | qcow | qcow2 | qed | raw | vmdk)` ;;
+`format`=`<cloop | cow | qcow | qcow2 | qed | raw | vmdk>` ;;
 
 The drive's backing file's data format.
 
-`heads`=`integer` ;;
+`heads`=`<integer>` ;;
 
 Force the drive's physical geometry to have a specific head count.
 
@@ -693,7 +693,7 @@ Maximum length of write I/O bursts in seconds.
 
 Maximum unthrottled write I/O pool in operations per second.
 
-`iothread`=`boolean` ;;
+`iothread`=`<boolean>` ;;
 
 Whether to use iothreads for this drive
 
@@ -721,15 +721,15 @@ Maximum write speed in megabytes per second.
 
 Maximum unthrottled write pool in megabytes per second.
 
-`media`=`(cdrom | disk)` (default=`disk`);;
+`media`=`<cdrom | disk>` ('default =' `disk`);;
 
 The drive's media type.
 
-`queues`=`integer (2 - N)` ;;
+`queues`=`<integer> (2 - N)` ;;
 
 Number of queues.
 
-`secs`=`integer` ;;
+`secs`=`<integer>` ;;
 
 Force the drive's physical geometry to have a specific sector count.
 
@@ -741,19 +741,19 @@ The drive's reported serial number, url-encoded, up to 20 bytes long.
 
 Disk size. This is purely informational and has no effect.
 
-`snapshot`=`boolean` ;;
+`snapshot`=`<boolean>` ;;
 
 Whether the drive should be included when making snapshots.
 
-`trans`=`(auto | lba | none)` ;;
+`trans`=`<auto | lba | none>` ;;
 
 Force disk geometry bios translation mode.
 
-`werror`=`(enospc | ignore | report | stop)` ;;
+`werror`=`<enospc | ignore | report | stop>` ;;
 
 Write error action.
 
-`scsihw`: `(lsi | lsi53c810 | megasas | pvscsi | virtio-scsi-pci | virtio-scsi-single)` (default=`lsi`)::
+`scsihw`: `<lsi | lsi53c810 | megasas | pvscsi | virtio-scsi-pci | virtio-scsi-single>` ('default =' `lsi`)::
 
 SCSI controller model
 
@@ -767,7 +767,7 @@ NOTE: If you pass through a host serial device, it is no longer possible to migr
 +
 CAUTION: Experimental! User reported problems with this option.
 
-`shares`: `integer (0 - 50000)` (default=`1000`)::
+`shares`: `<integer> (0 - 50000)` ('default =' `1000`)::
 
 Amount of memory shares for auto-ballooning. The larger the number is, the more memory this VM gets. Number is relative to weights of all other running VMs. Using zero disables auto-ballooning
 
@@ -803,15 +803,15 @@ Set SMBIOS1 UUID.
 
 Set SMBIOS1 version.
 
-`smp`: `integer (1 - N)` (default=`1`)::
+`smp`: `<integer> (1 - N)` ('default =' `1`)::
 
 The number of CPUs. Please use option -sockets instead.
 
-`sockets`: `integer (1 - N)` (default=`1`)::
+`sockets`: `<integer> (1 - N)` ('default =' `1`)::
 
 The number of CPU sockets.
 
-`startdate`: `(now | YYYY-MM-DD | YYYY-MM-DDTHH:MM:SS)` (default=`now`)::
+`startdate`: `(now | YYYY-MM-DD | YYYY-MM-DDTHH:MM:SS)` ('default =' `now`)::
 
 Set the initial date of the real time clock. Valid format for date are: 'now' or '2006-06-17T16:01:21' or '2006-06-17'.
 
@@ -819,19 +819,19 @@ Set the initial date of the real time clock. Valid format for date are: 'now' or
 
 Startup and shutdown behavior. Order is a non-negative number defining the general startup order. Shutdown in done with reverse ordering. Additionally you can set the 'up' or 'down' delay in seconds, which specifies a delay to wait before the next VM is started or stopped.
 
-`tablet`: `boolean` (default=`1`)::
+`tablet`: `<boolean>` ('default =' `1`)::
 
 Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (-vga=qxl).
 
-`tdf`: `boolean` (default=`0`)::
+`tdf`: `<boolean>` ('default =' `0`)::
 
 Enable/disable time drift fix.
 
-`template`: `boolean` (default=`0`)::
+`template`: `<boolean>` ('default =' `0`)::
 
 Enable/disable Template.
 
-`unused[n]`: `string` ::
+`unused[n]`: `<string>` ::
 
 Reference to unused volumes. This is used internally, and should not be modified manually.
 
@@ -853,27 +853,27 @@ NOTE: This option allows direct access to host hardware. So it is no longer poss
 +
 The value 'spice' can be used to add a usb redirection devices for spice.
 
-`usb3`=`boolean` (default=`0`);;
+`usb3`=`<boolean>` ('default =' `0`);;
 
 Specifies whether if given host option is a USB3 device or port (this does currently not work reliably with spice redirection and is then ignored).
 
-`vcpus`: `integer (1 - N)` (default=`0`)::
+`vcpus`: `<integer> (1 - N)` ('default =' `0`)::
 
 Number of hotplugged vcpus.
 
-`vga`: `(cirrus | qxl | qxl2 | qxl3 | qxl4 | serial0 | serial1 | serial2 | serial3 | std | vmware)` ::
+`vga`: `<cirrus | qxl | qxl2 | qxl3 | qxl4 | serial0 | serial1 | serial2 | serial3 | std | vmware>` ::
 
 Select the VGA type. If you want to use high resolution modes (>= 1280x1024x16) then you should use the options 'std' or 'vmware'. Default is 'std' for win8/win7/w2k8, and 'cirrus' for other OS types. The 'qxl' option enables the SPICE display sever. For win* OS you can select how many independent displays you want, Linux guests can add displays them self. You can also run without any graphic card, using a serial device as terminal.
 
-`virtio[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<none|writethrough|writeback|unsafe|directsync>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<raw|cow|qcow|qed|qcow2|vmdk|cloop>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enospc|ignore|report|stop>]` ::
+`virtio[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]` ::
 
 Use volume as VIRTIO hard disk (n is 0 to 15).
 
-`aio`=`(native | threads)` ;;
+`aio`=`<native | threads>` ;;
 
 AIO type to use.
 
-`backup`=`boolean` ;;
+`backup`=`<boolean>` ;;
 
 Whether the drive should be included when making backups.
 
@@ -901,19 +901,19 @@ Maximum write speed in bytes per second.
 
 Maximum length of write I/O bursts in seconds.
 
-`cache`=`(directsync | none | unsafe | writeback | writethrough)` ;;
+`cache`=`<directsync | none | unsafe | writeback | writethrough>` ;;
 
 The drive's cache mode
 
-`cyls`=`integer` ;;
+`cyls`=`<integer>` ;;
 
 Force the drive's physical geometry to have a specific cylinder count.
 
-`detect_zeroes`=`boolean` ;;
+`detect_zeroes`=`<boolean>` ;;
 
 Controls whether to detect and try to optimize writes of zeroes.
 
-`discard`=`(ignore | on)` ;;
+`discard`=`<ignore | on>` ;;
 
 Controls whether to pass discard/trim requests to the underlying storage.
 
@@ -921,11 +921,11 @@ Controls whether to pass discard/trim requests to the underlying storage.
 
 The drive's backing volume.
 
-`format`=`(cloop | cow | qcow | qcow2 | qed | raw | vmdk)` ;;
+`format`=`<cloop | cow | qcow | qcow2 | qed | raw | vmdk>` ;;
 
 The drive's backing file's data format.
 
-`heads`=`integer` ;;
+`heads`=`<integer>` ;;
 
 Force the drive's physical geometry to have a specific head count.
 
@@ -965,7 +965,7 @@ Maximum length of write I/O bursts in seconds.
 
 Maximum unthrottled write I/O pool in operations per second.
 
-`iothread`=`boolean` ;;
+`iothread`=`<boolean>` ;;
 
 Whether to use iothreads for this drive
 
@@ -993,15 +993,15 @@ Maximum write speed in megabytes per second.
 
 Maximum unthrottled write pool in megabytes per second.
 
-`media`=`(cdrom | disk)` (default=`disk`);;
+`media`=`<cdrom | disk>` ('default =' `disk`);;
 
 The drive's media type.
 
-`rerror`=`(ignore | report | stop)` ;;
+`rerror`=`<ignore | report | stop>` ;;
 
 Read error action.
 
-`secs`=`integer` ;;
+`secs`=`<integer>` ;;
 
 Force the drive's physical geometry to have a specific sector count.
 
@@ -1013,27 +1013,27 @@ The drive's reported serial number, url-encoded, up to 20 bytes long.
 
 Disk size. This is purely informational and has no effect.
 
-`snapshot`=`boolean` ;;
+`snapshot`=`<boolean>` ;;
 
 Whether the drive should be included when making snapshots.
 
-`trans`=`(auto | lba | none)` ;;
+`trans`=`<auto | lba | none>` ;;
 
 Force disk geometry bios translation mode.
 
-`werror`=`(enospc | ignore | report | stop)` ;;
+`werror`=`<enospc | ignore | report | stop>` ;;
 
 Write error action.
 
-`watchdog`: `[[model=]<i6300esb|ib700>] [,action=<reset|shutdown|poweroff|pause|debug|none>]` ::
+`watchdog`: `[[model=]<i6300esb|ib700>] [,action=<enum>]` ::
 
 Create a virtual hardware watchdog device. Once enabled (by a guest action), the watchdog must be periodically polled by an agent inside the guest or else the watchdog will reset the guest (or execute the respective action specified)
 
-`action`=`(debug | none | pause | poweroff | reset | shutdown)` ;;
+`action`=`<debug | none | pause | poweroff | reset | shutdown>` ;;
 
 The action to perform if after activation the guest fails to poll the watchdog in time.
 
-`model`=`(i6300esb | ib700)` (default=`i6300esb`);;
+`model`=`<i6300esb | ib700>` ('default =' `i6300esb`);;
 
 Watchdog type to emulate.
 

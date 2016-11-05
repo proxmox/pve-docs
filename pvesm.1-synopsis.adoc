@@ -4,155 +4,155 @@
 
 Create a new storage.
 
-`<type>` `(dir | drbd | glusterfs | iscsi | iscsidirect | lvm | lvmthin | nfs | rbd | sheepdog | zfs | zfspool)` ::
+`<type>`: `<dir | drbd | glusterfs | iscsi | iscsidirect | lvm | lvmthin | nfs | rbd | sheepdog | zfs | zfspool>` ::
 
 Storage type.
 
-`<storage>` `string` ::
+`<storage>`: `<string>` ::
 
 The storage identifier.
 
-`-authsupported` `string` ::
+`-authsupported` `<string>` ::
 
 Authsupported.
 
-`-base` `string` ::
+`-base` `<string>` ::
 
 Base volume. This volume is automatically activated.
 
-`-blocksize` `string` ::
+`-blocksize` `<string>` ::
 
 block size
 
-`-comstar_hg` `string` ::
+`-comstar_hg` `<string>` ::
 
 host group for comstar views
 
-`-comstar_tg` `string` ::
+`-comstar_tg` `<string>` ::
 
 target group for comstar views
 
-`-content` `string` ::
+`-content` `<string>` ::
 
 Allowed content types.
 +
 NOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs.
 
-`-disable` `boolean` ::
+`-disable` `<boolean>` ::
 
 Flag to disable the storage.
 
-`-export` `string` ::
+`-export` `<string>` ::
 
 NFS export path.
 
-`-format` `string` ::
+`-format` `<string>` ::
 
 Default image format.
 
-`-is_mountpoint` `boolean` (default=`no`)::
+`-is_mountpoint` `<boolean>` ('default =' `no`)::
 
 Assume the directory is an externally managed mountpoint. If nothing is mounted the storage will be considered offline.
 
-`-iscsiprovider` `string` ::
+`-iscsiprovider` `<string>` ::
 
 iscsi provider
 
-`-krbd` `boolean` ::
+`-krbd` `<boolean>` ::
 
 Access rbd through krbd kernel module.
 
-`-maxfiles` `integer (0 - N)` ::
+`-maxfiles` `<integer> (0 - N)` ::
 
 Maximal number of backup files per VM. Use '0' for unlimted.
 
-`-mkdir` `boolean` (default=`yes`)::
+`-mkdir` `<boolean>` ('default =' `yes`)::
 
 Create the directory if it doesn't exist.
 
-`-monhost` `string` ::
+`-monhost` `<string>` ::
 
 Monitors daemon ips.
 
-`-nodes` `string` ::
+`-nodes` `<string>` ::
 
 List of cluster node names.
 
-`-nowritecache` `boolean` ::
+`-nowritecache` `<boolean>` ::
 
 disable write caching on the target
 
-`-options` `string` ::
+`-options` `<string>` ::
 
 NFS mount options (see 'man nfs')
 
-`-path` `string` ::
+`-path` `<string>` ::
 
 File system path.
 
-`-pool` `string` ::
+`-pool` `<string>` ::
 
 Pool.
 
-`-portal` `string` ::
+`-portal` `<string>` ::
 
 iSCSI portal (IP or DNS name with optional port).
 
-`-redundancy` `integer (1 - 16)` (default=`2`)::
+`-redundancy` `<integer> (1 - 16)` ('default =' `2`)::
 
 The redundancy count specifies the number of nodes to which the resource should be deployed. It must be at least 1 and at most the number of nodes in the cluster.
 
-`-saferemove` `boolean` ::
+`-saferemove` `<boolean>` ::
 
 Zero-out data when removing LVs.
 
-`-saferemove_throughput` `string` ::
+`-saferemove_throughput` `<string>` ::
 
 Wipe throughput (cstream -t parameter value).
 
-`-server` `string` ::
+`-server` `<string>` ::
 
 Server IP or DNS name.
 
-`-server2` `string` ::
+`-server2` `<string>` ::
 
 Backup volfile server IP or DNS name.
 +
 NOTE: Requires option(s): `server`
 
-`-shared` `boolean` ::
+`-shared` `<boolean>` ::
 
 Mark storage as shared.
 
-`-sparse` `boolean` ::
+`-sparse` `<boolean>` ::
 
 use sparse volumes
 
-`-tagged_only` `boolean` ::
+`-tagged_only` `<boolean>` ::
 
 Only use logical volumes tagged with 'pve-vm-ID'.
 
-`-target` `string` ::
+`-target` `<string>` ::
 
 iSCSI target.
 
-`-thinpool` `string` ::
+`-thinpool` `<string>` ::
 
 LVM thin pool LV name.
 
-`-transport` `(rdma | tcp | unix)` ::
+`-transport` `<rdma | tcp | unix>` ::
 
 Gluster transport: tcp or rdma
 
-`-username` `string` ::
+`-username` `<string>` ::
 
 RBD Id.
 
-`-vgname` `string` ::
+`-vgname` `<string>` ::
 
 Volume group name.
 
-`-volume` `string` ::
+`-volume` `<string>` ::
 
 Glusterfs Volume.
 
@@ -163,23 +163,23 @@ Glusterfs Volume.
 
 Allocate disk images.
 
-`<storage>` `string` ::
+`<storage>`: `<string>` ::
 
 The storage identifier.
 
-`<vmid>` `integer (1 - N)` ::
+`<vmid>`: `<integer> (1 - N)` ::
 
 Specify owner VM
 
-`<filename>` `string` ::
+`<filename>`: `<string>` ::
 
 The name of the file to create.
 
-`<size>` `\d+[MG]?` ::
+`<size>`: `\d+[MG]?` ::
 
 Size in kilobyte (1024 bytes). Optional suffixes 'M' (megabyte, 1024K) and 'G' (gigabyte, 1024M)
 
-`-format` `(qcow2 | raw | subvol)` ::
+`-format` `<qcow2 | raw | subvol>` ::
 
 no description available
 +
@@ -192,7 +192,7 @@ NOTE: Requires option(s): `size`
 
 Extract configuration from vzdump backup archive.
 
-`<volume>` `string` ::
+`<volume>`: `<string>` ::
 
 Volume identifier
 
@@ -203,11 +203,11 @@ Volume identifier
 
 Delete volume
 
-`<volume>` `string` ::
+`<volume>`: `<string>` ::
 
 Volume identifier
 
-`-storage` `string` ::
+`-storage` `<string>` ::
 
 The storage identifier.
 
@@ -218,7 +218,7 @@ The storage identifier.
 
 Scan remote GlusterFS server.
 
-`<server>` `string` ::
+`<server>`: `<string>` ::
 
 no description available
 
@@ -229,11 +229,11 @@ no description available
 
 Get help about specified command.
 
-`<cmd>` `string` ::
+`<cmd>`: `<string>` ::
 
 Command name
 
-`-verbose` `boolean` ::
+`-verbose` `<boolean>` ::
 
 Verbose output format.
 
@@ -244,7 +244,7 @@ Verbose output format.
 
 Scan remote iSCSI server.
 
-`-portal` `string` ::
+`-portal` `<string>` ::
 
 no description available
 
@@ -255,15 +255,15 @@ no description available
 
 List storage content.
 
-`<storage>` `string` ::
+`<storage>`: `<string>` ::
 
 The storage identifier.
 
-`-content` `string` ::
+`-content` `<string>` ::
 
 Only list content of this type.
 
-`-vmid` `integer (1 - N)` ::
+`-vmid` `<integer> (1 - N)` ::
 
 Only list images for this VM
 
@@ -280,7 +280,7 @@ List local LVM volume groups.
 
 List local LVM Thin Pools.
 
-`<vg>` `[a-zA-Z0-9\.\+\_][a-zA-Z0-9\.\+\_\-]+` ::
+`<vg>`: `[a-zA-Z0-9\.\+\_][a-zA-Z0-9\.\+\_\-]+` ::
 
 no description available
 
@@ -290,7 +290,7 @@ no description available
 
 Scan remote NFS server.
 
-`<server>` `string` ::
+`<server>`: `<string>` ::
 
 no description available
 
@@ -301,7 +301,7 @@ no description available
 
 Get filesystem path for specified volume
 
-`<volume>` `string` ::
+`<volume>`: `<string>` ::
 
 Volume identifier
 
@@ -312,7 +312,7 @@ Volume identifier
 
 Delete storage configuration.
 
-`<storage>` `string` ::
+`<storage>`: `<string>` ::
 
 The storage identifier.
 
@@ -322,115 +322,115 @@ The storage identifier.
 
 Update storage configuration.
 
-`<storage>` `string` ::
+`<storage>`: `<string>` ::
 
 The storage identifier.
 
-`-blocksize` `string` ::
+`-blocksize` `<string>` ::
 
 block size
 
-`-comstar_hg` `string` ::
+`-comstar_hg` `<string>` ::
 
 host group for comstar views
 
-`-comstar_tg` `string` ::
+`-comstar_tg` `<string>` ::
 
 target group for comstar views
 
-`-content` `string` ::
+`-content` `<string>` ::
 
 Allowed content types.
 +
 NOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs.
 
-`-delete` `string` ::
+`-delete` `<string>` ::
 
 A list of settings you want to delete.
 
-`-digest` `string` ::
+`-digest` `<string>` ::
 
 Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
 
-`-disable` `boolean` ::
+`-disable` `<boolean>` ::
 
 Flag to disable the storage.
 
-`-format` `string` ::
+`-format` `<string>` ::
 
 Default image format.
 
-`-is_mountpoint` `boolean` (default=`no`)::
+`-is_mountpoint` `<boolean>` ('default =' `no`)::
 
 Assume the directory is an externally managed mountpoint. If nothing is mounted the storage will be considered offline.
 
-`-krbd` `boolean` ::
+`-krbd` `<boolean>` ::
 
 Access rbd through krbd kernel module.
 
-`-maxfiles` `integer (0 - N)` ::
+`-maxfiles` `<integer> (0 - N)` ::
 
 Maximal number of backup files per VM. Use '0' for unlimted.
 
-`-mkdir` `boolean` (default=`yes`)::
+`-mkdir` `<boolean>` ('default =' `yes`)::
 
 Create the directory if it doesn't exist.
 
-`-nodes` `string` ::
+`-nodes` `<string>` ::
 
 List of cluster node names.
 
-`-nowritecache` `boolean` ::
+`-nowritecache` `<boolean>` ::
 
 disable write caching on the target
 
-`-options` `string` ::
+`-options` `<string>` ::
 
 NFS mount options (see 'man nfs')
 
-`-pool` `string` ::
+`-pool` `<string>` ::
 
 Pool.
 
-`-redundancy` `integer (1 - 16)` (default=`2`)::
+`-redundancy` `<integer> (1 - 16)` ('default =' `2`)::
 
 The redundancy count specifies the number of nodes to which the resource should be deployed. It must be at least 1 and at most the number of nodes in the cluster.
 
-`-saferemove` `boolean` ::
+`-saferemove` `<boolean>` ::
 
 Zero-out data when removing LVs.
 
-`-saferemove_throughput` `string` ::
+`-saferemove_throughput` `<string>` ::
 
 Wipe throughput (cstream -t parameter value).
 
-`-server` `string` ::
+`-server` `<string>` ::
 
 Server IP or DNS name.
 
-`-server2` `string` ::
+`-server2` `<string>` ::
 
 Backup volfile server IP or DNS name.
 +
 NOTE: Requires option(s): `server`
 
-`-shared` `boolean` ::
+`-shared` `<boolean>` ::
 
 Mark storage as shared.
 
-`-sparse` `boolean` ::
+`-sparse` `<boolean>` ::
 
 use sparse volumes
 
-`-tagged_only` `boolean` ::
+`-tagged_only` `<boolean>` ::
 
 Only use logical volumes tagged with 'pve-vm-ID'.
 
-`-transport` `(rdma | tcp | unix)` ::
+`-transport` `<rdma | tcp | unix>` ::
 
 Gluster transport: tcp or rdma
 
-`-username` `string` ::
+`-username` `<string>` ::
 
 RBD Id.
 
@@ -441,19 +441,19 @@ RBD Id.
 
 Get status for all datastores.
 
-`-content` `string` ::
+`-content` `<string>` ::
 
 Only list stores which support this content type.
 
-`-enabled` `boolean` (default=`0`)::
+`-enabled` `<boolean>` ('default =' `0`)::
 
 Only list stores which are enabled (not disabled in config).
 
-`-storage` `string` ::
+`-storage` `<string>` ::
 
 Only list status for  specified storage
 
-`-target` `string` ::
+`-target` `<string>` ::
 
 If target is different to 'node', we only lists shared storages which content is accessible on this 'node' and the specified 'target' node.
 
