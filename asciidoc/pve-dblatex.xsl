@@ -77,11 +77,11 @@ figure,table,equation,example
   </xsl:template>
 
   <xsl:template match="formalpara">
-    <xsl:text>&#10;{\bf </xsl:text>
+    <xsl:text>&#10;\paragraph*{</xsl:text>
     <xsl:call-template name="normalize-scape">
       <xsl:with-param name="string" select="title"/>
     </xsl:call-template>
-    <xsl:text>} \\ </xsl:text>
+    <xsl:text>} </xsl:text>
     <xsl:call-template name="label.id"/>
     <xsl:apply-templates/>
     <xsl:text>&#10;</xsl:text>
