@@ -1,40 +1,44 @@
-`rootfs`: `[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]`
+`rootfs`: `[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
-`mp[n]`: `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]`
+Use volume as container root. See below for a detailed description of all options.
 
-`acl`: `<boolean>` ::
+`mp[n]`: `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
+
+Use volume as container mount point.
+
+`acl`=`<boolean>` ;;
 
 Explicitly enable or disable ACL support.
 
-`backup`: `<boolean>` ::
+`backup`=`<boolean>` ;;
 
 Whether to include the mount point in backups (only used for volume mount points).
 
-`mp`: `<Path>` ::
+`mp`=`<Path>` ;;
 
 Path to the mount point as seen from inside the container.
 +
 NOTE: Must not contain any symlinks for security reasons.
 
-`quota`: `<boolean>` ::
+`quota`=`<boolean>` ;;
 
 Enable user quotas inside the container (not supported with zfs subvolumes)
 
-`ro`: `<boolean>` ::
+`ro`=`<boolean>` ;;
 
 Read-only mount point
 
-`shared`: `<boolean>` ('default =' `0`)::
+`shared`=`<boolean>` ('default =' `0`);;
 
 Mark this non-volume mount point as available on all nodes.
 +
 WARNING: This option does not share the mount point automatically, it assumes it is shared already!
 
-`size`: `<DiskSize>` ::
+`size`=`<DiskSize>` ;;
 
 Volume size (read only value).
 
-`volume`: `<volume>` ::
+`volume`=`<volume>` ;;
 
 Volume, device or directory to mount into the container.
 
