@@ -24,6 +24,10 @@
   \end{minipage}\end{Sbox}\doublebox{\TheSbox}%
 }
 
+% use parbox for description labels to allow line breaks
+\renewcommand\descriptionlabel[1]{
+  \parbox[t]{\linewidth}{\hspace\labelsep \raggedright\bfseries #1}}
+
 % For DocBook literallayout elements, see `./dblatex/dblatex-readme.txt`.
 \usepackage{alltt}
 
