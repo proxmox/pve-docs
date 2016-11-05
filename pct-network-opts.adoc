@@ -1,54 +1,56 @@
-`net[n]`: `name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]`
+`net[n]`: `name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]` ::
 
-`bridge`: `<bridge>` ::
+Specifies network interfaces for the container.
+
+`bridge`=`<bridge>` ;;
 
 Bridge to attach the network device to.
 
-`firewall`: `<boolean>` ::
+`firewall`=`<boolean>` ;;
 
 Controls whether this interface's firewall rules should be used.
 
-`gw`: `<GatewayIPv4>` ::
+`gw`=`<GatewayIPv4>` ;;
 
 Default gateway for IPv4 traffic.
 
-`gw6`: `<GatewayIPv6>` ::
+`gw6`=`<GatewayIPv6>` ;;
 
 Default gateway for IPv6 traffic.
 
-`hwaddr`: `<XX:XX:XX:XX:XX:XX>` ::
+`hwaddr`=`<XX:XX:XX:XX:XX:XX>` ;;
 
 The interface MAC address. This is dynamically allocated by default, but you can set that statically if needed, for example to always have the same link-local IPv6 address. (lxc.network.hwaddr)
 
-`ip`: `<IPv4Format/CIDR>` ::
+`ip`=`<IPv4Format/CIDR>` ;;
 
 IPv4 address in CIDR format.
 
-`ip6`: `<IPv6Format/CIDR>` ::
+`ip6`=`<IPv6Format/CIDR>` ;;
 
 IPv6 address in CIDR format.
 
-`mtu`: `<integer> (64 - N)` ::
+`mtu`=`<integer> (64 - N)` ;;
 
 Maximum transfer unit of the interface. (lxc.network.mtu)
 
-`name`: `<string>` ::
+`name`=`<string>` ;;
 
 Name of the network device as seen from inside the container. (lxc.network.name)
 
-`rate`: `<mbps>` ::
+`rate`=`<mbps>` ;;
 
 Apply rate limiting to the interface
 
-`tag`: `<integer> (1 - 4094)` ::
+`tag`=`<integer> (1 - 4094)` ;;
 
 VLAN tag for this interface.
 
-`trunks`: `<vlanid[;vlanid...]>` ::
+`trunks`=`<vlanid[;vlanid...]>` ;;
 
 VLAN ids to pass through the interface
 
-`type`: `<veth>` ::
+`type`=`<veth>` ;;
 
 Network interface type.
 

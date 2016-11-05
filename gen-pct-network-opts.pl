@@ -15,6 +15,7 @@ my $format = $phash->{format};
 
 my $typetext = PVE::JSONSchema::schema_get_type_text($phash);
 
-print "`net[n]`: `$typetext`\n\n";
+print "`net[n]`: `$typetext` ::\n\n";
+print $phash->{description} . "\n\n";
 
-print PVE::RESTHandler::dump_properties($format);
+print PVE::RESTHandler::dump_properties($format, 'asciidoc', 'config-sub');
