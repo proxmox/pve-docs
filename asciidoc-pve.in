@@ -28,8 +28,8 @@ my $tmpprefix = ".asciidoc-pve-tmp_";
 my $adoc_source_dir = "/usr/share/pve-doc-generator";
 
 # inside pve-docs source dir?
-if (-f "attributes.txt" && -f "pve-admin-guide.adoc") {
-    $adoc_source_dir = "."
+if (-f "asciidoc-pve.in" && -f "pve-admin-guide.adoc") {
+    $adoc_source_dir = getcwd();
 }
 
 my $prepared_files = {};
@@ -341,7 +341,9 @@ sub compile_asciidoc {
 	# section like footnotes, so we cannot use a2x.
 	# We use xmlto instead.
 
-	my $cmd = ['asciidoc', '-dmanpage', '-bdocbook', '-a', 'docinfo1'];
+	my $cmd = ['asciidoc', '-dmanpage', '-bdocbook',
+		   '-f', "$adoc_source_dir/asciidoc/asciidoc-pve.conf",
+		   '-a', 'docinfo1'];
 
 	foreach my $key (keys %$attributes) {
 	    my $value = $attributes->{$key};
@@ -383,17 +385,14 @@ sub compile_asciidoc {
 	$attributes->{icons} = undef;
 	$attributes->{'data-uri'} = undef;
 
-	my $cmd = ['asciidoc'];
+	my $cmd = ['asciidoc',
+		   '-f', "$adoc_source_dir/asciidoc/asciidoc-pve.conf",
+	    ];
 
 	if (($env eq 'wiki') ||
 	    (($env eq 'manvolnum') && ($man_target eq 'wiki'))) {
 
-	    if (-f "./asciidoc/mediawiki.conf") {
-		my $cwd = getcwd();
-		push @$cmd, '-b', "$cwd/asciidoc/mediawiki";
-	    } else {
-		push @$cmd, '-b', "mediawiki";
-	    }
+	    push @$cmd, '-b', "$adoc_source_dir/asciidoc/mediawiki";
 	}
 
 	foreach my $key (keys %$attributes) {
