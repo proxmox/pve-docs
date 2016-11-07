@@ -165,6 +165,9 @@ ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}: index.html ${INDEX_INCLUDES} ${WIKI_IMPO
 	mkdir -p build/usr/share/doc/${DOC_PACKAGE}
 	install -m 0644 index.html ${INDEX_INCLUDES} build/usr/share/${DOC_PACKAGE}
 	install -m 0644 ${WIKI_IMPORTS} build/usr/share/${DOC_PACKAGE}
+	# install screenshot images
+	mkdir -p build/usr/share/${DOC_PACKAGE}/images/screenshot
+	install -m 0644 images/screenshot/*.png build/usr/share/${DOC_PACKAGE}/images/screenshot
 	# install api doc viewer
 	mkdir build/usr/share/${DOC_PACKAGE}/api-viewer
 	install -m 0644 ${API_VIEWER_SOURCES} build/usr/share/${DOC_PACKAGE}/api-viewer
