@@ -19,6 +19,9 @@ MEDIAWIKI_DEB=${MEDIAWIKI_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
 
 all: index.html
 
+.PHONY: verify-images
+verify-images:
+	for i in ./images/screenshot/*.png; do ./png-verify.pl $$i; done
 
 ADOC_SOURCES_GUESS=$(filter-out %-synopsis.adoc %-opts.adoc %-table.adoc, $(wildcard *.adoc))
 .pve-doc-depends link-refs.json: ${ADOC_SOURCES_GUESS} scan-adoc-refs
