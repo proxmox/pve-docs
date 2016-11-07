@@ -144,7 +144,7 @@ deb:
 	rm -f ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB};
 	make ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB};
 
-${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}: index.html ${INDEX_INCLUDES} ${WIKI_IMPORTS} ${API_VIEWER_SOURCES} ${GEN_DEB_SOURCES} asciidoc-pve pve-docs-mediawiki-import asciidoc/mediawiki.conf
+${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}: index.html ${INDEX_INCLUDES} ${WIKI_IMPORTS} ${API_VIEWER_SOURCES} ${GEN_DEB_SOURCES} asciidoc-pve pve-docs-mediawiki-import asciidoc/mediawiki.conf verify-images
 	rm -rf build
 	mkdir build
 	rsync -a debian/ build/debian
