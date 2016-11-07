@@ -119,15 +119,17 @@ pve-admin-guide.chunked: ${PVE_ADMIN_GUIDE_ADOCDEPENDS}
 	rm -rf pve-admin-guide.chunked
 	a2x -a docinfo -a docinfo1 -a icons -f chunked pve-admin-guide.adoc
 
+PVE_DOCBOOK_CONF=-b $(shell pwd)/asciidoc/pve-docbook -f asciidoc/asciidoc-pve.conf
+
 pve-admin-guide.pdf: ${PVE_ADMIN_GUIDE_ADOCDEPENDS} docinfo.xml pve-admin-guide-docinfo.xml
 	inkscape -z -D --export-pdf=proxmox-logo.pdf images/proxmox-logo.svg
 	inkscape -z -D --export-pdf=proxmox-ci-header.pdf images/proxmox-ci-header.svg
 	grep ">Release ${DOCRELEASE}<" pve-admin-guide-docinfo.xml || (echo "wrong release in  pve-admin-guide-docinfo.xml" && false);
-	a2x -a docinfo -a docinfo1 -f pdf -L --dblatex-opts "-p ./asciidoc/pve-dblatex.xsl -s asciidoc/dblatex-custom.sty" pve-admin-guide.adoc
+	a2x -a docinfo -a docinfo1 -f pdf -L --asciidoc-opts="${PVE_DOCBOOK_CONF}" --dblatex-opts "-p ./asciidoc/pve-dblatex.xsl -s asciidoc/dblatex-custom.sty" pve-admin-guide.adoc
 	rm proxmox-logo.pdf proxmox-ci-header.pdf
 
 pve-admin-guide.epub: ${PVE_ADMIN_GUIDE_ADOCDEPENDS}
-	a2x -f epub pve-admin-guide.adoc
+	a2x -f epub --asciidoc-opts="${PVE_DOCBOOK_CONF}" pve-admin-guide.adoc
 
 api-viewer/apidata.js: extractapi.pl
 	./extractapi.pl >$@
