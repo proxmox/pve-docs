@@ -78,7 +78,7 @@ INDEX_INCLUDES=								\
 	man8-index-table.adoc						\
 	$(sort $(addsuffix .html, ${MANUAL_PAGES}) ${CHAPTER_LIST})
 
-ADOC_STDARG= -b html5 -a icons -a data-uri -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}"
+ADOC_STDARG=-b $(shell pwd)/asciidoc/pve-html -f asciidoc/asciidoc-pve.conf -a icons -a data-uri -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}"
 
 BROWSER?=xdg-open
 
@@ -113,7 +113,7 @@ index.html: index.adoc ${API_VIEWER_SOURCES} ${INDEX_INCLUDES}
 	asciidoc ${ADOC_STDARG} -o $@ index.adoc
 
 pve-admin-guide.html: ${PVE_ADMIN_GUIDE_ADOCDEPENDS}
-	asciidoc -a pvelogo ${ADOC_STDARG} pve-admin-guide.adoc
+	asciidoc -a pvelogo ${ADOC_STDARG} -o $@ pve-admin-guide.adoc
 
 pve-admin-guide.chunked: ${PVE_ADMIN_GUIDE_ADOCDEPENDS}
 	rm -rf pve-admin-guide.chunked
@@ -162,6 +162,7 @@ ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}: index.html ${INDEX_INCLUDES} ${WIKI_IMPO
 	install -m 0755 asciidoc-pve build/usr/bin/
 	install -D -m 0644 asciidoc/mediawiki.conf build/usr/share/${GEN_PACKAGE}/asciidoc/mediawiki.conf
 	install -m 0644 asciidoc/asciidoc-pve.conf build/usr/share/${GEN_PACKAGE}/asciidoc/
+	install -m 0644 asciidoc/pve-html.conf build/usr/share/${GEN_PACKAGE}/asciidoc/
 	# install files for pvedocs package
 	mkdir -p build/usr/share/${DOC_PACKAGE}
 	mkdir -p build/usr/share/doc/${DOC_PACKAGE}

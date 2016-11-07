@@ -393,6 +393,8 @@ sub compile_asciidoc {
 	    (($env eq 'manvolnum') && ($man_target eq 'wiki'))) {
 
 	    push @$cmd, '-b', "$adoc_source_dir/asciidoc/mediawiki";
+	} else {
+	    push @$cmd, '-b', "$adoc_source_dir/asciidoc/pve-html";
 	}
 
 	foreach my $key (keys %$attributes) {
