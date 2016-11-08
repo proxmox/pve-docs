@@ -1,7 +1,6 @@
 ifdef::manvolnum[]
 pvestatd(8)
 ===========
-include::attributes.txt[]
 :pve-toplevel:
 
 NAME
@@ -21,7 +20,6 @@ endif::manvolnum[]
 ifndef::manvolnum[]
 pvestatd - Proxmox VE Status Daemon
 ===================================
-include::attributes.txt[]
 endif::manvolnum[]
 
 This daemon queries the status of VMs, storages and containers at

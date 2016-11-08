@@ -1,6 +1,5 @@
 External Metric Server
 ----------------------
-include::attributes.txt[]
 ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]

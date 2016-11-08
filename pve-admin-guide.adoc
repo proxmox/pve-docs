@@ -6,7 +6,6 @@ ifndef::pvelogo[]
 Proxmox VE Administration Guide
 ===============================
 endif::pvelogo[]
-include::attributes.txt[]
 :doctype:   book
 :title: Proxmox VE Administration Guide
 :toc:

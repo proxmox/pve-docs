@@ -1,6 +1,5 @@
 http://www.open-iscsi.org/[Open-iSCSI] initiator
 ------------------------------------------------
-include::attributes.txt[]
 ifdef::wiki[]
 :pve-toplevel:
 :title: Storage: iSCSI

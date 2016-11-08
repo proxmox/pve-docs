@@ -1,6 +1,5 @@
 image:./images/proxmox-logo.svg[] pass:[<br>] {pve} Documentation Index
 ========================================================================
-include::attributes.txt[]
 :data-uri:
 :icons:
 :title: {pve} Documentation Index

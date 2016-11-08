@@ -2,7 +2,6 @@
 ifdef::manvolnum[]
 pveceph(1)
 ==========
-include::attributes.txt[]
 :pve-toplevel:
 
 NAME
@@ -21,7 +20,6 @@ endif::manvolnum[]
 ifndef::manvolnum[]
 pveceph - Manage CEPH Services on Proxmox VE Nodes
 ==================================================
-include::attributes.txt[]
 endif::manvolnum[]
 
 Tool to manage http://ceph.com[CEPH] services on {pve} nodes.

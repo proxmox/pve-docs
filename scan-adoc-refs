@@ -467,6 +467,7 @@ if ($generate_depends) {
 	my $filelist = $fileinfo->{outfile}->{$e};
 	foreach my $sourcefile (sort keys %$filelist) {
 	    my $varname = $depend_varname_hash->{$sourcefile};
+	    next if !defined($varname);
 	    my $target = $filelist->{$sourcefile};
 	    my $dep = "\$\{$varname\}";
 	    $make_targets->{$target} = $dep;

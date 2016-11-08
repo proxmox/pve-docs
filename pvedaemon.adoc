@@ -1,7 +1,6 @@
 ifdef::manvolnum[]
 pvedaemon(8)
 ============
-include::attributes.txt[]
 :pve-toplevel:
 
 NAME
@@ -22,7 +21,6 @@ endif::manvolnum[]
 ifndef::manvolnum[]
 pvedaemon - Proxmox VE API Daemon
 =================================
-include::attributes.txt[]
 endif::manvolnum[]
 
 This daemon exposes the whole {pve} API on `127.0.0.1:85`. It runs as

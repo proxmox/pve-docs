@@ -1,7 +1,6 @@
 ifdef::manvolnum[]
 pveam(1)
 ========
-include::attributes.txt[]
 :pve-toplevel:
 
 NAME
@@ -22,7 +21,6 @@ endif::manvolnum[]
 ifndef::manvolnum[]
 Container Images
 ================
-include::attributes.txt[]
 endif::manvolnum[]
 
 Command line tool to manage container images. See `man pct` for usage

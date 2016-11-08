@@ -1,6 +1,5 @@
 Frequently Asked Questions
 ==========================
-include::attributes.txt[]
 ifndef::manvolnum[]
 :pve-toplevel:
 endif::manvolnum[]

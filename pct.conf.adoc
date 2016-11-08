@@ -1,7 +1,6 @@
 ifdef::manvolnum[]
 pct.conf(5)
 ===========
-include::attributes.txt[]
 :pve-toplevel:
 
 NAME
@@ -23,7 +22,6 @@ endif::manvolnum[]
 ifndef::manvolnum[]
 Container Configuration
 =======================
-include::attributes.txt[]
 endif::manvolnum[]
 ifdef::wiki[]
 :pve-toplevel:

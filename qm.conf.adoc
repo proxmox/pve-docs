@@ -1,7 +1,6 @@
 ifdef::manvolnum[]
 qm.conf(5)
 ==========
-include::attributes.txt[]
 :pve-toplevel:
 
 NAME
@@ -23,7 +22,6 @@ endif::manvolnum[]
 ifndef::manvolnum[]
 Virtual Machine Configuration
 =============================
-include::attributes.txt[]
 endif::manvolnum[]
 ifdef::wiki[]
 :pve-toplevel:

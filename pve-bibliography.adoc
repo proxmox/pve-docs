@@ -1,7 +1,6 @@
 [bibliography]
 Bibliography
 ============
-include::attributes.txt[]
 ifndef::manvolnum[]
 :pve-toplevel:
 endif::manvolnum[]

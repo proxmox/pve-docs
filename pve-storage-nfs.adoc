@@ -1,6 +1,5 @@
 NFS Backend
 -----------
-include::attributes.txt[]
 ifdef::wiki[]
 :pve-toplevel:
 :title: Storage: NFS

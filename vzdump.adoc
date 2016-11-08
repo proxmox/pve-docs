@@ -2,7 +2,6 @@
 ifdef::manvolnum[]
 vzdump(1)
 =========
-include::attributes.txt[]
 :pve-toplevel:
 
 NAME
@@ -23,7 +22,6 @@ endif::manvolnum[]
 ifndef::manvolnum[]
 Backup and Restore
 ==================
-include::attributes.txt[]
 :pve-toplevel:
 endif::manvolnum[]
 

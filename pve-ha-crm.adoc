@@ -1,7 +1,6 @@
 ifdef::manvolnum[]
 pve-ha-crm(8)
 =============
-include::attributes.txt[]
 :pve-toplevel:
 
 NAME
@@ -22,7 +21,6 @@ endif::manvolnum[]
 ifndef::manvolnum[]
 Cluster Resource Manager Daemon
 ================================
-include::attributes.txt[]
 endif::manvolnum[]
 
 This is the Cluster Resource Manager Daemon.

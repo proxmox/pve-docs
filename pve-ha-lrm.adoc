@@ -1,7 +1,6 @@
 ifdef::manvolnum[]
 pve-ha-lrm(8)
 =============
-include::attributes.txt[]
 :pve-toplevel:
 
 NAME
@@ -22,7 +21,6 @@ endif::manvolnum[]
 ifndef::manvolnum[]
 Local Resource Manager Daemon
 ==============================
-include::attributes.txt[]
 endif::manvolnum[]
 
 This is the Local Resource Manager Daemon.

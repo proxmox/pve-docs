@@ -1,7 +1,6 @@
 ifdef::manvolnum[]
 pvesubscription(1)
 ==================
-include::attributes.txt[]
 :pve-toplevel:
 
 NAME
@@ -21,7 +20,6 @@ endif::manvolnum[]
 ifndef::manvolnum[]
 pvesubscription - Subscription Management
 =========================================
-include::attributes.txt[]
 endif::manvolnum[]
 
 This tool is used to handle {pve} subscriptions.

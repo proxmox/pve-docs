@@ -1,7 +1,6 @@
 ifdef::manvolnum[]
 pveproxy(8)
 ===========
-include::attributes.txt[]
 :pve-toplevel:
 
 NAME
@@ -22,7 +21,6 @@ endif::manvolnum[]
 ifndef::manvolnum[]
 pveproxy - Proxmox VE API Proxy Daemon
 ======================================
-include::attributes.txt[]
 endif::manvolnum[]
 
 This daemon exposes the whole {pve} API on TCP port 8006 using

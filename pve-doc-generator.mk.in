@@ -7,7 +7,6 @@ ASCIIDOC_PVE?=/usr/bin/asciidoc-pve
 
 PVE_COMMON_DOC_SOURCES=                 \
 	${ASCIIDOC_PVE}			\
-	attributes.txt                  \
 	pve-copyright.adoc              \
 	docinfo.xml
 
@@ -76,4 +75,4 @@ chapter-%.html: %.adoc ${PVE_COMMON_DOC_SOURCES}
 
 .PHONY: cleanup-docgen
 cleanup-docgen:
-	rm -f *.xml.tmp *.1 *.5 *.8 *.adoc attributes.txt docinfo.xml
+	rm -f *.xml.tmp *.1 *.5 *.8 *.adoc docinfo.xml

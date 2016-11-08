@@ -1,6 +1,5 @@
 Disk Health Monitoring
 ----------------------
-include::attributes.txt[]
 ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]

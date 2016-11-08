@@ -1,7 +1,6 @@
 ifdef::manvolnum[]
 spiceproxy(8)
 =============
-include::attributes.txt[]
 :pve-toplevel:
 
 NAME
@@ -22,7 +21,6 @@ endif::manvolnum[]
 ifndef::manvolnum[]
 spiceproxy - SPICE Proxy Service
 ================================
-include::attributes.txt[]
 endif::manvolnum[]
 
 http://www.spice-space.org[SPICE] (the Simple Protocol for Independent

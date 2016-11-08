@@ -2,7 +2,6 @@
 ifdef::manvolnum[]
 pvesm(1)
 ========
-include::attributes.txt[]
 :pve-toplevel:
 
 NAME
@@ -22,7 +21,6 @@ endif::manvolnum[]
 ifndef::manvolnum[]
 {pve} Storage
 =============
-include::attributes.txt[]
 :pve-toplevel:
 endif::manvolnum[]
 ifdef::wiki[]

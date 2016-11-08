@@ -1,7 +1,6 @@
 [[chapter_system_administration]]
 Host System Administration
 ==========================
-include::attributes.txt[]
 ifndef::manvolnum[]
 :pve-toplevel:
 endif::manvolnum[]

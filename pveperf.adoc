@@ -1,7 +1,6 @@
 ifdef::manvolnum[]
 pveperf(1)
 ==========
-include::attributes.txt[]
 :pve-toplevel:
 
 NAME
@@ -22,7 +21,6 @@ endif::manvolnum[]
 ifndef::manvolnum[]
 pveperf - Proxmox VE Benchmark Script
 =====================================
-include::attributes.txt[]
 endif::manvolnum[]
 
 Tries to gather some CPU/hard disk performance data on the hard disk
