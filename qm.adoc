@@ -115,6 +115,8 @@ General settings of a VM include
 OS Settings
 ~~~~~~~~~~~
 
+[thumbnail="qm-os-settings.png"]
+
 When creating a VM, setting the proper Operating System(OS) allows {pve} to
 optimize some low level parameters. For instance Windows OS expect the BIOS
 clock to use the local time, while Unix based OS expect the BIOS clock to have
