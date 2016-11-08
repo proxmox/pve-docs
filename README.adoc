@@ -239,6 +239,25 @@ text:
 For example, block headers can be used to add file names/paths to file
 content listings.
 
+Screenshots
+-----------
+
+[thumbnail="gui-datacenter-search.png"]
+
+First, it should be noted that we can display screenshots on 'html'
+and 'wiki' pages, and we can include them in printed doumentation. But
+ith is not possible to render them inside manual pages. So screenshot
+inside manual pages should be optional, i.e. the text should not
+depend on the visibility of the screenshot. You can include a
+screenshot by setting the 'thumbnail' attribute on a paragraph:
+
+----
+[thumbnail="gui-datacenter-search.png"]
+First, it should be noted ...
+----
+
+
+
 
 Copyright
 ---------
