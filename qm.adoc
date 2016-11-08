@@ -154,6 +154,7 @@ containing the drivers during the installation.
 the Virtio SCSI controller, is an older type of paravirtualized controller
 which has been superseded in features by the Virtio SCSI Controller.
 
+[thumbnail="qm-hard-disk.png"]
 On each controller you attach a number of emulated hard disks, which are backed
 by a file or a block device residing in the configured storage. The choice of
 a storage type will determine the format of the hard disk image. Storages which
