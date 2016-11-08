@@ -317,6 +317,8 @@ of RAM available to the host.
 Network Device
 ~~~~~~~~~~~~~~
 
+[thumbnail="qm-network.png"]
+
 Each VM can have many _Network interface controllers_ (NIC), of four different
 types:
 
