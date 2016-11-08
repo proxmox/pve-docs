@@ -276,7 +276,7 @@ When choosing a *fixed size memory* {pve} will simply allocate what you
 specify to your VM.
 
 .Automatic Memory Allocation
-[thumbnail="qm-memory-auto.png"]
+[thumbnail="qm-memory-auto.png", float="left"]
 
 // see autoballoon() in pvestatd.pm
 When choosing to *automatically allocate memory*, {pve} will make sure that the
