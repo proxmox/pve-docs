@@ -176,6 +176,45 @@ In some cases, you might prefer to put a node back to local mode without
 reinstall, which is described in
 <<pvecm_separate_node_without_reinstall,Separate A Node Without Reinstalling>>
 
+
+Recovering/Moving Guests from Failed Nodes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For the guest configuration files in `nodes/<NAME>/qemu-server/` (VMs) and
+`nodes/<NAME>/lxc/` (containers), {pve} sees the containing node `<NAME>` as
+owner of the respective guest. This concept enables the usage of local locks
+instead of expensive cluster-wide locks for preventing concurrent guest
+configuration changes.
+
+As a consequence, if the owning node of a guest fails (e.g., because of a power
+outage, fencing event, ..), a regular migration is not possible (even if all
+the disks are located on shared storage) because such a local lock on the
+(dead) owning node is unobtainable. This is not a problem for HA-managed
+guests, as {pve}'s High Availability stack includes the necessary
+(cluster-wide) locking and watchdog functionality to ensure correct and
+automatic recovery of guests from fenced nodes.
+
+If a non-HA-managed guest has only shared disks (and no other local resources
+which are only available on the failed node are configured), a manual recovery
+is possible by simply moving the guest configuration file from the failed
+node's directory in `/etc/pve/` to an alive node's directory (which changes the
+logical owner or location of the guest).
+
+For example, recovering the VM with ID `100` from a dead `node1` to another
+node `node2` works with the following command executed when logged in as root
+on any member node of the cluster:
+
+ mv /etc/pve/nodes/node1/qemu-server/100.conf /etc/pve/nodes/node2/
+
+WARNING: Before manually recovering a guest like this, make absolutely sure
+that the failed source node is really powered off/fenced. Otherwise {pve}'s
+locking principles are violated by the `mv` command, which can have unexpected
+consequences.
+
+WARNING: Guest with local disks (or other local resources which are only
+available on the dead node) are not recoverable like this. Either wait for the
+failed node to rejoin the cluster or restore such guests from backups.
+
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
 endif::manvolnum[]
