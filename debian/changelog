@@ -1,3 +1,15 @@
+pve-docs (4.3-14) unstable; urgency=medium
+
+  * update generated docs
+
+  * add ability to include screenshots
+
+  * qm.adoc: add screenshots
+
+  * README.adoc: add docs about screenshots
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 08 Nov 2016 11:09:30 +0100
+
 pve-docs (4.3-13) unstable; urgency=medium
 
   * add simple toc generator for wiki pages
