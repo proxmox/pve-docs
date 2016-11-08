@@ -101,6 +101,8 @@ could incur a performance slowdown, or putting your data at risk.
 General Settings
 ~~~~~~~~~~~~~~~~
 
+[thumbnail="qm-general-settings.png"]
+
 General settings of a VM include
 
 * the *Node* : the physical server on which the VM will run
