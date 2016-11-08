@@ -269,8 +269,14 @@ For each VM you have the option to set a fixed size memory or asking
 {pve} to dynamically allocate memory based on the current RAM usage of the
 host. 
 
+.Fixed Memory Allocation
+[thumbnail="qm-memory-fixed.png"]
+
 When choosing a *fixed size memory* {pve} will simply allocate what you
 specify to your VM.
+
+.Automatic Memory Allocation
+[thumbnail="qm-memory-auto.png"]
 
 // see autoballoon() in pvestatd.pm
 When choosing to *automatically allocate memory*, {pve} will make sure that the
