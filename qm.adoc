@@ -201,6 +201,8 @@ Note that backups do not currently work with *IO Thread* enabled.
 CPU
 ~~~
 
+[thumbnail="qm-cpu-settings.png"]
+
 A *CPU socket* is a physical slot on a PC motherboard where you can plug a CPU.
 This CPU can then contain one or many *cores*, which are independent
 processing units. Whether you have a single CPU socket with 4 cores, or two CPU
