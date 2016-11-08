@@ -256,6 +256,25 @@ screenshot by setting the 'thumbnail' attribute on a paragraph:
 First, it should be noted ...
 ----
 
+The corresponding file need to reside inside folder
+`images/screenshot`, and should be in `.png` image format. We include
+the screenshots in printed documentation, and 'pdftex' uses the
+density (DPI) specified inside the file. So all screenshots should use
+the same density. We currently require the density set to 146 DPI, so
+that we can display a 1024 pixels wide image. You should not include
+larger screenshots (although it is possible).
+
+You can use the `./png-cleanup.pl` script to set the correct
+density. Simply use the following command to import a screenshot
+image:
+
+----
+# ./png-cleanup.pl screenshot.png images/screenshot/screenshot.png
+----
+
+TIP: You can use `identify -verbose screenshot.png` command to show
+all image attributes (from debian package 'imagemagick')
+
 
 
 
