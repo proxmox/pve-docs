@@ -12,11 +12,12 @@ my $outfile = shift ||
 # use the following to verify image attributes
 # identify -verbose <filename>
 
-# set DPI to 146, so that we can display 1024 pixels (page width)
+# set PixelsPerCentimeter to 58, so that we can display 1024 
+# pixels (page width)
 
-my $dpi = 146;
+my $dpcm = 58;
 
-system("convert -units PixelsPerInch $infile -density $dpi $outfile");
+system("convert -units PixelsPerCentimeter $infile -density $dpcm $outfile");
 
 # identify should return the same value
-# system("identify -units PixelsPerInch -format '%x x %y' $outfile");
+# system("identify -units PixelsPerCentimeter -format '%x x %y' $outfile");

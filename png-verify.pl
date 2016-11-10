@@ -6,11 +6,11 @@ use warnings;
 my $infile = shift ||
     die "no input file specified\n";
 
-my $dpi = 146; # expected
+my $dpcm = 58; # expected
 
-my $tmp = `identify -units PixelsPerInch -format '%x x %y' $infile`;
+my $tmp = `identify -units PixelsPerCentimeter -format '%x x %y' $infile`;
 
-die "got unexpected DPI density '$tmp' (fix with png-cleanup.pl)\n"
-    if $tmp ne "$dpi x $dpi";
+die "got unexpected density '$tmp' (fix with png-cleanup.pl)\n"
+    if $tmp ne "$dpcm x $dpcm";
 
 exit 0;
