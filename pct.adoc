@@ -353,6 +353,8 @@ Container Settings
 CPU
 ~~~
 
+[thumbnail="gui-create-ct-cpu.png"]
+
 You can restrict the number of visible CPUs inside the container using
 the `cores` option. This is implemented using the Linux 'cpuset'
 cgroup (**c**ontrol *group*). A special task inside `pvestatd` tries
@@ -396,6 +398,8 @@ prioritize some containers.
 Memory
 ~~~~~~
 
+[thumbnail="gui-create-ct-memory.png"]
+
 Container memory is controlled using the cgroup memory controller.
 
 [horizontal]
@@ -412,6 +416,8 @@ swap`).
 [[pct_mount_points]]
 Mount Points
 ~~~~~~~~~~~~
+
+[thumbnail="gui-create-ct-root-disk.png"]
 
 The root mount point is configured with the `rootfs` property, and you can
 configure up to 10 additional mount points. The corresponding options
@@ -491,6 +497,8 @@ NOTE: The contents of device mount points are not backed up when using `vzdump`.
 [[pct_container_network]]
 Network
 ~~~~~~~
+
+[thumbnail="gui-create-ct-network.png"]
 
 You can configure up to 10 network interfaces for a single
 container. The corresponding options are called `net0` to `net9`, and
