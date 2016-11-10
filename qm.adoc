@@ -101,7 +101,7 @@ could incur a performance slowdown, or putting your data at risk.
 General Settings
 ~~~~~~~~~~~~~~~~
 
-[thumbnail="qm-general-settings.png"]
+[thumbnail="gui-create-vm-general.png"]
 
 General settings of a VM include
 
@@ -115,7 +115,7 @@ General settings of a VM include
 OS Settings
 ~~~~~~~~~~~
 
-[thumbnail="qm-os-settings.png"]
+[thumbnail="gui-create-vm-os.png"]
 
 When creating a VM, setting the proper Operating System(OS) allows {pve} to
 optimize some low level parameters. For instance Windows OS expect the BIOS
@@ -154,7 +154,7 @@ containing the drivers during the installation.
 the Virtio SCSI controller, is an older type of paravirtualized controller
 which has been superseded in features by the Virtio SCSI Controller.
 
-[thumbnail="qm-hard-disk.png"]
+[thumbnail="gui-create-vm-hard-disk.png"]
 On each controller you attach a number of emulated hard disks, which are backed
 by a file or a block device residing in the configured storage. The choice of
 a storage type will determine the format of the hard disk image. Storages which
@@ -201,7 +201,7 @@ Note that backups do not currently work with *IO Thread* enabled.
 CPU
 ~~~
 
-[thumbnail="qm-cpu-settings.png"]
+[thumbnail="gui-create-vm-cpu.png"]
 
 A *CPU socket* is a physical slot on a PC motherboard where you can plug a CPU.
 This CPU can then contain one or many *cores*, which are independent
@@ -270,13 +270,13 @@ For each VM you have the option to set a fixed size memory or asking
 host. 
 
 .Fixed Memory Allocation
-[thumbnail="qm-memory-fixed.png"]
+[thumbnail="gui-create-vm-memory-fixed.png"]
 
 When choosing a *fixed size memory* {pve} will simply allocate what you
 specify to your VM.
 
 .Automatic Memory Allocation
-[thumbnail="qm-memory-auto.png", float="left"]
+[thumbnail="gui-create-vm-memory-dynamic.png", float="left"]
 
 // see autoballoon() in pvestatd.pm
 When choosing to *automatically allocate memory*, {pve} will make sure that the
@@ -317,7 +317,7 @@ of RAM available to the host.
 Network Device
 ~~~~~~~~~~~~~~
 
-[thumbnail="qm-network.png"]
+[thumbnail="gui-create-vm-network.png"]
 
 Each VM can have many _Network interface controllers_ (NIC), of four different
 types:
