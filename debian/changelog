@@ -1,3 +1,13 @@
+pve-docs (4.3-15) unstable; urgency=medium
+
+  * use auto-generated screenshots
+
+  * pmxcfs: add manual guest recovery by moving files
+
+  * pct.adoc: add screenshots
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 10 Nov 2016 16:44:06 +0100
+
 pve-docs (4.3-14) unstable; urgency=medium
 
   * update generated docs
