@@ -7,7 +7,7 @@ endif::wiki[]
 
 Storage pool type: `glusterfs`
 
-GlusterFS is a salable network file system. The system uses a modular
+GlusterFS is a scalable network file system. The system uses a modular
 design, runs on commodity hardware, and can provide a highly available
 enterprise storage at low costs. Such system is capable of scaling to
 several petabytes, and can handle thousands of clients.
