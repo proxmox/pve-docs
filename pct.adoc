@@ -574,6 +574,37 @@ individually
 * Redistribute backed up files according to new mount point scheme
 * Restore to device and/or bind mount points (limited to root user)
 
+[[pct_startup_and_shutdown]]
+Automatic Start and Shutdown of Containers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+After creating your containers, you probably want them to start automatically
+when the host system boots. For this you need to select the option 'Start at
+boot' from the 'Options' Tab of your container in the web interface, or set it with
+the following command:
+
+ pct set <ctid> -onboot 1
+
+If you want to fine tune the boot order of your containers, you can use the following
+parameters :
+
+* *Start/Shutdown order*: Defines the start order priority. E.g. set it to 1 if
+you want the CT to be the first to be started. (We use the reverse startup
+order for shutdown, so a container with a start order of 1 would be the last to
+be shut down)
+* *Startup delay*: Defines the interval between this container start and subsequent
+containers starts . E.g. set it to 240 if you want to wait 240 seconds before starting
+other containers.
+* *Shutdown timeout*: Defines the duration in seconds {pve} should wait
+for the container to be offline after issuing a shutdown command.
+By default this value is set to 60, which means that {pve} will issue a
+shutdown request, wait 60s for the machine to be offline, and if after 60s
+the machine is still online will notify that the shutdown action failed.
+
+Please note that containers without a Start/Shutdown order parameter will always
+start after those where the parameter is set, and this parameter only
+makes sense between the machines running locally on a host, and not
+cluster-wide.
 
 Managing Containers with `pct`
 ------------------------------
