@@ -457,10 +457,14 @@ the following command:
 
  qm set <vmid> -onboot 1
 
-In some case you want to be able to fine tune the boot order of your VMs, for
-instance if one of your VM is providing firewalling or DHCP to other guest
-systems.
-For this you can use the following parameters:
+.Start and Shutdown Order
+
+[thumbnail="gui-qemu-edit-start-order.png"]
+
+In some case you want to be able to fine tune the boot order of your
+VMs, for instance if one of your VM is providing firewalling or DHCP
+to other guest systems.  For this you can use the following
+parameters:
 
 * *Start/Shutdown order*: Defines the start order priority. E.g. set it to 1 if
 you want the VM to be the first to be started. (We use the reverse startup

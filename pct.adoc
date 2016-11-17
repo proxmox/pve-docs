@@ -518,6 +518,10 @@ the following command:
 
  pct set <ctid> -onboot 1
 
+.Start and Shutdown Order
+// use the screenshot from qemu - its the same
+[thumbnail="gui-qemu-edit-start-order.png"]
+
 If you want to fine tune the boot order of your containers, you can use the following
 parameters :
 
