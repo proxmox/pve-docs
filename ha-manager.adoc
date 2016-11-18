@@ -147,16 +147,17 @@ To provide High Availability two daemons run on each node:
 
 `pve-ha-lrm`::
 
-The local resource manager (LRM), it controls the services running on
-the local node.
-It reads the requested states for its services from the current manager
-status file and executes the respective commands.
+The local resource manager (LRM), which controls the services running on
+the local node. It reads the requested states for its services from
+the current manager status file and executes the respective commands.
 
 `pve-ha-crm`::
 
-The cluster resource manager (CRM), it controls the cluster wide
-actions of the services, processes the LRM results and includes the state
-machine which controls the state of each service.
+The cluster resource manager (CRM), which makes the cluster wide
+decisions. It sends commands to the LRM, processes the results,
+and moves resources to other nodes if something fails. The CRM also
+handles node fencing.
+
 
 .Locks in the LRM & CRM
 [NOTE]
