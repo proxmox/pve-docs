@@ -296,7 +296,7 @@ the list of resources managed by `ha-manager`. A resource configuration
 inside that list look like this:
 
 ----
-<type>:<name>
+<type>: <name>
 	<property> <value>
 	...
 ----
@@ -308,6 +308,19 @@ used by all `ha-manager` commands to uniquely identify a resource
 properties:
 
 include::ha-resources-opts.adoc[]
+
+Here is a real world example with one VM and one container. As you see,
+the syntax of those files is really simple, so it is even posiible to
+read or edit those files using your favorite editor:
+
+----
+vm: 501
+    state started
+    max_relocate 2
+
+ct: 102
+    # use default settings for everything
+----
 
 
 Groups
