@@ -105,14 +105,19 @@ hard and costly. `ha-manager` has typical error detection and failover
 times of about 2 minutes, so you can get no more than 99.999%
 availability.
 
+
 Requirements
 ------------
+
+You must meet the following requirements before you start with HA:
 
 * at least three cluster nodes (to get reliable quorum)
 
 * shared storage for VMs and containers
 
 * hardware redundancy (everywhere)
+
+* use reliable “server” components
 
 * hardware watchdog - if not available we fall back to the
   linux kernel software watchdog (`softdog`)
