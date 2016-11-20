@@ -56,7 +56,7 @@ yourself. The following solutions works without modifying the
 software:
 
 * Use reliable ``server'' components
-
++
 NOTE: Computer components with same functionality can have varying
 reliability numbers, depending on the component quality. Most vendors
 sell components with higher reliability as ``server'' components -
