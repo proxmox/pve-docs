@@ -313,6 +313,7 @@ Here is a real world example with one VM and one container. As you see,
 the syntax of those files is really simple, so it is even posiible to
 read or edit those files using your favorite editor:
 
+.Configuration Example (`/etc/pve/ha/resources.cfg`)
 ----
 vm: 501
     state started
