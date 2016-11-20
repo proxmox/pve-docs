@@ -304,10 +304,8 @@ inside that list look like this:
 It starts with a resource type followed by a resource specific name,
 separated with colon. Together this forms the HA resource ID, which is
 used by all `ha-manager` commands to uniquely identify a resource
-(example: `vm:100` or `ct:101`).
-
-It starts with the service ID followed by a collon. The next lines
-contain additional properties:
+(example: `vm:100` or `ct:101`). The next lines contain additional
+properties:
 
 include::ha-resources-opts.adoc[]
 
