@@ -282,6 +282,10 @@ All HA configuration files are within `/etc/pve/ha/`, so they get
 automatically distributed to the cluster nodes, and all nodes share
 the same HA configuration.
 
+
+Resources
+~~~~~~~~~
+
 The resource configuration file `/etc/pve/ha/resources.cfg` stores
 the list of resources managed by `ha-manager`. A resource configuration
 inside that list look like this:
@@ -298,11 +302,22 @@ contain additional properties:
 include::ha-resources-opts.adoc[]
 
 
+Groups
+~~~~~~
+
 The HA group configuration file `/etc/pve/ha/groups.cfg` is used to
 define groups of cluster nodes. A resource can be restricted to run
-only on the members of such group.
+only on the members of such group. A group configuration look like
+this:
 
+----
+group: <group>
+       nodes <node_list>
+       <property> <value>
+       ...
+----
 
+include::ha-groups-opts.adoc[]
 
 
 Node Power Status
