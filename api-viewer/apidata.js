@@ -2846,10 +2846,11 @@ var pveapi = [
                                     },
                                     "restricted" : {
                                        "default" : 0,
-                                       "description" : "Services on unrestricted groups may run on any cluster members if all group members are offline. But they will migrate back as soon as a group member comes online. One can implement a 'preferred node' behavior using an unrestricted group with one member.",
+                                       "description" : "Resources bound to restricted groups may only run on nodes defined by the group.",
                                        "optional" : 1,
                                        "type" : "boolean",
-                                       "typetext" : "<boolean>"
+                                       "typetext" : "<boolean>",
+                                       "verbose_description" : "Resources bound to restricted groups may only run on nodes defined by the group. The resource will be placed in the stopped state if no group node member is online. Resources on unrestricted groups may run on any cluster node if all group members are offline, but they will migrate back as soon as a group member comes online. One can implement a 'preferred node' behavior using an unrestricted group with only one member."
                                     }
                                  },
                                  "type" : "object"
@@ -2946,10 +2947,11 @@ var pveapi = [
                               },
                               "restricted" : {
                                  "default" : 0,
-                                 "description" : "Services on unrestricted groups may run on any cluster members if all group members are offline. But they will migrate back as soon as a group member comes online. One can implement a 'preferred node' behavior using an unrestricted group with one member.",
+                                 "description" : "Resources bound to restricted groups may only run on nodes defined by the group.",
                                  "optional" : 1,
                                  "type" : "boolean",
-                                 "typetext" : "<boolean>"
+                                 "typetext" : "<boolean>",
+                                 "verbose_description" : "Resources bound to restricted groups may only run on nodes defined by the group. The resource will be placed in the stopped state if no group node member is online. Resources on unrestricted groups may run on any cluster node if all group members are offline, but they will migrate back as soon as a group member comes online. One can implement a 'preferred node' behavior using an unrestricted group with only one member."
                               },
                               "type" : {
                                  "description" : "Group type.",

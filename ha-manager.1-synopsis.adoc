@@ -67,7 +67,7 @@ The CRM tries to run services on the node with the highest priority. If a node w
 
 `-restricted` `<boolean>` ('default =' `0`)::
 
-Services on unrestricted groups may run on any cluster members if all group members are offline. But they will migrate back as soon as a group member comes online. One can implement a 'preferred node' behavior using an unrestricted group with one member.
+Resources bound to restricted groups may only run on nodes defined by the group.
 
 `-type` `<group>` ::
 
@@ -121,7 +121,7 @@ The CRM tries to run services on the node with the highest priority. If a node w
 
 `-restricted` `<boolean>` ('default =' `0`)::
 
-Services on unrestricted groups may run on any cluster members if all group members are offline. But they will migrate back as soon as a group member comes online. One can implement a 'preferred node' behavior using an unrestricted group with one member.
+Resources bound to restricted groups may only run on nodes defined by the group.
 
 
 
