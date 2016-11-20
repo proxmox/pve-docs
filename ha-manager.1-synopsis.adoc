@@ -24,9 +24,9 @@ Maximal number of service relocate tries when a service failes to start.
 
 Maximal number of tries to restart the service on a node after its start failed.
 
-`-state` `<disabled | enabled>` ('default =' `enabled`)::
+`-state` `<disabled | enabled | started | stopped>` ('default =' `started`)::
 
-Resource state.
+Requested resource state.
 
 `-type` `<ct | vm>` ::
 
@@ -45,27 +45,6 @@ Only list resources of specific type
 
 
 
-*ha-manager disable* `<sid>`
-
-Disable a HA resource.
-
-`<sid>`: `<type>:<name>` ::
-
-HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).
-
-
-
-*ha-manager enable* `<sid>`
-
-Enable a HA resource.
-
-`<sid>`: `<type>:<name>` ::
-
-HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).
-
-
-
-
 *ha-manager groupadd* `<group> -nodes <string>` `[OPTIONS]`
 
 Create a new HA group.
@@ -80,7 +59,7 @@ Description.
 
 `-nodes` `<node>[:<pri>]{,<node>[:<pri>]}*` ::
 
-List of cluster node names with optional priority. We use priority '0' as default. The CRM tries to run services on the node with highest priority (also see option 'nofailback').
+List of cluster node names with optional priority.
 
 `-nofailback` `<boolean>` ('default =' `0`)::
 
@@ -134,7 +113,7 @@ Prevent changes if current configuration file has different SHA1 digest. This ca
 
 `-nodes` `<node>[:<pri>]{,<node>[:<pri>]}*` ::
 
-List of cluster node names with optional priority. We use priority '0' as default. The CRM tries to run services on the node with highest priority (also see option 'nofailback').
+List of cluster node names with optional priority.
 
 `-nofailback` `<boolean>` ('default =' `0`)::
 
@@ -233,9 +212,9 @@ Maximal number of service relocate tries when a service failes to start.
 
 Maximal number of tries to restart the service on a node after its start failed.
 
-`-state` `<disabled | enabled>` ('default =' `enabled`)::
+`-state` `<disabled | enabled | started | stopped>` ('default =' `started`)::
 
-Resource state.
+Requested resource state.
 
 
 

@@ -2567,14 +2567,17 @@ var pveapi = [
                                        "typetext" : "<type>:<name>"
                                     },
                                     "state" : {
-                                       "default" : "enabled",
-                                       "description" : "Resource state.",
+                                       "default" : "started",
+                                       "description" : "Requested resource state.",
                                        "enum" : [
+                                          "started",
+                                          "stopped",
                                           "enabled",
                                           "disabled"
                                        ],
                                        "optional" : 1,
-                                       "type" : "string"
+                                       "type" : "string",
+                                       "verbose_description" : "Requested resource state. The CRM reads this state and acts accordingly.\nPlease note that `enabled` is just an alias for `started`.\n\n`started`;;\n\nThe CRM tries to start the resource. Service state is\nset to `started` after successful start. On node failures, or when start\nfails, it tries to recover the resource.  If everything fails, service\nstate it set to `error`.\n\n`stopped`;;\n\nThe CRM tries to keep the resource in `stopped` state, but it\nstill tries to relocate the resources on node failures.\n\n`disabled`;;\n\nThe CRM tries to put the resource in `stopped` state, but does not try\nto relocate the resources on node failures. The main purpose of this\nstate is error recovery, because it is the only way to move a resource out\nof the `error` state.\n\n"
                                     }
                                  },
                                  "type" : "object"
@@ -2689,14 +2692,17 @@ var pveapi = [
                                  "typetext" : "<type>:<name>"
                               },
                               "state" : {
-                                 "default" : "enabled",
-                                 "description" : "Resource state.",
+                                 "default" : "started",
+                                 "description" : "Requested resource state.",
                                  "enum" : [
+                                    "started",
+                                    "stopped",
                                     "enabled",
                                     "disabled"
                                  ],
                                  "optional" : 1,
-                                 "type" : "string"
+                                 "type" : "string",
+                                 "verbose_description" : "Requested resource state. The CRM reads this state and acts accordingly.\nPlease note that `enabled` is just an alias for `started`.\n\n`started`;;\n\nThe CRM tries to start the resource. Service state is\nset to `started` after successful start. On node failures, or when start\nfails, it tries to recover the resource.  If everything fails, service\nstate it set to `error`.\n\n`stopped`;;\n\nThe CRM tries to keep the resource in `stopped` state, but it\nstill tries to relocate the resources on node failures.\n\n`disabled`;;\n\nThe CRM tries to put the resource in `stopped` state, but does not try\nto relocate the resources on node failures. The main purpose of this\nstate is error recovery, because it is the only way to move a resource out\nof the `error` state.\n\n"
                               },
                               "type" : {
                                  "description" : "Resource type.",
@@ -2824,11 +2830,12 @@ var pveapi = [
                                        "typetext" : "<string>"
                                     },
                                     "nodes" : {
-                                       "description" : "List of cluster node names with optional priority. We use priority '0' as default. The CRM tries to run services on the node with highest priority (also see option 'nofailback').",
+                                       "description" : "List of cluster node names with optional priority.",
                                        "format" : "pve-ha-group-node-list",
                                        "optional" : 1,
                                        "type" : "string",
-                                       "typetext" : "<node>[:<pri>]{,<node>[:<pri>]}*"
+                                       "typetext" : "<node>[:<pri>]{,<node>[:<pri>]}*",
+                                       "verbose_description" : "List of cluster node members, where a priority can be given to each node. A resource bound to a group will run on the available nodes with the highest priority. If there are more nodes in the highest priority class, the services will get distributed to those nodes. The priorities have a relative meaning only."
                                     },
                                     "nofailback" : {
                                        "default" : 0,
@@ -2923,11 +2930,12 @@ var pveapi = [
                                  "typetext" : "<string>"
                               },
                               "nodes" : {
-                                 "description" : "List of cluster node names with optional priority. We use priority '0' as default. The CRM tries to run services on the node with highest priority (also see option 'nofailback').",
+                                 "description" : "List of cluster node names with optional priority.",
                                  "format" : "pve-ha-group-node-list",
                                  "optional" : 0,
                                  "type" : "string",
-                                 "typetext" : "<node>[:<pri>]{,<node>[:<pri>]}*"
+                                 "typetext" : "<node>[:<pri>]{,<node>[:<pri>]}*",
+                                 "verbose_description" : "List of cluster node members, where a priority can be given to each node. A resource bound to a group will run on the available nodes with the highest priority. If there are more nodes in the highest priority class, the services will get distributed to those nodes. The priorities have a relative meaning only."
                               },
                               "nofailback" : {
                                  "default" : 0,
