@@ -320,7 +320,14 @@ vm: 501
     max_relocate 2
 
 ct: 102
-    # use default settings for everything
+    # Note: use default settings for everything
+----
+
+Above config was generated using the `ha-manager` command line tool:
+
+----
+# ha-manager add vm:501 --state started --max_relocate 2
+# ha-manager add ct:102
 ----
 
 
