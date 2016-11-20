@@ -269,17 +269,41 @@ quorum, the LRM waits for a new quorum to form. As long as there is no
 quorum the node cannot reset the watchdog. This will trigger a reboot
 after the watchdog then times out, this happens after 60 seconds.
 
+
 Configuration
 -------------
 
-The HA stack is well integrated in the Proxmox VE API2. So, for
-example, HA can be configured via `ha-manager` or the PVE web
-interface, which both provide an easy to use tool.
+The HA stack is well integrated into the {pve} API. So, for example,
+HA can be configured via the `ha-manager` command line interface, or
+the {pve} web interface - both interfaces provide an easy way to
+manage HA. Automation tools can use the API directly.
 
-The resource configuration file can be located at
-`/etc/pve/ha/resources.cfg` and the group configuration file at
-`/etc/pve/ha/groups.cfg`. Use the provided tools to make changes,
-there shouldn't be any need to edit them manually.
+All HA configuration files are within `/etc/pve/ha/`, so they get
+automatically distributed to the cluster nodes, and all nodes share
+the same HA configuration.
+
+The resource configuration file `/etc/pve/ha/resources.cfg` stores
+the list of resources managed by `ha-manager`. A resource configuration
+inside that list look like this:
+
+----
+<sid>:
+	<property> <value>
+	...
+----
+
+It starts with the service ID followed by a collon. The next lines
+contain additional properties:
+
+include::ha-resources-opts.adoc[]
+
+
+The HA group configuration file `/etc/pve/ha/groups.cfg` is used to
+define groups of cluster nodes. A resource can be restricted to run
+only on the members of such group.
+
+
+
 
 Node Power Status
 -----------------
