@@ -42,6 +42,8 @@ GEN_DEB_SOURCES=				\
 	docinfo.xml
 
 GEN_SCRIPTS=					\
+	gen-ha-groups-opts.pl			\
+	gen-ha-resources-opts.pl		\
 	gen-datacenter.cfg.5-opts.pl		\
 	gen-pct.conf.5-opts.pl			\
 	gen-pct-network-opts.pl			\
