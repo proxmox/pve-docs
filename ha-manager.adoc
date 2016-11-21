@@ -145,10 +145,9 @@ general, a HA enabled resource should not depend on other resources.
 How It Works
 ------------
 
-This section provides an in detail description of the {PVE} HA-manager
-internals. It describes how the CRM and the LRM work together.
-
-To provide High Availability two daemons run on each node:
+This section provides a detailed description of the {PVE} HA manager
+internals. It describes all involved daemons and how they work
+together. To provide HA, two daemons run on each node:
 
 `pve-ha-lrm`::
 
@@ -173,6 +172,66 @@ as fenced if we can acquire its lock. This lets us then recover any failed
 HA services securely without any interference from the now unknown failed node.
 This all gets supervised by the CRM which holds currently the manager master
 lock.
+
+
+Service States
+~~~~~~~~~~~~~~
+
+The CRM use a service state enumeration to record the current service
+state. We display this state on the GUI and you can query it using
+the `ha-manager` command line tool:
+
+----
+# ha-manager status
+quorum OK
+master elsa (active, Mon Nov 21 07:23:29 2016)
+lrm elsa (active, Mon Nov 21 07:23:22 2016)
+service ct:100 (elsa, stopped)
+service ct:102 (elsa, started)
+service vm:501 (elsa, started)
+----
+
+Here is the list of possible states:
+
+stopped::
+
+Service is stopped (confirmed by LRM). If the LRM detects a stopped
+service is still running, it will stop it again.
+
+request_stop::
+
+Service should be stopped. The CRM waits for confirmation from the
+LRM.
+
+started::
+
+Service is active an LRM should start it ASAP if not already running.
+If the Service fails and is detected to be not running the LRM
+restarts it
+(see xref:ha_manager_start_failure_policy[Start Failure Policy]).
+
+fence::
+
+Wait for node fencing (service node is not inside quorate cluster
+partition).  As soon as node gets fenced successfully the service will
+be recovered to another node, if possible
+(see xref:ha_manager_fencing[Fencing]).
+
+freeze::
+
+Do not touch the service state. We use this state while we reboot a
+node, or when we restart the LRM daemon
+(see xref:ha_manager_package_updates[Package Updates]).
+
+migrate::
+
+Migrate service (live) to other node.
+
+error::
+
+Service is disabled because of LRM errors. Needs manual intervention
+(see xref:ha_manager_error_recovery[Error Recovery]).
+
 
 Local Resource Manager
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -414,6 +473,8 @@ services which are required to run always on another node first.
 After that you can stop the LRM and CRM services. But note that the
 watchdog triggers if you stop it with active services.
 
+
+[[ha_manager_package_updates]]
 Package Updates
 ---------------
 
@@ -507,6 +568,7 @@ unresponsive node and as a result a chain reaction of node failures in the
 cluster.
 
 
+[[ha_manager_start_failure_policy]]
 Start Failure Policy
 ---------------------
 
@@ -538,6 +600,8 @@ service had at least one successful start. That means if a service is
 re-enabled without fixing the error only the restart policy gets
 repeated.
 
+
+[[ha_manager_error_recovery]]
 Error Recovery
 --------------
 
@@ -586,44 +650,6 @@ start/stop::
 (like `qm` or `pct`), they will forward the request to the
 `ha-manager` which then will execute the action and set the resulting
 service state (enabled, disabled).
-
-
-Service States
---------------
-
-stopped::
-
-Service is stopped (confirmed by LRM), if detected running it will get stopped
-again.
-
-request_stop::
-
-Service should be stopped. Waiting for confirmation from LRM.
-
-started::
-
-Service is active an LRM should start it ASAP if not already running.
-If the Service fails and is detected to be not running the LRM restarts it.
-
-fence::
-
-Wait for node fencing (service node is not inside quorate cluster
-partition).
-As soon as node gets fenced successfully the service will be recovered to
-another node, if possible.
-
-freeze::
-
-Do not touch the service state. We use this state while we reboot a
-node, or when we restart the LRM daemon.
-
-migrate::
-
-Migrate service (live) to other node.
-
-error::
-
-Service disabled because of LRM errors. Needs manual intervention.
 
 
 ifdef::manvolnum[]
