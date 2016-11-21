@@ -523,25 +523,36 @@ multiple mounts.
 How {pve} Fences
 ~~~~~~~~~~~~~~~~
 
-There are different methods to fence a node, for example fence devices which
-cut off the power from the node or disable their communication completely.
+There are different methods to fence a node, for example, fence
+devices which cut off the power from the node or disable their
+communication completely. Those are often quite expensive and bring
+additional critical components into a system, because if they fail you
+cannot recover any service.
 
-Those are often quite expensive and bring additional critical components in
-a system, because if they fail you cannot recover any service.
+We thus wanted to integrate a simpler fencing method, which does not
+require additional external hardware. This can be done using
+watchdog timers.
 
-We thus wanted to integrate a simpler method in the HA Manager first, namely
-self fencing with watchdogs.
+.Possible Fencing Methods
+- external power switches
+- isolate nodes by disabling complete network traffic on the switch
+- self fencing using watchdog timers
 
-Watchdogs are widely used in critical and dependable systems since the
-beginning of micro controllers, they are often independent and simple
-integrated circuit which  programs can use to watch them. After opening they need to
-report periodically. If, for whatever reason, a program becomes unable to do
-so the watchdogs triggers a reset of the whole server.
+Watchdog timers are widely used in critical and dependable systems
+since the beginning of micro controllers. They are often independent
+and simple integrated circuits which are used to detect and recover
+from computer malfunctions.
 
-Server motherboards often already include such hardware watchdogs, these need
-to be configured. If no watchdog is available or configured we fall back to the
-Linux Kernel softdog while still reliable it is not independent of the servers
-Hardware and thus has a lower reliability then a hardware watchdog.
+During normal operation, `ha-manager` regularly resets the watchdog
+timer to prevent it from elapsing. If, due to a hardware fault or
+program error, the computer fails to reset the watchdog, the timer
+will elapse and triggers a reset of the whole server (reboot).
+
+Recent server motherboards often include such hardware watchdogs, but
+these need to be configured. If no watchdog is available or
+configured, we fall back to the Linux Kernel 'softdog'. While still
+reliable, it is not independent of the servers hardware, and thus has
+a lower reliability than a hardware watchdog.
 
 Configure Hardware Watchdog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
