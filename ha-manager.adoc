@@ -501,11 +501,8 @@ a watchdog reset.
 Fencing
 -------
 
-What is Fencing
-~~~~~~~~~~~~~~~
-
 Fencing secures that on a node failure the dangerous node gets will be rendered
-unable to do any damage and  that no resource runs twice when it gets recovered
+unable to do any damage and that no resource runs twice when it gets recovered
 from the failed node. This is a really important task and one of the base
 principles to make a system Highly Available.
 
