@@ -554,13 +554,23 @@ configured, we fall back to the Linux Kernel 'softdog'. While still
 reliable, it is not independent of the servers hardware, and thus has
 a lower reliability than a hardware watchdog.
 
+
 Configure Hardware Watchdog
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-By default all watchdog modules are blocked for security reasons as they are
-like a loaded gun if not correctly initialized.
-If you have a hardware watchdog available remove its kernel module from the
-blacklist, load it with insmod and restart the `watchdog-mux` service or reboot
-the node.
+
+By default, all hardware watchdog modules are blocked for security
+reasons. They are like a loaded gun if not correctly initialized. To
+enable a hardware watchdog, you need to specify the module to load in
+'/etc/default/pve-ha-manager', for example:
+
+----
+# select watchdog module (default is softdog)
+WATCHDOG_MODULE=iTCO_wdt
+----
+
+This configuration is read by the 'watchdog-mux' service, which load
+the specified module at startup.
+
 
 Recover Fenced Services
 ~~~~~~~~~~~~~~~~~~~~~~~
