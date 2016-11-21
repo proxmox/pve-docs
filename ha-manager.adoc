@@ -331,6 +331,7 @@ Above config was generated using the `ha-manager` command line tool:
 ----
 
 
+[[ha_manager_groups]]
 Groups
 ~~~~~~
 
@@ -347,6 +348,62 @@ group: <group>
 ----
 
 include::ha-groups-opts.adoc[]
+
+A commom requirement is that a resource should run on a specific
+node. Usually the resource is able to run on other nodes, so you can define
+an unrestricted group with a single member:
+
+----
+# ha-manager groupadd prefer_node1 --nodes node1
+----
+
+For bigger clusters, it makes sense to define a more detailed failover
+behavior. For example, you may want to run a set of services on
+`node1` if possible. If `node1` is not available, you want to run them
+equally splitted on `node2` and `node3`. If those nodes also fail the
+services should run on `node4`. To achieve this you could set the node
+list to:
+
+----
+# ha-manager groupadd mygroup1 -nodes "node1:2,node2:1,node3:1,node4"
+----
+
+Another use case is if a resource uses other resources only available
+on specific nodes, lets say `node1` and `node2`. We need to make sure
+that HA manager does not use other nodes, so we need to create a
+restricted group with said nodes:
+
+----
+# ha-manager groupadd mygroup2 -nodes "node1,node2" -restricted
+----
+
+Above commands created the following group configuration fils:
+
+.Configuration Example (`/etc/pve/ha/groups.cfg`)
+----
+group: prefer_node1
+       nodes node1
+
+group: mygroup1
+       nodes node2:1,node4,node1:2,node3:1
+
+group: mygroup2
+       nodes node2,node1
+       restricted 1
+----
+
+
+The `nofailback` options is mostly useful to avoid unwanted resource
+movements during administartion tasks. For example, if you need to
+migrate a service to a node which hasn't the highest priority in the
+group, you need to tell the HA manager to not move this service
+instantly back by setting the `nofailback` option.
+
+Another scenario is when a service was fenced and it got recovered to
+another node. The admin tries to repair the fenced node and brings it
+up online again to investigate the failure cause and check if it runs
+stable again. Setting the `nofailback` flag prevents that the
+recovered services move straight back to the fenced node.
 
 
 Node Power Status
@@ -448,58 +505,6 @@ currently lowest active service count as a new node for the service.
 That minimizes the possibility of an overload, which else could cause an
 unresponsive node and as a result a chain reaction of node failures in the
 cluster.
-
-[[ha_manager_groups]]
-Groups
-------
-
-A group is a collection of cluster nodes which a service may be bound to.
-
-Group Settings
-~~~~~~~~~~~~~~
-
-nodes::
-
-List of group node members where a priority can be given to each node.
-A service bound to this group will run on the nodes with the highest priority
-available. If more nodes are in the highest priority class the services will
-get distributed to those node if not already there. The priorities have a
-relative meaning only.
-  Example;;
-  You want to run all services from a group on `node1` if possible. If this node
-  is not available, you want them to run equally splitted on `node2` and `node3`, and
-  if those fail it should use `node4`.
-  To achieve this you could set the node list to:
-[source,bash]
-  ha-manager groupset mygroup -nodes "node1:2,node2:1,node3:1,node4"
-
-restricted::
-
-Resources bound to this group may only run on nodes defined by the
-group. If no group node member is available the resource will be
-placed in the stopped state.
-  Example;;
-  Lets say a service uses resources only available on `node1` and `node2`,
-  so we need to make sure that HA manager does not use other nodes.
-  We need to create a 'restricted' group with said nodes:
-[source,bash]
-  ha-manager groupset mygroup -nodes "node1,node2" -restricted 
-
-nofailback::
-
-The resource won't automatically fail back when a more preferred node
-(re)joins the cluster.
-  Examples;;
-  * You need to migrate a service to a node which hasn't the highest priority
-  in the group at the moment, to tell the HA manager to not move this service
-  instantly back set the 'nofailback' option and the service will stay on
-  the current node.
-
-  * A service was fenced and it got recovered to another node. The admin
-  repaired the node and brought it up online again but does not want that the
-  recovered services move straight back to the repaired node as he wants to
-  first investigate the failure cause and check if it runs stable. He can use
-  the 'nofailback' option to achieve this.
 
 
 Start Failure Policy
