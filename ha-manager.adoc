@@ -177,6 +177,8 @@ lock.
 Service States
 ~~~~~~~~~~~~~~
 
+[thumbnail="gui-ha-manager-status.png"]
+
 The CRM use a service state enumeration to record the current service
 state. We display this state on the GUI and you can query it using
 the `ha-manager` command line tool:
@@ -350,6 +352,8 @@ the same HA configuration.
 Resources
 ~~~~~~~~~
 
+[thumbnail="gui-ha-manager-resources-view.png"]
+
 The resource configuration file `/etc/pve/ha/resources.cfg` stores
 the list of resources managed by `ha-manager`. A resource configuration
 inside that list look like this:
@@ -382,6 +386,8 @@ ct: 102
     # Note: use default settings for everything
 ----
 
+[thumbnail="gui-ha-manager-add-resource.png"]
+
 Above config was generated using the `ha-manager` command line tool:
 
 ----
@@ -393,6 +399,8 @@ Above config was generated using the `ha-manager` command line tool:
 [[ha_manager_groups]]
 Groups
 ~~~~~~
+
+[thumbnail="gui-ha-manager-groups-view.png"]
 
 The HA group configuration file `/etc/pve/ha/groups.cfg` is used to
 define groups of cluster nodes. A resource can be restricted to run
@@ -407,6 +415,8 @@ group: <group>
 ----
 
 include::ha-groups-opts.adoc[]
+
+[thumbnail="gui-ha-manager-add-group.png"]
 
 A commom requirement is that a resource should run on a specific
 node. Usually the resource is able to run on other nodes, so you can define
