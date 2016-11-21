@@ -575,20 +575,23 @@ the specified module at startup.
 Recover Fenced Services
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-After a node failed and its fencing was successful we start to recover services
-to other available nodes and restart them there so that they can provide service
-again.
+After a node failed and its fencing was successful, the CRM tries to
+move services from the failed node to nodes which are still online.
 
-The selection of the node on which the services gets recovered is influenced
-by the users group settings, the currently active nodes and their respective
-active service count.
-First we build a set out of the intersection between user selected nodes and
-available nodes. Then the subset with the highest priority of those nodes
-gets chosen as possible nodes for recovery. We select the node with the
-currently lowest active service count as a new node for the service.
-That minimizes the possibility of an overload, which else could cause an
-unresponsive node and as a result a chain reaction of node failures in the
-cluster.
+The selection of nodes, on which those services gets recovered, is
+influenced by the resource `group` settings, the list of currently active
+nodes, and their respective active service count.
+
+The CRM first builds a set out of the intersection between user selected
+nodes (from `group` setting) and available nodes. It then choose the
+subset of nodes with the highest priority, and finally select the node
+with the lowest active service count. This minimizes the possibility
+of an overloaded node.
+
+CAUTION: On node failure, the CRM distributes services to the
+remaining nodes. This increase the service count on those nodes, and
+can lead to high load, especially on small clusters. Please design
+your cluster so that it can handle such worst case scenarios.
 
 
 [[ha_manager_start_failure_policy]]
