@@ -501,22 +501,27 @@ a watchdog reset.
 Fencing
 -------
 
-Fencing secures that on a node failure the dangerous node gets will be rendered
-unable to do any damage and that no resource runs twice when it gets recovered
-from the failed node. This is a really important task and one of the base
-principles to make a system Highly Available.
+On node failures, fencing ensures that the erroneous node is
+guaranteed to be offline. This is required to make sure that no
+resource runs twice when it gets recovered on another node. This is a
+really important task, because without, it would not be possible to
+recover a resource on another node.
 
-If a node would not get fenced it would be in an unknown state where it may
-have still access to shared resources, this is really dangerous!
-Imagine that every network but the storage one broke, now while not
-reachable from the public network the VM still runs and writes on the shared
-storage. If we would not fence the node and just start up this VM on another
-Node we would get dangerous race conditions, atomicity violations the whole VM
-could be rendered unusable. The recovery could also simply fail if the storage
-protects from multiple mounts and thus defeat the purpose of HA.
+If a node would not get fenced, it would be in an unknown state where
+it may have still access to shared resources. This is really
+dangerous!  Imagine that every network but the storage one broke. Now,
+while not reachable from the public network, the VM still runs and
+writes to the shared storage.
+
+If we then simply start up this VM on another node, we would get a
+dangerous race conditions because we write from both nodes. Such
+condition can destroy all VM data and the whole VM could be rendered
+unusable. The recovery could also fail if the storage protects from
+multiple mounts.
+
 
 How {pve} Fences
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 There are different methods to fence a node, for example fence devices which
 cut off the power from the node or disable their communication completely.
