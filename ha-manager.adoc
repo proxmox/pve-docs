@@ -475,38 +475,6 @@ stable again. Setting the `nofailback` flag prevents that the
 recovered services move straight back to the fenced node.
 
 
-Node Power Status
------------------
-
-If a node needs maintenance you should migrate and or relocate all
-services which are required to run always on another node first.
-After that you can stop the LRM and CRM services. But note that the
-watchdog triggers if you stop it with active services.
-
-
-[[ha_manager_package_updates]]
-Package Updates
----------------
-
-When updating the ha-manager you should do one node after the other, never
-all at once for various reasons. First, while we test our software
-thoughtfully, a bug affecting your specific setup cannot totally be ruled out.
-Upgrading one node after the other and checking the functionality of each node
-after finishing the update helps to recover from an eventual problems, while
-updating all could render you in a broken cluster state and is generally not
-good practice.
-
-Also, the {pve} HA stack uses a request acknowledge protocol to perform
-actions between the cluster and the local resource manager. For restarting,
-the LRM makes a request to the CRM to freeze all its services. This prevents
-that they get touched by the Cluster during the short time the LRM is restarting.
-After that the LRM may safely close the watchdog during a restart.
-Such a restart happens on a update and as already stated a active master
-CRM is needed to acknowledge the requests from the LRM, if this is not the case
-the update process can be too long which, in the worst case, may result in
-a watchdog reset.
-
-
 [[ha_manager_fencing]]
 Fencing
 -------
@@ -654,6 +622,38 @@ killing its process)
 * fix the error which led to this failures
 
 * *after* you fixed all errors you may enable the service again
+
+
+Node Power Status
+-----------------
+
+If a node needs maintenance you should migrate and or relocate all
+services which are required to run always on another node first.
+After that you can stop the LRM and CRM services. But note that the
+watchdog triggers if you stop it with active services.
+
+
+[[ha_manager_package_updates]]
+Package Updates
+---------------
+
+When updating the ha-manager you should do one node after the other, never
+all at once for various reasons. First, while we test our software
+thoughtfully, a bug affecting your specific setup cannot totally be ruled out.
+Upgrading one node after the other and checking the functionality of each node
+after finishing the update helps to recover from an eventual problems, while
+updating all could render you in a broken cluster state and is generally not
+good practice.
+
+Also, the {pve} HA stack uses a request acknowledge protocol to perform
+actions between the cluster and the local resource manager. For restarting,
+the LRM makes a request to the CRM to freeze all its services. This prevents
+that they get touched by the Cluster during the short time the LRM is restarting.
+After that the LRM may safely close the watchdog during a restart.
+Such a restart happens on a update and as already stated a active master
+CRM is needed to acknowledge the requests from the LRM, if this is not the case
+the update process can be too long which, in the worst case, may result in
+a watchdog reset.
 
 
 [[ha_manager_service_operations]]
