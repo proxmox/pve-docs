@@ -715,6 +715,7 @@ set state::
 Request the service state.
 See xref:ha_manager_resource_config[Resource Configuration] for possible
 request states.
++
 ----
 # ha-manager set SID -state REQUEST_STATE
 ----
