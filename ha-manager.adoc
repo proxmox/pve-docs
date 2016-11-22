@@ -614,9 +614,11 @@ Error Recovery
 If after all tries the service state could not be recovered it gets
 placed in an error state. In this state the service won't get touched
 by the HA stack anymore. The only way out is disabling a service:
+
 ----
 # ha-manager set vm:100 --state disabled
 ----
+
 This can also be done in the web interface.
 
 To recover from the error state you should do the following:
