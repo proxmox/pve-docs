@@ -624,13 +624,52 @@ killing its process)
 * *after* you fixed all errors you may enable the service again
 
 
-Node Power Status
------------------
+Node Maintenance
+----------------
 
-If a node needs maintenance you should migrate and or relocate all
-services which are required to run always on another node first.
-After that you can stop the LRM and CRM services. But note that the
-watchdog triggers if you stop it with active services.
+It is sometimes possible to shutdown or reboot a node to do
+maintenance tasks. Either to replace hardware, or simply to install a
+new kernel image.
+
+
+Shutdown
+~~~~~~~~
+
+A shutdown ('poweroff') is usually done if the node is planned to stay
+down for some time. The LRM stops all managed services in that
+case. This means that other nodes will take over those service
+afterwards.
+
+NOTE: Recent hardware has large amounts of RAM. So we stop all
+resources, then restart them to avoid online migration of all that
+RAM. If you want to use online migration, you need to invoke that
+manually before you shutdown the node.
+
+
+Reboot
+~~~~~~
+
+Node reboots are initiated with the 'reboot' command. This is usually
+done after installing a new kernel. Please note that this is different
+from ``shutdown'', because the node immediately starts again.
+
+The LRM tells the CRM that it wants to restart, and waits until the
+CRM puts all resources into the `freeze` state. This prevents that
+those resources are moved to other nodes. Instead, the CRM start the
+resources after the reboot on the same node.
+
+
+Manual Resource Movement
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Last but not least, you can also move resources manually to other
+nodes before you shutdown or restart a node. The advantage is that you
+have full control, and you can decide if you want to use online
+migration or not.
+
+NOTE: Please do not 'kill' services like `pve-ha-crm`, `pve-ha-lrm` or
+`watchdog-mux`. They manage and use the watchdog, so this can result
+in a node reboot.
 
 
 [[ha_manager_package_updates]]
