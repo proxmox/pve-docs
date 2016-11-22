@@ -205,12 +205,21 @@ request_stop::
 Service should be stopped. The CRM waits for confirmation from the
 LRM.
 
+stopping::
+
+Pending stop request. But the CRM did not get the request so far.
+
 started::
 
 Service is active an LRM should start it ASAP if not already running.
 If the Service fails and is detected to be not running the LRM
 restarts it
 (see xref:ha_manager_start_failure_policy[Start Failure Policy]).
+
+starting::
+
+Pending start request. But the CRM has not got any confirmation from the
+LRM that the service is running.
 
 fence::
 
@@ -233,6 +242,14 @@ error::
 
 Service is disabled because of LRM errors. Needs manual intervention
 (see xref:ha_manager_error_recovery[Error Recovery]).
+
+queued::
+
+Service is newly added, and the CRM has not seen it so far.
+
+disabled::
+
+Service is stopped and marked as `disabled`
 
 
 Local Resource Manager
