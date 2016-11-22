@@ -139,7 +139,7 @@ For now we have two important resources types - virtual machines and
 containers. One basic idea here is that we can bundle related software
 into such VM or container, so there is no need to compose one big
 service from other services, like it was done with `rgmanager`. In
-general, a HA enabled resource should not depend on other resources.
+general, a HA managed resource should not depend on other resources.
 
 
 How It Works
@@ -322,9 +322,10 @@ lost agent lock::
 The CRM lost its lock, this means a failure happened and quorum was lost.
 
 It main task is to manage the services which are configured to be highly
-available and try to always enforce them to the wanted state, e.g.: a
-enabled service will be started if its not running, if it crashes it will
-be started again. Thus it dictates the LRM the actions it needs to execute.
+available and try to always enforce the requested state. For example, a
+service with the requested state 'started' will be started if its not
+already running. If it crashes it will be automatically started again.
+Thus the CRM dictates the actions which the LRM needs to execute.
 
 When an node leaves the cluster quorum, its state changes to unknown.
 If the current CRM then can secure the failed nodes lock, the services
@@ -349,6 +350,7 @@ automatically distributed to the cluster nodes, and all nodes share
 the same HA configuration.
 
 
+[[ha_manager_resource_config]]
 Resources
 ~~~~~~~~~
 
@@ -601,7 +603,7 @@ actual node. The default is set to one.
 
 NOTE: The relocate count state will only reset to zero when the
 service had at least one successful start. That means if a service is
-re-enabled without fixing the error only the restart policy gets
+re-started without fixing the error only the restart policy gets
 repeated.
 
 
@@ -621,7 +623,7 @@ killing its process)
 
 * fix the error which led to this failures
 
-* *after* you fixed all errors you may enable the service again
+* *after* you fixed all errors you may request that the service starts again
 
 
 [[ha_manager_package_updates]]
@@ -703,13 +705,20 @@ Service Operations
 This are how the basic user-initiated service operations (via
 `ha-manager`) work.
 
-enable::
+set state::
 
-The service will be started by the LRM if not already running.
+Request the service state.
+See xref:ha_manager_resource_config[Resource Configuration] for possible
+request states.
+----
+# ha-manager set SID -state REQUEST_STATE
+----
 
 disable::
 
-The service will be stopped by the LRM if running.
+The service will be placed in the stopped state, even if it was in the error
+state. The service will not be recovered on a node failure and will stay
+stopped while it is in this state.
 
 migrate/relocate::
 
