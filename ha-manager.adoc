@@ -142,6 +142,93 @@ service from other services, like it was done with `rgmanager`. In
 general, a HA managed resource should not depend on other resources.
 
 
+Management Tasks
+----------------
+
+This section provides a short overview of common management tasks. The
+first step is to enable HA for a resource. This is done by adding the
+resource to the HA resource configuration. You can do this using the
+GUI, or simply use the command line tool, for example:
+
+----
+# ha-manager add vm:100
+----
+
+The HA stack now tries to start the resources and keeps it
+running. Please note that you can configure the ``requested''
+resources state. For example you may want that the HA stack stops the
+resource:
+
+----
+# ha-manager set vm:100 --state stopped
+----
+
+and start it again later:
+
+----
+# ha-manager set vm:100 --state started
+----
+
+You can also use the normal VM and container management commands. They
+automatically forward the commands to the HA stack, so
+
+----
+# qm start 100
+----
+
+simply sets the requested state to `started`. Same applied to `qm
+stop`, which sets the requested state to `stopped`.
+
+NOTE: The HA stack works fully asynchronous and needs to communicate
+with other cluster members. So it takes some seconds unless you see
+the result of such actions.
+
+To view the current HA resource configuration use:
+
+----
+# ha-manager config
+vm:100
+	state stopped
+----
+
+And you can view the actual HA manager and resource state with:
+
+----
+# ha-manager status
+quorum OK
+master node1 (active, Wed Nov 23 11:07:23 2016)
+lrm elsa (active, Wed Nov 23 11:07:19 2016)
+service vm:100 (node1, started)
+----
+
+You can also initiate resource migration to other nodes:
+
+----
+# ha-manager migrate vm:100 node2
+----
+
+This uses online migration and tries to keep the VM running. Online
+migration needs to transfer all used memory over the network, so it is
+sometimes faster to stop VM, then restart it on the new node. This can be
+done using the `relocate` command:
+
+----
+# ha-manager relocate vm:100 node2
+----
+
+Finally, you can remove the resource from the HA configuration using
+the following command:
+
+----
+# ha-manager remove vm:100
+----
+
+NOTE: This does not start or stop the resource.
+
+But all HA related task can be done on the GUI, so there is no need to
+use the command line at all.
+
+
 How It Works
 ------------
 
@@ -719,46 +806,6 @@ migration or not.
 NOTE: Please do not 'kill' services like `pve-ha-crm`, `pve-ha-lrm` or
 `watchdog-mux`. They manage and use the watchdog, so this can result
 in a node reboot.
-
-
-[[ha_manager_service_operations]]
-Service Operations
-------------------
-
-This are how the basic user-initiated service operations (via
-`ha-manager`) work.
-
-set state::
-
-Request the service state.
-See xref:ha_manager_resource_config[Resource Configuration] for possible
-request states.
-+
-----
-# ha-manager set SID -state REQUEST_STATE
-----
-
-disable::
-
-The service will be placed in the stopped state, even if it was in the error
-state. The service will not be recovered on a node failure and will stay
-stopped while it is in this state.
-
-migrate/relocate::
-
-The service will be relocated (live) to another node.
-
-remove::
-
-The service will be removed from the HA managed resource list. Its
-current state will not be touched.
-
-start/stop::
-
-`start` and `stop` commands can be issued to the resource specific tools
-(like `qm` or `pct`), they will forward the request to the
-`ha-manager` which then will execute the action and set the resulting
-service state (enabled, disabled).
 
 
 ifdef::manvolnum[]
