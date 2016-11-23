@@ -177,8 +177,6 @@ lock.
 Service States
 ~~~~~~~~~~~~~~
 
-[thumbnail="gui-ha-manager-status.png"]
-
 The CRM use a service state enumeration to record the current service
 state. We display this state on the GUI and you can query it using
 the `ha-manager` command line tool:
@@ -371,7 +369,8 @@ the same HA configuration.
 Resources
 ~~~~~~~~~
 
-[thumbnail="gui-ha-manager-resources-view.png"]
+[thumbnail="gui-ha-manager-status.png"]
+
 
 The resource configuration file `/etc/pve/ha/resources.cfg` stores
 the list of resources managed by `ha-manager`. A resource configuration
