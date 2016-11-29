@@ -880,6 +880,104 @@ When you turn on nodes, or when power comes back after power failure,
 it is likely that some nodes boots faster than others. Please keep in
 mind that guest startup is delayed until you reach quorum.
 
+Guest Migration
+---------------
+
+Migrating Virtual Guests (live) to other nodes is a useful feature in a
+cluster. There exist settings to control the behavior of such migrations.
+This can be done cluster wide via the 'datacenter.cfg' configuration file or
+also for a single migration through API or command line tool parameters.
+
+Migration Type
+~~~~~~~~~~~~~~
+
+The migration type defines if the migration data should be sent over a
+encrypted ('secure') channel or an unencrypted ('insecure') one.
+Setting the migration type to insecure means that the RAM content of a
+Virtual Guest gets also transfered unencrypted, which can lead to
+information disclosure of critical data from inside the guest for example
+passwords or encryption keys.
+Thus we strongly recommend to use the secure channel if you have not full
+control over the network and cannot guarantee that no one is eavesdropping
+on it.
+
+Note that storage migration do not obey this setting, they will always send
+the content over an secure channel currently.
+
+While this setting is often changed to 'insecure' in favor of gaining better
+performance on migrations it may actually have an small impact on systems
+with AES encryption hardware support in the CPU. This impact can get bigger
+if the network link can transmit 10Gbps or more.
+
+Migration Network
+~~~~~~~~~~~~~~~~~
+
+By default {pve} uses the network where the cluster communication happens
+for sending the migration traffic. This is may be suboptimal, for one the
+sensible cluster traffic can be disturbed and on the other hand it may not
+have the best bandwidth available from all network interfaces on the node.
+Setting the migration network parameter allows using a dedicated network for
+sending all the migration traffic when migrating a guest system. This
+includes the traffic for offline storage migrations.
+
+The migration network is represented as a network in 'CIDR' notation. This
+has the advantage that you do not need to set a IP for each node, {pve} is
+able to figure out the real address from the given CIDR denoted network and
+the networks configured on the target node.
+To let this work the network must be specific enough, i.e. each node must
+have one and only one IP configured in the given network.
+
+Example
+^^^^^^^
+
+Lets assume that we have a three node setup with three networks, one for the
+public communication with the Internet, one for the cluster communication
+and one very fast one, which we want to use as an dedicated migration
+network. A network configuration for such a setup could look like:
+
+----
+iface eth0 inet manual
+
+# public network
+auto vmbr0
+iface vmbr0 inet static
+    address 192.X.Y.57
+    netmask 255.255.250.0
+    gateway 192.X.Y.1
+    bridge_ports eth0
+    bridge_stp off
+    bridge_fd 0
+
+# cluster network
+auto eth1
+iface eth1 inet static
+    address  10.1.1.1
+    netmask  255.255.255.0
+
+# fast network
+auto eth2
+iface eth2 inet static
+    address  10.1.2.1
+    netmask  255.255.255.0
+
+# [...]
+----
+
+Here we want to use the 10.1.2.1/24 network as migration network.
+For a single migration you can achieve this by using the 'migration_network'
+parameter:
+----
+# qm migrate 106 tre --online --migration_network 10.1.2.1/24
+----
+
+To set this up as default network for all migrations cluster wide you can use
+the migration property in '/etc/pve/datacenter.cfg':
+----
+# [...]
+migration: secure,network=10.1.2.1/24
+----
+
+Note that the migration type must be always set if the network gets set.
 
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
