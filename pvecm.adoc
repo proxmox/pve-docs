@@ -897,9 +897,9 @@ Migration Type
 The migration type defines if the migration data should be sent over a
 encrypted (`secure`) channel or an unencrypted (`insecure`) one.
 Setting the migration type to insecure means that the RAM content of a
-Virtual Guest gets also transfered unencrypted, which can lead to
-information disclosure of critical data from inside the guest for
-example passwords or encryption keys.
+virtual guest gets also transfered unencrypted, which can lead to
+information disclosure of critical data from inside the guest (for
+example passwords or encryption keys).
 
 Therefore, we strongly recommend using the secure channel if you do
 not have full control over the network and can not guarantee that no
@@ -911,8 +911,8 @@ always sends the storage content over a secure channel.
 Encryption requires a lot of computing power, so this setting is often
 changed to "unsafe" to achieve better performance. The impact on
 modern systems is lower because they implement AES encryption in
-hardware. But the influence is greater on fast networks, where you can
-transfer 10Gbps or more.
+hardware. The performance impact is particularly evident in fast
+networks where you can transfer 10 Gbps or more.
 
 
 Migration Network
@@ -970,18 +970,18 @@ iface eth2 inet static
 # [...]
 ----
 
-Here we want to use the 10.1.2.1/24 network as migration network.
+Here we want to use the 10.1.2.0/24 network as migration network.
 For a single migration you can achieve this by using the 'migration_network'
 parameter:
 ----
-# qm migrate 106 tre --online --migration_network 10.1.2.1/24
+# qm migrate 106 tre --online --migration_network 10.1.2.0/24
 ----
 
 To set this up as default network for all migrations cluster wide you can use
 the migration property in '/etc/pve/datacenter.cfg':
 ----
 # [...]
-migration: secure,network=10.1.2.1/24
+migration: secure,network=10.1.2.0/24
 ----
 
 Note that the migration type must be always set if the network gets set.
