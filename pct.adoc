@@ -102,32 +102,7 @@ virtualized VMs provide better isolation.
 
 The good news is that LXC uses many kernel security features like
 AppArmor, CGroups and PID and user namespaces, which makes containers
-usage quite secure. We distinguish two types of containers:
-
-
-Privileged Containers
-~~~~~~~~~~~~~~~~~~~~~
-
-Security is done by dropping capabilities, using mandatory access
-control (AppArmor), SecComp filters and namespaces. The LXC team
-considers this kind of container as unsafe, and they will not consider
-new container escape exploits to be security issues worthy of a CVE
-and quick fix. So you should use this kind of containers only inside a
-trusted environment, or when no untrusted task is running as root in
-the container.
-
-
-Unprivileged Containers
-~~~~~~~~~~~~~~~~~~~~~~~
-
-This kind of containers use a new kernel feature called user
-namespaces. The root UID 0 inside the container is mapped to an
-unprivileged user outside the container. This means that most security
-issues (container escape, resource abuse, ...) in those containers
-will affect a random unprivileged user, and so would be a generic
-kernel security bug rather than an LXC issue. The LXC team thinks
-unprivileged containers are safe by design.
-
+usage quite secure.
 
 Guest Operating System Configuration
 ------------------------------------
@@ -348,6 +323,49 @@ group/others model.
 [[pct_settings]]
 Container Settings
 ------------------
+
+[[pct_general]]
+General Settings
+~~~~~~~~~~~~~~~~
+
+General settings of a container include
+
+* the *Node* : the physical server on which the container will run
+* the *CT ID*: a unique number in this {pve} installation used to identify your container
+* *Hostname*: the hostname of the container
+* *Resource Pool*: a logical group of containers and VMs
+* *Password*: the root password of the container
+* *SSH Public Key*: a public key for connecting to the root account over SSH
+* *Unprivileged container*: this option allows to choose at creation time
+if you want to create a privileged or unprivileged container.
+
+
+Privileged Containers
+^^^^^^^^^^^^^^^^^^^^^
+
+Security is done by dropping capabilities, using mandatory access
+control (AppArmor), SecComp filters and namespaces. The LXC team
+considers this kind of container as unsafe, and they will not consider
+new container escape exploits to be security issues worthy of a CVE
+and quick fix. So you should use this kind of containers only inside a
+trusted environment, or when no untrusted task is running as root in
+the container.
+
+
+Unprivileged Containers
+^^^^^^^^^^^^^^^^^^^^^^^
+
+This kind of containers use a new kernel feature called user
+namespaces. The root UID 0 inside the container is mapped to an
+unprivileged user outside the container. This means that most security
+issues (container escape, resource abuse, ...) in those containers
+will affect a random unprivileged user, and so would be a generic
+kernel security bug rather than an LXC issue. The LXC team thinks
+unprivileged containers are safe by design.
+
+NOTE: If the container uses systemd as an init system, please be
+aware the systemd version running inside the container should be equal
+or greater than 220.
 
 [[pct_cpu]]
 CPU
