@@ -328,6 +328,8 @@ Container Settings
 General Settings
 ~~~~~~~~~~~~~~~~
 
+[thumbnail="gui-create-ct-general.png"]
+
 General settings of a container include
 
 * the *Node* : the physical server on which the container will run
