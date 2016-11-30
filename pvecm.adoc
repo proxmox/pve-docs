@@ -918,29 +918,32 @@ networks where you can transfer 10 Gbps or more.
 Migration Network
 ~~~~~~~~~~~~~~~~~
 
-By default {pve} uses the network where the cluster communication happens
-for sending the migration traffic. This is may be suboptimal, for one the
-sensible cluster traffic can be disturbed and on the other hand it may not
-have the best bandwidth available from all network interfaces on the node.
+By default, {pve} uses the network in which cluster communication
+takes place to send the migration traffic. This is not optimal because
+sensitive cluster traffic can be disrupted and this network may not
+have the best bandwidth available on the node.
 
-Setting the migration network parameter allows using a dedicated network for
-sending all the migration traffic when migrating a guest system. This
-includes the traffic for offline storage migrations.
+Setting the migration network parameter allows the use of a dedicated
+network for the entire migration traffic. In addition to the memory,
+this also affects the storage traffic for offline migrations.
 
-The migration network is represented as a network in 'CIDR' notation. This
-has the advantage that you do not need to set a IP for each node, {pve} is
-able to figure out the real address from the given CIDR denoted network and
-the networks configured on the target node.
-To let this work the network must be specific enough, i.e. each node must
-have one and only one IP configured in the given network.
+The migration network is set as a network in the CIDR notation. This
+has the advantage that you do not have to set individual IP addresses
+for each node.  {pve} can determine the real address on the
+destination node from the network specified in the CIDR form.  To
+enable this, the network must be specified so that each node has one,
+but only one IP in the respective network.
+
 
 Example
 ^^^^^^^
 
-Lets assume that we have a three node setup with three networks, one for the
-public communication with the Internet, one for the cluster communication
-and one very fast one, which we want to use as an dedicated migration
-network. A network configuration for such a setup could look like:
+We assume that we have a three-node setup with three separate
+networks. One for public communication with the Internet, one for
+cluster communication and a very fast one, which we want to use as a
+dedicated network for migration.
+
+A network configuration for such a setup might look as follows:
 
 ----
 iface eth0 inet manual
@@ -966,25 +969,28 @@ auto eth2
 iface eth2 inet static
     address  10.1.2.1
     netmask  255.255.255.0
-
-# [...]
 ----
 
-Here we want to use the 10.1.2.0/24 network as migration network.
-For a single migration you can achieve this by using the 'migration_network'
-parameter:
+Here, we will use the network 10.1.2.0/24 as a migration network. For
+a single migration, you can do this using the `migration_network`
+parameter of the command line tool:
+
 ----
 # qm migrate 106 tre --online --migration_network 10.1.2.0/24
 ----
 
-To set this up as default network for all migrations cluster wide you can use
-the migration property in '/etc/pve/datacenter.cfg':
+To configure this as the default network for all migrations in the
+cluster, set the `migration` property of the `/etc/pve/datacenter.cfg`
+file:
+
 ----
-# [...]
+# use dedicated migration network
 migration: secure,network=10.1.2.0/24
 ----
 
-Note that the migration type must be always set if the network gets set.
+NOTE: The migration type must always be set when the migration network
+gets set in `/etc/pve/datacenter.cfg`.
+
 
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
