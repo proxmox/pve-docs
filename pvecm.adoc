@@ -895,7 +895,7 @@ Migration Type
 ~~~~~~~~~~~~~~
 
 The migration type defines if the migration data should be sent over a
-encrypted ('secure') channel or an unencrypted ('insecure') one.
+encrypted (`secure`) channel or an unencrypted (`insecure`) one.
 Setting the migration type to insecure means that the RAM content of a
 Virtual Guest gets also transfered unencrypted, which can lead to
 information disclosure of critical data from inside the guest for
