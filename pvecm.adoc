@@ -880,13 +880,16 @@ When you turn on nodes, or when power comes back after power failure,
 it is likely that some nodes boots faster than others. Please keep in
 mind that guest startup is delayed until you reach quorum.
 
+
 Guest Migration
 ---------------
 
-Migrating Virtual Guests (live) to other nodes is a useful feature in a
-cluster. There exist settings to control the behavior of such migrations.
-This can be done cluster wide via the 'datacenter.cfg' configuration file or
-also for a single migration through API or command line tool parameters.
+Migrating virtual guests to other nodes is a useful feature in a
+cluster. There are settings to control the behavior of such
+migrations. This can be done via the configuration file
+`datacenter.cfg` or for a specific migration via API or command line
+parameters.
+
 
 Migration Type
 ~~~~~~~~~~~~~~
@@ -895,19 +898,22 @@ The migration type defines if the migration data should be sent over a
 encrypted ('secure') channel or an unencrypted ('insecure') one.
 Setting the migration type to insecure means that the RAM content of a
 Virtual Guest gets also transfered unencrypted, which can lead to
-information disclosure of critical data from inside the guest for example
-passwords or encryption keys.
-Thus we strongly recommend to use the secure channel if you have not full
-control over the network and cannot guarantee that no one is eavesdropping
-on it.
+information disclosure of critical data from inside the guest for
+example passwords or encryption keys.
 
-Note that storage migration do not obey this setting, they will always send
-the content over an secure channel currently.
+Therefore, we strongly recommend using the secure channel if you do
+not have full control over the network and can not guarantee that no
+one is eavesdropping to it.
 
-While this setting is often changed to 'insecure' in favor of gaining better
-performance on migrations it may actually have an small impact on systems
-with AES encryption hardware support in the CPU. This impact can get bigger
-if the network link can transmit 10Gbps or more.
+NOTE: Storage migration does not follow this setting. Currently, it
+always sends the storage content over a secure channel.
+
+Encryption requires a lot of computing power, so this setting is often
+changed to "unsafe" to achieve better performance. The impact on
+modern systems is lower because they implement AES encryption in
+hardware. But the influence is greater on fast networks, where you can
+transfer 10Gbps or more.
+
 
 Migration Network
 ~~~~~~~~~~~~~~~~~
@@ -916,6 +922,7 @@ By default {pve} uses the network where the cluster communication happens
 for sending the migration traffic. This is may be suboptimal, for one the
 sensible cluster traffic can be disturbed and on the other hand it may not
 have the best bandwidth available from all network interfaces on the node.
+
 Setting the migration network parameter allows using a dedicated network for
 sending all the migration traffic when migrating a guest system. This
 includes the traffic for offline storage migrations.
