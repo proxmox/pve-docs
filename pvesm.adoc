@@ -53,7 +53,7 @@ Block level storage::
 Allows to store large 'raw' images. It is usually not possible to store
 other files (ISO, backups, ..) on such storage types. Most modern
 block level storage implementations support snapshots and clones.
-RADOS, Sheepdog and DRBD are distributed systems, replicating storage
+RADOS, Sheepdog and GlusterFS are distributed systems, replicating storage
 data to different nodes.
 
 File level storage::
@@ -78,7 +78,6 @@ snapshots and clones.
 |iSCSI/libiscsi |iscsidirect |block |yes   |no       |yes
 |Ceph/RBD       |rbd         |block |yes   |yes      |yes
 |Sheepdog       |sheepdog    |block |yes   |yes      |beta
-|DRBD9          |drbd        |block |yes   |yes      |beta
 |ZFS over iSCSI |zfs         |block |yes   |yes      |yes
 |=========================================================
 
