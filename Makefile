@@ -89,7 +89,7 @@ BROWSER?=xdg-open
 	nwdiag -T svg $*.nwdiag -o $@;
 
 README.html: README.adoc
-	asciidoc ${ADOC_STDARG} -o $@ $<
+	asciidoc -a toc ${ADOC_STDARG} -o $@ $<
 
 .PHONY: index
 index: index.html
