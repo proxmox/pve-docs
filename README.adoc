@@ -239,6 +239,30 @@ text:
 For example, block headers can be used to add file names/paths to file
 content listings.
 
+
+Online Help
+-----------
+Each {pve} installation contains the full documentation in HTML format,
+which is then used as the target of various help buttons in the GUI.
+
+If after adding a specific entry in the documentation you want to
+create a help button pointing to that, you need to do the
+following:
+
+* add a string id in double square brackets before your 
+documentation entry,  like `[[qm_general_settings]]`
+* rebuild the `asciidoc-pve` script and the HTML chapter file containing 
+your entry
+* add a property `onlineHelp` in the ExtJS panel you want to document,
+using the above string, like `onlineHelp: qm_general_settings`
+This panel has to be a child class of PVE.panel.InputPanel
+
+On calling `make install` the asciidoc-pve script will populate
+a JS object associating the string id and a link to the 
+local HTML documentation, and the help button of your input panel 
+will point to this link.
+
+
 Screenshots
 -----------
 
