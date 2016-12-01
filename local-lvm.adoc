@@ -40,10 +40,11 @@ data:: This volume uses LVM-thin, and is used to store VM
 images. LVM-thin is preferable for this task, because it offers
 efficient support for snapshots and clones.
 
-For {pve} versions up to 4.1, the installer creates a Logical Volume
-called ``data'' which is mounted at `/var/lib/vz`
-Starting from 4.2 the Logical Volume ``data'' is a LVM thin volume, used
-for block based storage of guest systems, and `/var/lib/vz` is simply a
+For {pve} versions up to 4.1, the installer creates a standard logical
+volume called ``data'', which is mounted at `/var/lib/vz`.
+
+Starting from version 4.2, the logical volume ``data'' is a LVM-thin pool,
+used to store block based guest images, and `/var/lib/vz` is simply a
 directory on the root file system.
 
 Hardware
@@ -69,18 +70,23 @@ Creating a Volume Group
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Let's assume we have an empty disk `/dev/sdb`, onto which we want to
-create a Volume Group named ``vmdata''.
+create a volume group named ``vmdata''.
+
+CAUTION: Please not that the following commands will destroy all
+existing data on `/dev/sdb`.
 
 First create a partition.
 
  # sgdisk -N 1 /dev/sdb
 
-Create a **P**hysical **V**olumes (PV) without confirmation and 250K
+
+Create a **P**hysical **V**olume (PV) without confirmation and 250K
 metadatasize.
 
  # pvcreate --metadatasize 250k -y -ff /dev/sdb1
 
-Create a **V**olume **G**roup (VG) named ``vmdata'' on `/dev/sdb1`
+
+Create a volume group named ``vmdata'' on `/dev/sdb1`
 
  # vgcreate vmdata /dev/sdb1
 
@@ -102,7 +108,8 @@ Now a filesystem must be created on the LV.
 
 At last this has to be mounted.
 
-WARNING: be sure that `/var/lib/vz` is empty. On a default installation it's not.
+WARNING: be sure that `/var/lib/vz` is empty. On a default
+installation it's not.
 
 To make it always accessible add the following line in `/etc/fstab`.
 
@@ -112,17 +119,19 @@ To make it always accessible add the following line in `/etc/fstab`.
 Resizing the thin pool
 ~~~~~~~~~~~~~~~~~~~~~~
 
-NOTE: When extending the data pool, the metadata pool must be extended with it.
-
-Resize the LV and the metadata pool can be achieved with the following command.
+Resize the LV and the metadata pool can be achieved with the following
+command.
 
  # lvresize --size +<size[\M,G,T]> --poolmetadatasize +<size[\M,G]> <VG>/<LVThin_pool>
 
+NOTE: When extending the data pool, the metadata pool must also be
+extended.
 
-Create a LVM-Thin pool
+
+Create a LVM-thin pool
 ~~~~~~~~~~~~~~~~~~~~~~
 
 A thin pool has to be created on top of a volume group.
-How to create a Volume Group see Section LVM.
+How to create a volume group see Section LVM.
 
  # lvcreate -L 80G -T -n vmstore vmdata
