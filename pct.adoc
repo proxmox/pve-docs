@@ -692,6 +692,26 @@ NOTE: If you have changed the container's configuration since the last start
 attempt with `pct start`, you need to run `pct start` at least once to also
 update the configuration used by `lxc-start`.
 
+[[pct_migration]]
+Migration
+---------
+
+If you have a cluster, you can migrate your Containers with
+
+ pct migrate <vmid> <target>
+
+This works as long as your Container is offline. If it has local volumes or
+mountpoints defined, the migration will copy the content over the network to
+the target host if there is the same storage defined.
+
+If you want to migrate online Containers, the only way is to use
+restart migration. This can be initiated with the -restart flag and the optional
+-timeout parameter.
+
+A restart migration will shut down the Container and kill it after the specified
+timeout (the default is 180 seconds). Then it will migrate the Container
+like an offline migration and when finished, it starts the Container on the
+target node.
 
 [[pct_configuration]]
 Configuration
