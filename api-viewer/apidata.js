@@ -4,6 +4,87 @@ var pveapi = [
          {
             "children" : [
                {
+                  "info" : {
+                     "GET" : {
+                        "description" : "Corosync node list.",
+                        "method" : "GET",
+                        "name" : "nodes",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "returns" : {
+                           "items" : {
+                              "properties" : {
+                                 "node" : {
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{node}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/config/nodes",
+                  "text" : "nodes"
+               },
+               {
+                  "info" : {
+                     "GET" : {
+                        "description" : "Get corosync totem protocol settings.",
+                        "method" : "GET",
+                        "name" : "totem",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "returns" : {
+                           "properties" : {},
+                           "type" : "object"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/config/totem",
+                  "text" : "totem"
+               }
+            ],
+            "info" : {
+               "GET" : {
+                  "description" : "Directory index.",
+                  "method" : "GET",
+                  "name" : "index",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "returns" : {
+                     "items" : {
+                        "properties" : {},
+                        "type" : "object"
+                     },
+                     "links" : [
+                        {
+                           "href" : "{name}",
+                           "rel" : "child"
+                        }
+                     ],
+                     "type" : "array"
+                  }
+               }
+            },
+            "leaf" : 0,
+            "path" : "/cluster/config",
+            "text" : "config"
+         },
+         {
+            "children" : [
+               {
                   "children" : [
                      {
                         "children" : [
@@ -6169,6 +6250,7 @@ var pveapi = [
                                                 "wvista",
                                                 "win7",
                                                 "win8",
+                                                "win10",
                                                 "l24",
                                                 "l26",
                                                 "solaris"
@@ -8034,6 +8116,7 @@ var pveapi = [
                                                 "wvista",
                                                 "win7",
                                                 "win8",
+                                                "win10",
                                                 "l24",
                                                 "l26",
                                                 "solaris"
@@ -10425,7 +10508,8 @@ var pveapi = [
                                           [
                                              "VM.Monitor"
                                           ]
-                                       ]
+                                       ],
+                                       "description" : "Sys.Modify is required for (sub)commands which are not read-only ('info *' and 'help')"
                                     },
                                     "protected" : 1,
                                     "proxyto" : "node",
@@ -10437,6 +10521,73 @@ var pveapi = [
                               "leaf" : 1,
                               "path" : "/nodes/{node}/qemu/{vmid}/monitor",
                               "text" : "monitor"
+                           },
+                           {
+                              "info" : {
+                                 "POST" : {
+                                    "description" : "Execute Qemu Guest Agent commands.",
+                                    "method" : "POST",
+                                    "name" : "agent",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "command" : {
+                                             "description" : "The QGA command.",
+                                             "enum" : [
+                                                "ping",
+                                                "get-time",
+                                                "info",
+                                                "fsfreeze-status",
+                                                "fsfreeze-freeze",
+                                                "fsfreeze-thaw",
+                                                "fstrim",
+                                                "network-get-interfaces",
+                                                "get-vcpus",
+                                                "get-fsinfo",
+                                                "get-memory-blocks",
+                                                "get-memory-block-info",
+                                                "suspend-hybrid",
+                                                "suspend-ram",
+                                                "suspend-disk",
+                                                "shutdown"
+                                             ],
+                                             "type" : "string"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "minimum" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - N)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/vms/{vmid}",
+                                          [
+                                             "VM.Monitor"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "description" : "Returns an object with a single `result` property. The type of that\nproperty depends on the executed command.",
+                                       "type" : "object"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/qemu/{vmid}/agent",
+                              "text" : "agent"
                            },
                            {
                               "info" : {
@@ -11931,6 +12082,7 @@ var pveapi = [
                                     "wvista",
                                     "win7",
                                     "win8",
+                                    "win10",
                                     "l24",
                                     "l26",
                                     "solaris"
@@ -18015,6 +18167,148 @@ var pveapi = [
                         "leaf" : 0,
                         "path" : "/nodes/{node}/ceph/pools",
                         "text" : "pools"
+                     },
+                     {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "DELETE" : {
+                                    "description" : "Unset a ceph flag",
+                                    "method" : "DELETE",
+                                    "name" : "unset_flag",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "flag" : {
+                                             "description" : "The ceph flag to set/unset",
+                                             "enum" : [
+                                                "full",
+                                                "pause",
+                                                "noup",
+                                                "nodown",
+                                                "noout",
+                                                "noin",
+                                                "nobackfill",
+                                                "norebalance",
+                                                "norecover",
+                                                "noscrub",
+                                                "nodeep-scrub",
+                                                "notieragent"
+                                             ],
+                                             "type" : "string"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/",
+                                          [
+                                             "Sys.Modify"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "null"
+                                    }
+                                 },
+                                 "POST" : {
+                                    "description" : "Set a ceph flag",
+                                    "method" : "POST",
+                                    "name" : "set_flag",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "flag" : {
+                                             "description" : "The ceph flag to set/unset",
+                                             "enum" : [
+                                                "full",
+                                                "pause",
+                                                "noup",
+                                                "nodown",
+                                                "noout",
+                                                "noin",
+                                                "nobackfill",
+                                                "norebalance",
+                                                "norecover",
+                                                "noscrub",
+                                                "nodeep-scrub",
+                                                "notieragent"
+                                             ],
+                                             "type" : "string"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/",
+                                          [
+                                             "Sys.Modify"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "null"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/ceph/flags/{flag}",
+                              "text" : "{flag}"
+                           }
+                        ],
+                        "info" : {
+                           "GET" : {
+                              "description" : "get all set ceph flags",
+                              "method" : "GET",
+                              "name" : "get_flags",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Audit"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
+                        "path" : "/nodes/{node}/ceph/flags",
+                        "text" : "flags"
                      },
                      {
                         "info" : {

@@ -1,5 +1,19 @@
 *qm* `<COMMAND> [ARGS] [OPTIONS]`
 
+*qm agent* `<vmid> <command>`
+
+Execute Qemu Guest Agent commands.
+
+`<vmid>`: `<integer> (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`<command>`: `<fsfreeze-freeze | fsfreeze-status | fsfreeze-thaw | fstrim | get-fsinfo | get-memory-block-info | get-memory-blocks | get-time | get-vcpus | info | network-get-interfaces | ping | shutdown | suspend-disk | suspend-hybrid | suspend-ram>` ::
+
+The QGA command.
+
+
+
 *qm clone* `<vmid> <newid>` `[OPTIONS]`
 
 Create a copy of virtual machine/template.
@@ -215,7 +229,7 @@ NUMA topology.
 
 Specifies whether a VM will be started during system bootup.
 
-`-ostype` `<l24 | l26 | other | solaris | w2k | w2k3 | w2k8 | win7 | win8 | wvista | wxp>` ::
+`-ostype` `<l24 | l26 | other | solaris | w2k | w2k3 | w2k8 | win10 | win7 | win8 | wvista | wxp>` ::
 
 Specify guest operating system.
 
@@ -739,7 +753,7 @@ NUMA topology.
 
 Specifies whether a VM will be started during system bootup.
 
-`-ostype` `<l24 | l26 | other | solaris | w2k | w2k3 | w2k8 | win7 | win8 | wvista | wxp>` ::
+`-ostype` `<l24 | l26 | other | solaris | w2k | w2k3 | w2k8 | win10 | win7 | win8 | wvista | wxp>` ::
 
 Specify guest operating system.
 

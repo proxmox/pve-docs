@@ -403,7 +403,7 @@ NUMA allocation policy.
 
 Specifies whether a VM will be started during system bootup.
 
-`ostype`: `<l24 | l26 | other | solaris | w2k | w2k3 | w2k8 | win7 | win8 | wvista | wxp>` ::
+`ostype`: `<l24 | l26 | other | solaris | w2k | w2k3 | w2k8 | win10 | win7 | win8 | wvista | wxp>` ::
 
 Specify guest operating system. This is used to enable special
 optimization/features for specific operating systems:
