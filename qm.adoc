@@ -512,6 +512,22 @@ Same as above, but only wait for 40 seconds.
 
  qm shutdown 300 && qm wait 300 -timeout 40
 
+[[qm_migration]]
+Migration
+---------
+
+If you have a cluster, you can migrate your VM to another host with
+
+ qm migrate <vmid> <target>
+
+When your VM is running and it has no local resources defined (such as disks
+on local storage, passed through devices, etc.) you can initiate a live
+migration with the -online flag.
+
+If you have local resources, you can still offline migrate your VMs,
+as long as all disk are on storages, which are defined on both hosts.
+Then the migration will copy the disk over the network to the target host.
+
 
 [[qm_configuration]]
 Configuration
