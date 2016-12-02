@@ -1,3 +1,15 @@
+pve-docs (4.3-19) unstable; urgency=medium
+
+  * qm.adoc: add migration subchapter
+
+  * pct.adoc: add migration subchapter
+
+  * generate README.html including a TOC
+
+  * Add a chapter explaining how online help is added to the GUI
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 02 Dec 2016 16:25:22 +0100
+
 pve-docs (4.3-18) unstable; urgency=medium
 
   * Add useful examples to create/resize a lvm[-thin] pool.
