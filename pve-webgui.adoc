@@ -1,5 +1,9 @@
+[[chapter_gui]]
 Proxmox WebGUI
---------------
+==============
+ifndef::manvolnum[]
+:pve-toplevel:
+endif::manvolnum[]
 
 {pve} is simple. There is no need to install a separate
 management tool, everything can be done via your web browser (Latest
@@ -27,7 +31,7 @@ installation).
 
 
 Features:
-^^^^^^^^^
+--------
 
 * Seamless integration and management of Proxmox VE 4.x Cluster
 * AJAX technologies for dynamic updates of resources
@@ -41,10 +45,10 @@ Features:
 * Based on Ext JS 6.x JavaScript framework
 
 
-Web Gui overview:
-~~~~~~~~~~~~~~~~~
+Web GUI overview:
+-----------------
 
-image::pve_gui.png[]
+//image::pve_gui.png[]
 
 The GUI has 3 sectors:
 
@@ -61,10 +65,10 @@ The GUI has 3 sectors:
 * On the bottom is the task log section, where all tasks are shown.
 
 
-Dataceter level
-^^^^^^^^^^^^^^
+Dataceter Level
+~~~~~~~~~~~~~~~
 
-image::pve_gui_datacenter.png[]
+//image::pve_gui_datacenter.png[]
 
 On the datacenter level you can manage cluster wide settings and get
 information about this cluster.
@@ -95,10 +99,10 @@ information about this cluster.
 If you like to have more information about this see the corresponding chapter.
 
 
-Node level
-^^^^^^^^^^
+Node Level
+~~~~~~~~~~
 
-image::pve_gui_node.png[]
+//image::pve_gui_node.png[]
 
 All belongs of a node can be managed at this level.
 
@@ -130,7 +134,7 @@ All belongs of a node can be managed at this level.
 ifdef::wiki[]
 
 See Also
-~~~~~~~~
+--------
 
 * link:/wiki/Central_Web-based_Management
 
