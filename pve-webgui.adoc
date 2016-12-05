@@ -1,6 +1,5 @@
 Proxmox WebGUI
 --------------
-include::attributes.txt[]
 
 {pve} is simple. There is no need to install a separate
 management tool, everything can be done via your web browser (Latest
