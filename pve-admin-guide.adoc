@@ -25,6 +25,8 @@ include::pve-installation.adoc[]
 
 include::sysadmin.adoc[]
 
+include::pve-gui.adoc[]
+
 include::pvecm.adoc[]
 
 include::pmxcfs.adoc[]
