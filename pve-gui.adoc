@@ -1,15 +1,14 @@
 [[chapter_gui]]
-Proxmox WebGUI
-==============
+Graphical User Interface
+========================
 ifndef::manvolnum[]
 :pve-toplevel:
 endif::manvolnum[]
 
-{pve} is simple. There is no need to install a separate
-management tool, everything can be done via your web browser (Latest
-Firefox and Google Chrome is preferred). To access
-VM/CT console, a built in HTML5 console is used. As alternative, SPICE
-can be used.
+{pve} is simple. There is no need to install a separate management
+tool, everything can be done via your web browser (Latest Firefox and
+Google Chrome is preferred). To access VM/CT console, a built in HTML5
+console is used. As alternative, SPICE can be used.
 
 As we use Proxmox Cluster file system (pmxcfs),you can connect to any
 node to manage the whole cluster.
@@ -30,7 +29,7 @@ The web interface can be reached via https://youripaddress:8006
 installation).
 
 
-Features:
+Features
 --------
 
 * Seamless integration and management of Proxmox VE 4.x Cluster
@@ -45,8 +44,8 @@ Features:
 * Based on Ext JS 6.x JavaScript framework
 
 
-Web GUI overview:
------------------
+GUI Overview
+------------
 
 [thumbnail="gui-datacenter-summary.png"]
 
@@ -139,9 +138,10 @@ See Also
 * link:/wiki/Central_Web-based_Management
 
 endif::wiki[]
+
 ////
 TODO:
 
-VM, CT, Storage section
+VM, CT, Storage, Pool section
 
 ////
