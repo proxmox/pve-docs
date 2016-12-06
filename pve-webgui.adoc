@@ -48,7 +48,7 @@ Features:
 Web GUI overview:
 -----------------
 
-//image::pve_gui.png[]
+image::images/screenshot/gui-datacenter-search.png[{PVE} Graphical User Interface]
 
 The GUI has 3 sectors:
 
@@ -67,8 +67,6 @@ The GUI has 3 sectors:
 
 Dataceter Level
 ~~~~~~~~~~~~~~~
-
-//image::pve_gui_datacenter.png[]
 
 On the datacenter level you can manage cluster wide settings and get
 information about this cluster.
