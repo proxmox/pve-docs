@@ -1,3 +1,11 @@
+pve-docs (4.4-1) unstable; urgency=medium
+
+  * pve-gui.adoc: new chapter
+
+  * pve-admin-guide.adoc: include chapter pve-gui.adoc
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 09 Dec 2016 11:44:47 +0100
+
 pve-docs (4.3-19) unstable; urgency=medium
 
   * qm.adoc: add migration subchapter
