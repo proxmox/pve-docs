@@ -124,22 +124,29 @@ and VG on the same hard disk that can be used for LVM storage).
 
 `swapsize`::
 
-To define the size of the `swap` volume. Default is the same size as
-installed RAM, with 4GB minimum and `hdsize/8` as maximum.
+Defines the size of the `swap` volume. The default is the size of the
+installed memory, minimum 4 GB and maximum 8 GB. The resulting value cannot
+be greater than `hdsize/8`.
 
 `maxroot`::
 
-The `root` volume size. The `root` volume stores the whole operation
-system.
+Defines the maximum size of the `root` volume, which stores the operation
+system. The maximum limit of the `root` volume size is `hdsize/4`.
 
 `maxvz`::
 
-Define the size of the `data` volume.
+Defines the maximum size of the `data` volume. The actual size of the `data`
+volume is:
++
+`datasize = hdsize - rootsize - swapsize - minfree`
++
+Where `datasize` cannot be bigger than `maxvz`.
 
 `minfree`::
 
-To define the amount of free space left in LVM volume group `pve`.
-16GB is the default if storage available > 128GB, `hdsize/8` otherwise.
+Defines the amount of free space left in LVM volume group `pve`.
+With more than 128GB storage available the default is 16GB, else `hdsize/8`
+will be used.
 +
 NOTE: LVM requires free space in the VG for snapshot creation (not
 required for lvmthin snapshots).
