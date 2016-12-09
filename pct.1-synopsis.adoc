@@ -352,6 +352,14 @@ Force migration despite local bind / device mounts. NOTE: deprecated, use 'share
 
 Use online/live migration.
 
+`-restart` `<boolean>` ::
+
+Use restart migration
+
+`-timeout` `<integer>` ('default =' `180`)::
+
+Timeout in seconds for shutdown for restart migration
+
 
 
 

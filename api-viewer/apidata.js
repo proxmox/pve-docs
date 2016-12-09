@@ -16397,11 +16397,24 @@ var pveapi = [
                                              "type" : "boolean",
                                              "typetext" : "<boolean>"
                                           },
+                                          "restart" : {
+                                             "description" : "Use restart migration",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
                                           "target" : {
                                              "description" : "Target node.",
                                              "format" : "pve-node",
                                              "type" : "string",
                                              "typetext" : "<string>"
+                                          },
+                                          "timeout" : {
+                                             "default" : 180,
+                                             "description" : "Timeout in seconds for shutdown for restart migration",
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer>"
                                           },
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
