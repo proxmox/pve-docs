@@ -123,6 +123,9 @@ pve-admin-guide.chunked: ${PVE_ADMIN_GUIDE_ADOCDEPENDS}
 
 PVE_DOCBOOK_CONF=-b $(shell pwd)/asciidoc/pve-docbook -f asciidoc/asciidoc-pve.conf
 
+pve-admin-guide-docinfo.xml: pve-admin-guide-docinfo.xml.in
+	sed -e 's/@RELEASE@/${DOCRELEASE}/' <$< >$@
+
 pve-admin-guide.pdf: ${PVE_ADMIN_GUIDE_ADOCDEPENDS} docinfo.xml pve-admin-guide-docinfo.xml
 	inkscape -z -D --export-pdf=proxmox-logo.pdf images/proxmox-logo.svg
 	inkscape -z -D --export-pdf=proxmox-ci-header.pdf images/proxmox-ci-header.svg
@@ -194,5 +197,5 @@ update: clean
 	make all
 
 clean: 
-	rm -rf *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html *-plain.html chapter-*.html pve-admin-guide.chunked asciidoc-pve link-refs.json .asciidoc-pve-tmp_* pve-docs-mediawiki-import .pve-doc-depends pve-doc-generator.mk chapter-index-table.adoc man1-index-table.adoc man5-index-table.adoc man8-index-table.adoc
+	rm -rf *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html *-plain.html chapter-*.html pve-admin-guide.chunked asciidoc-pve link-refs.json .asciidoc-pve-tmp_* pve-docs-mediawiki-import .pve-doc-depends pve-doc-generator.mk chapter-index-table.adoc man1-index-table.adoc man5-index-table.adoc man8-index-table.adoc pve-admin-guide-docinfo.xml
 	find . -name '*~' -exec rm {} ';'
