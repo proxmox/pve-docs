@@ -49,15 +49,15 @@ GUI Overview
 
 [thumbnail="gui-datacenter-summary.png"]
 
-The GUI has 3 sectors:
+The GUI has 3 sections:
 
-* On the left side is the navigation bar. The navigation bar is
-  structured into 4 different types. It has 4 different views,
-  which can be selected on the top.
+* On the left side is the navigation bar. On the top, you can select one of 4
+  views. Those views change the structure of the tree below. The default
+  selection is *Server View* and it has the following 4 types of elements.
 ** Datacenter: contains all the settings belonging to all machines.
 ** Nodes: represent the host where the VM/CT runs on. It is named like
    the hostname. Normally the name was set by the installation.
-** Entity: can be a VM, container or a storage.
+** Entity: can be a VM, container, a template or a storage.
 ** Logical pools: it is possible to group entities to a group for easy management.
 * On the right side is the main management center, where all content
   of the selected entity form the navigation bar is shown.
@@ -69,8 +69,7 @@ Dataceter Level
 
 [thumbnail="gui-datacenter-search.png"]
 
-On the datacenter level you can manage cluster wide settings and get
-information about this cluster.
+On the datacenter level you can access cluster wide settings and information.
 
 * *Search:* it is possible to search anything in cluster
 ,this can be a node, VM, Container, Storage or a pool.
@@ -112,7 +111,7 @@ All belongs of a node can be managed at this level.
 
 * *Shell:* log you in the shell of the node.
 
-* *System:* is for configuration like network, time and shows your syslog.
+* *System:* is for configuring the network, dns and time, and also shows your syslog.
 
 * *Updates:* will upgrade the system and informs you about new packets.
 
