@@ -75,7 +75,7 @@ information about this cluster.
 * *Search:* it is possible to search anything in cluster
 ,this can be a node, VM, Container, Storage or a pool.
 
-* *Summery:* gives a brief overview over the cluster health.
+* *Summary:* gives a brief overview over the cluster health.
 
 * *Options:* can show and set defaults, which apply cluster wide.
 
@@ -108,22 +108,22 @@ All belongs of a node can be managed at this level.
 * *Search:* it is possible to search anything on the node,
  this can be a VM, Container, Storage or a pool.
 
-* *Summery:* gives a brief overview over the resource usage.
+* *Summary:* gives a brief overview over the resource usage.
 
 * *Shell:* log you in the shell of the node.
 
 * *System:* is for configuration like network, time and shows your syslog.
 
-* *Updates:* will upgrade the system and inform you about new packets.
+* *Updates:* will upgrade the system and informs you about new packets.
 
 * *Firewall:* on this level is only for this node.
 
 * *Disk:* gives you an brief overview about you physical hard drives and
-   how do you use them.
+   how they are used.
 
 * *Ceph:* is only used if you have installed a Ceph sever on you
-   host. Then you can here manage your Ceph cluster and see the status
-   of it.
+   host. Then you can manage your Ceph cluster and see the status
+   of it here.
 
 * *Task History:* here all past task are shown.
 
