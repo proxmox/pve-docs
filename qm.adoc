@@ -489,6 +489,8 @@ cluster-wide.
 Migration
 ---------
 
+[thumbnail="gui-qemu-migrate.png"]
+
 If you have a cluster, you can migrate your VM to another host with
 
  qm migrate <vmid> <target>
