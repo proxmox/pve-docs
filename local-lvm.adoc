@@ -72,7 +72,7 @@ Creating a Volume Group
 Let's assume we have an empty disk `/dev/sdb`, onto which we want to
 create a volume group named ``vmdata''.
 
-CAUTION: Please not that the following commands will destroy all
+CAUTION: Please note that the following commands will destroy all
 existing data on `/dev/sdb`.
 
 First create a partition.
