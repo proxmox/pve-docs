@@ -504,6 +504,65 @@ as long as all disk are on storages, which are defined on both hosts.
 Then the migration will copy the disk over the network to the target host.
 
 
+VM Templates, Copies and Clones
+-------------------------------
+
+[thumbnail="gui-qemu-full-clone.png"]
+
+VM installation is usually done using an installation media (CD-ROM)
+from the operation system vendor. Depending on the OS, this can be a
+time consuming task one might want to avoid.
+
+An easy way to deploy many VMs of the same type is to copy an existing
+VM. We use the term 'clone' for such copies, and distinguish between
+'linked' and 'full' clones.
+
+Full Clone::
+
+The result of such copy is an independent VM. The
+new VM does not share any storage resources with the original.
++
+It is possible to select a *Target Storage*, so one can use this to
+migrate a VM to a totally different storage. You can also change the
+disk image *Format* if the storage driver supports several formats.
++
+NOTE: A full clone need to read and copy all VM image data. This is
+usually much slower than creating a linked clone.
+
+Linked Clone::
+
+Modern storage drivers supports a way to generate fast linked
+clones. Such a clone is a writable copy whose initial contents are the
+same as the original data. Creating a linked clone is nearly
+instantaneous, and initially consumes no additional space.
++
+They are called 'linked' because the new image still refers to the
+original. Unmodified data blocks are read from the original image, but
+modification are written (and afterwards read) from a new
+location. This technique is called 'Copy-on-write'.
++
+This implies that the original is either a read-only 'snapshot', or a
+read-only 'Template' VM. It is not possible to change the *Target
+storage* for linked clones, because this is a storage internal
+feature.
++
+NOTE: You cannot delete the original template or snapshot while
+linked clones exists.
+
+
+The *Target node* option allows you to create the new VM on a
+different node. The only restriction is that the VM is on shared
+storage, and that storage is also available on the target node.
+
+It is possible to clone a specific *Snapshot*, which defaults to the
+'current' VM data. This also means that the final copy does not
+include any additional snapshots from the original VM.
+
+To avoid resource conflicts, all network interface MAC addresses gets
+randomized, and we generate a new 'UUID' for the VM BIOS (smbios1)
+setting.
+
+
 Managing Virtual Machines with `qm`
 ------------------------------------
 
