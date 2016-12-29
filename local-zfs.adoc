@@ -59,7 +59,7 @@ ZFS depends heavily on memory, so you need at least 8GB to start. In
 practice, use as much you can get for your hardware/budget. To prevent
 data corruption, we recommend the use of high quality ECC RAM.
 
-If you use a dedicated cache and/or log disk, you should use a
+If you use a dedicated cache and/or log disk, you should use an
 enterprise class SSD (e.g. Intel SSD DC S3700 Series). This can
 increase the overall performance significantly.
 
