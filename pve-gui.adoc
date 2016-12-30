@@ -192,6 +192,21 @@ and on the right side the content of the selected option will shown.
 
 * *Permissions:* manage the user permission for this storage.
 
+Logical Pool Level
+------------------
+
+// insert pool member pic
+
+In this view we have a two partition split view.
+On the left side we have the logical pool options
+and on the right side the content of the selected option will shown.
+
+* *Summary:* show the description of the pool.
+
+* *Members:* Here all members of this pool will listed and can be managed.
+
+* *Permissions:* manage the user permission for this pool.
+
 ifdef::wiki[]
 
 See Also
