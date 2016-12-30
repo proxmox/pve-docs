@@ -129,6 +129,53 @@ All belongs of a node can be managed at this level.
 * *Subscription:* here you can upload you subscription key and get a
    system overview in case of a support case.
 
+VM Level
+--------
+
+[thumbnail="gui-qemu-summary.png"]
+
+There are two differed kinds of VM types and both types can be converted to a template.
+One of them are Kernel-based Virtual Machine (KVM) and the other one are Linux Containers (LXC).
+General the navigation are the same only some option are different.
+
+In the main management center the VM navigation begin if a VM is selected in the left tree.
+
+The top header contains important VM operation commands like 'Start', 'Shutdown', 'Rest',
+'Remove', 'Migrate', 'Console' and 'Help'.
+Two of them have hidden buttons like 'Shutdown' has 'Stop' and
+'Console' contains the different consolen typs 'SPICE' or 'noVNC'.
+
+On the right side the content switch white the focus of the option.
+
+On the left side.
+All available options are listed one below the other.
+
+* *Summary:* gives a brief overview over the VM activity.
+
+* *Console:* an interactive console to your VM.
+
+* *(KVM)Hardware:* shows and set the Hardware of the KVM VM.
+
+* *(LXC)Resources:* defines the LXC Hardware opportunities.
+
+* *(LXC)Network:* the LXC Network settings.
+
+* *(LXC)DNS:* the LXC DNS settings.
+
+* *Options:* all VM options can be set here, this distinguishes between KVM and LXC.
+
+* *Task History:* here all previous task from this VM will be shown.
+
+* *(KVM) Monitor:* is the interactive communication interface to the KVM process.
+
+* *Backup:* shows the available backups from this VM and also create a backupset.
+
+* *Snapshots:* manage VM snapshots.
+
+* *Firewall:* manage the firewall on VM level.
+
+* *Permissions:* manage the user permission for this VM.
+
 ifdef::wiki[]
 
 See Also
