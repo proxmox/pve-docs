@@ -176,6 +176,22 @@ All available options are listed one below the other.
 
 * *Permissions:* manage the user permission for this VM.
 
+Storage Level
+-------------
+
+// insert storage summary pic
+
+In this view we have a two partition split view.
+On the left side we have the storage options
+and on the right side the content of the selected option will shown.
+
+* *Summary:* show you important information about your storage like
+'Usage', 'Type', 'Content', 'Active' and 'Enabled'.
+
+* *Content:* Here all contend will listed grouped by content.
+
+* *Permissions:* manage the user permission for this storage.
+
 ifdef::wiki[]
 
 See Also
