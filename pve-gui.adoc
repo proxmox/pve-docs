@@ -206,7 +206,7 @@ and on the right side the content of the selected option will shown.
 Logical Pool Level
 ------------------
 
-// insert pool member pic
+[thumbnail="gui-pool-summary-development.png"]
 
 In this view we have a two partition split view.
 On the left side we have the logical pool options
