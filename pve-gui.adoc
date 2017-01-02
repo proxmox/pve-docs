@@ -190,7 +190,7 @@ All available options are listed one below the other.
 Storage Level
 -------------
 
-// insert storage summary pic
+[thumbnail="gui-storage-summary-local.png"]
 
 In this view we have a two partition split view.
 On the left side we have the storage options
