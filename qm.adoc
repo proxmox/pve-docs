@@ -503,9 +503,9 @@ If you have local resources, you can still offline migrate your VMs,
 as long as all disk are on storages, which are defined on both hosts.
 Then the migration will copy the disk over the network to the target host.
 
-
-VM Templates, Copies and Clones
--------------------------------
+[[qm_copy_and_clone]]
+Copies and Clones
+-----------------
 
 [thumbnail="gui-qemu-full-clone.png"]
 
