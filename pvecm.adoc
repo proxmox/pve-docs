@@ -193,42 +193,10 @@ not be what you want or need.
 
 Move all virtual machines from the node. Make sure you have no local
 data or backups you want to keep, or save them accordingly.
+In the following example we will remove the node hp4 from the cluster.
 
-Log in to one remaining node via ssh. Issue a `pvecm nodes` command to
-identify the node ID:
-
-----
-hp1# pvecm status
-
-Quorum information
-~~~~~~~~~~~~~~~~~~
-Date:             Mon Apr 20 12:30:13 2015
-Quorum provider:  corosync_votequorum
-Nodes:            4
-Node ID:          0x00000001
-Ring ID:          1928
-Quorate:          Yes
-
-Votequorum information
-~~~~~~~~~~~~~~~~~~~~~~
-Expected votes:   4
-Highest expected: 4
-Total votes:      4
-Quorum:           2
-Flags:            Quorate
-
-Membership information
-~~~~~~~~~~~~~~~~~~~~~~
-    Nodeid      Votes Name
-0x00000001          1 192.168.15.91 (local)
-0x00000002          1 192.168.15.92
-0x00000003          1 192.168.15.93
-0x00000004          1 192.168.15.94
-----
-
-IMPORTANT: at this point you must power off the node to be removed and
-make sure that it will not power on again (in the network) as it
-is.
+Log in to a *different* cluster node (not hp4), and issue a `pvecm nodes`
+command to identify the node ID to remove:
 
 ----
 hp1# pvecm nodes
@@ -242,8 +210,18 @@ Membership information
          4          1 hp4
 ----
 
-Log in to one remaining node via ssh. Issue the delete command (here
-deleting node `hp4`):
+
+At this point you must power off hp4 and
+make sure that it will not power on again (in the network) as it
+is.
+
+IMPORTANT: As said above, it is critical to power off the node
+*before* removal, and make sure that it will *never* power on again
+(in the existing cluster network) as it is.
+If you power on the node as it is, your cluster will be screwed up and
+it could be difficult to restore a clean cluster state.
+
+After powering off the node hp4, we can safely remove it from the cluster.
 
  hp1# pvecm delnode hp4
 
@@ -278,13 +256,6 @@ Membership information
 0x00000002          1 192.168.15.91
 0x00000003          1 192.168.15.92
 ----
-
-IMPORTANT: as said above, it is very important to power off the node
-*before* removal, and make sure that it will *never* power on again
-(in the existing cluster network) as it is.
-
-If you power on the node as it is, your cluster will be screwed up and
-it could be difficult to restore a clean cluster state.
 
 If, for whatever reason, you want that this server joins the same
 cluster again, you have to
