@@ -143,15 +143,19 @@ connected. You can connect up to 6 devices on this controller.
 hardware, and can connect up to 14 storage devices. {pve} emulates by default a
 LSI 53C895A controller.
 +
-A SCSI controller of type _Virtio_ is the recommended setting if you aim for
+A SCSI controller of type _VirtIO SCSI_ is the recommended setting if you aim for
 performance and is automatically selected for newly created Linux VMs since
 {pve} 4.3. Linux distributions have support for this controller since 2012, and
 FreeBSD since 2014. For Windows OSes, you need to provide an extra iso
 containing the drivers during the installation.
 // https://pve.proxmox.com/wiki/Paravirtualized_Block_Drivers_for_Windows#During_windows_installation.
+If you aim at maximum performance, you can select a SCSI controller of type
+_VirtIO SCSI single_ which will allow you to select the *IO Thread* option.
+When selecting _VirtIO SCSI single_ Qemu will create a new controller for
+each disk, instead of adding all disks to the same controller.
 
 * The *Virtio* controller, also called virtio-blk to distinguish from
-the Virtio SCSI controller, is an older type of paravirtualized controller
+the VirtIO SCSI controller, is an older type of paravirtualized controller
 which has been superseded in features by the Virtio SCSI Controller.
 
 [thumbnail="gui-create-vm-hard-disk.png"]
@@ -190,10 +194,12 @@ emulated SCSI controller will relay this information to the storage, which will
 then shrink the disk image accordingly.
 
 .IO Thread
-The option *IO Thread* can only be enabled when using a disk with the *VirtIO* controller,
-or with the *SCSI* controller, when the emulated controller type is  *VirtIO SCSI*.
-With this enabled, Qemu uses one thread per disk, instead of one thread for all,
-so it should increase performance when using multiple disks.
+The option *IO Thread* can only be used when using a disk with the 
+*VirtIO* controller, or with the *SCSI* controller, when the emulated controller
+ type is  *VirtIO SCSI single*.
+With this enabled, Qemu creates one I/O thread per storage controller,
+instead of a single thread for all I/O, so it increases performance when 
+multiple disks are used and each disk has its own storage controller.
 Note that backups do not currently work with *IO Thread* enabled.
 
 
