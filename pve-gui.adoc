@@ -50,39 +50,144 @@ Features
 * Based on ExtJS 6.x JavaScript framework
 
 
+Login
+-----
+
+[thumbnail="gui-login-window.png"]
+
+When you connect to the server, you will first see the longin window.
+{pve} supports various authentication backends ('Realm'), and
+you can select the langauage here. The GUI is translated to more
+than 20 languages.
+
+NOTE: You can save the user name on the client side by selection the
+checkbox at the bottom. This saves some typing when you login next
+time.
+
+
 GUI Overview
 ------------
 
 [thumbnail="gui-datacenter-summary.png"]
 
-Lets start with the header.
-We start on the left side, where the first thing you see is the Proxmox Logo.
-Next to it is the current running version of Proxmox VE.
-In the search bar it is possible to search for item which the datacenter contains.
-After the search-bar the identity is shown (login name).
+The {pve} user interface consists of four regions.
+
+[horizontal]
+
+Header:: On top. Shows status information and contains buttons for
+most important actions.
+
+Resource Tree:: At the left side. A navigation tree where you can select
+specific objects.
+
+Content Panel:: Center region. Selected objects displays configuration
+options and status here.
+
+Log Panel:: At the bottom. Displays log entries for recent tasks. You
+can double-click on those log entries to get more details, or to abort
+a running task.
+
+NOTE: You can shrink and expand the size of the resource tree and log
+panel, or completely hide the log panel. This can be helpful when you
+work on small displays and want more space to view other content.
+
+
+Header
+~~~~~~
+
+On the top left side, the first thing you see is the Proxmox
+logo. Next to it is the current running version of {pve}. In the
+search bar nearside you can search for specific objects (VMs,
+containers, nodes, ...). This is sometimes faster than selecting an
+object in the resource tree.
 
 [thumbnail="gui-my-settings.png"]
 
-The 'my settings' button (Gear Symble) contains dashbord customization,
-reset the saved login name or rest the saved layout.
-At least four buttons come, started with 'Help', 'Create VM', 'Create CT' and 'Logout'.
+To the right of the search bar we see the identity (login name). The
+gear symbol is a button opening the 'My Settings' dialog. There you
+can customize some client side user interface setting (reset the saved
+login name, reset saved layout).
 
-The Body has 3 sections:
+The rightmost part of the header contains four buttons:
 
-* On the left side is the navigation bar. On the top, you can select one of 4
-  views. Those views change the structure of the tree below. The default
-  selection is *Server View* and it has the following 4 types of elements.
-** Datacenter: contains all the settings belonging to all machines.
-** Nodes: represent the host where the VM/CT runs on. It is named like
-   the hostname. Normally the name was set by the installation.
-** Entity: can be a VM, container, a template or a storage.
-** Logical pools: it is possible to group entities to a group for easy management.
-* On the right side is the main management center, where all content
-  of the selected entity form the navigation bar is shown.
-* On the bottom is the task log section, where all tasks are shown.
+[horizontal]
+Help :: Opens a new browser window showing the reference documenation.
 
-Dataceter Level
----------------
+Create&nbsp;VM :: Opens the virtual machine creation wizard.
+
+Create&nbsp;CT :: Open the container creation wizard.
+
+Logout :: Logout, and show the login dialog again.
+
+
+Resource Tree
+~~~~~~~~~~~~~
+
+This is the main navigation tree. On top of the tree you can select
+some predefined views, which changes the structure of the tree
+below. The default view is *Server View*, and it shows the following
+object types:
+
+[horizontal]
+Datacenter:: Contains cluster wide setting (relevant for all nodes).
+
+Node:: Represents the hosts inside a cluster, where the guests runs.
+
+Guest:: VMs, Containers and Templates.
+
+Storage:: Data Storage.
+
+Pool:: It is possible to group guests using a pool to simplify
+management.
+
+
+The following view types are available:
+
+[horizontal]
+Server View:: Shows all kind of objects, grouped by nodes.
+
+Folder View:: Shows all kind of objects, grouped by object type.
+
+Storage View:: Only show storage objects, grouped by nodes.
+
+Pool View:: Show VMs and Containers, grouped by pool.
+
+
+Log Panel
+~~~~~~~~~
+
+The main purpose of the log panel is to show you what is currently
+going on in your cluster. Actions like creating an new VM are executed
+in background, and we call such background job a 'task'.
+
+Any output from such task is saved into a separate log file. You can
+view that log by simply double-click a task log entry. It is also
+possible to abort a running task there.
+
+Please note that we display most recent tasks from all cluster nodes
+here. So you can see when somebody else is working on another cluster
+node in real-time.
+
+NOTE: We remove older and finished task from the log panel to keep
+that list short. But you can still find those tasks in the 'Task
+History' within the node panel.
+
+Some short running actions simply sends logs to all cluster
+members. You can see those messages in the 'Cluster log' panel.
+
+
+Content Panels
+--------------
+
+When you select something in the resource tree, the correnponding
+object displays configuration and status information in the content
+panel. The following sections gives a brief overview of the
+functionality. Please refer to the individual chapters inside the
+reference documentatin to get more detailed information.
+
+
+Datacenter
+~~~~~~~~~~
 
 [thumbnail="gui-datacenter-search.png"]
 
@@ -114,8 +219,8 @@ On the datacenter level you can access cluster wide settings and information.
 If you like to have more information about this see the corresponding chapter.
 
 
-Node Level
-----------
+Nodes
+~~~~~
 
 [thumbnail="gui-node-summary.png"]
 
@@ -146,8 +251,9 @@ All belongs of a node can be managed at this level.
 * *Subscription:* here you can upload you subscription key and get a
    system overview in case of a support case.
 
-VM Level
---------
+
+Guests
+~~~~~~
 
 [thumbnail="gui-qemu-summary.png"]
 
@@ -193,8 +299,9 @@ All available options are listed one below the other.
 
 * *Permissions:* manage the user permission for this VM.
 
-Storage Level
--------------
+
+Storage
+~~~~~~~
 
 [thumbnail="gui-storage-summary-local.png"]
 
@@ -209,8 +316,9 @@ and on the right side the content of the selected option will shown.
 
 * *Permissions:* manage the user permission for this storage.
 
-Logical Pool Level
-------------------
+
+Pools
+~~~~~
 
 [thumbnail="gui-pool-summary-development.png"]
 
@@ -223,6 +331,7 @@ and on the right side the content of the selected option will shown.
 * *Members:* Here all members of this pool will listed and can be managed.
 
 * *Permissions:* manage the user permission for this pool.
+
 
 ifdef::wiki[]
 
