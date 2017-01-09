@@ -275,6 +275,17 @@ host.
 When choosing a *fixed size memory* {pve} will simply allocate what you
 specify to your VM.
 
+Even when using a fixed memory size, the ballooning device gets added to the
+VM, because it delivers useful information such as how much memory the guest
+really uses.
+In general, you should leave *ballooning* enabled, but if you want to disable
+it (e.g. for debugging porpuses), simply uncheck
+*Ballooning* or set
+
+ balloon: 0
+
+in the configuration.
+
 .Automatic Memory Allocation
 [thumbnail="gui-create-vm-memory-dynamic.png", float="left"]
 
