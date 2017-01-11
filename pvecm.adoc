@@ -398,6 +398,7 @@ for that purpose.
 
 * Ensure that multicast works in general and a high package rates. This can be
   done with the `omping` tool. The final "%loss" number should be < 1%.
++
 [source,bash]
 ----
 omping -c 10000 -i 0.001 -F -q NODE1-IP NODE2-IP ...
@@ -407,6 +408,7 @@ omping -c 10000 -i 0.001 -F -q NODE1-IP NODE2-IP ...
   This covers up problems where IGMP snooping is activated on the network but
   no multicast querier is active. This test has a duration of around 10
   minutes.
++
 [source,bash]
 ----
 omping -c 600 -i 1 -q NODE1-IP NODE2-IP ...
