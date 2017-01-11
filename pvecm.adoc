@@ -275,7 +275,8 @@ You can also separate a node from a cluster without reinstalling it from
 scratch.  But after removing the node from the cluster it will still have
 access to the shared storages! This must be resolved before you start removing
 the node from the cluster. A {pve} cluster cannot share the exact same
-storage with another cluster, as it leads to VMID conflicts.
+storage with another cluster, as storage locking doesn't work over cluster
+boundary. Further, it may also lead to VMID conflicts.
 
 Its suggested that you create a new storage where only the node which you want
 to separate has access. This can be an new export on your NFS or a new Ceph
