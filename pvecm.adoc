@@ -634,13 +634,13 @@ pvecm create CLUSTERNAME -bindnet0_addr 10.10.10.1 -ring0_addr 10.10.10.1 \
 -bindnet1_addr 10.10.20.1 -ring1_addr 10.10.20.1
 ----
 
-RRP On A Created Cluster
+RRP On Existing Clusters
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-When enabling an already running cluster to use RRP you will take similar steps
-as describe in
-<<separate-cluster-net-after-creation,separating the cluster network>>. You
-just do it on another ring.
+You will take similar steps as described in
+<<separate-cluster-net-after-creation,separating the cluster network>> to
+enable RRP on an already running cluster. The single difference is, that you
+will add `ring1` and use it instead of `ring0`.
 
 First add a new `interface` subsection in the `totem` section, set its
 `ringnumber` property to `1`. Set the interfaces `bindnetaddr` property to an
