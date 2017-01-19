@@ -512,9 +512,47 @@ If you have a cluster, you can migrate your VM to another host with
 
  qm migrate <vmid> <target>
 
+There are generally two mechanisms for this
+
+* Online Migration (aka Live Migration)
+* Offline Migration
+
+Online Migration
+~~~~~~~~~~~~~~~~
+
 When your VM is running and it has no local resources defined (such as disks
 on local storage, passed through devices, etc.) you can initiate a live
 migration with the -online flag.
+
+How it works
+^^^^^^^^^^^^
+
+This starts a Qemu Process on the target host with the 'incoming' flag, which
+means that the process starts and waits for the memory data and device states
+from the source Virtual Machine (since all other resources, e.g. disks,
+are shared, the memory content and device state are the only things left
+to transmit).
+
+Once this connection is established, the source begins to send the memory
+content asynchronously to the target. If the memory on the source changes,
+those sections are marked dirty and there will be another pass of sending data.
+This happens until the amount of data to send is so small that it can
+pause the VM on the source, send the remaining data to the target and start
+the VM on the target in under a second.
+
+Requirements
+^^^^^^^^^^^^
+
+For Live Migration to work, there are some things required:
+
+* The VM has no local resources (e.g. passed through devices, local disks, etc.)
+* The hosts are in the same {pve} cluster.
+* The hosts have a working (and reliable) network connection.
+* The target host must have the same or higher versions of the
+  {pve} packages. (It *might* work the other way, but this is never guaranteed)
+
+Offline Migration
+~~~~~~~~~~~~~~~~~
 
 If you have local resources, you can still offline migrate your VMs,
 as long as all disk are on storages, which are defined on both hosts.
