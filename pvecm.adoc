@@ -864,6 +864,14 @@ migrations. This can be done via the configuration file
 `datacenter.cfg` or for a specific migration via API or command line
 parameters.
 
+It makes a difference if a Guest is online or offline, or if it has
+local resources (like a local disk).
+
+For Details about Virtual Machine Migration see the
+xref:qm_migration[QEMU/KVM Migration Chapter]
+
+For Details about Container Migration see the
+xref:pct_migration[Container Migration Chapter]
 
 Migration Type
 ~~~~~~~~~~~~~~
