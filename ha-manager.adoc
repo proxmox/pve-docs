@@ -180,7 +180,7 @@ simply sets the requested state to `started`. Same applied to `qm
 stop`, which sets the requested state to `stopped`.
 
 NOTE: The HA stack works fully asynchronous and needs to communicate
-with other cluster members. So it takes some seconds unless you see
+with other cluster members. So it takes some seconds until you see
 the result of such actions.
 
 To view the current HA resource configuration use:
@@ -254,7 +254,7 @@ handles node fencing.
 [NOTE]
 Locks are provided by our distributed configuration file system (pmxcfs).
 They are used to guarantee that each LRM is active once and working. As a
-LRM only executes actions when it holds its lock we can mark a failed node
+LRM only executes actions when it holds its lock, we can mark a failed node
 as fenced if we can acquire its lock. This lets us then recover any failed
 HA services securely without any interference from the now unknown failed node.
 This all gets supervised by the CRM which holds currently the manager master
