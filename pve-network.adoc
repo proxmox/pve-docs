@@ -208,8 +208,7 @@ designated slave network interface. If this receiving slave fails,
 another slave takes over the MAC address of the failed receiving
 slave.
 
-* *Adaptive load balancing (balanceIEEE 802.3ad Dynamic link
-aggregation (802.3ad)(LACP):-alb):* Includes balance-tlb plus receive
+* *Adaptive load balancing (balance-alb):* Includes balance-tlb plus receive
 load balancing (rlb) for IPV4 traffic, and does not require any
 special network switch support. The receive load balancing is achieved
 by ARP negotiation. The bonding driver intercepts the ARP Replies sent

@@ -285,7 +285,7 @@ Even when using a fixed memory size, the ballooning device gets added to the
 VM, because it delivers useful information such as how much memory the guest
 really uses.
 In general, you should leave *ballooning* enabled, but if you want to disable
-it (e.g. for debugging porpuses), simply uncheck
+it (e.g. for debugging purposes), simply uncheck
 *Ballooning* or set
 
  balloon: 0
@@ -421,7 +421,7 @@ If a device is present in a VM configuration when the VM starts up,
 but the device is not present in the host, the VM can boot without problems.
 As soon as the device/port ist available in the host, it gets passed through.
 
-WARNING: Using this kind of USB passthrough, means that you cannot move
+WARNING: Using this kind of USB passthrough means that you cannot move
 a VM online to another host, since the hardware is only available
 on the host the VM is currently residing.
 

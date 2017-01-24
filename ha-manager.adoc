@@ -523,7 +523,7 @@ include::ha-groups-opts.adoc[]
 
 [thumbnail="gui-ha-manager-add-group.png"]
 
-A commom requirement is that a resource should run on a specific
+A common requirement is that a resource should run on a specific
 node. Usually the resource is able to run on other nodes, so you can define
 an unrestricted group with a single member:
 
@@ -568,7 +568,7 @@ group: mygroup2
 
 
 The `nofailback` options is mostly useful to avoid unwanted resource
-movements during administartion tasks. For example, if you need to
+movements during administration tasks. For example, if you need to
 migrate a service to a node which hasn't the highest priority in the
 group, you need to tell the HA manager to not move this service
 instantly back by setting the `nofailback` option.

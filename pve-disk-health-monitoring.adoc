@@ -4,7 +4,7 @@ ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]
 
-Altough a robust and redundant storage is recommended,
+Although a robust and redundant storage is recommended,
 it can be very helpful to monitor the health of your local disks.
 
 Starting with {pve} 4.3, the package smartmontools footnote:[smartmontools homepage https://www.smartmontools.org]
