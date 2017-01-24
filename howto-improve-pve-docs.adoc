@@ -24,7 +24,7 @@ OS, this is a perfect fit for a wiki article.
 then you should try to get it into the reference documentation. The reference
 documentation is written in the easy to use 'asciidoc' document format.
 Editing the official documentation requires to clone the git repository at
-`git://git.proxmox.com/git/pve-docs.git` and then follow the 
+`git://git.proxmox.com/git/pve-docs.git` and then follow the
 https://git.proxmox.com/?p=pve-docs.git;a=blob_plain;f=README.adoc;hb=HEAD[REAME.adoc] document.
 
 Improving the documentation is just as easy as editing a Wikipedia

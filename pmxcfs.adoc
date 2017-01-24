@@ -145,11 +145,11 @@ Enable/Disable debugging
 
 You can enable verbose syslog messages with:
 
- echo "1" >/etc/pve/.debug 
+ echo "1" >/etc/pve/.debug
 
 And disable verbose syslog messages with:
 
- echo "0" >/etc/pve/.debug 
+ echo "0" >/etc/pve/.debug
 
 
 Recovery
