@@ -99,6 +99,7 @@ Files
 |`datacenter.cfg`                       | {pve} datacenter wide configuration (keyboard layout, proxy, ...)
 |`user.cfg`                             | {pve} access control configuration (users/groups/...)
 |`domains.cfg`                          | {pve} authentication domains
+|`status.cfg`                           | {pve} external metrics server configuration
 |`authkey.pub`                          | Public key used by ticket system
 |`pve-root-ca.pem`                      | Public certificate of cluster CA
 |`priv/shadow.cfg`                      | Shadow password file
