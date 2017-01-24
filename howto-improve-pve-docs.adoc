@@ -8,8 +8,8 @@ endif::wiki[]
 Depending on which issue you want to improve, you can use a variety of
 communication mediums to reach the developers.
 
-If you notice an error in the current documentation, use the·
-http://bugzilla.proxmox.com[Proxmox bug tracker] and propose an·
+If you notice an error in the current documentation, use the
+http://bugzilla.proxmox.com[Proxmox bug tracker] and propose an
 alternate text/wording.
 
 If you want to propose new content, it depends on what you want to
