@@ -1,3 +1,43 @@
+pve-docs (4.4-3) unstable; urgency=medium
+
+  * add status.cfg to the list of files in /etc/pve
+
+  * some small spelling/grammar fixes
+
+  * pve-software-stack.svg: adopt colors
+
+  * add details about online migration for qemu
+
+  * add links to the specific migration chaptes in pvecm
+
+  * pvecm: improve 'RRP on existing clusters' wording
+
+  * pvecm: explain need of storage separation on node separation better
+
+  * Document the difference between Virtio SCSI and Virtio SCSI single
+
+  * Improve cluster node deletion operation
+
+  * document ballooning for fixed memory size
+
+  * pve-gui.adoc: more verbose description
+
+  * Extend the GUI overview.
+
+  * Add Pool level
+
+  * Add storage level.
+
+  * Add section VM Level.
+
+  * qm.adoc: rework clone/template sections
+
+  * qm.adoc: add section about VM clones
+
+  * add new screenshots
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 27 Jan 2017 11:19:16 +0100
+
 pve-docs (4.4-2) unstable; urgency=medium
 
   * small corrections and clarifications

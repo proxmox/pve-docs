@@ -6,7 +6,7 @@ DOC_PACKAGE=pve-docs
 MEDIAWIKI_PACKAGE=pve-docs-mediawiki
 
 # also update debian/changelog
-PKGREL=2
+PKGREL=3
 
 GITVERSION:=$(shell cat .git/refs/heads/master)
 
