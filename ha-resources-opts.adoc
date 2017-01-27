@@ -1,0 +1,40 @@
+`comment`: `<string>` ::
+
+Description.
+
+`group`: `<string>` ::
+
+The HA group identifier.
+
+`max_relocate`: `<integer> (0 - N)` ('default =' `1`)::
+
+Maximal number of service relocate tries when a service failes to start.
+
+`max_restart`: `<integer> (0 - N)` ('default =' `1`)::
+
+Maximal number of tries to restart the service on a node after its start failed.
+
+`state`: `<disabled | enabled | started | stopped>` ('default =' `started`)::
+
+Requested resource state. The CRM reads this state and acts accordingly.
+Please note that `enabled` is just an alias for `started`.
++
+`started`;;
++
+The CRM tries to start the resource. Service state is
+set to `started` after successful start. On node failures, or when start
+fails, it tries to recover the resource.  If everything fails, service
+state it set to `error`.
++
+`stopped`;;
++
+The CRM tries to keep the resource in `stopped` state, but it
+still tries to relocate the resources on node failures.
++
+`disabled`;;
++
+The CRM tries to put the resource in `stopped` state, but does not try
+to relocate the resources on node failures. The main purpose of this
+state is error recovery, because it is the only way to move a resource out
+of the `error` state.
+

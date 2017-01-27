@@ -90,7 +90,7 @@ Disk size. This is purely informational and has no effect.
 
 Freeze CPU at startup (use 'c' monitor command to start execution).
 
-`hostpci[n]`: `[host=]<HOSTPCIID[;HOSTPCIID2...]> [,pcie=<1|0>] [,rombar=<1|0>] [,x-vga=<1|0>]` ::
+`hostpci[n]`: `[host=]<HOSTPCIID[;HOSTPCIID2...]> [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]` ::
 
 Map host PCI devices into guest.
 +
@@ -115,6 +115,10 @@ Choose the PCI-express bus (needs the 'q35' machine model).
 `rombar`=`<boolean>` ('default =' `1`);;
 
 Specify whether or not the device's ROM will be visible in the guest's memory map.
+
+`romfile`=`<string>` ;;
+
+Custom pci device rom filename (must be located in /usr/share/kvm/).
 
 `x-vga`=`<boolean>` ('default =' `0`);;
 
@@ -593,7 +597,7 @@ Force disk geometry bios translation mode.
 
 Write error action.
 
-`scsi[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]` ::
+`scsi[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]` ::
 
 Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).
 
@@ -728,6 +732,12 @@ The drive's media type.
 `queues`=`<integer> (2 - N)` ;;
 
 Number of queues.
+
+`scsiblock`=`<boolean>` ('default =' `0`);;
+
+whether to use scsi-block for full passthrough of host block device
++
+WARNING: can lead to I/O errors in combination with low memory or high memory fragmentation on host
 
 `secs`=`<integer>` ;;
 

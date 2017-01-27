@@ -133,7 +133,7 @@ Number of replicas per object
 
 Install ceph related packages.
 
-`-version` `<hammer>` ::
+`-version` `<hammer | jewel>` ::
 
 no description available
 

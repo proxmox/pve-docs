@@ -5649,7 +5649,7 @@ var pveapi = [
                                              "format" : "pve-qm-hostpci",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,pcie=<1|0>] [,rombar=<1|0>] [,x-vga=<1|0>]",
+                                             "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]",
                                              "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer \npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "hotplug" : {
@@ -6794,6 +6794,12 @@ var pveapi = [
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "scsiblock" : {
+                                                   "default" : 0,
+                                                   "description" : "whether to use scsi-block for full passthrough of host block device\n\nWARNING: can lead to I/O errors in combination with low memory or high memory fragmentation on host",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "secs" : {
                                                    "description" : "Force the drive's physical geometry to have a specific sector count.",
                                                    "optional" : 1,
@@ -6846,7 +6852,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
                                           "scsihw" : {
                                              "default" : "lsi",
@@ -7515,7 +7521,7 @@ var pveapi = [
                                              "format" : "pve-qm-hostpci",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,pcie=<1|0>] [,rombar=<1|0>] [,x-vga=<1|0>]",
+                                             "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]",
                                              "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer \npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "hotplug" : {
@@ -8660,6 +8666,12 @@ var pveapi = [
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "scsiblock" : {
+                                                   "default" : 0,
+                                                   "description" : "whether to use scsi-block for full passthrough of host block device\n\nWARNING: can lead to I/O errors in combination with low memory or high memory fragmentation on host",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "secs" : {
                                                    "description" : "Force the drive's physical geometry to have a specific sector count.",
                                                    "optional" : 1,
@@ -8712,7 +8724,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
                                           "scsihw" : {
                                              "default" : "lsi",
@@ -9621,6 +9633,12 @@ var pveapi = [
                                                    "type" : "string",
                                                    "typetext" : "<string>"
                                                 },
+                                                "targetstorage" : {
+                                                   "description" : "Target storage for the migration. (Can be '1' to use the same storage id as on the source node.)",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
@@ -10442,12 +10460,25 @@ var pveapi = [
                                              "type" : "string",
                                              "typetext" : "<string>"
                                           },
+                                          "targetstorage" : {
+                                             "description" : "Default target storage.",
+                                             "format" : "pve-storage-id",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
                                              "minimum" : 1,
                                              "type" : "integer",
                                              "typetext" : "<integer> (1 - N)"
+                                          },
+                                          "with-local-disks" : {
+                                             "description" : "Enable live storage migration for local disk",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
                                           }
                                        }
                                     },
@@ -11481,7 +11512,7 @@ var pveapi = [
                                  "format" : "pve-qm-hostpci",
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,pcie=<1|0>] [,rombar=<1|0>] [,x-vga=<1|0>]",
+                                 "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]",
                                  "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer \npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                               },
                               "hotplug" : {
@@ -12626,6 +12657,12 @@ var pveapi = [
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
+                                    "scsiblock" : {
+                                       "default" : 0,
+                                       "description" : "whether to use scsi-block for full passthrough of host block device\n\nWARNING: can lead to I/O errors in combination with low memory or high memory fragmentation on host",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
                                     "secs" : {
                                        "description" : "Force the drive's physical geometry to have a specific sector count.",
                                        "optional" : 1,
@@ -12678,7 +12715,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                               },
                               "scsihw" : {
                                  "default" : "lsi",
@@ -13626,7 +13663,8 @@ var pveapi = [
                                           ],
                                           "any",
                                           1
-                                       ]
+                                       ],
+                                       "description" : "non-volume mount points in rootfs and mp[n] are restricted to root@pam"
                                     },
                                     "protected" : 1,
                                     "proxyto" : "node",
@@ -23337,6 +23375,13 @@ var pveapi = [
                                  "format" : "pve-node",
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "vms" : {
+                                 "description" : "Only consider Guests with these IDs.",
+                                 "format" : "pve-vmid-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               }
                            }
                         },
@@ -23372,6 +23417,13 @@ var pveapi = [
                               "node" : {
                                  "description" : "The cluster node name.",
                                  "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "vms" : {
+                                 "description" : "Only consider Guests with these IDs.",
+                                 "format" : "pve-vmid-list",
+                                 "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
                               }
@@ -23422,6 +23474,13 @@ var pveapi = [
                               "target" : {
                                  "description" : "Target node.",
                                  "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "vms" : {
+                                 "description" : "Only consider Guests with these IDs.",
+                                 "format" : "pve-vmid-list",
+                                 "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
                               }
@@ -25117,6 +25176,7 @@ var pveapi = [
                      "items" : {
                         "properties" : {
                            "comment" : {
+                              "description" : "A comment. The GUI use this text when you select a domain (Realm) on the login window.",
                               "optional" : 1,
                               "type" : "string"
                            },
