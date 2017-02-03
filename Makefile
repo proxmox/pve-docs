@@ -15,6 +15,7 @@ ARCH:=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
 GEN_DEB=${GEN_PACKAGE}_${DOCRELEASE}-${PKGREL}_${ARCH}.deb
 DOC_DEB=${DOC_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
 MEDIAWIKI_DEB=${MEDIAWIKI_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
+DOC_BUILDDEPS := pve-doc-generator, dblatex, source-highlight, inkscape, imagemagick
 
 
 all: index.html
@@ -148,41 +149,66 @@ dinstall: ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}
 
 .PHONY: deb
 deb:
-	rm -f ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB};
-	make ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB};
+	rm -f ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}
+	make all-debs
 
-${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}: index.html ${INDEX_INCLUDES} ${WIKI_IMPORTS} ${API_VIEWER_SOURCES} ${GEN_DEB_SOURCES} asciidoc-pve pve-docs-mediawiki-import asciidoc/mediawiki.conf verify-images
+.PHONY: clean-build
+clean-build:
 	rm -rf build
-	mkdir build
-	rsync -a debian/ build/debian
-	cp pve-docs-mediawiki-import build/debian/tree/pve-docs-mediawiki/pve-docs-mediawiki-import
-	echo "git clone git://git.proxmox.com/git/pve-docs.git\\ngit checkout ${GITVERSION}" > build/debian/SOURCE
-	# install files for pve-doc-generator package
-	mkdir -p build/usr/share/${GEN_PACKAGE}
-	mkdir -p build/usr/share/doc/${GEN_PACKAGE}
-	mkdir -p build/usr/bin
-	install -m 0644 ${GEN_DEB_SOURCES} build/usr/share/${GEN_PACKAGE}
-	install -m 0755 ${GEN_SCRIPTS} build/usr/share/${GEN_PACKAGE}
+
+define prepare_build
+	rm -rf build-$1
+	mkdir build-$1
+	cp -a debian build-$1/debian
+	mv build-$1/debian/control.in build-$1/debian/control
+	echo >> build-$1/debian/control
+	cat debian/$1.control >> build-$1/debian/control
+	echo "git clone git://git.proxmox.com/git/pve-docs.git\\ngit checkout ${GITVERSION}" > build-$1/debian/SOURCE
+	install -dm755 build-$1/usr/share/$1
+	install -dm755 build-$1/usr/share/doc/$1
+endef
+
+.PHONY: gen-deb
+gen-deb: $(GEN_DEB)
+$(GEN_DEB): $(GEN_DEB_SOURCES) asciidoc-pve asciidoc/mediawiki.conf
+	$(call prepare_build,$(GEN_PACKAGE))
+	install -dm755 build-$(GEN_PACKAGE)/usr/bin
+	# install files
+	install -m 0644 ${GEN_DEB_SOURCES} build-$(GEN_PACKAGE)/usr/share/${GEN_PACKAGE}
+	install -m 0755 ${GEN_SCRIPTS} build-$(GEN_PACKAGE)/usr/share/${GEN_PACKAGE}
 	# install asciidoc-pve
-	install -m 0755 asciidoc-pve build/usr/bin/
-	install -D -m 0644 asciidoc/mediawiki.conf build/usr/share/${GEN_PACKAGE}/asciidoc/mediawiki.conf
-	install -m 0644 asciidoc/asciidoc-pve.conf build/usr/share/${GEN_PACKAGE}/asciidoc/
-	install -m 0644 asciidoc/pve-html.conf build/usr/share/${GEN_PACKAGE}/asciidoc/
-	# install files for pvedocs package
-	mkdir -p build/usr/share/${DOC_PACKAGE}
-	mkdir -p build/usr/share/doc/${DOC_PACKAGE}
-	install -m 0644 index.html ${INDEX_INCLUDES} build/usr/share/${DOC_PACKAGE}
-	install -m 0644 ${WIKI_IMPORTS} build/usr/share/${DOC_PACKAGE}
-	# install screenshot images
-	mkdir -p build/usr/share/${DOC_PACKAGE}/images/screenshot
-	install -m 0644 images/screenshot/*.png build/usr/share/${DOC_PACKAGE}/images/screenshot
-	# install api doc viewer
-	mkdir build/usr/share/${DOC_PACKAGE}/api-viewer
-	install -m 0644 ${API_VIEWER_SOURCES} build/usr/share/${DOC_PACKAGE}/api-viewer
-	# build Debian packages
-	cd build; dpkg-buildpackage -rfakeroot -b -us -uc
+	install -m 0755 asciidoc-pve build-$(GEN_PACKAGE)/usr/bin/
+	install -D -m 0644 asciidoc/mediawiki.conf build-$(GEN_PACKAGE)/usr/share/${GEN_PACKAGE}/asciidoc/mediawiki.conf
+	install -m 0644 asciidoc/asciidoc-pve.conf build-$(GEN_PACKAGE)/usr/share/${GEN_PACKAGE}/asciidoc/
+	install -m 0644 asciidoc/pve-html.conf build-$(GEN_PACKAGE)/usr/share/${GEN_PACKAGE}/asciidoc/
+	cd build-$(GEN_PACKAGE) && dpkg-buildpackage -rfakeroot -b -us -uc
 	lintian ${GEN_DEB}
+
+.PHONY: doc-deb
+doc-deb: $(DOC_DEB)
+$(DOC_DEB): index.html $(WIKI_IMPORTS) $(API_VIEWER_SOURCES) verify-images
+	$(call prepare_build,$(DOC_PACKAGE))
+	sed -i -e '/^Build-Depends/{s/$$/$(DOC_BUILDDEPS)/}' build-$(DOC_PACKAGE)/debian/control
+	# install files for pvedocs package
+	install -dm755 build-$(DOC_PACKAGE)/usr/share/${DOC_PACKAGE}
+	install -dm755 build-$(DOC_PACKAGE)/usr/share/doc/${DOC_PACKAGE}
+	install -m 0644 index.html ${INDEX_INCLUDES} build-$(DOC_PACKAGE)/usr/share/${DOC_PACKAGE}
+	install -m 0644 ${WIKI_IMPORTS} build-$(DOC_PACKAGE)/usr/share/${DOC_PACKAGE}
+	# install screenshot images
+	install -dm755 build-$(DOC_PACKAGE)/usr/share/${DOC_PACKAGE}/images/screenshot
+	install -m 0644 images/screenshot/*.png build-$(DOC_PACKAGE)/usr/share/${DOC_PACKAGE}/images/screenshot
+	# install api doc viewer
+	install -dm755 build-$(DOC_PACKAGE)/usr/share/${DOC_PACKAGE}/api-viewer
+	install -m 0644 ${API_VIEWER_SOURCES} build-$(DOC_PACKAGE)/usr/share/${DOC_PACKAGE}/api-viewer
+	cd build-$(DOC_PACKAGE) && dpkg-buildpackage -rfakeroot -b -us -uc
 	lintian ${DOC_DEB}
+
+.PHONY: mediawiki-deb
+mediawiki-deb: $(MEDIAWIKI_DEB)
+$(MEDIAWIKI_DEB): pve-docs-mediawiki-import
+	$(call prepare_build,$(MEDIAWIKI_PACKAGE))
+	cp pve-docs-mediawiki-import build-$(MEDIAWIKI_PACKAGE)/debian/tree/pve-docs-mediawiki/pve-docs-mediawiki-import
+	cd build-$(MEDIAWIKI_PACKAGE) && dpkg-buildpackage -rfakeroot -b -us -uc
 	lintian ${MEDIAWIKI_DEB}
 
 .PHONY: upload
@@ -198,3 +224,4 @@ update: clean
 
 clean: 
 	rm -rf *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html *-plain.html chapter-*.html pve-admin-guide.chunked asciidoc-pve link-refs.json .asciidoc-pve-tmp_* pve-docs-mediawiki-import .pve-doc-depends pve-doc-generator.mk chapter-index-table.adoc man1-index-table.adoc man5-index-table.adoc man8-index-table.adoc pve-admin-guide-docinfo.xml
+	rm -rf build-*

@@ -1,0 +1,5 @@
+Package: pve-docs
+Section: doc
+Architecture: all
+Description: Proxmox VE Documentation
+ This package contains the Proxmox VE Documentation files.
