@@ -198,4 +198,3 @@ update: clean
 
 clean: 
 	rm -rf *.html *.pdf *.epub *.tmp *.1 *.5 *.8 *.deb *.changes build api-viewer/apidoc.js chapter-*.html *-plain.html chapter-*.html pve-admin-guide.chunked asciidoc-pve link-refs.json .asciidoc-pve-tmp_* pve-docs-mediawiki-import .pve-doc-depends pve-doc-generator.mk chapter-index-table.adoc man1-index-table.adoc man5-index-table.adoc man8-index-table.adoc pve-admin-guide-docinfo.xml
-	find . -name '*~' -exec rm {} ';'
