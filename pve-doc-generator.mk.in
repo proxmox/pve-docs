@@ -5,6 +5,8 @@ DGDIR?=/usr/share/pve-doc-generator
 
 ASCIIDOC_PVE?=/usr/bin/asciidoc-pve
 
+PERL_DOC_ENV=PVE_GENERATING_DOCS=1
+
 PVE_COMMON_DOC_SOURCES=                 \
 	${ASCIIDOC_PVE}			\
 	pve-copyright.adoc              \
@@ -17,22 +19,22 @@ attributes.txt docinfo.xml pmxcfs.8-synopsis.adoc:
 	mv $@.tmp $@
 
 %-opts.adoc: ${DGDIR}/gen-%-opts.pl
-	perl -I. ${DGDIR}/gen-$*-opts.pl >$@.tmp
+	$(PERL_DOC_ENV) perl -I. ${DGDIR}/gen-$*-opts.pl >$@.tmp
 	mv $@.tmp $@
 
 %.adoc: ${DGDIR}/gen-%-adoc.pl
-	perl -I. ${DGDIR}/gen-$*-adoc.pl >$@.tmp
+	$(PERL_DOC_ENV) perl -I. ${DGDIR}/gen-$*-adoc.pl >$@.tmp
 	mv $@.tmp $@
 
 pveperf.1-synopsis.adoc:
 	echo '*pveperf* `[PATH]`' > pveperf.1-synopsis.adoc
 
 %.1-synopsis.adoc:
-	perl -I. -e "use PVE::CLI::$(subst -,_,$*);print PVE::CLI::$(subst -,_,$*)->generate_asciidoc_synopsis();" > $@.tmp
+	$(PERL_DOC_ENV) perl -I. -e "use PVE::CLI::$(subst -,_,$*);print PVE::CLI::$(subst -,_,$*)->generate_asciidoc_synopsis();" > $@.tmp
 	mv $@.tmp $@
 
 %.8-synopsis.adoc:
-	perl -I. -e "use PVE::Service::$(subst -,_,$*);print PVE::Service::$(subst -,_,$*)->generate_asciidoc_synopsis();" > $@.tmp
+	$(PERL_DOC_ENV) perl -I. -e "use PVE::Service::$(subst -,_,$*);print PVE::Service::$(subst -,_,$*)->generate_asciidoc_synopsis();" > $@.tmp
 	mv $@.tmp $@
 
 ifneq (${DGDIR},.)
