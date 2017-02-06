@@ -23,7 +23,7 @@ while (<main::DATA>) { $data_str .= $_; }
 
 my $fileinfo = decode_json($data_str);
 
-my $tmpprefix = ".asciidoc-pve-tmp_";
+my $tmpprefix = '.asciidoc-pve-tmp'.$$.'_';
 
 my $adoc_source_dir = "/usr/share/pve-doc-generator";
 
