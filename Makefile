@@ -152,6 +152,9 @@ deb:
 	rm -f ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}
 	make all-debs
 
+.PHONY: all-debs
+all-debs: ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}
+
 .PHONY: clean-build
 clean-build:
 	rm -rf build
