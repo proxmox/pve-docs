@@ -191,7 +191,7 @@ $(GEN_DEB): $(GEN_DEB_SOURCES) asciidoc-pve asciidoc/mediawiki.conf
 doc-deb: $(DOC_DEB)
 $(DOC_DEB): index.html $(WIKI_IMPORTS) $(API_VIEWER_SOURCES) verify-images
 	$(call prepare_build,$(DOC_PACKAGE))
-	sed -i -e '/^Build-Depends/{s/$$/$(DOC_BUILDDEPS)/}' build-$(DOC_PACKAGE)/debian/control
+	sed -i -e '/^Build-Depends/{s/$$/, $(DOC_BUILDDEPS)/}' build-$(DOC_PACKAGE)/debian/control
 	# install files for pvedocs package
 	install -dm755 build-$(DOC_PACKAGE)/usr/share/${DOC_PACKAGE}
 	install -dm755 build-$(DOC_PACKAGE)/usr/share/doc/${DOC_PACKAGE}
