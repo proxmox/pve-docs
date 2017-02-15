@@ -496,6 +496,11 @@ By default this value is set to 60, which means that {pve} will issue a
 shutdown request, wait 60s for the machine to be offline, and if after 60s
 the machine is still online will notify that the shutdown action failed.
 
+NOTE: VMs managed by the HA stack do not follow the 'start on boot' and
+'boot order' options currently. Those VMs will be skipped by the startup and
+shutdown algorithm as the HA manager itself ensures that VMs get started and
+stopped.
+
 Please note that machines without a Start/Shutdown order parameter will always
 start after those where the parameter is set, and this parameter only
 makes sense between the machines running locally on a host, and not
