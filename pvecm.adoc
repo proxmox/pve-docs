@@ -406,7 +406,7 @@ omping -c 10000 -i 0.001 -F -q NODE1-IP NODE2-IP ...
 ----
 
 * Ensure that multicast communication works over an extended period of time.
-  This covers up problems where IGMP snooping is activated on the network but
+  This uncovers problems where IGMP snooping is activated on the network but
   no multicast querier is active. This test has a duration of around 10
   minutes.
 +
