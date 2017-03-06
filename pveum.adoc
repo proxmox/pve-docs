@@ -249,7 +249,7 @@ Node / System related privileges::
 * `Sys.PowerMgmt`: Node power management (start, stop, reset, shutdown, ...)
 * `Sys.Console`: console access to Node
 * `Sys.Syslog`: view Syslog
-* `Sys.Audit`: view node status/config
+* `Sys.Audit`: view node status/config, Corosync cluster config and HA config
 * `Sys.Modify`: create/remove/modify node network parameters
 * `Group.Allocate`: create/remove/modify groups
 * `Pool.Allocate`: create/remove/modify a pool
