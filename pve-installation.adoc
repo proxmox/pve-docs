@@ -8,7 +8,7 @@ ifdef::wiki[]
 endif::wiki[]
 
 {pve} is based on Debian and comes with an installation CD-ROM 
-which includes a complete Debian ("jessie" for Proxmox VE 4.x) system as 
+which includes a complete Debian ("stretch" for Proxmox VE 5.x) system as 
 well as all necessary Proxmox VE packages. The
 installer just asks you a few questions, then partitions the local
 disk(s), installs all required packages, and configures the system
@@ -168,8 +168,8 @@ installation using the following command:
 
 ifdef::wiki[]
 
-link:/wiki/Install_Proxmox_VE_on_Debian_Jessie[Install Proxmox VE on Debian Jessie]
------------------------------------------------------------------------------------
+link:/wiki/Install_Proxmox_VE_on_Debian_Stretch[Install Proxmox VE on Debian Stretch]
+-------------------------------------------------------------------------------------
 
 link:/wiki/Install_from_USB_Stick[Install from USB Stick]
 ---------------------------------------------------------
@@ -200,7 +200,7 @@ In general, this is not trivial, especially when you use LVM or
 ZFS.
 
 You can find a detailed step by step howto on the
-{webwiki-url}Install_Proxmox_VE_on_Debian_Jessie[wiki].
+{webwiki-url}Install_Proxmox_VE_on_Debian_Stretch[wiki].
 
 include::pve-usbstick.adoc[]
 

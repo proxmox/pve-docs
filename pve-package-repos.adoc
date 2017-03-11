@@ -20,10 +20,10 @@ acquired by `apt-get update`.
 
 .File `/etc/apt/sources.list`
 ----
-deb http://ftp.debian.org/debian jessie main contrib
+deb http://ftp.debian.org/debian stretch main contrib
 
 # security updates
-deb http://security.debian.org jessie/updates main contrib
+deb http://security.debian.org stretch/updates main contrib
 ----
 
 In addition, {pve} provides three different package repositories.
@@ -38,7 +38,7 @@ enabled by default:
 
 .File `/etc/apt/sources.list.d/pve-enterprise.list`
 ----
-deb https://enterprise.proxmox.com/debian jessie pve-enterprise
+deb https://enterprise.proxmox.com/debian stretch pve-enterprise
 ----
 
 As soon as updates are available, the `root@pam` user is notified via
@@ -68,14 +68,14 @@ We recommend to configure this repository in `/etc/apt/sources.list`.
 
 .File `/etc/apt/sources.list`
 ----
-deb http://ftp.debian.org/debian jessie main contrib
+deb http://ftp.debian.org/debian stretch main contrib
 
 # PVE pve-no-subscription repository provided by proxmox.com,
 # NOT recommended for production use
-deb http://download.proxmox.com/debian jessie pve-no-subscription
+deb http://download.proxmox.com/debian stretch pve-no-subscription
 
 # security updates
-deb http://security.debian.org jessie/updates main contrib
+deb http://security.debian.org stretch/updates main contrib
 ----
 
 
@@ -89,7 +89,7 @@ features. As usual, you can configure this using
 
 .sources.list entry for `pvetest`
 ----
-deb http://download.proxmox.com/debian jessie pvetest
+deb http://download.proxmox.com/debian stretch pvetest
 ----
 
 WARNING: the `pvetest` repository should (as the name implies) only be used
@@ -148,7 +148,7 @@ deb http://download.proxmox.com/debian wheezy pvetest
 |===========================================================
 
 NOTE: Apt `sources.list` configuration files are basically the same as
-in newer 4.x versions - just replace `jessie` with `wheezy`.
+in newer 5.x versions - just replace `wheezy` with `stretch`.
 
 Outdated: `stable` Repository `pve`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
