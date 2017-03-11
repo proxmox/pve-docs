@@ -6,7 +6,7 @@ DOC_PACKAGE=pve-docs
 MEDIAWIKI_PACKAGE=pve-docs-mediawiki
 
 # also update debian/changelog
-PKGREL=4
+PKGREL=1
 
 GITVERSION:=$(shell cat .git/refs/heads/master)
 
@@ -216,7 +216,7 @@ $(MEDIAWIKI_DEB): pve-docs-mediawiki-import
 
 .PHONY: upload
 upload: ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}
-	tar cf - ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB} | ssh repoman@repo.proxmox.com -- upload --product pve --dist jessie
+	tar cf - ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB} | ssh -X repoman@repo.proxmox.com -- upload --product pve --dist stretch
 
 .PHONY: update
 update: clean

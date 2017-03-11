@@ -1,3 +1,9 @@
+pve-docs (5.0-1) unstable; urgency=medium
+
+  * version bump for Debian stretch (set RELEASE=5.0)
+
+ -- Proxmox Support Team <support@proxmox.com>  Sat, 11 Mar 2017 08:04:15 +0100
+
 pve-docs (4.4-4) unstable; urgency=medium
 
   * Document that Sys.Audit allows also to read cluster paramaters
