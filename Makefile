@@ -216,7 +216,7 @@ $(MEDIAWIKI_DEB): pve-docs-mediawiki-import
 
 .PHONY: upload
 upload: ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}
-	tar cf - ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB} | ssh repoman@repo.proxmox.com upload
+	tar cf - ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB} | ssh repoman@repo.proxmox.com -- upload --product pve --dist jessie
 
 .PHONY: update
 update: clean
