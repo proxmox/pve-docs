@@ -1,3 +1,17 @@
+pve-docs (4.4-4) unstable; urgency=medium
+
+  * Document that Sys.Audit allows also to read cluster paramaters
+
+  * qm: note that HA VMs get ignored by auto. start/shutdown
+
+  * the test uncovers problems not covers them up
+
+  * asciidoc-pve: include the PID in the temp file prefix
+
+  * set the PVE_GENERATING_DOCS env var in perl calls
+
+ -- Proxmox Support Team <support@proxmox.com>  Sat, 11 Mar 2017 07:50:23 +0100
+
 pve-docs (4.4-3) unstable; urgency=medium
 
   * add status.cfg to the list of files in /etc/pve
