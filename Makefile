@@ -15,7 +15,7 @@ ARCH:=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
 GEN_DEB=${GEN_PACKAGE}_${DOCRELEASE}-${PKGREL}_${ARCH}.deb
 DOC_DEB=${DOC_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
 MEDIAWIKI_DEB=${MEDIAWIKI_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
-DOC_BUILDDEPS := pve-doc-generator, dblatex, source-highlight, inkscape, imagemagick
+DOC_BUILDDEPS := asciidoc-dblatex, source-highlight, inkscape, imagemagick
 
 
 all: index.html
