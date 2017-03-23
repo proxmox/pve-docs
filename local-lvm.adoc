@@ -104,7 +104,7 @@ A real world example:
 
 Now a filesystem must be created on the LV.
 
- # mkfs.ext4 /dev/data/vz
+ # mkfs.ext4 /dev/pve/vz
 
 At last this has to be mounted.
 
