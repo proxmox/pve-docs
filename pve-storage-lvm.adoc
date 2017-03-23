@@ -7,7 +7,7 @@ endif::wiki[]
 
 Storage pool type: `lvm`
 
-LVM is a thin software layer on top of hard disks and partitions. It
+LVM is a light software layer on top of hard disks and partitions. It
 can be used to split available disk space into smaller logical
 volumes. LVM is widely used on Linux and makes managing hard drives
 easier.
