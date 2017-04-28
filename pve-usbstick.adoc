@@ -107,12 +107,9 @@ sudo dd if=proxmox-ve_*.dmg of=/dev/rdiskN bs=1m
 Instructions for Windows
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-In order to copy the ISO, rename it first. Just rename the downloaded
-file from proxmox-ve_*.iso to proxmox-ve_*.raw.
+Download Etcher from https://etcher.io , select the ISO and your USB Drive.
 
-Download the SUSE Studio ImageWriter from https://en.opensuse.org/SDB:Live_USB_stick
-
-If this doesn't work, alternative use the OSForsenics USB
+If this doesn't work, alternatively use the OSForsenics USB
 installer from http://www.osforensics.com/portability.html
 
 
