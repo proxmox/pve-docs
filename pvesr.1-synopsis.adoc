@@ -1,0 +1,31 @@
+*pvesr* `<COMMAND> [ARGS] [OPTIONS]`
+
+*pvesr help* `[<cmd>]` `[OPTIONS]`
+
+Get help about specified command.
+
+`<cmd>`: `<string>` ::
+
+Command name
+
+`-verbose` `<boolean>` ::
+
+Verbose output format.
+
+
+
+
+*pvesr jobs*
+
+List replication jobs.
+
+
+
+
+*pvesr run*
+
+This method will run by the systemd-timer and sync all jobs
+
+
+
+
