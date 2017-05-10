@@ -1,0 +1,30 @@
+ifdef::manvolnum[]
+pvesr(1)
+========
+:pve-toplevel:
+
+NAME
+----
+
+pvesr - Proxmox VE Storage Replication 
+
+SYNOPSIS
+--------
+
+include::pvesr.1-synopsis.adoc[]
+
+DESCRIPTION
+-----------
+endif::manvolnum[]
+
+ifndef::manvolnum[]
+Storage Replication
+===================
+:pve-toplevel:
+endif::manvolnum[]
+
+The {PVE} storage replication tool (`pvesr`) ...
+
+ifdef::manvolnum[]
+include::pve-copyright.adoc[]
+endif::manvolnum[]
