@@ -487,6 +487,13 @@ in three different flavors:
 - Directories: passing `size=0` triggers a special case where instead of a raw
   image a directory is created.
 
+NOTE: The special option syntax `STORAGE_ID:SIZE_IN_GB` for storage backed
+mount point volumes will automatically allocate a volume of the specified size
+on the specified storage. E.g., calling
+`pct set 100 -mp0 thin1:10,mp=/path/in/container` will allocate a 10GB volume
+on the storage `thin1` and replace the volume ID place holder `10` with the
+allocated volume ID.
+
 
 Bind Mount Points
 ^^^^^^^^^^^^^^^^^
