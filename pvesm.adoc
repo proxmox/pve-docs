@@ -69,10 +69,10 @@ snapshots and clones.
 |===========================================================
 |Description    |PVE type    |Level |Shared|Snapshots|Stable
 |ZFS (local)    |zfspool     |file  |no    |yes      |yes
-|Directory      |dir         |file  |no    |no       |yes
-|NFS            |nfs         |file  |yes   |no       |yes
-|GlusterFS      |glusterfs   |file  |yes   |no       |yes
-|LVM            |lvm         |block |no    |no       |yes
+|Directory      |dir         |file  |no    |no^1^    |yes
+|NFS            |nfs         |file  |yes   |no^1^    |yes
+|GlusterFS      |glusterfs   |file  |yes   |no^1^    |yes
+|LVM            |lvm         |block |no^2^ |no       |yes
 |LVM-thin       |lvmthin     |block |no    |yes      |yes
 |iSCSI/kernel   |iscsi       |block |yes   |no       |yes
 |iSCSI/libiscsi |iscsidirect |block |yes   |no       |yes
@@ -81,7 +81,9 @@ snapshots and clones.
 |ZFS over iSCSI |zfs         |block |yes   |yes      |yes
 |=========================================================
 
-TIP: It is possible to use LVM on top of an iSCSI storage. That way
+^1^: On file based storages, snapshots are possible with the 'qcow2' format.
+
+^2^: It is possible to use LVM on top of an iSCSI storage. That way
 you get a `shared` LVM storage.
 
 
