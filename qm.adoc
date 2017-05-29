@@ -395,6 +395,7 @@ process a great number of incoming connections, such as when the VM is running
 as a router, reverse proxy or a busy HTTP server doing long polling.
 
 
+[[qm_usb_passthrough]]
 USB Passthrough
 ~~~~~~~~~~~~~~~
 
