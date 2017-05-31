@@ -1,3 +1,21 @@
+pve-docs (5.0-2) unstable; urgency=medium
+
+  * fix grammar error
+
+  * clarify snapshots on file base storages
+
+  * add section id to usb passhtrough chapter
+
+  * add year 2017 to copyright
+
+  * pvesr.adoc: add dummy man page for storage replication tool
+
+  * update windows guide for usb stick
+
+  * Fix path to block device when creating a file system on a thin volume
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 31 May 2017 09:02:56 +0200
+
 pve-docs (5.0-1) unstable; urgency=medium
 
   * version bump for Debian stretch (set RELEASE=5.0)
