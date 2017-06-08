@@ -645,6 +645,74 @@ NOTE: It is not possible to start templates, because this would modify
 the disk images. If you want to change the template, create a linked
 clone and modify that.
 
+Importing Virtual Machines from foreign hypervisors
+---------------------------------------------------
+
+A VM export from a foreign hypervisor takes usually the form of one or more disk
+ images, with a configuration file describing the settings of the VM (RAM, 
+ number of cores). +
+The disk images can be in the vmdk format, if the disks come from
+VMware or VirtualBox, or qcow2 if the disks come from a KVM hypervisor. 
+The most popular configuration format for VM exports is the OVF standard, but in 
+practice interoperation is limited because many settings are not implemented in 
+the standard itself, and hypervisors export the supplementary information 
+in non-standard extensions.
+
+Besides the problem of format, importing disk images from other hypervisors
+may fail if the emulated hardware changes too much from one hypervisor to
+another. Windows VMs are particularly concerned by this, as the OS is very
+picky about any changes of hardware. This problem may be solved by
+installing the MergeIDE.zip utility available from the Internet before exporting
+and choosing a hard disk type of *IDE* before booting the imported Windows VM.
+
+Finally there is the question of paravirtualized drivers, which improve the 
+speed of the emulated system and are specific to the hypervisor.
+GNU/Linux and other free Unix OSes have all the necessary drivers installed by
+default and you can switch to the paravirtualized drivers right after importing
+the VM. For Windows VMs, you need to install the Windows paravirtualized 
+drivers by yourself.
+
+GNU/Linux and other free Unix can usually be imported without hassle. Note
+that we cannot guarantee a successful import/export of Windows WM in all
+cases due to the problems above.
+
+Step-by-step example of a Windows disk image import
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Microsoft provides 
+https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/[Virtual Machines exports]
+ in different formats for browser testing. We are going to use one of these to
+ demonstrate a VMDK import.
+
+Download the export zip
+^^^^^^^^^^^^^^^^^^^^^^^
+
+After getting informed about the user agreement, choose the _Microsoft Edge on
+Windows 10 Virtual Machine_ for the VMware platform, and download the zip.
+
+Extract the disk image from the zip
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Using the unzip utility or any archiver of your choice, unpack the zip,
+and copy via ssh/scp the vmdk file to your {pve} host.
+
+Create a new virtual machine and import the disk
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Create a virtual machine with 2 cores, 2GB RAM, and one NIC on the default
++vmbr0+ bridge:
+
+ qm create 999 -net0 e1000,bridge=vmbr0 -name Win10 -memory 2048 -bootdisk sata0
+
+Import the disk image to the +local-lvm+ storage:
+
+ qm importdisk 999 MSEdge "MSEdge - Win10_preview.vmdk" local-lvm
+
+The disk will be marked as *Unused* in the VM 999 configuration.
+After that you can go in the GUI, in the VM *Hardware*, *Edit* the unused disk
+and set the *Bus/Device* to *SATA/0*.
+The VM is ready to be started.
+
 
 Managing Virtual Machines with `qm`
 ------------------------------------
