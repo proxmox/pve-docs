@@ -194,11 +194,11 @@ emulated SCSI controller will relay this information to the storage, which will
 then shrink the disk image accordingly.
 
 .IO Thread
-The option *IO Thread* can only be used when using a disk with the 
+The option *IO Thread* can only be used when using a disk with the
 *VirtIO* controller, or with the *SCSI* controller, when the emulated controller
  type is  *VirtIO SCSI single*.
 With this enabled, Qemu creates one I/O thread per storage controller,
-instead of a single thread for all I/O, so it increases performance when 
+instead of a single thread for all I/O, so it increases performance when
 multiple disks are used and each disk has its own storage controller.
 Note that backups do not currently work with *IO Thread* enabled.
 
@@ -273,7 +273,7 @@ Memory
 
 For each VM you have the option to set a fixed size memory or asking
 {pve} to dynamically allocate memory based on the current RAM usage of the
-host. 
+host.
 
 .Fixed Memory Allocation
 [thumbnail="gui-create-vm-memory-fixed.png"]
@@ -323,7 +323,7 @@ get 1/5 GB.
 All Linux distributions released after 2010 have the balloon kernel driver
 included. For Windows OSes, the balloon driver needs to be added manually and can
 incur a slowdown of the guest, so we don't recommend using it on critical
-systems. 
+systems.
 // see https://forum.proxmox.com/threads/solved-hyper-threading-vs-no-hyper-threading-fixed-vs-variable-memory.20265/
 
 When allocating RAMs to your VMs, a good rule of thumb is always to leave 1GB
@@ -344,7 +344,7 @@ types:
 performance. Like all VirtIO devices, the guest OS should have the proper driver
 installed.
  * the *Realtek 8139* emulates an older 100 MB/s network card, and should
-only be used when emulating older operating systems ( released before 2002 ) 
+only be used when emulating older operating systems ( released before 2002 )
  * the *vmxnet3* is another paravirtualized device, which should only be used
 when importing a VM from another hypervisor.
 
@@ -382,7 +382,7 @@ network queues to the host kernel for each NIC.
 When using Multiqueue, it is recommended to set it to a value equal
 to the number of Total Cores of your guest. You also need to set in
 the VM the number of multi-purpose channels on each VirtIO NIC with the ethtool
-command: 
+command:
 
 `ethtool -L eth0 combined X`
 
@@ -649,13 +649,13 @@ Importing Virtual Machines from foreign hypervisors
 ---------------------------------------------------
 
 A VM export from a foreign hypervisor takes usually the form of one or more disk
- images, with a configuration file describing the settings of the VM (RAM, 
+ images, with a configuration file describing the settings of the VM (RAM,
  number of cores). +
 The disk images can be in the vmdk format, if the disks come from
-VMware or VirtualBox, or qcow2 if the disks come from a KVM hypervisor. 
-The most popular configuration format for VM exports is the OVF standard, but in 
-practice interoperation is limited because many settings are not implemented in 
-the standard itself, and hypervisors export the supplementary information 
+VMware or VirtualBox, or qcow2 if the disks come from a KVM hypervisor.
+The most popular configuration format for VM exports is the OVF standard, but in
+practice interoperation is limited because many settings are not implemented in
+the standard itself, and hypervisors export the supplementary information
 in non-standard extensions.
 
 Besides the problem of format, importing disk images from other hypervisors
@@ -665,11 +665,11 @@ picky about any changes of hardware. This problem may be solved by
 installing the MergeIDE.zip utility available from the Internet before exporting
 and choosing a hard disk type of *IDE* before booting the imported Windows VM.
 
-Finally there is the question of paravirtualized drivers, which improve the 
+Finally there is the question of paravirtualized drivers, which improve the
 speed of the emulated system and are specific to the hypervisor.
 GNU/Linux and other free Unix OSes have all the necessary drivers installed by
 default and you can switch to the paravirtualized drivers right after importing
-the VM. For Windows VMs, you need to install the Windows paravirtualized 
+the VM. For Windows VMs, you need to install the Windows paravirtualized
 drivers by yourself.
 
 GNU/Linux and other free Unix can usually be imported without hassle. Note
@@ -679,7 +679,7 @@ cases due to the problems above.
 Step-by-step example of a Windows disk image import
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Microsoft provides 
+Microsoft provides
 https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/[Virtual Machines exports]
  in different formats for browser testing. We are going to use one of these to
  demonstrate a VMDK import.
