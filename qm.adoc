@@ -726,9 +726,10 @@ create and delete virtual disks.
 CLI Usage Examples
 ~~~~~~~~~~~~~~~~~~
 
-Create a new VM with 4 GB IDE disk.
+Using an iso file uploaded on the 'local' storage, create a VM
+with a 4 GB IDE disk on the 'local-lvm' storage
 
- qm create 300 -ide0 4 -net0 e1000 -cdrom proxmox-mailgateway_2.1.iso
+ qm create 300 -ide0 local-lvm:4 -net0 e1000 -cdrom local:iso/proxmox-mailgateway_2.1.iso
 
 Start the new VM
 
