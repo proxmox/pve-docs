@@ -1,6 +1,9 @@
 [[chapter_hyper_converged_infrastructure]]
 Hyper-converged Infrastructure
 ==============================
+ifndef::manvolnum[]
+:pve-toplevel:
+endif::manvolnum[]
 
 Proxmox VE has all the https://en.wikipedia.org/wiki/Hyper-converged_infrastructure[Hyper-converged Infrastructure] capabilities needed to deploy and manage a complete open source hyper-converged 
 infrastructure. 
