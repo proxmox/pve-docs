@@ -44,7 +44,7 @@ After installation of packages, you need to create an initial Ceph configuration
 pveceph init --network 10.10.10.0/24
 ----
 
-This creates an initial config at /etc/pve/ceph.conf. That file is automatically distributed to all Proxmox VE nodes by using xref:proxmox_cluster_file_system[pmxcfs]. The command also creates a symbolic link from /etc/ceph/ceph.conf pointing to that file. So you can simply run Ceph commands without the need to specify a configuration file. 
+This creates an initial config at /etc/pve/ceph.conf. That file is automatically distributed to all Proxmox VE nodes by using xref:chapter_pmxcfs[pmxcfs]. The command also creates a symbolic link from /etc/ceph/ceph.conf pointing to that file. So you can simply run Ceph commands without the need to specify a configuration file. 
 
 
 Creating Ceph Monitors
