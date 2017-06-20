@@ -18,6 +18,7 @@ DESCRIPTION
 endif::manvolnum[]
 
 ifndef::manvolnum[]
+[[proxmox_cluster_file_system]]
 Proxmox Cluster File System (pmxcfs)
 ====================================
 :pve-toplevel:

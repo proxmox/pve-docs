@@ -1,3 +1,4 @@
+[[ceph_rados_block_devices]]
 Ceph RADOS Block Devices (RBD)
 ------------------------------
 ifdef::wiki[]
