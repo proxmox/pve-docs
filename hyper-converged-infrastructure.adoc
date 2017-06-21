@@ -1,15 +1,27 @@
 [[chapter_hyper_converged_infrastructure]]
 Hyper-converged Infrastructure
 ==============================
-ifndef::manvolnum[]
+ifdef::wiki[]
 :pve-toplevel:
-endif::manvolnum[]
+endif::wiki[]
 
-Proxmox VE has all the https://en.wikipedia.org/wiki/Hyper-converged_infrastructure[Hyper-converged Infrastructure] capabilities needed to deploy and manage a complete open source hyper-converged 
-infrastructure. 
-It integrates tightly compute, networking, and storage resources into a single deployment unit and you can manage everything with the centralized web management interface. 
-Proxmox VE unifies your compute and storage systems, i.e. you can use the same physical nodes within a cluster for both computing (processing VMs and Containers) as well as for replicated storage.
+{pve} has all the
+https://en.wikipedia.org/wiki/Hyper-converged_infrastructure[Hyper-converged Infrastructure]
+capabilities needed to deploy and manage a complete open source hyper-converged
+infrastructure.
 
+It integrates tightly compute, networking, and storage resources into
+a single deployment unit and you can manage everything with the
+centralized web management interface. {pve} unifies your compute
+and storage systems, i.e. you can use the same physical nodes within a
+cluster for both computing (processing VMs and Containers) as well as
+for replicated storage.
 
-include::ceph-server.adoc[]
+ifdef::wiki[]
 
+See Also
+--------
+
+* xref:chapter_pveceph[pveceph - Manage Ceph Services on Proxmox VE Nodes]
+
+endif::wiki[]

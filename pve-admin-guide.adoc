@@ -27,6 +27,10 @@ include::sysadmin.adoc[]
 
 include::hyper-converged-infrastructure.adoc[]
 
+:leveloffset: 2
+include::pveceph.adoc[]
+:leveloffset: 1
+
 include::pve-gui.adoc[]
 
 include::pvecm.adoc[]
@@ -69,7 +73,6 @@ Useful Command Line Tools
 -------------------------
 
 :leveloffset: 2
-include::pveceph.adoc[]
 
 include::pvesubscription.adoc[]
 
