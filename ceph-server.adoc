@@ -1,9 +1,11 @@
-Ceph Server in Proxmox VE Cluster
+Ceph Server on Proxmox VE Cluster
 ---------------------------------
 
-
-It is possible to install at Proxmox VE cluster nodes a Ceph Server for RADOS Block Devices (RBD), see 
-xref:ceph_rados_block_devices[chapter Ceph RADOS Block Devices (RBD)] 
+It is possible to install the Ceph storage server directly on the
+Proxmox VE cluster nodes. The VMs and Containers can access that
+storage using the
+xref:ceph_rados_block_devices[Ceph RADOS Block Devices (RBD)] storage
+driver.
 
 
 Precondition
