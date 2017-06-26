@@ -6,7 +6,7 @@ pvesr(1)
 NAME
 ----
 
-pvesr - Proxmox VE Storage Replication 
+pvesr - Proxmox VE Storage Replication
 
 SYNOPSIS
 --------
@@ -23,7 +23,163 @@ Storage Replication
 :pve-toplevel:
 endif::manvolnum[]
 
-The {PVE} storage replication tool (`pvesr`) ...
+The {PVE} storage replication tool (`pvesr`) manage the Proxmox VE Storage Based Replication.
+Storage Replication bring guest redundancy for local storage's,
+reduce the migration time and will only replicate new data.
+
+It will replicate the vdisk of guest to an other node this make that data available
+without using shared/distributed storage. So in case of a node failure your guest data still available
+on the replicated node.
+
+The minimal replication interval are 1 minute and the maximal interval is once a week.
+Interval schedule format is a subset of `systemd` calendar events.
+Every interval time your guest vdisk data will be synchronized,
+but only the new data will replicated. This reduce the amount of data to a minimum.
+New data are data what are written to the vdisk after the last replication.
+
+Every guest can replicate to many target nodes, but only one replication job per target node is allowed.
+
+The migration of guests, where storage replication is activated, is currently only offline possible.
+When the guest will migrate to the target of the replication, only the delta of the data must migrated and
+the replication direction will switched automatically in the opposite direction.
+If you migrate to a node where you do not replicate, it will send the whole vdisk data to the new node and after the migration it continuous the replication job as usually.
+
+WARNING: High-Availability is possible with Storage Replication but this can lead to lose data. So be aware of this problem before you use this combination.
+
+Supported Storage Types
+-----------------------
+
+.Storage Types
+[width="100%",options="header"]
+|============================================
+|Description    |PVE type    |Snapshots|Stable
+|ZFS (local)    |zfspool     |yes      |yes
+|============================================
+
+Schedule
+--------
+
+Proxmox VE has a very flexible replication scheduler with will explained in detail here.
+
+A schedule string has following format.
+
+[day of the week] <time>
+
+Day of the week are taken of sun, mon, tue, wed, thu, fri and sat.
+It is allowed to make a list of this token.
+Or alternative you can use a span.
+
+The second part are the time, here the string contains two sub-string separate by `:`.
+First comes the hours, than the minutes.
+0..23 are the allowed values for hours and 0..59 for minutes.  
+If hours is missing it will substitute with `*`, this also counts for the day of the week.
+The `*` will be interpreted as wildcard. In case of the "all day of the week" it would be sun..sat, for the hours 0..23 or for the minutes 0..59.
+
+Examples:
+~~~~~~~~~
+
+.Schedule Examples
+[width="100%",options="header"]
+|============================================
+|String					|Meaning
+|"mon,tue,wed,thu,fri" => "mon..fir"	|All working days at 0:00.
+|"sat,sun" =>  "sat..sun" 		|Only on weekend at 0:00.
+|"mon,wed,fri" 				|Only on Monday, Wednesday and Friday at 0:00.
+|"12:05" => "sun..sat 12:05"		|All weekdays at 12:05 PM.
+|"*/5"	   	     			|All five minutes on all weekdays.
+|"mon..wed 30/10"			|Monday, Tuesday, Wednesday at all hours and 30, 40, 50 minutes.
+|"fri 12..13:5/20"			|Friday at 12:05, 12:25, 12:45, 13:05, 13:25 and 13:45.
+|"12/2:05" 				|All weekdays every 2 hours start at 12:05 until 22:05
+|============================================
+The simplest case is the `*` which means every min what is the minimum interval.
+
+
+Error State
+-----------
+
+It can happen that a job will have a error.
+Common issues for example:
+
+Network is not working.
+
+No space on the disk.
+...
+
+In this case storage replication will retry every 30 miuntes.
+
+
+Migrating a guest in case of Error  
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Assumed that you have two guests (KVM 100| LXC 200) running on node A (pve1) and replicate to node B (pve2).
+Node A is fails and can not get back online. Now you have to migrate the guest to Node B manually.
+
+Connect to node B with ssh. 
+
+- check if that the cluster has quorum.
+
+ pvecm status
+
+Is quorum is ok continuing with the skip[ the next step.
+
+- If you have no quorum, it is important to make your pmxcfs writable.
+
+WARNING: If expected is set, please avoid large changes on the nodes before the cluster is quorate online because there is a little change to a split brain. 
+
+ pvecm expected 1
+
+- move the guest config form the origin node A to node B.
+ cd /etc/pve/node && mv pve1/qemu-server/100.conf pve2/qemu-server/100.conf
+ cd /etc/pve/node && mv pve1/lxc/200.conf pve2/lxc/100.conf
+
+- Now you can start the guests.
+
+ qm start 100
+ pct start 100
+
+
+Create Replication
+------------------
+
+[thumbnail="gui-create-replica-on-node.png"]
+
+You can easy create a replication job on the GUI or as well on the command line.
+There are only a few setting to configure.
+
+The only required parameter on the GUI is the target node.
+If you create a job on the command line also a unique id is needed.
+This id will automatically generated in case of GUI created jobs.
+The id contains the VMID and a consecutive number separated by a minus.
+All other parameters are optional.
+
+Update Replication Job
+----------------------
+
+For now is possible to update rate limit and the scheduler.
+It can be done on the GUI or on the cli.
+
+
+Using the Command Line Interface
+--------------------------------
+
+Examples
+~~~~~~~~
+
+Create a replication job for VM 100 first job, which will run all 5 min with max bandwidth of 10MByte/s.
+
+ pvesr create-local-job 100-0 pve1 --schedule */5 --rate 10
+
+Disable a running job for ID 100-0 
+
+ pvesr disable 100-0
+
+Enable a running job for ID 100-0
+
+ pvesr disable 100-0
+
+Change the schedule interval to once a hour
+
+ pvesr update 100-0 --schedule '*/00'
 
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
