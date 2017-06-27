@@ -15,7 +15,7 @@ ARCH:=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
 GEN_DEB=${GEN_PACKAGE}_${DOCRELEASE}-${PKGREL}_${ARCH}.deb
 DOC_DEB=${DOC_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
 MEDIAWIKI_DEB=${MEDIAWIKI_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
-DOC_BUILDDEPS := asciidoc-dblatex, source-highlight, inkscape, imagemagick
+DOC_BUILDDEPS := asciidoc-dblatex, source-highlight, librsvg2-bin
 
 
 all: index.html
@@ -123,15 +123,16 @@ pve-admin-guide.chunked: ${PVE_ADMIN_GUIDE_ADOCDEPENDS}
 	a2x -a docinfo -a docinfo1 -a icons -f chunked pve-admin-guide.adoc
 
 PVE_DOCBOOK_CONF=-b $(shell pwd)/asciidoc/pve-docbook -f asciidoc/asciidoc-pve.conf
+PVE_DBLATEX_OPTS='-p ./asciidoc/pve-dblatex.xsl -s asciidoc/dblatex-custom.sty -c asciidoc/dblatex-export.conf'
 
 pve-admin-guide-docinfo.xml: pve-admin-guide-docinfo.xml.in
 	sed -e 's/@RELEASE@/${DOCRELEASE}/' <$< >$@
 
 pve-admin-guide.pdf: ${PVE_ADMIN_GUIDE_ADOCDEPENDS} docinfo.xml pve-admin-guide-docinfo.xml
-	inkscape -z -D --export-pdf=proxmox-logo.pdf images/proxmox-logo.svg
-	inkscape -z -D --export-pdf=proxmox-ci-header.pdf images/proxmox-ci-header.svg
+	rsvg-convert -f pdf -o proxmox-logo.pdf images/proxmox-logo.svg
+	rsvg-convert -f pdf -o proxmox-ci-header.pdf images/proxmox-ci-header.svg
 	grep ">Release ${DOCRELEASE}<" pve-admin-guide-docinfo.xml || (echo "wrong release in  pve-admin-guide-docinfo.xml" && false);
-	a2x -a docinfo -a docinfo1 -f pdf -L --asciidoc-opts="${PVE_DOCBOOK_CONF}" --dblatex-opts "-p ./asciidoc/pve-dblatex.xsl -s asciidoc/dblatex-custom.sty" pve-admin-guide.adoc
+	a2x -a docinfo -a docinfo1 -f pdf -L --asciidoc-opts="${PVE_DOCBOOK_CONF}" --dblatex-opts ${PVE_DBLATEX_OPTS} pve-admin-guide.adoc
 	rm proxmox-logo.pdf proxmox-ci-header.pdf
 
 pve-admin-guide.epub: ${PVE_ADMIN_GUIDE_ADOCDEPENDS}
