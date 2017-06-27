@@ -186,6 +186,12 @@ This provides a good balance between safety and speed.
 If you want the {pve} backup manager to skip a disk when doing a backup of a VM,
 you can set the *No backup* option on that disk.
 
+If you want the {pve} storage replication mechanism to skip a disk when starting
+ a replication job, you can set the *Skip replication* option on that disk.
+As of {pve} 5.0, replication require the disk images to be on a storage of type
+`zfspool`, so adding a disk image to other storages when the VM has replication
+configured require to skip replication for this disk image.
+
 If your storage supports _thin provisioning_ (see the storage chapter in the
 {pve} guide), and your VM has a *SCSI* controller you can activate the *Discard*
 option on the hard disks connected to that controller. With *Discard* enabled,
