@@ -23,13 +23,15 @@ Storage Replication
 :pve-toplevel:
 endif::manvolnum[]
 
-The {PVE} storage replication tool (`pvesr`) manage the Proxmox VE Storage Based Replication.
-Storage Replication bring guest redundancy for local storage's,
-reduce the migration time and will only replicate new data.
+The `pvesr` command line tool manages the {PVE} storage replication
+framework. Storage replication brings redundancy for guests using
+local storage's and reduces migration time when you migrate a guest.
 
-It will replicate the vdisk of guest to an other node this make that data available
-without using shared/distributed storage. So in case of a node failure your guest data still available
-on the replicated node.
+It replicates virtual disks to another node so that all data is
+available without using shared storage. Replication uses storage
+snapshots to minimize traffic sent over the network. New data is sent
+incrementally after the initial sync. In the case of a node failure,
+your guest data is still available on the replicated node.
 
 The minimal replication interval are 1 minute and the maximal interval is once a week.
 Interval schedule format is a subset of `systemd` calendar events.
