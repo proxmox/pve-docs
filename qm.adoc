@@ -40,7 +40,7 @@ devices, and runs as it were running on real hardware. For instance you can pass
 an iso image as a parameter to Qemu, and the OS running in the emulated computer
 will see a real CDROM inserted in a CD drive.
 
-Qemu can emulates a great variety of hardware from ARM to Sparc, but {pve} is
+Qemu can emulate a great variety of hardware from ARM to Sparc, but {pve} is
 only concerned with 32 and 64 bits PC clone emulation, since it represents the
 overwhelming majority of server hardware. The emulation of PC clones is also one
 of the fastest due to the availability of processor extensions which greatly
@@ -50,7 +50,7 @@ architecture.
 NOTE: You may sometimes encounter the term _KVM_ (Kernel-based Virtual Machine).
 It means that Qemu is running with the support of the virtualization processor
 extensions, via the Linux kvm module. In the context of {pve} _Qemu_ and
-_KVM_ can be use interchangeably as Qemu in {pve} will always try to load the kvm
+_KVM_ can be used interchangeably as Qemu in {pve} will always try to load the kvm
 module.
 
 Qemu inside {pve} runs as a root process, since this is required to access block
@@ -131,7 +131,7 @@ Qemu can emulate a number of storage controllers:
 
 * the *IDE* controller, has a design which goes back to the 1984 PC/AT disk
 controller. Even if this controller has been superseded by more more designs,
-each and every OS you can think has support for it, making it a great choice
+each and every OS you can think of has support for it, making it a great choice
 if you want to run an OS released before 2003. You can connect up to 4 devices
 on this controller.
 
@@ -188,9 +188,9 @@ you can set the *No backup* option on that disk.
 
 If you want the {pve} storage replication mechanism to skip a disk when starting
  a replication job, you can set the *Skip replication* option on that disk.
-As of {pve} 5.0, replication require the disk images to be on a storage of type
+As of {pve} 5.0, replication requires the disk images to be on a storage of type
 `zfspool`, so adding a disk image to other storages when the VM has replication
-configured require to skip replication for this disk image.
+configured requires to skip replication for this disk image.
 
 If your storage supports _thin provisioning_ (see the storage chapter in the
 {pve} guide), and your VM has a *SCSI* controller you can activate the *Discard*
