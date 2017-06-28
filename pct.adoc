@@ -320,6 +320,26 @@ ACLs allow you to set more detailed file ownership than the traditional user/
 group/others model.
 
 
+Backup of Containers mount points
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By default additional mount points besides the RootDisk mount point are not
+included in backups. You can reverse this default behavior by setting the 
+* Backup* option on a mount point.
+// see PVE::VZDump::LXC::prepare()
+
+Replication of Containers mount points
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By default additional mount points are replicated when the RootDisk 
+is replicated. If you want the {pve} storage replication mechanism to skip a
+ mount point when starting  a replication job, you can set the 
+*Skip replication* option on that mount point. +
+As of {pve} 5.0, replication requires a storage of type `zfspool`, so adding a
+ mount point to a different type of storage when the container has replication
+ configured requires to *Skip replication* for that mount point.
+
+
 [[pct_settings]]
 Container Settings
 ------------------
