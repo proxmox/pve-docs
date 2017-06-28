@@ -1,3 +1,19 @@
+pve-docs (5.0-4) unstable; urgency=medium
+
+  * Document Backup and Skip replication options
+
+  * pveceph: do not refer to a specific releas
+
+  * pveceph: improve intro
+
+  * hyper-converged-infrastructure.adoc: improved text
+
+  * pvesr: add documentation for storage replication
+
+  * Fix qm create syntax example
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 28 Jun 2017 12:36:13 +0200
+
 pve-docs (5.0-3) unstable; urgency=medium
 
   * hyper-converged-infrastructure.adoc: new chapter
