@@ -22,10 +22,23 @@ pveceph - Manage Ceph Services on Proxmox VE Nodes
 ==================================================
 endif::manvolnum[]
 
-It is possible to install the {ceph} storage server directly on the
-Proxmox VE cluster nodes. The VMs and Containers can access that
-storage using the xref:ceph_rados_block_devices[Ceph RADOS Block Devices (RBD)]
-storage driver.
+{pve} unifies your compute and storage systems, i.e. you can use the
+same physical nodes within a cluster for both computing (processing
+VMs and containers) and replicated storage. The traditional silos of
+compute and storage resources can be wrapped up into a single
+hyper-converged appliance. Separate storage networks (SANs) and
+connections via network (NAS) disappear. With the integration of Ceph,
+an open source software-defined storage platform, {pve} has the
+ability to run and manage Ceph storage directly on the hypervisor
+nodes.
+
+Ceph is a distributed object store and file system designed to provide
+excellent performance, reliability and scalability. For smaller
+deployments, it is possible to install a Ceph server for RADOS Block
+Devices (RBD) directly on your {pve} cluster nodes, see
+xref:ceph_rados_block_devices[Ceph RADOS Block Devices (RBD)]. Recent
+hardware has plenty of CPU power and RAM, so running storage services
+and VMs on the same node is possible.
 
 To simplify management, we provide 'pveceph' - a tool to install and
 manage {ceph} services on {pve} nodes.
@@ -34,13 +47,12 @@ manage {ceph} services on {pve} nodes.
 Precondition
 ------------
 
-There should be at least three (preferably) identical servers for
-setup which build together a Proxmox Cluster.
+To build a Proxmox Ceph Cluster there should be at least three (preferably)
+identical servers for the setup.
 
-A 10Gb network is recommmended, exclusively used for Ceph. If there
-are no 10Gb switches available meshed network is also an option, see
-{webwiki-url}Full_Mesh_Network_for_Ceph_Server[wiki].
-
+A 10Gb network, exclusively used for Ceph, is recommmended. A meshed
+network setup is also an option if there are no 10Gb switches
+available, see {webwiki-url}Full_Mesh_Network_for_Ceph_Server[wiki] .
 
 Check also the recommendations from
 http://docs.ceph.com/docs/jewel/start/hardware-recommendations/[Ceph's website].
@@ -73,7 +85,7 @@ pveceph init --network 10.10.10.0/24
 ----
 
 This creates an initial config at `/etc/pve/ceph.conf`. That file is
-automatically distributed to all Proxmox VE nodes by using
+automatically distributed to all {pve} nodes by using
 xref:chapter_pmxcfs[pmxcfs]. The command also creates a symbolic link
 from `/etc/ceph/ceph.conf` pointing to that file. So you can simply run
 Ceph commands without the need to specify a configuration file.
