@@ -39,6 +39,8 @@ include::pmxcfs.adoc[]
 
 include::pvesm.adoc[]
 
+include::pvesr.adoc[]
+
 include::qm.adoc[]
 
 include::pct.adoc[]
