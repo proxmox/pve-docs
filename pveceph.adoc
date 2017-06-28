@@ -55,7 +55,7 @@ network setup is also an option if there are no 10Gb switches
 available, see {webwiki-url}Full_Mesh_Network_for_Ceph_Server[wiki] .
 
 Check also the recommendations from
-http://docs.ceph.com/docs/jewel/start/hardware-recommendations/[Ceph's website].
+http://docs.ceph.com/docs/master/start/hardware-recommendations/[Ceph's website].
 
 
 Installation of Ceph Packages
@@ -65,7 +65,7 @@ On each node run the installation script as follows:
 
 [source,bash]
 ----
-pveceph install -version jewel
+pveceph install
 ----
 
 This sets up an `apt` package repository in
