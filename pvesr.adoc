@@ -1,3 +1,4 @@
+[[chapter_pvesr]]
 ifdef::manvolnum[]
 pvesr(1)
 ========
