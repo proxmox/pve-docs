@@ -25,28 +25,52 @@ endif::manvolnum[]
 
 The `pvesr` command line tool manages the {PVE} storage replication
 framework. Storage replication brings redundancy for guests using
-local storage's and reduces migration time when you migrate a guest.
+local storage and reduces migration time.
 
-It replicates virtual disks to another node so that all data is
-available without using shared storage. Replication uses storage
-snapshots to minimize traffic sent over the network. New data is sent
-incrementally after the initial sync. In the case of a node failure,
-your guest data is still available on the replicated node.
+It replicates guest volumes to another node so that all data is available
+without using shared storage. Replication uses snapshots to minimize traffic
+sent over the network. Therefore, new data is sent only incrementally after
+an initial full sync. In the case of a node failure, your guest data is
+still available on the replicated node.
 
-The minimal replication interval are 1 minute and the maximal interval is once a week.
-Interval schedule format is a subset of `systemd` calendar events.
-Every interval time your guest vdisk data will be synchronized,
-but only the new data will replicated. This reduce the amount of data to a minimum.
-New data are data what are written to the vdisk after the last replication.
+The replication will be done automatically in configurable intervals.
+The minimum replication interval is one minute and the maximal interval is
+once a week. The format used to specify those intervals is a subset of
+`systemd` calendar events, see
+xref:pvesr_schedule_time_format[Schedule Format] section:
 
-Every guest can replicate to many target nodes, but only one replication job per target node is allowed.
+Every guest can be replicated to multiple target nodes, but a guest cannot
+get replicated twice to the same target node.
 
-The migration of guests, where storage replication is activated, is currently only offline possible.
-When the guest will migrate to the target of the replication, only the delta of the data must migrated and
-the replication direction will switched automatically in the opposite direction.
-If you migrate to a node where you do not replicate, it will send the whole vdisk data to the new node and after the migration it continuous the replication job as usually.
+Each replications bandwidth can be limited, to avoid overloading a storage
+or server.
 
-WARNING: High-Availability is possible with Storage Replication but this can lead to lose data. So be aware of this problem before you use this combination.
+Virtual guest with active replication cannot currently use online migration.
+Offline migration is supported in general. If you migrate to a node where
+the guests data is already replicated only the changes since the last
+synchronisation (so called `delta`) must be sent, this reduces the required
+time significantly. In this case the replication direction will also switch
+nodes automatically after the migration finished.
+
+For example: VM100 is currently on `nodeA` and gets replicated to `nodeB`.
+You migrate it to `nodeB`, so now it gets automatically replicated back from
+`nodeB` to `nodeA`.
+
+If you migrate to a node where the guest is not replicated, the whole disk
+data must send over. After the migration the replication job continues to
+replicate this guest to the configured nodes.
+
+[IMPORTANT]
+====
+High-Availability is allowed in combination with storage replication, but it
+has the following implications:
+
+* redistributing services after a more preferred node comes online will lead
+  to errors.
+
+* recovery works, but there may be some data loss between the last synced
+  time and the time a node failed.
+====
 
 Supported Storage Types
 -----------------------
@@ -58,130 +82,207 @@ Supported Storage Types
 |ZFS (local)    |zfspool     |yes      |yes
 |============================================
 
-Schedule
---------
+[[pvesr_schedule_time_format]]
+Schedule Format
+---------------
 
-Proxmox VE has a very flexible replication scheduler with will explained in detail here.
+{pve} has a very flexible replication scheduler. It is based on the systemd
+time calendar event format.footnote:[see `man 7 sytemd.time` for more information]
+Calendar events may be used to refer to one or more points in time in a
+single expression.
 
-A schedule string has following format.
+Such a calendar event uses the following format:
 
-[day of the week] <time>
+----
+[day(s)] [[start-time(s)][/repetition-time(s)]]
+----
 
-Day of the week are taken of sun, mon, tue, wed, thu, fri and sat.
-It is allowed to make a list of this token.
-Or alternative you can use a span.
+This allows you to configure a set of days on which the job should run.
+You can also set one or more start times, it tells the replication scheduler
+the moments in time when a job should start.
+With this information we could create a job which runs every workday at 10
+PM: `'mon,tue,wed,thu,fri 22'` which could be abbreviated to: `'mon..fri
+22'`, most reasonable schedules can be written quite intuitive this way.
 
-The second part are the time, here the string contains two sub-string separate by `:`.
-First comes the hours, than the minutes.
-0..23 are the allowed values for hours and 0..59 for minutes.  
-If hours is missing it will substitute with `*`, this also counts for the day of the week.
-The `*` will be interpreted as wildcard. In case of the "all day of the week" it would be sun..sat, for the hours 0..23 or for the minutes 0..59.
+NOTE: Hours are set in 24h format.
 
+To allow easier and shorter configuration one or more repetition times can
+be set. They indicate that on the start-time(s) itself and the start-time(s)
+plus all multiples of the repetition value replications will be done.  If
+you want to start replication at 8 AM and repeat it every 15 minutes you
+would use: `'8:00/15'`
+
+Here you see also that if no hour separation (`:`) is used the value gets
+interpreted as minute. If such a separation is used the value on the left
+denotes the hour(s) and the value on the right denotes the minute(s).
+Further, you can use `*` to match all possible values.
+
+To get additional ideas look at
+xref:pvesr_schedule_format_examples[more Examples below].
+
+Detailed Specification
+~~~~~~~~~~~~~~~~~~~~~~
+
+days:: Days are specified with an abbreviated English version: `sun, mon,
+tue, wed, thu, fri and sat`. You may use multiple days as a comma-separated
+list. A range of days can also be set by specifying the start and end day
+separated by ``..'', for example `mon..fri`. Those formats can be also
+mixed. If omitted `'*'` is assumed.
+
+time-format:: A time format consists of hours and minutes interval lists.
+Hours and minutes are separated by `':'`. Both, hour and minute, can be list
+and ranges of values, using the same format as days.
+First come hours then minutes, hours can be omitted if not needed, in this
+case `'*'` is assumed for the value of hours.
+The valid range for values is `0-23` for hours and `0-59` for minutes.
+
+[[pvesr_schedule_format_examples]]
 Examples:
 ~~~~~~~~~
 
 .Schedule Examples
 [width="100%",options="header"]
-|============================================
-|String					|Meaning
-|"mon,tue,wed,thu,fri" => "mon..fir"	|All working days at 0:00.
-|"sat,sun" =>  "sat..sun" 		|Only on weekend at 0:00.
-|"mon,wed,fri" 				|Only on Monday, Wednesday and Friday at 0:00.
-|"12:05" => "sun..sat 12:05"		|All weekdays at 12:05 PM.
-|"*/5"	   	     			|All five minutes on all weekdays.
-|"mon..wed 30/10"			|Monday, Tuesday, Wednesday at all hours and 30, 40, 50 minutes.
-|"fri 12..13:5/20"			|Friday at 12:05, 12:25, 12:45, 13:05, 13:25 and 13:45.
-|"12/2:05" 				|All weekdays every 2 hours start at 12:05 until 22:05
-|============================================
-The simplest case is the `*` which means every min what is the minimum interval.
+|==============================================================================
+|Schedule String	|Alternative		|Meaning
+|mon,tue,wed,thu,fri	|mon..fri		|All working days at 0:00
+|sat,sun		|sat..sun		|Only on weekend at 0:00
+|mon,wed,fri		|--			|Only on Monday, Wednesday and Friday at 0:00
+|12:05			|12:05			|All weekdays at 12:05 PM
+|*/5			|0/5			|Every day all five minutes
+|mon..wed 30/10		|mon,tue,wed 30/10	|Monday, Tuesday, Wednesday 30, 40 and 50 minutes after every full hour
+|mon..fri 8..17,22:0/15	|--			|All working days every 15 minutes between 8 AM and 5 PM plus at 10 PM
+|fri 12..13:5/20	|fri 12,13:5/20		|Friday at 12:05, 12:25, 12:45, 13:05, 13:25 and 13:45
+|12..22:5/2		|12:5/2			|Every day starting at 12:05 until 22:05 all 2 hours
+|*			|*/1			|Every minute (minimum interval)
+|==============================================================================
 
+Error Handling
+--------------
 
-Error State
------------
+If a replication job encounters problems it will be placed in error state.
+In this state the configured replication intervals get suspended
+temporarily. Then we retry the failed replication in a 30 minute interval,
+once this succeeds the original schedule gets activated again.
 
-It can happen that a job will have a error.
-Common issues for example:
+Possible issues
+~~~~~~~~~~~~~~~
 
-Network is not working.
+This represents only the most common issues possible, depending on your
+setup there may be also another cause.
 
-No space on the disk.
-...
+* Network is not working.
 
-In this case storage replication will retry every 30 miuntes.
+* No free space left on the replication target storage.
 
+* Storage with same storage ID available on target node
 
-Migrating a guest in case of Error  
+NOTE: You can always use the replication log to get hints about a problems
+cause.
+
+Migrating a guest in case of Error
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// FIXME: move this to better fitting chapter (sysadmin ?) and only link to
+// it here
 
-Assumed that you have two guests (KVM 100| LXC 200) running on node A (pve1) and replicate to node B (pve2).
-Node A is fails and can not get back online. Now you have to migrate the guest to Node B manually.
+In the case of a grave error a virtual guest may get stuck on a failed
+node. You then need to move it manually to a working node again.
 
-Connect to node B with ssh. 
+Example
+~~~~~~~
 
-- check if that the cluster has quorum.
+Lets assume that you have two guests (VM 100 and CT 200) running on node A
+and replicate to node B.
+Node A failed and can not get back online. Now you have to migrate the guest
+to Node B manually.
 
- pvecm status
+- connect to node B over ssh or open its shell via the WebUI
 
-Is quorum is ok continuing with the skip[ the next step.
+- check if that the cluster is quorate
++
+----
+# pvecm status
+----
 
-- If you have no quorum, it is important to make your pmxcfs writable.
+- If you have no quorum we strongly advise to fix this first and make the
+  node operable again. Only if this is not possible at the moment you may
+  use the following command to enforce quorum on the current node:
++
+----
+# pvecm expected 1
+----
 
-WARNING: If expected is set, please avoid large changes on the nodes before the cluster is quorate online because there is a little change to a split brain. 
+WARNING: If expected votes are set avoid changes which affect the cluster
+(for example adding/removing nodes, storages, virtual guests)  at all costs.
+Only use it to get vital guests up and running again or to resolve to quorum
+issue itself.
 
- pvecm expected 1
+- move both guest configuration files form the origin node A to node B:
++
+----
+# mv /etc/pve/node/A/qemu-server/100.conf /etc/pve/node/B/qemu-server/100.conf
+# mv /etc/pve/node/A/lxc/200.conf /etc/pve/node/B/lxc/200.conf
+----
 
-- move the guest config form the origin node A to node B.
- cd /etc/pve/node && mv pve1/qemu-server/100.conf pve2/qemu-server/100.conf
- cd /etc/pve/node && mv pve1/lxc/200.conf pve2/lxc/100.conf
+- Now you can start the guests again:
++
+----
+# qm start 100
+# pct start 200
+----
 
-- Now you can start the guests.
+Remember to replace the VMIDs and node names with your respective values.
 
- qm start 100
- pct start 100
+Managing Jobs
+-------------
+
+You can use the web GUI to create, modify and remove replication jobs
+easily. Additionally the command line interface (CLI) tool `pvesr` can be
+used to do this.
+
+You can find the replication panel on all levels (datacenter, node, virtual
+guest) in the web GUI. They differ in what jobs get shown: all, only node
+specific or only guest specific jobs.
+
+// TODO insert auto generated images of add web UI dialog
+
+Once adding a new job you need to specify the virtual guest (if not already
+selected) and the target node. The replication
+xref:pvesr_schedule_time_format[schedule] can be set if the default of `all
+15 minutes` is not desired. You may also impose rate limiting on a
+replication job, this can help to keep the storage load acceptable.
+
+A replication job is identified by an cluster-wide unique ID. This ID is
+composed of the VMID in addition to an job number.
+This ID must only be specified manually if the CLI tool is used.
 
 
-Create Replication
-------------------
+Command Line Interface Examples
+-------------------------------
 
-[thumbnail="gui-create-replica-on-node.png"]
+Create a replication job which will run all 5 min with limited bandwidth of
+10 mbps (megabytes per second) for the guest with guest ID 100.
 
-You can easy create a replication job on the GUI or as well on the command line.
-There are only a few setting to configure.
+----
+# pvesr create-local-job 100-0 pve1 --schedule "*/5" --rate 10
+----
 
-The only required parameter on the GUI is the target node.
-If you create a job on the command line also a unique id is needed.
-This id will automatically generated in case of GUI created jobs.
-The id contains the VMID and a consecutive number separated by a minus.
-All other parameters are optional.
+Disable an active job with ID `100-0`
 
-Update Replication Job
-----------------------
+----
+# pvesr disable 100-0
+----
 
-For now is possible to update rate limit and the scheduler.
-It can be done on the GUI or on the cli.
+Enable a deactivated job with ID `100-0`
 
+----
+# pvesr enable 100-0
+----
 
-Using the Command Line Interface
---------------------------------
+Change the schedule interval of the job with ID `100-0` to once a hour
 
-Examples
-~~~~~~~~
-
-Create a replication job for VM 100 first job, which will run all 5 min with max bandwidth of 10MByte/s.
-
- pvesr create-local-job 100-0 pve1 --schedule */5 --rate 10
-
-Disable a running job for ID 100-0 
-
- pvesr disable 100-0
-
-Enable a running job for ID 100-0
-
- pvesr disable 100-0
-
-Change the schedule interval to once a hour
-
- pvesr update 100-0 --schedule '*/00'
+----
+# pvesr update 100-0 --schedule '*/00'
+----
 
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
