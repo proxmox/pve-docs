@@ -188,6 +188,36 @@ NOTE: Requires option(s): `size`
 
 
 
+*pvesm export* `<volume> <format> <filename>` `[OPTIONS]`
+
+Export a volume.
+
+`<volume>`: `<string>` ::
+
+Volume identifier
+
+`<format>`: `<qcow2+size | raw+size | tar+size | vmdk+size | zfs>` ::
+
+Export stream format
+
+`<filename>`: `<string>` ::
+
+Destination file name
+
+`-base` `(?^:[a-z0-9_\-]{1,40})` ::
+
+Snapshot to start an incremental stream from
+
+`-snapshot` `(?^:[a-z0-9_\-]{1,40})` ::
+
+Snapshot to export
+
+`-with-snapshots` `<boolean>` ('default =' `0`)::
+
+Whether to include intermediate snapshots in the stream
+
+
+
 *pvesm extractconfig* `<volume>`
 
 Extract configuration from vzdump backup archive.
@@ -236,6 +266,37 @@ Command name
 `-verbose` `<boolean>` ::
 
 Verbose output format.
+
+
+
+
+*pvesm import* `<volume> <format> <filename>` `[OPTIONS]`
+
+Import a volume.
+
+`<volume>`: `<string>` ::
+
+Volume identifier
+
+`<format>`: `<qcow2+size | raw+size | tar+size | vmdk+size | zfs>` ::
+
+Import stream format
+
+`<filename>`: `<string>` ::
+
+Source file name
+
+`-base` `(?^:[a-z0-9_\-]{1,40})` ::
+
+Base snapshot of an incremental stream
+
+`-delete-snapshot` `(?^:[a-z0-9_\-]{1,80})` ::
+
+A snapshot to delete on success
+
+`-with-snapshots` `<boolean>` ('default =' `0`)::
+
+Whether the stream includes intermediate snapshots
 
 
 

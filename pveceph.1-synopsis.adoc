@@ -15,9 +15,13 @@ Create OSD
 
 Block device name.
 
+`-bluestore` `<boolean>` ('default =' `0`)::
+
+Use bluestore instead of filestore.
+
 `-fstype` `<btrfs | ext4 | xfs>` ('default =' `xfs`)::
 
-File system type.
+File system type (filestore only).
 
 `-journal_dev` `<string>` ::
 
@@ -38,7 +42,7 @@ The name of the pool. It must be unique.
 
 The ruleset to use for mapping object placement in the cluster.
 
-`-min_size` `<integer> (1 - 3)` ('default =' `1`)::
+`-min_size` `<integer> (1 - 7)` ('default =' `1`)::
 
 Minimum number of replicas per object
 
@@ -46,7 +50,7 @@ Minimum number of replicas per object
 
 Number of placement groups.
 
-`-size` `<integer> (1 - 3)` ('default =' `2`)::
+`-size` `<integer> (1 - 7)` ('default =' `2`)::
 
 Number of replicas per object
 
@@ -112,6 +116,16 @@ Verbose output format.
 
 Create initial ceph default configuration and setup symlinks.
 
+`-disable_cephx` `<boolean>` ('default =' `0`)::
+
+Disable cephx authentification.
++
+WARNING: cephx is a security feature protecting against man-in-the-middle attacks. Only consider disabling cephx if your network is private!
+
+`-min_size` `<integer> (1 - 7)` ('default =' `2`)::
+
+Minimum number of available replicas per object to allow I/O
+
 `-network` `<string>` ::
 
 Use specific network for all ceph related traffic
@@ -122,9 +136,9 @@ Placement group bits, used to specify the default number of placement groups.
 +
 NOTE: 'osd pool default pg num' does not work for default pools.
 
-`-size` `<integer> (1 - 3)` ('default =' `2`)::
+`-size` `<integer> (1 - 7)` ('default =' `3`)::
 
-Number of replicas per object
+Targeted number of replicas per object
 
 
 
@@ -133,7 +147,7 @@ Number of replicas per object
 
 Install ceph related packages.
 
-`-version` `<hammer | jewel>` ::
+`-version` `<luminous>` ::
 
 no description available
 

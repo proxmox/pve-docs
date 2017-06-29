@@ -42,7 +42,7 @@ Lock/unlock the VM.
 
 Amount of RAM for the VM in MB.
 
-`mp[n]`: `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
+`mp[n]`: `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
 Use volume as container mount point.
 
@@ -63,6 +63,10 @@ NOTE: Must not contain any symlinks for security reasons.
 `quota`=`<boolean>` ;;
 
 Enable user quotas inside the container (not supported with zfs subvolumes)
+
+`replicate`=`<boolean>` ('default =' `1`);;
+
+Will include this volume to a storage replica job.
 
 `ro`=`<boolean>` ;;
 
@@ -154,7 +158,7 @@ OS type. This is used to setup configuration inside the container, and correspon
 
 Sets the protection flag of the container. This will prevent the CT or CT's disk remove/update operation.
 
-`rootfs`: `[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
+`rootfs`: `[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
 Use volume as container root.
 
@@ -165,6 +169,10 @@ Explicitly enable or disable ACL support.
 `quota`=`<boolean>` ;;
 
 Enable user quotas inside the container (not supported with zfs subvolumes)
+
+`replicate`=`<boolean>` ('default =' `1`);;
+
+Will include this volume to a storage replica job.
 
 `ro`=`<boolean>` ;;
 

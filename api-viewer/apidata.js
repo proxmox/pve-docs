@@ -5,12 +5,293 @@ var pveapi = [
             "children" : [
                {
                   "info" : {
+                     "DELETE" : {
+                        "description" : "Mark replication job for removal.",
+                        "method" : "DELETE",
+                        "name" : "delete",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "force" : {
+                                 "default" : 0,
+                                 "description" : "Will remove the jobconfig entry, but will not cleanup.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "id" : {
+                                 "description" : "Replication Job ID. The ID is composed of a Guest ID and a job number, separated by a hyphen, i.e. '<GUEST>-<JOBNUM>'.",
+                                 "format" : "pve-replication-job-id",
+                                 "pattern" : "[1-9][0-9]{2,8}-\\d{1,9}",
+                                 "type" : "string"
+                              },
+                              "keep" : {
+                                 "default" : 0,
+                                 "description" : "Keep replicated data at target (do not remove).",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/storage",
+                              [
+                                 "Datastore.Allocate"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     },
+                     "GET" : {
+                        "description" : "Read replication job configuration.",
+                        "method" : "GET",
+                        "name" : "read",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "id" : {
+                                 "description" : "Replication Job ID. The ID is composed of a Guest ID and a job number, separated by a hyphen, i.e. '<GUEST>-<JOBNUM>'.",
+                                 "format" : "pve-replication-job-id",
+                                 "pattern" : "[1-9][0-9]{2,8}-\\d{1,9}",
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "description" : "Requires the VM.Audit permission on /vms/<vmid>.",
+                           "user" : "all"
+                        },
+                        "returns" : {
+                           "type" : "object"
+                        }
+                     },
+                     "PUT" : {
+                        "description" : "Update replication job configuration.",
+                        "method" : "PUT",
+                        "name" : "update",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "comment" : {
+                                 "description" : "Description.",
+                                 "maxLength" : 4096,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "delete" : {
+                                 "description" : "A list of settings you want to delete.",
+                                 "format" : "pve-configid-list",
+                                 "maxLength" : 4096,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "digest" : {
+                                 "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
+                                 "maxLength" : 40,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "disable" : {
+                                 "description" : "Flag to disable/deactivate the entry.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "id" : {
+                                 "description" : "Replication Job ID. The ID is composed of a Guest ID and a job number, separated by a hyphen, i.e. '<GUEST>-<JOBNUM>'.",
+                                 "format" : "pve-replication-job-id",
+                                 "pattern" : "[1-9][0-9]{2,8}-\\d{1,9}",
+                                 "type" : "string"
+                              },
+                              "rate" : {
+                                 "description" : "Rate limit in mbps (megabytes per second) as floating point number.",
+                                 "minimum" : 1,
+                                 "optional" : 1,
+                                 "type" : "number",
+                                 "typetext" : "<number> (1 - N)"
+                              },
+                              "remove_job" : {
+                                 "description" : "Mark the replication job for removal. The job will remove all local replication snapshots. When set to 'full', it also tries to remove replicated volumes on the target. The job then removes itself from the configuration file.",
+                                 "enum" : [
+                                    "local",
+                                    "full"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "schedule" : {
+                                 "default" : "*/15",
+                                 "description" : "Storage replication schedule. The format is a subset of `systemd` calender events.",
+                                 "format" : "pve-calendar-event",
+                                 "maxLength" : 128,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           },
+                           "type" : "object"
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/storage",
+                              [
+                                 "Datastore.Allocate"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/replication/{id}",
+                  "text" : "{id}"
+               }
+            ],
+            "info" : {
+               "GET" : {
+                  "description" : "List replication jobs.",
+                  "method" : "GET",
+                  "name" : "index",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "permissions" : {
+                     "description" : "Requires the VM.Audit permission on /vms/<vmid>.",
+                     "user" : "all"
+                  },
+                  "returns" : {
+                     "items" : {
+                        "properties" : {},
+                        "type" : "object"
+                     },
+                     "links" : [
+                        {
+                           "href" : "{id}",
+                           "rel" : "child"
+                        }
+                     ],
+                     "type" : "array"
+                  }
+               },
+               "POST" : {
+                  "description" : "Create a new replication job",
+                  "method" : "POST",
+                  "name" : "create",
+                  "parameters" : {
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "comment" : {
+                           "description" : "Description.",
+                           "maxLength" : 4096,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "disable" : {
+                           "description" : "Flag to disable/deactivate the entry.",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "id" : {
+                           "description" : "Replication Job ID. The ID is composed of a Guest ID and a job number, separated by a hyphen, i.e. '<GUEST>-<JOBNUM>'.",
+                           "format" : "pve-replication-job-id",
+                           "pattern" : "[1-9][0-9]{2,8}-\\d{1,9}",
+                           "type" : "string"
+                        },
+                        "rate" : {
+                           "description" : "Rate limit in mbps (megabytes per second) as floating point number.",
+                           "minimum" : 1,
+                           "optional" : 1,
+                           "type" : "number",
+                           "typetext" : "<number> (1 - N)"
+                        },
+                        "remove_job" : {
+                           "description" : "Mark the replication job for removal. The job will remove all local replication snapshots. When set to 'full', it also tries to remove replicated volumes on the target. The job then removes itself from the configuration file.",
+                           "enum" : [
+                              "local",
+                              "full"
+                           ],
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "schedule" : {
+                           "default" : "*/15",
+                           "description" : "Storage replication schedule. The format is a subset of `systemd` calender events.",
+                           "format" : "pve-calendar-event",
+                           "maxLength" : 128,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "target" : {
+                           "description" : "Target node.",
+                           "format" : "pve-node",
+                           "optional" : 0,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "type" : {
+                           "description" : "Section type.",
+                           "enum" : [
+                              "local"
+                           ],
+                           "type" : "string"
+                        }
+                     },
+                     "type" : "object"
+                  },
+                  "permissions" : {
+                     "check" : [
+                        "perm",
+                        "/storage",
+                        [
+                           "Datastore.Allocate"
+                        ]
+                     ]
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "type" : "null"
+                  }
+               }
+            },
+            "leaf" : 0,
+            "path" : "/cluster/replication",
+            "text" : "replication"
+         },
+         {
+            "children" : [
+               {
+                  "info" : {
                      "GET" : {
                         "description" : "Corosync node list.",
                         "method" : "GET",
                         "name" : "nodes",
                         "parameters" : {
                            "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Audit"
+                              ]
+                           ]
                         },
                         "returns" : {
                            "items" : {
@@ -44,6 +325,15 @@ var pveapi = [
                         "parameters" : {
                            "additionalProperties" : 0
                         },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Audit"
+                              ]
+                           ]
+                        },
                         "returns" : {
                            "properties" : {},
                            "type" : "object"
@@ -62,6 +352,15 @@ var pveapi = [
                   "name" : "index",
                   "parameters" : {
                      "additionalProperties" : 0
+                  },
+                  "permissions" : {
+                     "check" : [
+                        "perm",
+                        "/",
+                        [
+                           "Sys.Audit"
+                        ]
+                     ]
                   },
                   "returns" : {
                      "items" : {
@@ -5576,6 +5875,7 @@ var pveapi = [
                                                       "qemu32",
                                                       "qemu64",
                                                       "SandyBridge",
+                                                      "Skylake-Client",
                                                       "Westmere"
                                                    ],
                                                    "type" : "string"
@@ -5707,6 +6007,9 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd_length" : {
+                                                   "alias" : "bps_rd_max_length"
+                                                },
+                                                "bps_rd_max_length" : {
                                                    "description" : "Maximum length of read I/O bursts in seconds.",
                                                    "format_description" : "seconds",
                                                    "minimum" : 1,
@@ -5720,6 +6023,9 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_wr_length" : {
+                                                   "alias" : "bps_wr_max_length"
+                                                },
+                                                "bps_wr_max_length" : {
                                                    "description" : "Maximum length of write I/O bursts in seconds.",
                                                    "format_description" : "seconds",
                                                    "minimum" : 1,
@@ -5809,15 +6115,18 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops_rd_length" : {
-                                                   "description" : "Maximum length of read I/O bursts in seconds.",
-                                                   "format_description" : "seconds",
-                                                   "minimum" : 1,
-                                                   "optional" : 1,
-                                                   "type" : "integer"
+                                                   "alias" : "iops_rd_max_length"
                                                 },
                                                 "iops_rd_max" : {
                                                    "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_rd_max_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -5828,15 +6137,18 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops_wr_length" : {
-                                                   "description" : "Maximum length of write I/O bursts in seconds.",
-                                                   "format_description" : "seconds",
-                                                   "minimum" : 1,
-                                                   "optional" : 1,
-                                                   "type" : "integer"
+                                                   "alias" : "iops_wr_max_length"
                                                 },
                                                 "iops_wr_max" : {
                                                    "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_wr_max_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -5893,6 +6205,12 @@ var pveapi = [
                                                    "maxLength" : 120,
                                                    "optional" : 1,
                                                    "type" : "string"
+                                                },
+                                                "replicate" : {
+                                                   "default" : 1,
+                                                   "description" : "Whether the drive should considered for replication jobs.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
                                                 },
                                                 "rerror" : {
                                                    "description" : "Read error action.",
@@ -5956,7 +6274,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
                                           "keyboard" : {
                                              "default" : "en-us",
@@ -6324,6 +6642,9 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd_length" : {
+                                                   "alias" : "bps_rd_max_length"
+                                                },
+                                                "bps_rd_max_length" : {
                                                    "description" : "Maximum length of read I/O bursts in seconds.",
                                                    "format_description" : "seconds",
                                                    "minimum" : 1,
@@ -6337,6 +6658,9 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_wr_length" : {
+                                                   "alias" : "bps_wr_max_length"
+                                                },
+                                                "bps_wr_max_length" : {
                                                    "description" : "Maximum length of write I/O bursts in seconds.",
                                                    "format_description" : "seconds",
                                                    "minimum" : 1,
@@ -6426,15 +6750,18 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops_rd_length" : {
-                                                   "description" : "Maximum length of read I/O bursts in seconds.",
-                                                   "format_description" : "seconds",
-                                                   "minimum" : 1,
-                                                   "optional" : 1,
-                                                   "type" : "integer"
+                                                   "alias" : "iops_rd_max_length"
                                                 },
                                                 "iops_rd_max" : {
                                                    "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_rd_max_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -6445,15 +6772,18 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops_wr_length" : {
-                                                   "description" : "Maximum length of write I/O bursts in seconds.",
-                                                   "format_description" : "seconds",
-                                                   "minimum" : 1,
-                                                   "optional" : 1,
-                                                   "type" : "integer"
+                                                   "alias" : "iops_wr_max_length"
                                                 },
                                                 "iops_wr_max" : {
                                                    "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_wr_max_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -6502,6 +6832,12 @@ var pveapi = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
+                                                },
+                                                "replicate" : {
+                                                   "default" : 1,
+                                                   "description" : "Whether the drive should considered for replication jobs.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
                                                 },
                                                 "rerror" : {
                                                    "description" : "Read error action.",
@@ -6565,7 +6901,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
                                           "scsi[n]" : {
                                              "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).",
@@ -6604,6 +6940,9 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd_length" : {
+                                                   "alias" : "bps_rd_max_length"
+                                                },
+                                                "bps_rd_max_length" : {
                                                    "description" : "Maximum length of read I/O bursts in seconds.",
                                                    "format_description" : "seconds",
                                                    "minimum" : 1,
@@ -6617,6 +6956,9 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_wr_length" : {
+                                                   "alias" : "bps_wr_max_length"
+                                                },
+                                                "bps_wr_max_length" : {
                                                    "description" : "Maximum length of write I/O bursts in seconds.",
                                                    "format_description" : "seconds",
                                                    "minimum" : 1,
@@ -6706,15 +7048,18 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops_rd_length" : {
-                                                   "description" : "Maximum length of read I/O bursts in seconds.",
-                                                   "format_description" : "seconds",
-                                                   "minimum" : 1,
-                                                   "optional" : 1,
-                                                   "type" : "integer"
+                                                   "alias" : "iops_rd_max_length"
                                                 },
                                                 "iops_rd_max" : {
                                                    "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_rd_max_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -6725,15 +7070,18 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops_wr_length" : {
-                                                   "description" : "Maximum length of write I/O bursts in seconds.",
-                                                   "format_description" : "seconds",
-                                                   "minimum" : 1,
-                                                   "optional" : 1,
-                                                   "type" : "integer"
+                                                   "alias" : "iops_wr_max_length"
                                                 },
                                                 "iops_wr_max" : {
                                                    "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_wr_max_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -6794,6 +7142,22 @@ var pveapi = [
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "replicate" : {
+                                                   "default" : 1,
+                                                   "description" : "Whether the drive should considered for replication jobs.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "rerror" : {
+                                                   "description" : "Read error action.",
+                                                   "enum" : [
+                                                      "ignore",
+                                                      "report",
+                                                      "stop"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
                                                 "scsiblock" : {
                                                    "default" : 0,
                                                    "description" : "whether to use scsi-block for full passthrough of host block device\n\nWARNING: can lead to I/O errors in combination with low memory or high memory fragmentation on host",
@@ -6852,7 +7216,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
                                           "scsihw" : {
                                              "default" : "lsi",
@@ -7043,6 +7407,9 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd_length" : {
+                                                   "alias" : "bps_rd_max_length"
+                                                },
+                                                "bps_rd_max_length" : {
                                                    "description" : "Maximum length of read I/O bursts in seconds.",
                                                    "format_description" : "seconds",
                                                    "minimum" : 1,
@@ -7056,6 +7423,9 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_wr_length" : {
+                                                   "alias" : "bps_wr_max_length"
+                                                },
+                                                "bps_wr_max_length" : {
                                                    "description" : "Maximum length of write I/O bursts in seconds.",
                                                    "format_description" : "seconds",
                                                    "minimum" : 1,
@@ -7145,15 +7515,18 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops_rd_length" : {
-                                                   "description" : "Maximum length of read I/O bursts in seconds.",
-                                                   "format_description" : "seconds",
-                                                   "minimum" : 1,
-                                                   "optional" : 1,
-                                                   "type" : "integer"
+                                                   "alias" : "iops_rd_max_length"
                                                 },
                                                 "iops_rd_max" : {
                                                    "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_rd_max_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -7164,15 +7537,18 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops_wr_length" : {
-                                                   "description" : "Maximum length of write I/O bursts in seconds.",
-                                                   "format_description" : "seconds",
-                                                   "minimum" : 1,
-                                                   "optional" : 1,
-                                                   "type" : "integer"
+                                                   "alias" : "iops_wr_max_length"
                                                 },
                                                 "iops_wr_max" : {
                                                    "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_wr_max_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -7226,6 +7602,12 @@ var pveapi = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
+                                                },
+                                                "replicate" : {
+                                                   "default" : 1,
+                                                   "description" : "Whether the drive should considered for replication jobs.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
                                                 },
                                                 "rerror" : {
                                                    "description" : "Read error action.",
@@ -7289,7 +7671,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
@@ -7448,6 +7830,7 @@ var pveapi = [
                                                       "qemu32",
                                                       "qemu64",
                                                       "SandyBridge",
+                                                      "Skylake-Client",
                                                       "Westmere"
                                                    ],
                                                    "type" : "string"
@@ -7579,6 +7962,9 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd_length" : {
+                                                   "alias" : "bps_rd_max_length"
+                                                },
+                                                "bps_rd_max_length" : {
                                                    "description" : "Maximum length of read I/O bursts in seconds.",
                                                    "format_description" : "seconds",
                                                    "minimum" : 1,
@@ -7592,6 +7978,9 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_wr_length" : {
+                                                   "alias" : "bps_wr_max_length"
+                                                },
+                                                "bps_wr_max_length" : {
                                                    "description" : "Maximum length of write I/O bursts in seconds.",
                                                    "format_description" : "seconds",
                                                    "minimum" : 1,
@@ -7681,15 +8070,18 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops_rd_length" : {
-                                                   "description" : "Maximum length of read I/O bursts in seconds.",
-                                                   "format_description" : "seconds",
-                                                   "minimum" : 1,
-                                                   "optional" : 1,
-                                                   "type" : "integer"
+                                                   "alias" : "iops_rd_max_length"
                                                 },
                                                 "iops_rd_max" : {
                                                    "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_rd_max_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -7700,15 +8092,18 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops_wr_length" : {
-                                                   "description" : "Maximum length of write I/O bursts in seconds.",
-                                                   "format_description" : "seconds",
-                                                   "minimum" : 1,
-                                                   "optional" : 1,
-                                                   "type" : "integer"
+                                                   "alias" : "iops_wr_max_length"
                                                 },
                                                 "iops_wr_max" : {
                                                    "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_wr_max_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -7765,6 +8160,12 @@ var pveapi = [
                                                    "maxLength" : 120,
                                                    "optional" : 1,
                                                    "type" : "string"
+                                                },
+                                                "replicate" : {
+                                                   "default" : 1,
+                                                   "description" : "Whether the drive should considered for replication jobs.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
                                                 },
                                                 "rerror" : {
                                                    "description" : "Read error action.",
@@ -7828,7 +8229,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
                                           "keyboard" : {
                                              "default" : "en-us",
@@ -8196,6 +8597,9 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd_length" : {
+                                                   "alias" : "bps_rd_max_length"
+                                                },
+                                                "bps_rd_max_length" : {
                                                    "description" : "Maximum length of read I/O bursts in seconds.",
                                                    "format_description" : "seconds",
                                                    "minimum" : 1,
@@ -8209,6 +8613,9 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_wr_length" : {
+                                                   "alias" : "bps_wr_max_length"
+                                                },
+                                                "bps_wr_max_length" : {
                                                    "description" : "Maximum length of write I/O bursts in seconds.",
                                                    "format_description" : "seconds",
                                                    "minimum" : 1,
@@ -8298,15 +8705,18 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops_rd_length" : {
-                                                   "description" : "Maximum length of read I/O bursts in seconds.",
-                                                   "format_description" : "seconds",
-                                                   "minimum" : 1,
-                                                   "optional" : 1,
-                                                   "type" : "integer"
+                                                   "alias" : "iops_rd_max_length"
                                                 },
                                                 "iops_rd_max" : {
                                                    "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_rd_max_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -8317,15 +8727,18 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops_wr_length" : {
-                                                   "description" : "Maximum length of write I/O bursts in seconds.",
-                                                   "format_description" : "seconds",
-                                                   "minimum" : 1,
-                                                   "optional" : 1,
-                                                   "type" : "integer"
+                                                   "alias" : "iops_wr_max_length"
                                                 },
                                                 "iops_wr_max" : {
                                                    "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_wr_max_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -8374,6 +8787,12 @@ var pveapi = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
+                                                },
+                                                "replicate" : {
+                                                   "default" : 1,
+                                                   "description" : "Whether the drive should considered for replication jobs.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
                                                 },
                                                 "rerror" : {
                                                    "description" : "Read error action.",
@@ -8437,7 +8856,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
                                           "scsi[n]" : {
                                              "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).",
@@ -8476,6 +8895,9 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd_length" : {
+                                                   "alias" : "bps_rd_max_length"
+                                                },
+                                                "bps_rd_max_length" : {
                                                    "description" : "Maximum length of read I/O bursts in seconds.",
                                                    "format_description" : "seconds",
                                                    "minimum" : 1,
@@ -8489,6 +8911,9 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_wr_length" : {
+                                                   "alias" : "bps_wr_max_length"
+                                                },
+                                                "bps_wr_max_length" : {
                                                    "description" : "Maximum length of write I/O bursts in seconds.",
                                                    "format_description" : "seconds",
                                                    "minimum" : 1,
@@ -8578,15 +9003,18 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops_rd_length" : {
-                                                   "description" : "Maximum length of read I/O bursts in seconds.",
-                                                   "format_description" : "seconds",
-                                                   "minimum" : 1,
-                                                   "optional" : 1,
-                                                   "type" : "integer"
+                                                   "alias" : "iops_rd_max_length"
                                                 },
                                                 "iops_rd_max" : {
                                                    "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_rd_max_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -8597,15 +9025,18 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops_wr_length" : {
-                                                   "description" : "Maximum length of write I/O bursts in seconds.",
-                                                   "format_description" : "seconds",
-                                                   "minimum" : 1,
-                                                   "optional" : 1,
-                                                   "type" : "integer"
+                                                   "alias" : "iops_wr_max_length"
                                                 },
                                                 "iops_wr_max" : {
                                                    "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_wr_max_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -8666,6 +9097,22 @@ var pveapi = [
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
+                                                "replicate" : {
+                                                   "default" : 1,
+                                                   "description" : "Whether the drive should considered for replication jobs.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "rerror" : {
+                                                   "description" : "Read error action.",
+                                                   "enum" : [
+                                                      "ignore",
+                                                      "report",
+                                                      "stop"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
                                                 "scsiblock" : {
                                                    "default" : 0,
                                                    "description" : "whether to use scsi-block for full passthrough of host block device\n\nWARNING: can lead to I/O errors in combination with low memory or high memory fragmentation on host",
@@ -8724,7 +9171,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
                                           "scsihw" : {
                                              "default" : "lsi",
@@ -8915,6 +9362,9 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_rd_length" : {
+                                                   "alias" : "bps_rd_max_length"
+                                                },
+                                                "bps_rd_max_length" : {
                                                    "description" : "Maximum length of read I/O bursts in seconds.",
                                                    "format_description" : "seconds",
                                                    "minimum" : 1,
@@ -8928,6 +9378,9 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "bps_wr_length" : {
+                                                   "alias" : "bps_wr_max_length"
+                                                },
+                                                "bps_wr_max_length" : {
                                                    "description" : "Maximum length of write I/O bursts in seconds.",
                                                    "format_description" : "seconds",
                                                    "minimum" : 1,
@@ -9017,15 +9470,18 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops_rd_length" : {
-                                                   "description" : "Maximum length of read I/O bursts in seconds.",
-                                                   "format_description" : "seconds",
-                                                   "minimum" : 1,
-                                                   "optional" : 1,
-                                                   "type" : "integer"
+                                                   "alias" : "iops_rd_max_length"
                                                 },
                                                 "iops_rd_max" : {
                                                    "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_rd_max_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -9036,15 +9492,18 @@ var pveapi = [
                                                    "type" : "integer"
                                                 },
                                                 "iops_wr_length" : {
-                                                   "description" : "Maximum length of write I/O bursts in seconds.",
-                                                   "format_description" : "seconds",
-                                                   "minimum" : 1,
-                                                   "optional" : 1,
-                                                   "type" : "integer"
+                                                   "alias" : "iops_wr_max_length"
                                                 },
                                                 "iops_wr_max" : {
                                                    "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                                    "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_wr_max_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -9098,6 +9557,12 @@ var pveapi = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
+                                                },
+                                                "replicate" : {
+                                                   "default" : 1,
+                                                   "description" : "Whether the drive should considered for replication jobs.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
                                                 },
                                                 "rerror" : {
                                                    "description" : "Read error action.",
@@ -9161,7 +9626,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
@@ -10690,7 +11155,7 @@ var pveapi = [
                                              "typetext" : "<string>"
                                           },
                                           "size" : {
-                                             "description" : "The new size. With the '+' sign the value is added to the actual size of the volume and without it, the value is taken as an absolute one. Shrinking disk size is not supported.",
+                                             "description" : "The new size. With the `+` sign the value is added to the actual size of the volume and without it, the value is taken as an absolute one. Shrinking disk size is not supported.",
                                              "pattern" : "\\+?\\d+(\\.\\d+)?[KMGT]?",
                                              "type" : "string"
                                           },
@@ -11453,6 +11918,7 @@ var pveapi = [
                                           "qemu32",
                                           "qemu64",
                                           "SandyBridge",
+                                          "Skylake-Client",
                                           "Westmere"
                                        ],
                                        "type" : "string"
@@ -11570,6 +12036,9 @@ var pveapi = [
                                        "type" : "integer"
                                     },
                                     "bps_rd_length" : {
+                                       "alias" : "bps_rd_max_length"
+                                    },
+                                    "bps_rd_max_length" : {
                                        "description" : "Maximum length of read I/O bursts in seconds.",
                                        "format_description" : "seconds",
                                        "minimum" : 1,
@@ -11583,6 +12052,9 @@ var pveapi = [
                                        "type" : "integer"
                                     },
                                     "bps_wr_length" : {
+                                       "alias" : "bps_wr_max_length"
+                                    },
+                                    "bps_wr_max_length" : {
                                        "description" : "Maximum length of write I/O bursts in seconds.",
                                        "format_description" : "seconds",
                                        "minimum" : 1,
@@ -11672,15 +12144,18 @@ var pveapi = [
                                        "type" : "integer"
                                     },
                                     "iops_rd_length" : {
-                                       "description" : "Maximum length of read I/O bursts in seconds.",
-                                       "format_description" : "seconds",
-                                       "minimum" : 1,
-                                       "optional" : 1,
-                                       "type" : "integer"
+                                       "alias" : "iops_rd_max_length"
                                     },
                                     "iops_rd_max" : {
                                        "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                        "format_description" : "iops",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "iops_rd_max_length" : {
+                                       "description" : "Maximum length of read I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -11691,15 +12166,18 @@ var pveapi = [
                                        "type" : "integer"
                                     },
                                     "iops_wr_length" : {
-                                       "description" : "Maximum length of write I/O bursts in seconds.",
-                                       "format_description" : "seconds",
-                                       "minimum" : 1,
-                                       "optional" : 1,
-                                       "type" : "integer"
+                                       "alias" : "iops_wr_max_length"
                                     },
                                     "iops_wr_max" : {
                                        "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                        "format_description" : "iops",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "iops_wr_max_length" : {
+                                       "description" : "Maximum length of write I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -11756,6 +12234,12 @@ var pveapi = [
                                        "maxLength" : 120,
                                        "optional" : 1,
                                        "type" : "string"
+                                    },
+                                    "replicate" : {
+                                       "default" : 1,
+                                       "description" : "Whether the drive should considered for replication jobs.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
                                     },
                                     "rerror" : {
                                        "description" : "Read error action.",
@@ -11819,7 +12303,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                               },
                               "keyboard" : {
                                  "default" : "en-us",
@@ -12187,6 +12671,9 @@ var pveapi = [
                                        "type" : "integer"
                                     },
                                     "bps_rd_length" : {
+                                       "alias" : "bps_rd_max_length"
+                                    },
+                                    "bps_rd_max_length" : {
                                        "description" : "Maximum length of read I/O bursts in seconds.",
                                        "format_description" : "seconds",
                                        "minimum" : 1,
@@ -12200,6 +12687,9 @@ var pveapi = [
                                        "type" : "integer"
                                     },
                                     "bps_wr_length" : {
+                                       "alias" : "bps_wr_max_length"
+                                    },
+                                    "bps_wr_max_length" : {
                                        "description" : "Maximum length of write I/O bursts in seconds.",
                                        "format_description" : "seconds",
                                        "minimum" : 1,
@@ -12289,15 +12779,18 @@ var pveapi = [
                                        "type" : "integer"
                                     },
                                     "iops_rd_length" : {
-                                       "description" : "Maximum length of read I/O bursts in seconds.",
-                                       "format_description" : "seconds",
-                                       "minimum" : 1,
-                                       "optional" : 1,
-                                       "type" : "integer"
+                                       "alias" : "iops_rd_max_length"
                                     },
                                     "iops_rd_max" : {
                                        "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                        "format_description" : "iops",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "iops_rd_max_length" : {
+                                       "description" : "Maximum length of read I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -12308,15 +12801,18 @@ var pveapi = [
                                        "type" : "integer"
                                     },
                                     "iops_wr_length" : {
-                                       "description" : "Maximum length of write I/O bursts in seconds.",
-                                       "format_description" : "seconds",
-                                       "minimum" : 1,
-                                       "optional" : 1,
-                                       "type" : "integer"
+                                       "alias" : "iops_wr_max_length"
                                     },
                                     "iops_wr_max" : {
                                        "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                        "format_description" : "iops",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "iops_wr_max_length" : {
+                                       "description" : "Maximum length of write I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -12365,6 +12861,12 @@ var pveapi = [
                                        ],
                                        "optional" : 1,
                                        "type" : "string"
+                                    },
+                                    "replicate" : {
+                                       "default" : 1,
+                                       "description" : "Whether the drive should considered for replication jobs.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
                                     },
                                     "rerror" : {
                                        "description" : "Read error action.",
@@ -12428,7 +12930,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                               },
                               "scsi[n]" : {
                                  "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).",
@@ -12467,6 +12969,9 @@ var pveapi = [
                                        "type" : "integer"
                                     },
                                     "bps_rd_length" : {
+                                       "alias" : "bps_rd_max_length"
+                                    },
+                                    "bps_rd_max_length" : {
                                        "description" : "Maximum length of read I/O bursts in seconds.",
                                        "format_description" : "seconds",
                                        "minimum" : 1,
@@ -12480,6 +12985,9 @@ var pveapi = [
                                        "type" : "integer"
                                     },
                                     "bps_wr_length" : {
+                                       "alias" : "bps_wr_max_length"
+                                    },
+                                    "bps_wr_max_length" : {
                                        "description" : "Maximum length of write I/O bursts in seconds.",
                                        "format_description" : "seconds",
                                        "minimum" : 1,
@@ -12569,15 +13077,18 @@ var pveapi = [
                                        "type" : "integer"
                                     },
                                     "iops_rd_length" : {
-                                       "description" : "Maximum length of read I/O bursts in seconds.",
-                                       "format_description" : "seconds",
-                                       "minimum" : 1,
-                                       "optional" : 1,
-                                       "type" : "integer"
+                                       "alias" : "iops_rd_max_length"
                                     },
                                     "iops_rd_max" : {
                                        "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                        "format_description" : "iops",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "iops_rd_max_length" : {
+                                       "description" : "Maximum length of read I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -12588,15 +13099,18 @@ var pveapi = [
                                        "type" : "integer"
                                     },
                                     "iops_wr_length" : {
-                                       "description" : "Maximum length of write I/O bursts in seconds.",
-                                       "format_description" : "seconds",
-                                       "minimum" : 1,
-                                       "optional" : 1,
-                                       "type" : "integer"
+                                       "alias" : "iops_wr_max_length"
                                     },
                                     "iops_wr_max" : {
                                        "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                        "format_description" : "iops",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "iops_wr_max_length" : {
+                                       "description" : "Maximum length of write I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -12657,6 +13171,22 @@ var pveapi = [
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
+                                    "replicate" : {
+                                       "default" : 1,
+                                       "description" : "Whether the drive should considered for replication jobs.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "rerror" : {
+                                       "description" : "Read error action.",
+                                       "enum" : [
+                                          "ignore",
+                                          "report",
+                                          "stop"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
                                     "scsiblock" : {
                                        "default" : 0,
                                        "description" : "whether to use scsi-block for full passthrough of host block device\n\nWARNING: can lead to I/O errors in combination with low memory or high memory fragmentation on host",
@@ -12715,7 +13245,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                               },
                               "scsihw" : {
                                  "default" : "lsi",
@@ -12914,6 +13444,9 @@ var pveapi = [
                                        "type" : "integer"
                                     },
                                     "bps_rd_length" : {
+                                       "alias" : "bps_rd_max_length"
+                                    },
+                                    "bps_rd_max_length" : {
                                        "description" : "Maximum length of read I/O bursts in seconds.",
                                        "format_description" : "seconds",
                                        "minimum" : 1,
@@ -12927,6 +13460,9 @@ var pveapi = [
                                        "type" : "integer"
                                     },
                                     "bps_wr_length" : {
+                                       "alias" : "bps_wr_max_length"
+                                    },
+                                    "bps_wr_max_length" : {
                                        "description" : "Maximum length of write I/O bursts in seconds.",
                                        "format_description" : "seconds",
                                        "minimum" : 1,
@@ -13016,15 +13552,18 @@ var pveapi = [
                                        "type" : "integer"
                                     },
                                     "iops_rd_length" : {
-                                       "description" : "Maximum length of read I/O bursts in seconds.",
-                                       "format_description" : "seconds",
-                                       "minimum" : 1,
-                                       "optional" : 1,
-                                       "type" : "integer"
+                                       "alias" : "iops_rd_max_length"
                                     },
                                     "iops_rd_max" : {
                                        "description" : "Maximum unthrottled read I/O pool in operations per second.",
                                        "format_description" : "iops",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "iops_rd_max_length" : {
+                                       "description" : "Maximum length of read I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -13035,15 +13574,18 @@ var pveapi = [
                                        "type" : "integer"
                                     },
                                     "iops_wr_length" : {
-                                       "description" : "Maximum length of write I/O bursts in seconds.",
-                                       "format_description" : "seconds",
-                                       "minimum" : 1,
-                                       "optional" : 1,
-                                       "type" : "integer"
+                                       "alias" : "iops_wr_max_length"
                                     },
                                     "iops_wr_max" : {
                                        "description" : "Maximum unthrottled write I/O pool in operations per second.",
                                        "format_description" : "iops",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "iops_wr_max_length" : {
+                                       "description" : "Maximum length of write I/O bursts in seconds.",
+                                       "format_description" : "seconds",
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -13097,6 +13639,12 @@ var pveapi = [
                                        ],
                                        "optional" : 1,
                                        "type" : "string"
+                                    },
+                                    "replicate" : {
+                                       "default" : 1,
+                                       "description" : "Whether the drive should considered for replication jobs.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
                                     },
                                     "rerror" : {
                                        "description" : "Read error action.",
@@ -13160,7 +13708,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_length=<seconds>] [,iops_rd_max=<iops>] [,iops_wr=<iops>] [,iops_wr_length=<seconds>] [,iops_wr_max=<iops>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                               },
                               "vmid" : {
                                  "description" : "The (unique) ID of the VM.",
@@ -13376,6 +13924,12 @@ var pveapi = [
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
+                                                "replicate" : {
+                                                   "default" : 1,
+                                                   "description" : "Will include this volume to a storage replica job.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "ro" : {
                                                    "description" : "Read-only mount point",
                                                    "optional" : 1,
@@ -13405,7 +13959,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
+                                             "typetext" : "[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
                                           },
                                           "nameserver" : {
                                              "description" : "Sets DNS server IP address for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.",
@@ -13558,6 +14112,12 @@ var pveapi = [
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
+                                                "replicate" : {
+                                                   "default" : 1,
+                                                   "description" : "Will include this volume to a storage replica job.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "ro" : {
                                                    "description" : "Read-only mount point",
                                                    "optional" : 1,
@@ -13587,7 +14147,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
+                                             "typetext" : "[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
                                           },
                                           "searchdomain" : {
                                              "description" : "Sets DNS search domains for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.",
@@ -16221,6 +16781,14 @@ var pveapi = [
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
+                                          "height" : {
+                                             "description" : "sets the height of the console in pixels.",
+                                             "maximum" : 2160,
+                                             "minimum" : 16,
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (16 - 2160)"
+                                          },
                                           "node" : {
                                              "description" : "The cluster node name.",
                                              "format" : "pve-node",
@@ -16239,6 +16807,14 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "boolean",
                                              "typetext" : "<boolean>"
+                                          },
+                                          "width" : {
+                                             "description" : "sets the width of the console in pixels.",
+                                             "maximum" : 4096,
+                                             "minimum" : 16,
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (16 - 4096)"
                                           }
                                        }
                                     },
@@ -17055,6 +17631,12 @@ var pveapi = [
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
+                                    "replicate" : {
+                                       "default" : 1,
+                                       "description" : "Will include this volume to a storage replica job.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
                                     "ro" : {
                                        "description" : "Read-only mount point",
                                        "optional" : 1,
@@ -17084,7 +17666,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
+                                 "typetext" : "[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
                               },
                               "nameserver" : {
                                  "description" : "Sets DNS server IP address for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.",
@@ -17263,6 +17845,12 @@ var pveapi = [
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
+                                    "replicate" : {
+                                       "default" : 1,
+                                       "description" : "Will include this volume to a storage replica job.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
                                     "ro" : {
                                        "description" : "Read-only mount point",
                                        "optional" : 1,
@@ -17292,7 +17880,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
+                                 "typetext" : "[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
                               },
                               "searchdomain" : {
                                  "description" : "Sets DNS search domains for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.",
@@ -17556,6 +18144,13 @@ var pveapi = [
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
+                                    "bluestore" : {
+                                       "default" : 0,
+                                       "description" : "Use bluestore instead of filestore.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
                                     "dev" : {
                                        "description" : "Block device name.",
                                        "type" : "string",
@@ -17563,7 +18158,7 @@ var pveapi = [
                                     },
                                     "fstype" : {
                                        "default" : "xfs",
-                                       "description" : "File system type.",
+                                       "description" : "File system type (filestore only).",
                                        "enum" : [
                                           "xfs",
                                           "ext4",
@@ -17857,6 +18452,22 @@ var pveapi = [
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
+                                    "disable_cephx" : {
+                                       "default" : 0,
+                                       "description" : "Disable cephx authentification.\n\nWARNING: cephx is a security feature protecting against man-in-the-middle attacks. Only consider disabling cephx if your network is private!",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "min_size" : {
+                                       "default" : 2,
+                                       "description" : "Minimum number of available replicas per object to allow I/O",
+                                       "maximum" : 7,
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (1 - 7)"
+                                    },
                                     "network" : {
                                        "description" : "Use specific network for all ceph related traffic",
                                        "format" : "CIDR",
@@ -17881,13 +18492,13 @@ var pveapi = [
                                        "typetext" : "<integer> (6 - 14)"
                                     },
                                     "size" : {
-                                       "default" : 2,
-                                       "description" : "Number of replicas per object",
-                                       "maximum" : 3,
+                                       "default" : 3,
+                                       "description" : "Targeted number of replicas per object",
+                                       "maximum" : 7,
                                        "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "<integer> (1 - 3)"
+                                       "typetext" : "<integer> (1 - 7)"
                                     }
                                  }
                               },
@@ -18162,11 +18773,11 @@ var pveapi = [
                                     "min_size" : {
                                        "default" : 1,
                                        "description" : "Minimum number of replicas per object",
-                                       "maximum" : 3,
+                                       "maximum" : 7,
                                        "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "<integer> (1 - 3)"
+                                       "typetext" : "<integer> (1 - 7)"
                                     },
                                     "name" : {
                                        "description" : "The name of the pool. It must be unique.",
@@ -18191,11 +18802,11 @@ var pveapi = [
                                     "size" : {
                                        "default" : 2,
                                        "description" : "Number of replicas per object",
-                                       "maximum" : 3,
+                                       "maximum" : 7,
                                        "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "<integer> (1 - 3)"
+                                       "typetext" : "<integer> (1 - 7)"
                                     }
                                  }
                               },
@@ -22449,6 +23060,254 @@ var pveapi = [
                   "text" : "firewall"
                },
                {
+                  "children" : [
+                     {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "GET" : {
+                                    "description" : "Get replication job status.",
+                                    "method" : "GET",
+                                    "name" : "job_status",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "id" : {
+                                             "description" : "Replication Job ID. The ID is composed of a Guest ID and a job number, separated by a hyphen, i.e. '<GUEST>-<JOBNUM>'.",
+                                             "format" : "pve-replication-job-id",
+                                             "pattern" : "[1-9][0-9]{2,8}-\\d{1,9}",
+                                             "type" : "string"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "description" : "Requires the VM.Audit permission on /vms/<vmid>.",
+                                       "user" : "all"
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "properties" : {},
+                                       "type" : "object"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/replication/{id}/status",
+                              "text" : "status"
+                           },
+                           {
+                              "info" : {
+                                 "GET" : {
+                                    "description" : "Read replication job log.",
+                                    "method" : "GET",
+                                    "name" : "read_job_log",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "id" : {
+                                             "description" : "Replication Job ID. The ID is composed of a Guest ID and a job number, separated by a hyphen, i.e. '<GUEST>-<JOBNUM>'.",
+                                             "format" : "pve-replication-job-id",
+                                             "pattern" : "[1-9][0-9]{2,8}-\\d{1,9}",
+                                             "type" : "string"
+                                          },
+                                          "limit" : {
+                                             "minimum" : 0,
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (0 - N)"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "start" : {
+                                             "minimum" : 0,
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (0 - N)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "description" : "Requires the VM.Audit permission on /vms/<vmid>, or 'Sys.Audit' on '/nodes/<node>'",
+                                       "user" : "all"
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "items" : {
+                                          "properties" : {
+                                             "n" : {
+                                                "description" : "Line number",
+                                                "type" : "integer"
+                                             },
+                                             "t" : {
+                                                "description" : "Line text",
+                                                "type" : "string"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "type" : "array"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/replication/{id}/log",
+                              "text" : "log"
+                           },
+                           {
+                              "info" : {
+                                 "POST" : {
+                                    "description" : "Schedule replication job to start as soon as possible.",
+                                    "method" : "POST",
+                                    "name" : "schedule_now",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "id" : {
+                                             "description" : "Replication Job ID. The ID is composed of a Guest ID and a job number, separated by a hyphen, i.e. '<GUEST>-<JOBNUM>'.",
+                                             "format" : "pve-replication-job-id",
+                                             "pattern" : "[1-9][0-9]{2,8}-\\d{1,9}",
+                                             "type" : "string"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/storage",
+                                          [
+                                             "Datastore.Allocate"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/replication/{id}/schedule_now",
+                              "text" : "schedule_now"
+                           }
+                        ],
+                        "info" : {
+                           "GET" : {
+                              "description" : "Directory index.",
+                              "method" : "GET",
+                              "name" : "index",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "id" : {
+                                       "description" : "Replication Job ID. The ID is composed of a Guest ID and a job number, separated by a hyphen, i.e. '<GUEST>-<JOBNUM>'.",
+                                       "format" : "pve-replication-job-id",
+                                       "pattern" : "[1-9][0-9]{2,8}-\\d{1,9}",
+                                       "type" : "string"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "user" : "all"
+                              },
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {},
+                                    "type" : "object"
+                                 },
+                                 "links" : [
+                                    {
+                                       "href" : "{name}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
+                        "path" : "/nodes/{node}/replication/{id}",
+                        "text" : "{id}"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "description" : "List status of all replication jobs on this node.",
+                        "method" : "GET",
+                        "name" : "status",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "guest" : {
+                                 "description" : "Only list replication jobs for this guest.",
+                                 "format" : "pve-vmid",
+                                 "minimum" : 1,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (1 - N)"
+                              },
+                              "node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "description" : "Requires the VM.Audit permission on /vms/<vmid>.",
+                           "user" : "all"
+                        },
+                        "protected" : 1,
+                        "proxyto" : "node",
+                        "returns" : {
+                           "items" : {
+                              "properties" : {
+                                 "id" : {
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{id}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/nodes/{node}/replication",
+                  "text" : "replication"
+               },
+               {
                   "info" : {
                      "GET" : {
                         "description" : "API version details",
@@ -22857,6 +23716,14 @@ var pveapi = [
                         "parameters" : {
                            "additionalProperties" : 0,
                            "properties" : {
+                              "height" : {
+                                 "description" : "sets the height of the console in pixels.",
+                                 "maximum" : 2160,
+                                 "minimum" : 16,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (16 - 2160)"
+                              },
                               "node" : {
                                  "description" : "The cluster node name.",
                                  "format" : "pve-node",
@@ -22875,6 +23742,14 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
+                              },
+                              "width" : {
+                                 "description" : "sets the width of the console in pixels.",
+                                 "maximum" : 4096,
+                                 "minimum" : 16,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (16 - 4096)"
                               }
                            }
                         },
