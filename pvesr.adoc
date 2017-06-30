@@ -236,6 +236,8 @@ Remember to replace the VMIDs and node names with your respective values.
 Managing Jobs
 -------------
 
+[thumbnail="gui-qemu-add-replication-job.png"]
+
 You can use the web GUI to create, modify and remove replication jobs
 easily. Additionally the command line interface (CLI) tool `pvesr` can be
 used to do this.
@@ -243,8 +245,6 @@ used to do this.
 You can find the replication panel on all levels (datacenter, node, virtual
 guest) in the web GUI. They differ in what jobs get shown: all, only node
 specific or only guest specific jobs.
-
-// TODO insert auto generated images of add web UI dialog
 
 Once adding a new job you need to specify the virtual guest (if not already
 selected) and the target node. The replication
