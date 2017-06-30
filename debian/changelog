@@ -1,3 +1,23 @@
+pve-docs (5.0-5) unstable; urgency=medium
+
+  * update screenshots for 5.0 release
+
+  * add replication GUI screenshot
+
+  * update generated docs
+
+  * use rsvg-convert instead of inkscape
+
+  * replication: add chapter reference
+
+  * include pvesr.adoc in pve-admin-guide
+
+  * improve storage replication chapter
+
+  * Fix vzdump information concerning backup and container mount points
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 30 Jun 2017 11:00:20 +0200
+
 pve-docs (5.0-4) unstable; urgency=medium
 
   * Document Backup and Skip replication options
