@@ -1,3 +1,11 @@
+pve-docs (5.0-6) unstable; urgency=medium
+
+  * pve-storage-zfspool.adoc: add link to wiki/ZFS_on_Linux
+
+  * update gui overview screenshots
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 03 Jul 2017 13:00:13 +0200
+
 pve-docs (5.0-5) unstable; urgency=medium
 
   * update screenshots for 5.0 release
