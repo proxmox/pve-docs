@@ -38,7 +38,7 @@ enabled by default:
 
 .File `/etc/apt/sources.list.d/pve-enterprise.list`
 ----
-deb https://enterprise.proxmox.com/debian stretch pve-enterprise
+deb https://enterprise.proxmox.com/debian/pve stretch pve-enterprise
 ----
 
 As soon as updates are available, the `root@pam` user is notified via
@@ -72,7 +72,7 @@ deb http://ftp.debian.org/debian stretch main contrib
 
 # PVE pve-no-subscription repository provided by proxmox.com,
 # NOT recommended for production use
-deb http://download.proxmox.com/debian stretch pve-no-subscription
+deb http://download.proxmox.com/debian/pve stretch pve-no-subscription
 
 # security updates
 deb http://security.debian.org stretch/updates main contrib
@@ -89,7 +89,7 @@ features. As usual, you can configure this using
 
 .sources.list entry for `pvetest`
 ----
-deb http://download.proxmox.com/debian stretch pvetest
+deb http://download.proxmox.com/debian/pve stretch pvetest
 ----
 
 WARNING: the `pvetest` repository should (as the name implies) only be used
@@ -107,26 +107,40 @@ The key used for verification is already installed if you install from
 our installation CD. If you install by other means, you can manually
 download the key with:
 
- # wget http://download.proxmox.com/debian/key.asc
+ # wget http://download.proxmox.com/debian/proxmox-ve-release-5.x.gpg -O /etc/apt/trusted.gpg.d/proxmox-ve-release-5.x.gpg
 
-Please verify the fingerprint afterwards:
+Please verify the checksum afterwards:
 
 ----
-# gpg --with-fingerprint key.asc
-pub  1024D/9887F95A 2008-10-28 Proxmox Release Key <proxmox-release@proxmox.com>
-      Key fingerprint = BE25 7BAA 5D40 6D01 157D  323E C23A C7F4 9887 F95A
-sub  2048g/A87A1B00 2008-10-28
+# md5sum /etc/apt/trusted.gpg.d/proxmox-ve-release-5.x.gpg
+511d36d0f1350c01c42a3dc9f3c27939  /etc/apt/trusted.gpg.d/proxmox-ve-release-5.x.gpg
 ----
-
-If this shows the exact same fingerprint, you can add the key to the
-list of trusted APT keys:
-
- # apt-key add key.asc
 
 
 ifdef::wiki[]
 
 // include note about older releases, but only for wiki
+
+
+{pve} 4.x Repositories
+~~~~~~~~~~~~~~~~~~~~~~
+
+{pve} 4.x is based on Debian 8.x (``jessie''). Please note that this
+release is out of date, and you should update your
+installation. Nevertheless, we still provide access to those
+repositories at our download servers.
+
+[width="100%",cols="<d,3m",options="header"]
+|===========================================================
+|Repository                 | sources.list entry
+|{pve} 4.x Enterprise       |
+deb https://enterprise.proxmox.com/debian wheezy pve-enterprise
+|{pve} 4.x No-Subscription  |
+deb http://download.proxmox.com/debian wheezy pve-no-subscription
+|{pve} 4.x Test             |
+deb http://download.proxmox.com/debian wheezy pvetest
+|===========================================================
+
 
 {pve} 3.x Repositories
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -147,8 +161,6 @@ deb http://download.proxmox.com/debian wheezy pve-no-subscription
 deb http://download.proxmox.com/debian wheezy pvetest
 |===========================================================
 
-NOTE: Apt `sources.list` configuration files are basically the same as
-in newer 5.x versions - just replace `wheezy` with `stretch`.
 
 Outdated: `stable` Repository `pve`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
