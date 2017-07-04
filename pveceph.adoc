@@ -20,6 +20,7 @@ endif::manvolnum[]
 ifndef::manvolnum[]
 pveceph - Manage Ceph Services on Proxmox VE Nodes
 ==================================================
+:pve-toplevel:
 endif::manvolnum[]
 
 {pve} unifies your compute and storage systems, i.e. you can use the
