@@ -134,11 +134,11 @@ repositories at our download servers.
 |===========================================================
 |Repository                 | sources.list entry
 |{pve} 4.x Enterprise       |
-deb https://enterprise.proxmox.com/debian wheezy pve-enterprise
+deb https://enterprise.proxmox.com/debian jessie pve-enterprise
 |{pve} 4.x No-Subscription  |
-deb http://download.proxmox.com/debian wheezy pve-no-subscription
+deb http://download.proxmox.com/debian jessie pve-no-subscription
 |{pve} 4.x Test             |
-deb http://download.proxmox.com/debian wheezy pvetest
+deb http://download.proxmox.com/debian jessie pvetest
 |===========================================================
 
 
