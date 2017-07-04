@@ -21,7 +21,7 @@ my $config_fn = "/root/.pve-docs"; # format 'username:pw'
 my $fh = IO::File->new("$config_fn") ||
     die "Please configure the mediawiki user/passswd in '$config_fn'\n";
 
-my $api_url = "http://localhost/mediawiki/api.php";
+my $api_url = "https://pve.proxmox.com/mediawiki/api.php";
 
 my $config = <$fh>;
 chomp $config;
