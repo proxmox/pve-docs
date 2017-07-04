@@ -1,3 +1,13 @@
+pve-docs (5.0-8) unstable; urgency=medium
+
+  * add toplevel attribute to pvepech.adoc
+
+  * do not include binary name 'pveceph' in chapter title
+
+  * use https and full hostname to access mw api
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 04 Jul 2017 14:29:35 +0200
+
 pve-docs (5.0-7) unstable; urgency=medium
 
   * pve-package-repos.adoc: fix sources.list for pve 5.x
