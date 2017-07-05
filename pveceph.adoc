@@ -23,6 +23,8 @@ Manage Ceph Services on Proxmox VE Nodes
 :pve-toplevel:
 endif::manvolnum[]
 
+[thumbnail="gui-ceph-status.png"]
+
 {pve} unifies your compute and storage systems, i.e. you can use the
 same physical nodes within a cluster for both computing (processing
 VMs and containers) and replicated storage. The traditional silos of
@@ -76,6 +78,8 @@ This sets up an `apt` package repository in
 Creating initial Ceph configuration
 -----------------------------------
 
+[thumbnail="gui-ceph-config.png"]
+
 After installation of packages, you need to create an initial Ceph
 configuration on just one node, based on your network (`10.10.10.0/24`
 in the following example) dedicated for Ceph:
@@ -95,6 +99,8 @@ Ceph commands without the need to specify a configuration file.
 Creating Ceph Monitors
 ----------------------
 
+[thumbnail="gui-ceph-monitor.png"]
+
 On each node where a monitor is requested (three monitors are recommended)
 create it by using the "Ceph" item in the GUI or run.
 
@@ -107,6 +113,8 @@ pveceph createmon
 
 Creating Ceph OSDs
 ------------------
+
+[thumbnail="gui-ceph-osd-status.png"]
 
 via GUI or via CLI as follows:
 
@@ -158,12 +166,16 @@ highly recommended if you expect good performance.
 Ceph Pools
 ----------
 
+[thumbnail="gui-ceph-pools.png"]
+
 The standard installation creates per default the pool 'rbd',
 additional pools can be created via GUI.
 
 
 Ceph Client
 -----------
+
+[thumbnail="gui-ceph-log.png"]
 
 You can then configure {pve} to use such pools to store VM or
 Container images. Simply use the GUI too add a new `RBD` storage (see
