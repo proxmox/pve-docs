@@ -390,7 +390,7 @@ to the number of Total Cores of your guest. You also need to set in
 the VM the number of multi-purpose channels on each VirtIO NIC with the ethtool
 command:
 
-`ethtool -L eth0 combined X`
+`ethtool -L ens1 combined X`
 
 where X is the number of the number of vcpus of the VM.
 

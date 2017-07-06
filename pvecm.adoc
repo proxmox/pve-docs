@@ -928,7 +928,7 @@ dedicated network for migration.
 A network configuration for such a setup might look as follows:
 
 ----
-iface eth0 inet manual
+iface eno1 inet manual
 
 # public network
 auto vmbr0
@@ -936,19 +936,19 @@ iface vmbr0 inet static
     address 192.X.Y.57
     netmask 255.255.250.0
     gateway 192.X.Y.1
-    bridge_ports eth0
+    bridge_ports eno1
     bridge_stp off
     bridge_fd 0
 
 # cluster network
-auto eth1
-iface eth1 inet static
+auto eno2
+iface eno2 inet static
     address  10.1.1.1
     netmask  255.255.255.0
 
 # fast network
-auto eth2
-iface eth2 inet static
+auto eno3
+iface eno3 inet static
     address  10.1.2.1
     netmask  255.255.255.0
 ----

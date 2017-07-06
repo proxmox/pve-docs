@@ -39,37 +39,71 @@ Naming Conventions
 
 We currently use the following naming conventions for device names:
 
-* Ethernet devices: eth[N], where 0 ≤ N (`eth0`, `eth1`, ...)
+* New Ethernet devices: en*, systemd network interface names.
+
+* Lagacy Ethernet devices: eth[N], where 0 ≤ N (`eth0`, `eth1`, ...)
+They are available when Proxmox VE has been updated by an earlier version.
 
 * Bridge names: vmbr[N], where 0 ≤ N ≤ 4094 (`vmbr0` - `vmbr4094`)
 
 * Bonds: bond[N], where 0 ≤ N (`bond0`, `bond1`, ...)
 
 * VLANs: Simply add the VLAN number to the device name,
-  separated by a period (`eth0.50`, `bond1.30`)
+  separated by a period (`eno1.50`, `bond1.30`)
 
 This makes it easier to debug networks problems, because the device
 names implies the device type.
+
+Systemd Network Interface Names
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Two character prefixes based on the type of interface:
+
+* en — Enoernet
+
+* sl — serial line IP (slip)
+
+* wl — wlan
+
+* ww — wwan
+
+The next characters depence on the device driver and the fact which schema matches first.
+
+* o<index>[n<phys_port_name>|d<dev_port>] — devices on board
+
+* s<slot>[f<function>][n<phys_port_name>|d<dev_port>] — device by hotplug id
+
+* [P<domain>]p<bus>s<slot>[f<function>][n<phys_port_name>|d<dev_port>] — devices by bus id
+
+* x<MAC> — device by MAC address
+
+The most common patterns are
+
+* eno1 — is the first on board NIC
+
+* enp3s0f1 — is the NIC on pcibus 3 slot 0 and use the NIC function 1.
+
+For more information see link:https://github.com/systemd/systemd/blob/master/src/udev/udev-builtin-net_id.c#L20[Systemd Network Interface Names]
 
 Default Configuration using a Bridge
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The installation program creates a single bridge named `vmbr0`, which
-is connected to the first ethernet card `eth0`. The corresponding
+is connected to the first ethernet card `eno0`. The corresponding
 configuration in `/etc/network/interfaces` looks like this:
 
 ----
 auto lo
 iface lo inet loopback
 
-iface eth0 inet manual
+iface eno1 inet manual
 
 auto vmbr0
 iface vmbr0 inet static
         address 192.168.10.2
         netmask 255.255.255.0
         gateway 192.168.10.1
-        bridge_ports eth0
+        bridge_ports eno1
         bridge_stp off
         bridge_fd 0
 ----
@@ -104,12 +138,12 @@ situations:
 auto lo
 iface lo inet loopback
 
-auto eth0
-iface eth0 inet static
+auto eno1
+iface eno1 inet static
         address  192.168.10.2
         netmask  255.255.255.0
         gateway  192.168.10.1
-        post-up echo 1 > /proc/sys/net/ipv4/conf/eth0/proxy_arp
+        post-up echo 1 > /proc/sys/net/ipv4/conf/eno1/proxy_arp
 
 
 auto vmbr0
@@ -132,9 +166,9 @@ host's true IP, and masquerade the traffic using NAT:
 auto lo
 iface lo inet loopback
 
-auto eth0
+auto eno0
 #real IP adress 
-iface eth0 inet static
+iface eno1 inet static
         address  192.168.10.2
         netmask  255.255.255.0
         gateway  192.168.10.1
@@ -149,8 +183,8 @@ iface vmbr0 inet static
         bridge_fd 0
 
         post-up echo 1 > /proc/sys/net/ipv4/ip_forward
-        post-up   iptables -t nat -A POSTROUTING -s '10.10.10.0/24' -o eth0 -j MASQUERADE
-        post-down iptables -t nat -D POSTROUTING -s '10.10.10.0/24' -o eth0 -j MASQUERADE
+        post-up   iptables -t nat -A POSTROUTING -s '10.10.10.0/24' -o eno1 -j MASQUERADE
+        post-down iptables -t nat -D POSTROUTING -s '10.10.10.0/24' -o eno1 -j MASQUERADE
 ----
 
 
@@ -230,13 +264,13 @@ network will be fault-tolerant.
 auto lo
 iface lo inet loopback
 
-iface eth1 inet manual
+iface eno1 inet manual
 
-iface eth2 inet manual
+iface eno2 inet manual
 
 auto bond0
 iface bond0 inet static
-      slaves eth1 eth2
+      slaves eno1 eno2
       address  192.168.1.2
       netmask  255.255.255.0
       bond_miimon 100
@@ -248,7 +282,7 @@ iface vmbr0 inet static
         address  10.10.10.2
         netmask  255.255.255.0
 	gateway  10.10.10.1
-        bridge_ports eth0
+        bridge_ports eno1
         bridge_stp off
         bridge_fd 0
 
@@ -263,13 +297,13 @@ This can be used to make the guest network fault-tolerant.
 auto lo
 iface lo inet loopback
 
-iface eth1 inet manual
+iface eno1 inet manual
 
-iface eth2 inet manual
+iface eno2 inet manual
 
 auto bond0
 iface bond0 inet maunal
-      slaves eth1 eth2
+      slaves eno1 eno2
       bond_miimon 100
       bond_mode 802.3ad
       bond_xmit_hash_policy layer2+3
