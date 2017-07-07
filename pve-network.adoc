@@ -41,7 +41,7 @@ We currently use the following naming conventions for device names:
 
 * New Ethernet devices: en*, systemd network interface names.
 
-* Lagacy Ethernet devices: eth[N], where 0 ≤ N (`eth0`, `eth1`, ...)
+* Legacy Ethernet devices: eth[N], where 0 ≤ N (`eth0`, `eth1`, ...)
 They are available when Proxmox VE has been updated by an earlier version.
 
 * Bridge names: vmbr[N], where 0 ≤ N ≤ 4094 (`vmbr0` - `vmbr4094`)
@@ -54,20 +54,13 @@ They are available when Proxmox VE has been updated by an earlier version.
 This makes it easier to debug networks problems, because the device
 names implies the device type.
 
+
 Systemd Network Interface Names
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Two character prefixes based on the type of interface:
-
-* en — Enoernet
-
-* sl — serial line IP (slip)
-
-* wl — wlan
-
-* ww — wwan
-
-The next characters depence on the device driver and the fact which schema matches first.
+Systemd uses the two character prefix 'en' for ethernet network
+devices. The next characters depence on the device driver and the fact
+which schema matches first.
 
 * o<index>[n<phys_port_name>|d<dev_port>] — devices on board
 
@@ -77,13 +70,14 @@ The next characters depence on the device driver and the fact which schema match
 
 * x<MAC> — device by MAC address
 
-The most common patterns are
+The most common patterns are:
 
 * eno1 — is the first on board NIC
 
 * enp3s0f1 — is the NIC on pcibus 3 slot 0 and use the NIC function 1.
 
-For more information see link:https://github.com/systemd/systemd/blob/master/src/udev/udev-builtin-net_id.c#L20[Systemd Network Interface Names]
+For more information see https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/[Predictable Network Interface Names].
+
 
 Default Configuration using a Bridge
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
