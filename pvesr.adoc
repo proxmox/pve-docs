@@ -110,8 +110,8 @@ NOTE: Hours are set in 24h format.
 To allow easier and shorter configuration one or more repetition times can
 be set. They indicate that on the start-time(s) itself and the start-time(s)
 plus all multiples of the repetition value replications will be done.  If
-you want to start replication at 8 AM and repeat it every 15 minutes you
-would use: `'8:00/15'`
+you want to start replication at 8 AM and repeat it every 15 minutes until
+9 AM you would use: `'8:00/15'`
 
 Here you see also that if no hour separation (`:`) is used the value gets
 interpreted as minute. If such a separation is used the value on the left
