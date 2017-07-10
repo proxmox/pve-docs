@@ -58,8 +58,8 @@ names implies the device type.
 Systemd Network Interface Names
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Systemd uses the two character prefix 'en' for ethernet network
-devices. The next characters depence on the device driver and the fact
+Systemd uses the two character prefix 'en' for Ethernet network
+devices. The next characters depends on the device driver and the fact
 which schema matches first.
 
 * o<index>[n<phys_port_name>|d<dev_port>] — devices on board
@@ -83,7 +83,7 @@ Default Configuration using a Bridge
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The installation program creates a single bridge named `vmbr0`, which
-is connected to the first ethernet card `eno0`. The corresponding
+is connected to the first Ethernet card `eno0`. The corresponding
 configuration in `/etc/network/interfaces` looks like this:
 
 ----
