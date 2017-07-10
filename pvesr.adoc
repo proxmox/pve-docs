@@ -151,9 +151,9 @@ Examples:
 |12:05			|12:05			|All weekdays at 12:05 PM
 |*/5			|0/5			|Every day all five minutes
 |mon..wed 30/10		|mon,tue,wed 30/10	|Monday, Tuesday, Wednesday 30, 40 and 50 minutes after every full hour
-|mon..fri 8..17,22:0/15	|--			|All working days every 15 minutes between 8 AM and 5 PM plus at 10 PM
+|mon..fri 8..17,22:0/15	|--			|All working days every 15 minutes between 8 AM and 6 PM and between 10 PM and 11 PM
 |fri 12..13:5/20	|fri 12,13:5/20		|Friday at 12:05, 12:25, 12:45, 13:05, 13:25 and 13:45
-|12..22:5/2		|12:5/2			|Every day starting at 12:05 until 22:05 all 2 hours
+|12,14,16,18,20,22:5	|12/2:5			|Every day starting at 12:05 until 22:05 all 2 hours
 |*			|*/1			|Every minute (minimum interval)
 |==============================================================================
 
