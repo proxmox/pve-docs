@@ -83,8 +83,8 @@ Default Configuration using a Bridge
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The installation program creates a single bridge named `vmbr0`, which
-is connected to the first Ethernet card `eno0`. The corresponding
-configuration in `/etc/network/interfaces` looks like this:
+is connected to the first Ethernet card. The corresponding
+configuration in `/etc/network/interfaces` might look like this:
 
 ----
 auto lo
