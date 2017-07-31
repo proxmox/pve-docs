@@ -112,6 +112,13 @@ download the key with:
 Please verify the checksum afterwards:
 
 ----
+# sha512sum /etc/apt/trusted.gpg.d/proxmox-ve-release-5.x.gpg
+ffb95f0f4be68d2e753c8875ea2f8465864a58431d5361e88789568673551501ae574283a4e0492f17d79dc67edfb173a56a6304dea39e01f249ebdabc9f074a  /etc/apt/trusted.gpg.d/proxmox-ve-release-5.x.gpg
+----
+
+or
+
+----
 # md5sum /etc/apt/trusted.gpg.d/proxmox-ve-release-5.x.gpg
 511d36d0f1350c01c42a3dc9f3c27939  /etc/apt/trusted.gpg.d/proxmox-ve-release-5.x.gpg
 ----
