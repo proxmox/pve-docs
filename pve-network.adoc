@@ -137,6 +137,7 @@ iface eno1 inet static
         address  192.168.10.2
         netmask  255.255.255.0
         gateway  192.168.10.1
+        post-up echo 1 > /proc/sys/net/ipv4/ip_forward
         post-up echo 1 > /proc/sys/net/ipv4/conf/eno1/proxy_arp
 
 
