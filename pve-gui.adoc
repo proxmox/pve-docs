@@ -179,9 +179,9 @@ members. You can see those messages in the 'Cluster log' panel.
 Content Panels
 --------------
 
-When you select something in the resource tree, the correnponding
+When you select something in the resource tree, the corresponding
 object displays configuration and status information in the content
-panel. The following sections gives a brief overview of the
+panel. The following sections give a brief overview of the
 functionality. Please refer to the individual chapters inside the
 reference documentatin to get more detailed information.
 
