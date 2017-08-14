@@ -712,7 +712,7 @@ Create a virtual machine with 2 cores, 2GB RAM, and one NIC on the default
 
 Import the disk image to the +local-lvm+ storage:
 
- qm importdisk 999 MSEdge "MSEdge - Win10_preview.vmdk" local-lvm
+ qm importdisk 999 "MSEdge - Win10_preview.vmdk" local-lvm
 
 The disk will be marked as *Unused* in the VM 999 configuration.
 After that you can go in the GUI, in the VM *Hardware*, *Edit* the unused disk
