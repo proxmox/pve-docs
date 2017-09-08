@@ -220,8 +220,8 @@ issue itself.
 - move both guest configuration files form the origin node A to node B:
 +
 ----
-# mv /etc/pve/node/A/qemu-server/100.conf /etc/pve/node/B/qemu-server/100.conf
-# mv /etc/pve/node/A/lxc/200.conf /etc/pve/node/B/lxc/200.conf
+# mv /etc/pve/nodes/A/qemu-server/100.conf /etc/pve/nodes/B/qemu-server/100.conf
+# mv /etc/pve/nodes/A/lxc/200.conf /etc/pve/nodes/B/lxc/200.conf
 ----
 
 - Now you can start the guests again:
