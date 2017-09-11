@@ -846,7 +846,7 @@ NOTE: It is always a good idea to use an uninterruptible power supply
 (``UPS'', also called ``battery backup'') to avoid this state, especially if
 you want HA.
 
-On node startup, service `pve-manager` is started and waits for
+On node startup, the `pve-guests` service is started and waits for
 quorum. Once quorate, it starts all guests which have the `onboot`
 flag set.
 
