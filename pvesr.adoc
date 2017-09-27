@@ -145,15 +145,15 @@ Examples:
 [width="100%",options="header"]
 |==============================================================================
 |Schedule String	|Alternative		|Meaning
-|mon,tue,wed,thu,fri	|mon..fri		|All working days at 0:00
-|sat,sun		|sat..sun		|Only on weekend at 0:00
+|mon,tue,wed,thu,fri	|mon..fri		|Every working day at 0:00
+|sat,sun		|sat..sun		|Only on weekends at 0:00
 |mon,wed,fri		|--			|Only on Monday, Wednesday and Friday at 0:00
-|12:05			|12:05			|All weekdays at 12:05 PM
-|*/5			|0/5			|Every day all five minutes
+|12:05			|12:05			|Every day at 12:05 PM
+|*/5			|0/5			|Every five minutes
 |mon..wed 30/10		|mon,tue,wed 30/10	|Monday, Tuesday, Wednesday 30, 40 and 50 minutes after every full hour
-|mon..fri 8..17,22:0/15	|--			|All working days every 15 minutes between 8 AM and 6 PM and between 10 PM and 11 PM
+|mon..fri 8..17,22:0/15	|--			|Every working day every 15 minutes between 8 AM and 6 PM and between 10 PM and 11 PM
 |fri 12..13:5/20	|fri 12,13:5/20		|Friday at 12:05, 12:25, 12:45, 13:05, 13:25 and 13:45
-|12,14,16,18,20,22:5	|12/2:5			|Every day starting at 12:05 until 22:05 all 2 hours
+|12,14,16,18,20,22:5	|12/2:5			|Every day starting at 12:05 until 22:05, every 2 hours
 |*			|*/1			|Every minute (minimum interval)
 |==============================================================================
 
@@ -260,7 +260,7 @@ This ID must only be specified manually if the CLI tool is used.
 Command Line Interface Examples
 -------------------------------
 
-Create a replication job which will run all 5 minutes with limited bandwidth of
+Create a replication job which will run every 5 minutes with limited bandwidth of
 10 mbps (megabytes per second) for the guest with guest ID 100.
 
 ----
