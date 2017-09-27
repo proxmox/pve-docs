@@ -651,8 +651,8 @@ NOTE: It is not possible to start templates, because this would modify
 the disk images. If you want to change the template, create a linked
 clone and modify that.
 
-Importing Virtual Machines from foreign hypervisors
----------------------------------------------------
+Importing Virtual Machines and disk images
+------------------------------------------
 
 A VM export from a foreign hypervisor takes usually the form of one or more disk
  images, with a configuration file describing the settings of the VM (RAM,
@@ -682,43 +682,69 @@ GNU/Linux and other free Unix can usually be imported without hassle. Note
 that we cannot guarantee a successful import/export of Windows VMs in all
 cases due to the problems above.
 
-Step-by-step example of a Windows disk image import
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Step-by-step example of a Windows OVF import
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Microsoft provides
-https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/[Virtual Machines exports]
- in different formats for browser testing. We are going to use one of these to
- demonstrate a VMDK import.
+https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/[Virtual Machines downloads]
+ to get started with Windows development.We are going to use one of these 
+to demonstrate the OVF import feature.
 
-Download the export zip
-^^^^^^^^^^^^^^^^^^^^^^^
+Download the Virtual Machine zip
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-After getting informed about the user agreement, choose the _Microsoft Edge on
-Windows 10 Virtual Machine_ for the VMware platform, and download the zip.
+After getting informed about the user agreement, choose the _Windows 10 
+Enterprise (Evaluation - Build)_ for the VMware platform, and download the zip.
 
 Extract the disk image from the zip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Using the unzip utility or any archiver of your choice, unpack the zip,
-and copy via ssh/scp the vmdk file to your {pve} host.
+Using the `unzip` utility or any archiver of your choice, unpack the zip,
+and copy via ssh/scp the ovf and vmdk files to your {pve} host.
 
-Create a new virtual machine and import the disk
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Import the Virtual Machine
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Create a virtual machine with 2 cores, 2GB RAM, and one NIC on the default
-+vmbr0+ bridge:
+This will create a new virtual machine, using cores, memory and
+VM name as read from the OVF manifest, and import the disks to the +local-lvm+
+ storage. You have to configure the network manually.
 
- qm create 999 -net0 e1000,bridge=vmbr0 -name Win10 -memory 2048 -bootdisk sata0
+ qm importovf 999 WinDev1709Eval.ovf local-lvm
 
-Import the disk image to the +local-lvm+ storage:
-
- qm importdisk 999 "MSEdge - Win10_preview.vmdk" local-lvm
-
-The disk will be marked as *Unused* in the VM 999 configuration.
-After that you can go in the GUI, in the VM *Hardware*, *Edit* the unused disk
-and set the *Bus/Device* to *SATA/0*.
 The VM is ready to be started.
 
+Adding an external disk image to a Virtual Machine
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can also add an existing disk image to a VM, either coming from a 
+foreign hypervisor, or one that you created yourself.
+
+Suppose you created a Debian/Ubuntu disk image with the 'vmdebootstrap' tool:
+
+ vmdebootstrap --verbose \
+  --size 10G --serial-console \
+  --grub --no-extlinux \
+  --package openssh-server \
+  --package avahi-daemon \
+  --package qemu-guest-agent \
+  --hostname vm600 --enable-dhcp \
+  --customize=./copy_pub_ssh.sh \
+  --sparse --image vm600.raw
+
+You can now create a new target VM for this image.
+
+ qm create 600 --net0 virtio,bridge=vmbr0 --name vm600 --serial0 socket \
+   --bootdisk scsi0 --scsihw virtio-scsi-pci --ostype l26
+
+Add the disk image as +unused0+ to the VM, using the storage +pvedir+:
+
+ qm importdisk 600 vm600.raw pvedir
+
+Finally attach the unused disk to the SCSI controller of the VM:
+
+ qm set 600 --scsi0 pvedir:600/vm-600-disk-1.raw
+
+The VM is ready to be started.
 
 Managing Virtual Machines with `qm`
 ------------------------------------
