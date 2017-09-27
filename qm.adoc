@@ -679,7 +679,7 @@ the VM. For Windows VMs, you need to install the Windows paravirtualized
 drivers by yourself.
 
 GNU/Linux and other free Unix can usually be imported without hassle. Note
-that we cannot guarantee a successful import/export of Windows WM in all
+that we cannot guarantee a successful import/export of Windows VMs in all
 cases due to the problems above.
 
 Step-by-step example of a Windows disk image import
