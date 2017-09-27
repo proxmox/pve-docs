@@ -52,5 +52,5 @@ Here is an example configuration for influxdb (on your influxdb server):
    batch-size = 1000
    batch-timeout = "1s"
 
-With this configuration, your server listens on all IP adresses on
+With this configuration, your server listens on all IP addresses on
 port 8089, and writes the data in the *proxmox* database

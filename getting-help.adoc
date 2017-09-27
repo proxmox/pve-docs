@@ -45,7 +45,7 @@ Commercial Support
 {proxmoxGmbh} also offers commercial 
 http://www.proxmox.com/proxmox-ve/pricing[{pve} Subscription Service
 Plans]. System Administrators with a standard subscription plan can access a 
-dedicated support portal with guaranteed reponse time, where {pve}
+dedicated support portal with guaranteed response time, where {pve}
 developers help them should an issue appear.
 Please contact the mailto:office@proxmox.com[Proxmox sales
 team] for more information or volume discounts.

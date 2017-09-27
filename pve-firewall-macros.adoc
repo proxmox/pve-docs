@@ -56,7 +56,7 @@
 |===========================================================
 
 [horizontal]
-'Ceph':: Ceph Storage Cluster traffic (Ceph Monitors, OSD & MDS Deamons)
+'Ceph':: Ceph Storage Cluster traffic (Ceph Monitors, OSD & MDS Daemons)
 
 [width="100%",options="header"]
 |===========================================================

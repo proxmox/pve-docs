@@ -85,7 +85,7 @@ realm, the realms have to be configured in `/etc/pve/domains.cfg`.
 The following realms (authentication methods) are available:
 
 Linux PAM standard authentication::
-In this case a system user has to exist (eg. created via the `adduser`
+In this case a system user has to exist (e.g. created via the `adduser`
 command) on all nodes the user is allowed to login, and the user
 authenticates with their usual system password.
 +
@@ -106,7 +106,7 @@ installations where users do not need access to anything outside of
 change their own passwords via the GUI.
 
 LDAP::
-It is possible to authenticate users via an LDAP server (eq.
+It is possible to authenticate users via an LDAP server (e.g.
 openldap). The server and an optional fallback server can be
 configured and the connection can be encrypted via SSL.
 +
@@ -137,7 +137,7 @@ If {pve} needs to authenticate (bind) to the ldap server before being
 able to query and authenticate users, a bind domain name can be
 configured via the `bind_dn` property in `/etc/pve/domains.cfg`. Its
 password then has to be stored in `/etc/pve/priv/ldap/<realmname>.pw`
-(eg. `/etc/pve/priv/ldap/my-ldap.pw`). This file should contain a
+(e.g. `/etc/pve/priv/ldap/my-ldap.pw`). This file should contain a
 single line containing the raw password.
 
 Microsoft Active Directory::
@@ -356,7 +356,7 @@ option is specified, then its specified parameter is required even if the
 API call's schema otherwise lists it as being optional.
 
 `["userid-group", [ <privileges>... ], <options>...]`::
-The callermust have any of the listed privileges on `/access/groups`. In
+The caller must have any of the listed privileges on `/access/groups`. In
 addition there are two possible checks depending on whether the
 `groups_param` option is set:
 +
@@ -375,7 +375,7 @@ privileges.)
 
 `["userid-param", "Realm.AllocateUser"]`::
 The user needs `Realm.AllocateUser` access to `/access/realm/<realm>`, with
-`<realm>` refering to the realm of the user passed via the `userid`
+`<realm>` referring to the realm of the user passed via the `userid`
 parameter. Note that the user does not need to exist in order to be
 associated with a realm, since user IDs are passed in the form of
 `<username>@<realm>`.
@@ -483,7 +483,7 @@ Example1: Allow user `joe@pve` to see all virtual machines
 Delegate User Management
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you want to delegate user managenent to user `joe@pve` you can do
+If you want to delegate user management to user `joe@pve` you can do
 that with:
 
 [source,bash]

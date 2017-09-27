@@ -478,7 +478,7 @@ properties:
 include::ha-resources-opts.adoc[]
 
 Here is a real world example with one VM and one container. As you see,
-the syntax of those files is really simple, so it is even posiible to
+the syntax of those files is really simple, so it is even possible to
 read or edit those files using your favorite editor:
 
 .Configuration Example (`/etc/pve/ha/resources.cfg`)
@@ -534,7 +534,7 @@ an unrestricted group with a single member:
 For bigger clusters, it makes sense to define a more detailed failover
 behavior. For example, you may want to run a set of services on
 `node1` if possible. If `node1` is not available, you want to run them
-equally splitted on `node2` and `node3`. If those nodes also fail the
+equally split on `node2` and `node3`. If those nodes also fail the
 services should run on `node4`. To achieve this you could set the node
 list to:
 
@@ -790,7 +790,7 @@ from ``shutdown'', because the node immediately starts again.
 
 The LRM tells the CRM that it wants to restart, and waits until the
 CRM puts all resources into the `freeze` state (same mechanism is used
-for xref:ha_manager_package_updates[Pakage Updates]). This prevents
+for xref:ha_manager_package_updates[Package Updates]). This prevents
 that those resources are moved to other nodes. Instead, the CRM start
 the resources after the reboot on the same node.
 

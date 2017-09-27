@@ -528,7 +528,7 @@ addresses.  You may use plain IP addresses or also hostnames here. If you use
 hostnames ensure that they are resolvable from all nodes.
 
 In my example I want to switch my cluster communication to the 10.10.10.1/25
-network. So I replace all 'ring0_addr' respectively. I also set the bindetaddr
+network. So I replace all 'ring0_addr' respectively. I also set the bindnetaddr
 in the totem section of the config to an address of the new network. It can be
 any address from the subnet configured on the new network interface.
 
@@ -708,7 +708,7 @@ stopped on all nodes start it one after the other again.
 Corosync Configuration
 ----------------------
 
-The `/ect/pve/corosync.conf` file plays a central role in {pve} cluster. It
+The `/etc/pve/corosync.conf` file plays a central role in {pve} cluster. It
 controls the cluster member ship and its network.
 For reading more about it check the corosync.conf man page:
 [source,bash]
@@ -879,7 +879,7 @@ Migration Type
 The migration type defines if the migration data should be sent over a
 encrypted (`secure`) channel or an unencrypted (`insecure`) one.
 Setting the migration type to insecure means that the RAM content of a
-virtual guest gets also transfered unencrypted, which can lead to
+virtual guest gets also transferred unencrypted, which can lead to
 information disclosure of critical data from inside the guest (for
 example passwords or encryption keys).
 

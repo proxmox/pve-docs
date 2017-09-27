@@ -36,7 +36,7 @@ contain any important data.
 Instructions for GNU/Linux
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can simply use `dd` on UNUX like systems. First download the ISO
+You can simply use `dd` on UNIX like systems. First download the ISO
 image, then plug in the USB stick. You need to find out what device
 name gets assigned to the USB stick (see below). Then run:
 
@@ -109,7 +109,7 @@ Instructions for Windows
 
 Download Etcher from https://etcher.io , select the ISO and your USB Drive.
 
-If this doesn't work, alternatively use the OSForsenics USB
+If this doesn't work, alternatively use the OSForensics USB
 installer from http://www.osforensics.com/portability.html
 
 

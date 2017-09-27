@@ -53,7 +53,7 @@ Precondition
 To build a Proxmox Ceph Cluster there should be at least three (preferably)
 identical servers for the setup.
 
-A 10Gb network, exclusively used for Ceph, is recommmended. A meshed
+A 10Gb network, exclusively used for Ceph, is recommended. A meshed
 network setup is also an option if there are no 10Gb switches
 available, see {webwiki-url}Full_Mesh_Network_for_Ceph_Server[wiki] .
 

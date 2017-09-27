@@ -126,7 +126,7 @@ supports snapshots. Using the `backup=no` mount point option individual volumes
 can be excluded from the backup (and thus this requirement).
 
 // see PVE::VZDump::LXC::prepare()
-NOTE: By default additional mount points besides the RootDisk mount point are
+NOTE: By default additional mount points besides the Root Disk mount point are
 not included in backups. For volume mount points you can set the *Backup* option
 to include the mount point in the backup. Device and bind mounts are never
 backed up as their content is managed outside the {pve} storage library.

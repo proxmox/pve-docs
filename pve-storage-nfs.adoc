@@ -69,7 +69,7 @@ to implement snapshots and cloning.
 [width="100%",cols="m,m,3*d",options="header"]
 |==============================================================================
 |Content types                     |Image formats         |Shared |Snapshots |Clones
-|images rootdir vztempl iso backup |raw qcow2 vmdk subvol |yes    |qcow2     |qcow2
+|images rootdir vztmpl iso backup  |raw qcow2 vmdk subvol |yes    |qcow2     |qcow2
 |==============================================================================
 
 Examples

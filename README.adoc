@@ -269,8 +269,8 @@ Screenshots
 [thumbnail="gui-datacenter-search.png"]
 
 First, it should be noted that we can display screenshots on 'html'
-and 'wiki' pages, and we can include them in printed doumentation. But
-ith is not possible to render them inside manual pages. So screenshot
+and 'wiki' pages, and we can include them in printed documentation. But
+it is not possible to render them inside manual pages. So screenshot
 inside manual pages should be optional, i.e. the text should not
 depend on the visibility of the screenshot. You can include a
 screenshot by setting the 'thumbnail' attribute on a paragraph:
@@ -304,7 +304,7 @@ all image attributes (from debian package 'imagemagick')
 [thumbnail="gui-datacenter-search.png"]
 
 We normally display screenshots as small thumbnail on the right side
-of a paraprah. On printed docomentation, we render the full sized
+of a paragraph. On printed documentation, we render the full sized
 graphic just before the paragraph, or between the title and the text
 if the paragraph has a title. It is usually a good idea to add a title
 to paragraph with screenshots.

@@ -162,7 +162,7 @@ auto lo
 iface lo inet loopback
 
 auto eno0
-#real IP adress 
+#real IP address
 iface eno1 inet static
         address  192.168.10.2
         netmask  255.255.255.0
@@ -297,7 +297,7 @@ iface eno1 inet manual
 iface eno2 inet manual
 
 auto bond0
-iface bond0 inet maunal
+iface bond0 inet manual
       slaves eno1 eno2
       bond_miimon 100
       bond_mode 802.3ad
@@ -316,5 +316,5 @@ iface vmbr0 inet static
 
 ////
 TODO: explain IPv6 support?
-TODO: explan OVS
+TODO: explain OVS
 ////
