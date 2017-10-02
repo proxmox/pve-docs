@@ -239,6 +239,51 @@ However {pve} will prevent you to allocate on a _single_ machine more vcpus than
 physically available, as this will only bring the performance down due to the
 cost of context switches.
 
+[[qm_cpu_resource_limits]]
+Resource Limits
+^^^^^^^^^^^^^^^
+
+Additional, to the count of virtual cores, you can configure how much resources
+a VM can get in relation to the host CPU time and also in relation to other
+VMs.
+With the *cpulimit* (`Host CPU Time') option you can limit how much CPU time the
+whole VM can use on the host. It is a floating point value representing CPU
+time in percent, so `1.0` is equal to `100%`, `2.5` to `250%` and so on. If a
+single process would fully use one single core he would have `100%` CPU Time
+usage. If a VM with four cores utilizes all its cores fully it would
+theoretically use `400%`. In reality the usage may be even a bit higher as Qemu
+can have additional threads for VM peripherals besides the vCPU core ones.
+This setting can be useful if a VM should have multiple vCPUs, as it runs a few
+processes in parallel, but the VM as a whole should not be able to run all
+vCPUs at 100% at the same time. Using a specific example: lets say we have a VM
+which would profit from having 8 vCPUs, but at no time all of those 8 cores
+should run at full load - as this would make the server so overloaded that
+other VMs and CTs would get to less CPU. So, we set the *cpulimit* limit to
+`4.0` (=400%). If all cores do the same heavy work they would all get 50% of a
+real host cores CPU time. But, if only 4 would do work they could still get
+almost 100% of a real core each.
+
+NOTE: VMs can, depending on their configuration, use additional threads e.g.,
+for networking or IO operations but also live migration. Thus a VM can show up
+to use more CPU time than just its virtual CPUs could use. To ensure that a VM
+never uses more CPU time than virtual CPUs assigned set the *cpulimit* setting
+to the same value as the total core count.
+
+The second CPU resource limiting setting, *cpuunits* (nowadays often called CPU
+shares or CPU weight), controls how much CPU time a VM gets in regards to other
+VMs running.  It is a relative weight which defaults to `1024`, if you increase
+this for a VM it will be prioritized by the scheduler in comparison to other
+VMs with lower weight. E.g., if VM 100 has set the default 1024 and VM 200 was
+changed to `2048`, the latter VM 200 would receive twice the CPU bandwidth than
+the first VM 100.
+
+For more information see `man systemd.resource-control`, here `CPUQuota`
+corresponds to `cpulimit` and `CPUShares` corresponds to our `cpuunits`
+setting, visit its Notes section for references and implementation details.
+
+CPU Type
+^^^^^^^^
+
 Qemu can emulate a number different of *CPU types* from 486 to the latest Xeon
 processors. Each new processor generation adds new features, like hardware
 assisted 3d rendering, random number generation, memory protection, etc ...
@@ -256,21 +301,59 @@ kvm64 is a Pentium 4 look a like CPU type, which has a reduced CPU flags set,
 but is guaranteed to work everywhere.
 
 In short, if you care about live migration and moving VMs between nodes, leave
-the kvm64 default. If you don’t care about live migration, set the CPU type to
-host, as in theory this will give your guests maximum performance.
+the kvm64 default. If you don’t care about live migration or have a homogeneous
+cluster where all nodes have the same CPU, set the CPU type to host, as in
+theory this will give your guests maximum performance.
 
-You can also optionally emulate a *NUMA* architecture in your VMs. The basics of
-the NUMA architecture mean that instead of having a global memory pool available
-to all your cores, the memory is spread into local banks close to each socket.
+NUMA
+^^^^
+You can also optionally emulate a *NUMA*
+footnote:[https://en.wikipedia.org/wiki/Non-uniform_memory_access] architecture
+in your VMs. The basics of the NUMA architecture mean that instead of having a
+global memory pool available to all your cores, the memory is spread into local
+banks close to each socket.
 This can bring speed improvements as the memory bus is not a bottleneck
 anymore. If your system has a NUMA architecture footnote:[if the command
 `numactl --hardware | grep available` returns more than one node, then your host
 system has a NUMA architecture] we recommend to activate the option, as this
-will allow proper distribution of the VM resources on the host system. This
-option is also required in {pve} to allow hotplugging of cores and RAM to a VM.
+will allow proper distribution of the VM resources on the host system.
+This option is also required to hot-plug cores or RAM in a VM.
 
 If the NUMA option is used, it is recommended to set the number of sockets to
 the number of sockets of the host system.
+
+vCPU hot-plug
+^^^^^^^^^^^^^
+
+Modern operating systems introduced the capability to hot-plug and, to a
+certain extent, hot-unplug CPU in a running systems. With Virtualisation we
+have even the luck that we avoid a lot of (physical) problem from real
+hardware.
+But it is still a complicated and not always well tested feature, so its use
+should be restricted to cases where its absolutely needed. Its uses can be
+replicated with other, well tested and less complicated, features, see
+xref:qm_cpu_resource_limits[Resource Limits].
+
+In {pve} the maximal number of plugged CPUs is always `cores * sockets`.
+To start a VM with less than this total core count of CPUs you may use the
+*vpus* setting, it denotes how many vCPUs should be plugged at VM start.
+
+Currently only Linux is working OK with this feature, a kernel newer than 3.10
+is needed, a kernel newer than 4.7 is recommended.
+
+You can use a udev rule as follow to automatically set new CPUs as online in
+the guest:
+
+----
+SUBSYSTEM=="cpu", ACTION=="add", TEST=="online", ATTR{online}=="0", ATTR{online}="1"
+----
+
+Save this under /etc/udev/rules.d/ as a file ending in `.rules`.
+
+Note: CPU hot-remove is machine dependent and requires guest cooperation.
+The deletion command does not guarantee CPU removal to actually happen,
+typically it's a request forwarded to guest using target dependent mechanism,
+e.g., ACPI on x86/amd64.
 
 
 [[qm_memory]]
