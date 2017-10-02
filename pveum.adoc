@@ -100,7 +100,7 @@ usermod -a -G watchman heinz
 Proxmox VE authentication server::
 This is a unix like password store (`/etc/pve/priv/shadow.cfg`).
 Password are encrypted using the SHA-256 hash method.
-This is the most convenient method for for small (or even medium)
+This is the most convenient method for small (or even medium)
 installations where users do not need access to anything outside of
 {pve}. In this case users are fully managed by {pve} and are able to
 change their own passwords via the GUI.

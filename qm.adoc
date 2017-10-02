@@ -130,7 +130,7 @@ Hard Disk
 Qemu can emulate a number of storage controllers:
 
 * the *IDE* controller, has a design which goes back to the 1984 PC/AT disk
-controller. Even if this controller has been superseded by more more designs,
+controller. Even if this controller has been superseded by recent designs,
 each and every OS you can think of has support for it, making it a great choice
 if you want to run an OS released before 2003. You can connect up to 4 devices
 on this controller.
@@ -219,9 +219,9 @@ A *CPU socket* is a physical slot on a PC motherboard where you can plug a CPU.
 This CPU can then contain one or many *cores*, which are independent
 processing units. Whether you have a single CPU socket with 4 cores, or two CPU
 sockets with two cores is mostly irrelevant from a performance point of view.
-However some software is licensed depending on the number of sockets you have in
-your machine, in that case it makes sense to set the number of of sockets to
-what the license allows you, and increase the number of cores.
+However some software licenses depend on the number of sockets a machine has,
+in that case it makes sense to set the number of sockets to what the license
+allows you.
 
 Increasing the number of virtual cpus (cores and sockets) will usually provide a
 performance improvement though that is heavily dependent on the use of the VM.

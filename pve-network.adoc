@@ -20,7 +20,7 @@ virtual networks.
 
 Debian traditionally uses the `ifup` and `ifdown` commands to
 configure the network. The file `/etc/network/interfaces` contains the
-whole network setup. Please refer to to manual page (`man interfaces`)
+whole network setup. Please refer to the manual page (`man interfaces`)
 for a complete format description.
 
 NOTE: {pve} does not write changes directly to

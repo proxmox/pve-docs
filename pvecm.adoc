@@ -444,7 +444,7 @@ Separate On Cluster Creation
 This is possible through the 'ring0_addr' and 'bindnet0_addr' parameter of
 the 'pvecm create' command used for creating a new cluster.
 
-If you have setup a additional NIC with a static address on 10.10.10.1/25
+If you have setup an additional NIC with a static address on 10.10.10.1/25
 and want to send and receive all cluster communication over this interface
 you would execute:
 
@@ -876,7 +876,7 @@ xref:pct_migration[Container Migration Chapter]
 Migration Type
 ~~~~~~~~~~~~~~
 
-The migration type defines if the migration data should be sent over a
+The migration type defines if the migration data should be sent over an
 encrypted (`secure`) channel or an unencrypted (`insecure`) one.
 Setting the migration type to insecure means that the RAM content of a
 virtual guest gets also transferred unencrypted, which can lead to
