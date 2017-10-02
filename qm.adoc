@@ -154,9 +154,9 @@ _VirtIO SCSI single_ which will allow you to select the *IO Thread* option.
 When selecting _VirtIO SCSI single_ Qemu will create a new controller for
 each disk, instead of adding all disks to the same controller.
 
-* The *Virtio* controller, also called virtio-blk to distinguish from
-the VirtIO SCSI controller, is an older type of paravirtualized controller
-which has been superseded in features by the Virtio SCSI Controller.
+* The *VirtIO Block* controller, often just called VirtIO or virtio-blk,
+is an older type of paravirtualized controller. It has been superseded by the
+VirtIO SCSI Controller, in terms of features.
 
 [thumbnail="gui-create-vm-hard-disk.png"]
 On each controller you attach a number of emulated hard disks, which are backed
@@ -170,9 +170,9 @@ either the *raw disk image format* or the *QEMU image format*.
   thin provisioning of the disk image.
  * the *raw disk image* is a bit-to-bit image of a hard disk, similar to what
  you would get when executing the `dd` command on a block device in Linux. This
- format do not support thin provisioning or snapshotting by itself, requiring
- cooperation from the storage layer for these tasks. It is however 10% faster
-  than the *QEMU image format*. footnote:[See this benchmark for details
+ format do not support thin provisioning or snapshots by itself, requiring
+ cooperation from the storage layer for these tasks. It may, however, be up to
+ 10% faster than the *QEMU image format*. footnote:[See this benchmark for details
  http://events.linuxfoundation.org/sites/events/files/slides/CloudOpen2013_Khoa_Huynh_v3.pdf]
  * the *VMware image format* only makes sense if you intend to import/export the
  disk image to other hypervisors.
