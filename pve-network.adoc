@@ -5,44 +5,32 @@ ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]
 
-{pve} uses a bridged networking model. Each host can have up to 4094
-bridges. Bridges are like physical network switches implemented in
-software. All VMs can share a single bridge, as if
-virtual network cables from each guest were all plugged into the same
-switch. But you can also create multiple bridges to separate network
-domains.
+Network configuration can be done either via the GUI, or by manually 
+editing the file `/etc/network/interfaces`, which contains the
+whole network configuration. The  `interfaces(5)` manual page contains the
+complete format description. All {pve} tools try hard to keep direct
+ user modifications, but using the GUI is still preferable, because it
+protects you from errors.
 
-For connecting VMs to the outside world, bridges are attached to
-physical network cards. For further flexibility, you can configure
-VLANs (IEEE 802.1q) and network bonding, also known as "link
-aggregation". That way it is possible to build complex and flexible
-virtual networks.
-
-Debian traditionally uses the `ifup` and `ifdown` commands to
-configure the network. The file `/etc/network/interfaces` contains the
-whole network setup. Please refer to the manual page (`man interfaces`)
-for a complete format description.
+Once the network is configured, you can use the Debian traditional tools `ifup` 
+and `ifdown` commands to bring interfaces up and down.
 
 NOTE: {pve} does not write changes directly to
 `/etc/network/interfaces`. Instead, we write into a temporary file
 called `/etc/network/interfaces.new`, and commit those changes when
 you reboot the node.
 
-It is worth mentioning that you can directly edit the configuration
-file. All {pve} tools tries hard to keep such direct user
-modifications. Using the GUI is still preferable, because it
-protect you from errors.
-
-
 Naming Conventions
 ~~~~~~~~~~~~~~~~~~
 
 We currently use the following naming conventions for device names:
 
-* New Ethernet devices: en*, systemd network interface names.
+* Ethernet devices: en*, systemd network interface names. This naming scheme is
+ used for new {pve} installations since version 5.0.
 
-* Legacy Ethernet devices: eth[N], where 0 ≤ N (`eth0`, `eth1`, ...)
-They are available when Proxmox VE has been updated by an earlier version.
+* Ethernet devices: eth[N], where 0 ≤ N (`eth0`, `eth1`, ...) This naming
+scheme is used for {pve} hosts which were installed before the 5.0
+release. When upgrading to 5.0, the names are kept as-is.
 
 * Bridge names: vmbr[N], where 0 ≤ N ≤ 4094 (`vmbr0` - `vmbr4094`)
 
@@ -52,8 +40,7 @@ They are available when Proxmox VE has been updated by an earlier version.
   separated by a period (`eno1.50`, `bond1.30`)
 
 This makes it easier to debug networks problems, because the device
-names implies the device type.
-
+name implies the device type.
 
 Systemd Network Interface Names
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -78,9 +65,46 @@ The most common patterns are:
 
 For more information see https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/[Predictable Network Interface Names].
 
+Choosing a network configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Depending on your current network organization and your resources you can 
+choose either a bridged, routed, or masquerading networking setup.
+
+{pve} server in a private LAN, using an external gateway to reach the internet
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The *Bridged* model makes the most sense in this case, and this is also 
+the default mode on new {pve} installations.
+Each of your Guest system will have a virtual interface attached to the 
+{pve} bridge. This is similar in effect to having the Guest network card 
+directly connected to a new switch on your LAN, the {pve} host playing the role
+of the switch.
+
+{pve} server at hosting provider, with public IP ranges for Guests
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+For this setup, you can use either a *Bridged* or *Routed* model, depending on
+what your provider allows.
+
+{pve} server at hosting provider, with a single public IP address
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In that case the only way to get outgoing network accesses for your guest
+systems is to use *Masquerading*. For incoming network access to your guests, 
+you will need to configure *Port Forwarding*.
+
+For further flexibility, you can configure
+VLANs (IEEE 802.1q) and network bonding, also known as "link
+aggregation". That way it is possible to build complex and flexible
+virtual networks.
 
 Default Configuration using a Bridge
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Bridges are like physical network switches implemented in software.
+All VMs can share a single bridge, or you can create multiple bridges to 
+separate network domains. Each host can have up to 4094 bridges.
 
 The installation program creates a single bridge named `vmbr0`, which
 is connected to the first Ethernet card. The corresponding
@@ -107,7 +131,6 @@ physical network. The network, in turn, sees each virtual machine as
 having its own MAC, even though there is only one network cable
 connecting all of these VMs to the network.
 
-
 Routed Configuration
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -123,9 +146,9 @@ You can avoid the problem by ``routing'' all traffic via a single
 interface. This makes sure that all network packets use the same MAC
 address.
 
-A common scenario is that you have a public IP (assume `192.168.10.2`
+A common scenario is that you have a public IP (assume `198.51.100.5`
 for this example), and an additional IP block for your VMs
-(`10.10.10.1/255.255.255.0`). We recommend the following setup for such
+(`203.0.113.16/29`). We recommend the following setup for such
 situations:
 
 ----
@@ -134,17 +157,17 @@ iface lo inet loopback
 
 auto eno1
 iface eno1 inet static
-        address  192.168.10.2
+        address  198.51.100.5
         netmask  255.255.255.0
-        gateway  192.168.10.1
+        gateway  198.51.100.1
         post-up echo 1 > /proc/sys/net/ipv4/ip_forward
         post-up echo 1 > /proc/sys/net/ipv4/conf/eno1/proxy_arp
 
 
 auto vmbr0
 iface vmbr0 inet static
-        address  10.10.10.1
-        netmask  255.255.255.0
+        address  203.0.113.17
+        netmask  255.255.255.248
         bridge_ports none
         bridge_stp off
         bridge_fd 0
@@ -154,19 +177,21 @@ iface vmbr0 inet static
 Masquerading (NAT) with `iptables`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In some cases you may want to use private IPs behind your Proxmox
-host's true IP, and masquerade the traffic using NAT:
+Masquerading allows guests having only a private IP address to access the
+network by using the host IP address for outgoing traffic. Each outgoing
+packet is rewritten by `iptables` to appear as originating from the host,
+and responses are rewritten accordingly to be routed to the original sender.
 
 ----
 auto lo
 iface lo inet loopback
 
-auto eno0
+auto eno1
 #real IP address
 iface eno1 inet static
-        address  192.168.10.2
+        address  198.51.100.5
         netmask  255.255.255.0
-        gateway  192.168.10.1
+        gateway  198.51.100.1
 
 auto vmbr0
 #private sub network
