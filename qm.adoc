@@ -170,7 +170,7 @@ either the *raw disk image format* or the *QEMU image format*.
   thin provisioning of the disk image.
  * the *raw disk image* is a bit-to-bit image of a hard disk, similar to what
  you would get when executing the `dd` command on a block device in Linux. This
- format do not support thin provisioning or snapshots by itself, requiring
+ format does not support thin provisioning or snapshots by itself, requiring
  cooperation from the storage layer for these tasks. It may, however, be up to
  10% faster than the *QEMU image format*. footnote:[See this benchmark for details
  http://events.linuxfoundation.org/sites/events/files/slides/CloudOpen2013_Khoa_Huynh_v3.pdf]
@@ -243,13 +243,13 @@ cost of context switches.
 Resource Limits
 ^^^^^^^^^^^^^^^
 
-Additional, to the count of virtual cores, you can configure how much resources
+In addition to the number of virtual cores, you can configure how much resources
 a VM can get in relation to the host CPU time and also in relation to other
 VMs.
 With the *cpulimit* (`Host CPU Time') option you can limit how much CPU time the
 whole VM can use on the host. It is a floating point value representing CPU
 time in percent, so `1.0` is equal to `100%`, `2.5` to `250%` and so on. If a
-single process would fully use one single core he would have `100%` CPU Time
+single process would fully use one single core it would have `100%` CPU Time
 usage. If a VM with four cores utilizes all its cores fully it would
 theoretically use `400%`. In reality the usage may be even a bit higher as Qemu
 can have additional threads for VM peripherals besides the vCPU core ones.
@@ -326,19 +326,19 @@ vCPU hot-plug
 ^^^^^^^^^^^^^
 
 Modern operating systems introduced the capability to hot-plug and, to a
-certain extent, hot-unplug CPU in a running systems. With Virtualisation we
-have even the luck that we avoid a lot of (physical) problem from real
-hardware.
-But it is still a complicated and not always well tested feature, so its use
-should be restricted to cases where its absolutely needed. Its uses can be
-replicated with other, well tested and less complicated, features, see
+certain extent, hot-unplug CPUs in a running systems. Virtualisation allows us
+to avoid a lot of the (physical) problems real hardware can cause in such
+scenarios.
+Still, this is a rather new and complicated feature, so its use should be
+restricted to cases where its absolutely needed. Most of the functionality can
+be replicated with other, well tested and less complicated, features, see
 xref:qm_cpu_resource_limits[Resource Limits].
 
 In {pve} the maximal number of plugged CPUs is always `cores * sockets`.
 To start a VM with less than this total core count of CPUs you may use the
-*vpus* setting, it denotes how many vCPUs should be plugged at VM start.
+*vpus* setting, it denotes how many vCPUs should be plugged in at VM start.
 
-Currently only Linux is working OK with this feature, a kernel newer than 3.10
+Currently only this feature is only supported on Linux, a kernel newer than 3.10
 is needed, a kernel newer than 4.7 is recommended.
 
 You can use a udev rule as follow to automatically set new CPUs as online in
