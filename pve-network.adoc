@@ -281,7 +281,7 @@ auto vmbr0
 iface vmbr0 inet static
         address  10.10.10.2
         netmask  255.255.255.0
-	gateway  10.10.10.1
+        gateway  10.10.10.1
         bridge_ports eno1
         bridge_stp off
         bridge_fd 0
@@ -312,7 +312,7 @@ auto vmbr0
 iface vmbr0 inet static
         address  10.10.10.2
         netmask  255.255.255.0
-	gateway  10.10.10.1
+        gateway  10.10.10.1
         bridge_ports bond0
         bridge_stp off
         bridge_fd 0
