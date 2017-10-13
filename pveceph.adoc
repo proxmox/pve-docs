@@ -96,6 +96,7 @@ from `/etc/ceph/ceph.conf` pointing to that file. So you can simply run
 Ceph commands without the need to specify a configuration file.
 
 
+[[pve_ceph_monitors]]
 Creating Ceph Monitors
 ----------------------
 
@@ -111,6 +112,7 @@ pveceph createmon
 ----
 
 
+[[pve_ceph_osds]]
 Creating Ceph OSDs
 ------------------
 
@@ -163,6 +165,7 @@ can place the journal on a dedicated SSD. Using a SSD journal disk is
 highly recommended if you expect good performance.
 
 
+[[pve_ceph_pools]]
 Ceph Pools
 ----------
 

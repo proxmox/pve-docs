@@ -27,6 +27,7 @@ services directly on your {pve} nodes. Recent hardware has plenty
 of CPU power and RAM, so running storage services and VMs on same node
 is possible.
 
+[[storage_rbd_config]]
 Configuration
 ~~~~~~~~~~~~~
 
