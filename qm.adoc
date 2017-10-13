@@ -230,14 +230,13 @@ virtual cpus, as for each virtual cpu you add, Qemu will create a new thread of
 execution on the host system. If you're not sure about the workload of your VM,
 it is usually a safe bet to set the number of *Total cores* to 2.
 
-NOTE: It is perfectly safe to set the _overall_ number of total cores in all
-your VMs to be greater than the number of of cores you have on your server (i.e.
-4 VMs with each 4 Total cores running in a 8 core machine is OK) In that case
-the host system will balance the Qemu execution threads between your server
-cores just like if you were running a standard multithreaded application.
-However {pve} will prevent you to allocate on a _single_ machine more vcpus than
-physically available, as this will only bring the performance down due to the
-cost of context switches.
+NOTE: It is perfectly safe if the _overall_ number of cores from all your VMs
+is greater than the number of cores on the server (e.g., 4 VMs with each 4
+cores on a machine with only 8 cores). In that case the host system will
+balance the Qemu execution threads between your server cores, just like if you
+were running a standard multithreaded application. However, {pve} will prevent
+you to assign more virtual CPU cores than physically available, as this will
+only bring the performance down due to the cost of context switches.
 
 [[qm_cpu_resource_limits]]
 Resource Limits
