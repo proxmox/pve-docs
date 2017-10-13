@@ -321,7 +321,7 @@ node, or when we restart the LRM daemon
 
 ignored::
 
-Act as the service is not managed by HA at all.
+Act as if the service were not managed by HA at all.
 Useful, when full control over the service is desired temporarily,
 without removing it from the HA configuration.
 
@@ -762,8 +762,8 @@ that they get touched by the Cluster during the short time the LRM is restarting
 After that the LRM may safely close the watchdog during a restart.
 Such a restart happens normally during a package update and, as already stated,
 an active master CRM is needed to acknowledge the requests from the LRM. If
-this is not the case the update process can take to long which, in the worst
-case, may result in a reset triggered by he watchdog.
+this is not the case the update process can take too long which, in the worst
+case, may result in a reset triggered by the watchdog.
 
 
 Node Maintenance
