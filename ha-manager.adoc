@@ -319,6 +319,13 @@ Do not touch the service state. We use this state while we reboot a
 node, or when we restart the LRM daemon
 (see xref:ha_manager_package_updates[Package Updates]).
 
+ignored::
+
+Act as the service is not managed by HA at all.
+Useful, when full control over the service is desired temporarily,
+without removing it from the HA configuration.
+
+
 migrate::
 
 Migrate service (live) to other node.
