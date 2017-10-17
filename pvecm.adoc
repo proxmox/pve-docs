@@ -184,6 +184,7 @@ Membership information
          4          1 hp4
 ----
 
+[[adding-nodes-with-separated-cluster-network]]
 Adding Nodes With Separated Cluster Network
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -472,6 +473,9 @@ To check if everything is working properly execute:
 ----
 systemctl status corosync
 ----
+
+Follow the section to add
+<<adding-nodes-with-separated-cluster-network,nodes to separated cluster network>>.
 
 [[separate-cluster-net-after-creation]]
 Separate After Cluster Creation
