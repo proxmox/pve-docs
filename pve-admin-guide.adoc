@@ -165,6 +165,14 @@ include::pvecm.1-synopsis.adoc[]
 
 :leveloffset: 0
 
+*pvesr* - {pve} Storage Replication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:leveloffset: 1
+include::pvesr.1-synopsis.adoc[]
+
+:leveloffset: 0
+
 
 *pveum* - {pve} User Manager
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
