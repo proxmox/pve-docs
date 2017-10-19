@@ -1,3 +1,33 @@
+pve-docs (5.0-10) unstable; urgency=medium
+
+  * fix #1466: fix typos in gui docs
+
+  * pvecm: pve-manager service was renamed to pve-guests
+
+  * add SHA512 checksum for repository key
+
+  * add pvesr synopsis to full page admin guide
+
+  * ha: document ignored state
+
+  * Add a paragraph to explain how network models match use cases
+
+  * qm/cpu: add more documentation about resource limits and NUMA
+
+  * Update the Windows import example to use the qm importovf command
+
+  * Document that active-backup is recommended for corosync
+
+  * pct: add note about storage:size syntax
+
+  * added missing ipv4/ip_forward in routed network section
+
+  * fix and clarify calendar event examples
+
+  * various cleanups and spelling fixes
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 19 Oct 2017 09:30:50 +0200
+
 pve-docs (5.0-9) unstable; urgency=medium
 
   * Update Dokumentation to Systemd Network Interface Names
