@@ -8,13 +8,13 @@ The HA group identifier.
 
 `max_relocate`: `<integer> (0 - N)` ('default =' `1`)::
 
-Maximal number of service relocate tries when a service fails to start.
+Maximal number of service relocate tries when a service failes to start.
 
 `max_restart`: `<integer> (0 - N)` ('default =' `1`)::
 
 Maximal number of tries to restart the service on a node after its start failed.
 
-`state`: `<disabled | enabled | started | stopped>` ('default =' `started`)::
+`state`: `<disabled | enabled | ignored | started | stopped>` ('default =' `started`)::
 
 Requested resource state. The CRM reads this state and acts accordingly.
 Please note that `enabled` is just an alias for `started`.
@@ -37,4 +37,12 @@ The CRM tries to put the resource in `stopped` state, but does not try
 to relocate the resources on node failures. The main purpose of this
 state is error recovery, because it is the only way to move a resource out
 of the `error` state.
++
+`ignored`;;
++
+The resource gets removed from the manager status and so the CRM and the LRM do
+not touch the resource anymore. All {pve} API calls affecting this resource
+will be executed, directly bypassing the HA stack. CRM commands will be thrown
+away while there source is in this state. The resource will not get relocated
+on node failures.
 

@@ -2953,11 +2953,12 @@ var pveapi = [
                                           "started",
                                           "stopped",
                                           "enabled",
-                                          "disabled"
+                                          "disabled",
+                                          "ignored"
                                        ],
                                        "optional" : 1,
                                        "type" : "string",
-                                       "verbose_description" : "Requested resource state. The CRM reads this state and acts accordingly.\nPlease note that `enabled` is just an alias for `started`.\n\n`started`;;\n\nThe CRM tries to start the resource. Service state is\nset to `started` after successful start. On node failures, or when start\nfails, it tries to recover the resource.  If everything fails, service\nstate it set to `error`.\n\n`stopped`;;\n\nThe CRM tries to keep the resource in `stopped` state, but it\nstill tries to relocate the resources on node failures.\n\n`disabled`;;\n\nThe CRM tries to put the resource in `stopped` state, but does not try\nto relocate the resources on node failures. The main purpose of this\nstate is error recovery, because it is the only way to move a resource out\nof the `error` state.\n\n"
+                                       "verbose_description" : "Requested resource state. The CRM reads this state and acts accordingly.\nPlease note that `enabled` is just an alias for `started`.\n\n`started`;;\n\nThe CRM tries to start the resource. Service state is\nset to `started` after successful start. On node failures, or when start\nfails, it tries to recover the resource.  If everything fails, service\nstate it set to `error`.\n\n`stopped`;;\n\nThe CRM tries to keep the resource in `stopped` state, but it\nstill tries to relocate the resources on node failures.\n\n`disabled`;;\n\nThe CRM tries to put the resource in `stopped` state, but does not try\nto relocate the resources on node failures. The main purpose of this\nstate is error recovery, because it is the only way to move a resource out\nof the `error` state.\n\n`ignored`;;\n\nThe resource gets removed from the manager status and so the CRM and the LRM do\nnot touch the resource anymore. All {pve} API calls affecting this resource\nwill be executed, directly bypassing the HA stack. CRM commands will be thrown\naway while there source is in this state. The resource will not get relocated\non node failures.\n\n"
                                     }
                                  },
                                  "type" : "object"
@@ -3078,11 +3079,12 @@ var pveapi = [
                                     "started",
                                     "stopped",
                                     "enabled",
-                                    "disabled"
+                                    "disabled",
+                                    "ignored"
                                  ],
                                  "optional" : 1,
                                  "type" : "string",
-                                 "verbose_description" : "Requested resource state. The CRM reads this state and acts accordingly.\nPlease note that `enabled` is just an alias for `started`.\n\n`started`;;\n\nThe CRM tries to start the resource. Service state is\nset to `started` after successful start. On node failures, or when start\nfails, it tries to recover the resource.  If everything fails, service\nstate it set to `error`.\n\n`stopped`;;\n\nThe CRM tries to keep the resource in `stopped` state, but it\nstill tries to relocate the resources on node failures.\n\n`disabled`;;\n\nThe CRM tries to put the resource in `stopped` state, but does not try\nto relocate the resources on node failures. The main purpose of this\nstate is error recovery, because it is the only way to move a resource out\nof the `error` state.\n\n"
+                                 "verbose_description" : "Requested resource state. The CRM reads this state and acts accordingly.\nPlease note that `enabled` is just an alias for `started`.\n\n`started`;;\n\nThe CRM tries to start the resource. Service state is\nset to `started` after successful start. On node failures, or when start\nfails, it tries to recover the resource.  If everything fails, service\nstate it set to `error`.\n\n`stopped`;;\n\nThe CRM tries to keep the resource in `stopped` state, but it\nstill tries to relocate the resources on node failures.\n\n`disabled`;;\n\nThe CRM tries to put the resource in `stopped` state, but does not try\nto relocate the resources on node failures. The main purpose of this\nstate is error recovery, because it is the only way to move a resource out\nof the `error` state.\n\n`ignored`;;\n\nThe resource gets removed from the manager status and so the CRM and the LRM do\nnot touch the resource anymore. All {pve} API calls affecting this resource\nwill be executed, directly bypassing the HA stack. CRM commands will be thrown\naway while there source is in this state. The resource will not get relocated\non node failures.\n\n"
                               },
                               "type" : {
                                  "description" : "Resource type.",
@@ -5904,12 +5906,12 @@ var pveapi = [
                                           "cpuunits" : {
                                              "default" : 1024,
                                              "description" : "CPU weight for a VM.",
-                                             "maximum" : 500000,
-                                             "minimum" : 0,
+                                             "maximum" : 262144,
+                                             "minimum" : 2,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (0 - 500000)",
-                                             "verbose_description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs.\n\nNOTE: You can disable fair-scheduler configuration by setting this to 0."
+                                             "typetext" : "<integer> (2 - 262144)",
+                                             "verbose_description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs."
                                           },
                                           "delete" : {
                                              "description" : "A list of settings you want to delete.",
@@ -7679,6 +7681,13 @@ var pveapi = [
                                              "minimum" : 1,
                                              "type" : "integer",
                                              "typetext" : "<integer> (1 - N)"
+                                          },
+                                          "vmstatestorage" : {
+                                             "description" : "Default storage for VM state volumes/files.",
+                                             "format" : "pve-storage-id",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
                                           },
                                           "watchdog" : {
                                              "description" : "Create a virtual hardware watchdog device.",
@@ -7859,12 +7868,12 @@ var pveapi = [
                                           "cpuunits" : {
                                              "default" : 1024,
                                              "description" : "CPU weight for a VM.",
-                                             "maximum" : 500000,
-                                             "minimum" : 0,
+                                             "maximum" : 262144,
+                                             "minimum" : 2,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (0 - 500000)",
-                                             "verbose_description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs.\n\nNOTE: You can disable fair-scheduler configuration by setting this to 0."
+                                             "typetext" : "<integer> (2 - 262144)",
+                                             "verbose_description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs."
                                           },
                                           "delete" : {
                                              "description" : "A list of settings you want to delete.",
@@ -9634,6 +9643,13 @@ var pveapi = [
                                              "minimum" : 1,
                                              "type" : "integer",
                                              "typetext" : "<integer> (1 - N)"
+                                          },
+                                          "vmstatestorage" : {
+                                             "description" : "Default storage for VM state volumes/files.",
+                                             "format" : "pve-storage-id",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
                                           },
                                           "watchdog" : {
                                              "description" : "Create a virtual hardware watchdog device.",
@@ -11234,8 +11250,11 @@ var pveapi = [
                                                       "perm",
                                                       "/vms/{vmid}",
                                                       [
-                                                         "VM.Snapshot"
-                                                      ]
+                                                         "VM.Snapshot",
+                                                         "VM.Snapshot.Rollback"
+                                                      ],
+                                                      "any",
+                                                      1
                                                    ]
                                                 },
                                                 "proxyto" : "node",
@@ -11334,8 +11353,11 @@ var pveapi = [
                                                       "perm",
                                                       "/vms/{vmid}",
                                                       [
-                                                         "VM.Snapshot"
-                                                      ]
+                                                         "VM.Snapshot",
+                                                         "VM.Snapshot.Rollback"
+                                                      ],
+                                                      "any",
+                                                      1
                                                    ]
                                                 },
                                                 "protected" : 1,
@@ -11947,12 +11969,12 @@ var pveapi = [
                               "cpuunits" : {
                                  "default" : 1024,
                                  "description" : "CPU weight for a VM.",
-                                 "maximum" : 500000,
-                                 "minimum" : 0,
+                                 "maximum" : 262144,
+                                 "minimum" : 2,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "<integer> (0 - 500000)",
-                                 "verbose_description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs.\n\nNOTE: You can disable fair-scheduler configuration by setting this to 0."
+                                 "typetext" : "<integer> (2 - 262144)",
+                                 "verbose_description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs."
                               },
                               "description" : {
                                  "description" : "Description for the VM. Only used on the configuration web interface. This is saved as comment inside the configuration file.",
@@ -13717,6 +13739,13 @@ var pveapi = [
                                  "type" : "integer",
                                  "typetext" : "<integer> (1 - N)"
                               },
+                              "vmstatestorage" : {
+                                 "description" : "Default storage for VM state volumes/files.",
+                                 "format" : "pve-storage-id",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "watchdog" : {
                                  "description" : "Create a virtual hardware watchdog device.",
                                  "format" : "pve-qm-watchdog",
@@ -14007,14 +14036,14 @@ var pveapi = [
                                                 "ip" : {
                                                    "description" : "IPv4 address in CIDR format.",
                                                    "format" : "pve-ipv4-config",
-                                                   "format_description" : "IPv4Format/CIDR",
+                                                   "format_description" : "(IPv4/CIDR|dhcp|manual)",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "ip6" : {
                                                    "description" : "IPv6 address in CIDR format.",
                                                    "format" : "pve-ipv6-config",
-                                                   "format_description" : "IPv6Format/CIDR",
+                                                   "format_description" : "(IPv6/CIDR|auto|dhcp|manual)",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -14061,7 +14090,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]"
+                                             "typetext" : "name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<(IPv4/CIDR|dhcp|manual)>] [,ip6=<(IPv6/CIDR|auto|dhcp|manual)>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]"
                                           },
                                           "node" : {
                                              "description" : "The cluster node name.",
@@ -14621,8 +14650,11 @@ var pveapi = [
                                                       "perm",
                                                       "/vms/{vmid}",
                                                       [
-                                                         "VM.Snapshot"
-                                                      ]
+                                                         "VM.Snapshot",
+                                                         "VM.Snapshot.Rollback"
+                                                      ],
+                                                      "any",
+                                                      1
                                                    ]
                                                 },
                                                 "protected" : 1,
@@ -14673,8 +14705,11 @@ var pveapi = [
                                                       "perm",
                                                       "/vms/{vmid}",
                                                       [
-                                                         "VM.Snapshot"
-                                                      ]
+                                                         "VM.Snapshot",
+                                                         "VM.Snapshot.Rollback"
+                                                      ],
+                                                      "any",
+                                                      1
                                                    ]
                                                 },
                                                 "proxyto" : "node",
@@ -17714,14 +17749,14 @@ var pveapi = [
                                     "ip" : {
                                        "description" : "IPv4 address in CIDR format.",
                                        "format" : "pve-ipv4-config",
-                                       "format_description" : "IPv4Format/CIDR",
+                                       "format_description" : "(IPv4/CIDR|dhcp|manual)",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "ip6" : {
                                        "description" : "IPv6 address in CIDR format.",
                                        "format" : "pve-ipv6-config",
-                                       "format_description" : "IPv6Format/CIDR",
+                                       "format_description" : "(IPv6/CIDR|auto|dhcp|manual)",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
@@ -17768,7 +17803,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]"
+                                 "typetext" : "name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<(IPv4/CIDR|dhcp|manual)>] [,ip6=<(IPv6/CIDR|auto|dhcp|manual)>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]"
                               },
                               "node" : {
                                  "description" : "The cluster node name.",
@@ -18168,7 +18203,7 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "journal_dev" : {
-                                       "description" : "Block device name for journal.",
+                                       "description" : "Block device name for journal (filestore) or block.db (bluestore).",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -18176,6 +18211,12 @@ var pveapi = [
                                     "node" : {
                                        "description" : "The cluster node name.",
                                        "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "wal_dev" : {
+                                       "description" : "Block device name for block.wal (bluestore only).",
+                                       "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     }
@@ -18317,16 +18358,23 @@ var pveapi = [
                            {
                               "info" : {
                                  "DELETE" : {
-                                    "description" : "Destroy Ceph monitor.",
+                                    "description" : "Destroy Ceph Monitor and Manager.",
                                     "method" : "DELETE",
                                     "name" : "destroymon",
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
+                                          "exclude-manager" : {
+                                             "default" : 0,
+                                             "description" : "When set, removes only the monitor, not the manager",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
                                           "monid" : {
                                              "description" : "Monitor ID",
-                                             "type" : "integer",
-                                             "typetext" : "<integer>"
+                                             "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
+                                             "type" : "string"
                                           },
                                           "node" : {
                                              "description" : "The cluster node name.",
@@ -18409,12 +18457,25 @@ var pveapi = [
                               }
                            },
                            "POST" : {
-                              "description" : "Create Ceph Monitor",
+                              "description" : "Create Ceph Monitor and Manager",
                               "method" : "POST",
                               "name" : "createmon",
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
+                                    "exclude-manager" : {
+                                       "default" : 0,
+                                       "description" : "When set, only a monitor will be created.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "id" : {
+                                       "description" : "The ID for the monitor, when omitted the same as the nodename",
+                                       "optional" : 1,
+                                       "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
+                                       "type" : "string"
+                                    },
                                     "node" : {
                                        "description" : "The cluster node name.",
                                        "format" : "pve-node",
@@ -18523,6 +18584,93 @@ var pveapi = [
                         "text" : "init"
                      },
                      {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "DELETE" : {
+                                    "description" : "Destroy Ceph Manager.",
+                                    "method" : "DELETE",
+                                    "name" : "destroymgr",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "id" : {
+                                             "description" : "The ID of the manager",
+                                             "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
+                                             "type" : "string"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/",
+                                          [
+                                             "Sys.Modify"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/ceph/mgr/{id}",
+                              "text" : "{id}"
+                           }
+                        ],
+                        "info" : {
+                           "POST" : {
+                              "description" : "Create Ceph Manager",
+                              "method" : "POST",
+                              "name" : "createmgr",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "id" : {
+                                       "description" : "The ID for the manager, when omitted the same as the nodename",
+                                       "optional" : 1,
+                                       "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
+                                       "type" : "string"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
+                        "path" : "/nodes/{node}/ceph/mgr",
+                        "text" : "mgr"
+                     },
+                     {
                         "info" : {
                            "POST" : {
                               "description" : "Stop ceph services.",
@@ -18540,7 +18688,7 @@ var pveapi = [
                                     "service" : {
                                        "description" : "Ceph service name.",
                                        "optional" : 1,
-                                       "pattern" : "(mon|mds|osd)\\.[A-Za-z0-9]{1,32}",
+                                       "pattern" : "(mon|mds|osd|mgr)\\.[A-Za-z0-9\\-]{1,32}",
                                        "type" : "string"
                                     }
                                  }
@@ -18583,7 +18731,7 @@ var pveapi = [
                                     "service" : {
                                        "description" : "Ceph service name.",
                                        "optional" : 1,
-                                       "pattern" : "(mon|mds|osd)\\.[A-Za-z0-9]{1,32}",
+                                       "pattern" : "(mon|mds|osd|mgr)\\.[A-Za-z0-9\\-]{1,32}",
                                        "type" : "string"
                                     }
                                  }
@@ -18676,6 +18824,13 @@ var pveapi = [
                                              "format" : "pve-node",
                                              "type" : "string",
                                              "typetext" : "<string>"
+                                          },
+                                          "remove_storages" : {
+                                             "default" : 0,
+                                             "description" : "Remove all pveceph-managed storages configured for this pool",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
                                           }
                                        }
                                     },
@@ -18691,7 +18846,7 @@ var pveapi = [
                                     "protected" : 1,
                                     "proxyto" : "node",
                                     "returns" : {
-                                       "type" : "null"
+                                       "type" : "string"
                                     }
                                  }
                               },
@@ -18761,17 +18916,30 @@ var pveapi = [
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
-                                    "crush_ruleset" : {
-                                       "default" : 0,
-                                       "description" : "The ruleset to use for mapping object placement in the cluster.",
-                                       "maximum" : 32768,
-                                       "minimum" : 0,
+                                    "add_storages" : {
+                                       "description" : "Configure VM and CT storages using the new pool.",
                                        "optional" : 1,
-                                       "type" : "integer",
-                                       "typetext" : "<integer> (0 - 32768)"
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "application" : {
+                                       "description" : "The application of the pool, 'rbd' by default.",
+                                       "enum" : [
+                                          "rbd",
+                                          "cephfs",
+                                          "rgw"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "crush_rule" : {
+                                       "description" : "The rule to use for mapping object placement in the cluster.",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
                                     },
                                     "min_size" : {
-                                       "default" : 1,
+                                       "default" : 2,
                                        "description" : "Minimum number of replicas per object",
                                        "maximum" : 7,
                                        "minimum" : 1,
@@ -18800,7 +18968,7 @@ var pveapi = [
                                        "typetext" : "<integer> (8 - 32768)"
                                     },
                                     "size" : {
-                                       "default" : 2,
+                                       "default" : 3,
                                        "description" : "Number of replicas per object",
                                        "maximum" : 7,
                                        "minimum" : 1,
@@ -18822,7 +18990,7 @@ var pveapi = [
                               "protected" : 1,
                               "proxyto" : "node",
                               "returns" : {
-                                 "type" : "null"
+                                 "type" : "string"
                               }
                            }
                         },
@@ -19073,6 +19241,56 @@ var pveapi = [
                         "leaf" : 1,
                         "path" : "/nodes/{node}/ceph/log",
                         "text" : "log"
+                     },
+                     {
+                        "info" : {
+                           "GET" : {
+                              "description" : "List ceph rules.",
+                              "method" : "GET",
+                              "name" : "rules",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Audit",
+                                       "Datastore.Audit"
+                                    ],
+                                    "any",
+                                    1
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {},
+                                    "type" : "object"
+                                 },
+                                 "links" : [
+                                    {
+                                       "href" : "{name}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/ceph/rules",
+                        "text" : "rules"
                      }
                   ],
                   "info" : {
@@ -19857,8 +20075,9 @@ var pveapi = [
                            "properties" : {
                               "key" : {
                                  "description" : "Proxmox VE subscription key",
-                                 "type" : "string",
-                                 "typetext" : "<string>"
+                                 "maxLength" : 32,
+                                 "pattern" : "pve([124])([cbsp])-[0-9a-f]{10}",
+                                 "type" : "string"
                               },
                               "node" : {
                                  "description" : "The cluster node name.",
@@ -24572,10 +24791,10 @@ var pveapi = [
                         },
                         "is_mountpoint" : {
                            "default" : "no",
-                           "description" : "Assume the directory is an externally managed mountpoint. If nothing is mounted the storage will be considered offline.",
+                           "description" : "Assume the given path is an externally managed mountpoint and consider the storage offline if it is not mounted. Using a boolean (yes/no) value serves as a shortcut to using the target path in this field.",
                            "optional" : 1,
-                           "type" : "boolean",
-                           "typetext" : "<boolean>"
+                           "type" : "string",
+                           "typetext" : "<string>"
                         },
                         "krbd" : {
                            "description" : "Access rbd through krbd kernel module.",
@@ -24596,6 +24815,13 @@ var pveapi = [
                            "optional" : 1,
                            "type" : "boolean",
                            "typetext" : "<boolean>"
+                        },
+                        "monhost" : {
+                           "description" : "IP addresses of monitors (for external clusters).",
+                           "format" : "pve-storage-portal-dns-list",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
                         },
                         "nodes" : {
                            "description" : "List of cluster node names.",
@@ -24840,10 +25066,10 @@ var pveapi = [
                   },
                   "is_mountpoint" : {
                      "default" : "no",
-                     "description" : "Assume the directory is an externally managed mountpoint. If nothing is mounted the storage will be considered offline.",
+                     "description" : "Assume the given path is an externally managed mountpoint and consider the storage offline if it is not mounted. Using a boolean (yes/no) value serves as a shortcut to using the target path in this field.",
                      "optional" : 1,
-                     "type" : "boolean",
-                     "typetext" : "<boolean>"
+                     "type" : "string",
+                     "typetext" : "<string>"
                   },
                   "iscsiprovider" : {
                      "description" : "iscsi provider",
@@ -24872,7 +25098,7 @@ var pveapi = [
                      "typetext" : "<boolean>"
                   },
                   "monhost" : {
-                     "description" : "Monitors daemon ips.",
+                     "description" : "IP addresses of monitors (for external clusters).",
                      "format" : "pve-storage-portal-dns-list",
                      "optional" : 1,
                      "type" : "string",
@@ -25925,6 +26151,25 @@ var pveapi = [
                                  "pattern" : "\\w+=[^,]+(,\\s*\\w+=[^,]+)*",
                                  "type" : "string"
                               },
+                              "capath" : {
+                                 "default" : "/etc/ssl/certs",
+                                 "description" : "Path to the CA certificate store",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "cert" : {
+                                 "description" : "Path to the client certificate",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "certkey" : {
+                                 "description" : "Path to the client certificate key",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "comment" : {
                                  "description" : "Description.",
                                  "maxLength" : 4096,
@@ -26011,6 +26256,13 @@ var pveapi = [
                                  "optional" : 1,
                                  "pattern" : "\\S{2,}",
                                  "type" : "string"
+                              },
+                              "verify" : {
+                                 "default" : 0,
+                                 "description" : "Verify the server's SSL certificate",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
                               }
                            },
                            "type" : "object"
@@ -26100,6 +26352,25 @@ var pveapi = [
                            "pattern" : "\\w+=[^,]+(,\\s*\\w+=[^,]+)*",
                            "type" : "string"
                         },
+                        "capath" : {
+                           "default" : "/etc/ssl/certs",
+                           "description" : "Path to the CA certificate store",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "cert" : {
+                           "description" : "Path to the client certificate",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "certkey" : {
+                           "description" : "Path to the client certificate key",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
                         "comment" : {
                            "description" : "Description.",
                            "maxLength" : 4096,
@@ -26181,6 +26452,13 @@ var pveapi = [
                            "optional" : 1,
                            "pattern" : "\\S{2,}",
                            "type" : "string"
+                        },
+                        "verify" : {
+                           "default" : 0,
+                           "description" : "Verify the server's SSL certificate",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
                         }
                      },
                      "type" : "object"
@@ -26207,7 +26485,7 @@ var pveapi = [
          {
             "info" : {
                "GET" : {
-                  "description" : "Dummy. Useful for formaters which want to priovde a login page.",
+                  "description" : "Dummy. Useful for formatters which want to provide a login page.",
                   "method" : "GET",
                   "name" : "get_ticket",
                   "parameters" : {

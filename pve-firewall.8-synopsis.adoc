@@ -15,7 +15,7 @@ Get help about specified command.
 
 Command name
 
-`-verbose` `<boolean>` ::
+`--verbose` `<boolean>` ::
 
 Verbose output format.
 
@@ -40,35 +40,35 @@ Simulate firewall rules. This does not simulate kernel 'routing' table.
 Instead, this simply assumes that routing from source zone to destination
 zone is possible.
 
-`-dest` `<string>` ::
+`--dest` `<string>` ::
 
 Destination IP address.
 
-`-dport` `<integer>` ::
+`--dport` `<integer>` ::
 
 Destination port.
 
-`-from` `(host|outside|vm\d+|ct\d+|vmbr\d+/\S+)` ('default =' `outside`)::
+`--from` `(host|outside|vm\d+|ct\d+|vmbr\d+/\S+)` ('default =' `outside`)::
 
 Source zone.
 
-`-protocol` `(tcp|udp)` ('default =' `tcp`)::
+`--protocol` `(tcp|udp)` ('default =' `tcp`)::
 
 Protocol.
 
-`-source` `<string>` ::
+`--source` `<string>` ::
 
 Source IP address.
 
-`-sport` `<integer>` ::
+`--sport` `<integer>` ::
 
 Source port.
 
-`-to` `(host|outside|vm\d+|ct\d+|vmbr\d+/\S+)` ('default =' `host`)::
+`--to` `(host|outside|vm\d+|ct\d+|vmbr\d+/\S+)` ('default =' `host`)::
 
 Destination zone.
 
-`-verbose` `<boolean>` ('default =' `0`)::
+`--verbose` `<boolean>` ('default =' `0`)::
 
 Verbose output.
 
@@ -78,7 +78,7 @@ Verbose output.
 
 Start the Proxmox VE firewall service.
 
-`-debug` `<boolean>` ('default =' `0`)::
+`--debug` `<boolean>` ('default =' `0`)::
 
 Debug mode - stay in foreground
 

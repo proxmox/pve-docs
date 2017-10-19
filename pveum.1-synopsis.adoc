@@ -1,6 +1,6 @@
 *pveum* `<COMMAND> [ARGS] [OPTIONS]`
 
-*pveum acldel* `<path> -roles <string>` `[OPTIONS]`
+*pveum acldel* `<path> --roles <string>` `[OPTIONS]`
 
 Update Access Control List (add or remove permissions).
 
@@ -8,25 +8,25 @@ Update Access Control List (add or remove permissions).
 
 Access control path
 
-`-groups` `<string>` ::
+`--groups` `<string>` ::
 
 List of groups.
 
-`-propagate` `<boolean>` ('default =' `1`)::
+`--propagate` `<boolean>` ('default =' `1`)::
 
 Allow to propagate (inherit) permissions.
 
-`-roles` `<string>` ::
+`--roles` `<string>` ::
 
 List of roles.
 
-`-users` `<string>` ::
+`--users` `<string>` ::
 
 List of users.
 
 
 
-*pveum aclmod* `<path> -roles <string>` `[OPTIONS]`
+*pveum aclmod* `<path> --roles <string>` `[OPTIONS]`
 
 Update Access Control List (add or remove permissions).
 
@@ -34,19 +34,19 @@ Update Access Control List (add or remove permissions).
 
 Access control path
 
-`-groups` `<string>` ::
+`--groups` `<string>` ::
 
 List of groups.
 
-`-propagate` `<boolean>` ('default =' `1`)::
+`--propagate` `<boolean>` ('default =' `1`)::
 
 Allow to propagate (inherit) permissions.
 
-`-roles` `<string>` ::
+`--roles` `<string>` ::
 
 List of roles.
 
-`-users` `<string>` ::
+`--users` `<string>` ::
 
 List of users.
 
@@ -61,7 +61,7 @@ Create new group.
 
 no description available
 
-`-comment` `<string>` ::
+`--comment` `<string>` ::
 
 no description available
 
@@ -85,7 +85,7 @@ Update group data.
 
 no description available
 
-`-comment` `<string>` ::
+`--comment` `<string>` ::
 
 no description available
 
@@ -100,7 +100,7 @@ Get help about specified command.
 
 Command name
 
-`-verbose` `<boolean>` ::
+`--verbose` `<boolean>` ::
 
 Verbose output format.
 
@@ -126,7 +126,7 @@ Create new role.
 
 no description available
 
-`-privs` `<string>` ::
+`--privs` `<string>` ::
 
 no description available
 
@@ -142,7 +142,7 @@ no description available
 
 
 
-*pveum rolemod* `<roleid> -privs <string>` `[OPTIONS]`
+*pveum rolemod* `<roleid> --privs <string>` `[OPTIONS]`
 
 Create new role.
 
@@ -150,13 +150,13 @@ Create new role.
 
 no description available
 
-`-append` `<boolean>` ::
+`--append` `<boolean>` ::
 
 no description available
 +
 NOTE: Requires option(s): `privs`
 
-`-privs` `<string>` ::
+`--privs` `<string>` ::
 
 no description available
 
@@ -171,23 +171,23 @@ Create or verify authentication ticket.
 
 User name
 
-`-otp` `<string>` ::
+`--otp` `<string>` ::
 
 One-time password for Two-factor authentication.
 
-`-path` `<string>` ::
+`--path` `<string>` ::
 
 Verify ticket, and check if user have access 'privs' on 'path'
 +
 NOTE: Requires option(s): `privs`
 
-`-privs` `<string>` ::
+`--privs` `<string>` ::
 
 Verify ticket, and check if user have access 'privs' on 'path'
 +
 NOTE: Requires option(s): `path`
 
-`-realm` `<string>` ::
+`--realm` `<string>` ::
 
 You can optionally pass the realm using this parameter. Normally the realm is simply added to the username <username>@<relam>.
 
@@ -202,39 +202,39 @@ Create new user.
 
 User ID
 
-`-comment` `<string>` ::
+`--comment` `<string>` ::
 
 no description available
 
-`-email` `<string>` ::
+`--email` `<string>` ::
 
 no description available
 
-`-enable` `<boolean>` ('default =' `1`)::
+`--enable` `<boolean>` ('default =' `1`)::
 
 Enable the account (default). You can set this to '0' to disable the accout
 
-`-expire` `<integer> (0 - N)` ::
+`--expire` `<integer> (0 - N)` ::
 
 Account expiration date (seconds since epoch). '0' means no expiration date.
 
-`-firstname` `<string>` ::
+`--firstname` `<string>` ::
 
 no description available
 
-`-groups` `<string>` ::
+`--groups` `<string>` ::
 
 no description available
 
-`-keys` `<string>` ::
+`--keys` `<string>` ::
 
 Keys for two factor auth (yubico).
 
-`-lastname` `<string>` ::
+`--lastname` `<string>` ::
 
 no description available
 
-`-password` ::
+`--password` ::
 
 Initial password.
 
@@ -258,41 +258,41 @@ Update user configuration.
 
 User ID
 
-`-append` `<boolean>` ::
+`--append` `<boolean>` ::
 
 no description available
 +
 NOTE: Requires option(s): `groups`
 
-`-comment` `<string>` ::
+`--comment` `<string>` ::
 
 no description available
 
-`-email` `<string>` ::
+`--email` `<string>` ::
 
 no description available
 
-`-enable` `<boolean>` ::
+`--enable` `<boolean>` ::
 
 Enable/disable the account.
 
-`-expire` `<integer> (0 - N)` ::
+`--expire` `<integer> (0 - N)` ::
 
 Account expiration date (seconds since epoch). '0' means no expiration date.
 
-`-firstname` `<string>` ::
+`--firstname` `<string>` ::
 
 no description available
 
-`-groups` `<string>` ::
+`--groups` `<string>` ::
 
 no description available
 
-`-keys` `<string>` ::
+`--keys` `<string>` ::
 
 Keys for two factor auth (yubico).
 
-`-lastname` `<string>` ::
+`--lastname` `<string>` ::
 
 no description available
 

@@ -12,19 +12,19 @@ The backup file. You can pass '-' to read from standard input.
 
 The (unique) ID of the VM.
 
-`-force` `<boolean>` ::
+`--force` `<boolean>` ::
 
 Allow to overwrite existing VM.
 
-`-pool` `<string>` ::
+`--pool` `<string>` ::
 
 Add the VM to the specified pool.
 
-`-storage` `<string>` ::
+`--storage` `<string>` ::
 
 Default storage.
 
-`-unique` `<boolean>` ::
+`--unique` `<boolean>` ::
 
 Assign a unique random ethernet address.
 

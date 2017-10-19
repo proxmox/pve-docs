@@ -15,7 +15,7 @@ Get help about specified command.
 
 Command name
 
-`-verbose` `<boolean>` ::
+`--verbose` `<boolean>` ::
 
 Verbose output format.
 
@@ -26,7 +26,7 @@ Verbose output format.
 
 Set subscription key.
 
-`<key>`: `<string>` ::
+`<key>`: `pve([124])([cbsp])-[0-9a-f]{10}` ::
 
 Proxmox VE subscription key
 
@@ -36,7 +36,7 @@ Proxmox VE subscription key
 
 Update subscription info.
 
-`-force` `<boolean>` ('default =' `0`)::
+`--force` `<boolean>` ('default =' `0`)::
 
 Always connect to server, even if we have up to date info inside local cache.
 

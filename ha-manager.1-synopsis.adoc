@@ -8,27 +8,27 @@ Create a new HA resource.
 
 HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).
 
-`-comment` `<string>` ::
+`--comment` `<string>` ::
 
 Description.
 
-`-group` `<string>` ::
+`--group` `<string>` ::
 
 The HA group identifier.
 
-`-max_relocate` `<integer> (0 - N)` ('default =' `1`)::
+`--max_relocate` `<integer> (0 - N)` ('default =' `1`)::
 
 Maximal number of service relocate tries when a service failes to start.
 
-`-max_restart` `<integer> (0 - N)` ('default =' `1`)::
+`--max_restart` `<integer> (0 - N)` ('default =' `1`)::
 
 Maximal number of tries to restart the service on a node after its start failed.
 
-`-state` `<disabled | enabled | started | stopped>` ('default =' `started`)::
+`--state` `<disabled | enabled | ignored | started | stopped>` ('default =' `started`)::
 
 Requested resource state.
 
-`-type` `<ct | vm>` ::
+`--type` `<ct | vm>` ::
 
 Resource type.
 
@@ -38,14 +38,14 @@ Resource type.
 
 List HA resources.
 
-`-type` `<ct | vm>` ::
+`--type` `<ct | vm>` ::
 
 Only list resources of specific type
 
 
 
 
-*ha-manager groupadd* `<group> -nodes <string>` `[OPTIONS]`
+*ha-manager groupadd* `<group> --nodes <string>` `[OPTIONS]`
 
 Create a new HA group.
 
@@ -53,23 +53,23 @@ Create a new HA group.
 
 The HA group identifier.
 
-`-comment` `<string>` ::
+`--comment` `<string>` ::
 
 Description.
 
-`-nodes` `<node>[:<pri>]{,<node>[:<pri>]}*` ::
+`--nodes` `<node>[:<pri>]{,<node>[:<pri>]}*` ::
 
 List of cluster node names with optional priority.
 
-`-nofailback` `<boolean>` ('default =' `0`)::
+`--nofailback` `<boolean>` ('default =' `0`)::
 
 The CRM tries to run services on the node with the highest priority. If a node with higher priority comes online, the CRM migrates the service to that node. Enabling nofailback prevents that behavior.
 
-`-restricted` `<boolean>` ('default =' `0`)::
+`--restricted` `<boolean>` ('default =' `0`)::
 
 Resources bound to restricted groups may only run on nodes defined by the group.
 
-`-type` `<group>` ::
+`--type` `<group>` ::
 
 Group type.
 
@@ -99,27 +99,27 @@ Update ha group configuration.
 
 The HA group identifier.
 
-`-comment` `<string>` ::
+`--comment` `<string>` ::
 
 Description.
 
-`-delete` `<string>` ::
+`--delete` `<string>` ::
 
 A list of settings you want to delete.
 
-`-digest` `<string>` ::
+`--digest` `<string>` ::
 
 Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
 
-`-nodes` `<node>[:<pri>]{,<node>[:<pri>]}*` ::
+`--nodes` `<node>[:<pri>]{,<node>[:<pri>]}*` ::
 
 List of cluster node names with optional priority.
 
-`-nofailback` `<boolean>` ('default =' `0`)::
+`--nofailback` `<boolean>` ('default =' `0`)::
 
 The CRM tries to run services on the node with the highest priority. If a node with higher priority comes online, the CRM migrates the service to that node. Enabling nofailback prevents that behavior.
 
-`-restricted` `<boolean>` ('default =' `0`)::
+`--restricted` `<boolean>` ('default =' `0`)::
 
 Resources bound to restricted groups may only run on nodes defined by the group.
 
@@ -134,7 +134,7 @@ Get help about specified command.
 
 Command name
 
-`-verbose` `<boolean>` ::
+`--verbose` `<boolean>` ::
 
 Verbose output format.
 
@@ -188,31 +188,31 @@ Update resource configuration.
 
 HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).
 
-`-comment` `<string>` ::
+`--comment` `<string>` ::
 
 Description.
 
-`-delete` `<string>` ::
+`--delete` `<string>` ::
 
 A list of settings you want to delete.
 
-`-digest` `<string>` ::
+`--digest` `<string>` ::
 
 Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
 
-`-group` `<string>` ::
+`--group` `<string>` ::
 
 The HA group identifier.
 
-`-max_relocate` `<integer> (0 - N)` ('default =' `1`)::
+`--max_relocate` `<integer> (0 - N)` ('default =' `1`)::
 
 Maximal number of service relocate tries when a service failes to start.
 
-`-max_restart` `<integer> (0 - N)` ('default =' `1`)::
+`--max_restart` `<integer> (0 - N)` ('default =' `1`)::
 
 Maximal number of tries to restart the service on a node after its start failed.
 
-`-state` `<disabled | enabled | started | stopped>` ('default =' `started`)::
+`--state` `<disabled | enabled | ignored | started | stopped>` ('default =' `started`)::
 
 Requested resource state.
 
@@ -223,7 +223,7 @@ Requested resource state.
 
 Display HA manger status.
 
-`-verbose` `<boolean>` ('default =' `0`)::
+`--verbose` `<boolean>` ('default =' `0`)::
 
 Verbose output. Include complete CRM and LRM status (JSON).
 

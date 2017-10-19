@@ -4,7 +4,7 @@
 
 List available templates.
 
-`-section` `<system | turnkeylinux>` ::
+`--section` `<system | turnkeylinux>` ::
 
 Restrict list to specified section.
 
@@ -34,7 +34,7 @@ Get help about specified command.
 
 Command name
 
-`-verbose` `<boolean>` ::
+`--verbose` `<boolean>` ::
 
 Verbose output format.
 

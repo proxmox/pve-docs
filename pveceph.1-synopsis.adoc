@@ -1,8 +1,26 @@
 *pveceph* `<COMMAND> [ARGS] [OPTIONS]`
 
-*pveceph createmon*
+*pveceph createmgr* `[OPTIONS]`
 
-Create Ceph Monitor
+Create Ceph Manager
+
+`--id` `[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?` ::
+
+The ID for the manager, when omitted the same as the nodename
+
+
+
+*pveceph createmon* `[OPTIONS]`
+
+Create Ceph Monitor and Manager
+
+`--exclude-manager` `<boolean>` ('default =' `0`)::
+
+When set, only a monitor will be created.
+
+`--id` `[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?` ::
+
+The ID for the monitor, when omitted the same as the nodename
 
 
 
@@ -15,17 +33,21 @@ Create OSD
 
 Block device name.
 
-`-bluestore` `<boolean>` ('default =' `0`)::
+`--bluestore` `<boolean>` ('default =' `0`)::
 
 Use bluestore instead of filestore.
 
-`-fstype` `<btrfs | ext4 | xfs>` ('default =' `xfs`)::
+`--fstype` `<btrfs | ext4 | xfs>` ('default =' `xfs`)::
 
 File system type (filestore only).
 
-`-journal_dev` `<string>` ::
+`--journal_dev` `<string>` ::
 
-Block device name for journal.
+Block device name for journal (filestore) or block.db (bluestore).
+
+`--wal_dev` `<string>` ::
+
+Block device name for block.wal (bluestore only).
 
 
 
@@ -38,31 +60,53 @@ Create POOL
 
 The name of the pool. It must be unique.
 
-`-crush_ruleset` `<integer> (0 - 32768)` ('default =' `0`)::
+`--add_storages` `<boolean>` ::
 
-The ruleset to use for mapping object placement in the cluster.
+Configure VM and CT storages using the new pool.
 
-`-min_size` `<integer> (1 - 7)` ('default =' `1`)::
+`--application` `<cephfs | rbd | rgw>` ::
+
+The application of the pool, 'rbd' by default.
+
+`--crush_rule` `<string>` ::
+
+The rule to use for mapping object placement in the cluster.
+
+`--min_size` `<integer> (1 - 7)` ('default =' `2`)::
 
 Minimum number of replicas per object
 
-`-pg_num` `<integer> (8 - 32768)` ('default =' `64`)::
+`--pg_num` `<integer> (8 - 32768)` ('default =' `64`)::
 
 Number of placement groups.
 
-`-size` `<integer> (1 - 7)` ('default =' `2`)::
+`--size` `<integer> (1 - 7)` ('default =' `3`)::
 
 Number of replicas per object
 
 
 
-*pveceph destroymon* `<monid>`
+*pveceph destroymgr* `<id>`
 
-Destroy Ceph monitor.
+Destroy Ceph Manager.
 
-`<monid>`: `<integer>` ::
+`<id>`: `[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?` ::
+
+The ID of the manager
+
+
+
+*pveceph destroymon* `<monid>` `[OPTIONS]`
+
+Destroy Ceph Monitor and Manager.
+
+`<monid>`: `[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?` ::
 
 Monitor ID
+
+`--exclude-manager` `<boolean>` ('default =' `0`)::
+
+When set, removes only the monitor, not the manager
 
 
 
@@ -75,7 +119,7 @@ Destroy OSD
 
 OSD ID
 
-`-cleanup` `<boolean>` ('default =' `0`)::
+`--cleanup` `<boolean>` ('default =' `0`)::
 
 If set, we remove partition table entries.
 
@@ -90,9 +134,13 @@ Destroy pool
 
 The name of the pool. It must be unique.
 
-`-force` `<boolean>` ('default =' `0`)::
+`--force` `<boolean>` ('default =' `0`)::
 
 If true, destroys pool even if in use
+
+`--remove_storages` `<boolean>` ('default =' `0`)::
+
+Remove all pveceph-managed storages configured for this pool
 
 
 
@@ -105,7 +153,7 @@ Get help about specified command.
 
 Command name
 
-`-verbose` `<boolean>` ::
+`--verbose` `<boolean>` ::
 
 Verbose output format.
 
@@ -116,27 +164,27 @@ Verbose output format.
 
 Create initial ceph default configuration and setup symlinks.
 
-`-disable_cephx` `<boolean>` ('default =' `0`)::
+`--disable_cephx` `<boolean>` ('default =' `0`)::
 
 Disable cephx authentification.
 +
 WARNING: cephx is a security feature protecting against man-in-the-middle attacks. Only consider disabling cephx if your network is private!
 
-`-min_size` `<integer> (1 - 7)` ('default =' `2`)::
+`--min_size` `<integer> (1 - 7)` ('default =' `2`)::
 
 Minimum number of available replicas per object to allow I/O
 
-`-network` `<string>` ::
+`--network` `<string>` ::
 
 Use specific network for all ceph related traffic
 
-`-pg_bits` `<integer> (6 - 14)` ('default =' `6`)::
+`--pg_bits` `<integer> (6 - 14)` ('default =' `6`)::
 
 Placement group bits, used to specify the default number of placement groups.
 +
 NOTE: 'osd pool default pg num' does not work for default pools.
 
-`-size` `<integer> (1 - 7)` ('default =' `3`)::
+`--size` `<integer> (1 - 7)` ('default =' `3`)::
 
 Targeted number of replicas per object
 
@@ -147,7 +195,7 @@ Targeted number of replicas per object
 
 Install ceph related packages.
 
-`-version` `<luminous>` ::
+`--version` `<luminous>` ::
 
 no description available
 
@@ -172,7 +220,7 @@ Destroy ceph related data and configuration files.
 
 Start ceph services.
 
-`<service>`: `(mon|mds|osd)\.[A-Za-z0-9]{1,32}` ::
+`<service>`: `(mon|mds|osd|mgr)\.[A-Za-z0-9\-]{1,32}` ::
 
 Ceph service name.
 
@@ -188,7 +236,7 @@ Get ceph status.
 
 Stop ceph services.
 
-`<service>`: `(mon|mds|osd)\.[A-Za-z0-9]{1,32}` ::
+`<service>`: `(mon|mds|osd|mgr)\.[A-Za-z0-9\-]{1,32}` ::
 
 Ceph service name.
 
