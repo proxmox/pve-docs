@@ -1,3 +1,9 @@
+pve-docs (5.1-12) unstable; urgency=medium
+
+  * revert broken reference in Ceph documentation
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 23 Oct 2017 12:12:49 +0200
+
 pve-docs (5.1-11) unstable; urgency=medium
 
   * bump for 5.1 release
