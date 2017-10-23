@@ -36,15 +36,27 @@ ability to run and manage Ceph storage directly on the hypervisor
 nodes.
 
 Ceph is a distributed object store and file system designed to provide
-excellent performance, reliability and scalability. For smaller
-deployments, it is possible to install a Ceph server for RADOS Block
-Devices (RBD) directly on your {pve} cluster nodes, see
+excellent performance, reliability and scalability.
+
+For small to mid sized deployments, it is possible to install a Ceph server for
+RADOS Block Devices (RBD) directly on your {pve} cluster nodes, see
 xref:ceph_rados_block_devices[Ceph RADOS Block Devices (RBD)]. Recent
 hardware has plenty of CPU power and RAM, so running storage services
 and VMs on the same node is possible.
 
 To simplify management, we provide 'pveceph' - a tool to install and
 manage {ceph} services on {pve} nodes.
+
+Ceph consists of a couple of Daemons
+footnote:[Ceph intro http://docs.ceph.com/docs/master/start/intro/], for use as
+a RBD storage:
+
+- Ceph Monitor (ceph-mon)
+- Ceph Manager (ceph-mgr)
+- Ceph OSD (ceph-osd; Object Storage Daemon)
+
+TIP: We recommend to get familiar with the Ceph vocabulary.
+footnote:[Ceph glossary http://docs.ceph.com/docs/luminous/glossary]
 
 
 Precondition
@@ -58,7 +70,7 @@ network setup is also an option if there are no 10Gb switches
 available, see {webwiki-url}Full_Mesh_Network_for_Ceph_Server[wiki] .
 
 Check also the recommendations from
-http://docs.ceph.com/docs/master/start/hardware-recommendations/[Ceph's website].
+http://docs.ceph.com/docs/luminous/start/hardware-recommendations/[Ceph's website].
 
 
 Installation of Ceph Packages
@@ -102,13 +114,40 @@ Creating Ceph Monitors
 
 [thumbnail="gui-ceph-monitor.png"]
 
-On each node where a monitor is requested (three monitors are recommended)
-create it by using the "Ceph" item in the GUI or run.
+The Ceph Monitor (MON)
+footnote:[Ceph Monitor http://docs.ceph.com/docs/luminous/start/intro/]
+maintains a master copy of the cluster map. For HA you need to have at least 3
+monitors.
+
+On each node where you want to place a monitor (three monitors are recommended),
+create it by using the 'Ceph -> Monitor' tab in the GUI or run.
 
 
 [source,bash]
 ----
 pveceph createmon
+----
+
+This will also install the needed Ceph Manager ('ceph-mgr') by default. If you
+do not want to install a manager, specify the '-exclude-manager' option.
+
+
+[[pve_ceph_manager]]
+Creating Ceph Manager
+----------------------
+
+The Manager daemon runs alongside the monitors. It provides interfaces for
+monitoring the cluster. Since the Ceph luminous release the
+ceph-mgr footnote:[Ceph Manager http://docs.ceph.com/docs/luminous/mgr/] daemon
+is required. During monitor installation the ceph manager will be installed as
+well.
+
+NOTE: It is recommended to install the Ceph Manager on the monitor nodes. For
+high availability install more then one manager.
+
+[source,bash]
+----
+pveceph createmgr
 ----
 
 
@@ -125,17 +164,64 @@ via GUI or via CLI as follows:
 pveceph createosd /dev/sd[X]
 ----
 
-If you want to use a dedicated SSD journal disk:
+TIP: We recommend a Ceph cluster size, starting with 12 OSDs, distributed evenly
+among your, at least three nodes (4 OSDs on each node).
 
-NOTE: In order to use a dedicated journal disk (SSD), the disk needs
-to have a https://en.wikipedia.org/wiki/GUID_Partition_Table[GPT]
-partition table. You can create this with `gdisk /dev/sd(x)`. If there
-is no GPT, you cannot select the disk as journal. Currently the
-journal size is fixed to 5 GB.
+
+Ceph Bluestore
+~~~~~~~~~~~~~~
+
+Starting with the Ceph Kraken release, a new Ceph OSD storage type was
+introduced, the so called Bluestore
+footnote:[Ceph Bluestore http://ceph.com/community/new-luminous-bluestore/]. In
+Ceph luminous this store is the default when creating OSDs.
 
 [source,bash]
 ----
-pveceph createosd /dev/sd[X] -journal_dev /dev/sd[X]
+pveceph createosd /dev/sd[X]
+----
+
+NOTE: In order to select a disk in the GUI, to be more failsafe, the disk needs
+to have a
+GPT footnoteref:[GPT,
+GPT partition table https://en.wikipedia.org/wiki/GUID_Partition_Table]
+partition table. You can create this with `gdisk /dev/sd(x)`. If there is no
+GPT, you cannot select the disk as DB/WAL.
+
+If you want to use a separate DB/WAL device for your OSDs, you can specify it
+through the '-wal_dev' option.
+
+[source,bash]
+----
+pveceph createosd /dev/sd[X] -wal_dev /dev/sd[Y]
+----
+
+NOTE: The DB stores BlueStore’s internal metadata and the WAL is BlueStore’s
+internal journal or write-ahead log. It is recommended to use a fast SSDs or
+NVRAM for better performance.
+
+
+Ceph Filestore
+~~~~~~~~~~~~~
+Till Ceph luminous, Filestore was used as storage type for Ceph OSDs. It can
+still be used and might give better performance in small setups, when backed by
+a NVMe SSD or similar.
+
+[source,bash]
+----
+pveceph createosd /dev/sd[X] -bluestore 0
+----
+
+NOTE: In order to select a disk in the GUI, the disk needs to have a
+GPT footnoteref:[GPT] partition table. You can
+create this with `gdisk /dev/sd(x)`. If there is no GPT, you cannot select the
+disk as journal. Currently the journal size is fixed to 5 GB.
+
+If you want to use a dedicated SSD journal disk:
+
+[source,bash]
+----
+pveceph createosd /dev/sd[X] -journal_dev /dev/sd[Y]
 ----
 
 Example: Use /dev/sdf as data disk (4TB) and /dev/sdb is the dedicated SSD
@@ -148,32 +234,55 @@ pveceph createosd /dev/sdf -journal_dev /dev/sdb
 
 This partitions the disk (data and journal partition), creates
 filesystems and starts the OSD, afterwards it is running and fully
-functional. Please create at least 12 OSDs, distributed among your
-nodes (4 OSDs on each node).
+functional.
 
-It should be noted that this command refuses to initialize disk when
-it detects existing data. So if you want to overwrite a disk you
-should remove existing data first. You can do that using:
-
-[source,bash]
-----
-ceph-disk zap /dev/sd[X]
-----
+NOTE: This command refuses to initialize disk when it detects existing data. So
+if you want to overwrite a disk you should remove existing data first. You can
+do that using: 'ceph-disk zap /dev/sd[X]'
 
 You can create OSDs containing both journal and data partitions or you
 can place the journal on a dedicated SSD. Using a SSD journal disk is
-highly recommended if you expect good performance.
+highly recommended to achieve good performance.
 
 
-[[pve_ceph_pools]]
-Ceph Pools
-----------
+[[pve_creating_ceph_pools]]
+Creating Ceph Pools
+-------------------
 
 [thumbnail="gui-ceph-pools.png"]
 
-The standard installation creates per default the pool 'rbd',
-additional pools can be created via GUI.
+A pool is a logical group for storing objects. It holds **P**lacement
+**G**roups (PG), a collection of objects.
 
+When no options are given, we set a
+default of **64 PGs**, a **size of 3 replicas** and a **min_size of 2 replicas**
+for serving objects in a degraded state.
+
+NOTE: The default number of PGs works for 2-6 disks. Ceph throws a
+"HEALTH_WARNING" if you have too few or too many PGs in your cluster.
+
+It is advised to calculate the PG number depending on your setup, you can find
+the formula and the PG
+calculator footnote:[PG calculator http://ceph.com/pgcalc/] online. While PGs
+can be increased later on, they can never be decreased.
+
+
+You can create pools through command line or on the GUI on each PVE host under
+**Ceph -> Pools**.
+
+[source,bash]
+----
+pveceph createpool <name>
+----
+
+If you would like to automatically get also a storage definition for your pool,
+active the checkbox "Add storages" on the GUI or use the command line option
+'--add_storages' on pool creation.
+
+Further information on Ceph pool handling can be found in the Ceph pool
+operation footnote:[Ceph pool operation
+http://docs.ceph.com/docs/luminous/rados/operations/pools/]
+manual.
 
 Ceph Client
 -----------
@@ -184,7 +293,9 @@ You can then configure {pve} to use such pools to store VM or
 Container images. Simply use the GUI too add a new `RBD` storage (see
 section xref:ceph_rados_block_devices[Ceph RADOS Block Devices (RBD)]).
 
-You also need to copy the keyring to a predefined location.
+You also need to copy the keyring to a predefined location for a external Ceph
+cluster. If Ceph is installed on the Proxmox nodes itself, then this will be
+done automatically.
 
 NOTE: The file name needs to be `<storage_id> + `.keyring` - `<storage_id>` is
 the expression after 'rbd:' in `/etc/pve/storage.cfg` which is
