@@ -245,7 +245,7 @@ can place the journal on a dedicated SSD. Using a SSD journal disk is
 highly recommended to achieve good performance.
 
 
-[[pve_creating_ceph_pools]]
+[[pve_ceph_pools]]
 Creating Ceph Pools
 -------------------
 
