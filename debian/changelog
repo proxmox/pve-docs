@@ -1,3 +1,11 @@
+pve-docs (5.1-11) unstable; urgency=medium
+
+  * bump for 5.1 release
+
+  * update Ceph documentation
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 23 Oct 2017 10:35:02 +0200
+
 pve-docs (5.0-10) unstable; urgency=medium
 
   * fix #1466: fix typos in gui docs
