@@ -19,7 +19,7 @@ storage, and you get the following advantages:
 * full snapshot and clone capabilities
 * self healing
 * no single point of failure
-* scalable to the exabyte level 
+* scalable to the exabyte level
 * kernel and user space implementation available
 
 NOTE: For smaller deployments, it is also possible to run Ceph
@@ -36,7 +36,8 @@ This backend supports the common storage properties `nodes`,
 
 monhost::
 
-List of monitor daemon IPs.
+List of monitor daemon IPs. Optional, only needed if Ceph is not running on the
+PVE cluster.
 
 pool::
 
@@ -44,18 +45,18 @@ Ceph pool name.
 
 username::
 
-RBD user Id.
+RBD user Id. Optional, only needed if Ceph is not running on the PVE cluster.
 
 krbd::
 
 Access rbd through krbd kernel module. This is required if you want to
 use the storage for containers.
 
-.Configuration Example (`/etc/pve/storage.cfg`)
+.Configuration Example for a external Ceph cluster (`/etc/pve/storage.cfg`)
 ----
-rbd: ceph3
+rbd: ceph-external
         monhost 10.1.1.20 10.1.1.21 10.1.1.22
-        pool ceph3
+        pool ceph-external
         content images
         username admin
 ----
@@ -65,8 +66,8 @@ TIP: You can use the `rbd` utility to do low-level management tasks.
 Authentication
 ~~~~~~~~~~~~~~
 
-If you use `cephx` authentication, you need to copy the keyfile from
-Ceph to Proxmox VE host.
+If you use `cephx` authentication, you need to copy the keyfile from your
+external Ceph cluster to a Proxmox VE host.
 
 Create the directory `/etc/pve/priv/ceph` with
 
@@ -78,6 +79,9 @@ Then copy the keyring
 
 The keyring must be named to match your `<STORAGE_ID>`. Copying the
 keyring generally requires root privileges.
+
+If Ceph is installed locally on the PVE cluster, this is done automatically by
+'pveceph' or in the GUI.
 
 Storage Features
 ~~~~~~~~~~~~~~~~
