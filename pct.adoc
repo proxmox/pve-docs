@@ -325,7 +325,7 @@ Backup of Containers mount points
 
 By default additional mount points besides the Root Disk mount point are not
 included in backups. You can reverse this default behavior by setting the
-* Backup* option on a mount point.
+*Backup* option on a mount point.
 // see PVE::VZDump::LXC::prepare()
 
 Replication of Containers mount points
