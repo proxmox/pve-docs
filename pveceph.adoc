@@ -221,7 +221,7 @@ If you want to use a dedicated SSD journal disk:
 
 [source,bash]
 ----
-pveceph createosd /dev/sd[X] -journal_dev /dev/sd[Y]
+pveceph createosd /dev/sd[X] -journal_dev /dev/sd[Y] -bluestore 0
 ----
 
 Example: Use /dev/sdf as data disk (4TB) and /dev/sdb is the dedicated SSD
@@ -229,7 +229,7 @@ journal disk.
 
 [source,bash]
 ----
-pveceph createosd /dev/sdf -journal_dev /dev/sdb
+pveceph createosd /dev/sdf -journal_dev /dev/sdb -bluestore 0
 ----
 
 This partitions the disk (data and journal partition), creates
