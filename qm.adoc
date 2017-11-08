@@ -804,7 +804,7 @@ foreign hypervisor, or one that you created yourself.
 Suppose you created a Debian/Ubuntu disk image with the 'vmdebootstrap' tool:
 
  vmdebootstrap --verbose \
-  --size 10G --serial-console \
+  --size 10GiB --serial-console \
   --grub --no-extlinux \
   --package openssh-server \
   --package avahi-daemon \
