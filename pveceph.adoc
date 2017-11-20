@@ -284,6 +284,85 @@ operation footnote:[Ceph pool operation
 http://docs.ceph.com/docs/luminous/rados/operations/pools/]
 manual.
 
+Ceph CRUSH & device classes
+---------------------------
+The foundation of Ceph is its algorithm, **C**ontrolled **R**eplication
+**U**nder **S**calable **H**ashing
+(CRUSH footnote:[CRUSH https://ceph.com/wp-content/uploads/2016/08/weil-crush-sc06.pdf]).
+
+CRUSH calculates where to store to and retrieve data from, this has the
+advantage that no central index service is needed. CRUSH works with a map of
+OSDs, buckets (device locations) and rulesets (data replication) for pools.
+
+NOTE: Further information can be found in the Ceph documentation, under the
+section CRUSH map footnote:[CRUSH map http://docs.ceph.com/docs/luminous/rados/operations/crush-map/].
+
+This map can be altered to reflect different replication hierarchies. The object
+replicas can be separated (eg. failure domains), while maintaining the desired
+distribution.
+
+A common use case is to use different classes of disks for different Ceph pools.
+For this reason, Ceph introduced the device classes with luminous, to
+accommodate the need for easy ruleset generation.
+
+The device classes can be seen in the 'ceph osd tree' output. These classes
+represent their own root bucket, which can be seen with the below command.
+
+[source, bash]
+----
+ceph osd crush tree --show-shadow
+----
+
+Example output form the above command:
+
+[source, bash]
+----
+ID  CLASS WEIGHT  TYPE NAME
+-16  nvme 2.18307 root default~nvme
+-13  nvme 0.72769     host sumi1~nvme
+ 12  nvme 0.72769         osd.12
+-14  nvme 0.72769     host sumi2~nvme
+ 13  nvme 0.72769         osd.13
+-15  nvme 0.72769     host sumi3~nvme
+ 14  nvme 0.72769         osd.14
+ -1       7.70544 root default
+ -3       2.56848     host sumi1
+ 12  nvme 0.72769         osd.12
+ -5       2.56848     host sumi2
+ 13  nvme 0.72769         osd.13
+ -7       2.56848     host sumi3
+ 14  nvme 0.72769         osd.14
+----
+
+To let a pool distribute its objects only on a specific device class, you need
+to create a ruleset with the specific class first.
+
+[source, bash]
+----
+ceph osd crush rule create-replicated <rule-name> <root> <failure-domain> <class>
+----
+
+[frame="none",grid="none", align="left", cols="30%,70%"]
+|===
+|<rule-name>|name of the rule, to connect with a pool (seen in GUI & CLI)
+|<root>|which crush root it should belong to (default ceph root "default")
+|<failure-domain>|at which failure-domain the objects should be distributed (usually host)
+|<class>|what type of OSD backing store to use (eg. nvme, ssd, hdd)
+|===
+
+Once the rule is in the CRUSH map, you can tell a pool to use the ruleset.
+
+[source, bash]
+----
+ceph osd pool set <pool-name> crush_rule <rule-name>
+----
+
+TIP: If the pool already contains objects, all of these have to be moved
+accordingly. Depending on your setup this may introduce a big performance hit on
+your cluster. As an alternative, you can create a new pool and move disks
+separately.
+
+
 Ceph Client
 -----------
 
