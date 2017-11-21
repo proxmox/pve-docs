@@ -89,7 +89,10 @@ https://git.proxmox.com/?p=pve-qemu.git;a=blob_plain;f=backup.txt[here].
 
 NOTE: Proxmox VE live backup provides snapshot-like semantics on any
 storage type. It does not require that the underlying storage supports
-snapshots.
+snapshots. Also please note that since the backups are done via 
+a background Qemu process, a stopped VM will appear as running for a 
+short amount of time while the VM disks are being read by Qemu.
+However the VM itself is not booted, only its disk(s) are read.
 
 .Backup modes for Containers:
 
