@@ -263,7 +263,7 @@ General the navigation are the same only some option are different.
 
 In the main management center the VM navigation begin if a VM is selected in the left tree.
 
-The top header contains important VM operation commands like 'Start', 'Shutdown', 'Rest',
+The top header contains important VM operation commands like 'Start', 'Shutdown', 'Reset',
 'Remove', 'Migrate', 'Console' and 'Help'.
 Two of them have hidden buttons like 'Shutdown' has 'Stop' and
 'Console' contains the different console types 'SPICE' or 'noVNC'.
