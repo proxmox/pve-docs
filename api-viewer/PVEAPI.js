@@ -163,7 +163,11 @@ Ext.onReady(function() {
 				dataIndex: 'type',
 				renderer: render_type,
 			    },
-			    { 
+			    {
+				header: 'Default',
+				dataIndex: 'default',
+			    },
+			    {
 				header: 'Format',
 				dataIndex: 'type',
 				renderer: render_format,
