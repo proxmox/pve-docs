@@ -154,30 +154,33 @@ Ext.onReady(function() {
 			    stripeRows: true
 			},
 			columns: [
-			    { 
+			    {
 				header: 'Name',
-				dataIndex: 'name'
+				dataIndex: 'name',
+				flex: 1
 			    },
-			    { 
+			    {
 				header: 'Type',
 				dataIndex: 'type',
 				renderer: render_type,
+				flex: 1
 			    },
 			    {
 				header: 'Default',
 				dataIndex: 'default',
+				flex: 1
 			    },
 			    {
 				header: 'Format',
 				dataIndex: 'type',
 				renderer: render_format,
-				flex: 1
+				flex: 2
 			    },
-			    { 
+			    {
 				header: 'Description',
 				dataIndex: 'description',
 				renderer: render_description,
-				flex: 2
+				flex: 6
 			    }
 			]
 		    });
