@@ -293,6 +293,8 @@ All available options are listed one below the other.
 
 * *Backup:* shows the available backups from this VM and also create a backupset.
 
+* *Replication:* shows the replication jobs for this VM and allows to create new jobs.
+
 * *Snapshots:* manage VM snapshots.
 
 * *Firewall:* manage the firewall on VM level.
