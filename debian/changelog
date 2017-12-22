@@ -1,3 +1,13 @@
+pve-docs (5.1-15) unstable; urgency=medium
+
+  * Fix vzdump backup stop mode description
+
+  * Explain why shut down VMs appear as running when backed up
+
+  * png-verify.pl: allow 72dpcm for pve installer images
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 22 Dec 2017 11:50:16 +0100
+
 pve-docs (5.1-14) unstable; urgency=medium
 
   * pve-installation.adoc: include screenshots
