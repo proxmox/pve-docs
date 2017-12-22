@@ -1,3 +1,9 @@
+pve-docs (5.1-14) unstable; urgency=medium
+
+  * pve-installation.adoc: include screenshots
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 22 Dec 2017 11:19:04 +0100
+
 pve-docs (5.1-13) unstable; urgency=medium
 
   * add replication panel to list of guest panels
