@@ -7,17 +7,19 @@ ifdef::wiki[]
 :title: Installation
 endif::wiki[]
 
-{pve} is based on Debian and comes with an installation CD-ROM 
-which includes a complete Debian ("stretch" for Proxmox VE 5.x) system as 
-well as all necessary Proxmox VE packages. The
-installer just asks you a few questions, then partitions the local
+{pve} is based on Debian and comes with an installation CD-ROM
+which includes a complete Debian system ("stretch" for version 5.x) as
+well as all necessary {pve} packages.
+
+The installer just asks you a few questions, then partitions the local
 disk(s), installs all required packages, and configures the system
 including a basic network setup. You can get a fully functional system
-within a few minutes. This is the preferred and recommended installation method.
+within a few minutes. This is the preferred and recommended
+installation method.
 
-Alternatively, Proxmox VE can be installed on top of an existing Debian system. 
-This option is only recommended for advanced users since detail knowledge about 
-Proxmox VE is necessary.
+Alternatively, {pve} can be installed on top of an existing Debian
+system. This option is only recommended for advanced users since
+detail knowledge about {pve} is necessary.
 
 ifndef::wiki[]
 
@@ -29,23 +31,25 @@ endif::wiki[]
 Using the {pve} Installation CD-ROM
 -----------------------------------
 
-Includes the following:
+You can download the ISO from http://www.proxmox.com. It includes the
+following:
 
 * Complete operating system (Debian Linux, 64-bit)
 
-* Partitioning of the hard drive(s) containing the operating system
-  with ext4, ext3, xfs or ZFS
+* The {pve} installer, which partitions the hard drive(s) with ext4,
+  ext3, xfs or ZFS and installs the operating system.
 
-* {pve} kernel with LXC and KVM support
+* {pve} kernel (Linux) with LXC and KVM support
 
 * Complete toolset for administering virtual machines, containers and
   all necessary resources
 
 * Web based management interface for using the toolset
 
-
 NOTE: By default, the complete server is used and all existing data is
 removed.
+
+[thumbnail="pve-grub-menu.png"]
 
 Please insert the installation CD-ROM, then boot from that
 drive. Immediately afterwards you can choose the following menu
@@ -76,6 +80,8 @@ Test Memory::
 Runs `memtest86+`. This is useful to check if your memory is
 functional and error free.
 
+[thumbnail="pve-select-target-disk.png"]
+
 You normally select *Install Proxmox VE* to start the installation.
 After that you get prompted to select the target hard disk(s). The
 `Options` button lets you select the target file system, which
@@ -88,13 +94,47 @@ ZFS supports several software RAID levels, so this is specially useful
 if you do not have a hardware RAID controller. The `Options` button
 lets you select the ZFS RAID level, and you can choose disks there.
 
-The next pages just ask for basic configuration options like time
-zone and keyboard layout. You also need to specify your email address
-and superuser (root) password (must have at least 5 characters).
+[thumbnail="pve-select-location.png", float="left"]
+
+The next page just ask for basic configuration options like your
+location, the time zone and keyboard layout. The location is used to
+select a download server near you to speedup updates. The installer is
+usually able to auto detect those setting, so you only need to change
+them in rare situations when auto detection fails, or when you want to
+use some special keyboard layout not commonly used in your country.
+
+[thumbnail="pve-set-password.png"]
+
+You then need to specify an email address and the superuser (root)
+password. The password must have at least 5 characters, but we highly
+recommend to use stronger passwords - here are some guidelines:
+
+- Use a minimum password length of 12 to 14 characters.
+
+- Include lowercase and uppercase alphabetic characters, numbers and symbols.
+
+- Avoid character repetition, keyboard patterns, dictionary words,
+  letter or number sequences, usernames, relative or pet names,
+  romantic links (current or past) and biographical information (e.g.,
+  ID numbers, ancestors' names or dates).
+
+It is sometimes necessary to send notification to the system
+administrator, for example:
+
+- Information about available package updates.
+
+- Error messages from periodic CRON jobs.
+
+All those notification mails will be sent to the specified email
+address.
+
+[thumbnail="pve-setup-network.png"]
 
 The last step is the network configuration. Please note that you can
 use either IPv4 or IPv6 here, but not both. If you want to configure a
 dual stack node, you can easily do that after installation.
+
+[thumbnail="pve-installation.png", float="left"]
 
 If you press `Next` now, installation starts to format disks, and
 copies packages to the target. Please wait until that is finished,
