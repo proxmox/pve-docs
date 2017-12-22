@@ -62,10 +62,11 @@ depending on the guest type.
 `stop` mode::
 
 This mode provides the highest consistency of the backup, at the cost
-of a downtime in the VM operation.  It works by executing an orderly
-shutdown of the VM, and then runs a background Qemu process to backup
-the VM data. After the backup is started, the VM goes to full
-operation mode if it was previously running.
+of a short downtime in the VM operation. It works by executing an
+orderly shutdown of the VM, and then runs a background Qemu process to
+backup the VM data. After the backup is started, the VM goes to full
+operation mode if it was previously running. Consistency is guaranteed
+by using the live backup feature.
 
 `suspend` mode::
 
