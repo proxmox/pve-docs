@@ -245,8 +245,8 @@ Resource Limits
 In addition to the number of virtual cores, you can configure how much resources
 a VM can get in relation to the host CPU time and also in relation to other
 VMs.
-With the *cpulimit* (`Host CPU Time') option you can limit how much CPU time the
-whole VM can use on the host. It is a floating point value representing CPU
+With the *cpulimit* (``Host CPU Time'') option you can limit how much CPU time
+the whole VM can use on the host. It is a floating point value representing CPU
 time in percent, so `1.0` is equal to `100%`, `2.5` to `250%` and so on. If a
 single process would fully use one single core it would have `100%` CPU Time
 usage. If a VM with four cores utilizes all its cores fully it would
