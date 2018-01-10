@@ -311,7 +311,7 @@ The *PCID* CPU flag helps to improve performance of the Meltdown vulnerability
 footnote:[Meltdown Attack https://meltdownattack.com/] mitigation approach. In
 Linux the mitigation is called 'Kernel Page-Table Isolation (KPTI)', which
 effectively hides the Kernel memory from the user space, which, without PCID,
-is a expensive operation footnote:[PCID is now a critical performance/security
+is an expensive operation footnote:[PCID is now a critical performance/security
 feature on x86
 https://groups.google.com/forum/m/#!topic/mechanical-sympathy/L9mHTbeQLNU].
 
@@ -321,16 +321,16 @@ There are two requirements to reduce the cost of the mitigation:
 * The guest Operating System must be updated to a version which mitigates the
   attack and utilizes the PCID feature marked by its flag.
 
-To check if the {pve} host support PCID, execute the following command as root:
+To check if the {pve} host supports PCID, execute the following command as root:
 
 ----
 # grep ' pcid ' /proc/cpuinfo
 ----
 
-If this does not return empty your hosts CPU has support for PCID. If you use
-`host' as CPU type and the guest OS is able to use it, your done.
-Else, the PCID CPU flag needs to get set for the virtual CPU. This can be done,
-for example, by editing the CPU through the WebUI.
+If this does not return empty your host's CPU has support for PCID. If you use
+`host' as CPU type and the guest OS is able to use it, you're done.
+Otherwise you need to set the PCID CPU flag for the virtual CPU. This can be
+done by editing the CPU options through the WebUI.
 
 NUMA
 ^^^^
