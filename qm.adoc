@@ -304,22 +304,35 @@ the kvm64 default. If you don’t care about live migration or have a homogeneou
 cluster where all nodes have the same CPU, set the CPU type to host, as in
 theory this will give your guests maximum performance.
 
-PCID Flag
-^^^^^^^^^
+Meltdown / Spectre related CPU flags
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The *PCID* CPU flag helps to improve performance of the Meltdown vulnerability
-footnote:[Meltdown Attack https://meltdownattack.com/] mitigation approach. In
-Linux the mitigation is called 'Kernel Page-Table Isolation (KPTI)', which
-effectively hides the Kernel memory from the user space, which, without PCID,
-is an expensive operation footnote:[PCID is now a critical performance/security
-feature on x86
+There are two CPU flags related to the Meltdown and Spectre vulnerabilities
+footnote:[Meltdown Attack https://meltdownattack.com/] which need to be set
+manually unless the selected CPU type of your VM already enables them by default.
+
+The first, called 'pcid', helps to reduce the performance impact of the Meltdown
+mitigation called 'Kernel Page-Table Isolation (KPTI)', which effectively hides
+the Kernel memory from the user space. Without PCID, KPTI is quite an expensive
+mechanism footnote:[PCID is now a critical performance/security feature on x86
 https://groups.google.com/forum/m/#!topic/mechanical-sympathy/L9mHTbeQLNU].
 
-There are two requirements to reduce the cost of the mitigation:
+The second CPU flag is called 'spec-ctrl', which allows an operating system to
+selectively disable or restrict speculative execution in order to limit the
+ability of attackers to exploit the Spectre vulnerability.
 
-* The host CPU must support PCID and propagate it to the guest's virtual CPU(s)
-* The guest Operating System must be updated to a version which mitigates the
-  attack and utilizes the PCID feature marked by its flag.
+There are two requirements that need to be fulfilled in order to use these two
+CPU flags:
+
+* The host CPU(s) must support the feature and propagate it to the guest's virtual CPU(s)
+* The guest operating system must be updated to a version which mitigates the
+  attacks and is able to utilize the CPU feature
+
+In order to use 'spec-ctrl', your CPU or system vendor also needs to provide a
+so-called ``microcode update'' footnote:[You can use `intel-microcode' /
+`amd-microcode' from Debian non-free if your vendor does not provide such an
+update. Note that not all affected CPUs can be updated to support spec-ctrl.]
+for your CPU.
 
 To check if the {pve} host supports PCID, execute the following command as root:
 
@@ -327,10 +340,23 @@ To check if the {pve} host supports PCID, execute the following command as root:
 # grep ' pcid ' /proc/cpuinfo
 ----
 
-If this does not return empty your host's CPU has support for PCID. If you use
-`host' as CPU type and the guest OS is able to use it, you're done.
-Otherwise you need to set the PCID CPU flag for the virtual CPU. This can be
-done by editing the CPU options through the WebUI.
+If this does not return empty your host's CPU has support for 'pcid'.
+
+To check if the {pve} host supports spec-ctrl, execute the following command as root:
+
+----
+# grep ' spec_ctrl ' /proc/cpuinfo
+----
+
+If this does not return empty your host's CPU has support for 'spec-ctrl'.
+
+If you use `host' or another CPU type which enables the desired flags by
+default, and you updated your guest OS to make use of the associated CPU
+features, you're already set.
+
+Otherwise you need to set the desired CPU flag of the virtual CPU, either by
+editing the CPU options in the WebUI, or by setting the 'flags' property of the
+'cpu' option in the VM configuration file.
 
 NUMA
 ^^^^
