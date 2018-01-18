@@ -104,6 +104,20 @@ To check the state of your cluster use:
 
  hp1# pvecm status
 
+Multiple Clusters In Same Network
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It is possible to create multiple clusters in the same physical or logical
+network. Each cluster must have a unique name, which is used to generate the
+cluster's multicast group address. As long as no duplicate cluster names are
+configured in one network segment, the different clusters won't interfere with
+each other.
+
+If multiple clusters operate in a single network it may be beneficial to setup
+an IGMP querier and enable IGMP Snooping in said network. This may reduce the
+load of the network significantly because multicast packets are only delivered
+to endpoints of the respective member nodes.
+
 
 Adding Nodes to the Cluster
 ---------------------------
