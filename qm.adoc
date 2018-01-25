@@ -630,16 +630,15 @@ parameters:
 you want the VM to be the first to be started. (We use the reverse startup
 order for shutdown, so a machine with a start order of 1 would be the last to
 be shut down). If multiple VMs have the same order defined on a host, they will
-additionally get ordered by 'VMID' in ascending order.
+additionally be ordered by 'VMID' in ascending order.
 * *Startup delay*: Defines the interval between this VM start and subsequent
 VMs starts . E.g. set it to 240 if you want to wait 240 seconds before starting
 other VMs.
 * *Shutdown timeout*: Defines the duration in seconds {pve} should wait
 for the VM to be offline after issuing a shutdown command.
 By default this value is set to 180, which means that {pve} will issue a
-shutdown request, wait 180 seconds for the machine to be offline. If, after
-this timeout, the machine is still online it will be tried to forcefully stop
-it.
+shutdown request and wait 180 seconds for the machine to be offline. If
+the machine is still online after the timeout it will be stopped forcefully.
 
 NOTE: VMs managed by the HA stack do not follow the 'start on boot' and
 'boot order' options currently. Those VMs will be skipped by the startup and
@@ -648,7 +647,7 @@ stopped.
 
 Please note that machines without a Start/Shutdown order parameter will always
 start after those where the parameter is set. Further, this parameter can only
-be enforced between virtual machines, running locally on a host, but not
+be enforced between virtual machines running on the same host, not
 cluster-wide.
 
 
