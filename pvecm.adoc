@@ -474,8 +474,8 @@ To check if everything is working properly execute:
 systemctl status corosync
 ----
 
-Follow the section to add
-<<adding-nodes-with-separated-cluster-network,nodes to separated cluster network>>.
+Afterwards, proceed as descripted in the section to
+<<adding-nodes-with-separated-cluster-network,add nodes with a separated cluster network>>.
 
 [[separate-cluster-net-after-creation]]
 Separate After Cluster Creation
