@@ -344,6 +344,123 @@ iface vmbr0 inet static
 
 ----
 
+VLAN 802.1Q
+~~~~~~~~~~~
+
+A virtual LAN (VLAN) is any broadcast domain that is partitioned
+and isolated in the network at layer 2.
+So it is possible to have multiple networks (4096) in a physical network,
+each independent of the other ones.
+Each VLAN network is identified by a number often called `tag`.
+Network packages are then `tagged` to identify which virtual
+network they belong to.
+
+One or more VLANs can be used at any network device (Nic, Bond, Bridge).
+VLANs can be configured in several ways. Here, only the most common ones get
+described. We assume a network infrastructure based on Linux Kernel Networking
+(opposed to, e.g., Open vSwitch).
+Of course, there are scenarios that are not possible with this configuration,
+but it will work for most standard setups.
+
+Two of the most common and popular usage scenarios are:
+
+1.) VLAN for the guest networks.
+Proxmox supports three different ways of using VLAN in guests:
+
+* *VLAN awareness on the Linux Bridge:*
+In this case, each guest's virtual network card is assigned to a VLAN tag,
+which is transparently supported by the Linux Bridge.
+Trunk mode is also possible, but that makes the configuration
+in the guest necessary.
+
+* *"traditional" VLAN on the Linux bridge:*
+In contrast to the VLAN awareness method, this method is not transparent
+and creates a VLAN device with associated bridge for each VLAN.
+That is, if e.g. in our default network, a guest VLAN 5 is used
+to create eno1.5 and vmbr0v5, which remains until rebooting.
+
+* *Guest configured:* The VLANs are assigned in the guest.
+In this case, the setup is in the guest and can not be influenced from the
+outside.
+The benefit is more then one VLAN on a single virtual NIC can be used.
+
+2.) VLAN on the host, to allow the host communication whit an isolated network.
+As already mentioned, it is possible to apply the VLAN to all network devices.
+In general, you should configure the VLAN on the interface with the least
+abstraction layers between itself and the physical NIC.
+
+For example, in a default configuration where you want to place
+the host management address on a separate VLAN.
+
+NOTE: In the examples we use the VLAN at bridge level to ensure the correct
+function of VLAN 5 in the guest network, but in combination with VLAN anwareness
+bridge this it will not work for guest network VLAN 5.
+The downside of this setup is more CPU usage.
+
+.Example: Use VLAN 5 for the {pve} management IP
+----
+auto lo
+iface lo inet loopback
+
+iface eno1 inet manual
+
+iface eno1.5 inet manual
+
+auto vmbr0v5
+iface vmbr0v5 inet static
+        address  10.10.10.2
+        netmask  255.255.255.0
+        gateway  10.10.10.1
+        bridge_ports eno1.5
+        bridge_stp off
+        bridge_fd 0
+
+auto vmbr0
+iface vmbr0 inet manual
+        bridge_ports eno1
+        bridge_stp off
+        bridge_fd 0
+
+----
+
+The next example is the same setup but a bond is used to
+make this network fail-safe.
+
+.Example: Use VLAN 5 with bond0 for the {pve} management IP
+----
+auto lo
+iface lo inet loopback
+
+iface eno1 inet manual
+
+iface eno2 inet manual
+
+auto bond0
+iface bond0 inet manual
+      slaves eno1 eno2
+      bond_miimon 100
+      bond_mode 802.3ad
+      bond_xmit_hash_policy layer2+3
+
+iface bond0.5 inet manual
+
+auto vmbr0v5
+iface vmbr0v5 inet static
+        address  10.10.10.2
+        netmask  255.255.255.0
+        gateway  10.10.10.1
+        bridge_ports bond0.5
+        bridge_stp off
+        bridge_fd 0
+
+auto vmbr0
+iface vmbr0 inet manual
+        bridge_ports bond0
+        bridge_stp off
+        bridge_fd 0
+
+----
+
 ////
 TODO: explain IPv6 support?
 TODO: explain OVS
