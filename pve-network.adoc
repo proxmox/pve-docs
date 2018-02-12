@@ -348,29 +348,27 @@ iface vmbr0 inet static
 VLAN 802.1Q
 ~~~~~~~~~~~
 
-A virtual LAN (VLAN) is a broadcast domain that is partitioned
-and isolated in the network at layer 2.
-So it is possible to have multiple networks (4096) in a physical network,
-each independent of the other ones.
+A virtual LAN (VLAN) is a broadcast domain that is partitioned and
+isolated in the network at layer two.  So it is possible to have
+multiple networks (4096) in a physical network, each independent of
+the other ones.
+
 Each VLAN network is identified by a number often called 'tag'.
-Network packages are then 'tagged' to identify which virtual
-network they belong to.
+Network packages are then 'tagged' to identify which virtual network
+they belong to.
 
-One or more VLANs can be used at any network device (NIC, Bond, Bridge).
-VLANs can be configured in several ways. Here, only the most common ones get
-described. We assume a network infrastructure based on Linux Kernel Networking
-(opposed to, e.g., Open vSwitch).
-Of course, there are scenarios that are not possible with this configuration,
-but it will work for most standard setups.
 
-Two of the most common and popular usage scenarios are:
+VLAN for Guest Networks
+^^^^^^^^^^^^^^^^^^^^^^^
 
-1.) VLAN for the guest networks.
-Proxmox supports three different ways of using VLAN in guests:
+{pve} supports this setup out of the box. You can specify the VLAN tag
+when you create a VM. The VLAN tag is part of the guest network
+confinuration. The networking layer supports differnet modes to
+implement VLANs, depending on the bridge configuration:
 
-* *VLAN awareness on the Linux Bridge:*
+* *VLAN awareness on the Linux bridge:*
 In this case, each guest's virtual network card is assigned to a VLAN tag,
-which is transparently supported by the Linux Bridge.
+which is transparently supported by the Linux bridge.
 Trunk mode is also possible, but that makes the configuration
 in the guest necessary.
 
@@ -380,14 +378,22 @@ and creates a VLAN device with associated bridge for each VLAN.
 That is, if e.g. in our default network, a guest VLAN 5 is used
 to create eno1.5 and vmbr0v5, which remains until rebooting.
 
-* *Guest configured:* The VLANs are assigned in the guest.
-In this case, the setup is in the guest and can not be influenced from the
-outside.
-The benefit is more then one VLAN on a single virtual NIC can be used.
+* *Open vSwitch VLAN:*
+This mode uses the OVS VLAN feature.
 
-2.) VLAN on the host, to allow the host communication whit an isolated network.
-As already mentioned, it is possible to apply the VLAN to all network devices.
-In general, you should configure the VLAN on the interface with the least
+* *Guest configured VLAN:* 
+VLANs are assigned inside the guest. In this case, the setup is
+completely done inside the guest and can not be influenced from the
+outside. The benefit is that you can use more than one VLAN on a
+single virtual NIC.
+
+
+VLAN on the Host
+^^^^^^^^^^^^^^^^
+
+To allow host communication with an isolated network. It is possible
+to apply VLAN tags to any network device (NIC, Bond, Bridge). In
+general, you should configure the VLAN on the interface with the least
 abstraction layers between itself and the physical NIC.
 
 For example, in a default configuration where you want to place
