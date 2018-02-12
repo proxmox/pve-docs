@@ -8,9 +8,6 @@ List available templates.
 
 Restrict list to specified section.
 
-
-
-
 *pveam download* `<storage> <template>`
 
 Download appliance templates.
@@ -23,23 +20,17 @@ The storage where the template will be stored
 
 The template wich will downloaded
 
-
-
-
-*pveam help* `[<cmd>]` `[OPTIONS]`
+*pveam help* `[OPTIONS]`
 
 Get help about specified command.
 
-`<cmd>`: `<string>` ::
+`--extra-args` `<array>` ::
 
-Command name
+Shows help for a specific command
 
 `--verbose` `<boolean>` ::
 
 Verbose output format.
-
-
-
 
 *pveam list* `<storage>`
 
@@ -49,8 +40,6 @@ Get list of all templates on storage
 
 Only list templates on specified storage
 
-
-
 *pveam remove* `<template_path>`
 
 Remove a template.
@@ -59,12 +48,8 @@ Remove a template.
 
 The template to remove.
 
-
-
 *pveam update*
 
 Update Container Template Database.
-
-
 
 

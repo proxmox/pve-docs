@@ -156,9 +156,6 @@ Volume group name.
 
 Glusterfs Volume.
 
-
-
-
 *pvesm alloc* `<storage> <vmid> <filename> <size>` `[OPTIONS]`
 
 Allocate disk images.
@@ -184,9 +181,6 @@ Size in kilobyte (1024 bytes). Optional suffixes 'M' (megabyte, 1024K) and 'G' (
 no description available
 +
 NOTE: Requires option(s): `size`
-
-
-
 
 *pvesm export* `<volume> <format> <filename>` `[OPTIONS]`
 
@@ -216,8 +210,6 @@ Snapshot to export
 
 Whether to include intermediate snapshots in the stream
 
-
-
 *pvesm extractconfig* `<volume>`
 
 Extract configuration from vzdump backup archive.
@@ -225,9 +217,6 @@ Extract configuration from vzdump backup archive.
 `<volume>`: `<string>` ::
 
 Volume identifier
-
-
-
 
 *pvesm free* `<volume>` `[OPTIONS]`
 
@@ -241,9 +230,6 @@ Volume identifier
 
 The storage identifier.
 
-
-
-
 *pvesm glusterfsscan* `<server>`
 
 Scan remote GlusterFS server.
@@ -252,23 +238,17 @@ Scan remote GlusterFS server.
 
 no description available
 
-
-
-
-*pvesm help* `[<cmd>]` `[OPTIONS]`
+*pvesm help* `[OPTIONS]`
 
 Get help about specified command.
 
-`<cmd>`: `<string>` ::
+`--extra-args` `<array>` ::
 
-Command name
+Shows help for a specific command
 
 `--verbose` `<boolean>` ::
 
 Verbose output format.
-
-
-
 
 *pvesm import* `<volume> <format> <filename>` `[OPTIONS]`
 
@@ -298,9 +278,6 @@ A snapshot to delete on success
 
 Whether the stream includes intermediate snapshots
 
-
-
-
 *pvesm iscsiscan* `--portal <string>` `[OPTIONS]`
 
 Scan remote iSCSI server.
@@ -308,9 +285,6 @@ Scan remote iSCSI server.
 `--portal` `<string>` ::
 
 no description available
-
-
-
 
 *pvesm list* `<storage>` `[OPTIONS]`
 
@@ -328,14 +302,9 @@ Only list content of this type.
 
 Only list images for this VM
 
-
-
-
 *pvesm lvmscan*
 
 List local LVM volume groups.
-
-
 
 *pvesm lvmthinscan* `<vg>`
 
@@ -345,8 +314,6 @@ List local LVM Thin Pools.
 
 no description available
 
-
-
 *pvesm nfsscan* `<server>`
 
 Scan remote NFS server.
@@ -354,9 +321,6 @@ Scan remote NFS server.
 `<server>`: `<string>` ::
 
 no description available
-
-
-
 
 *pvesm path* `<volume>`
 
@@ -366,9 +330,6 @@ Get filesystem path for specified volume
 
 Volume identifier
 
-
-
-
 *pvesm remove* `<storage>`
 
 Delete storage configuration.
@@ -376,8 +337,6 @@ Delete storage configuration.
 `<storage>`: `<string>` ::
 
 The storage identifier.
-
-
 
 *pvesm set* `<storage>` `[OPTIONS]`
 
@@ -499,9 +458,6 @@ Gluster transport: tcp or rdma
 
 RBD Id.
 
-
-
-
 *pvesm status* `[OPTIONS]`
 
 Get status for all datastores.
@@ -514,6 +470,10 @@ Only list stores which support this content type.
 
 Only list stores which are enabled (not disabled in config).
 
+`--format` `<boolean>` ('default =' `0`)::
+
+Include information about formats
+
 `--storage` `<string>` ::
 
 Only list status for  specified storage
@@ -522,13 +482,8 @@ Only list status for  specified storage
 
 If target is different to 'node', we only lists shared storages which content is accessible on this 'node' and the specified 'target' node.
 
-
-
-
 *pvesm zfsscan*
 
 Scan zfs pool list on local node.
-
-
 
 

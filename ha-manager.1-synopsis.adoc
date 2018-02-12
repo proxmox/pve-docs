@@ -32,8 +32,6 @@ Requested resource state.
 
 Resource type.
 
-
-
 *ha-manager config* `[OPTIONS]`
 
 List HA resources.
@@ -41,9 +39,6 @@ List HA resources.
 `--type` `<ct | vm>` ::
 
 Only list resources of specific type
-
-
-
 
 *ha-manager groupadd* `<group> --nodes <string>` `[OPTIONS]`
 
@@ -73,13 +68,9 @@ Resources bound to restricted groups may only run on nodes defined by the group.
 
 Group type.
 
-
-
 *ha-manager groupconfig*
 
 Get HA groups.
-
-
 
 *ha-manager groupremove* `<group>`
 
@@ -88,8 +79,6 @@ Delete ha group configuration.
 `<group>`: `<string>` ::
 
 The HA group identifier.
-
-
 
 *ha-manager groupset* `<group>` `[OPTIONS]`
 
@@ -123,23 +112,17 @@ The CRM tries to run services on the node with the highest priority. If a node w
 
 Resources bound to restricted groups may only run on nodes defined by the group.
 
-
-
-
-*ha-manager help* `[<cmd>]` `[OPTIONS]`
+*ha-manager help* `[OPTIONS]`
 
 Get help about specified command.
 
-`<cmd>`: `<string>` ::
+`--extra-args` `<array>` ::
 
-Command name
+Shows help for a specific command
 
 `--verbose` `<boolean>` ::
 
 Verbose output format.
-
-
-
 
 *ha-manager migrate* `<sid> <node>`
 
@@ -152,8 +135,6 @@ HA resource ID. This consists of a resource type followed by a resource specific
 `<node>`: `<string>` ::
 
 The cluster node name.
-
-
 
 *ha-manager relocate* `<sid> <node>`
 
@@ -168,8 +149,6 @@ HA resource ID. This consists of a resource type followed by a resource specific
 
 The cluster node name.
 
-
-
 *ha-manager remove* `<sid>`
 
 Delete resource configuration.
@@ -177,8 +156,6 @@ Delete resource configuration.
 `<sid>`: `<type>:<name>` ::
 
 HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).
-
-
 
 *ha-manager set* `<sid>` `[OPTIONS]`
 
@@ -216,9 +193,6 @@ Maximal number of tries to restart the service on a node after its start failed.
 
 Requested resource state.
 
-
-
-
 *ha-manager status* `[OPTIONS]`
 
 Display HA manger status.
@@ -226,7 +200,5 @@ Display HA manger status.
 `--verbose` `<boolean>` ('default =' `0`)::
 
 Verbose output. Include complete CRM and LRM status (JSON).
-
-
 
 

@@ -1,25 +1,20 @@
 *pveproxy* `<COMMAND> [ARGS] [OPTIONS]`
 
-*pveproxy help* `[<cmd>]` `[OPTIONS]`
+*pveproxy help* `[OPTIONS]`
 
 Get help about specified command.
 
-`<cmd>`: `<string>` ::
+`--extra-args` `<array>` ::
 
-Command name
+Shows help for a specific command
 
 `--verbose` `<boolean>` ::
 
 Verbose output format.
 
-
-
-
 *pveproxy restart*
 
 Restart the daemon (or start if not running).
-
-
 
 *pveproxy start* `[OPTIONS]`
 
@@ -29,18 +24,12 @@ Start the daemon.
 
 Debug mode - stay in foreground
 
-
-
 *pveproxy status*
 
 Get daemon status.
 
-
-
 *pveproxy stop*
 
 Stop the daemon.
-
-
 
 

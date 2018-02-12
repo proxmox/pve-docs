@@ -12,8 +12,6 @@ The (unique) ID of the VM.
 
 The QGA command.
 
-
-
 *qm clone* `<vmid> <newid>` `[OPTIONS]`
 
 Create a copy of virtual machine/template.
@@ -62,8 +60,6 @@ NOTE: Requires option(s): `full`
 
 Target node. Only allowed if the original VM is on shared storage.
 
-
-
 *qm config* `<vmid>` `[OPTIONS]`
 
 Get current virtual machine configuration. This does not include pending
@@ -76,8 +72,6 @@ The (unique) ID of the VM.
 `--current` `<boolean>` ('default =' `0`)::
 
 Get current values (instead of pending values).
-
-
 
 *qm create* `<vmid>` `[OPTIONS]`
 
@@ -131,7 +125,7 @@ This is an alias for option -ide2
 
 The number of cores per socket.
 
-`--cpu` `[cputype=]<enum> [,hidden=<1|0>]` ::
+`--cpu` `[cputype=]<enum> [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>]` ::
 
 Emulated CPU type.
 
@@ -177,9 +171,9 @@ Enable/disable hugepages memory.
 
 Use volume as IDE hard disk or CD-ROM (n is 0 to 3).
 
-`--keyboard` `<da | de | de-ch | en-gb | en-us | es | fi | fr | fr-be | fr-ca | fr-ch | hu | is | it | ja | lt | mk | nl | no | pl | pt | pt-br | sl | sv | tr>` ('default =' `en-us`)::
+`--keyboard` `<da | de | de-ch | en-gb | en-us | es | fi | fr | fr-be | fr-ca | fr-ch | hu | is | it | ja | lt | mk | nl | no | pl | pt | pt-br | sl | sv | tr>` ::
 
-Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.conf' configuration file.
+Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.conf' configuration file.It should not be necessary to set it.
 
 `--kvm` `<boolean>` ('default =' `1`)::
 
@@ -339,8 +333,6 @@ Default storage for VM state volumes/files.
 
 Create a virtual hardware watchdog device.
 
-
-
 *qm delsnapshot* `<vmid> <snapname>` `[OPTIONS]`
 
 Delete a VM snapshot.
@@ -357,8 +349,6 @@ The name of the snapshot.
 
 For removal from config file, even if removing disk snapshots fails.
 
-
-
 *qm destroy* `<vmid>` `[OPTIONS]`
 
 Destroy the vm (also delete all used/owned volumes).
@@ -371,23 +361,17 @@ The (unique) ID of the VM.
 
 Ignore locks - only root is allowed to use this option.
 
-
-
-
-*qm help* `[<cmd>]` `[OPTIONS]`
+*qm help* `[OPTIONS]`
 
 Get help about specified command.
 
-`<cmd>`: `<string>` ::
+`--extra-args` `<array>` ::
 
-Command name
+Shows help for a specific command
 
 `--verbose` `<boolean>` ::
 
 Verbose output format.
-
-
-
 
 *qm importdisk* `<vmid> <source> <storage>` `[OPTIONS]`
 
@@ -409,8 +393,6 @@ Target storage ID
 `--format` `<qcow2 | raw | vmdk>` ::
 
 Target format
-
-
 
 *qm importovf* `<vmid> <manifest> <storage>` `[OPTIONS]`
 
@@ -436,9 +418,6 @@ Print a parsed representation of the extracted OVF parameters, but do not create
 
 Target format
 
-
-
-
 *qm list* `[OPTIONS]`
 
 Virtual machine index (per node).
@@ -447,8 +426,6 @@ Virtual machine index (per node).
 
 Determine the full status of active VMs.
 
-
-
 *qm listsnapshot* `<vmid>`
 
 List all snapshots.
@@ -456,8 +433,6 @@ List all snapshots.
 `<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
-
-
 
 *qm migrate* `<vmid> <target>` `[OPTIONS]`
 
@@ -495,9 +470,6 @@ Default target storage.
 
 Enable live storage migration for local disk
 
-
-
-
 *qm monitor* `<vmid>`
 
 Enter Qemu Monitor interface.
@@ -505,9 +477,6 @@ Enter Qemu Monitor interface.
 `<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
-
-
-
 
 *qm move_disk* `<vmid> <disk> <storage>` `[OPTIONS]`
 
@@ -537,14 +506,9 @@ Prevent changes if current configuration file has different SHA1 digest. This ca
 
 Target Format.
 
-
-
-
 *qm mtunnel*
 
 Used by qmigrate - do not use manually.
-
-
 
 *qm nbdstop* `<vmid>`
 
@@ -554,9 +518,6 @@ Stop embedded nbd server.
 
 The (unique) ID of the VM.
 
-
-
-
 *qm pending* `<vmid>`
 
 Get virtual machine configuration, including pending changes.
@@ -565,9 +526,6 @@ Get virtual machine configuration, including pending changes.
 
 The (unique) ID of the VM.
 
-
-
-
 *qm rescan* `[OPTIONS]`
 
 Rescan all storages and update disk sizes and unused disk images.
@@ -575,9 +533,6 @@ Rescan all storages and update disk sizes and unused disk images.
 `--vmid` `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
-
-
-
 
 *qm reset* `<vmid>` `[OPTIONS]`
 
@@ -590,8 +545,6 @@ The (unique) ID of the VM.
 `--skiplock` `<boolean>` ::
 
 Ignore locks - only root is allowed to use this option.
-
-
 
 *qm resize* `<vmid> <disk> <size>` `[OPTIONS]`
 
@@ -617,8 +570,6 @@ Prevent changes if current configuration file has different SHA1 digest. This ca
 
 Ignore locks - only root is allowed to use this option.
 
-
-
 *qm resume* `<vmid>` `[OPTIONS]`
 
 Resume virtual machine.
@@ -635,8 +586,6 @@ no description available
 
 Ignore locks - only root is allowed to use this option.
 
-
-
 *qm rollback* `<vmid> <snapname>`
 
 Rollback VM state to specified snapshot.
@@ -648,8 +597,6 @@ The (unique) ID of the VM.
 `<snapname>`: `<string>` ::
 
 The name of the snapshot.
-
-
 
 *qm sendkey* `<vmid> <key>` `[OPTIONS]`
 
@@ -666,8 +613,6 @@ The key (qemu monitor encoding).
 `--skiplock` `<boolean>` ::
 
 Ignore locks - only root is allowed to use this option.
-
-
 
 *qm set* `<vmid>` `[OPTIONS]`
 
@@ -719,7 +664,7 @@ This is an alias for option -ide2
 
 The number of cores per socket.
 
-`--cpu` `[cputype=]<enum> [,hidden=<1|0>]` ::
+`--cpu` `[cputype=]<enum> [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>]` ::
 
 Emulated CPU type.
 
@@ -773,9 +718,9 @@ Enable/disable hugepages memory.
 
 Use volume as IDE hard disk or CD-ROM (n is 0 to 3).
 
-`--keyboard` `<da | de | de-ch | en-gb | en-us | es | fi | fr | fr-be | fr-ca | fr-ch | hu | is | it | ja | lt | mk | nl | no | pl | pt | pt-br | sl | sv | tr>` ('default =' `en-us`)::
+`--keyboard` `<da | de | de-ch | en-gb | en-us | es | fi | fr | fr-be | fr-ca | fr-ch | hu | is | it | ja | lt | mk | nl | no | pl | pt | pt-br | sl | sv | tr>` ::
 
-Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.conf' configuration file.
+Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.conf' configuration file.It should not be necessary to set it.
 
 `--kvm` `<boolean>` ('default =' `1`)::
 
@@ -929,10 +874,7 @@ Default storage for VM state volumes/files.
 
 Create a virtual hardware watchdog device.
 
-
-
-
-*qm showcmd* `<vmid>`
+*qm showcmd* `<vmid>` `[OPTIONS]`
 
 Show command line which is used to start the VM (debug info).
 
@@ -940,8 +882,9 @@ Show command line which is used to start the VM (debug info).
 
 The (unique) ID of the VM.
 
+`--pretty` `<boolean>` ('default =' `0`)::
 
-
+Puts each option on a new line to enhance human readability
 
 *qm shutdown* `<vmid>` `[OPTIONS]`
 
@@ -969,8 +912,6 @@ Ignore locks - only root is allowed to use this option.
 
 Wait maximal timeout seconds.
 
-
-
 *qm snapshot* `<vmid> <snapname>` `[OPTIONS]`
 
 Snapshot a VM.
@@ -990,8 +931,6 @@ A textual description or comment.
 `--vmstate` `<boolean>` ::
 
 Save the vmstate
-
-
 
 *qm start* `<vmid>` `[OPTIONS]`
 
@@ -1029,9 +968,6 @@ Some command save/restore state from this location.
 
 Target storage for the migration. (Can be '1' to use the same storage id as on the source node.)
 
-
-
-
 *qm status* `<vmid>` `[OPTIONS]`
 
 Show VM status.
@@ -1043,9 +979,6 @@ The (unique) ID of the VM.
 `--verbose` `<boolean>` ::
 
 Verbose output format
-
-
-
 
 *qm stop* `<vmid>` `[OPTIONS]`
 
@@ -1072,8 +1005,6 @@ Ignore locks - only root is allowed to use this option.
 
 Wait maximal timeout seconds.
 
-
-
 *qm suspend* `<vmid>` `[OPTIONS]`
 
 Suspend virtual machine.
@@ -1085,8 +1016,6 @@ The (unique) ID of the VM.
 `--skiplock` `<boolean>` ::
 
 Ignore locks - only root is allowed to use this option.
-
-
 
 *qm template* `<vmid>` `[OPTIONS]`
 
@@ -1100,9 +1029,6 @@ The (unique) ID of the VM.
 
 If you want to convert only 1 disk to base image.
 
-
-
-
 *qm terminal* `<vmid>` `[OPTIONS]`
 
 Open a terminal using a serial device (The VM need to have a serial device
@@ -1112,12 +1038,13 @@ configured, for example 'serial0: socket')
 
 The (unique) ID of the VM.
 
+`--escape` `<string>` ('default =' `^O`)::
+
+Escape character.
+
 `--iface` `<serial0 | serial1 | serial2 | serial3>` ::
 
 Select the serial device. By default we simply use the first suitable device.
-
-
-
 
 *qm unlink* `<vmid> --idlist <string>` `[OPTIONS]`
 
@@ -1135,9 +1062,6 @@ Force physical removal. Without this, we simple remove the disk from the config 
 
 A list of disk IDs you want to delete.
 
-
-
-
 *qm unlock* `<vmid>`
 
 Unlock the VM.
@@ -1146,8 +1070,6 @@ Unlock the VM.
 
 The (unique) ID of the VM.
 
-
-
 *qm vncproxy* `<vmid>`
 
 Proxy VM VNC traffic to stdin/stdout
@@ -1155,8 +1077,6 @@ Proxy VM VNC traffic to stdin/stdout
 `<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
-
-
 
 *qm wait* `<vmid>` `[OPTIONS]`
 
@@ -1169,7 +1089,5 @@ The (unique) ID of the VM.
 `--timeout` `<integer> (1 - N)` ::
 
 Timeout in seconds. Default is to wait forever.
-
-
 
 

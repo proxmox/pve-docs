@@ -8,8 +8,6 @@ Create Ceph Manager
 
 The ID for the manager, when omitted the same as the nodename
 
-
-
 *pveceph createmon* `[OPTIONS]`
 
 Create Ceph Monitor and Manager
@@ -22,8 +20,9 @@ When set, only a monitor will be created.
 
 The ID for the monitor, when omitted the same as the nodename
 
+`--mon-address` `<string>` ::
 
-
+Overwrites autodetected monitor IP address. Must be in the public network of ceph.
 
 *pveceph createosd* `<dev>` `[OPTIONS]`
 
@@ -33,9 +32,9 @@ Create OSD
 
 Block device name.
 
-`--bluestore` `<boolean>` ('default =' `0`)::
+`--bluestore` `<boolean>` ('default =' `1`)::
 
-Use bluestore instead of filestore.
+Use bluestore instead of filestore. This is the default.
 
 `--fstype` `<btrfs | ext4 | xfs>` ('default =' `xfs`)::
 
@@ -48,9 +47,6 @@ Block device name for journal (filestore) or block.db (bluestore).
 `--wal_dev` `<string>` ::
 
 Block device name for block.wal (bluestore only).
-
-
-
 
 *pveceph createpool* `<name>` `[OPTIONS]`
 
@@ -84,8 +80,6 @@ Number of placement groups.
 
 Number of replicas per object
 
-
-
 *pveceph destroymgr* `<id>`
 
 Destroy Ceph Manager.
@@ -93,8 +87,6 @@ Destroy Ceph Manager.
 `<id>`: `[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?` ::
 
 The ID of the manager
-
-
 
 *pveceph destroymon* `<monid>` `[OPTIONS]`
 
@@ -108,9 +100,6 @@ Monitor ID
 
 When set, removes only the monitor, not the manager
 
-
-
-
 *pveceph destroyosd* `<osdid>` `[OPTIONS]`
 
 Destroy OSD
@@ -122,9 +111,6 @@ OSD ID
 `--cleanup` `<boolean>` ('default =' `0`)::
 
 If set, we remove partition table entries.
-
-
-
 
 *pveceph destroypool* `<name>` `[OPTIONS]`
 
@@ -142,23 +128,17 @@ If true, destroys pool even if in use
 
 Remove all pveceph-managed storages configured for this pool
 
-
-
-
-*pveceph help* `[<cmd>]` `[OPTIONS]`
+*pveceph help* `[OPTIONS]`
 
 Get help about specified command.
 
-`<cmd>`: `<string>` ::
+`--extra-args` `<array>` ::
 
-Command name
+Shows help for a specific command
 
 `--verbose` `<boolean>` ::
 
 Verbose output format.
-
-
-
 
 *pveceph init* `[OPTIONS]`
 
@@ -188,9 +168,6 @@ NOTE: 'osd pool default pg num' does not work for default pools.
 
 Targeted number of replicas per object
 
-
-
-
 *pveceph install* `[OPTIONS]`
 
 Install ceph related packages.
@@ -199,22 +176,13 @@ Install ceph related packages.
 
 no description available
 
-
-
-
 *pveceph lspools*
 
 List all pools.
 
-
-
-
 *pveceph purge*
 
 Destroy ceph related data and configuration files.
-
-
-
 
 *pveceph start* `[<service>]`
 
@@ -224,13 +192,9 @@ Start ceph services.
 
 Ceph service name.
 
-
-
 *pveceph status*
 
 Get ceph status.
-
-
 
 *pveceph stop* `[<service>]`
 
@@ -239,7 +203,5 @@ Stop ceph services.
 `<service>`: `(mon|mds|osd|mgr)\.[A-Za-z0-9\-]{1,32}` ::
 
 Ceph service name.
-
-
 
 

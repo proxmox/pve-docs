@@ -28,8 +28,6 @@ Hostname (or IP) of the corosync ring1 address, this needs an valid configured r
 
 Number of votes for this node
 
-
-
 *pvecm addnode* `<node>` `[OPTIONS]`
 
 Adds a node to the cluster configuration.
@@ -57,8 +55,6 @@ Hostname (or IP) of the corosync ring1 address, this needs an valid bindnet1_add
 `--votes` `<integer> (0 - N)` ::
 
 Number of votes for this node
-
-
 
 *pvecm create* `<clustername>` `[OPTIONS]`
 
@@ -92,8 +88,6 @@ Hostname (or IP) of the corosync ring1 address, this needs an valid bindnet1_add
 
 Number of votes for this node.
 
-
-
 *pvecm delnode* `<node>`
 
 Removes a node to the cluster configuration.
@@ -101,8 +95,6 @@ Removes a node to the cluster configuration.
 `<node>`: `<string>` ::
 
 Hostname or IP of the corosync ring0 address of this node.
-
-
 
 *pvecm expected* `<expected>`
 
@@ -112,23 +104,17 @@ Tells corosync a new value of expected votes.
 
 Expected votes
 
-
-
-
-*pvecm help* `[<cmd>]` `[OPTIONS]`
+*pvecm help* `[OPTIONS]`
 
 Get help about specified command.
 
-`<cmd>`: `<string>` ::
+`--extra-args` `<array>` ::
 
-Command name
+Shows help for a specific command
 
 `--verbose` `<boolean>` ::
 
 Verbose output format.
-
-
-
 
 *pvecm keygen* `<filename>`
 
@@ -137,8 +123,6 @@ Generate new cryptographic key for corosync.
 `<filename>`: `<string>` ::
 
 Output file name
-
-
 
 *pvecm mtunnel* `[<extra-args>]` `[OPTIONS]`
 
@@ -160,19 +144,13 @@ the migration network used to detect the local migration IP
 
 Run a command with a tcp socket as standard input. The IP address and port are printed via this command's stdandard output first, each on a separate line.
 
-
-
 *pvecm nodes*
 
 Displays the local view of the cluster nodes.
 
-
-
 *pvecm status*
 
 Displays the local view of the cluster status.
-
-
 
 *pvecm updatecerts* `[OPTIONS]`
 
@@ -185,7 +163,5 @@ Force generation of new SSL certifate.
 `--silent` `<boolean>` ::
 
 Ignore errors (i.e. when cluster has no quorum).
-
-
 
 

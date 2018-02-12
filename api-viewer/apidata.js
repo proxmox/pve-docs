@@ -3623,7 +3623,7 @@ var pveapi = [
                      "additionalProperties" : 0,
                      "properties" : {
                         "console" : {
-                           "description" : "Select the default Console viewer. You can either use the builtin java applet (VNC), an external virt-viewer comtatible application (SPICE), or an HTML5 based viewer (noVNC).",
+                           "description" : "Select the default Console viewer. You can either use the builtin java applet (VNC; deprecated and maps to html5), an external virt-viewer comtatible application (SPICE), or an HTML5 based viewer (noVNC).",
                            "enum" : [
                               "applet",
                               "vv",
@@ -5853,17 +5853,24 @@ var pveapi = [
                                                       "486",
                                                       "athlon",
                                                       "Broadwell",
+                                                      "Broadwell-IBRS",
                                                       "Broadwell-noTSX",
+                                                      "Broadwell-noTSX-IBRS",
                                                       "Conroe",
                                                       "core2duo",
                                                       "coreduo",
                                                       "Haswell",
+                                                      "Haswell-IBRS",
                                                       "Haswell-noTSX",
+                                                      "Haswell-noTSX-IBRS",
                                                       "host",
                                                       "IvyBridge",
+                                                      "IvyBridge-IBRS",
                                                       "kvm32",
                                                       "kvm64",
+                                                      "max",
                                                       "Nehalem",
+                                                      "Nehalem-IBRS",
                                                       "Opteron_G1",
                                                       "Opteron_G2",
                                                       "Opteron_G3",
@@ -5877,9 +5884,21 @@ var pveapi = [
                                                       "qemu32",
                                                       "qemu64",
                                                       "SandyBridge",
+                                                      "SandyBridge-IBRS",
                                                       "Skylake-Client",
-                                                      "Westmere"
+                                                      "Skylake-Client-IBRS",
+                                                      "Skylake-Server",
+                                                      "Skylake-Server-IBRS",
+                                                      "Westmere",
+                                                      "Westmere-IBRS"
                                                    ],
+                                                   "type" : "string"
+                                                },
+                                                "flags" : {
+                                                   "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl'.",
+                                                   "format_description" : "+FLAG[;-FLAG...]",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl))(;(?^:[+-](pcid|spec-ctrl)))*)",
                                                    "type" : "string"
                                                 },
                                                 "hidden" : {
@@ -5891,7 +5910,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[cputype=]<enum> [,hidden=<1|0>]"
+                                             "typetext" : "[cputype=]<enum> [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>]"
                                           },
                                           "cpulimit" : {
                                              "default" : 0,
@@ -6279,8 +6298,8 @@ var pveapi = [
                                              "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
                                           "keyboard" : {
-                                             "default" : "en-us",
-                                             "description" : "Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.conf' configuration file.",
+                                             "default" : null,
+                                             "description" : "Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.conf' configuration file.It should not be necessary to set it.",
                                              "enum" : [
                                                 "de",
                                                 "de-ch",
@@ -6577,7 +6596,7 @@ var pveapi = [
                                              ],
                                              "optional" : 1,
                                              "type" : "string",
-                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6/3.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
+                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6/3.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
                                           },
                                           "parallel[n]" : {
                                              "description" : "Map host parallel devices (n is 0 to 2).",
@@ -7815,17 +7834,24 @@ var pveapi = [
                                                       "486",
                                                       "athlon",
                                                       "Broadwell",
+                                                      "Broadwell-IBRS",
                                                       "Broadwell-noTSX",
+                                                      "Broadwell-noTSX-IBRS",
                                                       "Conroe",
                                                       "core2duo",
                                                       "coreduo",
                                                       "Haswell",
+                                                      "Haswell-IBRS",
                                                       "Haswell-noTSX",
+                                                      "Haswell-noTSX-IBRS",
                                                       "host",
                                                       "IvyBridge",
+                                                      "IvyBridge-IBRS",
                                                       "kvm32",
                                                       "kvm64",
+                                                      "max",
                                                       "Nehalem",
+                                                      "Nehalem-IBRS",
                                                       "Opteron_G1",
                                                       "Opteron_G2",
                                                       "Opteron_G3",
@@ -7839,9 +7865,21 @@ var pveapi = [
                                                       "qemu32",
                                                       "qemu64",
                                                       "SandyBridge",
+                                                      "SandyBridge-IBRS",
                                                       "Skylake-Client",
-                                                      "Westmere"
+                                                      "Skylake-Client-IBRS",
+                                                      "Skylake-Server",
+                                                      "Skylake-Server-IBRS",
+                                                      "Westmere",
+                                                      "Westmere-IBRS"
                                                    ],
+                                                   "type" : "string"
+                                                },
+                                                "flags" : {
+                                                   "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl'.",
+                                                   "format_description" : "+FLAG[;-FLAG...]",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl))(;(?^:[+-](pcid|spec-ctrl)))*)",
                                                    "type" : "string"
                                                 },
                                                 "hidden" : {
@@ -7853,7 +7891,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[cputype=]<enum> [,hidden=<1|0>]"
+                                             "typetext" : "[cputype=]<enum> [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>]"
                                           },
                                           "cpulimit" : {
                                              "default" : 0,
@@ -8241,8 +8279,8 @@ var pveapi = [
                                              "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
                                           "keyboard" : {
-                                             "default" : "en-us",
-                                             "description" : "Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.conf' configuration file.",
+                                             "default" : null,
+                                             "description" : "Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.conf' configuration file.It should not be necessary to set it.",
                                              "enum" : [
                                                 "de",
                                                 "de-ch",
@@ -8539,7 +8577,7 @@ var pveapi = [
                                              ],
                                              "optional" : 1,
                                              "type" : "string",
-                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6/3.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
+                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6/3.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
                                           },
                                           "parallel[n]" : {
                                              "description" : "Map host parallel devices (n is 0 to 2).",
@@ -9879,6 +9917,74 @@ var pveapi = [
                               "leaf" : 1,
                               "path" : "/nodes/{node}/qemu/{vmid}/vncproxy",
                               "text" : "vncproxy"
+                           },
+                           {
+                              "info" : {
+                                 "POST" : {
+                                    "description" : "Creates a TCP proxy connections.",
+                                    "method" : "POST",
+                                    "name" : "termproxy",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "serial" : {
+                                             "description" : "opens a serial terminal (defaults to display)",
+                                             "enum" : [
+                                                "serial0",
+                                                "serial1",
+                                                "serial2",
+                                                "serial3"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "minimum" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - N)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/vms/{vmid}",
+                                          [
+                                             "VM.Console"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "port" : {
+                                             "type" : "integer"
+                                          },
+                                          "ticket" : {
+                                             "type" : "string"
+                                          },
+                                          "upid" : {
+                                             "type" : "string"
+                                          },
+                                          "user" : {
+                                             "type" : "string"
+                                          }
+                                       }
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/qemu/{vmid}/termproxy",
+                              "text" : "termproxy"
                            },
                            {
                               "info" : {
@@ -11916,17 +12022,24 @@ var pveapi = [
                                           "486",
                                           "athlon",
                                           "Broadwell",
+                                          "Broadwell-IBRS",
                                           "Broadwell-noTSX",
+                                          "Broadwell-noTSX-IBRS",
                                           "Conroe",
                                           "core2duo",
                                           "coreduo",
                                           "Haswell",
+                                          "Haswell-IBRS",
                                           "Haswell-noTSX",
+                                          "Haswell-noTSX-IBRS",
                                           "host",
                                           "IvyBridge",
+                                          "IvyBridge-IBRS",
                                           "kvm32",
                                           "kvm64",
+                                          "max",
                                           "Nehalem",
+                                          "Nehalem-IBRS",
                                           "Opteron_G1",
                                           "Opteron_G2",
                                           "Opteron_G3",
@@ -11940,9 +12053,21 @@ var pveapi = [
                                           "qemu32",
                                           "qemu64",
                                           "SandyBridge",
+                                          "SandyBridge-IBRS",
                                           "Skylake-Client",
-                                          "Westmere"
+                                          "Skylake-Client-IBRS",
+                                          "Skylake-Server",
+                                          "Skylake-Server-IBRS",
+                                          "Westmere",
+                                          "Westmere-IBRS"
                                        ],
+                                       "type" : "string"
+                                    },
+                                    "flags" : {
+                                       "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl'.",
+                                       "format_description" : "+FLAG[;-FLAG...]",
+                                       "optional" : 1,
+                                       "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl))(;(?^:[+-](pcid|spec-ctrl)))*)",
                                        "type" : "string"
                                     },
                                     "hidden" : {
@@ -11954,7 +12079,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[cputype=]<enum> [,hidden=<1|0>]"
+                                 "typetext" : "[cputype=]<enum> [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>]"
                               },
                               "cpulimit" : {
                                  "default" : 0,
@@ -12328,8 +12453,8 @@ var pveapi = [
                                  "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                               },
                               "keyboard" : {
-                                 "default" : "en-us",
-                                 "description" : "Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.conf' configuration file.",
+                                 "default" : null,
+                                 "description" : "Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.conf' configuration file.It should not be necessary to set it.",
                                  "enum" : [
                                     "de",
                                     "de-ch",
@@ -12626,7 +12751,7 @@ var pveapi = [
                                  ],
                                  "optional" : 1,
                                  "type" : "string",
-                                 "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6/3.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
+                                 "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6/3.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
                               },
                               "parallel[n]" : {
                                  "description" : "Map host parallel devices (n is 0 to 2).",
@@ -16891,6 +17016,63 @@ var pveapi = [
                            },
                            {
                               "info" : {
+                                 "POST" : {
+                                    "description" : "Creates a TCP proxy connection.",
+                                    "method" : "POST",
+                                    "name" : "termproxy",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "minimum" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - N)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/vms/{vmid}",
+                                          [
+                                             "VM.Console"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "port" : {
+                                             "type" : "integer"
+                                          },
+                                          "ticket" : {
+                                             "type" : "string"
+                                          },
+                                          "upid" : {
+                                             "type" : "string"
+                                          },
+                                          "user" : {
+                                             "type" : "string"
+                                          }
+                                       }
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/lxc/{vmid}/termproxy",
+                              "text" : "termproxy"
+                           },
+                           {
+                              "info" : {
                                  "GET" : {
                                     "description" : "Opens a weksocket for VNC traffic.",
                                     "method" : "GET",
@@ -18180,8 +18362,8 @@ var pveapi = [
                                  "additionalProperties" : 0,
                                  "properties" : {
                                     "bluestore" : {
-                                       "default" : 0,
-                                       "description" : "Use bluestore instead of filestore.",
+                                       "default" : 1,
+                                       "description" : "Use bluestore instead of filestore. This is the default.",
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
@@ -18475,6 +18657,13 @@ var pveapi = [
                                        "optional" : 1,
                                        "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
                                        "type" : "string"
+                                    },
+                                    "mon-address" : {
+                                       "description" : "Overwrites autodetected monitor IP address. Must be in the public network of ceph.",
+                                       "format" : "ip",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
                                     },
                                     "node" : {
                                        "description" : "The cluster node name.",
@@ -20060,6 +20249,15 @@ var pveapi = [
                               }
                            }
                         },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/nodes/{node}",
+                              [
+                                 "Sys.Modify"
+                              ]
+                           ]
+                        },
                         "protected" : 1,
                         "proxyto" : "node",
                         "returns" : {
@@ -20086,6 +20284,15 @@ var pveapi = [
                                  "typetext" : "<string>"
                               }
                            }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/nodes/{node}",
+                              [
+                                 "Sys.Modify"
+                              ]
+                           ]
                         },
                         "protected" : 1,
                         "proxyto" : "node",
@@ -21972,6 +22179,13 @@ var pveapi = [
                               "enabled" : {
                                  "default" : 0,
                                  "description" : "Only list stores which are enabled (not disabled in config).",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "format" : {
+                                 "default" : 0,
+                                 "description" : "Include information about formats",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
@@ -23873,6 +24087,13 @@ var pveapi = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "service" : {
+                                 "description" : "Service ID",
+                                 "maxLength" : 128,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "since" : {
                                  "description" : "Display all log since this date-time string.",
                                  "optional" : 1,
@@ -24008,6 +24229,64 @@ var pveapi = [
                   "leaf" : 1,
                   "path" : "/nodes/{node}/vncshell",
                   "text" : "vncshell"
+               },
+               {
+                  "info" : {
+                     "POST" : {
+                        "description" : "Creates a VNC Shell proxy.",
+                        "method" : "POST",
+                        "name" : "termproxy",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "upgrade" : {
+                                 "default" : 0,
+                                 "description" : "Run 'apt-get dist-upgrade' instead of normal shell.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/nodes/{node}",
+                              [
+                                 "Sys.Console"
+                              ]
+                           ],
+                           "description" : "Restricted to users on realm 'pam'"
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "port" : {
+                                 "type" : "integer"
+                              },
+                              "ticket" : {
+                                 "type" : "string"
+                              },
+                              "upid" : {
+                                 "type" : "string"
+                              },
+                              "user" : {
+                                 "type" : "string"
+                              }
+                           }
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/nodes/{node}/termproxy",
+                  "text" : "termproxy"
                },
                {
                   "info" : {

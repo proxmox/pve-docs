@@ -1,6 +1,6 @@
 `console`: `<applet | html5 | vv>` ::
 
-Select the default Console viewer. You can either use the builtin java applet (VNC), an external virt-viewer comtatible application (SPICE), or an HTML5 based viewer (noVNC).
+Select the default Console viewer. You can either use the builtin java applet (VNC; deprecated and maps to html5), an external virt-viewer comtatible application (SPICE), or an HTML5 based viewer (noVNC).
 
 `email_from`: `<string>` ::
 

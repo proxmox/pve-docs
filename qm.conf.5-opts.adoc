@@ -42,13 +42,17 @@ This is an alias for option -ide2
 
 The number of cores per socket.
 
-`cpu`: `[cputype=]<enum> [,hidden=<1|0>]` ::
+`cpu`: `[cputype=]<enum> [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>]` ::
 
 Emulated CPU type.
 
-`cputype`=`<486 | Broadwell | Broadwell-noTSX | Conroe | Haswell | Haswell-noTSX | IvyBridge | Nehalem | Opteron_G1 | Opteron_G2 | Opteron_G3 | Opteron_G4 | Opteron_G5 | Penryn | SandyBridge | Skylake-Client | Westmere | athlon | core2duo | coreduo | host | kvm32 | kvm64 | pentium | pentium2 | pentium3 | phenom | qemu32 | qemu64>` ('default =' `kvm64`);;
+`cputype`=`<486 | Broadwell | Broadwell-IBRS | Broadwell-noTSX | Broadwell-noTSX-IBRS | Conroe | Haswell | Haswell-IBRS | Haswell-noTSX | Haswell-noTSX-IBRS | IvyBridge | IvyBridge-IBRS | Nehalem | Nehalem-IBRS | Opteron_G1 | Opteron_G2 | Opteron_G3 | Opteron_G4 | Opteron_G5 | Penryn | SandyBridge | SandyBridge-IBRS | Skylake-Client | Skylake-Client-IBRS | Skylake-Server | Skylake-Server-IBRS | Westmere | Westmere-IBRS | athlon | core2duo | coreduo | host | kvm32 | kvm64 | max | pentium | pentium2 | pentium3 | phenom | qemu32 | qemu64>` ('default =' `kvm64`);;
 
 Emulated CPU type.
+
+`flags`=`<+FLAG[;-FLAG...]>` ;;
+
+List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl'.
 
 `hidden`=`<boolean>` ('default =' `0`);;
 
@@ -294,9 +298,9 @@ Force disk geometry bios translation mode.
 
 Write error action.
 
-`keyboard`: `<da | de | de-ch | en-gb | en-us | es | fi | fr | fr-be | fr-ca | fr-ch | hu | is | it | ja | lt | mk | nl | no | pl | pt | pt-br | sl | sv | tr>` ('default =' `en-us`)::
+`keyboard`: `<da | de | de-ch | en-gb | en-us | es | fi | fr | fr-be | fr-ca | fr-ch | hu | is | it | ja | lt | mk | nl | no | pl | pt | pt-br | sl | sv | tr>` ::
 
-Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.conf' configuration file.
+Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.conf' configuration file.It should not be necessary to set it.
 
 `kvm`: `<boolean>` ('default =' `1`)::
 
@@ -422,7 +426,8 @@ w2k3;; Microsoft Windows 2003
 w2k8;; Microsoft Windows 2008
 wvista;; Microsoft Windows Vista
 win7;; Microsoft Windows 7
-win8;; Microsoft Windows 8/2012
+win8;; Microsoft Windows 8/2012/2012r2
+win10;; Microsoft Windows 10/2016
 l24;; Linux 2.4 Kernel
 l26;; Linux 2.6/3.X Kernel
 solaris;; Solaris/OpenSolaris/OpenIndiania kernel

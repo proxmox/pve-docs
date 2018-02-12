@@ -24,8 +24,6 @@ List of roles.
 
 List of users.
 
-
-
 *pveum aclmod* `<path> --roles <string>` `[OPTIONS]`
 
 Update Access Control List (add or remove permissions).
@@ -50,9 +48,6 @@ List of roles.
 
 List of users.
 
-
-
-
 *pveum groupadd* `<groupid>` `[OPTIONS]`
 
 Create new group.
@@ -65,8 +60,6 @@ no description available
 
 no description available
 
-
-
 *pveum groupdel* `<groupid>`
 
 Delete group.
@@ -74,8 +67,6 @@ Delete group.
 `<groupid>`: `<string>` ::
 
 no description available
-
-
 
 *pveum groupmod* `<groupid>` `[OPTIONS]`
 
@@ -89,23 +80,17 @@ no description available
 
 no description available
 
-
-
-
-*pveum help* `[<cmd>]` `[OPTIONS]`
+*pveum help* `[OPTIONS]`
 
 Get help about specified command.
 
-`<cmd>`: `<string>` ::
+`--extra-args` `<array>` ::
 
-Command name
+Shows help for a specific command
 
 `--verbose` `<boolean>` ::
 
 Verbose output format.
-
-
-
 
 *pveum passwd* `<userid>`
 
@@ -114,9 +99,6 @@ Change user password.
 `<userid>`: `<string>` ::
 
 User ID
-
-
-
 
 *pveum roleadd* `<roleid>` `[OPTIONS]`
 
@@ -130,8 +112,6 @@ no description available
 
 no description available
 
-
-
 *pveum roledel* `<roleid>`
 
 Delete role.
@@ -139,8 +119,6 @@ Delete role.
 `<roleid>`: `<string>` ::
 
 no description available
-
-
 
 *pveum rolemod* `<roleid> --privs <string>` `[OPTIONS]`
 
@@ -159,9 +137,6 @@ NOTE: Requires option(s): `privs`
 `--privs` `<string>` ::
 
 no description available
-
-
-
 
 *pveum ticket* `<username>` `[OPTIONS]`
 
@@ -190,9 +165,6 @@ NOTE: Requires option(s): `path`
 `--realm` `<string>` ::
 
 You can optionally pass the realm using this parameter. Normally the realm is simply added to the username <username>@<relam>.
-
-
-
 
 *pveum useradd* `<userid>` `[OPTIONS]`
 
@@ -238,8 +210,6 @@ no description available
 
 Initial password.
 
-
-
 *pveum userdel* `<userid>`
 
 Delete user.
@@ -247,8 +217,6 @@ Delete user.
 `<userid>`: `<string>` ::
 
 User ID
-
-
 
 *pveum usermod* `<userid>` `[OPTIONS]`
 
@@ -295,7 +263,5 @@ Keys for two factor auth (yubico).
 `--lastname` `<string>` ::
 
 no description available
-
-
 
 

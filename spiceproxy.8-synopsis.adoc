@@ -1,25 +1,20 @@
 *spiceproxy* `<COMMAND> [ARGS] [OPTIONS]`
 
-*spiceproxy help* `[<cmd>]` `[OPTIONS]`
+*spiceproxy help* `[OPTIONS]`
 
 Get help about specified command.
 
-`<cmd>`: `<string>` ::
+`--extra-args` `<array>` ::
 
-Command name
+Shows help for a specific command
 
 `--verbose` `<boolean>` ::
 
 Verbose output format.
 
-
-
-
 *spiceproxy restart*
 
 Restart the daemon (or start if not running).
-
-
 
 *spiceproxy start* `[OPTIONS]`
 
@@ -29,18 +24,12 @@ Start the daemon.
 
 Debug mode - stay in foreground
 
-
-
 *spiceproxy status*
 
 Get daemon status.
 
-
-
 *spiceproxy stop*
 
 Stop the daemon.
-
-
 
 

@@ -4,35 +4,25 @@
 
 Compile and print firewall rules. This is useful for testing.
 
-
-
-
-*pve-firewall help* `[<cmd>]` `[OPTIONS]`
+*pve-firewall help* `[OPTIONS]`
 
 Get help about specified command.
 
-`<cmd>`: `<string>` ::
+`--extra-args` `<array>` ::
 
-Command name
+Shows help for a specific command
 
 `--verbose` `<boolean>` ::
 
 Verbose output format.
 
-
-
-
 *pve-firewall localnet*
 
 Print information about local network.
 
-
-
 *pve-firewall restart*
 
 Restart the Proxmox VE firewall service.
-
-
 
 *pve-firewall simulate* `[OPTIONS]`
 
@@ -72,8 +62,6 @@ Destination zone.
 
 Verbose output.
 
-
-
 *pve-firewall start* `[OPTIONS]`
 
 Start the Proxmox VE firewall service.
@@ -82,19 +70,13 @@ Start the Proxmox VE firewall service.
 
 Debug mode - stay in foreground
 
-
-
 *pve-firewall status*
 
 Get firewall status.
-
-
 
 *pve-firewall stop*
 
 Stop firewall. This removes all Proxmox VE related iptable rules. The host
 is unprotected afterwards.
-
-
 
 

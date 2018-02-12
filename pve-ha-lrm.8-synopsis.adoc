@@ -1,19 +1,16 @@
 *pve-ha-lrm* `<COMMAND> [ARGS] [OPTIONS]`
 
-*pve-ha-lrm help* `[<cmd>]` `[OPTIONS]`
+*pve-ha-lrm help* `[OPTIONS]`
 
 Get help about specified command.
 
-`<cmd>`: `<string>` ::
+`--extra-args` `<array>` ::
 
-Command name
+Shows help for a specific command
 
 `--verbose` `<boolean>` ::
 
 Verbose output format.
-
-
-
 
 *pve-ha-lrm start* `[OPTIONS]`
 
@@ -23,18 +20,12 @@ Start the daemon.
 
 Debug mode - stay in foreground
 
-
-
 *pve-ha-lrm status*
 
 Get daemon status.
 
-
-
 *pve-ha-lrm stop*
 
 Stop the daemon.
-
-
 
 

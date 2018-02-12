@@ -42,9 +42,6 @@ Target storage for full clone.
 +
 NOTE: Requires option(s): `full`
 
-
-
-
 *pct config* `<vmid>`
 
 Get container configuration.
@@ -52,9 +49,6 @@ Get container configuration.
 `<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
-
-
-
 
 *pct console* `<vmid>`
 
@@ -64,14 +58,9 @@ Launch a console for the specified container.
 
 The (unique) ID of the VM.
 
-
-
 *pct cpusets*
 
 Print the list of assigned CPU sets.
-
-
-
 
 *pct create* `<vmid> <ostemplate>` `[OPTIONS]`
 
@@ -213,9 +202,6 @@ Makes the container run as unprivileged user. (Should not be modified manually.)
 
 Reference to unused volumes. This is used internally, and should not be modified manually.
 
-
-
-
 *pct delsnapshot* `<vmid> <snapname>` `[OPTIONS]`
 
 Delete a LXC snapshot.
@@ -232,9 +218,6 @@ The name of the snapshot.
 
 For removal from config file, even if removing disk snapshots fails.
 
-
-
-
 *pct destroy* `<vmid>`
 
 Destroy the container (also delete all uses files).
@@ -242,9 +225,6 @@ Destroy the container (also delete all uses files).
 `<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
-
-
-
 
 *pct df* `<vmid>`
 
@@ -254,8 +234,6 @@ Get the container's current disk usage.
 
 The (unique) ID of the VM.
 
-
-
 *pct enter* `<vmid>`
 
 Launch a shell for the specified container.
@@ -263,8 +241,6 @@ Launch a shell for the specified container.
 `<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
-
-
 
 *pct exec* `<vmid> [<extra-args>]`
 
@@ -277,8 +253,6 @@ The (unique) ID of the VM.
 `<extra-args>`: `<array>` ::
 
 Extra arguments as array
-
-
 
 *pct fsck* `<vmid>` `[OPTIONS]`
 
@@ -296,30 +270,21 @@ A volume on which to run the filesystem check
 
 Force checking, even if the filesystem seems clean
 
-
-
-
-*pct help* `[<cmd>]` `[OPTIONS]`
+*pct help* `[OPTIONS]`
 
 Get help about specified command.
 
-`<cmd>`: `<string>` ::
+`--extra-args` `<array>` ::
 
-Command name
+Shows help for a specific command
 
 `--verbose` `<boolean>` ::
 
 Verbose output format.
 
-
-
-
 *pct list*
 
 LXC container index (per node).
-
-
-
 
 *pct listsnapshot* `<vmid>`
 
@@ -328,9 +293,6 @@ List all snapshots.
 `<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
-
-
-
 
 *pct migrate* `<vmid> <target>` `[OPTIONS]`
 
@@ -360,9 +322,6 @@ Use restart migration
 
 Timeout in seconds for shutdown for restart migration
 
-
-
-
 *pct mount* `<vmid>`
 
 Mount the container's filesystem on the host. This will hold a lock on the
@@ -372,8 +331,6 @@ further operations on the container other than start and stop.
 `<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
-
-
 
 *pct pull* `<vmid> <path> <destination>` `[OPTIONS]`
 
@@ -403,8 +360,6 @@ File permissions to use (octal by default, prefix with '0x' for hexadecimal).
 
 Owner user name or id.
 
-
-
 *pct push* `<vmid> <file> <destination>` `[OPTIONS]`
 
 Copy a local file to the container.
@@ -433,9 +388,6 @@ File permissions to use (octal by default, prefix with '0x' for hexadecimal).
 
 Owner user name or id. When using a name it must exist inside the container.
 
-
-
-
 *pct resize* `<vmid> <disk> <size>` `[OPTIONS]`
 
 Resize a container mount point.
@@ -455,8 +407,6 @@ The new size. With the '+' sign the value is added to the actual size of the vol
 `--digest` `<string>` ::
 
 Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
-
-
 
 *pct restore* `<vmid> <ostemplate>` `[OPTIONS]`
 
@@ -594,9 +544,6 @@ Makes the container run as unprivileged user. (Should not be modified manually.)
 
 Reference to unused volumes. This is used internally, and should not be modified manually.
 
-
-
-
 *pct resume* `<vmid>`
 
 Resume the container.
@@ -604,9 +551,6 @@ Resume the container.
 `<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
-
-
-
 
 *pct rollback* `<vmid> <snapname>`
 
@@ -619,9 +563,6 @@ The (unique) ID of the VM.
 `<snapname>`: `<string>` ::
 
 The name of the snapshot.
-
-
-
 
 *pct set* `<vmid>` `[OPTIONS]`
 
@@ -739,9 +680,6 @@ Makes the container run as unprivileged user. (Should not be modified manually.)
 
 Reference to unused volumes. This is used internally, and should not be modified manually.
 
-
-
-
 *pct shutdown* `<vmid>` `[OPTIONS]`
 
 Shutdown the container. This will trigger a clean shutdown of the
@@ -759,9 +697,6 @@ Make sure the Container stops.
 
 Wait maximal timeout seconds.
 
-
-
-
 *pct snapshot* `<vmid> <snapname>` `[OPTIONS]`
 
 Snapshot a container.
@@ -778,9 +713,6 @@ The name of the snapshot.
 
 A textual description or comment.
 
-
-
-
 *pct start* `<vmid>` `[OPTIONS]`
 
 Start the container.
@@ -793,9 +725,6 @@ The (unique) ID of the VM.
 
 Ignore locks - only root is allowed to use this option.
 
-
-
-
 *pct status* `<vmid>` `[OPTIONS]`
 
 Show CT status.
@@ -807,9 +736,6 @@ The (unique) ID of the VM.
 `--verbose` `<boolean>` ::
 
 Verbose output format
-
-
-
 
 *pct stop* `<vmid>` `[OPTIONS]`
 
@@ -824,8 +750,6 @@ The (unique) ID of the VM.
 
 Ignore locks - only root is allowed to use this option.
 
-
-
 *pct suspend* `<vmid>`
 
 Suspend the container.
@@ -833,9 +757,6 @@ Suspend the container.
 `<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
-
-
-
 
 *pct template* `<vmid> --experimental <boolean>` `[OPTIONS]`
 
@@ -849,9 +770,6 @@ The (unique) ID of the VM.
 
 The template feature is experimental, set this flag if you know what you are doing.
 
-
-
-
 *pct unlock* `<vmid>`
 
 Unlock the VM.
@@ -860,8 +778,6 @@ Unlock the VM.
 
 The (unique) ID of the VM.
 
-
-
 *pct unmount* `<vmid>`
 
 Unmount the container's filesystem.
@@ -869,7 +785,5 @@ Unmount the container's filesystem.
 `<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
-
-
 
 
