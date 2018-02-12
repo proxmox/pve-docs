@@ -356,7 +356,7 @@ Each VLAN network is identified by a number often called 'tag'.
 Network packages are then 'tagged' to identify which virtual
 network they belong to.
 
-One or more VLANs can be used at any network device (Nic, Bond, Bridge).
+One or more VLANs can be used at any network device (NIC, Bond, Bridge).
 VLANs can be configured in several ways. Here, only the most common ones get
 described. We assume a network infrastructure based on Linux Kernel Networking
 (opposed to, e.g., Open vSwitch).
