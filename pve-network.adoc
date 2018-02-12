@@ -344,15 +344,16 @@ iface vmbr0 inet static
 
 ----
 
+
 VLAN 802.1Q
 ~~~~~~~~~~~
 
-A virtual LAN (VLAN) is any broadcast domain that is partitioned
+A virtual LAN (VLAN) is a broadcast domain that is partitioned
 and isolated in the network at layer 2.
 So it is possible to have multiple networks (4096) in a physical network,
 each independent of the other ones.
-Each VLAN network is identified by a number often called `tag`.
-Network packages are then `tagged` to identify which virtual
+Each VLAN network is identified by a number often called 'tag'.
+Network packages are then 'tagged' to identify which virtual
 network they belong to.
 
 One or more VLANs can be used at any network device (Nic, Bond, Bridge).
