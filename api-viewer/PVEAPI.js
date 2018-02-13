@@ -212,9 +212,9 @@ Ext.onReady(function() {
 		    if (info.permissions.user) {
 			if (!info.permissions.description) {
 			    if (info.permissions.user === 'world') {
-				permhtml += "Accessible without any authententification.";
+				permhtml += "Accessible without any authentication.";
 			    } else if (info.permissions.user === 'all') {
-				permhtml += "Accessible by all authententicated users.";
+				permhtml += "Accessible by all authenticated users.";
 			    } else {
 				permhtml += 'Onyl accessible by user "' + 
 				    info.permissions.user + '"';
