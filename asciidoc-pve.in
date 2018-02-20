@@ -300,7 +300,12 @@ sub compile_asciidoc {
 
     $leveloffset = - $doctype;
 
-    my $date = `date`;
+    my $date;
+    if (defined($ENV{SOURCE_DATE_EPOCH})) {
+	$date = `date -d "\@$ENV{SOURCE_DATE_EPOCH}"`;
+    } else {
+	$date = `date`;
+    }
     chomp $date;
 
     my $attributes = {
@@ -308,6 +313,7 @@ sub compile_asciidoc {
 	leveloffset => $leveloffset,
 	revnumber => $release,
 	revdate => $date,
+	'footer-style' => 'revdate',
     };
 
     my $mansection = $fileinfo->{mansection}->{$env}->{$infile};

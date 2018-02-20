@@ -17,6 +17,8 @@ DOC_DEB=${DOC_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
 MEDIAWIKI_DEB=${MEDIAWIKI_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
 DOC_BUILDDEPS := asciidoc-dblatex, source-highlight, librsvg2-bin
 
+export SOURCE_DATE_EPOCH ?= $(shell dpkg-parsechangelog -STimestamp)
+SOURCE_DATE_HUMAN := $(shell date -d "@${SOURCE_DATE_EPOCH}")
 
 all: index.html
 
@@ -81,7 +83,7 @@ INDEX_INCLUDES=								\
 	man8-index-table.adoc						\
 	$(sort $(addsuffix .html, ${MANUAL_PAGES}) ${CHAPTER_LIST})
 
-ADOC_STDARG=-b $(shell pwd)/asciidoc/pve-html -f asciidoc/asciidoc-pve.conf -a icons -a data-uri -a "date=$(shell date)" -a "revnumber=${DOCRELEASE}"
+ADOC_STDARG=-b $(shell pwd)/asciidoc/pve-html -f asciidoc/asciidoc-pve.conf -a icons -a data-uri -a "date=${SOURCE_DATE_HUMAN}" -a "revnumber=${DOCRELEASE}" -a footer-style=revdate
 
 BROWSER?=xdg-open
 
