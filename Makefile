@@ -8,7 +8,7 @@ MEDIAWIKI_PACKAGE=pve-docs-mediawiki
 # also update debian/changelog
 PKGREL=16
 
-GITVERSION:=$(shell cat .git/refs/heads/master)
+GITVERSION:=$(shell git rev-parse HEAD)
 
 ARCH:=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
 
