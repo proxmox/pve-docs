@@ -52,6 +52,7 @@ GEN_SCRIPTS=					\
 	gen-pct-network-opts.pl			\
 	gen-pct-mountpoint-opts.pl		\
 	gen-qm.conf.5-opts.pl			\
+	gen-qm-cloud-init-opts.pl		\
 	gen-vzdump.conf.5-opts.pl		\
 	gen-pve-firewall-cluster-opts.pl	\
 	gen-pve-firewall-host-opts.pl		\
