@@ -189,14 +189,26 @@ Ext.onReady(function() {
 
 		if (info.returns) {
 
-		    var rtype = info.returns.type;
-		    if (!rtype && info.returns.items)
+		    var retinf = info.returns;
+		    var rtype = retinf.type;
+		    if (!rtype && retinf.items)
 			rtype = 'array';
 		    if (!rtype)
 			rtype = 'object';
 
+		    var returnhtml;
+		    if (retinf.items) {
+			returnhtml = '<pre>items: ' + JSON.stringify(retinf.items, null, 4) + '</pre>';
+		    }
+
+		    if (retinf.properties) {
+			returnhtml = returnhtml || '';
+			returnhtml += '<pre>properties:' + JSON.stringify(retinf.properties, null, 4);
+		    }
+
 		    sections.push({
-			title: 'Returns: ' + rtype
+			title: 'Returns: ' + rtype,
+			html: returnhtml
 		    });
 		}
 
