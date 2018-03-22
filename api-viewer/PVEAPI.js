@@ -208,6 +208,7 @@ Ext.onReady(function() {
 
 		    sections.push({
 			title: 'Returns: ' + rtype,
+			bodyPadding: 10,
 			html: returnhtml
 		    });
 		}
