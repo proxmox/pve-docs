@@ -8,6 +8,10 @@ Adds the current node to an existing cluster.
 
 Hostname (or IP) of an existing cluster member.
 
+`--fingerprint` `([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}` ::
+
+Certificate SHA 256 fingerprint.
+
 `--force` `<boolean>` ::
 
 Do not throw error if node already exists.
@@ -16,13 +20,17 @@ Do not throw error if node already exists.
 
 Node id for this node.
 
-`--ring0_addr` `<string>` ::
+`--ring0_addr` `<string>` ('default =' `Hostname of the node`)::
 
-Hostname (or IP) of the corosync ring0 address of this node. Defaults to nodes hostname.
+Hostname (or IP) of the corosync ring0 address of this node.
 
 `--ring1_addr` `<string>` ::
 
-Hostname (or IP) of the corosync ring1 address, this needs an valid configured ring 1 interface in the cluster.
+Hostname (or IP) of the corosync ring1 address of this node. Requires a valid configured ring 1 (bindnet1_addr) in the cluster.
+
+`--use_ssh` `<boolean>` ::
+
+Always use SSH to join, even if peer may do it over API.
 
 `--votes` `<integer> (0 - N)` ::
 
@@ -44,13 +52,13 @@ Do not throw error if node already exists.
 
 Node id for this node.
 
-`--ring0_addr` `<string>` ::
+`--ring0_addr` `<string>` ('default =' `Hostname of the node`)::
 
-Hostname (or IP) of the corosync ring0 address of this node. Defaults to nodes hostname.
+Hostname (or IP) of the corosync ring0 address of this node.
 
 `--ring1_addr` `<string>` ::
 
-Hostname (or IP) of the corosync ring1 address, this needs an valid bindnet1_addr.
+Hostname (or IP) of the corosync ring1 address of this node. Requires a valid configured ring 1 (bindnet1_addr) in the cluster.
 
 `--votes` `<integer> (0 - N)` ::
 
@@ -76,13 +84,13 @@ This specifies the network address the corosync ring 1 executive should bind to 
 
 Node id for this node.
 
-`--ring0_addr` `<string>` ::
+`--ring0_addr` `<string>` ('default =' `Hostname of the node`)::
 
-Hostname (or IP) of the corosync ring0 address of this node. Defaults to the hostname of the node.
+Hostname (or IP) of the corosync ring0 address of this node.
 
 `--ring1_addr` `<string>` ::
 
-Hostname (or IP) of the corosync ring1 address, this needs an valid bindnet1_addr.
+Hostname (or IP) of the corosync ring1 address of this node. Requires a valid configured ring 1 (bindnet1_addr) in the cluster.
 
 `--votes` `<integer> (1 - N)` ::
 
@@ -90,11 +98,11 @@ Number of votes for this node.
 
 *pvecm delnode* `<node>`
 
-Removes a node to the cluster configuration.
+Removes a node from the cluster configuration.
 
 `<node>`: `<string>` ::
 
-Hostname or IP of the corosync ring0 address of this node.
+The cluster node name.
 
 *pvecm expected* `<expected>`
 

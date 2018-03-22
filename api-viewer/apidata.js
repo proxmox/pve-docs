@@ -276,6 +276,98 @@ var pveapi = [
          {
             "children" : [
                {
+                  "children" : [
+                     {
+                        "info" : {
+                           "DELETE" : {
+                              "description" : "Removes a node from the cluster configuration.",
+                              "method" : "DELETE",
+                              "name" : "delnode",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           },
+                           "POST" : {
+                              "description" : "Adds a node to the cluster configuration.",
+                              "method" : "POST",
+                              "name" : "addnode",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "force" : {
+                                       "description" : "Do not throw error if node already exists.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "nodeid" : {
+                                       "description" : "Node id for this node.",
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (1 - N)"
+                                    },
+                                    "ring0_addr" : {
+                                       "default" : "Hostname of the node",
+                                       "description" : "Hostname (or IP) of the corosync ring0 address of this node.",
+                                       "format" : "address",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "ring1_addr" : {
+                                       "description" : "Hostname (or IP) of the corosync ring1 address of this node. Requires a valid configured ring 1 (bindnet1_addr) in the cluster.",
+                                       "format" : "address",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "votes" : {
+                                       "description" : "Number of votes for this node",
+                                       "minimum" : 0,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (0 - N)"
+                                    }
+                                 }
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "properties" : {
+                                    "corosync_authkey" : {
+                                       "type" : "string"
+                                    },
+                                    "corosync_conf" : {
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/cluster/config/nodes/{node}",
+                        "text" : "{node}"
+                     }
+                  ],
                   "info" : {
                      "GET" : {
                         "description" : "Corosync node list.",
@@ -312,9 +404,156 @@ var pveapi = [
                         }
                      }
                   },
-                  "leaf" : 1,
+                  "leaf" : 0,
                   "path" : "/cluster/config/nodes",
                   "text" : "nodes"
+               },
+               {
+                  "info" : {
+                     "GET" : {
+                        "description" : "Get information needed to join this cluster over the connected node.",
+                        "method" : "GET",
+                        "name" : "join_info",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "node" : {
+                                 "default" : "current connected node",
+                                 "description" : "The node for which the joinee gets the nodeinfo. ",
+                                 "format" : "pve-node",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "returns" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "config_digest" : {
+                                 "type" : "string"
+                              },
+                              "nodelist" : {
+                                 "items" : {
+                                    "additionalProperties" : 1,
+                                    "properties" : {
+                                       "name" : {
+                                          "description" : "The cluster node name.",
+                                          "format" : "pve-node",
+                                          "type" : "string"
+                                       },
+                                       "nodeid" : {
+                                          "description" : "Node id for this node.",
+                                          "minimum" : 1,
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "pve_addr" : {
+                                          "format" : "ip",
+                                          "type" : "string"
+                                       },
+                                       "pve_fp" : {
+                                          "description" : "Certificate SHA 256 fingerprint.",
+                                          "pattern" : "([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}",
+                                          "type" : "string"
+                                       },
+                                       "quorum_votes" : {
+                                          "minimum" : 0,
+                                          "type" : "integer"
+                                       },
+                                       "ring0_addr" : {
+                                          "default" : "Hostname of the node",
+                                          "description" : "Hostname (or IP) of the corosync ring0 address of this node.",
+                                          "format" : "address",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "type" : "array"
+                              },
+                              "preferred_node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string"
+                              },
+                              "totem" : {
+                                 "type" : "object"
+                              }
+                           },
+                           "type" : "object"
+                        }
+                     },
+                     "POST" : {
+                        "description" : "Joins this node into an existing cluster.",
+                        "method" : "POST",
+                        "name" : "join",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "fingerprint" : {
+                                 "description" : "Certificate SHA 256 fingerprint.",
+                                 "pattern" : "([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}",
+                                 "type" : "string"
+                              },
+                              "force" : {
+                                 "description" : "Do not throw error if node already exists.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "hostname" : {
+                                 "description" : "Hostname (or IP) of an existing cluster member.",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "nodeid" : {
+                                 "description" : "Node id for this node.",
+                                 "minimum" : 1,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (1 - N)"
+                              },
+                              "password" : {
+                                 "description" : "Superuser (root) password of peer node.",
+                                 "maxLength" : 128,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "ring0_addr" : {
+                                 "default" : "IP resolved by node's hostname",
+                                 "description" : "Hostname (or IP) of the corosync ring0 address of this node.",
+                                 "format" : "address",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "ring1_addr" : {
+                                 "description" : "Hostname (or IP) of the corosync ring1 address of this node. Requires a valid configured ring 1 (bindnet1_addr) in the cluster.",
+                                 "format" : "address",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "votes" : {
+                                 "description" : "Number of votes for this node",
+                                 "minimum" : 0,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (0 - N)"
+                              }
+                           }
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "string"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/config/join",
+                  "text" : "join"
                },
                {
                   "info" : {
@@ -374,6 +613,70 @@ var pveapi = [
                         }
                      ],
                      "type" : "array"
+                  }
+               },
+               "POST" : {
+                  "description" : "Generate new cluster configuration.",
+                  "method" : "POST",
+                  "name" : "create",
+                  "parameters" : {
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "bindnet0_addr" : {
+                           "description" : "This specifies the network address the corosync ring 0 executive should bind to and defaults to the local IP address of the node.",
+                           "format" : "ip",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "bindnet1_addr" : {
+                           "description" : "This specifies the network address the corosync ring 1 executive should bind to and is optional.",
+                           "format" : "ip",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "clustername" : {
+                           "description" : "The name of the cluster.",
+                           "format" : "pve-node",
+                           "maxLength" : 15,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "nodeid" : {
+                           "description" : "Node id for this node.",
+                           "minimum" : 1,
+                           "optional" : 1,
+                           "type" : "integer",
+                           "typetext" : "<integer> (1 - N)"
+                        },
+                        "ring0_addr" : {
+                           "default" : "Hostname of the node",
+                           "description" : "Hostname (or IP) of the corosync ring0 address of this node.",
+                           "format" : "address",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "ring1_addr" : {
+                           "description" : "Hostname (or IP) of the corosync ring1 address of this node. Requires a valid configured ring 1 (bindnet1_addr) in the cluster.",
+                           "format" : "address",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "votes" : {
+                           "description" : "Number of votes for this node.",
+                           "minimum" : 1,
+                           "optional" : 1,
+                           "type" : "integer",
+                           "typetext" : "<integer> (1 - N)"
+                        }
+                     }
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "type" : "string"
                   }
                }
             },
@@ -3622,6 +3925,49 @@ var pveapi = [
                   "parameters" : {
                      "additionalProperties" : 0,
                      "properties" : {
+                        "bwlimit" : {
+                           "description" : "Set bandwidth/io limits various operations.",
+                           "format" : {
+                              "clone" : {
+                                 "description" : "bandwidth limit in MiB/s for cloning disks",
+                                 "format_description" : "LIMIT",
+                                 "minimum" : "0",
+                                 "optional" : 1,
+                                 "type" : "number"
+                              },
+                              "default" : {
+                                 "description" : "default bandwidth limit in MiB/s",
+                                 "format_description" : "LIMIT",
+                                 "minimum" : "0",
+                                 "optional" : 1,
+                                 "type" : "number"
+                              },
+                              "migration" : {
+                                 "description" : "bandwidth limit in MiB/s for migrating guests",
+                                 "format_description" : "LIMIT",
+                                 "minimum" : "0",
+                                 "optional" : 1,
+                                 "type" : "number"
+                              },
+                              "move" : {
+                                 "description" : "bandwidth limit in MiB/s for moving disks",
+                                 "format_description" : "LIMIT",
+                                 "minimum" : "0",
+                                 "optional" : 1,
+                                 "type" : "number"
+                              },
+                              "restore" : {
+                                 "description" : "bandwidth limit in MiB/s for restoring guests from backups",
+                                 "format_description" : "LIMIT",
+                                 "minimum" : "0",
+                                 "optional" : 1,
+                                 "type" : "number"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                        },
                         "console" : {
                            "description" : "Select the default Console viewer. You can either use the builtin java applet (VNC; deprecated and maps to html5), an external virt-viewer comtatible application (SPICE), or an HTML5 based viewer (noVNC).",
                            "enum" : [
@@ -5562,6 +5908,1020 @@ var pveapi = [
                               "text" : "firewall"
                            },
                            {
+                              "children" : [
+                                 {
+                                    "info" : {
+                                       "POST" : {
+                                          "description" : "Execute fsfreeze-freeze.",
+                                          "method" : "POST",
+                                          "name" : "fsfreeze-freeze",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/fsfreeze-freeze",
+                                    "text" : "fsfreeze-freeze"
+                                 },
+                                 {
+                                    "info" : {
+                                       "POST" : {
+                                          "description" : "Execute fsfreeze-status.",
+                                          "method" : "POST",
+                                          "name" : "fsfreeze-status",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/fsfreeze-status",
+                                    "text" : "fsfreeze-status"
+                                 },
+                                 {
+                                    "info" : {
+                                       "POST" : {
+                                          "description" : "Execute fsfreeze-thaw.",
+                                          "method" : "POST",
+                                          "name" : "fsfreeze-thaw",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/fsfreeze-thaw",
+                                    "text" : "fsfreeze-thaw"
+                                 },
+                                 {
+                                    "info" : {
+                                       "POST" : {
+                                          "description" : "Execute fstrim.",
+                                          "method" : "POST",
+                                          "name" : "fstrim",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/fstrim",
+                                    "text" : "fstrim"
+                                 },
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "description" : "Execute get-fsinfo.",
+                                          "method" : "GET",
+                                          "name" : "get-fsinfo",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/get-fsinfo",
+                                    "text" : "get-fsinfo"
+                                 },
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "description" : "Execute get-host-name.",
+                                          "method" : "GET",
+                                          "name" : "get-host-name",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/get-host-name",
+                                    "text" : "get-host-name"
+                                 },
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "description" : "Execute get-memory-block-info.",
+                                          "method" : "GET",
+                                          "name" : "get-memory-block-info",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/get-memory-block-info",
+                                    "text" : "get-memory-block-info"
+                                 },
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "description" : "Execute get-memory-blocks.",
+                                          "method" : "GET",
+                                          "name" : "get-memory-blocks",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/get-memory-blocks",
+                                    "text" : "get-memory-blocks"
+                                 },
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "description" : "Execute get-osinfo.",
+                                          "method" : "GET",
+                                          "name" : "get-osinfo",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/get-osinfo",
+                                    "text" : "get-osinfo"
+                                 },
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "description" : "Execute get-time.",
+                                          "method" : "GET",
+                                          "name" : "get-time",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/get-time",
+                                    "text" : "get-time"
+                                 },
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "description" : "Execute get-timezone.",
+                                          "method" : "GET",
+                                          "name" : "get-timezone",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/get-timezone",
+                                    "text" : "get-timezone"
+                                 },
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "description" : "Execute get-users.",
+                                          "method" : "GET",
+                                          "name" : "get-users",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/get-users",
+                                    "text" : "get-users"
+                                 },
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "description" : "Execute get-vcpus.",
+                                          "method" : "GET",
+                                          "name" : "get-vcpus",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/get-vcpus",
+                                    "text" : "get-vcpus"
+                                 },
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "description" : "Execute info.",
+                                          "method" : "GET",
+                                          "name" : "info",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/info",
+                                    "text" : "info"
+                                 },
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "description" : "Execute network-get-interfaces.",
+                                          "method" : "GET",
+                                          "name" : "network-get-interfaces",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/network-get-interfaces",
+                                    "text" : "network-get-interfaces"
+                                 },
+                                 {
+                                    "info" : {
+                                       "POST" : {
+                                          "description" : "Execute ping.",
+                                          "method" : "POST",
+                                          "name" : "ping",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/ping",
+                                    "text" : "ping"
+                                 },
+                                 {
+                                    "info" : {
+                                       "POST" : {
+                                          "description" : "Execute shutdown.",
+                                          "method" : "POST",
+                                          "name" : "shutdown",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/shutdown",
+                                    "text" : "shutdown"
+                                 },
+                                 {
+                                    "info" : {
+                                       "POST" : {
+                                          "description" : "Execute suspend-disk.",
+                                          "method" : "POST",
+                                          "name" : "suspend-disk",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/suspend-disk",
+                                    "text" : "suspend-disk"
+                                 },
+                                 {
+                                    "info" : {
+                                       "POST" : {
+                                          "description" : "Execute suspend-hybrid.",
+                                          "method" : "POST",
+                                          "name" : "suspend-hybrid",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/suspend-hybrid",
+                                    "text" : "suspend-hybrid"
+                                 },
+                                 {
+                                    "info" : {
+                                       "POST" : {
+                                          "description" : "Execute suspend-ram.",
+                                          "method" : "POST",
+                                          "name" : "suspend-ram",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/suspend-ram",
+                                    "text" : "suspend-ram"
+                                 }
+                              ],
+                              "info" : {
+                                 "GET" : {
+                                    "description" : "Qemu Agent command index.",
+                                    "method" : "GET",
+                                    "name" : "index",
+                                    "parameters" : {
+                                       "additionalProperties" : 1,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "minimum" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - N)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "user" : "all"
+                                    },
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "description" : "Returns the list of Qemu Agent commands",
+                                       "items" : {
+                                          "properties" : {},
+                                          "type" : "object"
+                                       },
+                                       "links" : [
+                                          {
+                                             "href" : "{name}",
+                                             "rel" : "child"
+                                          }
+                                       ],
+                                       "type" : "array"
+                                    }
+                                 },
+                                 "POST" : {
+                                    "description" : "Execute Qemu Guest Agent commands.",
+                                    "method" : "POST",
+                                    "name" : "agent",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "command" : {
+                                             "description" : "The QGA command.",
+                                             "enum" : [
+                                                "fsfreeze-freeze",
+                                                "fsfreeze-status",
+                                                "fsfreeze-thaw",
+                                                "fstrim",
+                                                "get-fsinfo",
+                                                "get-host-name",
+                                                "get-memory-block-info",
+                                                "get-memory-blocks",
+                                                "get-osinfo",
+                                                "get-time",
+                                                "get-timezone",
+                                                "get-users",
+                                                "get-vcpus",
+                                                "info",
+                                                "network-get-interfaces",
+                                                "ping",
+                                                "shutdown",
+                                                "suspend-disk",
+                                                "suspend-hybrid",
+                                                "suspend-ram"
+                                             ],
+                                             "type" : "string"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "minimum" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - N)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/vms/{vmid}",
+                                          [
+                                             "VM.Monitor"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "description" : "Returns an object with a single `result` property.",
+                                       "type" : "object"
+                                    }
+                                 }
+                              },
+                              "leaf" : 0,
+                              "path" : "/nodes/{node}/qemu/{vmid}/agent",
+                              "text" : "agent"
+                           },
+                           {
                               "info" : {
                                  "GET" : {
                                     "description" : "Read VM RRD statistics (returns PNG)",
@@ -5834,6 +7194,27 @@ var pveapi = [
                                              "type" : "string",
                                              "typetext" : "<volume>"
                                           },
+                                          "cipassword" : {
+                                             "description" : "cloud-init: Password to assign the user. Using this is generally not recommended. Use ssh keys instead. Also note that older cloud-init versions do not support hashed passwords.",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "citype" : {
+                                             "description" : "Specifies the cloud-init configuration format. The default depends on the configured operating system type (`ostype`. We use the `nocloud` format for Linux, and `configdrive2` for windows.",
+                                             "enum" : [
+                                                "configdrive2",
+                                                "nocloud"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "ciuser" : {
+                                             "description" : "cloud-init: User name to change ssh keys and password for instead of the image's configured default user.",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
                                           "cores" : {
                                              "default" : 1,
                                              "description" : "The number of cores per socket.",
@@ -5859,6 +7240,8 @@ var pveapi = [
                                                       "Conroe",
                                                       "core2duo",
                                                       "coreduo",
+                                                      "EPYC",
+                                                      "EPYC-IBPB",
                                                       "Haswell",
                                                       "Haswell-IBRS",
                                                       "Haswell-noTSX",
@@ -6256,6 +7639,13 @@ var pveapi = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "shared" : {
+                                                   "default" : 0,
+                                                   "description" : "Mark this locally-managed volume as available on all nodes",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Mark this locally-managed volume as available on all nodes.\n\nWARNING: This option does not share the volume automatically, it assumes it is shared already!"
+                                                },
                                                 "size" : {
                                                    "description" : "Disk size. This is purely informational and has no effect.",
                                                    "format" : "disk-size",
@@ -6264,7 +7654,7 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "snapshot" : {
-                                                   "description" : "Whether the drive should be included when making snapshots.",
+                                                   "description" : "Controls qemu's snapshot mode feature. If activated, changes made to the disk are temporary and will be discarded when the VM is shutdown.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -6295,7 +7685,14 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                          },
+                                          "ipconfig[n]" : {
+                                             "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit gateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using dhcp on IPv4.\n",
+                                             "format" : "pve-qm-ipconfig",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "[gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>]"
                                           },
                                           "keyboard" : {
                                              "default" : null,
@@ -6388,6 +7785,13 @@ var pveapi = [
                                           "name" : {
                                              "description" : "Set a name for the VM. Only used on the configuration web interface.",
                                              "format" : "dns-name",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "nameserver" : {
+                                             "description" : "cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
+                                             "format" : "address-list",
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -6883,6 +8287,13 @@ var pveapi = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "shared" : {
+                                                   "default" : 0,
+                                                   "description" : "Mark this locally-managed volume as available on all nodes",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Mark this locally-managed volume as available on all nodes.\n\nWARNING: This option does not share the volume automatically, it assumes it is shared already!"
+                                                },
                                                 "size" : {
                                                    "description" : "Disk size. This is purely informational and has no effect.",
                                                    "format" : "disk-size",
@@ -6891,7 +8302,7 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "snapshot" : {
-                                                   "description" : "Whether the drive should be included when making snapshots.",
+                                                   "description" : "Controls qemu's snapshot mode feature. If activated, changes made to the disk are temporary and will be discarded when the VM is shutdown.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -6922,7 +8333,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
                                           "scsi[n]" : {
                                              "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).",
@@ -7198,6 +8609,13 @@ var pveapi = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "shared" : {
+                                                   "default" : 0,
+                                                   "description" : "Mark this locally-managed volume as available on all nodes",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Mark this locally-managed volume as available on all nodes.\n\nWARNING: This option does not share the volume automatically, it assumes it is shared already!"
+                                                },
                                                 "size" : {
                                                    "description" : "Disk size. This is purely informational and has no effect.",
                                                    "format" : "disk-size",
@@ -7206,7 +8624,7 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "snapshot" : {
-                                                   "description" : "Whether the drive should be included when making snapshots.",
+                                                   "description" : "Controls qemu's snapshot mode feature. If activated, changes made to the disk are temporary and will be discarded when the VM is shutdown.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -7237,7 +8655,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
                                           "scsihw" : {
                                              "default" : "lsi",
@@ -7252,6 +8670,12 @@ var pveapi = [
                                              ],
                                              "optional" : 1,
                                              "type" : "string"
+                                          },
+                                          "searchdomain" : {
+                                             "description" : "cloud-init: Sets DNS search domains for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
                                           },
                                           "serial[n]" : {
                                              "description" : "Create a serial device inside the VM (n is 0 to 3)",
@@ -7298,6 +8722,13 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "integer",
                                              "typetext" : "<integer> (1 - N)"
+                                          },
+                                          "sshkeys" : {
+                                             "description" : "cloud-init: Setup public SSH keys (one key per line, OpenSSH format).",
+                                             "format" : "urlencoded",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
                                           },
                                           "startdate" : {
                                              "default" : "now",
@@ -7653,6 +9084,13 @@ var pveapi = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "shared" : {
+                                                   "default" : 0,
+                                                   "description" : "Mark this locally-managed volume as available on all nodes",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Mark this locally-managed volume as available on all nodes.\n\nWARNING: This option does not share the volume automatically, it assumes it is shared already!"
+                                                },
                                                 "size" : {
                                                    "description" : "Disk size. This is purely informational and has no effect.",
                                                    "format" : "disk-size",
@@ -7661,7 +9099,7 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "snapshot" : {
-                                                   "description" : "Whether the drive should be included when making snapshots.",
+                                                   "description" : "Controls qemu's snapshot mode feature. If activated, changes made to the disk are temporary and will be discarded when the VM is shutdown.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -7692,7 +9130,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
@@ -7815,6 +9253,27 @@ var pveapi = [
                                              "type" : "string",
                                              "typetext" : "<volume>"
                                           },
+                                          "cipassword" : {
+                                             "description" : "cloud-init: Password to assign the user. Using this is generally not recommended. Use ssh keys instead. Also note that older cloud-init versions do not support hashed passwords.",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "citype" : {
+                                             "description" : "Specifies the cloud-init configuration format. The default depends on the configured operating system type (`ostype`. We use the `nocloud` format for Linux, and `configdrive2` for windows.",
+                                             "enum" : [
+                                                "configdrive2",
+                                                "nocloud"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "ciuser" : {
+                                             "description" : "cloud-init: User name to change ssh keys and password for instead of the image's configured default user.",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
                                           "cores" : {
                                              "default" : 1,
                                              "description" : "The number of cores per socket.",
@@ -7840,6 +9299,8 @@ var pveapi = [
                                                       "Conroe",
                                                       "core2duo",
                                                       "coreduo",
+                                                      "EPYC",
+                                                      "EPYC-IBPB",
                                                       "Haswell",
                                                       "Haswell-IBRS",
                                                       "Haswell-noTSX",
@@ -8237,6 +9698,13 @@ var pveapi = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "shared" : {
+                                                   "default" : 0,
+                                                   "description" : "Mark this locally-managed volume as available on all nodes",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Mark this locally-managed volume as available on all nodes.\n\nWARNING: This option does not share the volume automatically, it assumes it is shared already!"
+                                                },
                                                 "size" : {
                                                    "description" : "Disk size. This is purely informational and has no effect.",
                                                    "format" : "disk-size",
@@ -8245,7 +9713,7 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "snapshot" : {
-                                                   "description" : "Whether the drive should be included when making snapshots.",
+                                                   "description" : "Controls qemu's snapshot mode feature. If activated, changes made to the disk are temporary and will be discarded when the VM is shutdown.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -8276,7 +9744,14 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                          },
+                                          "ipconfig[n]" : {
+                                             "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit gateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using dhcp on IPv4.\n",
+                                             "format" : "pve-qm-ipconfig",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "[gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>]"
                                           },
                                           "keyboard" : {
                                              "default" : null,
@@ -8369,6 +9844,13 @@ var pveapi = [
                                           "name" : {
                                              "description" : "Set a name for the VM. Only used on the configuration web interface.",
                                              "format" : "dns-name",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "nameserver" : {
+                                             "description" : "cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
+                                             "format" : "address-list",
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -8864,6 +10346,13 @@ var pveapi = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "shared" : {
+                                                   "default" : 0,
+                                                   "description" : "Mark this locally-managed volume as available on all nodes",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Mark this locally-managed volume as available on all nodes.\n\nWARNING: This option does not share the volume automatically, it assumes it is shared already!"
+                                                },
                                                 "size" : {
                                                    "description" : "Disk size. This is purely informational and has no effect.",
                                                    "format" : "disk-size",
@@ -8872,7 +10361,7 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "snapshot" : {
-                                                   "description" : "Whether the drive should be included when making snapshots.",
+                                                   "description" : "Controls qemu's snapshot mode feature. If activated, changes made to the disk are temporary and will be discarded when the VM is shutdown.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -8903,7 +10392,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
                                           "scsi[n]" : {
                                              "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).",
@@ -9179,6 +10668,13 @@ var pveapi = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "shared" : {
+                                                   "default" : 0,
+                                                   "description" : "Mark this locally-managed volume as available on all nodes",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Mark this locally-managed volume as available on all nodes.\n\nWARNING: This option does not share the volume automatically, it assumes it is shared already!"
+                                                },
                                                 "size" : {
                                                    "description" : "Disk size. This is purely informational and has no effect.",
                                                    "format" : "disk-size",
@@ -9187,7 +10683,7 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "snapshot" : {
-                                                   "description" : "Whether the drive should be included when making snapshots.",
+                                                   "description" : "Controls qemu's snapshot mode feature. If activated, changes made to the disk are temporary and will be discarded when the VM is shutdown.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -9218,7 +10714,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
                                           "scsihw" : {
                                              "default" : "lsi",
@@ -9233,6 +10729,12 @@ var pveapi = [
                                              ],
                                              "optional" : 1,
                                              "type" : "string"
+                                          },
+                                          "searchdomain" : {
+                                             "description" : "cloud-init: Sets DNS search domains for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
                                           },
                                           "serial[n]" : {
                                              "description" : "Create a serial device inside the VM (n is 0 to 3)",
@@ -9279,6 +10781,13 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "integer",
                                              "typetext" : "<integer> (1 - N)"
+                                          },
+                                          "sshkeys" : {
+                                             "description" : "cloud-init: Setup public SSH keys (one key per line, OpenSSH format).",
+                                             "format" : "urlencoded",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
                                           },
                                           "startdate" : {
                                              "default" : "now",
@@ -9634,6 +11143,13 @@ var pveapi = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "shared" : {
+                                                   "default" : 0,
+                                                   "description" : "Mark this locally-managed volume as available on all nodes",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Mark this locally-managed volume as available on all nodes.\n\nWARNING: This option does not share the volume automatically, it assumes it is shared already!"
+                                                },
                                                 "size" : {
                                                    "description" : "Disk size. This is purely informational and has no effect.",
                                                    "format" : "disk-size",
@@ -9642,7 +11158,7 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "snapshot" : {
-                                                   "description" : "Whether the drive should be included when making snapshots.",
+                                                   "description" : "Controls qemu's snapshot mode feature. If activated, changes made to the disk are temporary and will be discarded when the VM is shutdown.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -9673,7 +11189,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
@@ -10746,19 +12262,17 @@ var pveapi = [
                                              "typetext" : "<string>"
                                           },
                                           "format" : {
-                                             "description" : "Target format for file storage.",
+                                             "description" : "Target format for file storage. Only valid for full clone.",
                                              "enum" : [
                                                 "raw",
                                                 "qcow2",
                                                 "vmdk"
                                              ],
                                              "optional" : 1,
-                                             "requires" : "full",
                                              "type" : "string"
                                           },
                                           "full" : {
-                                             "default" : 0,
-                                             "description" : "Create a full copy of all disk. This is always done when you clone a normal VM. For VM templates, we try to create a linked clone by default.",
+                                             "description" : "Create a full copy of all disks. This is always done when you clone a normal VM. For VM templates, we try to create a linked clone by default.",
                                              "optional" : 1,
                                              "type" : "boolean",
                                              "typetext" : "<boolean>"
@@ -10802,7 +12316,6 @@ var pveapi = [
                                              "description" : "Target storage for full clone.",
                                              "format" : "pve-storage-id",
                                              "optional" : 1,
-                                             "requires" : "full",
                                              "type" : "string",
                                              "typetext" : "<string>"
                                           },
@@ -11139,73 +12652,6 @@ var pveapi = [
                               "leaf" : 1,
                               "path" : "/nodes/{node}/qemu/{vmid}/monitor",
                               "text" : "monitor"
-                           },
-                           {
-                              "info" : {
-                                 "POST" : {
-                                    "description" : "Execute Qemu Guest Agent commands.",
-                                    "method" : "POST",
-                                    "name" : "agent",
-                                    "parameters" : {
-                                       "additionalProperties" : 0,
-                                       "properties" : {
-                                          "command" : {
-                                             "description" : "The QGA command.",
-                                             "enum" : [
-                                                "ping",
-                                                "get-time",
-                                                "info",
-                                                "fsfreeze-status",
-                                                "fsfreeze-freeze",
-                                                "fsfreeze-thaw",
-                                                "fstrim",
-                                                "network-get-interfaces",
-                                                "get-vcpus",
-                                                "get-fsinfo",
-                                                "get-memory-blocks",
-                                                "get-memory-block-info",
-                                                "suspend-hybrid",
-                                                "suspend-ram",
-                                                "suspend-disk",
-                                                "shutdown"
-                                             ],
-                                             "type" : "string"
-                                          },
-                                          "node" : {
-                                             "description" : "The cluster node name.",
-                                             "format" : "pve-node",
-                                             "type" : "string",
-                                             "typetext" : "<string>"
-                                          },
-                                          "vmid" : {
-                                             "description" : "The (unique) ID of the VM.",
-                                             "format" : "pve-vmid",
-                                             "minimum" : 1,
-                                             "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
-                                          }
-                                       }
-                                    },
-                                    "permissions" : {
-                                       "check" : [
-                                          "perm",
-                                          "/vms/{vmid}",
-                                          [
-                                             "VM.Monitor"
-                                          ]
-                                       ]
-                                    },
-                                    "protected" : 1,
-                                    "proxyto" : "node",
-                                    "returns" : {
-                                       "description" : "Returns an object with a single `result` property. The type of that\nproperty depends on the executed command.",
-                                       "type" : "object"
-                                    }
-                                 }
-                              },
-                              "leaf" : 1,
-                              "path" : "/nodes/{node}/qemu/{vmid}/agent",
-                              "text" : "agent"
                            },
                            {
                               "info" : {
@@ -11996,12 +13442,40 @@ var pveapi = [
                                  "pattern" : "(ide|sata|scsi|virtio)\\d+",
                                  "type" : "string"
                               },
+                              "bwlimit" : {
+                                 "description" : "Override i/o bandwidth limit (in KiB/s).",
+                                 "minimum" : "0",
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (0 - N)"
+                              },
                               "cdrom" : {
                                  "description" : "This is an alias for option -ide2",
                                  "format" : "pve-qm-ide",
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<volume>"
+                              },
+                              "cipassword" : {
+                                 "description" : "cloud-init: Password to assign the user. Using this is generally not recommended. Use ssh keys instead. Also note that older cloud-init versions do not support hashed passwords.",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "citype" : {
+                                 "description" : "Specifies the cloud-init configuration format. The default depends on the configured operating system type (`ostype`. We use the `nocloud` format for Linux, and `configdrive2` for windows.",
+                                 "enum" : [
+                                    "configdrive2",
+                                    "nocloud"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "ciuser" : {
+                                 "description" : "cloud-init: User name to change ssh keys and password for instead of the image's configured default user.",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               },
                               "cores" : {
                                  "default" : 1,
@@ -12028,6 +13502,8 @@ var pveapi = [
                                           "Conroe",
                                           "core2duo",
                                           "coreduo",
+                                          "EPYC",
+                                          "EPYC-IBPB",
                                           "Haswell",
                                           "Haswell-IBRS",
                                           "Haswell-noTSX",
@@ -12411,6 +13887,13 @@ var pveapi = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
+                                    "shared" : {
+                                       "default" : 0,
+                                       "description" : "Mark this locally-managed volume as available on all nodes",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "verbose_description" : "Mark this locally-managed volume as available on all nodes.\n\nWARNING: This option does not share the volume automatically, it assumes it is shared already!"
+                                    },
                                     "size" : {
                                        "description" : "Disk size. This is purely informational and has no effect.",
                                        "format" : "disk-size",
@@ -12419,7 +13902,7 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "snapshot" : {
-                                       "description" : "Whether the drive should be included when making snapshots.",
+                                       "description" : "Controls qemu's snapshot mode feature. If activated, changes made to the disk are temporary and will be discarded when the VM is shutdown.",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -12450,7 +13933,14 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                              },
+                              "ipconfig[n]" : {
+                                 "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit gateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using dhcp on IPv4.\n",
+                                 "format" : "pve-qm-ipconfig",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "[gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>]"
                               },
                               "keyboard" : {
                                  "default" : null,
@@ -12543,6 +14033,13 @@ var pveapi = [
                               "name" : {
                                  "description" : "Set a name for the VM. Only used on the configuration web interface.",
                                  "format" : "dns-name",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "nameserver" : {
+                                 "description" : "cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
+                                 "format" : "address-list",
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -13038,6 +14535,13 @@ var pveapi = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
+                                    "shared" : {
+                                       "default" : 0,
+                                       "description" : "Mark this locally-managed volume as available on all nodes",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "verbose_description" : "Mark this locally-managed volume as available on all nodes.\n\nWARNING: This option does not share the volume automatically, it assumes it is shared already!"
+                                    },
                                     "size" : {
                                        "description" : "Disk size. This is purely informational and has no effect.",
                                        "format" : "disk-size",
@@ -13046,7 +14550,7 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "snapshot" : {
-                                       "description" : "Whether the drive should be included when making snapshots.",
+                                       "description" : "Controls qemu's snapshot mode feature. If activated, changes made to the disk are temporary and will be discarded when the VM is shutdown.",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -13077,7 +14581,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                               },
                               "scsi[n]" : {
                                  "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).",
@@ -13353,6 +14857,13 @@ var pveapi = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
+                                    "shared" : {
+                                       "default" : 0,
+                                       "description" : "Mark this locally-managed volume as available on all nodes",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "verbose_description" : "Mark this locally-managed volume as available on all nodes.\n\nWARNING: This option does not share the volume automatically, it assumes it is shared already!"
+                                    },
                                     "size" : {
                                        "description" : "Disk size. This is purely informational and has no effect.",
                                        "format" : "disk-size",
@@ -13361,7 +14872,7 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "snapshot" : {
-                                       "description" : "Whether the drive should be included when making snapshots.",
+                                       "description" : "Controls qemu's snapshot mode feature. If activated, changes made to the disk are temporary and will be discarded when the VM is shutdown.",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -13392,7 +14903,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                               },
                               "scsihw" : {
                                  "default" : "lsi",
@@ -13407,6 +14918,12 @@ var pveapi = [
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
+                              },
+                              "searchdomain" : {
+                                 "description" : "cloud-init: Sets DNS search domains for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               },
                               "serial[n]" : {
                                  "description" : "Create a serial device inside the VM (n is 0 to 3)",
@@ -13447,6 +14964,13 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "integer",
                                  "typetext" : "<integer> (1 - N)"
+                              },
+                              "sshkeys" : {
+                                 "description" : "cloud-init: Setup public SSH keys (one key per line, OpenSSH format).",
+                                 "format" : "urlencoded",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               },
                               "startdate" : {
                                  "default" : "now",
@@ -13816,6 +15340,13 @@ var pveapi = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
+                                    "shared" : {
+                                       "default" : 0,
+                                       "description" : "Mark this locally-managed volume as available on all nodes",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "verbose_description" : "Mark this locally-managed volume as available on all nodes.\n\nWARNING: This option does not share the volume automatically, it assumes it is shared already!"
+                                    },
                                     "size" : {
                                        "description" : "Disk size. This is purely informational and has no effect.",
                                        "format" : "disk-size",
@@ -13824,7 +15355,7 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "snapshot" : {
-                                       "description" : "Whether the drive should be included when making snapshots.",
+                                       "description" : "Controls qemu's snapshot mode feature. If activated, changes made to the disk are temporary and will be discarded when the VM is shutdown.",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -13855,7 +15386,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                               },
                               "vmid" : {
                                  "description" : "The (unique) ID of the VM.",
@@ -17289,7 +18820,9 @@ var pveapi = [
                                           "feature" : {
                                              "description" : "Feature to check.",
                                              "enum" : [
-                                                "snapshot"
+                                                "snapshot",
+                                                "clone",
+                                                "copy"
                                              ],
                                              "type" : "string"
                                           },
@@ -17350,12 +18883,6 @@ var pveapi = [
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
-                                          "experimental" : {
-                                             "default" : 0,
-                                             "description" : "The template feature is experimental, set this flag if you know what you are doing.",
-                                             "type" : "boolean",
-                                             "typetext" : "<boolean>"
-                                          },
                                           "node" : {
                                              "description" : "The cluster node name.",
                                              "format" : "pve-node",
@@ -17407,15 +18934,8 @@ var pveapi = [
                                              "type" : "string",
                                              "typetext" : "<string>"
                                           },
-                                          "experimental" : {
-                                             "default" : 0,
-                                             "description" : "The clone feature is experimental, set this flag if you know what you are doing.",
-                                             "type" : "boolean",
-                                             "typetext" : "<boolean>"
-                                          },
                                           "full" : {
-                                             "default" : 0,
-                                             "description" : "Create a full copy of all disk. This is always done when you clone a normal CT. For CT templates, we try to create a linked clone by default.",
+                                             "description" : "Create a full copy of all disks. This is always done when you clone a normal CT. For CT templates, we try to create a linked clone by default.",
                                              "optional" : 1,
                                              "type" : "boolean",
                                              "typetext" : "<boolean>"
@@ -17459,7 +18979,13 @@ var pveapi = [
                                              "description" : "Target storage for full clone.",
                                              "format" : "pve-storage-id",
                                              "optional" : 1,
-                                             "requires" : "full",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "target" : {
+                                             "description" : "Target node. Only allowed if the original VM is on shared storage.",
+                                             "format" : "pve-node",
+                                             "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
                                           },
@@ -17590,6 +19116,98 @@ var pveapi = [
                               "leaf" : 1,
                               "path" : "/nodes/{node}/lxc/{vmid}/resize",
                               "text" : "resize"
+                           },
+                           {
+                              "info" : {
+                                 "POST" : {
+                                    "description" : "Move a rootfs-/mp-volume to a different storage",
+                                    "method" : "POST",
+                                    "name" : "move_volume",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "delete" : {
+                                             "default" : 0,
+                                             "description" : "Delete the original volume after successful copy. By default the original is kept as an unused volume entry.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "digest" : {
+                                             "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
+                                             "maxLength" : 40,
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "storage" : {
+                                             "description" : "Target Storage.",
+                                             "format" : "pve-storage-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "minimum" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - N)"
+                                          },
+                                          "volume" : {
+                                             "description" : "Volume which will be moved.",
+                                             "enum" : [
+                                                "rootfs",
+                                                "mp0",
+                                                "mp1",
+                                                "mp2",
+                                                "mp3",
+                                                "mp4",
+                                                "mp5",
+                                                "mp6",
+                                                "mp7",
+                                                "mp8",
+                                                "mp9"
+                                             ],
+                                             "type" : "string"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "and",
+                                          [
+                                             "perm",
+                                             "/vms/{vmid}",
+                                             [
+                                                "VM.Config.Disk"
+                                             ]
+                                          ],
+                                          [
+                                             "perm",
+                                             "/storage/{storage}",
+                                             [
+                                                "Datastore.AllocateSpace"
+                                             ]
+                                          ]
+                                       ],
+                                       "description" : "You need 'VM.Config.Disk' permissions on /vms/{vmid}, and 'Datastore.AllocateSpace' permissions on the storage."
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/lxc/{vmid}/move_volume",
+                              "text" : "move_volume"
                            }
                         ],
                         "info" : {
@@ -17732,6 +19350,13 @@ var pveapi = [
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
+                              },
+                              "bwlimit" : {
+                                 "description" : "Override i/o bandwidth limit (in KiB/s).",
+                                 "minimum" : "0",
+                                 "optional" : 1,
+                                 "type" : "number",
+                                 "typetext" : "<number> (0 - N)"
                               },
                               "cmode" : {
                                  "default" : "tty",
@@ -21254,6 +22879,74 @@ var pveapi = [
                         "leaf" : 1,
                         "path" : "/nodes/{node}/scan/nfs",
                         "text" : "nfs"
+                     },
+                     {
+                        "info" : {
+                           "GET" : {
+                              "description" : "Scan remote CIFS server.",
+                              "method" : "GET",
+                              "name" : "cifsscan",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "domain" : {
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "password" : {
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "server" : {
+                                       "format" : "pve-storage-server",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "username" : {
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/storage",
+                                    [
+                                       "Datastore.Allocate"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "description" : {
+                                          "type" : "string"
+                                       },
+                                       "share" : {
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/scan/cifs",
+                        "text" : "cifs"
                      },
                      {
                         "info" : {
@@ -25021,6 +26714,49 @@ var pveapi = [
                            "type" : "string",
                            "typetext" : "<string>"
                         },
+                        "bwlimit" : {
+                           "description" : "Set bandwidth/io limits various operations.",
+                           "format" : {
+                              "clone" : {
+                                 "description" : "bandwidth limit in MiB/s for cloning disks",
+                                 "format_description" : "LIMIT",
+                                 "minimum" : "0",
+                                 "optional" : 1,
+                                 "type" : "number"
+                              },
+                              "default" : {
+                                 "description" : "default bandwidth limit in MiB/s",
+                                 "format_description" : "LIMIT",
+                                 "minimum" : "0",
+                                 "optional" : 1,
+                                 "type" : "number"
+                              },
+                              "migration" : {
+                                 "description" : "bandwidth limit in MiB/s for migrating guests",
+                                 "format_description" : "LIMIT",
+                                 "minimum" : "0",
+                                 "optional" : 1,
+                                 "type" : "number"
+                              },
+                              "move" : {
+                                 "description" : "bandwidth limit in MiB/s for moving disks",
+                                 "format_description" : "LIMIT",
+                                 "minimum" : "0",
+                                 "optional" : 1,
+                                 "type" : "number"
+                              },
+                              "restore" : {
+                                 "description" : "bandwidth limit in MiB/s for restoring guests from backups",
+                                 "format_description" : "LIMIT",
+                                 "minimum" : "0",
+                                 "optional" : 1,
+                                 "type" : "number"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                        },
                         "comstar_hg" : {
                            "description" : "host group for comstar views",
                            "optional" : 1,
@@ -25060,6 +26796,13 @@ var pveapi = [
                            "optional" : 1,
                            "type" : "boolean",
                            "typetext" : "<boolean>"
+                        },
+                        "domain" : {
+                           "description" : "CIFS domain.",
+                           "maxLength" : 256,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
                         },
                         "format" : {
                            "description" : "Default image format.",
@@ -25122,6 +26865,13 @@ var pveapi = [
                            "type" : "string",
                            "typetext" : "<string>"
                         },
+                        "password" : {
+                           "description" : "Password for CIFS share.",
+                           "maxLength" : 256,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
                         "pool" : {
                            "description" : "Pool.",
                            "optional" : 1,
@@ -25169,6 +26919,12 @@ var pveapi = [
                            "optional" : 1,
                            "type" : "boolean",
                            "typetext" : "<boolean>"
+                        },
+                        "smbversion" : {
+                           "description" : "",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
                         },
                         "sparse" : {
                            "description" : "use sparse volumes",
@@ -25238,6 +26994,7 @@ var pveapi = [
                   "type" : {
                      "description" : "Only list storage of specific type",
                      "enum" : [
+                        "cifs",
                         "dir",
                         "drbd",
                         "glusterfs",
@@ -25304,6 +27061,49 @@ var pveapi = [
                      "type" : "string",
                      "typetext" : "<string>"
                   },
+                  "bwlimit" : {
+                     "description" : "Set bandwidth/io limits various operations.",
+                     "format" : {
+                        "clone" : {
+                           "description" : "bandwidth limit in MiB/s for cloning disks",
+                           "format_description" : "LIMIT",
+                           "minimum" : "0",
+                           "optional" : 1,
+                           "type" : "number"
+                        },
+                        "default" : {
+                           "description" : "default bandwidth limit in MiB/s",
+                           "format_description" : "LIMIT",
+                           "minimum" : "0",
+                           "optional" : 1,
+                           "type" : "number"
+                        },
+                        "migration" : {
+                           "description" : "bandwidth limit in MiB/s for migrating guests",
+                           "format_description" : "LIMIT",
+                           "minimum" : "0",
+                           "optional" : 1,
+                           "type" : "number"
+                        },
+                        "move" : {
+                           "description" : "bandwidth limit in MiB/s for moving disks",
+                           "format_description" : "LIMIT",
+                           "minimum" : "0",
+                           "optional" : 1,
+                           "type" : "number"
+                        },
+                        "restore" : {
+                           "description" : "bandwidth limit in MiB/s for restoring guests from backups",
+                           "format_description" : "LIMIT",
+                           "minimum" : "0",
+                           "optional" : 1,
+                           "type" : "number"
+                        }
+                     },
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
+                  },
                   "comstar_hg" : {
                      "description" : "host group for comstar views",
                      "optional" : 1,
@@ -25328,6 +27128,13 @@ var pveapi = [
                      "optional" : 1,
                      "type" : "boolean",
                      "typetext" : "<boolean>"
+                  },
+                  "domain" : {
+                     "description" : "CIFS domain.",
+                     "maxLength" : 256,
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "<string>"
                   },
                   "export" : {
                      "description" : "NFS export path.",
@@ -25403,6 +27210,13 @@ var pveapi = [
                      "type" : "string",
                      "typetext" : "<string>"
                   },
+                  "password" : {
+                     "description" : "Password for CIFS share.",
+                     "maxLength" : 256,
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
                   "path" : {
                      "description" : "File system path.",
                      "format" : "pve-storage-path",
@@ -25459,11 +27273,23 @@ var pveapi = [
                      "type" : "string",
                      "typetext" : "<string>"
                   },
+                  "share" : {
+                     "description" : "CIFS share.",
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
                   "shared" : {
                      "description" : "Mark storage as shared.",
                      "optional" : 1,
                      "type" : "boolean",
                      "typetext" : "<boolean>"
+                  },
+                  "smbversion" : {
+                     "description" : "",
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "<string>"
                   },
                   "sparse" : {
                      "description" : "use sparse volumes",
@@ -25509,6 +27335,7 @@ var pveapi = [
                   "type" : {
                      "description" : "Storage type.",
                      "enum" : [
+                        "cifs",
                         "dir",
                         "drbd",
                         "glusterfs",

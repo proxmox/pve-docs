@@ -1,6 +1,6 @@
 *pct* `<COMMAND> [ARGS] [OPTIONS]`
 
-*pct clone* `<vmid> <newid> --experimental <boolean>` `[OPTIONS]`
+*pct clone* `<vmid> <newid>` `[OPTIONS]`
 
 Create a container clone/copy
 
@@ -16,13 +16,9 @@ VMID for the clone.
 
 Description for the new CT.
 
-`--experimental` `<boolean>` ('default =' `0`)::
+`--full` `<boolean>` ::
 
-The clone feature is experimental, set this flag if you know what you are doing.
-
-`--full` `<boolean>` ('default =' `0`)::
-
-Create a full copy of all disk. This is always done when you clone a normal CT. For CT templates, we try to create a linked clone by default.
+Create a full copy of all disks. This is always done when you clone a normal CT. For CT templates, we try to create a linked clone by default.
 
 `--hostname` `<string>` ::
 
@@ -39,8 +35,10 @@ The name of the snapshot.
 `--storage` `<string>` ::
 
 Target storage for full clone.
-+
-NOTE: Requires option(s): `full`
+
+`--target` `<string>` ::
+
+Target node. Only allowed if the original VM is on shared storage.
 
 *pct config* `<vmid>`
 
@@ -77,6 +75,10 @@ The OS template or backup file.
 `--arch` `<amd64 | i386>` ('default =' `amd64`)::
 
 OS architecture type.
+
+`--bwlimit` `<number> (0 - N)` ::
+
+Override i/o bandwidth limit (in KiB/s).
 
 `--cmode` `<console | shell | tty>` ('default =' `tty`)::
 
@@ -332,6 +334,30 @@ further operations on the container other than start and stop.
 
 The (unique) ID of the VM.
 
+*pct move_volume* `<vmid> <volume> <storage>` `[OPTIONS]`
+
+Move a rootfs-/mp-volume to a different storage
+
+`<vmid>`: `<integer> (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`<volume>`: `<mp0 | mp1 | mp2 | mp3 | mp4 | mp5 | mp6 | mp7 | mp8 | mp9 | rootfs>` ::
+
+Volume which will be moved.
+
+`<storage>`: `<string>` ::
+
+Target Storage.
+
+`--delete` `<boolean>` ('default =' `0`)::
+
+Delete the original volume after successful copy. By default the original is kept as an unused volume entry.
+
+`--digest` `<string>` ::
+
+Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
+
 *pct pull* `<vmid> <path> <destination>` `[OPTIONS]`
 
 Copy a file from the container to the local system.
@@ -423,6 +449,10 @@ The OS template or backup file.
 `--arch` `<amd64 | i386>` ('default =' `amd64`)::
 
 OS architecture type.
+
+`--bwlimit` `<number> (0 - N)` ::
+
+Override i/o bandwidth limit (in KiB/s).
 
 `--cmode` `<console | shell | tty>` ('default =' `tty`)::
 
@@ -758,17 +788,13 @@ Suspend the container.
 
 The (unique) ID of the VM.
 
-*pct template* `<vmid> --experimental <boolean>` `[OPTIONS]`
+*pct template* `<vmid>`
 
 Create a Template.
 
 `<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
-
-`--experimental` `<boolean>` ('default =' `0`)::
-
-The template feature is experimental, set this flag if you know what you are doing.
 
 *pct unlock* `<vmid>`
 

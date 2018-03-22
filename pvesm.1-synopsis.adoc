@@ -4,7 +4,7 @@
 
 Create a new storage.
 
-`<type>`: `<dir | drbd | glusterfs | iscsi | iscsidirect | lvm | lvmthin | nfs | rbd | sheepdog | zfs | zfspool>` ::
+`<type>`: `<cifs | dir | drbd | glusterfs | iscsi | iscsidirect | lvm | lvmthin | nfs | rbd | sheepdog | zfs | zfspool>` ::
 
 Storage type.
 
@@ -24,6 +24,10 @@ Base volume. This volume is automatically activated.
 
 block size
 
+`--bwlimit` `[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]` ::
+
+Set bandwidth/io limits various operations.
+
 `--comstar_hg` `<string>` ::
 
 host group for comstar views
@@ -41,6 +45,10 @@ NOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs.
 `--disable` `<boolean>` ::
 
 Flag to disable the storage.
+
+`--domain` `<string>` ::
+
+CIFS domain.
 
 `--export` `<string>` ::
 
@@ -86,6 +94,10 @@ disable write caching on the target
 
 NFS mount options (see 'man nfs')
 
+`--password` ::
+
+Password for CIFS share.
+
 `--path` `<string>` ::
 
 File system path.
@@ -120,9 +132,17 @@ Backup volfile server IP or DNS name.
 +
 NOTE: Requires option(s): `server`
 
+`--share` `<string>` ::
+
+CIFS share.
+
 `--shared` `<boolean>` ::
 
 Mark storage as shared.
+
+`--smbversion` `<string>` ::
+
+no description available
 
 `--sparse` `<boolean>` ::
 
@@ -181,6 +201,26 @@ Size in kilobyte (1024 bytes). Optional suffixes 'M' (megabyte, 1024K) and 'G' (
 no description available
 +
 NOTE: Requires option(s): `size`
+
+*pvesm cifsscan* `<server>` `[OPTIONS]`
+
+Scan remote CIFS server.
+
+`<server>`: `<string>` ::
+
+no description available
+
+`--domain` `<string>` ::
+
+no description available
+
+`--password` ::
+
+no description available
+
+`--username` `<string>` ::
+
+no description available
 
 *pvesm export* `<volume> <format> <filename>` `[OPTIONS]`
 
@@ -350,6 +390,10 @@ The storage identifier.
 
 block size
 
+`--bwlimit` `[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]` ::
+
+Set bandwidth/io limits various operations.
+
 `--comstar_hg` `<string>` ::
 
 host group for comstar views
@@ -375,6 +419,10 @@ Prevent changes if current configuration file has different SHA1 digest. This ca
 `--disable` `<boolean>` ::
 
 Flag to disable the storage.
+
+`--domain` `<string>` ::
+
+CIFS domain.
 
 `--format` `<string>` ::
 
@@ -412,6 +460,10 @@ disable write caching on the target
 
 NFS mount options (see 'man nfs')
 
+`--password` ::
+
+Password for CIFS share.
+
 `--pool` `<string>` ::
 
 Pool.
@@ -441,6 +493,10 @@ NOTE: Requires option(s): `server`
 `--shared` `<boolean>` ::
 
 Mark storage as shared.
+
+`--smbversion` `<string>` ::
+
+no description available
 
 `--sparse` `<boolean>` ::
 
