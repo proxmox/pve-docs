@@ -147,17 +147,62 @@ That way it is possible to store several backup in the same
 directory. The parameter `maxfiles` can be used to specify the
 maximum number of backups to keep.
 
+[[vzdump_restore]]
 Restore
 -------
 
-The resulting archive files can be restored with the following programs.
+A backup archive can be restored through the {pve} web GUI or through the
+following CLI tools:
 
 
 `pct restore`:: Container restore utility
 
-`qmrestore`:: QemuServer restore utility
+`qmrestore`:: Virtual Machine restore utility
 
 For details see the corresponding manual pages.
+
+Bandwidth Limit
+~~~~~~~~~~~~~~~
+
+Restoring one or more big backups may need a lot of resources, especially
+storage bandwidth for both reading from the backup storage and writing to
+the target storage. This can negatively effect other virtual guest as access
+to storage can get congested.
+
+To avoid this you can set bandwidth limits for a backup job. {pve}
+implements to kinds of limits for restoring and archive:
+
+* per-restore limit: denotes the maximal amount of bandwidth for
+  reading from a backup archive
+
+* per-storage write limit: denotes the maximal amount of bandwidth used for
+  writing to a specific storage
+
+The read limit indirectly affects the write limit, as we cannot write more
+than we read. A smaller per-job limit will overwrite a bigger per-storage
+limit. A bigger per-job limit will only overwrite the per-storage limit if
+you have `Data.Allocate' permissions on the affected storage.
+
+You can use the `--bwlimit <integer>` option from the restore CLI commands
+to set up a restore job specific bandwidth limit.  Kibit/s is used as unit
+for the limit, this means passing '10240` will limit the read speed of the
+backup to 10 MiB/s, ensuring that the rest of the possible storage bandwidth
+is available for the already running virtual guests, and does not impacts
+their operations.
+
+NOTE: You can use `0` for the `bwlimit` parameter to disable all limits for
+a specific restore job. This can be helpful if you need to restore a very
+important virtual guest as fast as possible. (Need `Data.Allocate'
+permissions on storage)
+
+Most times your storage's generally available bandwidth stays the same over
+time, thus we implemented the possibility to set a default bandwidth limit
+per configured storage, this can be done with:
+
+----
+# pvesm set STORAGEID --bwlimit KIBs
+----
+
 
 Configuration
 -------------
