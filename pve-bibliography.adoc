@@ -9,9 +9,9 @@ endif::manvolnum[]
 .Books about {pve}
 
 - [[[Ahmed16]]] Wasim Ahmed.
-  'Mastering Proxmox - Second Edition'.
-  Packt Publishing, 2016.
-  ISBN 978-1785888243
+  'Mastering Proxmox - Third Edition'.
+  Packt Publishing, 2017.
+  ISBN 978-1788397605
 
 - [[[Ahmed15]]] Wasim Ahmed.
   'Proxmox Cookbook'.
