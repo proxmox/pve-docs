@@ -503,7 +503,8 @@ have direct access to the Ethernet LAN on which the host is located.
 the Qemu user networking stack, where a built-in router and DHCP server can
 provide network access. This built-in DHCP will serve addresses in the private
 10.0.2.0/24 range. The NAT mode is much slower than the bridged mode, and
-should only be used for testing.
+should only be used for testing. This mode is only available via CLI or the API,
+but not via the WebUI.
 
 You can also skip adding a network device when creating a VM by selecting *No
 network device*.
