@@ -106,6 +106,7 @@ We currently support the following Network storage types:
 * LVM Group (network backing with iSCSI targets)
 * iSCSI target
 * NFS Share
+* CIFS Share
 * Ceph RBD
 * Directly use iSCSI LUNs
 * GlusterFS
@@ -125,7 +126,7 @@ running Containers and KVM guests. It basically creates an archive of
 the VM or CT data which includes the VM/CT configuration files.
 
 KVM live backup works for all storage types including VM images on
-NFS, iSCSI LUN, Ceph RBD or Sheepdog. The new backup format is
+NFS, CIFS, iSCSI LUN, Ceph RBD or Sheepdog. The new backup format is
 optimized for storing VM backups fast and effective (sparse files, out
 of order data, minimized I/O).
 

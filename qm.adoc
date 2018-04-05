@@ -163,7 +163,7 @@ On each controller you attach a number of emulated hard disks, which are backed
 by a file or a block device residing in the configured storage. The choice of
 a storage type will determine the format of the hard disk image. Storages which
 present block devices (LVM, ZFS, Ceph) will require the *raw disk image format*,
-whereas files based storages (Ext4, NFS, GlusterFS) will let you to choose
+whereas files based storages (Ext4, NFS, CIFS, GlusterFS) will let you to choose
 either the *raw disk image format* or the *QEMU image format*.
 
  * the *QEMU image format* is a copy on write format which allows snapshots, and

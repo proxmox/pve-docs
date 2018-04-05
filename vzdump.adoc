@@ -111,7 +111,7 @@ started (resumed) again. This results in minimal downtime, but needs
 additional space to hold the container copy.
 +
 When the container is on a local file system and the target storage of
-the backup is an NFS server, you should set `--tmpdir` to reside on a
+the backup is an NFS/CIFS server, you should set `--tmpdir` to reside on a
 local file system too, as this will result in a many fold performance
 improvement.  Use of a local `tmpdir` is also required if you want to
 backup a local container using ACLs in suspend mode if the backup
