@@ -1,3 +1,4 @@
+[[storage_cifs]]
 CIFS Backend
 -----------
 ifdef::wiki[]
@@ -7,55 +8,54 @@ endif::wiki[]
 
 Storage pool type: `cifs`
 
-The CIFS backend is based on the directory backend, so it shares most
-properties. The directory layout and the file naming conventions are
-the same. The main advantage is that you can directly configure the
-CIFS server, so the backend can mount the share automatically in
-the hole cluster. There is no need to modify `/etc/fstab`. The backend
-can also test if the server is online, and provides a method to query
-the server for exported shares.
+The CIFS backend extends the directory backend, so that no manual
+setup of a CIFS mount is needed. Such a storage can be added directly
+through the {pve} API or the WebUI, with all our backend advantages,
+like server heartbeat check or comfortable selection of exported
+shares.
 
 Configuration
 ~~~~~~~~~~~~~
 
 The backend supports all common storage properties, except the shared
-flag, which is always set. Additionally, the following properties are
-used to configure the CIFS server:
+flag, which is always set. Additionally, the following CIFS special
+properties are available:
 
 server::
 
-Server IP or DNS name. To avoid DNS lookup delays, it is usually
-preferable to use an IP address instead of a DNS name - unless you
-have a very reliable DNS server, or list the server in the local
-`/etc/hosts` file.
+Server IP or DNS name. Required.
+
+TIP: To avoid DNS lookup delays, it is usually preferable to use an IP
+address instead of a DNS name - unless you have a very reliable DNS
+server, or list the server in the local `/etc/hosts` file.
 
 share::
 
-CIFS share (as listed by `pvesm cifsscan`).
-
-Optional properties:
+CIFS share to use (get available ones with `pvesm cifsscan` or the WebUI).
+Required.
 
 username::
 
-If not presents, "guest" is used.
+The username for the CIFS storage. Optional, defaults to `guest'.
 
 password::
 
-The user password.
-It will be saved in a private directory (/etc/pve/priv/<STORAGE_ID>.cred).
+The user password. Optional.
+It will be saved in a file only readable by root
+(`/etc/pve/priv/<STORAGE_ID>.cred`).
 
 domain::
 
-sets the domain (workgroup) of the user
+Sets the user domain (workgroup) for this storage. Optional.
 
 smbversion::
 
-SMB protocol Version (default is `3`).
+SMB protocol Version. Optional, default is `3`.
 SMB1 is not supported due to security issues.
 
 path::
 
-The local mount point (defaults to `/mnt/pve/<STORAGE_ID>/`).
+The local mount point. Optional, defaults to `/mnt/pve/<STORAGE_ID>/`.
 
 .Configuration Example (`/etc/pve/storage.cfg`)
 ----
@@ -72,14 +72,15 @@ cifs: backup
 Storage Features
 ~~~~~~~~~~~~~~~~
 
-CIFS does not support snapshots, but the backend uses `qcow2` features
-to implement snapshots and cloning.
+CIFS does not support snapshots on a storage level. But you may use
+`qcow2` backing files if you still want to have snapshots and cloning
+features available.
 
-.Storage features for backend `nfs`
+.Storage features for backend `cifs`
 [width="100%",cols="m,m,3*d",options="header"]
 |==============================================================================
-|Content types                     |Image formats         |Shared |Snapshots |Clones
-|images rootdir vztmpl iso backup  |raw qcow2 vmdk subvol |yes    |qcow2     |qcow2
+|Content types                     |Image formats   |Shared |Snapshots |Clones
+|images rootdir vztmpl iso backup  |raw qcow2 vmdk  |yes    |qcow2     |qcow2
 |==============================================================================
 
 Examples
@@ -87,7 +88,16 @@ Examples
 
 You can get a list of exported CIFS shares with:
 
- # pvesm cifsscan <server> [--username <username>] [--password]
+----
+# pvesm cifsscan <server> [--username <username>] [--password]
+----
+
+Then you could add this share as a storage to the whole {pve} cluster
+with:
+
+----
+# pvesm add cifs <storagename> --server <server> --share <share> [--username <username>] [--password]
+----
 
 ifdef::wiki[]
 
