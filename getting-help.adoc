@@ -55,6 +55,6 @@ Bug Tracker
 ~~~~~~~~~~~
 
 We also run a public bug tracker at
-https://bugzilla.proxmox.com. If you ever detect a bug, you can file
-an bug entry there. This makes it easy to track the bug status, and
-you will get notified as soon as the bug is fixed.
+https://bugzilla.proxmox.com. If you ever detect an issue, you can
+file a bug report there. This makes it easy to track its status, and
+you will get notified as soon as the problem is fixed.
