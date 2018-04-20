@@ -54,7 +54,7 @@ team] for more information or volume discounts.
 Bug Tracker
 ~~~~~~~~~~~
 
-We also run a public a public bug tracker at
+We also run a public bug tracker at
 https://bugzilla.proxmox.com. If you ever detect a bug, you can file
 an bug entry there. This makes it easy to track the bug status, and
 you will get notified as soon as the bug is fixed.
