@@ -89,6 +89,7 @@ hostname and IP is not possible after cluster creation.
 Currently the cluster creation has to be done on the console, so you
 need to login via `ssh`.
 
+[[pvecm_create_cluster]]
 Create the Cluster
 ------------------
 
@@ -120,6 +121,7 @@ load of the network significantly because multicast packets are only delivered
 to endpoints of the respective member nodes.
 
 
+[[pvecm_join_node_to_cluster]]
 Adding Nodes to the Cluster
 ---------------------------
 
@@ -626,6 +628,7 @@ systemctl status corosync
 If corosync runs again correct restart corosync also on all other nodes.
 They will then join the cluster membership one by one on the new network.
 
+[[pvecm_rrp]]
 Redundant Ring Protocol
 ~~~~~~~~~~~~~~~~~~~~~~~
 To avoid a single point of failure you should implement counter measurements.
