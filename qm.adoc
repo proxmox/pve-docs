@@ -418,7 +418,7 @@ For each VM you have the option to set a fixed size memory or asking
 host.
 
 .Fixed Memory Allocation
-[thumbnail="gui-create-vm-memory-fixed.png"]
+[thumbnail="gui-create-vm-memory.png"]
 
 When setting memory and minimum memory to the same amount
 {pve} will simply allocate what you specify to your VM.
@@ -435,10 +435,9 @@ it (e.g. for debugging purposes), simply uncheck
 in the configuration.
 
 .Automatic Memory Allocation
-[thumbnail="gui-create-vm-memory-dynamic.png", float="left"]
 
 // see autoballoon() in pvestatd.pm
-When setting the minimum memory lower that the memory, {pve} will make sure that the
+When setting the minimum memory lower than memory, {pve} will make sure that the
 minimum amount you specified is always available to the VM, and if RAM usage on
 the host is below 80%, will dynamically add memory to the guest up to the
 maximum memory specified.
