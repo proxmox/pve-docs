@@ -23,7 +23,16 @@ Proxmox Node Management
 :pve-toplevel:
 endif::manvolnum[]
 
-The {PVE} node management tools (`pvenode`) ...
+The {PVE} node management tools (`pvenode`) allows to control node specific
+settings and resources.
+
+Currently the `pvenode` tool allows to manage the node's SSL certificates used
+for API and the web GUI. It includes an implementation of the **A**utomatic
+**C**ertificate **M**anagement **E**nvironment (ACME) protocol, allowing {pve}
+admins to interface with Let's Encrypt, with which trusted certificates can be
+generated and setup easily.
+
+// TODO: extend and improve chapter!
 
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
