@@ -72,6 +72,10 @@ NOTE: Ubuntu Cloud-Init images requires the `virtio-scsi-pci`
 controller type for SCSI drives.
 
 
+.Add Cloud-Init CDROM drive
+
+[thumbnail="gui-cloudinit-hardware.png"]
+
 The next step is to configure a CDROM drive, used to pass the
 Cloud-Init data to the VM.
 
@@ -104,6 +108,8 @@ qm template 9000
 Deploy Cloud-Init Templates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+[thumbnail="gui-cloudinit-config.png"]
+
 You can easily deploy such template by cloning:
 
 ----
@@ -120,6 +126,7 @@ qm set 123 --ipconfig0 ip=10.0.10.123/24,gw=10.0.10.1
 You can configure all Cloud-Init options using a single command. I
 just split above example to separate commands to reduce the line
 length. Also make sure you adopt the IP setup for your environment.
+
 
 
 Cloud-Init specific Options
