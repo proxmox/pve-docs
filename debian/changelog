@@ -1,3 +1,17 @@
+pve-docs (5.1-18) unstable; urgency=medium
+
+  * update screenshots
+
+  * add pvenode CLI tool chapter and synopsis
+
+  * fix various typos
+
+  * add CIFS documentation
+
+  * general improvements of various paragraphs
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 04 May 2018 13:08:09 +0200
+
 pve-docs (5.1-17) unstable; urgency=medium
 
   * vzdump: add restore bwlimit docs
