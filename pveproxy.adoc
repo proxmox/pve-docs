@@ -88,26 +88,15 @@ exchange algorithm is negotiated.
 Alternative HTTPS certificate
 -----------------------------
 
-By default, pveproxy uses the certificate `/etc/pve/local/pve-ssl.pem`
-(and private key `/etc/pve/local/pve-ssl.key`) for HTTPS connections.
-This certificate is signed by the cluster CA certificate, and therefor
-not trusted by browsers and operating systems by default.
+You can change the certificate used, to an external one or to one obtained via
+ACME.
 
-In order to use a different certificate and private key for HTTPS,
-store the server certificate and any needed intermediate / CA
-certificates in PEM format in the file `/etc/pve/local/pveproxy-ssl.pem`
-and the associated private key in PEM format without a password in the
-file `/etc/pve/local/pveproxy-ssl.key`.
+pveproxy uses `/etc/pve/local/pveproxy-ssl.pem` and
+`/etc/pve/local/pveproxy-ssl.key`, if present, and falls back to
+`/etc/pve/local/pve-ssl.pem` and `/etc/pve/local/pve-ssl.key`.
+The private key may not use a passphrase.
 
-WARNING: Do not replace the automatically generated node certificate
-files in `/etc/pve/local/pve-ssl.pem` and `etc/pve/local/pve-ssl.key` or
-the cluster CA files in `/etc/pve/pve-root-ca.pem` and
-`/etc/pve/priv/pve-root-ca.key`.
-
-NOTE: There is a detailed HOWTO for configuring commercial HTTPS certificates
-on the {webwiki-url}HTTPS_Certificate_Configuration_(Version_4.x_and_newer)[wiki],
-including setup instructions for obtaining certificates from the popular free
-Let's Encrypt certificate authority.
+See the Host System Administration chapter of the documentation for details.
 
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]

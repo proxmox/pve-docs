@@ -50,6 +50,7 @@ See Also
 
 * link:/wiki/ZFS_on_Linux[ZFS on Linux]
 
+* link:/wiki/Certificate_Management[Certificate Managment]
 endif::wiki[]
 
 
@@ -70,6 +71,8 @@ include::pve-disk-health-monitoring.adoc[]
 include::local-lvm.adoc[]
 
 include::local-zfs.adoc[]
+
+include::certificate-managment.adoc[]
 
 endif::wiki[]
 

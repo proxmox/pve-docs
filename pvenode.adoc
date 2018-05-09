@@ -6,7 +6,7 @@ pvenode(1)
 NAME
 ----
 
-pvenode - Proxmox VE Node Management
+pvenode - {PVE} Node Management
 
 SYNOPSIS
 --------
@@ -26,11 +26,25 @@ endif::manvolnum[]
 The {PVE} node management tools (`pvenode`) allows to control node specific
 settings and resources.
 
-Currently the `pvenode` tool allows to manage the node's SSL certificates used
-for API and the web GUI. It includes an implementation of the **A**utomatic
-**C**ertificate **M**anagement **E**nvironment (ACME) protocol, allowing {pve}
-admins to interface with Let's Encrypt, with which trusted certificates can be
-generated and setup easily.
+Currently `pvenode` allows to set a node's description and to manage
+the node's SSL certificates used for the API and the web GUI through `pveproxy`.
+
+EXAMPLES
+--------
+`pvenode cert set certificate.crt certificate.key -force`
+
+Install an externally provided certificate. Both files need to be PEM encoded.
+`certificate.key` contains the private key and `certificate.crt` contains the
+whole certificate chain.
+
+-----
+pvenode acme account register default mail@example.invalid
+pvenode config set --acme domains=example.invalid
+pvenode acme cert order
+systemctl restart pveproxy
+-----
+
+Configure acme to get certificates.
 
 // TODO: extend and improve chapter!
 

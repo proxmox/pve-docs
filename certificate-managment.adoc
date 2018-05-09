@@ -1,0 +1,116 @@
+[[sysadmin_certificate_management]]
+Certificate Management
+----------------------
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
+
+
+Certificates for communication within the cluster
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Each {PVE} installation creates its own Certificate Authority (CA) and generates
+certificates for each node. These are used for encrypted communication within
+the cluster.
+
+The CA certificate and key are stored in the `pmxcfs` (see the `pmxcfs(8)`
+manpage).
+
+Certificates for API and web GUI
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The API and web GUI are provided by `pveproxy`.
+
+You have the following options for the certificate used by `pveproxy`:
+
+1. By default the node-specific certificate in `/etc/pve/local/pve-ssl.pem` is
+used. This certificate is signed by the cluster CA and therfore not trusted by
+browsers and operating systems by default.
+2. use an externally provided certificate (e.g. signed by an external CA).
+3. use ACME (Let's Encrypt) to get a trusted certificate with automatic renewal.
+
+For Options 2 and 3 the file `/etc/pve/local/pveproxy-ssl.pem` (and
+`/etc/pve/local/pveproxy-ssl.key`, which needs to be without password) is used.
+
+Certificates are managed with the {PVE} Node management command
+(see the `pvenode(1)` manpage).
+
+WARNING: Do not replace the automatically generated node certificate
+files in `/etc/pve/local/pve-ssl.pem` and `/etc/pve/local/pve-ssl.key` or
+the cluster CA files in `/etc/pve/pve-root-ca.pem` and
+`/etc/pve/priv/pve-root-ca.key`.
+
+Getting trusted certificates via ACME
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+{PVE} includes an implementation of the **A**utomatic **C**ertificate
+**M**anagement **E**nvironment **ACME** protocol, allowing {pve} admins to
+interface with Let's Encrypt, with which trusted certificates can be generated
+and setup easily.
+
+This enables you to get a Certificate that is accepted by Browsers for public
+facing nodes.
+
+Currently the two ACME endpoints implemented are Let's Encrypt (LE) and its
+staging environment (see https://letsencrypt.org), both using the standalone
+HTTP challenge.
+
+Because of https://letsencrypt.org/docs/rate-limits/[rate-limits] you should use
+LE `staging` for experiments.
+
+There are a few prerequisites to use Let's Encrypt:
+
+1. **Port 80** of the node needs to be reachable from the internet.
+2. There **must** be no other listener on port 80.
+3. Your (sub)domain needs to resolve to the public IP of the Node.
+4. You have to accept the ToS of Let's Encrypt.
+
+At the moment the GUI uses only the default ACME account.
+
+.Example: Sample `pvenode` invocation for using Let's Encrypt certificates
+
+-----------------
+root@proxmox:~# pvenode acme account register default mail@example.invalid
+Directory endpoints:
+0) Let's Encrypt V2 (https://acme-v02.api.letsencrypt.org/directory)
+1) Let's Encrypt V2 Staging (https://acme-staging-v02.api.letsencrypt.org/directory)
+2) Custom
+Enter selection:
+1
+
+Attempting to fetch Terms of Service from 'https://acme-staging-v02.api.letsencrypt.org/directory'..
+Terms of Service: https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf
+Do you agree to the above terms? [y|N]y
+
+Attempting to register account with 'https://acme-staging-v02.api.letsencrypt.org/directory'..
+Generating ACME account key..
+Registering ACME account..
+Registration successful, account URL: 'https://acme-staging-v02.api.letsencrypt.org/acme/acct/xxxxxxx'
+Task OK
+root@proxmox:~# pvenode acme account list
+default
+root@proxmox:~# pvenode config set --acme domains=example.invalid
+root@proxmox:~# pvenode acme cert order
+Loading ACME account details
+Placing ACME order
+Order URL: https://acme-staging-v02.api.letsencrypt.org/acme/order/xxxxxxxxxxxxxx
+
+Getting authorization details from
+'https://acme-staging-v02.api.letsencrypt.org/acme/authz/xxxxxxxxxxxxxxxxxxxxx-xxxxxxxxxxxxx-xxxxxxx'
+... pending!
+Setting up webserver
+Triggering validation
+Sleeping for 5 seconds
+Status is 'valid'!
+
+All domains validated!
+
+Creating CSR
+Finalizing order
+Checking order status
+valid!
+
+Downloading certificate
+Setting pveproxy certificate and key
+Restarting pveproxy
+Task OK
+-----------------
