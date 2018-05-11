@@ -6,7 +6,7 @@ pvenode(1)
 NAME
 ----
 
-pvenode - {PVE} Node Management
+pvenode - Proxmox VE Node Management
 
 SYNOPSIS
 --------
@@ -23,7 +23,7 @@ Proxmox Node Management
 :pve-toplevel:
 endif::manvolnum[]
 
-The {PVE} node management tools (`pvenode`) allows to control node specific
+The {PVE} node management tool (`pvenode`) allows to control node specific
 settings and resources.
 
 Currently `pvenode` allows to set a node's description and to manage
@@ -44,7 +44,7 @@ pvenode acme cert order
 systemctl restart pveproxy
 -----
 
-Configure acme to get certificates.
+Setup ACME account and order a certificate for local node.
 
 // TODO: extend and improve chapter!
 

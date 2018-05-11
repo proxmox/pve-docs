@@ -9,9 +9,10 @@ endif::wiki[]
 Certificates for communication within the cluster
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Each {PVE} installation creates its own Certificate Authority (CA) and generates
-certificates for each node. These are used for encrypted communication within
-the cluster.
+Each {PVE} cluster creates its own internal Certificate Authority (CA) and
+generates a self-signed certificate for each node. These certificates are used
+for encrypted communication with the cluster's pveproxy service and the
+Shell/Console feature if SPICE is used.
 
 The CA certificate and key are stored in the `pmxcfs` (see the `pmxcfs(8)`
 manpage).
@@ -19,36 +20,35 @@ manpage).
 Certificates for API and web GUI
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The API and web GUI are provided by `pveproxy`.
+The REST API and web GUI are provided by the `pveproxy` service, which runs on
+each node.
 
 You have the following options for the certificate used by `pveproxy`:
 
-1. By default the node-specific certificate in `/etc/pve/local/pve-ssl.pem` is
-used. This certificate is signed by the cluster CA and therfore not trusted by
-browsers and operating systems by default.
-2. use an externally provided certificate (e.g. signed by an external CA).
-3. use ACME (Let's Encrypt) to get a trusted certificate with automatic renewal.
+1. By default the node-specific certificate in
+`/etc/pve/nodes/NODENAME/pve-ssl.pem` is used. This certificate is signed by
+the cluster CA and therefore not trusted by browsers and operating systems by
+default.
+2. use an externally provided certificate (e.g. signed by a commercial CA).
+3. use ACME (e.g., Let's Encrypt) to get a trusted certificate with automatic renewal.
 
-For Options 2 and 3 the file `/etc/pve/local/pveproxy-ssl.pem` (and
+For options 2 and 3 the file `/etc/pve/local/pveproxy-ssl.pem` (and
 `/etc/pve/local/pveproxy-ssl.key`, which needs to be without password) is used.
 
 Certificates are managed with the {PVE} Node management command
 (see the `pvenode(1)` manpage).
 
-WARNING: Do not replace the automatically generated node certificate
-files in `/etc/pve/local/pve-ssl.pem` and `/etc/pve/local/pve-ssl.key` or
-the cluster CA files in `/etc/pve/pve-root-ca.pem` and
-`/etc/pve/priv/pve-root-ca.key`.
+WARNING: Do not replace or manually modify the automatically generated node
+certificate files in `/etc/pve/local/pve-ssl.pem` and
+`/etc/pve/local/pve-ssl.key` or the cluster CA files in
+`/etc/pve/pve-root-ca.pem` and `/etc/pve/priv/pve-root-ca.key`.
 
 Getting trusted certificates via ACME
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 {PVE} includes an implementation of the **A**utomatic **C**ertificate
 **M**anagement **E**nvironment **ACME** protocol, allowing {pve} admins to
-interface with Let's Encrypt, with which trusted certificates can be generated
-and setup easily.
-
-This enables you to get a Certificate that is accepted by Browsers for public
-facing nodes.
+interface with Let's Encrypt for easy setup of trusted TLS certificates which
+are accepted out of the box on most modern operating systems and browsers.
 
 Currently the two ACME endpoints implemented are Let's Encrypt (LE) and its
 staging environment (see https://letsencrypt.org), both using the standalone
@@ -61,7 +61,7 @@ There are a few prerequisites to use Let's Encrypt:
 
 1. **Port 80** of the node needs to be reachable from the internet.
 2. There **must** be no other listener on port 80.
-3. Your (sub)domain needs to resolve to the public IP of the Node.
+3. The requested (sub)domain needs to resolve to a public IP of the Node.
 4. You have to accept the ToS of Let's Encrypt.
 
 At the moment the GUI uses only the default ACME account.
@@ -114,3 +114,11 @@ Setting pveproxy certificate and key
 Restarting pveproxy
 Task OK
 -----------------
+
+Automatic renewal of ACME certificates
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If a node has been successfully configured with an ACME-provided certificate
+(either via pvenode or via the GUI), the certificate will be automatically
+renewed by the pve-daily-update.service. Currently, renewal will be attempted
+if the certificate has expired or will expire in the next 30 days.
