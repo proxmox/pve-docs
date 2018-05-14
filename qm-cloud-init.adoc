@@ -38,7 +38,7 @@ recommended to add a serial console and use it as display for those VMs.
 
 
 Preparing Cloud-Init Templates
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The first step is to prepare your VM. Basically you can use any VM.
 Simply install the Cloud-Init packages inside the VM that you want to
@@ -107,7 +107,7 @@ qm template 9000
 
 
 Deploying Cloud-Init Templates
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 [thumbnail="gui-cloudinit-config.png"]
 
