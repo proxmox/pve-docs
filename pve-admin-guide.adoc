@@ -125,6 +125,14 @@ include::pveceph.1-synopsis.adoc[]
 
 :leveloffset: 0
 
+*pvenode* - {pve} Node Management
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:leveloffset: 1
+include::pvenode.1-synopsis.adoc[]
+
+:leveloffset: 0
+
 *qm* - Qemu/KVM Virtual Machine Manager
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
