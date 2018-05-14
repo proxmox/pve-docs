@@ -7,52 +7,51 @@ endif::wiki[]
 
 http://cloudinit.readthedocs.io[Cloud-Init] is the defacto
 multi-distribution package that handles early initialization of a
-virtual machine instance. Using Cloud-Init, one can configure network
-devices and ssh keys on the hypervisor side. When the VM starts the
-first time, the Cloud-Init software inside the VM applies those
-settings.
+virtual machine instance. Using Cloud-Init, configuration of network
+devices and ssh keys on the hypervisor side is possible. When the VM
+starts for the first time, the Cloud-Init software inside the VM will
+apply those settings.
 
-Many Linux distributions provides ready-to-use Cloud-Init images,
-mostly designed for 'OpenStack'. Those images also works with
-{pve}. While it may be convenient to use such read-to-use images, we
-usually recommend to prepare those images by yourself. That way you know
-exactly what is installed, and you can easily customize the image for
-your needs.
+Many Linux distributions provide ready-to-use Cloud-Init images, mostly
+designed for 'OpenStack'. These images will also work with {pve}. While
+it may seem convenient to get such ready-to-use images, we usually
+recommended to prepare the images by yourself. The advantage is that you
+will know exactly what you have installed, and this helps you later to
+easily customize the image for your needs.
 
-Once you created such image, it is best practice to convert it into a
-VM template. It is really fast to create linked clones of VM
-templates, so this is a very fast way to roll out new VM
-instances. You just need to configure the network (any maybe ssh keys)
-before you start the new VM.
+Once you have created such a Cloud-Init image we recommend to convert it
+into a VM template. From a VM template you can quickly create linked
+clones, so this is a fast method to roll out new VM instances. You just
+need to configure the network (and maybe the ssh keys) before you start
+the new VM.
 
-We recommend the use of SSH key-based authentication to login to VMs
+We recommend using SSH key-based authentication to login to the VMs
 provisioned by Cloud-Init. It is also possible to set a password, but
-{pve} needs to store an encrypted version of that password inside the
-Cloud-Init data. So this is not as safe as using SSH key-based
-authentication.
+this is not as safe as using SSH key-based authentication because {pve}
+needs to store an encrypted version of that password inside the
+Cloud-Init data.
 
-{pve} generates an ISO image to pass the Cloud-Init data to the VM. So
-all Cloud-Init VMs needs to have an assigned CDROM drive for that
-purpose. Also, many Cloud-Init Images assumes to have a serial
-console, so it is best to add a serial console and use that as display
-for those VMs.
+{pve} generates an ISO image to pass the Cloud-Init data to the VM. For
+that purpose all Cloud-Init VMs need to have an assigned CDROM drive.
+Also many Cloud-Init images assume to have a serial console, so it is
+recommended to add a serial console and use it as display for those VMs.
 
 
-Prepare Cloud-Init Templates
+Preparing Cloud-Init Templates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The first step is to prepare your VM. You can basically use any VM,
-and simply install the Cloud-Init packages inside the VM you want to
+The first step is to prepare your VM. Basically you can use any VM.
+Simply install the Cloud-Init packages inside the VM that you want to
 prepare. On Debian/Ubuntu based systems this is as simple as:
 
 ----
 apt-get install cloud-init
 ----
 
-Many distributions provides ready-to-use Cloud-Init images (provided
-as `.qcow2` files), so as alternative you can simply download and
-import such image. For the following example, we will use the cloud
-images provided by Ubuntu at https://cloud-images.ubuntu.com.
+Already many distributions provide ready-to-use Cloud-Init images (provided
+as `.qcow2` files), so alternatively you can simply download and
+import such images. For the following example, we will use the cloud
+image provided by Ubuntu at https://cloud-images.ubuntu.com.
 
 ----
 # download the image
@@ -68,71 +67,71 @@ qm importdisk 9000 bionic-server-cloudimg-amd64.img local-lvm
 qm set 9000 --scsihw virtio-scsi-pci --scsi0 local-lvm:vm-9000-disk-1
 ----
 
-NOTE: Ubuntu Cloud-Init images requires the `virtio-scsi-pci`
+NOTE: Ubuntu Cloud-Init images require the `virtio-scsi-pci`
 controller type for SCSI drives.
-
 
 .Add Cloud-Init CDROM drive
 
 [thumbnail="gui-cloudinit-hardware.png"]
 
-The next step is to configure a CDROM drive, used to pass the
-Cloud-Init data to the VM.
+The next step is to configure a CDROM drive which will be used to pass
+the Cloud-Init data to the VM.
 
 ----
 qm set 9000 --ide2 local-lvm:cloudinit
 ----
 
-We want to boot directly from the Cloud-Init image, so we set the
-`bootdisk` parameter to `scsi0` and restrict BIOS to boot from disk
-only. This simply speeds up booting, because VM BIOS skips testing for
+To be able to boot directly from the Cloud-Init image, set the
+`bootdisk` parameter to `scsi0`, and restrict BIOS to boot from disk
+only. This will speed up booting, because VM BIOS skips the testing for
 a bootable CDROM.
 
 ----
 qm set 9000 --boot c --bootdisk scsi0
 ----
 
-We also want to configure a serial console and use that as display. Many Cloud-Init images rely on that, because it is an requirement for OpenStack images. 
+Also configure a serial console and use it as a display. Many Cloud-Init
+images rely on this, as it is an requirement for OpenStack images.
 
 ----
 qm set 9000 --serial0 socket --vga serial0
 ----
 
-Finally, it is usually a good idea to transform such VM into a template. You can create linked clones with them, so deployment from VM templates is much faster than creating a full clone (copy).
-
+In a last step, it is helpful to convert the VM into a template. From
+this template you can then quickly create linked clones.
+The deployment from VM templates is much faster than creating a full
+clone (copy).
 ----
 qm template 9000
 ----
 
 
-Deploy Cloud-Init Templates
+Deploying Cloud-Init Templates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 [thumbnail="gui-cloudinit-config.png"]
 
-You can easily deploy such template by cloning:
+You can easily deploy such a template by cloning:
 
 ----
 qm clone 9000 123 --name ubuntu2
 ----
 
-Then configure the SSH public key used for authentication, and the IP setup
+Then configure the SSH public key used for authentication, and configure
+the IP setup:
 
 ----
 qm set 123 --sshkey ~/.ssh/id_rsa.pub
 qm set 123 --ipconfig0 ip=10.0.10.123/24,gw=10.0.10.1
 ----
 
-You can configure all Cloud-Init options using a single command. I
-just split above example to separate commands to reduce the line
-length. Also make sure you adopt the IP setup for your environment.
-
+You can also configure all the Cloud-Init options using a single command
+only. We have simply splitted the above example to separate the
+commands for reducing the line length. Also make sure to adopt the IP
+setup for your specific environment.
 
 
 Cloud-Init specific Options
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 include::qm-cloud-init-opts.adoc[]
-
-
-
