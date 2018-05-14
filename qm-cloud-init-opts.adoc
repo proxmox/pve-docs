@@ -1,0 +1,55 @@
+`cipassword`: `<string>` ::
+
+Password to assign the user. Using this is generally not recommended. Use ssh keys instead. Also note that older cloud-init versions do not support hashed passwords.
+
+`citype`: `<configdrive2 | nocloud>` ::
+
+Specifies the cloud-init configuration format. The default depends on the configured operating system type (`ostype`. We use the `nocloud` format for Linux, and `configdrive2` for windows.
+
+`ciuser`: `<string>` ::
+
+User name to change ssh keys and password for instead of the image's configured default user.
+
+`ipconfig[n]`: `[gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>]` ::
+
+Specify IP addresses and gateways for the corresponding interface.
++
+IP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.
++
+The special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit gateway should be provided.
+For IPv6 the special string 'auto' can be used to use stateless autoconfiguration.
++
+If cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using dhcp on IPv4.
+
+`gw`=`<GatewayIPv4>` ;;
+
+Default gateway for IPv4 traffic.
++
+NOTE: Requires option(s): `ip`
+
+`gw6`=`<GatewayIPv6>` ;;
+
+Default gateway for IPv6 traffic.
++
+NOTE: Requires option(s): `ip6`
+
+`ip`=`<IPv4Format/CIDR>` ('default =' `dhcp`);;
+
+IPv4 address in CIDR format.
+
+`ip6`=`<IPv6Format/CIDR>` ('default =' `dhcp`);;
+
+IPv6 address in CIDR format.
+
+`nameserver`: `<string>` ::
+
+Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.
+
+`searchdomain`: `<string>` ::
+
+Sets DNS search domains for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.
+
+`sshkeys`: `<string>` ::
+
+Setup public SSH keys (one key per line, OpenSSH format).
+
