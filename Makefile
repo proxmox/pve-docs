@@ -223,11 +223,15 @@ upload: ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}
 	tar cf - ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB} | ssh -X repoman@repo.proxmox.com -- upload --product pve --dist stretch
 
 .PHONY: update
-update: clean clean-static | update-static
+update:
+	make clean clean-static
+	make update-static
 	make all
 
 .PHONY: update-static
-update-static: clean-static | $(filter %-synopsis.adoc %-opts.adoc, ${PVE_ADMIN_GUIDE_ADOCDEPENDS}) pve-firewall-macros.adoc api-viewer/apidata.js
+update-static:
+	make clean-static
+	make $(filter %-synopsis.adoc %-opts.adoc, ${PVE_ADMIN_GUIDE_ADOCDEPENDS}) pve-firewall-macros.adoc api-viewer/apidata.js
 
 .PHONY: clean-static
 clean-static:
