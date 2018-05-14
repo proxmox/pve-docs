@@ -32,6 +32,10 @@ Mark the replication job for removal. The job will remove all local replication 
 
 Storage replication schedule. The format is a subset of `systemd` calender events.
 
+`--source` `<string>` ::
+
+Source of the replication.
+
 *pvesr delete* `<id>` `[OPTIONS]`
 
 Mark replication job for removal.
@@ -221,5 +225,9 @@ Mark the replication job for removal. The job will remove all local replication 
 `--schedule` `<string>` ('default =' `*/15`)::
 
 Storage replication schedule. The format is a subset of `systemd` calender events.
+
+`--source` `<string>` ::
+
+Source of the replication.
 
 

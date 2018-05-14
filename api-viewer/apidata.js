@@ -136,6 +136,13 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "source" : {
+                                 "description" : "Source of the replication.",
+                                 "format" : "pve-node",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               }
                            },
                            "type" : "object"
@@ -233,6 +240,13 @@ var pveapi = [
                            "description" : "Storage replication schedule. The format is a subset of `systemd` calender events.",
                            "format" : "pve-calendar-event",
                            "maxLength" : 128,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "source" : {
+                           "description" : "Source of the replication.",
+                           "format" : "pve-node",
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
@@ -426,6 +440,15 @@ var pveapi = [
                                  "typetext" : "<string>"
                               }
                            }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Audit"
+                              ]
+                           ]
                         },
                         "returns" : {
                            "additionalProperties" : 0,
@@ -3797,6 +3820,279 @@ var pveapi = [
             "text" : "ha"
          },
          {
+            "children" : [
+               {
+                  "children" : [
+                     {
+                        "info" : {
+                           "DELETE" : {
+                              "description" : "Deactivate existing ACME account at CA.",
+                              "method" : "DELETE",
+                              "name" : "deactivate_account",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "name" : {
+                                       "default" : "default",
+                                       "description" : "ACME account config file name.",
+                                       "format" : "pve-configid",
+                                       "format_description" : "name",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<name>"
+                                    }
+                                 }
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "string"
+                              }
+                           },
+                           "GET" : {
+                              "description" : "Return existing ACME account information.",
+                              "method" : "GET",
+                              "name" : "get_account",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "name" : {
+                                       "default" : "default",
+                                       "description" : "ACME account config file name.",
+                                       "format" : "pve-configid",
+                                       "format_description" : "name",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<name>"
+                                    }
+                                 }
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "account" : {
+                                       "optional" : 1,
+                                       "type" : "object"
+                                    },
+                                    "directory" : {
+                                       "description" : "URL of ACME CA directory endpoint.",
+                                       "optional" : 1,
+                                       "pattern" : "^https?://.*",
+                                       "type" : "string"
+                                    },
+                                    "location" : {
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "tos" : {
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              }
+                           },
+                           "PUT" : {
+                              "description" : "Update existing ACME account information with CA. Note: not specifying any new account information triggers a refresh.",
+                              "method" : "PUT",
+                              "name" : "update_account",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "contact" : {
+                                       "description" : "Contact email addresses.",
+                                       "format" : "email-list",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "name" : {
+                                       "default" : "default",
+                                       "description" : "ACME account config file name.",
+                                       "format" : "pve-configid",
+                                       "format_description" : "name",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<name>"
+                                    }
+                                 }
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/cluster/acme/account/{name}",
+                        "text" : "{name}"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "description" : "ACMEAccount index.",
+                        "method" : "GET",
+                        "name" : "account_index",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "user" : "all"
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "items" : {
+                              "properties" : {},
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{name}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     },
+                     "POST" : {
+                        "description" : "Register a new ACME account with CA.",
+                        "method" : "POST",
+                        "name" : "register_account",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "contact" : {
+                                 "description" : "Contact email addresses.",
+                                 "format" : "email-list",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "directory" : {
+                                 "default" : "https://acme-v02.api.letsencrypt.org/directory",
+                                 "description" : "URL of ACME CA directory endpoint.",
+                                 "optional" : 1,
+                                 "pattern" : "^https?://.*",
+                                 "type" : "string"
+                              },
+                              "name" : {
+                                 "default" : "default",
+                                 "description" : "ACME account config file name.",
+                                 "format" : "pve-configid",
+                                 "format_description" : "name",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<name>"
+                              },
+                              "tos_url" : {
+                                 "description" : "URL of CA TermsOfService - setting this indicates agreement.",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "string"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/cluster/acme/account",
+                  "text" : "account"
+               },
+               {
+                  "info" : {
+                     "GET" : {
+                        "description" : "Retrieve ACME TermsOfService URL from CA.",
+                        "method" : "GET",
+                        "name" : "get_tos",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "directory" : {
+                                 "default" : "https://acme-v02.api.letsencrypt.org/directory",
+                                 "description" : "URL of ACME CA directory endpoint.",
+                                 "optional" : 1,
+                                 "pattern" : "^https?://.*",
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "returns" : {
+                           "description" : "ACME TermsOfService URL.",
+                           "type" : "string"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/acme/tos",
+                  "text" : "tos"
+               },
+               {
+                  "info" : {
+                     "GET" : {
+                        "description" : "Get named known ACME directory endpoints.",
+                        "method" : "GET",
+                        "name" : "get_directories",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "returns" : {
+                           "items" : {
+                              "additionalProperties" : 0,
+                              "properties" : {
+                                 "name" : {
+                                    "type" : "string"
+                                 },
+                                 "url" : {
+                                    "description" : "URL of ACME CA directory endpoint.",
+                                    "pattern" : "^https?://.*",
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/acme/directories",
+                  "text" : "directories"
+               }
+            ],
+            "info" : {
+               "GET" : {
+                  "description" : "ACMEAccount index.",
+                  "method" : "GET",
+                  "name" : "index",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "permissions" : {
+                     "user" : "all"
+                  },
+                  "returns" : {
+                     "items" : {
+                        "properties" : {},
+                        "type" : "object"
+                     },
+                     "links" : [
+                        {
+                           "href" : "{name}",
+                           "rel" : "child"
+                        }
+                     ],
+                     "type" : "array"
+                  }
+               }
+            },
+            "leaf" : 0,
+            "path" : "/cluster/acme",
+            "text" : "acme"
+         },
+         {
             "info" : {
                "GET" : {
                   "description" : "Read cluster log",
@@ -3969,11 +4265,12 @@ var pveapi = [
                            "typetext" : "[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]"
                         },
                         "console" : {
-                           "description" : "Select the default Console viewer. You can either use the builtin java applet (VNC; deprecated and maps to html5), an external virt-viewer comtatible application (SPICE), or an HTML5 based viewer (noVNC).",
+                           "description" : "Select the default Console viewer. You can either use the builtin java applet (VNC; deprecated and maps to html5), an external virt-viewer comtatible application (SPICE), an HTML5 based vnc viewer (noVNC), or an HTML5 based console client (xtermjs). If the selected viewer is not available (e.g. SPICE not activated for the VM), the fallback is noVNC.",
                            "enum" : [
                               "applet",
                               "vv",
-                              "html5"
+                              "html5",
+                              "xtermjs"
                            ],
                            "optional" : 1,
                            "type" : "string"
@@ -25432,6 +25729,489 @@ var pveapi = [
                   "leaf" : 0,
                   "path" : "/nodes/{node}/replication",
                   "text" : "replication"
+               },
+               {
+                  "children" : [
+                     {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "DELETE" : {
+                                    "description" : "Revoke existing certificate from CA.",
+                                    "method" : "DELETE",
+                                    "name" : "revoke_certificate",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "POST" : {
+                                    "description" : "Order a new certificate from ACME-compatible CA.",
+                                    "method" : "POST",
+                                    "name" : "new_certificate",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "force" : {
+                                             "default" : 0,
+                                             "description" : "Overwrite existing custom certificate.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "PUT" : {
+                                    "description" : "Renew existing certificate from CA.",
+                                    "method" : "PUT",
+                                    "name" : "renew_certificate",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "force" : {
+                                             "default" : 0,
+                                             "description" : "Force renewal even if expiry is more than 30 days away.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/certificates/acme/certificate",
+                              "text" : "certificate"
+                           }
+                        ],
+                        "info" : {
+                           "GET" : {
+                              "description" : "ACME index.",
+                              "method" : "GET",
+                              "name" : "index",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "user" : "all"
+                              },
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {},
+                                    "type" : "object"
+                                 },
+                                 "links" : [
+                                    {
+                                       "href" : "{name}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
+                        "path" : "/nodes/{node}/certificates/acme",
+                        "text" : "acme"
+                     },
+                     {
+                        "info" : {
+                           "GET" : {
+                              "description" : "Get information about node's certificates.",
+                              "method" : "GET",
+                              "name" : "info",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "user" : "all"
+                              },
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "filename" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "fingerprint" : {
+                                          "description" : "Certificate SHA 256 fingerprint.",
+                                          "optional" : 1,
+                                          "pattern" : "([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}",
+                                          "type" : "string"
+                                       },
+                                       "issuer" : {
+                                          "description" : "Certificate issuer name.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "notafter" : {
+                                          "description" : "Certificate's notAfter timestamp (UNIX epoch).",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "notbefore" : {
+                                          "description" : "Certificate's notBefore timestamp (UNIX epoch).",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "pem" : {
+                                          "description" : "Certificate in PEM format",
+                                          "format" : "pem-certificate",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "san" : {
+                                          "description" : "List of Certificate's SubjectAlternativeName entries.",
+                                          "items" : {
+                                             "type" : "string"
+                                          },
+                                          "optional" : 1,
+                                          "type" : "array"
+                                       },
+                                       "subject" : {
+                                          "description" : "Certificate subject name.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/certificates/info",
+                        "text" : "info"
+                     },
+                     {
+                        "info" : {
+                           "DELETE" : {
+                              "description" : "DELETE custom certificate chain and key.",
+                              "method" : "DELETE",
+                              "name" : "remove_custom_cert",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "restart" : {
+                                       "default" : 0,
+                                       "description" : "Restart pveproxy.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    }
+                                 }
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           },
+                           "POST" : {
+                              "description" : "Upload or update custom certificate chain and key.",
+                              "method" : "POST",
+                              "name" : "upload_custom_cert",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "certificates" : {
+                                       "description" : "PEM encoded certificate (chain).",
+                                       "format" : "pem-certificate-chain",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "force" : {
+                                       "default" : 0,
+                                       "description" : "Overwrite existing custom or ACME certificate files.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "key" : {
+                                       "description" : "PEM encoded private key.",
+                                       "format" : "pem-string",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "restart" : {
+                                       "default" : 0,
+                                       "description" : "Restart pveproxy.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    }
+                                 }
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "properties" : {
+                                    "filename" : {
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "fingerprint" : {
+                                       "description" : "Certificate SHA 256 fingerprint.",
+                                       "optional" : 1,
+                                       "pattern" : "([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}",
+                                       "type" : "string"
+                                    },
+                                    "issuer" : {
+                                       "description" : "Certificate issuer name.",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "notafter" : {
+                                       "description" : "Certificate's notAfter timestamp (UNIX epoch).",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "notbefore" : {
+                                       "description" : "Certificate's notBefore timestamp (UNIX epoch).",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "pem" : {
+                                       "description" : "Certificate in PEM format",
+                                       "format" : "pem-certificate",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "san" : {
+                                       "description" : "List of Certificate's SubjectAlternativeName entries.",
+                                       "items" : {
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array"
+                                    },
+                                    "subject" : {
+                                       "description" : "Certificate subject name.",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/certificates/custom",
+                        "text" : "custom"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "description" : "Node index.",
+                        "method" : "GET",
+                        "name" : "index",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "user" : "all"
+                        },
+                        "returns" : {
+                           "items" : {
+                              "properties" : {},
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{name}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/nodes/{node}/certificates",
+                  "text" : "certificates"
+               },
+               {
+                  "info" : {
+                     "GET" : {
+                        "description" : "Get node configuration options.",
+                        "method" : "GET",
+                        "name" : "get_config",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Audit"
+                              ]
+                           ]
+                        },
+                        "proxyto" : "node",
+                        "returns" : {
+                           "properties" : {},
+                           "type" : "object"
+                        }
+                     },
+                     "PUT" : {
+                        "description" : "Set node configuration options.",
+                        "method" : "PUT",
+                        "name" : "set_options",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "acme" : {
+                                 "description" : "Node specific ACME settings.",
+                                 "format" : {
+                                    "account" : {
+                                       "default" : "default",
+                                       "description" : "ACME account config file name.",
+                                       "format" : "pve-configid",
+                                       "format_description" : "name",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "domains" : {
+                                       "description" : "List of domains for this node's ACME certificate",
+                                       "format" : "pve-acme-domain-list",
+                                       "format_description" : "domain[;domain;...]",
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "domains=<domain[;domain;...]> [,account=<name>]"
+                              },
+                              "delete" : {
+                                 "description" : "A list of settings you want to delete.",
+                                 "format" : "pve-configid-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "description" : {
+                                 "description" : "Node description/comment.",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "digest" : {
+                                 "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
+                                 "maxLength" : 40,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Modify"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "proxyto" : "node",
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/nodes/{node}/config",
+                  "text" : "config"
                },
                {
                   "info" : {
