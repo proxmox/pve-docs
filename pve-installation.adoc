@@ -167,6 +167,8 @@ and VG on the same hard disk that can be used for LVM storage).
 Defines the size of the `swap` volume. The default is the size of the
 installed memory, minimum 4 GB and maximum 8 GB. The resulting value cannot
 be greater than `hdsize/8`.
++
+NOTE: If set to `0`, no `swap` volume will be created.
 
 `maxroot`::
 
@@ -181,6 +183,12 @@ volume is:
 `datasize = hdsize - rootsize - swapsize - minfree`
 +
 Where `datasize` cannot be bigger than `maxvz`.
++
+NOTE: In case of LVM thin, the `data` pool will only be created if `datasize`
+is bigger than 4GB.
++
+NOTE: If set to `0`, no `data` volume will be created and the storage
+configuration will be adapted accordingly.
 
 `minfree`::
 
