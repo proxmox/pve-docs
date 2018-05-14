@@ -1,3 +1,15 @@
+pve-docs (5.2-1) unstable; urgency=medium
+
+  * update generated docs
+
+  * pve-admin-guide.adoc: include pvenode synopsys
+
+  * Makefile: do not use ordered dependencies
+
+  * add documentation for certificate managment
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 14 May 2018 12:31:52 +0200
+
 pve-docs (5.1-18) unstable; urgency=medium
 
   * update screenshots
