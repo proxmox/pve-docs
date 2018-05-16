@@ -884,7 +884,11 @@ Finally attach the unused disk to the SCSI controller of the VM:
 The VM is ready to be started.
 
 
+ifndef::wiki[]
 include::qm-cloud-init.adoc[]
+endif::wiki[]
+
+
 
 Managing Virtual Machines with `qm`
 ------------------------------------
@@ -1014,6 +1018,16 @@ you need to remove such a lock manually (e.g., after a power failure).
 
 CAUTION: Only do that if you are sure the action which set the lock is
 no longer running.
+
+
+ifdef::wiki[]
+
+See Also
+~~~~~~~~
+
+* link:/wiki/Cloud-Init_Support[Cloud-Init Support]
+
+endif::wiki[]
 
 
 ifdef::manvolnum[]

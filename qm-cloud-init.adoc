@@ -135,3 +135,13 @@ Cloud-Init specific Options
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 include::qm-cloud-init-opts.adoc[]
+
+
+ifdef::wiki[]
+
+See Also
+~~~~~~~~
+
+* link:/wiki/Qemu/KVM_Virtual_Machines[Qemu/KVM Virtual Machines]
+
+endif::wiki[]
