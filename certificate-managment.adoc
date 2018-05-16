@@ -14,8 +14,7 @@ generates a self-signed certificate for each node. These certificates are used
 for encrypted communication with the cluster's pveproxy service and the
 Shell/Console feature if SPICE is used.
 
-The CA certificate and key are stored in the `pmxcfs` (see the `pmxcfs(8)`
-manpage).
+The CA certificate and key are stored in the xref:chapter_pmxcfs[Proxmox Cluster File System (pmxcfs)].
 
 Certificates for API and web GUI
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
