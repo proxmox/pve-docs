@@ -1,3 +1,11 @@
+pve-docs (5.2-4) unstable; urgency=medium
+
+  * certificate-managment.adoc: use xref to refer to chapter_pmxcfs
+
+  * use separate wiki page for qm-cloud-init.adoc
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 16 May 2018 13:11:43 +0200
+
 pve-docs (5.2-3) unstable; urgency=medium
 
   * installation: extend parameter description
