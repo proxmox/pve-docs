@@ -74,6 +74,7 @@ CPU.
 It is not limited to Linux guests but allows arbitrary operating systems
 to run.
 
+[[faq-support-table]]
 How long will my {pve} version be supported?::
 
 {pve} versions are supported at least as long as the corresponding
@@ -91,6 +92,33 @@ recommended.
 | {pve} 2.x     | Debian 6 (Squeeze)| 2012-04       | 2014-05    | 2014-05
 | {pve} 1.x     | Debian 5 (Lenny)  | 2008-10       | 2012-03    | 2013-01
 |===========================================================
+
+[[faq-upgrade]]
+How can I upgrade {pve} to the next release?::
+
+Minor version upgrades, for example upgrading from {pve} in version 5.1
+to 5.2, can be done just like any normal update, either through the Web
+GUI __Node -> Updates__ panel or through the CLI with:
++
+----
+apt update
+apt full-upgrade
+----
++
+NOTE: Always ensure you correctly setup the
+xref:sysadmin_package_repositories[package repositories] and only
+continue with the actual upgrade if `apt update` did not hit any error.
++
+Major version upgrades, for example going from {pve} 4.4 to 5.0, are
+also supported. They must be carefully planned and tested and should
+*never* be started without having a current backup ready.
+Although the specific upgrade steps depend on your respective setup, we
+provide general instructions and advice of how a upgrade should be
+performed:
++
+* https://pve.proxmox.com/wiki/Upgrade_from_4.x_to_5.0[Upgrade from {pve} 4.x to 5.0]
+
+* https://pve.proxmox.com/wiki/Upgrade_from_3.x_to_4.0[Upgrade from {pve} 3.x to 4.0]
 
 LXC vs LXD vs Proxmox Containers vs Docker::
 
