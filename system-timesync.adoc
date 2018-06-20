@@ -27,7 +27,7 @@ them:
 .File `/etc/systemd/timesyncd.conf`
 ----
 [Time]
-Servers=ntp1.example.com ntp2.example.com ntp3.example.com ntp4.example.com
+NTP=ntp1.example.com ntp2.example.com ntp3.example.com ntp4.example.com
 ----
 
 After restarting the synchronization service (`systemctl restart
