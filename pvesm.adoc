@@ -78,6 +78,7 @@ snapshots and clones.
 |iSCSI/kernel   |iscsi       |block |yes   |no       |yes
 |iSCSI/libiscsi |iscsidirect |block |yes   |no       |yes
 |Ceph/RBD       |rbd         |block |yes   |yes      |yes
+|Ceph/CephFS    |cephfs      |file  |yes   |yes      |yes
 |Sheepdog       |sheepdog    |block |yes   |yes      |beta
 |ZFS over iSCSI |zfs         |block |yes   |yes      |yes
 |=========================================================
@@ -404,6 +405,8 @@ include::pve-storage-iscsi.adoc[]
 include::pve-storage-iscsidirect.adoc[]
 
 include::pve-storage-rbd.adoc[]
+
+include::pve-storage-cephfs.adoc[]
 
 
 

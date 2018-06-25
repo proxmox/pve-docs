@@ -1,0 +1,106 @@
+[[storage_cephfs]]
+Ceph Filesystem (CephFS)
+------------------------
+ifdef::wiki[]
+:pve-toplevel:
+:title: Storage: CephFS
+endif::wiki[]
+
+Storage pool type: `cephfs`
+
+http://ceph.com[Ceph] is a distributed object store and file system designed to
+provide excellent performance, reliability and scalability. CephFS implements a
+POSIX-compliant filesystem storage, with the following advantages:
+
+* thin provisioning
+* distributed and redundant (striped over multiple OSDs)
+* snapshot capabilities
+* self healing
+* no single point of failure
+* scalable to the exabyte level
+* kernel and user space implementation available
+
+NOTE: For smaller deployments, it is also possible to run Ceph
+services directly on your {pve} nodes. Recent hardware has plenty
+of CPU power and RAM, so running storage services and VMs on same node
+is possible.
+
+[[storage_cephfs_config]]
+Configuration
+~~~~~~~~~~~~~
+
+This backend supports the common storage properties `nodes`,
+`disable`, `content`, and the following `cephfs` specific properties:
+
+monhost::
+
+List of monitor daemon IPs. Optional, only needed if Ceph is not running on the
+PVE cluster.
+
+path::
+
+The local mount point. Optional, defaults to `/mnt/pve/<STORAGE_ID>/`.
+
+username::
+
+Ceph user Id. Optional, only needed if Ceph is not running on the PVE cluster.
+
+subdir::
+
+CephFS subdirectory to mount. Optional, defaults to `/`.
+
+fuse::
+
+Access CephFS through FUSE, instead of the kernel client. Optional, defaults
+to `0`.
+
+.Configuration Example for a external Ceph cluster (`/etc/pve/storage.cfg`)
+----
+cephfs: cephfs-external
+        monhost 10.1.1.20 10.1.1.21 10.1.1.22
+        path /mnt/pve/cephfs-external
+        content backup
+        username admin
+----
+
+Authentication
+~~~~~~~~~~~~~~
+
+If you use `cephx` authentication, you need to copy the secret from your
+external Ceph cluster to a Proxmox VE host.
+
+Create the directory `/etc/pve/priv/ceph` with
+
+ mkdir /etc/pve/priv/ceph
+
+Then copy the secret
+
+ scp <cephserver>:/etc/ceph/cephfs.secret /etc/pve/priv/ceph/<STORAGE_ID>.secret
+
+The secret must be named to match your `<STORAGE_ID>`. Copying the
+secret generally requires root privileges. The file must only contain the
+secret itself, opposed to the `rbd` backend.
+
+If Ceph is installed locally on the PVE cluster, this is done automatically.
+
+Storage Features
+~~~~~~~~~~~~~~~~
+
+The `cephfs` backend is a POSIX-compliant filesystem on top of a Ceph cluster.
+
+.Storage features for backend `cephfs`
+[width="100%",cols="m,m,3*d",options="header"]
+|==============================================================================
+|Content types     |Image formats  |Shared |Snapshots |Clones
+|vztmpl iso backup |none           |yes    |yes       |no
+|==============================================================================
+
+ifdef::wiki[]
+
+See Also
+~~~~~~~~
+
+* link:/wiki/Storage[Storage]
+
+endif::wiki[]
+
