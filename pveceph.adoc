@@ -25,18 +25,31 @@ endif::manvolnum[]
 
 [thumbnail="gui-ceph-status.png"]
 
-{pve} unifies your compute and storage systems, i.e. you can use the
-same physical nodes within a cluster for both computing (processing
-VMs and containers) and replicated storage. The traditional silos of
-compute and storage resources can be wrapped up into a single
-hyper-converged appliance. Separate storage networks (SANs) and
-connections via network (NAS) disappear. With the integration of Ceph,
-an open source software-defined storage platform, {pve} has the
-ability to run and manage Ceph storage directly on the hypervisor
-nodes.
+{pve} unifies your compute and storage systems, i.e. you can use the same
+physical nodes within a cluster for both computing (processing VMs and
+containers) and replicated storage. The traditional silos of compute and
+storage resources can be wrapped up into a single hyper-converged appliance.
+Separate storage networks (SANs) and connections via network attached storages
+(NAS) disappear. With the integration of Ceph, an open source software-defined
+storage platform, {pve} has the ability to run and manage Ceph storage directly
+on the hypervisor nodes.
 
 Ceph is a distributed object store and file system designed to provide
 excellent performance, reliability and scalability.
+
+.Some of the advantages of Ceph are:
+- Easy setup and management with CLI and GUI support on Proxmox VE
+- Thin provisioning
+- Snapshots support
+- Self healing
+- No single point of failure
+- Scalable to the exabyte level
+- Setup pools with different performance and redundancy characteristics
+- Data is replicated, making it fault tolerant
+- Runs on economical commodity hardware
+- No need for hardware RAID controllers
+- Easy management
+- Open source
 
 For small to mid sized deployments, it is possible to install a Ceph server for
 RADOS Block Devices (RBD) directly on your {pve} cluster nodes, see
@@ -47,10 +60,7 @@ and VMs on the same node is possible.
 To simplify management, we provide 'pveceph' - a tool to install and
 manage {ceph} services on {pve} nodes.
 
-Ceph consists of a couple of Daemons
-footnote:[Ceph intro http://docs.ceph.com/docs/master/start/intro/], for use as
-a RBD storage:
-
+.Ceph consists of a couple of Daemons footnote:[Ceph intro http://docs.ceph.com/docs/master/start/intro/], for use as a RBD storage:
 - Ceph Monitor (ceph-mon)
 - Ceph Manager (ceph-mgr)
 - Ceph OSD (ceph-osd; Object Storage Daemon)
@@ -65,12 +75,20 @@ Precondition
 To build a Proxmox Ceph Cluster there should be at least three (preferably)
 identical servers for the setup.
 
-A 10Gb network, exclusively used for Ceph, is recommended. A meshed
-network setup is also an option if there are no 10Gb switches
-available, see {webwiki-url}Full_Mesh_Network_for_Ceph_Server[wiki] .
+A 10Gb network, exclusively used for Ceph, is recommended. A meshed network
+setup is also an option if there are no 10Gb switches available, see our wiki
+article footnote:[Full Mesh Network for Ceph {webwiki-url}Full_Mesh_Network_for_Ceph_Server] .
 
 Check also the recommendations from
 http://docs.ceph.com/docs/luminous/start/hardware-recommendations/[Ceph's website].
+
+.Avoid RAID
+While RAID controller are build for storage virtualisation, to combine
+independent disks to form one or more logical units. Their caching methods,
+algorithms (RAID modes; incl. JBOD), disk or write/read optimisations are
+targeted towards aforementioned logical units and not to Ceph.
+
+WARNING: Avoid RAID controller, use host bus adapter (HBA) instead.
 
 
 Installation of Ceph Packages
@@ -101,7 +119,7 @@ in the following example) dedicated for Ceph:
 pveceph init --network 10.10.10.0/24
 ----
 
-This creates an initial config at `/etc/pve/ceph.conf`. That file is
+This creates an initial configuration at `/etc/pve/ceph.conf`. That file is
 automatically distributed to all {pve} nodes by using
 xref:chapter_pmxcfs[pmxcfs]. The command also creates a symbolic link
 from `/etc/ceph/ceph.conf` pointing to that file. So you can simply run
@@ -116,8 +134,8 @@ Creating Ceph Monitors
 
 The Ceph Monitor (MON)
 footnote:[Ceph Monitor http://docs.ceph.com/docs/luminous/start/intro/]
-maintains a master copy of the cluster map. For HA you need to have at least 3
-monitors.
+maintains a master copy of the cluster map. For high availability you need to
+have at least 3 monitors.
 
 On each node where you want to place a monitor (three monitors are recommended),
 create it by using the 'Ceph -> Monitor' tab in the GUI or run.
@@ -136,7 +154,7 @@ do not want to install a manager, specify the '-exclude-manager' option.
 Creating Ceph Manager
 ----------------------
 
-The Manager daemon runs alongside the monitors. It provides interfaces for
+The Manager daemon runs alongside the monitors, providing an interface for
 monitoring the cluster. Since the Ceph luminous release the
 ceph-mgr footnote:[Ceph Manager http://docs.ceph.com/docs/luminous/mgr/] daemon
 is required. During monitor installation the ceph manager will be installed as
@@ -167,14 +185,24 @@ pveceph createosd /dev/sd[X]
 TIP: We recommend a Ceph cluster size, starting with 12 OSDs, distributed evenly
 among your, at least three nodes (4 OSDs on each node).
 
+If the disk was used before (eg. ZFS/RAID/OSD), to remove partition table, boot
+sector and any OSD leftover the following commands should be sufficient.
+
+[source,bash]
+----
+dd if=/dev/zero of=/dev/sd[X] bs=1M count=200
+ceph-disk zap /dev/sd[X]
+----
+
+WARNING: The above commands will destroy data on the disk!
 
 Ceph Bluestore
 ~~~~~~~~~~~~~~
 
 Starting with the Ceph Kraken release, a new Ceph OSD storage type was
 introduced, the so called Bluestore
-footnote:[Ceph Bluestore http://ceph.com/community/new-luminous-bluestore/]. In
-Ceph luminous this store is the default when creating OSDs.
+footnote:[Ceph Bluestore http://ceph.com/community/new-luminous-bluestore/].
+This is the default when creating OSDs in Ceph luminous.
 
 [source,bash]
 ----
@@ -182,18 +210,18 @@ pveceph createosd /dev/sd[X]
 ----
 
 NOTE: In order to select a disk in the GUI, to be more failsafe, the disk needs
-to have a
-GPT footnoteref:[GPT,
-GPT partition table https://en.wikipedia.org/wiki/GUID_Partition_Table]
-partition table. You can create this with `gdisk /dev/sd(x)`. If there is no
-GPT, you cannot select the disk as DB/WAL.
+to have a GPT footnoteref:[GPT, GPT partition table
+https://en.wikipedia.org/wiki/GUID_Partition_Table] partition table. You can
+create this with `gdisk /dev/sd(x)`. If there is no GPT, you cannot select the
+disk as DB/WAL.
 
 If you want to use a separate DB/WAL device for your OSDs, you can specify it
-through the '-wal_dev' option.
+through the '-journal_dev' option. The WAL is placed with the DB, if not
+specified separately.
 
 [source,bash]
 ----
-pveceph createosd /dev/sd[X] -wal_dev /dev/sd[Y]
+pveceph createosd /dev/sd[X] -journal_dev /dev/sd[Y]
 ----
 
 NOTE: The DB stores BlueStore’s internal metadata and the WAL is BlueStore’s
@@ -262,9 +290,9 @@ NOTE: The default number of PGs works for 2-6 disks. Ceph throws a
 "HEALTH_WARNING" if you have too few or too many PGs in your cluster.
 
 It is advised to calculate the PG number depending on your setup, you can find
-the formula and the PG
-calculator footnote:[PG calculator http://ceph.com/pgcalc/] online. While PGs
-can be increased later on, they can never be decreased.
+the formula and the PG calculator footnote:[PG calculator
+http://ceph.com/pgcalc/] online. While PGs can be increased later on, they can
+never be decreased.
 
 
 You can create pools through command line or on the GUI on each PVE host under
