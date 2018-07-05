@@ -8,22 +8,15 @@ endif::wiki[]
 
 Storage pool type: `cephfs`
 
-http://ceph.com[Ceph] is a distributed object store and file system designed to
-provide excellent performance, reliability and scalability. CephFS implements a
-POSIX-compliant filesystem storage, with the following advantages:
+CephFS implements a POSIX-compliant filesystem using a http://ceph.com[Ceph]
+storage cluster to store its data. As CephFS builds on Ceph it shares most of
+its properties, this includes redundancy, scalability, self healing and high
+availability.
 
-* thin provisioning
-* distributed and redundant (striped over multiple OSDs)
-* snapshot capabilities
-* self healing
-* no single point of failure
-* scalable to the exabyte level
-* kernel and user space implementation available
-
-NOTE: For smaller deployments, it is also possible to run Ceph
-services directly on your {pve} nodes. Recent hardware has plenty
-of CPU power and RAM, so running storage services and VMs on same node
-is possible.
+TIP: {pve} can xref:chapter_pveceph[manage ceph setups], which makes
+configuring a CephFS storage easier. As recent hardware has plenty of CPU power
+and RAM, running storage services and VMs on same node is possible without a
+big performance impact.
 
 [[storage_cephfs_config]]
 Configuration
@@ -34,8 +27,8 @@ This backend supports the common storage properties `nodes`,
 
 monhost::
 
-List of monitor daemon IPs. Optional, only needed if Ceph is not running on the
-PVE cluster.
+List of monitor daemon addresses. Optional, only needed if Ceph is not running
+on the PVE cluster.
 
 path::
 
@@ -43,7 +36,8 @@ The local mount point. Optional, defaults to `/mnt/pve/<STORAGE_ID>/`.
 
 username::
 
-Ceph user Id. Optional, only needed if Ceph is not running on the PVE cluster.
+Ceph user id. Optional, only needed if Ceph is not running on the PVE cluster
+where it defaults to `admin`.
 
 subdir::
 
@@ -62,12 +56,14 @@ cephfs: cephfs-external
         content backup
         username admin
 ----
+NOTE: Don't forget to setup the client secret key file if cephx was not turned
+off.
 
 Authentication
 ~~~~~~~~~~~~~~
 
-If you use `cephx` authentication, you need to copy the secret from your
-external Ceph cluster to a Proxmox VE host.
+If you use the, by-default enabled, `cephx` authentication, you need to copy
+the secret from your external Ceph cluster to a Proxmox VE host.
 
 Create the directory `/etc/pve/priv/ceph` with
 
@@ -79,9 +75,11 @@ Then copy the secret
 
 The secret must be named to match your `<STORAGE_ID>`. Copying the
 secret generally requires root privileges. The file must only contain the
-secret itself, opposed to the `rbd` backend.
+secret key itself, opposed to the `rbd` backend which also contains a
+`[client.userid]` section.
 
-If Ceph is installed locally on the PVE cluster, this is done automatically.
+If Ceph is installed locally on the PVE cluster, i.e., setup with `pveceph`,
+this is done automatically.
 
 Storage Features
 ~~~~~~~~~~~~~~~~
@@ -92,8 +90,10 @@ The `cephfs` backend is a POSIX-compliant filesystem on top of a Ceph cluster.
 [width="100%",cols="m,m,3*d",options="header"]
 |==============================================================================
 |Content types     |Image formats  |Shared |Snapshots |Clones
-|vztmpl iso backup |none           |yes    |yes       |no
+|vztmpl iso backup |none           |yes    |yes^[1]^  |no
 |==============================================================================
+^[1]^ Snapshots, while no known bugs, cannot be guaranteed to be stable yet, as
+they lack testing.
 
 ifdef::wiki[]
 
