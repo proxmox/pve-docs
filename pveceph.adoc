@@ -81,10 +81,13 @@ Check also the recommendations from
 http://docs.ceph.com/docs/luminous/start/hardware-recommendations/[Ceph's website].
 
 .Avoid RAID
-While RAID controller are build for storage virtualisation, to combine
-independent disks to form one or more logical units. Their caching methods,
-algorithms (RAID modes; incl. JBOD), disk or write/read optimisations are
-targeted towards aforementioned logical units and not to Ceph.
+As Ceph handles data object redundancy and multiple parallel writes to disks
+(OSDs) on its own, using a RAID controller normally doesn’t improves
+performance or availability. On the contrary, Ceph is designed to handle whole
+disks on it's own, without any abstraction in between. RAID controller are not
+designed for the Ceph use case and may complicate things and sometimes even
+reduce performance, as their write and caching algorithms may interfere with
+the ones from Ceph.
 
 WARNING: Avoid RAID controller, use host bus adapter (HBA) instead.
 
