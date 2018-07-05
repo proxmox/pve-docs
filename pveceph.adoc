@@ -37,18 +37,16 @@ on the hypervisor nodes.
 Ceph is a distributed object store and file system designed to provide
 excellent performance, reliability and scalability.
 
-.Some of the advantages of Ceph are:
-- Easy setup and management with CLI and GUI support on Proxmox VE
+.Some advantages of Ceph on {pve} are:
+- Easy setup and management with CLI and GUI support
 - Thin provisioning
 - Snapshots support
 - Self healing
-- No single point of failure
 - Scalable to the exabyte level
 - Setup pools with different performance and redundancy characteristics
 - Data is replicated, making it fault tolerant
 - Runs on economical commodity hardware
 - No need for hardware RAID controllers
-- Easy management
 - Open source
 
 For small to mid sized deployments, it is possible to install a Ceph server for
