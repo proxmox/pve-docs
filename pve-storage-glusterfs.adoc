@@ -1,3 +1,4 @@
+[[storage_glusterfs]]
 GlusterFS Backend
 -----------------
 ifdef::wiki[]

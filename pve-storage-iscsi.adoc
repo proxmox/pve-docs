@@ -1,3 +1,4 @@
+[[storage_open_iscsi]]
 Open-iSCSI initiator
 --------------------
 ifdef::wiki[]

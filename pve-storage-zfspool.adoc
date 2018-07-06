@@ -1,3 +1,4 @@
+[[storage_zfspool]]
 Local ZFS Pool Backend
 ----------------------
 ifdef::wiki[]

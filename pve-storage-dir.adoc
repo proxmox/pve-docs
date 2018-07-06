@@ -1,3 +1,4 @@
+[[storage_directory]]
 Directory Backend
 -----------------
 ifdef::wiki[]

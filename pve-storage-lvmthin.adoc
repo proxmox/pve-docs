@@ -1,3 +1,4 @@
+[[storage_lvmthin]]
 LVM thin Backend
 ----------------
 ifdef::wiki[]

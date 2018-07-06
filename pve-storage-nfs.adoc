@@ -1,3 +1,4 @@
+[[storage_nfs]]
 NFS Backend
 -----------
 ifdef::wiki[]

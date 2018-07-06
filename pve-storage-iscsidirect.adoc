@@ -1,3 +1,4 @@
+[[storage_iscsidirect]]
 User Mode iSCSI Backend
 -----------------------
 ifdef::wiki[]

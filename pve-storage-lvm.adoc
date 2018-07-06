@@ -1,3 +1,4 @@
+[[storage_lvm]]
 LVM Backend
 -----------
 ifdef::wiki[]
