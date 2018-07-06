@@ -82,7 +82,7 @@ http://docs.ceph.com/docs/luminous/start/hardware-recommendations/[Ceph's websit
 
 .Avoid RAID
 As Ceph handles data object redundancy and multiple parallel writes to disks
-(OSDs) on its own, using a RAID controller normally doesn’t improves
+(OSDs) on its own, using a RAID controller normally doesn’t improve
 performance or availability. On the contrary, Ceph is designed to handle whole
 disks on it's own, without any abstraction in between. RAID controller are not
 designed for the Ceph use case and may complicate things and sometimes even
