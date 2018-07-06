@@ -1,5 +1,5 @@
-http://www.open-iscsi.org/[Open-iSCSI] initiator
-------------------------------------------------
+Open-iSCSI initiator
+--------------------
 ifdef::wiki[]
 :pve-toplevel:
 :title: Storage: iSCSI
@@ -13,9 +13,10 @@ source iSCSI target solutions available,
 e.g. http://www.openmediavault.org/[OpenMediaVault], which is based on
 Debian.
 
-To use this backend, you need to install the `open-iscsi`
-package. This is a standard Debian package, but it is not installed by
-default to save resources.
+To use this backend, you need to install the
+http://www.open-iscsi.org/[Open-iSCSI] (`open-iscsi`) package. This is a
+standard Debian package, but it is not installed by default to save
+resources.
 
   # apt-get install open-iscsi
 
