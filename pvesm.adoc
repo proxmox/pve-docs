@@ -376,6 +376,8 @@ See Also
 
 * link:/wiki/Storage:_RBD[Storage: RBD]
 
+* link:/wiki/Storage:_RBD[Storage: CephFS]
+
 * link:/wiki/Storage:_ZFS[Storage: ZFS]
 
 * link:/wiki/Storage:_ZFS_over_iSCSI[Storage: ZFS over iSCSI]
