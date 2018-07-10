@@ -148,7 +148,7 @@ Specifies whether a VM will be started during system bootup.
 
 OS type. This is used to setup configuration inside the container, and corresponds to lxc setup scripts in /usr/share/lxc/config/<ostype>.common.conf. Value 'unmanaged' can be used to skip and OS specific setup.
 
-`--password` ::
+`--password` `<password>` ::
 
 Sets root password inside container.
 
@@ -175,6 +175,10 @@ Sets DNS search domains for a container. Create will automatically use the setti
 `--ssh-public-keys` `<filepath>` ::
 
 Setup public SSH keys (one key per line, OpenSSH format).
+
+`--start` `<boolean>` ('default =' `0`)::
+
+Start the CT after its creation finished successfully.
 
 `--startup` `[[order=]\d+] [,up=\d+] [,down=\d+] ` ::
 
@@ -522,7 +526,7 @@ Specifies whether a VM will be started during system bootup.
 
 OS type. This is used to setup configuration inside the container, and corresponds to lxc setup scripts in /usr/share/lxc/config/<ostype>.common.conf. Value 'unmanaged' can be used to skip and OS specific setup.
 
-`--password` ::
+`--password` `<password>` ::
 
 Sets root password inside container.
 
@@ -545,6 +549,10 @@ Sets DNS search domains for a container. Create will automatically use the setti
 `--ssh-public-keys` `<filepath>` ::
 
 Setup public SSH keys (one key per line, OpenSSH format).
+
+`--start` `<boolean>` ('default =' `0`)::
+
+Start the CT after its creation finished successfully.
 
 `--startup` `[[order=]\d+] [,up=\d+] [,down=\d+] ` ::
 

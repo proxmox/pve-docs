@@ -1,3 +1,7 @@
+`ebtables`: `<boolean>` ('default =' `1`)::
+
+Enable ebtables rules cluster wide.
+
 `enable`: `<integer> (0 - N)` ::
 
 Enable or disable the firewall cluster wide.

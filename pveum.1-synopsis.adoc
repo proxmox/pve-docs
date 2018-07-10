@@ -206,7 +206,7 @@ Keys for two factor auth (yubico).
 
 no description available
 
-`--password` ::
+`--password` `<password>` ::
 
 Initial password.
 

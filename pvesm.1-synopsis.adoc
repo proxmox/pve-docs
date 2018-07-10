@@ -4,7 +4,7 @@
 
 Create a new storage.
 
-`<type>`: `<cifs | dir | drbd | glusterfs | iscsi | iscsidirect | lvm | lvmthin | nfs | rbd | sheepdog | zfs | zfspool>` ::
+`<type>`: `<cephfs | cifs | dir | drbd | glusterfs | iscsi | iscsidirect | lvm | lvmthin | nfs | rbd | sheepdog | zfs | zfspool>` ::
 
 Storage type.
 
@@ -58,6 +58,10 @@ NFS export path.
 
 Default image format.
 
+`--fuse` `<boolean>` ::
+
+Mount CephFS through FUSE.
+
 `--is_mountpoint` `<string>` ('default =' `no`)::
 
 Assume the given path is an externally managed mountpoint and consider the storage offline if it is not mounted. Using a boolean (yes/no) value serves as a shortcut to using the target path in this field.
@@ -94,7 +98,7 @@ disable write caching on the target
 
 NFS mount options (see 'man nfs')
 
-`--password` ::
+`--password` `<password>` ::
 
 Password for CIFS share.
 
@@ -140,13 +144,17 @@ CIFS share.
 
 Mark storage as shared.
 
-`--smbversion` `<string>` ::
+`--smbversion` `<2.0 | 2.1 | 3.0>` ::
 
-no description available
+SMB protocol version
 
 `--sparse` `<boolean>` ::
 
 use sparse volumes
+
+`--subdir` `<string>` ::
+
+Subdir to mount.
 
 `--tagged_only` `<boolean>` ::
 
@@ -214,7 +222,7 @@ no description available
 
 no description available
 
-`--password` ::
+`--password` `<password>` ::
 
 no description available
 
@@ -428,6 +436,10 @@ CIFS domain.
 
 Default image format.
 
+`--fuse` `<boolean>` ::
+
+Mount CephFS through FUSE.
+
 `--is_mountpoint` `<string>` ('default =' `no`)::
 
 Assume the given path is an externally managed mountpoint and consider the storage offline if it is not mounted. Using a boolean (yes/no) value serves as a shortcut to using the target path in this field.
@@ -460,7 +472,7 @@ disable write caching on the target
 
 NFS mount options (see 'man nfs')
 
-`--password` ::
+`--password` `<string>` ::
 
 Password for CIFS share.
 
@@ -494,13 +506,17 @@ NOTE: Requires option(s): `server`
 
 Mark storage as shared.
 
-`--smbversion` `<string>` ::
+`--smbversion` `<2.0 | 2.1 | 3.0>` ::
 
-no description available
+SMB protocol version
 
 `--sparse` `<boolean>` ::
 
 use sparse volumes
+
+`--subdir` `<string>` ::
+
+Subdir to mount.
 
 `--tagged_only` `<boolean>` ::
 

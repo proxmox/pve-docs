@@ -137,4 +137,40 @@ Shows help for a specific command
 
 Verbose output format.
 
+*pvenode migrateall* `<target>` `[OPTIONS]`
+
+Migrate all VMs and Containers.
+
+`<target>`: `<string>` ::
+
+Target node.
+
+`--maxworkers` `<integer> (1 - N)` ::
+
+Maximal number of parallel migration job. If not set use 'max_workers' from datacenter.cfg, one of both must be set!
+
+`--vms` `<string>` ::
+
+Only consider Guests with these IDs.
+
+*pvenode startall* `[OPTIONS]`
+
+Start all VMs and containers (when onboot=1).
+
+`--force` `<boolean>` ::
+
+force if onboot=0.
+
+`--vms` `<string>` ::
+
+Only consider Guests with these IDs.
+
+*pvenode stopall* `[OPTIONS]`
+
+Stop all VMs and Containers.
+
+`--vms` `<string>` ::
+
+Only consider Guests with these IDs.
+
 

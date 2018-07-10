@@ -2267,6 +2267,12 @@ var pveapi = [
                         },
                         "returns" : {
                            "properties" : {
+                              "ebtables" : {
+                                 "default" : 1,
+                                 "description" : "Enable ebtables rules cluster wide.",
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
                               "enable" : {
                                  "description" : "Enable or disable the firewall cluster wide.",
                                  "minimum" : 0,
@@ -2317,6 +2323,13 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "ebtables" : {
+                                 "default" : 1,
+                                 "description" : "Enable ebtables rules cluster wide.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
                               },
                               "enable" : {
                                  "description" : "Enable or disable the firewall cluster wide.",
@@ -4019,6 +4032,9 @@ var pveapi = [
                               }
                            }
                         },
+                        "permissions" : {
+                           "user" : "all"
+                        },
                         "returns" : {
                            "description" : "ACME TermsOfService URL.",
                            "type" : "string"
@@ -4037,6 +4053,9 @@ var pveapi = [
                         "name" : "get_directories",
                         "parameters" : {
                            "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "user" : "all"
                         },
                         "returns" : {
                            "items" : {
@@ -7993,7 +8012,7 @@ var pveapi = [
                                           },
                                           "keyboard" : {
                                              "default" : null,
-                                             "description" : "Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.conf' configuration file.It should not be necessary to set it.",
+                                             "description" : "Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.cfg' configuration file.It should not be necessary to set it.",
                                              "enum" : [
                                                 "de",
                                                 "de-ch",
@@ -8983,7 +9002,7 @@ var pveapi = [
                                           },
                                           "shares" : {
                                              "default" : 1000,
-                                             "description" : "Amount of memory shares for auto-ballooning. The larger the number is, the more memory this VM gets. Number is relative to weights of all other running VMs. Using zero disables auto-ballooning",
+                                             "description" : "Amount of memory shares for auto-ballooning. The larger the number is, the more memory this VM gets. Number is relative to weights of all other running VMs. Using zero disables auto-ballooning. Auto-ballooning is done by pvestatd.",
                                              "maximum" : 50000,
                                              "minimum" : 0,
                                              "optional" : 1,
@@ -10052,7 +10071,7 @@ var pveapi = [
                                           },
                                           "keyboard" : {
                                              "default" : null,
-                                             "description" : "Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.conf' configuration file.It should not be necessary to set it.",
+                                             "description" : "Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.cfg' configuration file.It should not be necessary to set it.",
                                              "enum" : [
                                                 "de",
                                                 "de-ch",
@@ -11042,7 +11061,7 @@ var pveapi = [
                                           },
                                           "shares" : {
                                              "default" : 1000,
-                                             "description" : "Amount of memory shares for auto-ballooning. The larger the number is, the more memory this VM gets. Number is relative to weights of all other running VMs. Using zero disables auto-ballooning",
+                                             "description" : "Amount of memory shares for auto-ballooning. The larger the number is, the more memory this VM gets. Number is relative to weights of all other running VMs. Using zero disables auto-ballooning. Auto-ballooning is done by pvestatd.",
                                              "maximum" : 50000,
                                              "minimum" : 0,
                                              "optional" : 1,
@@ -14241,7 +14260,7 @@ var pveapi = [
                               },
                               "keyboard" : {
                                  "default" : null,
-                                 "description" : "Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.conf' configuration file.It should not be necessary to set it.",
+                                 "description" : "Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.cfg' configuration file.It should not be necessary to set it.",
                                  "enum" : [
                                     "de",
                                     "de-ch",
@@ -15231,7 +15250,7 @@ var pveapi = [
                               },
                               "shares" : {
                                  "default" : 1000,
-                                 "description" : "Amount of memory shares for auto-ballooning. The larger the number is, the more memory this VM gets. Number is relative to weights of all other running VMs. Using zero disables auto-ballooning",
+                                 "description" : "Amount of memory shares for auto-ballooning. The larger the number is, the more memory this VM gets. Number is relative to weights of all other running VMs. Using zero disables auto-ballooning. Auto-ballooning is done by pvestatd.",
                                  "maximum" : 50000,
                                  "minimum" : 0,
                                  "optional" : 1,
@@ -15268,6 +15287,13 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "start" : {
+                                 "default" : 0,
+                                 "description" : "Start VM after it was created successfully.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
                               },
                               "startdate" : {
                                  "default" : "now",
@@ -20033,6 +20059,13 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "start" : {
+                                 "default" : 0,
+                                 "description" : "Start the CT after its creation finished successfully.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
                               },
                               "startup" : {
                                  "description" : "Startup and shutdown behavior. Order is a non-negative number defining the general startup order. Shutdown in done with reverse ordering. Additionally you can set the 'up' or 'down' delay in seconds, which specifies a delay to wait before the next VM is started or stopped.",
@@ -27479,7 +27512,9 @@ var pveapi = [
                         ]
                      ]
                   },
-                  "returns" : {}
+                  "returns" : {
+                     "type" : "object"
+                  }
                },
                "PUT" : {
                   "description" : "Update storage configuration.",
@@ -27591,6 +27626,12 @@ var pveapi = [
                            "type" : "string",
                            "typetext" : "<string>"
                         },
+                        "fuse" : {
+                           "description" : "Mount CephFS through FUSE.",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
                         "is_mountpoint" : {
                            "default" : "no",
                            "description" : "Assume the given path is an externally managed mountpoint and consider the storage offline if it is not mounted. Using a boolean (yes/no) value serves as a shortcut to using the target path in this field.",
@@ -27701,10 +27742,14 @@ var pveapi = [
                            "typetext" : "<boolean>"
                         },
                         "smbversion" : {
-                           "description" : "",
+                           "description" : "SMB protocol version",
+                           "enum" : [
+                              "2.0",
+                              "2.1",
+                              "3.0"
+                           ],
                            "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
+                           "type" : "string"
                         },
                         "sparse" : {
                            "description" : "use sparse volumes",
@@ -27715,6 +27760,13 @@ var pveapi = [
                         "storage" : {
                            "description" : "The storage identifier.",
                            "format" : "pve-storage-id",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "subdir" : {
+                           "description" : "Subdir to mount.",
+                           "format" : "pve-storage-path",
+                           "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
                         },
@@ -27774,6 +27826,7 @@ var pveapi = [
                   "type" : {
                      "description" : "Only list storage of specific type",
                      "enum" : [
+                        "cephfs",
                         "cifs",
                         "dir",
                         "drbd",
@@ -27930,6 +27983,12 @@ var pveapi = [
                      "type" : "string",
                      "typetext" : "<string>"
                   },
+                  "fuse" : {
+                     "description" : "Mount CephFS through FUSE.",
+                     "optional" : 1,
+                     "type" : "boolean",
+                     "typetext" : "<boolean>"
+                  },
                   "is_mountpoint" : {
                      "default" : "no",
                      "description" : "Assume the given path is an externally managed mountpoint and consider the storage offline if it is not mounted. Using a boolean (yes/no) value serves as a shortcut to using the target path in this field.",
@@ -28066,10 +28125,14 @@ var pveapi = [
                      "typetext" : "<boolean>"
                   },
                   "smbversion" : {
-                     "description" : "",
+                     "description" : "SMB protocol version",
+                     "enum" : [
+                        "2.0",
+                        "2.1",
+                        "3.0"
+                     ],
                      "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
+                     "type" : "string"
                   },
                   "sparse" : {
                      "description" : "use sparse volumes",
@@ -28080,6 +28143,13 @@ var pveapi = [
                   "storage" : {
                      "description" : "The storage identifier.",
                      "format" : "pve-storage-id",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "subdir" : {
+                     "description" : "Subdir to mount.",
+                     "format" : "pve-storage-path",
+                     "optional" : 1,
                      "type" : "string",
                      "typetext" : "<string>"
                   },
@@ -28115,6 +28185,7 @@ var pveapi = [
                   "type" : {
                      "description" : "Storage type.",
                      "enum" : [
+                        "cephfs",
                         "cifs",
                         "dir",
                         "drbd",
