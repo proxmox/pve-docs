@@ -1,3 +1,19 @@
+pve-docs (5.2-5) unstable; urgency=medium
+
+  * add CephFS documentation
+
+  * update static generated files
+
+  * add references to all storage documentations
+
+  * update pveceph documentation
+
+  * fix #1818: use NTP instead of Servers in timesyncd.conf
+
+  * Add a point regarding major upgrades to FAQ
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 10 Jul 2018 12:05:33 +0200
+
 pve-docs (5.2-4) unstable; urgency=medium
 
   * certificate-managment.adoc: use xref to refer to chapter_pmxcfs
