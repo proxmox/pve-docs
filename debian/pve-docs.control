@@ -1,5 +1,6 @@
 Package: pve-docs
 Section: doc
+Depends: libjs-extjs
 Architecture: all
 Description: Proxmox VE Documentation
  This package contains the Proxmox VE Documentation files.
