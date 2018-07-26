@@ -1,0 +1,135 @@
+*pvesh* `<COMMAND> [ARGS] [OPTIONS]`
+
+*pvesh create* `<api_path>` `[OPTIONS]`
+
+Call API POST on <api_path>.
+
+`<api_path>`: `<string>` ::
+
+API path.
+
+`--noproxy` `<boolean>` ::
+
+Disable automatic proxying.
+
+*pvesh delete* `<api_path>` `[OPTIONS]`
+
+Call API DELETE on <api_path>.
+
+`<api_path>`: `<string>` ::
+
+API path.
+
+`--noproxy` `<boolean>` ::
+
+Disable automatic proxying.
+
+*pvesh get* `<api_path>` `[OPTIONS]`
+
+Call API GET on <api_path>.
+
+`<api_path>`: `<string>` ::
+
+API path.
+
+`--human-readable` `<boolean>` ('default =' `1`)::
+
+Call output rendering functions to produce human readable text.
+
+`--noborder` `<boolean>` ('default =' `1`)::
+
+Do not draw borders (for 'text' format).
+
+`--noheader` `<boolean>` ('default =' `1`)::
+
+Do not show column headers (for 'text' format).
+
+`--noproxy` `<boolean>` ::
+
+Disable automatic proxying.
+
+`--output-format` `<json | json-pretty | text | yaml>` ('default =' `text`)::
+
+Output format.
+
+`--quiet` `<boolean>` ::
+
+Suppress printing results.
+
+*pvesh help* `[OPTIONS]`
+
+Get help about specified command.
+
+`--extra-args` `<array>` ::
+
+Shows help for a specific command
+
+`--verbose` `<boolean>` ::
+
+Verbose output format.
+
+*pvesh ls* `<api_path>` `[OPTIONS]`
+
+List child objects on <api_path>.
+
+`<api_path>`: `<string>` ::
+
+API path.
+
+`--human-readable` `<boolean>` ('default =' `1`)::
+
+Call output rendering functions to produce human readable text.
+
+`--noborder` `<boolean>` ('default =' `1`)::
+
+Do not draw borders (for 'text' format).
+
+`--noheader` `<boolean>` ('default =' `1`)::
+
+Do not show column headers (for 'text' format).
+
+`--noproxy` `<boolean>` ::
+
+Disable automatic proxying.
+
+`--output-format` `<json | json-pretty | text | yaml>` ('default =' `text`)::
+
+Output format.
+
+`--quiet` `<boolean>` ::
+
+Suppress printing results.
+
+*pvesh set* `<api_path>` `[OPTIONS]`
+
+Call API PUT on <api_path>.
+
+`<api_path>`: `<string>` ::
+
+API path.
+
+`--noproxy` `<boolean>` ::
+
+Disable automatic proxying.
+
+*pvesh usage* `<api_path>` `[OPTIONS]`
+
+print API usage information for <api_path>.
+
+`<api_path>`: `<string>` ::
+
+API path.
+
+`--command` `<create | delete | get | set>` ::
+
+API command.
+
+`--returns` `<boolean>` ::
+
+Including schema for returned data.
+
+`--verbose` `<boolean>` ::
+
+Verbose output format.
+
+

@@ -1,0 +1,51 @@
+ifdef::manvolnum[]
+pvesh(1)
+========
+:pve-toplevel:
+
+NAME
+----
+
+pvesh - Shell interface for the Proxmox VE API
+
+SYNOPSIS
+--------
+
+include::pvesh.1-synopsis.adoc[]
+
+DESCRIPTION
+-----------
+endif::manvolnum[]
+
+ifndef::manvolnum[]
+Shell interface for the Proxmox VE API
+======================================
+:pve-toplevel:
+endif::manvolnum[]
+
+
+The {PVE} management tool (`pvesh`) allows to directly invoke API
+function, without using the REST/HTTPS server.
+
+NOTE: Only 'root' is allowed to do that.
+
+
+EXAMPLES
+--------
+
+Get the list of nodes in my cluster
+
+ # pvesh get /nodes
+
+Get a list of available options for the data center
+
+ # pvesh usage cluster/options -v
+
+Set the HTMl5 NoVNC console as the default console for the data center
+
+ # pvesh set cluster/options -console html5
+
+
+ifdef::manvolnum[]
+include::pve-copyright.adoc[]
+endif::manvolnum[]
