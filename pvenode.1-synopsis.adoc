@@ -8,7 +8,7 @@ Deactivate existing ACME account at CA.
 
 ACME account config file name.
 
-*pvenode acme account info* `[<name>]`
+*pvenode acme account info* `[<name>]` `[FORMAT_OPTIONS]`
 
 Return existing ACME account information.
 
@@ -77,11 +77,11 @@ DELETE custom certificate chain and key.
 
 Restart pveproxy.
 
-*pvenode cert info*
+*pvenode cert info* `[FORMAT_OPTIONS]`
 
 Get information about node's certificates.
 
-*pvenode cert set* `<certificates> [<key>]` `[OPTIONS]`
+*pvenode cert set* `<certificates> [<key>]` `[OPTIONS]` `[FORMAT_OPTIONS]`
 
 Upload or update custom certificate chain and key.
 
@@ -172,5 +172,49 @@ Stop all VMs and Containers.
 `--vms` `<string>` ::
 
 Only consider Guests with these IDs.
+
+*pvenode task list* `[OPTIONS]` `[FORMAT_OPTIONS]`
+
+Read task list for one node (finished tasks).
+
+`--errors` `<boolean>` ('default =' `0`)::
+
+no description available
+
+`--limit` `<integer> (0 - N)` ('default =' `50`)::
+
+Only list this amount of tasks.
+
+`--start` `<integer> (0 - N)` ('default =' `0`)::
+
+List tasks beginning from this offset.
+
+`--userfilter` `<string>` ::
+
+Only list tasks from this user.
+
+`--vmid` `<integer> (1 - N)` ::
+
+Only list tasks for this VM.
+
+*pvenode task log* `<upid>` `[OPTIONS]`
+
+Read task log.
+
+`<upid>`: `<string>` ::
+
+no description available
+
+`--start` `<integer> (0 - N)` ('default =' `0`)::
+
+no description available
+
+*pvenode task status* `<upid>` `[FORMAT_OPTIONS]`
+
+Read task status.
+
+`<upid>`: `<string>` ::
+
+no description available
 
 
