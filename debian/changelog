@@ -1,3 +1,19 @@
+pve-docs (5.2-6) unstable; urgency=medium
+
+  * pve-admin-guide: include pvenode and pvesh docs
+
+  * output-format.adoc: documentation for output format options
+
+  * add pvesh.adoc
+
+  * api-viewer: use our extjs package
+
+  * api-viewer: use 'normal' over 'touch' theme
+
+  * api-viewer: use much smaller minified extjs
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 27 Jul 2018 10:49:40 +0200
+
 pve-docs (5.2-5) unstable; urgency=medium
 
   * add CephFS documentation
