@@ -1,3 +1,11 @@
+pve-docs (5.2-7) unstable; urgency=medium
+
+  * gen-output-format-opts.pl: use correct argument syntax
+
+  * output-format.adoc: fix typo
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 27 Jul 2018 11:56:38 +0200
+
 pve-docs (5.2-6) unstable; urgency=medium
 
   * pve-admin-guide: include pvenode and pvesh docs
