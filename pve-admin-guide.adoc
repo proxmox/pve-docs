@@ -80,6 +80,9 @@ include::pvesubscription.adoc[]
 
 include::pveperf.adoc[]
 
+include::pvesh.adoc[]
+
+include::pvenode.adoc[]
 
 :leveloffset: 1
 
@@ -92,6 +95,13 @@ include::pve-bibliography.adoc[]
 [appendix]
 Command Line Interface
 ----------------------
+
+:leveloffset: 1
+
+include::output-format.adoc[]
+
+:leveloffset: 0
+
 
 *pvesm* - {pve} Storage Manager
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -30,7 +30,9 @@ function, without using the REST/HTTPS server.
 NOTE: Only 'root' is allowed to do that.
 
 
+ifdef::manvolnum[]
 include::output-format.adoc[]
+endif::manvolnum[]
 
 
 EXAMPLES
