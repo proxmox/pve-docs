@@ -1,5 +1,5 @@
 ifndef::manvolnum[]
-Output format otions `[FORMAT_OPTIONS]`
+Output format options `[FORMAT_OPTIONS]`
 ---------------------------------------
 endif::manvolnum[]
 ifdef::manvolnum[]
