@@ -30,6 +30,9 @@ function, without using the REST/HTTPS server.
 NOTE: Only 'root' is allowed to do that.
 
 
+include::output-format.adoc[]
+
+
 EXAMPLES
 --------
 
