@@ -1,6 +1,6 @@
 *pvesh* `<COMMAND> [ARGS] [OPTIONS]`
 
-*pvesh create* `<api_path>` `[OPTIONS]`
+*pvesh create* `<api_path>` `[OPTIONS]` `[FORMAT_OPTIONS]`
 
 Call API POST on <api_path>.
 
@@ -12,7 +12,7 @@ API path.
 
 Disable automatic proxying.
 
-*pvesh delete* `<api_path>` `[OPTIONS]`
+*pvesh delete* `<api_path>` `[OPTIONS]` `[FORMAT_OPTIONS]`
 
 Call API DELETE on <api_path>.
 
@@ -24,7 +24,7 @@ API path.
 
 Disable automatic proxying.
 
-*pvesh get* `<api_path>` `[OPTIONS]`
+*pvesh get* `<api_path>` `[OPTIONS]` `[FORMAT_OPTIONS]`
 
 Call API GET on <api_path>.
 
@@ -32,29 +32,9 @@ Call API GET on <api_path>.
 
 API path.
 
-`--human-readable` `<boolean>` ('default =' `1`)::
-
-Call output rendering functions to produce human readable text.
-
-`--noborder` `<boolean>` ('default =' `1`)::
-
-Do not draw borders (for 'text' format).
-
-`--noheader` `<boolean>` ('default =' `1`)::
-
-Do not show column headers (for 'text' format).
-
 `--noproxy` `<boolean>` ::
 
 Disable automatic proxying.
-
-`--output-format` `<json | json-pretty | text | yaml>` ('default =' `text`)::
-
-Output format.
-
-`--quiet` `<boolean>` ::
-
-Suppress printing results.
 
 *pvesh help* `[OPTIONS]`
 
@@ -68,7 +48,7 @@ Shows help for a specific command
 
 Verbose output format.
 
-*pvesh ls* `<api_path>` `[OPTIONS]`
+*pvesh ls* `<api_path>` `[OPTIONS]` `[FORMAT_OPTIONS]`
 
 List child objects on <api_path>.
 
@@ -76,31 +56,11 @@ List child objects on <api_path>.
 
 API path.
 
-`--human-readable` `<boolean>` ('default =' `1`)::
-
-Call output rendering functions to produce human readable text.
-
-`--noborder` `<boolean>` ('default =' `1`)::
-
-Do not draw borders (for 'text' format).
-
-`--noheader` `<boolean>` ('default =' `1`)::
-
-Do not show column headers (for 'text' format).
-
 `--noproxy` `<boolean>` ::
 
 Disable automatic proxying.
 
-`--output-format` `<json | json-pretty | text | yaml>` ('default =' `text`)::
-
-Output format.
-
-`--quiet` `<boolean>` ::
-
-Suppress printing results.
-
-*pvesh set* `<api_path>` `[OPTIONS]`
+*pvesh set* `<api_path>` `[OPTIONS]` `[FORMAT_OPTIONS]`
 
 Call API PUT on <api_path>.
 
