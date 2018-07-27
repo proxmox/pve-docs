@@ -29,6 +29,8 @@ settings and resources.
 Currently `pvenode` allows to set a node's description and to manage
 the node's SSL certificates used for the API and the web GUI through `pveproxy`.
 
+include::output-format.adoc[]
+
 EXAMPLES
 --------
 `pvenode cert set certificate.crt certificate.key -force`
