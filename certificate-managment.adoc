@@ -112,7 +112,7 @@ Downloading certificate
 Setting pveproxy certificate and key
 Restarting pveproxy
 Task OK
------------------
+----
 
 Switching from the `staging` to the regular ACME directory
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -125,8 +125,7 @@ This procedure is also needed to change the default ACME account used in the GUI
 
 .Example: Changing the `default` ACME account from the `staging` to the regular directory
 
------------------
-
+----
 root@proxmox:~# pvenode acme account info default
 Directory URL: https://acme-staging-v02.api.letsencrypt.org/directory
 Account URL: https://acme-staging-v02.api.letsencrypt.org/acme/acct/6332194
@@ -143,7 +142,7 @@ Status: valid
 root@proxmox:~# pvenode acme account deactivate default
 Renaming account file from '/etc/pve/priv/acme/default' to '/etc/pve/priv/acme/_deactivated_default_4'
 Task OK
-root@proxmox:~#
+
 root@proxmox:~# pvenode acme account register default example@proxmox.com
 Directory endpoints:
 0) Let's Encrypt V2 (https://acme-v02.api.letsencrypt.org/directory)
@@ -161,9 +160,7 @@ Generating ACME account key..
 Registering ACME account..
 Registration successful, account URL: 'https://acme-v02.api.letsencrypt.org/acme/acct/39335247'
 Task OK
-root@proxmox:~#
-
------------------
+----
 
 Automatic renewal of ACME certificates
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
