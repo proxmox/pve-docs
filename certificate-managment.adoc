@@ -67,7 +67,7 @@ At the moment the GUI uses only the default ACME account.
 
 .Example: Sample `pvenode` invocation for using Let's Encrypt certificates
 
------------------
+----
 root@proxmox:~# pvenode acme account register default mail@example.invalid
 Directory endpoints:
 0) Let's Encrypt V2 (https://acme-v02.api.letsencrypt.org/directory)
@@ -115,7 +115,7 @@ Task OK
 -----------------
 
 Switching from the `staging` to the regular ACME directory
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Changing the ACME directory for an account is unsupported. If you want to switch
 an account from the `staging` ACME directory to the regular, trusted, one you
