@@ -1,3 +1,4 @@
+[[chapter_zfs]]
 ZFS on Linux
 ------------
 ifdef::wiki[]

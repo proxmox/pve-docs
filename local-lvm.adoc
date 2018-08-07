@@ -1,3 +1,4 @@
+[[chapter_lvm]]
 Logical Volume Manager (LVM)
 ----------------------------
 ifdef::wiki[]
