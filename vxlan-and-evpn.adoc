@@ -849,3 +849,607 @@ router bgp 1234
 line vty
 !
 ----
+
+VXLAN layer3 routing with anycast gateway
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+With this need, each vmbr bridge will be the gateway for the vm.
+Same vmbr on different node, will have same ip address and same mac address,
+to have working vm live migration and no network disruption.
+
+VXLAN layer3 routing only work with FRR and non-aware bridge. 
+(vlan aware bridge support is buggy currently).
+
+
+sysctl.conf tuning
+
+----
+#enable routing
+net.ipv4.ip_forward=1
+net.ipv6.conf.all.forwarding=1
+#disable reverse path filtering
+net.ipv4.conf.default.rp_filter=0
+net.ipv4.conf.all.rp_filter=0
+#allow frr to work with vrf
+net.ipv4.tcp_l3mdev_accept=1
+----
+
+asymmetric model
+^^^^^^^^^^^^^^^^
+
+This is the simplest mode. To get it work, all vxlan need to be defined on all nodes.
+
+The asymmetric model allows routing and bridging on the VXLAN tunnel ingress, 
+but only bridging on the egress. 
+This results in bi-directional VXLAN traffic traveling on different VNIs 
+in each direction (always the destination VNI) across the routed infrastructure.
+
+image::images/vxlan-l3-asymmetric.svg["vxlan l3 asymmetric",align="center"]
+
+
+* node1
+
+----
+auto eno1
+iface eno1 inet manual
+ 
+auto vmbr0
+iface vmbr0 inet static
+         address 192.168.0.1
+         netmask  255.255.255.0
+         bridge_ports eno1
+         bridge_stp off
+         bridge_fd 0
+ 
+auto vxlan2
+iface vxlan2 inet manual
+        vxlan-local-tunnelip 192.168.0.1
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+
+auto vmbr2
+iface vmbr2 inet static
+        address 10.0.2.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94
+        bridge_ports vxlan2
+        bridge_stp off
+        bridge_fd 0
+
+
+auto vxlan3
+iface vxlan3 inet manual
+        vxlan-local-tunnelip 192.168.0.1
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+
+auto vmbr3
+iface vmbr3 inet static
+        address 10.0.3.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94
+        bridge_ports vxlan3
+        bridge_stp off
+        bridge_fd 0
+----
+
+
+frr.conf
+
+----
+router bgp 1234
+ bgp router-id 192.168.0.1
+ no bgp default ipv4-unicast
+ coalesce-time 1000
+ neighbor 192.168.0.2 remote-as 1234
+ neighbor 192.168.0.3 remote-as 1234
+ !
+ address-family l2vpn evpn
+  neighbor 192.168.0.2 activate
+  neighbor 192.168.0.3 activate
+  advertise-all-vni	
+ exit-address-family
+!
+line vty
+!
+----
+
+
+* node2
+
+----
+auto eno1
+iface eno1 inet manual
+ 
+auto vmbr0
+iface vmbr0 inet static
+         address 192.168.0.2
+         netmask  255.255.255.0
+         bridge_ports eno1
+         bridge_stp off
+         bridge_fd 0
+ 
+auto vxlan2
+iface vxlan2 inet manual
+        vxlan-local-tunnelip 192.168.0.2
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+
+auto vmbr2
+iface vmbr2 inet static
+        address 10.0.2.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94
+        bridge_ports vxlan2
+        bridge_stp off
+        bridge_fd 0
+
+
+auto vxlan3
+iface vxlan3 inet manual
+        vxlan-local-tunnelip 192.168.0.2
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+
+auto vmbr3
+iface vmbr3 inet static
+        address 10.0.3.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94
+        bridge_ports vxlan3
+        bridge_stp off
+        bridge_fd 0
+----
+
+
+frr.conf
+
+----
+router bgp 1234
+ bgp router-id 192.168.0.2
+ no bgp default ipv4-unicast
+ coalesce-time 1000
+ neighbor 192.168.0.1 remote-as 1234
+ neighbor 192.168.0.3 remote-as 1234
+ !
+ address-family l2vpn evpn
+  neighbor 192.168.0.1 activate
+  neighbor 192.168.0.3 activate
+  advertise-all-vni	
+ exit-address-family
+!
+line vty
+!
+----
+
+
+* node3
+
+----
+auto eno1
+iface eno1 inet manual
+ 
+auto vmbr0
+iface vmbr0 inet static
+         address 192.168.0.3
+         netmask  255.255.255.0
+         bridge_ports eno1
+         bridge_stp off
+         bridge_fd 0
+ 
+auto vxlan2
+iface vxlan2 inet manual
+        vxlan-local-tunnelip 192.168.0.3
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+
+auto vmbr2
+iface vmbr2 inet static
+        address 10.0.2.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94
+        bridge_ports vxlan2
+        bridge_stp off
+        bridge_fd 0
+
+
+auto vxlan3
+iface vxlan3 inet manual
+        vxlan-local-tunnelip 192.168.0.3
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+
+auto vmbr3
+iface vmbr3 inet static
+        address 10.0.3.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94
+        bridge_ports vxlan3
+        bridge_stp off
+        bridge_fd 0
+----
+
+
+frr.conf
+
+----
+router bgp 1234
+ bgp router-id 192.168.0.3
+ no bgp default ipv4-unicast
+ coalesce-time 1000
+ neighbor 192.168.0.1 remote-as 1234
+ neighbor 192.168.0.2 remote-as 1234
+ !
+ address-family l2vpn evpn
+  neighbor 192.168.0.1 activate
+  neighbor 192.168.0.2 activate
+  advertise-all-vni	
+ exit-address-family
+!
+line vty
+!
+----
+
+
+symmetric model
+^^^^^^^^^^^^^^^
+
+With this model, you don't need to have all vxlan on all nodes.
+This model will also be needed to route traffic to an external router. 
+
+The symmetric model routes and bridges on both the ingress and the egress leafs. 
+This results in bi-directional traffic being able to travel on the same VNI, hence the symmetric name. 
+However, a new specialty transit VNI is used for all routed VXLAN traffic, called the L3VNI. 
+All traffic that needs to be routed will be routed onto the L3VNI, tunneled across the layer 3 Infrastructure, 
+routed off the L3VNI to the appropriate VLAN and ultimately bridged to the destination.
+
+A vrf is needed for the L3VNI, so all vmbr bridge need to be in the vrf if they want to be able to reach each others.
+
+image::images/vxlan-l3-symmetric.svg["vxlan l3 symmetric",align="center"]
+
+
+* node1
+
+----
+auto vrf1
+iface vrf1
+    vrf-table auto
+
+auto eno1
+iface eno1 inet manual
+ 
+auto vmbr0
+iface vmbr0 inet static
+         address 192.168.0.1
+         netmask  255.255.255.0
+         bridge_ports eno1
+         bridge_stp off
+         bridge_fd 0
+
+auto vxlan2
+iface vxlan2 inet manual
+        vxlan-local-tunnelip 192.168.0.1
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+auto vmbr2
+iface vmbr2 inet static
+        bridge_ports vxlan2
+        bridge_stp off
+        bridge_fd 0
+        address 10.0.2.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94 #must be same on each node vmbr2
+        vrf vrf1
+
+auto vxlan3
+iface vxlan3 inet manual
+        vxlan-local-tunnelip 192.168.0.1
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+auto vmbr3
+iface vmbr3 inet static
+        bridge_ports vxlan3
+        bridge_stp off
+        bridge_fd 0
+        address 10.0.3.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94 #must be same on each node vmbr3
+        vrf vrf1
+
+#interconnect vxlan-vfr l3vni
+auto vxlan4000
+iface vxlan4000 inet manual
+        vxlan-local-tunnelip 192.168.0.1
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+
+auto vmbr4000
+iface vmbr4000 inet manual
+        bridge_ports vxlan4000
+        bridge_stp off
+        bridge_fd 0
+        hwaddress 44:39:39:FF:40:90  #must be different on each node
+        vrf vrf1
+----
+
+frr.conf
+
+----
+vrf vrf1
+ vni 4000
+!
+router bgp 1234
+ bgp router-id 192.168.0.1
+ no bgp default ipv4-unicast
+ coalesce-time 1000
+ neighbor 192.168.0.2 remote-as 1234
+ neighbor 192.168.0.3 remote-as 1234
+ !
+ address-family l2vpn evpn
+  neighbor 192.168.0.2 activate
+  neighbor 192.168.0.3 activate
+  advertise-all-vni
+ exit-address-family
+!
+router bgp 1234 vrf vrf1
+! 
+ bgp router-id 192.168.0.1
+ ! 
+ address-family ipv4 unicast
+  redistribute connected
+ exit-address-family
+ !
+ address-family l2vpn evpn
+  advertise ipv4 unicast
+ exit-address-family
+!
+line vty
+!
+----
+
+
+* node2
+
+----
+auto vrf1
+iface vrf1
+    vrf-table auto
+
+auto eno1
+iface eno1 inet manual
+ 
+auto vmbr0
+iface vmbr0 inet static
+         address 192.168.0.2
+         netmask  255.255.255.0
+         bridge_ports eno1
+         bridge_stp off
+         bridge_fd 0
+
+auto vxlan2
+iface vxlan2 inet manual
+        vxlan-local-tunnelip 192.168.0.2
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+auto vmbr2
+iface vmbr2 inet static
+        bridge_ports vxlan2
+        bridge_stp off
+        bridge_fd 0
+        address 10.0.2.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94 #must be same on each node vmbr2
+        vrf vrf1
+
+auto vxlan3
+iface vxlan3 inet manual
+        vxlan-local-tunnelip 192.168.0.2
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+auto vmbr3
+iface vmbr3 inet static
+        bridge_ports vxlan3
+        bridge_stp off
+        bridge_fd 0
+        address 10.0.3.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94 #must be same on each node vmbr3
+        vrf vrf1
+
+#interconnect vxlan-vfr l3vni
+auto vxlan4000
+iface vxlan4000 inet manual
+        vxlan-local-tunnelip 192.168.0.2
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+
+auto vmbr4000
+iface vmbr4000 inet manual
+        bridge_ports vxlan4000
+        bridge_stp off
+        bridge_fd 0
+        hwaddress 44:39:39:FF:40:91  #must be different on each node
+        vrf vrf1
+----
+
+
+frr.conf
+
+----
+vrf vrf1
+ vni 4000
+!
+router bgp 1234
+ bgp router-id 192.168.0.2
+ no bgp default ipv4-unicast
+ coalesce-time 1000
+ neighbor 192.168.0.1 remote-as 1234
+ neighbor 192.168.0.3 remote-as 1234
+ !
+ address-family l2vpn evpn
+  neighbor 192.168.0.1 activate
+  neighbor 192.168.0.3 activate
+  advertise-all-vni
+ exit-address-family
+!
+router bgp 1234 vrf vrf1
+! 
+ bgp router-id 192.168.0.2
+ ! 
+ address-family ipv4 unicast
+  redistribute connected
+ exit-address-family
+ !
+ address-family l2vpn evpn
+  advertise ipv4 unicast
+ exit-address-family
+!
+line vty
+!
+----
+
+
+* node3
+
+----
+auto vrf1
+iface vrf1
+    vrf-table auto
+
+auto eno1
+iface eno1 inet manual
+ 
+auto vmbr0
+iface vmbr0 inet static
+         address 192.168.0.3
+         netmask  255.255.255.0
+         bridge_ports eno1
+         bridge_stp off
+         bridge_fd 0
+
+auto vxlan2
+iface vxlan2 inet manual
+        vxlan-local-tunnelip 192.168.0.3
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+auto vmbr2
+iface vmbr2 inet static
+        bridge_ports vxlan2
+        bridge_stp off
+        bridge_fd 0
+        address 10.0.2.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94 #must be same on each node vmbr2
+        vrf vrf1
+
+auto vxlan3
+iface vxlan3 inet manual
+        vxlan-local-tunnelip 192.168.0.3
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+auto vmbr3
+iface vmbr3 inet static
+        bridge_ports vxlan3
+        bridge_stp off
+        bridge_fd 0
+        address 10.0.3.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94 #must be same on each node vmbr3
+        vrf vrf1
+
+#interconnect vxlan-vfr l3vni
+auto vxlan4000
+iface vxlan4000 inet manual
+        vxlan-local-tunnelip 192.168.0.3
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+
+auto vmbr4000
+iface vmbr4000 inet manual
+        bridge_ports vxlan4000
+        bridge_stp off
+        bridge_fd 0
+        hwaddress 44:39:39:FF:40:92  #must be different on each node
+        vrf vrf1
+----
+
+
+frr.conf
+
+----
+vrf vrf1
+ vni 4000
+!
+router bgp 1234
+ bgp router-id 192.168.0.3
+ no bgp default ipv4-unicast
+ coalesce-time 1000
+ neighbor 192.168.0.1 remote-as 1234
+ neighbor 192.168.0.2 remote-as 1234
+ !
+ address-family l2vpn evpn
+  neighbor 192.168.0.1 activate
+  neighbor 192.168.0.2 activate
+  advertise-all-vni
+ exit-address-family
+!
+router bgp 1234 vrf vrf1
+! 
+ bgp router-id 192.168.0.3
+ ! 
+ address-family ipv4 unicast
+  redistribute connected
+ exit-address-family
+ !
+ address-family l2vpn evpn
+  advertise ipv4 unicast
+ exit-address-family
+!
+line vty
+!
+----
