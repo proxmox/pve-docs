@@ -500,20 +500,6 @@ to have working vm live migration and no network disruption.
 VXLAN layer3 routing only work with FRR and non-aware bridge. 
 (vlan aware bridge support is buggy currently).
 
-
-sysctl.conf tuning
-
-----
-#enable routing
-net.ipv4.ip_forward=1
-net.ipv6.conf.all.forwarding=1
-#disable reverse path filtering
-net.ipv4.conf.default.rp_filter=0
-net.ipv4.conf.all.rp_filter=0
-#allow frr to work with vrf
-net.ipv4.tcp_l3mdev_accept=1
-----
-
 asymmetric model
 ^^^^^^^^^^^^^^^^
 
@@ -526,6 +512,14 @@ in each direction (always the destination VNI) across the routed infrastructure.
 
 image::images/vxlan-l3-asymmetric.svg["vxlan l3 asymmetric",align="center"]
 
+
+sysctl.conf tuning
+
+----
+#enable routing
+net.ipv4.ip_forward=1
+net.ipv6.conf.all.forwarding=1
+----
 
 * node1
 
@@ -765,6 +759,18 @@ A vrf is needed for the L3VNI, so all vmbr bridge need to be in the vrf if they 
 
 image::images/vxlan-l3-symmetric.svg["vxlan l3 symmetric",align="center"]
 
+sysctl.conf tuning
+
+----
+#enable routing
+net.ipv4.ip_forward=1
+net.ipv6.conf.all.forwarding=1
+#disable reverse path filtering
+net.ipv4.conf.default.rp_filter=0
+net.ipv4.conf.all.rp_filter=0
+#allow frr to work with vrf (kernel >4.14 bug)
+net.ipv4.tcp_l3mdev_accept=1
+----
 
 * node1
 
