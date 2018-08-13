@@ -54,3 +54,19 @@
 
     ]
 [% END %]
+
+[% MACRO interface BLOCK %]
+[% id %] [
+  shape=plaintext
+  label=<
+	  <table border='0' cellspacing='0' cellpadding='0' cellborder='0'>
+	    <tr><td>[% PROCESS switch_ports draw_ports=ifname %]</td></tr>
+	    [% IF cidr %]
+	    <tr><td><table color='green' BGCOLOR="lightgreen" border='2' cellspacing='2' cellpadding='0' cellborder='0' style='rounded'>
+              <tr><td width='10'></td><td><font face='monospace' point-size='12'>[% cidr %]</font></td><td width='10'></td></tr>
+	    </table></td></tr>
+	    [% END %]
+	  </table>>
+
+    ]
+[% END %]
