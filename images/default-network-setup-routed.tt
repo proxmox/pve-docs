@@ -1,0 +1,38 @@
+[% PROCESS pve_network_templates.tt %]
+
+graph default_network_setup_routed {
+    splines=line
+    node [shape=record];
+    edge [];
+
+    size="8.0,5.0!"
+    ratio=fill
+
+[% server(id="gateway" title="Provider Gateway" subtitle="198.51.100.1") %]
+
+    subgraph cluster_node1 {
+        label="Node: proxmox" labeljust=l labelloc=b
+
+	[% interface(id="node1_eno0" ifname="eno0" cidr="198.51.100.5/29") %]
+
+	[% switch(
+           id="node1_vmbr0",
+	   title="vmbr0",
+	   subtitle="203.0.113.17/28"
+	   ports="tap100i0"
+	   )
+        %]
+
+	[% server(id="vm100" title="VM 100" subtitle="203.0.113.18" top_ports='ens18') %]
+	[% server(id="vm101" title="VM 101" subtitle="203.0.113.19" top_ports='ens18') %]
+	[% server(id="vm102" title="VM 101" subtitle="203.0.113.20" top_ports='ens18') %]
+
+	node1_vmbr0:tap100i0 -- vm100:ens18
+	node1_vmbr0:tap100i0 -- vm101:ens18
+	node1_vmbr0:tap100i0 -- vm102:ens18
+    }
+
+    gateway -- node1_eno0:eno0
+
+    node1_vmbr0 --  node1_eno0 [ color=red constraint=0 label="ip_forward=1\nproxy_arp=1"]
+}
