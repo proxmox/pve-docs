@@ -1099,3 +1099,759 @@ router bgp 1234 vrf vrf1
 line vty
 !
 ----
+
+VXLAN layer3 routing with anycast gateway + routing to outside with external router
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Routing to outside need the symmetric model.
+
+1 gateway node
+^^^^^^^^^^^^^^
+In this example, we'll use only 1 proxmox node as exit gateway. (node1)
+This node have a simple default gw in the vrf to the external router (no bgp between router and node1)
+and announce this default gw to other proxmox nodes.
+
+
+*node1
+
+----
+auto vrf1
+iface vrf1
+    vrf-table auto
+
+auto eno1
+iface eno1 inet manual
+
+auto vmbr0
+iface vmbr0 inet static
+         address 192.168.0.1
+         netmask  255.255.255.0
+         bridge_ports eno1
+         bridge_stp off
+         bridge_fd 0
+
+auto eno2
+iface eno2
+        address 172.16.0.1
+        netmask 255.255.255.0
+        vrf vrf1
+        post-up ip route add default via 172.16.0.254 dev eno2 vrf vrf1
+	#if you have multiple external routers, you can use ecmp balancing
+	#post-up route add default nexthop via 172.16.0.253 dev eno2 vrf vrf1 nexthop via 172.16.0.254 dev eno2 vrf vrf1
+
+auto vxlan2
+iface vxlan2 inet manual
+        vxlan-local-tunnelip 192.168.0.1
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+auto vmbr2
+iface vmbr2 inet static
+        bridge_ports vxlan2
+        bridge_stp off
+        bridge_fd 0
+        address 10.0.2.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94 #must be same on each node vmbr2
+        vrf vrf1
+
+auto vxlan3
+iface vxlan3 inet manual
+        vxlan-local-tunnelip 192.168.0.1
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+auto vmbr3
+iface vmbr3 inet static
+        bridge_ports vxlan3
+        bridge_stp off
+        bridge_fd 0
+        address 10.0.3.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94 #must be same on each node vmbr3
+        vrf vrf1
+
+#interconnect vxlan-vfr l3vni
+auto vxlan4000
+iface vxlan4000 inet manual
+        vxlan-local-tunnelip 192.168.0.1
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+auto vmbr4000
+iface vmbr4000 inet manual
+        bridge_ports vxlan4000
+        bridge_stp off
+        bridge_fd 0
+        hwaddress 44:39:39:FF:40:90  #must be different on each node
+        vrf vrf1
+----
+
+
+frr.conf
+
+----
+vrf vrf1
+ vni 4000
+!
+router bgp 1234
+ bgp router-id 192.168.0.1
+ no bgp default ipv4-unicast
+ coalesce-time 1000
+ neighbor 192.168.0.2 remote-as 1234
+ neighbor 192.168.0.3 remote-as 1234
+ !
+ address-family l2vpn evpn
+  neighbor 192.168.0.2 activate
+  neighbor 192.168.0.3 activate
+  advertise-all-vni
+ exit-address-family
+!
+router bgp 1234 vrf vrf1
+!
+ bgp router-id 172.16.0.1
+ !
+ address-family ipv4 unicast
+  redistribute connected
+  redistribute kernel !announce your default gw to all nodes
+ exit-address-family
+ !
+ address-family l2vpn evpn
+  advertise ipv4 unicast
+ exit-address-family
+!
+line vty
+!
+----
+
+
+* node2
+
+----
+auto vrf1
+iface vrf1
+    vrf-table auto
+
+auto eno1
+iface eno1 inet manual
+ 
+auto vmbr0
+iface vmbr0 inet static
+         address 192.168.0.2
+         netmask  255.255.255.0
+         bridge_ports eno1
+         bridge_stp off
+         bridge_fd 0
+
+auto vxlan2
+iface vxlan2 inet manual
+        vxlan-local-tunnelip 192.168.0.2
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+auto vmbr2
+iface vmbr2 inet static
+        bridge_ports vxlan2
+        bridge_stp off
+        bridge_fd 0
+        address 10.0.2.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94 #must be same on each node vmbr2
+        vrf vrf1
+
+auto vxlan3
+iface vxlan3 inet manual
+        vxlan-local-tunnelip 192.168.0.2
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+auto vmbr3
+iface vmbr3 inet static
+        bridge_ports vxlan3
+        bridge_stp off
+        bridge_fd 0
+        address 10.0.3.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94 #must be same on each node vmbr3
+        vrf vrf1
+
+#interconnect vxlan-vfr l3vni
+auto vxlan4000
+iface vxlan4000 inet manual
+        vxlan-local-tunnelip 192.168.0.2
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+
+auto vmbr4000
+iface vmbr4000 inet manual
+        bridge_ports vxlan4000
+        bridge_stp off
+        bridge_fd 0
+        hwaddress 44:39:39:FF:40:91  #must be different on each node
+        vrf vrf1
+----
+
+
+frr.conf
+
+----
+vrf vrf1
+ vni 4000
+!
+router bgp 1234
+ bgp router-id 192.168.0.2
+ no bgp default ipv4-unicast
+ coalesce-time 1000
+ neighbor 192.168.0.1 remote-as 1234
+ neighbor 192.168.0.3 remote-as 1234
+ !
+ address-family l2vpn evpn
+  neighbor 192.168.0.1 activate
+  neighbor 192.168.0.3 activate
+  advertise-all-vni
+ exit-address-family
+!
+router bgp 1234 vrf vrf1
+! 
+ bgp router-id 192.168.0.2
+ ! 
+ address-family ipv4 unicast
+  redistribute connected
+ exit-address-family
+ !
+ address-family l2vpn evpn
+  advertise ipv4 unicast
+ exit-address-family
+!
+line vty
+!
+----
+
+
+* node3
+
+----
+auto vrf1
+iface vrf1
+    vrf-table auto
+
+auto eno1
+iface eno1 inet manual
+ 
+auto vmbr0
+iface vmbr0 inet static
+         address 192.168.0.3
+         netmask  255.255.255.0
+         bridge_ports eno1
+         bridge_stp off
+         bridge_fd 0
+
+auto vxlan2
+iface vxlan2 inet manual
+        vxlan-local-tunnelip 192.168.0.3
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+auto vmbr2
+iface vmbr2 inet static
+        bridge_ports vxlan2
+        bridge_stp off
+        bridge_fd 0
+        address 10.0.2.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94 #must be same on each node vmbr2
+        vrf vrf1
+
+auto vxlan3
+iface vxlan3 inet manual
+        vxlan-local-tunnelip 192.168.0.3
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+auto vmbr3
+iface vmbr3 inet static
+        bridge_ports vxlan3
+        bridge_stp off
+        bridge_fd 0
+        address 10.0.3.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94 #must be same on each node vmbr3
+        vrf vrf1
+
+#interconnect vxlan-vfr l3vni
+auto vxlan4000
+iface vxlan4000 inet manual
+        vxlan-local-tunnelip 192.168.0.3
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+
+auto vmbr4000
+iface vmbr4000 inet manual
+        bridge_ports vxlan4000
+        bridge_stp off
+        bridge_fd 0
+        hwaddress 44:39:39:FF:40:92  #must be different on each node
+        vrf vrf1
+----
+
+
+frr.conf
+
+----
+vrf vrf1
+ vni 4000
+!
+router bgp 1234
+ bgp router-id 192.168.0.3
+ no bgp default ipv4-unicast
+ coalesce-time 1000
+ neighbor 192.168.0.1 remote-as 1234
+ neighbor 192.168.0.2 remote-as 1234
+ !
+ address-family l2vpn evpn
+  neighbor 192.168.0.1 activate
+  neighbor 192.168.0.2 activate
+  advertise-all-vni
+ exit-address-family
+!
+router bgp 1234 vrf vrf1
+! 
+ bgp router-id 192.168.0.3
+ ! 
+ address-family ipv4 unicast
+  redistribute connected
+ exit-address-family
+ !
+ address-family l2vpn evpn
+  advertise ipv4 unicast
+ exit-address-family
+!
+line vty
+!
+----
+
+multiple gateway nodes
+^^^^^^^^^^^^^^^^^^^^^^
+In this example, all nodes will be used as exit gateway. (But you can use only 2 nodes if you want)
+All nodes have a simple default gw in the vrf to the external router (no bgp between router and node1)
+and announce this default gw.
+The external router have ecmp routes to all proxmox nodes.(balancing).
+If the router send the packet to a wrong node (vm is not on this node), this node will route through
+vxlan the packet to final destination.
+
+*node1
+
+----
+auto vrf1
+iface vrf1
+    vrf-table auto
+
+auto eno1
+iface eno1 inet manual
+
+auto vmbr0
+iface vmbr0 inet static
+         address 192.168.0.1
+         netmask  255.255.255.0
+         bridge_ports eno1
+         bridge_stp off
+         bridge_fd 0
+
+auto eno2
+iface eno2
+        address 172.16.0.1
+        netmask 255.255.255.0
+        vrf vrf1
+        post-up ip route add default via 172.16.0.254 dev eno2 vrf vrf1
+	#if you have multiple external routers, you can use ecmp balancing
+	#post-up route add default nexthop via 172.16.0.253 dev eno2 vrf vrf1 nexthop via 172.16.0.254 dev eno2 vrf vrf1
+
+auto vxlan2
+iface vxlan2 inet manual
+        vxlan-local-tunnelip 192.168.0.1
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+auto vmbr2
+iface vmbr2 inet static
+        bridge_ports vxlan2
+        bridge_stp off
+        bridge_fd 0
+        address 10.0.2.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94 #must be same on each node vmbr2
+        vrf vrf1
+
+auto vxlan3
+iface vxlan3 inet manual
+        vxlan-local-tunnelip 192.168.0.1
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+auto vmbr3
+iface vmbr3 inet static
+        bridge_ports vxlan3
+        bridge_stp off
+        bridge_fd 0
+        address 10.0.3.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94 #must be same on each node vmbr3
+        vrf vrf1
+
+#interconnect vxlan-vfr l3vni
+auto vxlan4000
+iface vxlan4000 inet manual
+        vxlan-local-tunnelip 192.168.0.1
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+auto vmbr4000
+iface vmbr4000 inet manual
+        bridge_ports vxlan4000
+        bridge_stp off
+        bridge_fd 0
+        hwaddress 44:39:39:FF:40:90  #must be different on each node
+        vrf vrf1
+----
+
+
+frr.conf
+
+----
+vrf vrf1
+ vni 4000
+!
+router bgp 1234
+ bgp router-id 192.168.0.1
+ no bgp default ipv4-unicast
+ coalesce-time 1000
+ neighbor 192.168.0.2 remote-as 1234
+ neighbor 192.168.0.3 remote-as 1234
+ !
+ address-family l2vpn evpn
+  neighbor 192.168.0.2 activate
+  neighbor 192.168.0.3 activate
+  advertise-all-vni
+ exit-address-family
+!
+router bgp 1234 vrf vrf1
+!
+ bgp router-id 172.16.0.1
+ !
+ address-family ipv4 unicast
+  redistribute connected
+  redistribute kernel !announce your default gw to all nodes
+ exit-address-family
+ !
+ address-family l2vpn evpn
+  advertise ipv4 unicast
+ exit-address-family
+!
+line vty
+!
+----
+
+
+* node2
+
+----
+auto vrf1
+iface vrf1
+    vrf-table auto
+
+auto eno1
+iface eno1 inet manual
+ 
+auto vmbr0
+iface vmbr0 inet static
+         address 192.168.0.2
+         netmask  255.255.255.0
+         bridge_ports eno1
+         bridge_stp off
+         bridge_fd 0
+
+auto eno2
+iface eno2
+        address 172.16.0.3
+        netmask 255.255.255.0
+        vrf vrf1
+        post-up ip route add default via 172.16.0.254 dev eno2 vrf vrf1
+	#if you have multiple external routers, you can use ecmp balancing
+	#post-up route add default nexthop via 172.16.0.253 dev eno2 vrf vrf1 nexthop via 172.16.0.254 dev eno2 vrf vrf1
+
+auto vxlan2
+iface vxlan2 inet manual
+        vxlan-local-tunnelip 192.168.0.2
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+auto vmbr2
+iface vmbr2 inet static
+        bridge_ports vxlan2
+        bridge_stp off
+        bridge_fd 0
+        address 10.0.2.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94 #must be same on each node vmbr2
+        vrf vrf1
+
+auto vxlan3
+iface vxlan3 inet manual
+        vxlan-local-tunnelip 192.168.0.2
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+auto vmbr3
+iface vmbr3 inet static
+        bridge_ports vxlan3
+        bridge_stp off
+        bridge_fd 0
+        address 10.0.3.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94 #must be same on each node vmbr3
+        vrf vrf1
+
+#interconnect vxlan-vfr l3vni
+auto vxlan4000
+iface vxlan4000 inet manual
+        vxlan-local-tunnelip 192.168.0.2
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+
+auto vmbr4000
+iface vmbr4000 inet manual
+        bridge_ports vxlan4000
+        bridge_stp off
+        bridge_fd 0
+        hwaddress 44:39:39:FF:40:91  #must be different on each node
+        vrf vrf1
+----
+
+
+frr.conf
+
+----
+vrf vrf1
+ vni 4000
+!
+router bgp 1234
+ bgp router-id 192.168.0.2
+ no bgp default ipv4-unicast
+ coalesce-time 1000
+ neighbor 192.168.0.1 remote-as 1234
+ neighbor 192.168.0.3 remote-as 1234
+ !
+ address-family l2vpn evpn
+  neighbor 192.168.0.1 activate
+  neighbor 192.168.0.3 activate
+  advertise-all-vni
+ exit-address-family
+!
+router bgp 1234 vrf vrf1
+!
+ bgp router-id 172.16.0.2
+ !
+ address-family ipv4 unicast
+  redistribute connected
+  redistribute kernel !announce your default gw to all nodes
+ exit-address-family
+ !
+ address-family l2vpn evpn
+  advertise ipv4 unicast
+ exit-address-family
+!
+line vty
+!
+----
+
+
+* node3
+
+----
+auto vrf1
+iface vrf1
+    vrf-table auto
+
+auto eno1
+iface eno1 inet manual
+ 
+auto vmbr0
+iface vmbr0 inet static
+         address 192.168.0.3
+         netmask  255.255.255.0
+         bridge_ports eno1
+         bridge_stp off
+         bridge_fd 0
+
+auto eno2
+iface eno2
+        address 172.16.0.3
+        netmask 255.255.255.0
+        vrf vrf1
+        post-up ip route add default via 172.16.0.254 dev eno2 vrf vrf1
+	#if you have multiple external routers, you can use ecmp balancing
+	#post-up route add default nexthop via 172.16.0.253 dev eno2 vrf vrf1 nexthop via 172.16.0.254 dev eno2 vrf vrf1
+
+auto vxlan2
+iface vxlan2 inet manual
+        vxlan-local-tunnelip 192.168.0.3
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+auto vmbr2
+iface vmbr2 inet static
+        bridge_ports vxlan2
+        bridge_stp off
+        bridge_fd 0
+        address 10.0.2.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94 #must be same on each node vmbr2
+        vrf vrf1
+
+auto vxlan3
+iface vxlan3 inet manual
+        vxlan-local-tunnelip 192.168.0.3
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+auto vmbr3
+iface vmbr3 inet static
+        bridge_ports vxlan3
+        bridge_stp off
+        bridge_fd 0
+        address 10.0.3.254
+        netmask 255.255.255.0
+        hwaddress 44:39:39:FF:40:94 #must be same on each node vmbr3
+        vrf vrf1
+
+#interconnect vxlan-vfr l3vni
+auto vxlan4000
+iface vxlan4000 inet manual
+        vxlan-local-tunnelip 192.168.0.3
+        bridge-learning off
+        bridge-arp-nd-suppress on
+        bridge-unicast-flood off
+        bridge-multicast-flood off
+
+
+auto vmbr4000
+iface vmbr4000 inet manual
+        bridge_ports vxlan4000
+        bridge_stp off
+        bridge_fd 0
+        hwaddress 44:39:39:FF:40:92  #must be different on each node
+        vrf vrf1
+----
+
+
+frr.conf
+
+----
+vrf vrf1
+ vni 4000
+!
+router bgp 1234
+ bgp router-id 192.168.0.3
+ no bgp default ipv4-unicast
+ coalesce-time 1000
+ neighbor 192.168.0.1 remote-as 1234
+ neighbor 192.168.0.2 remote-as 1234
+ !
+ address-family l2vpn evpn
+  neighbor 192.168.0.1 activate
+  neighbor 192.168.0.2 activate
+  advertise-all-vni
+ exit-address-family
+!
+router bgp 1234 vrf vrf1
+!
+ bgp router-id 172.16.0.3
+ !
+ address-family ipv4 unicast
+  redistribute connected
+  redistribute kernel !announce your default gw to all nodes
+ exit-address-family
+ !
+ address-family l2vpn evpn
+  advertise ipv4 unicast
+ exit-address-family
+!
+line vty
+!
+----
+
+Note
+^^^^
+
+If your external router don't support ecmp to reach multiple proxmox nodes,
+you can setup an HA floating vip on proxmox nodes with vrrp
+
+I this example, we will setup an floating 172.16.0.10 ip on node1 and node2.
+Node1 is the primary and failover to node2 in case of failure.
+
+
+* node1
+
+----
+auto eno2
+iface eno2
+        address 172.16.0.1
+        netmask 255.255.255.0
+        vrf vrf1
+        post-up ip route add default via 172.16.0.254 dev eno2 vrf vrf1
+	vrrp-id 1
+	vrrp-priority 1
+	vrrp-virtual-ip 172.16.0.10
+----
+
+* node2
+
+----
+auto eno2
+iface eno2
+        address 172.16.0.2
+        netmask 255.255.255.0
+        vrf vrf1
+        post-up ip route add default via 172.16.0.254 dev eno2 vrf vrf1
+	vrrp-id 1
+	vrrp-priority 2
+	vrrp-virtual-ip 172.16.0.10
+----
+
+
