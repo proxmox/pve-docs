@@ -75,6 +75,8 @@ manually enabled first.
 * We recommend a dedicated NIC for the cluster traffic, especially if
   you use shared storage.
 
+* Root password of a cluster node is required for adding nodes.
+
 NOTE: It is not possible to mix Proxmox VE 3.x and earlier with
 Proxmox VE 4.0 cluster nodes.
 
@@ -86,15 +88,14 @@ First, install {PVE} on all nodes. Make sure that each node is
 installed with the final hostname and IP configuration. Changing the
 hostname and IP is not possible after cluster creation.
 
-Currently the cluster creation has to be done on the console, so you
-need to login via `ssh`.
+Currently the cluster creation can either be done on the console(login via `ssh`) or the GUI.
 
 [[pvecm_create_cluster]]
 Create the Cluster
 ------------------
 
 Login via `ssh` to the first {pve} node. Use a unique name for your cluster.
-This name cannot be changed later.
+This name cannot be changed later. The cluster name follows the same rules as node names.
 
  hp1# pvecm create YOUR-CLUSTER-NAME
 
