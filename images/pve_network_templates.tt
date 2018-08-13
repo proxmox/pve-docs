@@ -1,0 +1,56 @@
+[% BLOCK switch_ports %]
+<table border='0' cellspacing='0' cellpadding='0' cellborder='0'>
+  <tr>
+    <td fixedsize='TRUE' width='15' height='10'></td>
+    [% FOREACH p IN draw_ports %]
+    <td port='[% p %]' fixedsize='TRUE' width='[% p.length*5+5 %]' height='10' BGCOLOR="#666666"><font face='monospace' point-size='8' color='white'>[% p %]</font></td>
+    <td fixedsize='TRUE' width='1' height='10'></td>
+    [% END %]
+    <td fixedsize='TRUE' width='15' height='10'></td>
+  </tr>
+</table>
+[% END %]
+
+[% MACRO switch BLOCK %]
+[% id %] [
+  shape=plaintext
+  label=<
+	  <table border='0' cellspacing='0' cellpadding='0' cellborder='0'>
+	    [% IF top_ports %]
+	    <tr><td>[% PROCESS switch_ports draw_ports=top_ports %]</td></tr>
+	    [% END %]
+	    <tr><td><table color='green' BGCOLOR="lightgreen" border='2' cellspacing='2' cellpadding='0' cellborder='0' style='rounded'>	
+              <tr><td width='10'></td><td>[% title %]</td><td width='10'></td></tr>
+	      [% IF subtitle %]
+              <tr><td width='10'></td><td><font face='monospace' point-size='12'>[% subtitle %]</font></td><td width='10'></td></tr>
+	      [% END %]
+	    </table></td></tr>
+	    [% IF ports %]
+	    <tr><td>[% PROCESS switch_ports draw_ports=ports %]</td></tr>
+	    [% END %]
+	  </table>>
+
+    ]
+[% END %]
+
+[% MACRO server BLOCK %]
+[% id %] [
+  shape=plaintext
+  label=<
+	  <table border='0' cellspacing='0' cellpadding='0' cellborder='0'>
+	    [% IF top_ports %]
+	    <tr><td>[% PROCESS switch_ports draw_ports=top_ports %]</td></tr>
+	    [% END %]
+	    <tr><td><table color='#666666' BGCOLOR="#888888" border='2' cellspacing='2' cellpadding='0' cellborder='0'>	
+              <tr><td><font color='white'>[% title %]</font></td></tr>
+	      [% IF subtitle %]
+              <tr><td><font face='monospace' color='white' point-size='12'>[% subtitle %]</font></td></tr>
+	      [% END %]
+ 	    </table></td></tr>
+	    [% IF ports %]
+	    <tr><td>[% PROCESS switch_ports draw_ports=ports %]</td></tr>
+	    [% END %]
+	  </table>>
+
+    ]
+[% END %]

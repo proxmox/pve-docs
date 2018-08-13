@@ -1,0 +1,98 @@
+[% PROCESS pve_network_templates.tt %]
+
+graph clos_network {
+    splines=line
+    node [shape=record];
+    edge [];
+
+    [% switch(
+        id="spine01",
+	title="Spine01 <font color='orange'>65021</font>",
+	subtitle="10.0.0.21/32",
+	top_ports='',
+	ports=[1,2,3,4])
+    %]
+
+    [% switch(
+        id="spine02"
+	title="Spine02 <font color='orange'>65022</font>"
+	subtitle="10.0.0.22/32"
+	top_ports=''
+	ports=[1,2,3,4])
+    %]
+
+    [% switch(
+        id="leaf01"
+	title="Leaf01 <font color='orange'>65011</font>"
+	subtitle="10.0.0.11/32"
+	top_ports=[51,52]
+	ports=[1])
+    %]
+
+    [% switch(
+        id="leaf02"
+	title="Leaf02 <font color='orange'>65012</font>"
+	subtitle="10.0.0.12/32"
+	top_ports=[51,52]
+	ports=[1])
+    %]
+
+    [% switch(
+        id="leaf03"
+	title="Leaf03 <font color='orange'>65013</font>"
+	subtitle="10.0.0.13/32"
+	top_ports=[51,52]
+	ports=[1])
+    %]
+
+    [% switch(
+        id="leaf04"
+	title="Leaf04 <font color='orange'>65014</font>"
+	subtitle="10.0.0.14/32"
+	top_ports=[51,52]
+	ports=[1])
+    %]
+
+    spine01:1 -- leaf01:51
+    spine01:2 -- leaf02:51
+    spine01:3 -- leaf03:51
+    spine01:4 -- leaf04:51
+    
+    spine02:1 -- leaf01:52
+    spine02:2 -- leaf02:52
+    spine02:3 -- leaf03:52
+    spine02:4 -- leaf04:52
+
+    [% server(
+       id="server01"
+       title="server01"
+       top_ports='eth1'
+       ports='')
+    %]
+
+    [% server(
+       id="server02"
+       title="server02"
+       top_ports='eth1'
+       ports='')
+    %]
+
+    [% server(
+       id="server03"
+       title="server03"
+       top_ports='eth1'
+       ports='')
+    %]
+
+    [% server(
+       id="server04"
+       title="server04"
+       top_ports='eth1'
+       ports='')
+    %]
+
+    leaf01:1 -- server01:eth1
+    leaf02:1 -- server02:eth1
+    leaf03:1 -- server03:eth1
+    leaf04:1 -- server04:eth1
+}
