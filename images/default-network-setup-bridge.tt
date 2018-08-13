@@ -1,0 +1,62 @@
+[% PROCESS pve_network_templates.tt %]
+
+graph default_network_setup_bridge {
+    splines=line
+    node [shape=record];
+    edge [];
+
+    size="8.0,5.0!"
+    ratio=fill
+
+    [% server(id="gateway" title="Gateway, DHCP", subtitle="192.168.10.1" top_ports='eno1') %]
+    
+    [% switch(
+        id="tor01",
+	title="Top of Rack Switch",
+	ports=[1,2,3])
+    %]
+
+    tor01:1 -- gateway:eno1
+    tor01:2 -- node1_vmbr0:eno1
+    tor01:3 -- node2_vmbr0:eno1
+
+    subgraph cluster_node1 {
+        label="Node: proxmox1" labeljust=l labelloc=b
+
+	[% switch(
+           id="node1_vmbr0",
+	   title="vmbr0",
+	   subtitle="192.168.10.2/24"
+	   top_ports="eno1"
+	   ports="tap100i0"
+	   )
+        %]
+
+
+	[% server(id="vm100" title="VM 100" subtitle="192.168.10.100" top_ports='ens18') %]
+
+	node1_vmbr0:tap100i0 -- vm100:ens18
+
+    }
+
+    subgraph cluster_node2 {
+        label="Node: proxmox2" labeljust=l labelloc=b
+
+	[% switch(
+           id="node2_vmbr0",
+	   title="vmbr0",
+	   subtitle="192.168.10.3/24"
+	   top_ports="eno1"
+	   ports=["tap200i0", "tap201i0"]
+	   )
+        %]
+
+
+	[% server(id="vm200" title="VM 200" subtitle="192.168.10.200" top_ports='ens18') %]
+	[% server(id="vm201" title="VM 201" subtitle="192.168.10.201" top_ports='ens18') %]
+
+	node2_vmbr0:tap200i0 -- vm200:ens18
+	node2_vmbr0:tap201i0 -- vm201:ens18
+
+    }
+}
