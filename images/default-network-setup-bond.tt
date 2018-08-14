@@ -1,0 +1,77 @@
+[% PROCESS pve_network_templates.tt %]
+
+graph default_network_setup_bond {
+    splines=line
+    node [shape=record];
+    edge [];
+
+    size="8.0,5.0!"
+    ratio=fill
+
+    [% switch(id="tor01", title="Top of Rack Switch 1", ports=[1,2]) %]
+    [% switch(id="tor02", title="Top of Rack Switch 2", ports=[1,2]) %]
+
+    tor01 -- tor02 [ label="MLAG" style="bold" constraint=0 ]
+
+    tor01:1 -- node1_bond0:eno1
+    tor02:1 -- node1_bond0:eno2
+
+    tor01:2 -- node2_bond0:eno1
+    tor02:2 -- node2_bond0:eno2
+    
+    subgraph cluster_node1 {
+        label="Node: proxmox1" labeljust=l labelloc=b
+
+	[% switch(
+           id="node1_bond0",
+	   title="bond0",
+	   subtitle="LACP"
+	   top_ports=["eno1", "eno2"]
+	   )
+        %]
+
+	[% switch(
+           id="node1_vmbr0",
+	   title="vmbr0",
+	   subtitle="10.10.10.2/24"
+	   top_ports="bond0"
+	   ports="tap100i0"
+	   )
+        %]
+
+	[% server(id="vm100" title="VM 100" subtitle="10.10.10.100" top_ports='ens18') %]
+
+	node1_bond0 -- node1_vmbr0:bond0
+
+	node1_vmbr0:tap100i0 -- vm100:ens18
+    }
+
+    subgraph cluster_node2 {
+        label="Node: proxmox2" labeljust=l labelloc=b
+
+	[% switch(
+           id="node2_bond0",
+	   title="bond0",
+	   subtitle="LACP"
+	   top_ports=["eno1", "eno2"]
+	   )
+        %]
+
+	[% switch(
+           id="node2_vmbr0",
+	   title="vmbr0",
+	   subtitle="10.10.10.3/24"
+	   top_ports="bond0"
+	   ports="tap100i0"
+	   )
+        %]
+
+	[% server(id="vm200" title="VM 200" subtitle="10.10.10.200" top_ports='ens18') %]
+
+	node2_bond0 -- node2_vmbr0:bond0
+
+	node2_vmbr0:tap100i0 -- vm200:ens18
+
+    }
+
+}
