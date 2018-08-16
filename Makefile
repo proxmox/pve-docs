@@ -202,6 +202,8 @@ $(DOC_DEB): index.html $(WIKI_IMPORTS) $(API_VIEWER_SOURCES) verify-images
 	install -dm755 build-$(DOC_PACKAGE)/usr/share/doc/${DOC_PACKAGE}
 	install -m 0644 index.html ${INDEX_INCLUDES} build-$(DOC_PACKAGE)/usr/share/${DOC_PACKAGE}
 	install -m 0644 ${WIKI_IMPORTS} build-$(DOC_PACKAGE)/usr/share/${DOC_PACKAGE}
+	# install images
+	make -C images DESTDIR=../build-$(DOC_PACKAGE) install
 	# install screenshot images
 	install -dm755 build-$(DOC_PACKAGE)/usr/share/${DOC_PACKAGE}/images/screenshot
 	install -m 0644 images/screenshot/*.png build-$(DOC_PACKAGE)/usr/share/${DOC_PACKAGE}/images/screenshot

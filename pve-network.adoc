@@ -102,6 +102,7 @@ virtual networks.
 Default Configuration using a Bridge
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+[thumbnail="default-network-setup-bridge.svg"]
 Bridges are like physical network switches implemented in software.
 All VMs can share a single bridge, or you can create multiple bridges to 
 separate network domains. Each host can have up to 4094 bridges.
@@ -146,6 +147,7 @@ You can avoid the problem by ``routing'' all traffic via a single
 interface. This makes sure that all network packets use the same MAC
 address.
 
+[thumbnail="default-network-setup-routed.svg"]
 A common scenario is that you have a public IP (assume `198.51.100.5`
 for this example), and an additional IP block for your VMs
 (`203.0.113.16/29`). We recommend the following setup for such
@@ -314,6 +316,7 @@ iface vmbr0 inet static
 ----
 
 
+[thumbnail="default-network-setup-bond.svg"]
 Another possibility it to use the bond directly as bridge port.
 This can be used to make the guest network fault-tolerant.
 
