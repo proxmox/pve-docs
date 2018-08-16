@@ -23,7 +23,7 @@ Manage Ceph Services on Proxmox VE Nodes
 :pve-toplevel:
 endif::manvolnum[]
 
-[thumbnail="gui-ceph-status.png"]
+[thumbnail="screenshot/gui-ceph-status.png"]
 
 {pve} unifies your compute and storage systems, i.e. you can use the same
 physical nodes within a cluster for both computing (processing VMs and
@@ -109,7 +109,7 @@ This sets up an `apt` package repository in
 Creating initial Ceph configuration
 -----------------------------------
 
-[thumbnail="gui-ceph-config.png"]
+[thumbnail="screenshot/gui-ceph-config.png"]
 
 After installation of packages, you need to create an initial Ceph
 configuration on just one node, based on your network (`10.10.10.0/24`
@@ -131,7 +131,7 @@ Ceph commands without the need to specify a configuration file.
 Creating Ceph Monitors
 ----------------------
 
-[thumbnail="gui-ceph-monitor.png"]
+[thumbnail="screenshot/gui-ceph-monitor.png"]
 
 The Ceph Monitor (MON)
 footnote:[Ceph Monitor http://docs.ceph.com/docs/luminous/start/intro/]
@@ -174,7 +174,7 @@ pveceph createmgr
 Creating Ceph OSDs
 ------------------
 
-[thumbnail="gui-ceph-osd-status.png"]
+[thumbnail="screenshot/gui-ceph-osd-status.png"]
 
 via GUI or via CLI as follows:
 
@@ -278,7 +278,7 @@ highly recommended to achieve good performance.
 Creating Ceph Pools
 -------------------
 
-[thumbnail="gui-ceph-pools.png"]
+[thumbnail="screenshot/gui-ceph-pools.png"]
 
 A pool is a logical group for storing objects. It holds **P**lacement
 **G**roups (PG), a collection of objects.
@@ -395,7 +395,7 @@ separately.
 Ceph Client
 -----------
 
-[thumbnail="gui-ceph-log.png"]
+[thumbnail="screenshot/gui-ceph-log.png"]
 
 You can then configure {pve} to use such pools to store VM or
 Container images. Simply use the GUI too add a new `RBD` storage (see

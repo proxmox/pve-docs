@@ -236,7 +236,7 @@ Remember to replace the VMIDs and node names with your respective values.
 Managing Jobs
 -------------
 
-[thumbnail="gui-qemu-add-replication-job.png"]
+[thumbnail="screenshot/gui-qemu-add-replication-job.png"]
 
 You can use the web GUI to create, modify and remove replication jobs
 easily. Additionally the command line interface (CLI) tool `pvesr` can be

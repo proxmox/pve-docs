@@ -72,7 +72,7 @@ controller type for SCSI drives.
 
 .Add Cloud-Init CDROM drive
 
-[thumbnail="gui-cloudinit-hardware.png"]
+[thumbnail="screenshot/gui-cloudinit-hardware.png"]
 
 The next step is to configure a CDROM drive which will be used to pass
 the Cloud-Init data to the VM.
@@ -109,7 +109,7 @@ qm template 9000
 Deploying Cloud-Init Templates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[thumbnail="gui-cloudinit-config.png"]
+[thumbnail="screenshot/gui-cloudinit-config.png"]
 
 You can easily deploy such a template by cloning:
 

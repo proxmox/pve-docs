@@ -463,7 +463,7 @@ the same HA configuration.
 Resources
 ~~~~~~~~~
 
-[thumbnail="gui-ha-manager-status.png"]
+[thumbnail="screenshot/gui-ha-manager-status.png"]
 
 
 The resource configuration file `/etc/pve/ha/resources.cfg` stores
@@ -498,7 +498,7 @@ ct: 102
     # Note: use default settings for everything
 ----
 
-[thumbnail="gui-ha-manager-add-resource.png"]
+[thumbnail="screenshot/gui-ha-manager-add-resource.png"]
 
 Above config was generated using the `ha-manager` command line tool:
 
@@ -512,7 +512,7 @@ Above config was generated using the `ha-manager` command line tool:
 Groups
 ~~~~~~
 
-[thumbnail="gui-ha-manager-groups-view.png"]
+[thumbnail="screenshot/gui-ha-manager-groups-view.png"]
 
 The HA group configuration file `/etc/pve/ha/groups.cfg` is used to
 define groups of cluster nodes. A resource can be restricted to run
@@ -528,7 +528,7 @@ group: <group>
 
 include::ha-groups-opts.adoc[]
 
-[thumbnail="gui-ha-manager-add-group.png"]
+[thumbnail="screenshot/gui-ha-manager-add-group.png"]
 
 A common requirement is that a resource should run on a specific
 node. Usually the resource is able to run on other nodes, so you can define

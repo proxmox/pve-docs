@@ -49,7 +49,7 @@ following:
 NOTE: By default, the complete server is used and all existing data is
 removed.
 
-[thumbnail="pve-grub-menu.png"]
+[thumbnail="screenshot/pve-grub-menu.png"]
 
 Please insert the installation CD-ROM, then boot from that
 drive. Immediately afterwards you can choose the following menu
@@ -80,7 +80,7 @@ Test Memory::
 Runs `memtest86+`. This is useful to check if your memory is
 functional and error free.
 
-[thumbnail="pve-select-target-disk.png"]
+[thumbnail="screenshot/pve-select-target-disk.png"]
 
 You normally select *Install Proxmox VE* to start the installation.
 After that you get prompted to select the target hard disk(s). The
@@ -94,7 +94,7 @@ ZFS supports several software RAID levels, so this is specially useful
 if you do not have a hardware RAID controller. The `Options` button
 lets you select the ZFS RAID level, and you can choose disks there.
 
-[thumbnail="pve-select-location.png", float="left"]
+[thumbnail="screenshot/pve-select-location.png", float="left"]
 
 The next page just ask for basic configuration options like your
 location, the time zone and keyboard layout. The location is used to
@@ -103,7 +103,7 @@ usually able to auto detect those setting, so you only need to change
 them in rare situations when auto detection fails, or when you want to
 use some special keyboard layout not commonly used in your country.
 
-[thumbnail="pve-set-password.png"]
+[thumbnail="screenshot/pve-set-password.png"]
 
 You then need to specify an email address and the superuser (root)
 password. The password must have at least 5 characters, but we highly
@@ -128,13 +128,13 @@ administrator, for example:
 All those notification mails will be sent to the specified email
 address.
 
-[thumbnail="pve-setup-network.png"]
+[thumbnail="screenshot/pve-setup-network.png"]
 
 The last step is the network configuration. Please note that you can
 use either IPv4 or IPv6 here, but not both. If you want to configure a
 dual stack node, you can easily do that after installation.
 
-[thumbnail="pve-installation.png", float="left"]
+[thumbnail="screenshot/pve-installation.png", float="left"]
 
 If you press `Next` now, installation starts to format disks, and
 copies packages to the target. Please wait until that is finished,

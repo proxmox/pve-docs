@@ -53,7 +53,7 @@ Features
 Login
 -----
 
-[thumbnail="gui-login-window.png"]
+[thumbnail="screenshot/gui-login-window.png"]
 
 When you connect to the server, you will first see the login window.
 {pve} supports various authentication backends ('Realm'), and
@@ -68,7 +68,7 @@ time.
 GUI Overview
 ------------
 
-[thumbnail="gui-datacenter-summary.png"]
+[thumbnail="screenshot/gui-datacenter-summary.png"]
 
 The {pve} user interface consists of four regions.
 
@@ -101,7 +101,7 @@ search bar nearside you can search for specific objects (VMs,
 containers, nodes, ...). This is sometimes faster than selecting an
 object in the resource tree.
 
-[thumbnail="gui-my-settings.png"]
+[thumbnail="screenshot/gui-my-settings.png"]
 
 To the right of the search bar we see the identity (login name). The
 gear symbol is a button opening the 'My Settings' dialog. There you
@@ -189,7 +189,7 @@ reference documentation to get more detailed information.
 Datacenter
 ~~~~~~~~~~
 
-[thumbnail="gui-datacenter-search.png"]
+[thumbnail="screenshot/gui-datacenter-search.png"]
 
 On the datacenter level you can access cluster wide settings and information.
 
@@ -222,7 +222,7 @@ If you like to have more information about this see the corresponding chapter.
 Nodes
 ~~~~~
 
-[thumbnail="gui-node-summary.png"]
+[thumbnail="screenshot/gui-node-summary.png"]
 
 All belongs of a node can be managed at this level.
 
@@ -255,7 +255,7 @@ All belongs of a node can be managed at this level.
 Guests
 ~~~~~~
 
-[thumbnail="gui-qemu-summary.png"]
+[thumbnail="screenshot/gui-qemu-summary.png"]
 
 There are two differed kinds of VM types and both types can be converted to a template.
 One of them are Kernel-based Virtual Machine (KVM) and the other one are Linux Containers (LXC).
@@ -305,7 +305,7 @@ All available options are listed one below the other.
 Storage
 ~~~~~~~
 
-[thumbnail="gui-storage-summary-local.png"]
+[thumbnail="screenshot/gui-storage-summary-local.png"]
 
 In this view we have a two partition split view.
 On the left side we have the storage options
@@ -322,7 +322,7 @@ and on the right side the content of the selected option will shown.
 Pools
 ~~~~~
 
-[thumbnail="gui-pool-summary-development.png"]
+[thumbnail="screenshot/gui-pool-summary-development.png"]
 
 In this view we have a two partition split view.
 On the left side we have the logical pool options

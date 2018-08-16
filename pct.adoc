@@ -348,7 +348,7 @@ Container Settings
 General Settings
 ~~~~~~~~~~~~~~~~
 
-[thumbnail="gui-create-ct-general.png"]
+[thumbnail="screenshot/gui-create-ct-general.png"]
 
 General settings of a container include
 
@@ -393,7 +393,7 @@ or greater than 220.
 CPU
 ~~~
 
-[thumbnail="gui-create-ct-cpu.png"]
+[thumbnail="screenshot/gui-create-ct-cpu.png"]
 
 You can restrict the number of visible CPUs inside the container using
 the `cores` option. This is implemented using the Linux 'cpuset'
@@ -438,7 +438,7 @@ prioritize some containers.
 Memory
 ~~~~~~
 
-[thumbnail="gui-create-ct-memory.png"]
+[thumbnail="screenshot/gui-create-ct-memory.png"]
 
 Container memory is controlled using the cgroup memory controller.
 
@@ -457,7 +457,7 @@ swap`).
 Mount Points
 ~~~~~~~~~~~~
 
-[thumbnail="gui-create-ct-root-disk.png"]
+[thumbnail="screenshot/gui-create-ct-root-disk.png"]
 
 The root mount point is configured with the `rootfs` property, and you can
 configure up to 10 additional mount points. The corresponding options
@@ -545,7 +545,7 @@ NOTE: The contents of device mount points are not backed up when using `vzdump`.
 Network
 ~~~~~~~
 
-[thumbnail="gui-create-ct-network.png"]
+[thumbnail="screenshot/gui-create-ct-network.png"]
 
 You can configure up to 10 network interfaces for a single
 container. The corresponding options are called `net0` to `net9`, and
@@ -567,7 +567,7 @@ the following command:
 
 .Start and Shutdown Order
 // use the screenshot from qemu - its the same
-[thumbnail="gui-qemu-edit-start-order.png"]
+[thumbnail="screenshot/gui-qemu-edit-start-order.png"]
 
 If you want to fine tune the boot order of your containers, you can use the following
 parameters :

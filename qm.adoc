@@ -101,7 +101,7 @@ could incur a performance slowdown, or putting your data at risk.
 General Settings
 ~~~~~~~~~~~~~~~~
 
-[thumbnail="gui-create-vm-general.png"]
+[thumbnail="screenshot/gui-create-vm-general.png"]
 
 General settings of a VM include
 
@@ -115,7 +115,7 @@ General settings of a VM include
 OS Settings
 ~~~~~~~~~~~
 
-[thumbnail="gui-create-vm-os.png"]
+[thumbnail="screenshot/gui-create-vm-os.png"]
 
 When creating a VM, setting the proper Operating System(OS) allows {pve} to
 optimize some low level parameters. For instance Windows OS expect the BIOS
@@ -158,7 +158,7 @@ each disk, instead of adding all disks to the same controller.
 is an older type of paravirtualized controller. It has been superseded by the
 VirtIO SCSI Controller, in terms of features.
 
-[thumbnail="gui-create-vm-hard-disk.png"]
+[thumbnail="screenshot/gui-create-vm-hard-disk.png"]
 On each controller you attach a number of emulated hard disks, which are backed
 by a file or a block device residing in the configured storage. The choice of
 a storage type will determine the format of the hard disk image. Storages which
@@ -213,7 +213,7 @@ Note that backups do not currently work with *IO Thread* enabled.
 CPU
 ~~~
 
-[thumbnail="gui-create-vm-cpu.png"]
+[thumbnail="screenshot/gui-create-vm-cpu.png"]
 
 A *CPU socket* is a physical slot on a PC motherboard where you can plug a CPU.
 This CPU can then contain one or many *cores*, which are independent
@@ -418,7 +418,7 @@ For each VM you have the option to set a fixed size memory or asking
 host.
 
 .Fixed Memory Allocation
-[thumbnail="gui-create-vm-memory.png"]
+[thumbnail="screenshot/gui-create-vm-memory.png"]
 
 When setting memory and minimum memory to the same amount
 {pve} will simply allocate what you specify to your VM.
@@ -475,7 +475,7 @@ of RAM available to the host.
 Network Device
 ~~~~~~~~~~~~~~
 
-[thumbnail="gui-create-vm-network.png"]
+[thumbnail="screenshot/gui-create-vm-network.png"]
 
 Each VM can have many _Network interface controllers_ (NIC), of four different
 types:
@@ -619,7 +619,7 @@ the following command:
 
 .Start and Shutdown Order
 
-[thumbnail="gui-qemu-edit-start-order.png"]
+[thumbnail="screenshot/gui-qemu-edit-start-order.png"]
 
 In some case you want to be able to fine tune the boot order of your
 VMs, for instance if one of your VM is providing firewalling or DHCP
@@ -655,7 +655,7 @@ cluster-wide.
 Migration
 ---------
 
-[thumbnail="gui-qemu-migrate.png"]
+[thumbnail="screenshot/gui-qemu-migrate.png"]
 
 If you have a cluster, you can migrate your VM to another host with
 
@@ -711,7 +711,7 @@ Then the migration will copy the disk over the network to the target host.
 Copies and Clones
 -----------------
 
-[thumbnail="gui-qemu-full-clone.png"]
+[thumbnail="screenshot/gui-qemu-full-clone.png"]
 
 VM installation is usually done using an installation media (CD-ROM)
 from the operation system vendor. Depending on the OS, this can be a
