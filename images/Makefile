@@ -1,5 +1,6 @@
 
 TT_SOURCES=					\
+	pve-software-stack.tt			\
 	default-network-setup-bond.tt		\
 	default-network-setup-routed.tt		\
 	default-network-setup-bridge.tt
