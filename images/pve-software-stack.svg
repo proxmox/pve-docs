@@ -31,7 +31,7 @@
 <polygon fill="#ff9100" stroke="none" points="356,-296.5 356,-321.5 499,-321.5 499,-296.5 356,-296.5"/>
 <text text-anchor="start" x="393" y="-305.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">pve&#45;firewall</text>
 <polygon fill="#00617f" stroke="none" points="12,-218.5 12,-283.5 506,-283.5 506,-218.5 12,-218.5"/>
-<text text-anchor="start" x="216" y="-265.5" font-family="Helvetica,sans-Serif" font-size="20.00" fill="white">Daemons</text>
+<text text-anchor="start" x="220.5" y="-265.5" font-family="Helvetica,sans-Serif" font-size="20.00" fill="white">Services</text>
 <polygon fill="#00617f" stroke="none" points="14,-220.5 14,-255.5 504,-255.5 504,-220.5 14,-220.5"/>
 <polygon fill="#e57000" stroke="none" points="19,-225.5 19,-250.5 104,-250.5 104,-225.5 19,-225.5"/>
 <text text-anchor="start" x="34" y="-234.3" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">pveproxy</text>
