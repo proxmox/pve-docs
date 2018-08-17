@@ -97,8 +97,10 @@ graph pve_software_stack {
 	  <table BGCOLOR="#00617F" border='0' cellspacing='5' cellpadding='5' cellborder='0'>
 	  <tr>
 	    <td align='left' fixedsize='true' width='45' height='25' BGCOLOR="#FF9100"><font face="Helvetica" color="white">KVM</font></td>
-	    <td align='left'><font face="Helvetica" point-size='20' color="white">Linux Kernel</font></td>
-          </tr>
+	    <td width='275' ><font face="Helvetica" point-size='20' color="white">Linux Kernel</font></td>
+	    <td align='left' fixedsize='true'  width='75' height='25' BGCOLOR="#FF9100"><font face="Helvetica" color="white">AppArmor</font></td>
+	    <td align='left' fixedsize='true'  width='70' height='25' BGCOLOR="#FF9100"><font face="Helvetica" color="white">cgroups</font></td>
+         </tr>
           </table>
         </td></tr>
         </table></td></tr>

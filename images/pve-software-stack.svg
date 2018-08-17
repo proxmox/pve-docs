@@ -80,7 +80,11 @@
 <polygon fill="#00617f" stroke="none" points="14,-9.5 14,-51.5 504,-51.5 504,-9.5 14,-9.5"/>
 <polygon fill="#ff9100" stroke="none" points="19,-18 19,-43 64,-43 64,-18 19,-18"/>
 <text text-anchor="start" x="24" y="-26.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">KVM</text>
-<text text-anchor="start" x="228" y="-25.5" font-family="Helvetica,sans-Serif" font-size="20.00" fill="white">Linux Kernel</text>
+<text text-anchor="start" x="150.5" y="-25.5" font-family="Helvetica,sans-Serif" font-size="20.00" fill="white">Linux Kernel</text>
+<polygon fill="#ff9100" stroke="none" points="349,-18 349,-43 424,-43 424,-18 349,-18"/>
+<text text-anchor="start" x="354" y="-26.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">AppArmor</text>
+<polygon fill="#ff9100" stroke="none" points="429,-18 429,-43 499,-43 499,-18 429,-18"/>
+<text text-anchor="start" x="434" y="-26.8" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">cgroups</text>
 </g>
 </g>
 </svg>
