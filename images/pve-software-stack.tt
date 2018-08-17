@@ -1,22 +1,22 @@
 graph pve_software_stack {
-
+      node [ fontname="Helvetica" ]
       bgcolor="#ffffff00" # RGBA (with alpha)
 
       stack [shape=plaintext label=<
       <table border='0'>
       
         <tr><td><table border='0' BGCOLOR="#00617F" cellborder='0' cellspacing='0' cellpadding='2'>
-        <tr><td><font face="Helvetica" point-size='20' color="white">User Tools</font></td></tr>
+        <tr><td><font point-size='20' color="white">User Tools</font></td></tr>
         <tr><td>
 	  <table BGCOLOR="#00617F" border='0' cellspacing='5' cellpadding='5' cellborder='0'>
 	  <tr>
 	  [% FOREACH item IN ['qm', 'pvesm', 'pveum', 'ha-manager'] %]
-	    <td BGCOLOR="#FF9100"><font face="Helvetica" color="white">[% item %]</font></td>
+	    <td BGCOLOR="#FF9100"><font color="white">[% item %]</font></td>
           [% END %]
 	  </tr>
 	  <tr>
 	  [% FOREACH item IN ['pct', 'pvecm', 'pveceph', 'pve-firewall'] %]
-	    <td BGCOLOR="#FF9100"><font face="Helvetica" color="white">[% item %]</font></td>
+	    <td BGCOLOR="#FF9100"><font color="white">[% item %]</font></td>
           [% END %]
           </tr>
           </table>
@@ -24,12 +24,12 @@ graph pve_software_stack {
         </table></td></tr>
 
         <tr><td><table border='0' BGCOLOR="#00617F" cellborder='0' cellspacing='0' cellpadding='2'>
-        <tr><td><font face="Helvetica" point-size='20' color="white">Services</font></td></tr>
+        <tr><td><font point-size='20' color="white">Services</font></td></tr>
         <tr><td>
 	  <table BGCOLOR="#00617F" border='0' cellspacing='5' cellpadding='5' cellborder='0'>
 	  <tr>
 	  [% FOREACH item IN ['pveproxy', 'pvedaemon', 'pvestatd', 'pve-ha-lrm', 'pve-cluster'] %]
-	    <td BGCOLOR="#E57000"><font face="Helvetica" color="white">[% item %]</font></td>
+	    <td BGCOLOR="#E57000"><font color="white">[% item %]</font></td>
           [% END %]
           </tr>
           </table>
@@ -40,26 +40,26 @@ graph pve_software_stack {
 
           <td><table border='0'><tr>
 	  <td><table BGCOLOR="#ABBABA" border='0' cellspacing='5' cellpadding='5' cellborder='0'>
-	    <tr><td colspan='2'><font face="Helvetica" point-size='20' color="white">VM</font></td></tr>
+	    <tr><td colspan='2'><font point-size='20' color="white">VM</font></td></tr>
 	    <tr>
-	      <td BGCOLOR="white"><font face="Helvetica" color="#00617F">App</font></td>
-	      <td BGCOLOR="white"><font face="Helvetica" color="#00617F">App</font></td>
+	      <td BGCOLOR="white"><font color="#00617F">App</font></td>
+	      <td BGCOLOR="white"><font color="#00617F">App</font></td>
 	    </tr>
-	    <tr><td BGCOLOR="#00617F" colspan='2'><font face="Helvetica" point-size='20' color="white">Guest OS</font></td></tr>
+	    <tr><td BGCOLOR="#00617F" colspan='2'><font point-size='20' color="white">Guest OS</font></td></tr>
 	  </table></td>
 
 	  <td><table BGCOLOR="#ABBABA" border='0' cellspacing='5' cellpadding='5' cellborder='0'>
-	    <tr><td colspan='2'><font face="Helvetica" point-size='20' color="white">VM</font></td></tr>
+	    <tr><td colspan='2'><font point-size='20' color="white">VM</font></td></tr>
 	    <tr>
-	      <td BGCOLOR="white"><font face="Helvetica" color="#00617F">App</font></td>
-	      <td BGCOLOR="white"><font face="Helvetica" color="#00617F">App</font></td>
+	      <td BGCOLOR="white"><font color="#00617F">App</font></td>
+	      <td BGCOLOR="white"><font color="#00617F">App</font></td>
 	    </tr>
-	    <tr><td BGCOLOR="#00617F" colspan='2'><font face="Helvetica" point-size='20' color="white">Guest OS</font></td></tr>
+	    <tr><td BGCOLOR="#00617F" colspan='2'><font point-size='20' color="white">Guest OS</font></td></tr>
 	  </table></td>
 
 	  </tr>
 
-	  <tr><td border='0' BGCOLOR="#FF9100" colspan='2'><font face="Helvetica" point-size='20' color="white">Qemu</font></td>
+	  <tr><td border='0' BGCOLOR="#FF9100" colspan='2'><font point-size='20' color="white">Qemu</font></td>
 
 	  </tr></table></td>
 
@@ -70,19 +70,19 @@ graph pve_software_stack {
 	    <tr><td> </td></tr>
 	    <tr>
 	      <td><table BGCOLOR="#ABBABA" border='0' cellspacing='5' cellpadding='5' cellborder='0'>
-	        <tr><td colspan='2'><font face="Helvetica" point-size='20' color="white">Container</font></td></tr>
+	        <tr><td colspan='2'><font point-size='20' color="white">Container</font></td></tr>
 	  	<tr>
-	    	  <td BGCOLOR="white"><font face="Helvetica" color="#00617F">App</font></td>
-	    	  <td BGCOLOR="white"><font face="Helvetica" color="#00617F">App</font></td>
+	    	  <td BGCOLOR="white"><font color="#00617F">App</font></td>
+	    	  <td BGCOLOR="white"><font color="#00617F">App</font></td>
 	  	</tr>
 	  	</table>
 	      </td>
 
 	      <td><table BGCOLOR="#ABBABA" border='0' cellspacing='5' cellpadding='5' cellborder='0'>
-	        <tr><td colspan='2'><font face="Helvetica" point-size='20' color="white">Container</font></td></tr>
+	        <tr><td colspan='2'><font point-size='20' color="white">Container</font></td></tr>
 	  	<tr>
-	    	  <td BGCOLOR="white"><font face="Helvetica" color="#00617F">App</font></td>
-	    	  <td BGCOLOR="white"><font face="Helvetica" color="#00617F">App</font></td>
+	    	  <td BGCOLOR="white"><font color="#00617F">App</font></td>
+	    	  <td BGCOLOR="white"><font color="#00617F">App</font></td>
 	  	</tr>
 	  	</table>
 	      </td>
@@ -96,10 +96,10 @@ graph pve_software_stack {
         <tr><td>
 	  <table BGCOLOR="#00617F" border='0' cellspacing='5' cellpadding='5' cellborder='0'>
 	  <tr>
-	    <td align='left' fixedsize='true' width='45' height='25' BGCOLOR="#FF9100"><font face="Helvetica" color="white">KVM</font></td>
-	    <td width='275' ><font face="Helvetica" point-size='20' color="white">Linux Kernel</font></td>
-	    <td align='left' fixedsize='true'  width='75' height='25' BGCOLOR="#FF9100"><font face="Helvetica" color="white">AppArmor</font></td>
-	    <td align='left' fixedsize='true'  width='70' height='25' BGCOLOR="#FF9100"><font face="Helvetica" color="white">cgroups</font></td>
+	    <td align='left' fixedsize='true' width='45' height='25' BGCOLOR="#FF9100"><font color="white">KVM</font></td>
+	    <td width='275' ><font point-size='20' color="white">Linux Kernel</font></td>
+	    <td align='left' fixedsize='true'  width='75' height='25' BGCOLOR="#FF9100"><font color="white">AppArmor</font></td>
+	    <td align='left' fixedsize='true'  width='70' height='25' BGCOLOR="#FF9100"><font color="white">cgroups</font></td>
          </tr>
           </table>
         </td></tr>
