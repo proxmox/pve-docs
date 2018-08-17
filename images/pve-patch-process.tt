@@ -1,0 +1,40 @@
+digraph pve_path_process {
+    
+  node [
+    shape=record
+    fontname="Helvetica"
+    style="rounded,filled"
+    fillcolor="#00617F"
+    fontcolor="white"
+    width=2.5
+  ]
+
+  edge [ color="#FF9100" ]
+
+  subgraph cluster1 {
+    fontname="Helvetica"
+    fontsize=24
+    style="rounded"
+    label="\nPatch Process Proxmox VE"
+
+    start [style="invisible" fixedsize=true width=6 height=0]
+
+    start -> setup
+
+    setup [label="Set up GIT repositories"]
+    discuss [label="Discuss your plans"]
+    develop [label="Develop the feature/fix"]
+    test [label="Test it (regressions?)"]
+    send [label="Send to 'pve-devel'"]
+    wait [label="Wait for review"]
+    merge [label="Merge into upstream"]
+  
+    setup -> discuss
+    discuss:w -> develop
+    develop -> test
+    test -> send
+    send -> wait:w
+    wait -> merge
+    wait:e -> discuss:e
+  }
+}
