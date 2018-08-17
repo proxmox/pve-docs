@@ -89,10 +89,6 @@ ADOC_STDARG=-b $(shell pwd)/asciidoc/pve-html -f asciidoc/asciidoc-pve.conf -a i
 
 BROWSER?=xdg-open
 
-
-%-nwdiag.svg: %.nwdiag
-	nwdiag -T svg $*.nwdiag -o $@;
-
 README.html: README.adoc
 	asciidoc -a toc ${ADOC_STDARG} -o $@ $<
 
