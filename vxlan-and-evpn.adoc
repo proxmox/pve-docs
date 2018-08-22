@@ -16,6 +16,9 @@ while accommodating a very large number of tenants. It is defined in RFC 7348.
 Each overlay network is known as a VXLAN Segment and identified by a unique
 24-bit segment ID called a VXLAN Network Identifier (VNI).
 
+VXLAN encapsulation add 50bytes overhead, so you need to increase mtu on your host
+physical interfaces to 1550 at minimum. (or decrease mtu inside your vms to 1450)
+
 For BUM traffic (broadcast / unknown unicast traffic, multicast),
 we have 3 differents vxlan setup modes : multicast, unicast, bgp-evpn
 
@@ -36,6 +39,7 @@ remote VTEPs will get the packet and answer accordingly direct to the originatin
 ----
 auto eno1
 iface eno1 inet manual
+	mtu 1550
 
 auto vmbr0
 iface vmbr0 inet static
@@ -74,6 +78,7 @@ iface vmbr3 inet manual
 ----
 auto eno1
 iface eno1 inet manual
+	mtu 1550
 
 auto vmbr0
 iface vmbr0 inet static
@@ -113,6 +118,7 @@ iface vmbr3 inet manual
 ----
 auto eno1
 iface eno1 inet manual
+	mtu 1550
 
 auto vmbr0
 iface vmbr0 inet static
@@ -161,6 +167,7 @@ The VXLAN device will still learn remote addresses automatically using source-ad
 ----
 auto eno1
 iface eno1 inet manual
+	mtu 1550
 
 auto vmbr0
 iface vmbr0 inet static
@@ -203,6 +210,7 @@ iface vmbr3 inet manual
 ----
 auto eno1
 iface eno1 inet manual
+	mtu 1550
 
 auto vmbr0
 iface vmbr0 inet static
@@ -244,6 +252,7 @@ iface vmbr3 inet manual
 ----
 auto eno1
 iface eno1 inet manual
+	mtu 1550
 
 auto vmbr0
 iface vmbr0 inet static
@@ -296,6 +305,7 @@ it's possible to use external bgp route reflector servers.
 ----
 auto eno1
 iface eno1 inet manual
+	mtu 1550
 
 auto vmbr0
 iface vmbr0 inet static
@@ -363,6 +373,7 @@ line vty
 ----
 auto eno1
 iface eno1 inet manual
+	mtu 1550
 
 auto vmbr0
 iface vmbr0 inet static
@@ -429,6 +440,7 @@ line vty
 ----
 auto eno1
 iface eno1 inet manual
+	mtu 1550
 
 auto vmbr0
 iface vmbr0 inet static
@@ -526,6 +538,7 @@ net.ipv6.conf.all.forwarding=1
 ----
 auto eno1
 iface eno1 inet manual
+	mtu 1550
  
 auto vmbr0
 iface vmbr0 inet static
@@ -600,6 +613,7 @@ line vty
 ----
 auto eno1
 iface eno1 inet manual
+	mtu 1550
  
 auto vmbr0
 iface vmbr0 inet static
@@ -674,6 +688,7 @@ line vty
 ----
 auto eno1
 iface eno1 inet manual
+	mtu 1550
  
 auto vmbr0
 iface vmbr0 inet static
@@ -779,6 +794,7 @@ iface vrf1
 
 auto eno1
 iface eno1 inet manual
+	mtu 1550
  
 auto vmbr0
 iface vmbr0 inet static
@@ -888,6 +904,7 @@ iface vrf1
 
 auto eno1
 iface eno1 inet manual
+	mtu 1550
  
 auto vmbr0
 iface vmbr0 inet static
@@ -998,6 +1015,7 @@ iface vrf1
 
 auto eno1
 iface eno1 inet manual
+	mtu 1550
  
 auto vmbr0
 iface vmbr0 inet static
@@ -1118,6 +1136,7 @@ iface vrf1
 
 auto eno1
 iface eno1 inet manual
+	mtu 1550
 
 auto vmbr0
 iface vmbr0 inet static
@@ -1237,6 +1256,7 @@ iface vrf1
 
 auto eno1
 iface eno1 inet manual
+	mtu 1550
  
 auto vmbr0
 iface vmbr0 inet static
@@ -1347,6 +1367,7 @@ iface vrf1
 
 auto eno1
 iface eno1 inet manual
+	mtu 1550
  
 auto vmbr0
 iface vmbr0 inet static
@@ -1465,6 +1486,7 @@ iface vrf1
 
 auto eno1
 iface eno1 inet manual
+	mtu 1550
 
 auto vmbr0
 iface vmbr0 inet static
@@ -1479,6 +1501,7 @@ iface eno2
         address 172.16.0.1
         netmask 255.255.255.0
         vrf vrf1
+	mtu 1550
         post-up ip route add default via 172.16.0.254 dev eno2 vrf vrf1
 	#if you have multiple external routers, you can use ecmp balancing
 	#post-up route add default nexthop via 172.16.0.253 dev eno2 vrf vrf1 nexthop via 172.16.0.254 dev eno2 vrf vrf1
@@ -1584,6 +1607,7 @@ iface vrf1
 
 auto eno1
 iface eno1 inet manual
+	mtu 1550
  
 auto vmbr0
 iface vmbr0 inet static
@@ -1598,6 +1622,7 @@ iface eno2
         address 172.16.0.3
         netmask 255.255.255.0
         vrf vrf1
+	mtu 1550
         post-up ip route add default via 172.16.0.254 dev eno2 vrf vrf1
 	#if you have multiple external routers, you can use ecmp balancing
 	#post-up route add default nexthop via 172.16.0.253 dev eno2 vrf vrf1 nexthop via 172.16.0.254 dev eno2 vrf vrf1
@@ -1704,7 +1729,8 @@ iface vrf1
 
 auto eno1
 iface eno1 inet manual
- 
+	mtu 1550
+
 auto vmbr0
 iface vmbr0 inet static
          address 192.168.0.3
@@ -1718,6 +1744,7 @@ iface eno2
         address 172.16.0.3
         netmask 255.255.255.0
         vrf vrf1
+	mtu 1550
         post-up ip route add default via 172.16.0.254 dev eno2 vrf vrf1
 	#if you have multiple external routers, you can use ecmp balancing
 	#post-up route add default nexthop via 172.16.0.253 dev eno2 vrf vrf1 nexthop via 172.16.0.254 dev eno2 vrf vrf1
@@ -1832,6 +1859,7 @@ iface eno2
         address 172.16.0.1
         netmask 255.255.255.0
         vrf vrf1
+	mtu 1550
         post-up ip route add default via 172.16.0.254 dev eno2 vrf vrf1
 	vrrp-id 1
 	vrrp-priority 1
@@ -1845,6 +1873,7 @@ auto eno2
 iface eno2
         address 172.16.0.2
         netmask 255.255.255.0
+	mtu 1550
         vrf vrf1
         post-up ip route add default via 172.16.0.254 dev eno2 vrf vrf1
 	vrrp-id 1
