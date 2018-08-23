@@ -25,7 +25,7 @@ Backup and Restore
 :pve-toplevel:
 endif::manvolnum[]
 
-Backups are a requirements for any sensible IT deployment, and {pve}
+Backups are a requirement for any sensible IT deployment, and {pve}
 provides a fully integrated solution, using the capabilities of each
 storage and each guest system type. This allows the system
 administrator to fine tune via the `mode` option between consistency

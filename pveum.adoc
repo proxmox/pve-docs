@@ -223,7 +223,7 @@ of predefined roles which satisfies most needs.
 
 You can see the whole set of predefined roles on the GUI.
 
-Adding new roles can currently only be done from the command line, like
+Adding new roles can be done via both GUI and the command line, like
 this:
 
 [source,bash]

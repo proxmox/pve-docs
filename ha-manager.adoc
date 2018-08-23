@@ -137,7 +137,7 @@ resource of type `vm` (virtual machine) with the ID 100.
 
 For now we have two important resources types - virtual machines and
 containers. One basic idea here is that we can bundle related software
-into such VM or container, so there is no need to compose one big
+into such a VM or container, so there is no need to compose one big
 service from other services, like it was done with `rgmanager`. In
 general, a HA managed resource should not depend on other resources.
 
@@ -156,7 +156,7 @@ GUI, or simply use the command line tool, for example:
 
 The HA stack now tries to start the resources and keeps it
 running. Please note that you can configure the ``requested''
-resources state. For example you may want that the HA stack stops the
+resources state. For example you may want the HA stack to stop the
 resource:
 
 ----
@@ -225,7 +225,7 @@ the following command:
 
 NOTE: This does not start or stop the resource.
 
-But all HA related task can be done on the GUI, so there is no need to
+But all HA related tasks can be done in the GUI, so there is no need to
 use the command line at all.
 
 
@@ -253,7 +253,7 @@ handles node fencing.
 .Locks in the LRM & CRM
 [NOTE]
 Locks are provided by our distributed configuration file system (pmxcfs).
-They are used to guarantee that each LRM is active once and working. As a
+They are used to guarantee that each LRM is active once and working. As an
 LRM only executes actions when it holds its lock, we can mark a failed node
 as fenced if we can acquire its lock. This lets us then recover any failed
 HA services securely without any interference from the now unknown failed node.
@@ -369,7 +369,7 @@ The LRM lost its lock, this means a failure happened and quorum was lost.
 After the LRM gets in the active state it reads the manager status
 file in `/etc/pve/ha/manager_status` and determines the commands it
 has to execute for the services it owns.
-For each command a worker gets started, this workers are running in
+For each command a worker gets started, these workers are running in
 parallel and are limited to at most 4 by default. This default setting
 may be changed through the datacenter configuration key `max_worker`.
 When finished the worker process gets collected and its result saved for
@@ -381,19 +381,19 @@ The default value of at most 4 concurrent workers may be unsuited for
 a specific setup. For example may 4 live migrations happen at the same
 time, which can lead to network congestions with slower networks and/or
 big (memory wise) services. Ensure that also in the worst case no congestion
-happens and lower the `max_worker` value if needed. In the contrary, if you
+happens and lower the `max_worker` value if needed. On the contrary, if you
 have a particularly powerful high end setup you may also want to increase it.
 
-Each command requested by the CRM is uniquely identifiable by an UID, when
-the worker finished its result will be processed and written in the LRM
+Each command requested by the CRM is uniquely identifiable by a UID, when
+the worker finishes its result will be processed and written in the LRM
 status file `/etc/pve/nodes/<nodename>/lrm_status`. There the CRM may collect
 it and let its state machine - respective the commands output - act on it.
 
 The actions on each service between CRM and LRM are normally always synced.
-This means that the CRM requests a state uniquely marked by an UID, the LRM
+This means that the CRM requests a state uniquely marked by a UID, the LRM
 then executes this action *one time* and writes back the result, also
 identifiable by the same UID. This is needed so that the LRM does not
-executes an outdated command.
+execute an outdated command.
 With the exception of the `stop` and the `error` command,
 those two do not depend on the result produced and are executed
 always in the case of the stopped state and once in the case of
@@ -430,11 +430,11 @@ lost agent lock::
 
 The CRM lost its lock, this means a failure happened and quorum was lost.
 
-It main task is to manage the services which are configured to be highly
+Its main task is to manage the services which are configured to be highly
 available and try to always enforce the requested state. For example, a
 service with the requested state 'started' will be started if its not
 already running. If it crashes it will be automatically started again.
-Thus the CRM dictates the actions which the LRM needs to execute.
+Thus the CRM dictates the actions the LRM needs to execute.
 
 When an node leaves the cluster quorum, its state changes to unknown.
 If the current CRM then can secure the failed nodes lock, the services
@@ -468,7 +468,7 @@ Resources
 
 The resource configuration file `/etc/pve/ha/resources.cfg` stores
 the list of resources managed by `ha-manager`. A resource configuration
-inside that list look like this:
+inside that list looks like this:
 
 ----
 <type>: <name>
@@ -689,7 +689,7 @@ Start Failure Policy
 ---------------------
 
 The start failure policy comes in effect if a service failed to start on a
-node once ore more times. It can be used to configure how often a restart
+node one or more times. It can be used to configure how often a restart
 should be triggered on the same node and how often a service should be
 relocated so that it gets a try to be started on another node.
 The aim of this policy is to circumvent temporary unavailability of shared
