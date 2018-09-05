@@ -2,8 +2,9 @@
 
 graph default_network_setup_routed {
     splines=line
+    fontname="Helvetica"
     node [shape=record];
-    edge [];
+    edge [color="#FF9100"]
 
     size="8.0,5.0!"
     ratio=fill
@@ -11,7 +12,12 @@ graph default_network_setup_routed {
 [% server(id="gateway" title="Provider Gateway" subtitle="198.51.100.1") %]
 
     subgraph cluster_node1 {
-        label="Node: proxmox" labeljust=l labelloc=b
+        label="Node: proxmox" labelloc=b
+	style="rounded,filled"
+	color="#00617F"
+	fillcolor="#00617F"
+	fontcolor="white"
+	edge [color=white]
 
 	[% interface(id="node1_eno0" ifname="eno0" cidr="198.51.100.5/29") %]
 
@@ -34,5 +40,5 @@ graph default_network_setup_routed {
 
     gateway -- node1_eno0:eno0
 
-    node1_vmbr0 --  node1_eno0 [ color=red constraint=0 label="ip_forward=1\nproxy_arp=1"]
+    node1_vmbr0 --  node1_eno0 [ fontname="Courier" fontcolor=white color=red constraint=0 label="ip_forward = 1\rproxy_arp = 1\r"]
 }

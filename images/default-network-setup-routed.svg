@@ -10,81 +10,81 @@
 <title>default_network_setup_routed</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-364 580,-364 580,4 -4,4"/>
 <g id="clust1" class="cluster"><title>cluster_node1</title>
-<polygon fill="none" stroke="black" points="10.2628,-10.6273 10.2628,-260.369 565.737,-260.369 565.737,-10.6273 10.2628,-10.6273"/>
-<text text-anchor="middle" x="61.7628" y="-18.4273" font-family="Times,serif" font-size="14.00">Node: proxmox</text>
+<path fill="#00617f" stroke="#00617f" d="M21.4233,-10.6273C21.4233,-10.6273 554.577,-10.6273 554.577,-10.6273 560.577,-10.6273 566.577,-16.6273 566.577,-22.6273 566.577,-22.6273 566.577,-248.369 566.577,-248.369 566.577,-254.369 560.577,-260.369 554.577,-260.369 554.577,-260.369 21.4233,-260.369 21.4233,-260.369 15.4233,-260.369 9.42331,-254.369 9.42331,-248.369 9.42331,-248.369 9.42331,-22.6273 9.42331,-22.6273 9.42331,-16.6273 15.4233,-10.6273 21.4233,-10.6273"/>
+<text text-anchor="middle" x="288" y="-18.4273" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">Node: proxmox</text>
 </g>
 <!-- gateway -->
 <g id="node1" class="node"><title>gateway</title>
-<polygon fill="#888888" stroke="none" points="384.169,-310.627 384.169,-348.627 491.169,-348.627 491.169,-310.627 384.169,-310.627"/>
-<text text-anchor="start" x="388.169" y="-333.427" font-family="Times,serif" font-size="14.00" fill="white">Provider Gateway</text>
-<text text-anchor="start" x="392.169" y="-318.027" font-family="monospace" font-size="12.00" fill="white">198.51.100.1</text>
-<polygon fill="none" stroke="#666666" stroke-width="2" points="385.169,-311.627 385.169,-347.627 490.169,-347.627 490.169,-311.627 385.169,-311.627"/>
+<polygon fill="#ff9100" stroke="none" points="383.607,-310.627 383.607,-348.627 514.607,-348.627 514.607,-310.627 383.607,-310.627"/>
+<text text-anchor="start" x="394.607" y="-333.427" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">Provider Gateway</text>
+<text text-anchor="start" x="403.607" y="-318.027" font-family="Courier,monospace" font-size="12.00" fill="white">198.51.100.1</text>
+<polygon fill="none" stroke="#666666" stroke-width="2" points="384.607,-311.627 384.607,-347.627 513.607,-347.627 513.607,-311.627 384.607,-311.627"/>
 </g>
 <!-- node1_eno0 -->
 <g id="node2" class="node"><title>node1_eno0</title>
-<polygon fill="#666666" stroke="none" points="428.169,-217.627 428.169,-227.627 453.169,-227.627 453.169,-217.627 428.169,-217.627"/>
-<text text-anchor="start" x="429.669" y="-220.727" font-family="monospace" font-size="8.00" fill="white">eno0</text>
-<path fill="lightgreen" stroke="none" d="M386.503,-197.627C386.503,-197.627 516.836,-197.627 516.836,-197.627 520.003,-197.627 523.169,-200.794 523.169,-203.961 523.169,-203.961 523.169,-210.294 523.169,-210.294 523.169,-213.461 520.003,-216.627 516.836,-216.627 516.836,-216.627 386.503,-216.627 386.503,-216.627 383.336,-216.627 380.169,-213.461 380.169,-210.294 380.169,-210.294 380.169,-203.961 380.169,-203.961 380.169,-200.794 383.336,-197.627 386.503,-197.627"/>
-<text text-anchor="start" x="395.169" y="-204.027" font-family="monospace" font-size="12.00">198.51.100.5/29</text>
-<path fill="none" stroke="green" stroke-width="2" d="M386.503,-197.627C386.503,-197.627 516.836,-197.627 516.836,-197.627 520.003,-197.627 523.169,-200.794 523.169,-203.961 523.169,-203.961 523.169,-210.294 523.169,-210.294 523.169,-213.461 520.003,-216.627 516.836,-216.627 516.836,-216.627 386.503,-216.627 386.503,-216.627 383.336,-216.627 380.169,-213.461 380.169,-210.294 380.169,-210.294 380.169,-203.961 380.169,-203.961 380.169,-200.794 383.336,-197.627 386.503,-197.627"/>
+<polygon fill="#666666" stroke="none" points="438.607,-217.627 438.607,-227.627 463.607,-227.627 463.607,-217.627 438.607,-217.627"/>
+<text text-anchor="start" x="441.607" y="-220.727" font-family="Courier,monospace" font-size="8.00" fill="white">eno0</text>
+<path fill="lightgreen" stroke="none" d="M396.941,-197.627C396.941,-197.627 527.274,-197.627 527.274,-197.627 530.441,-197.627 533.607,-200.794 533.607,-203.961 533.607,-203.961 533.607,-210.294 533.607,-210.294 533.607,-213.461 530.441,-216.627 527.274,-216.627 527.274,-216.627 396.941,-216.627 396.941,-216.627 393.774,-216.627 390.607,-213.461 390.607,-210.294 390.607,-210.294 390.607,-203.961 390.607,-203.961 390.607,-200.794 393.774,-197.627 396.941,-197.627"/>
+<text text-anchor="start" x="405.607" y="-204.027" font-family="Courier,monospace" font-size="12.00">198.51.100.5/29</text>
+<path fill="none" stroke="green" stroke-width="2" d="M396.941,-197.627C396.941,-197.627 527.274,-197.627 527.274,-197.627 530.441,-197.627 533.607,-200.794 533.607,-203.961 533.607,-203.961 533.607,-210.294 533.607,-210.294 533.607,-213.461 530.441,-216.627 527.274,-216.627 527.274,-216.627 396.941,-216.627 396.941,-216.627 393.774,-216.627 390.607,-213.461 390.607,-210.294 390.607,-210.294 390.607,-203.961 390.607,-203.961 390.607,-200.794 393.774,-197.627 396.941,-197.627"/>
 </g>
 <!-- gateway&#45;&#45;node1_eno0 -->
 <g id="edge4" class="edge"><title>gateway&#45;&#45;node1_eno0:eno0</title>
-<path fill="none" stroke="black" d="M437.835,-306.434C438.719,-276.973 440.169,-228.627 440.169,-228.627"/>
+<path fill="none" stroke="#ff9100" d="M449.051,-306.434C449.64,-276.973 450.607,-228.627 450.607,-228.627"/>
 </g>
 <!-- node1_vmbr0 -->
 <g id="node3" class="node"><title>node1_vmbr0</title>
-<path fill="lightgreen" stroke="none" d="M65.1693,-199.627C65.1693,-199.627 184.169,-199.627 184.169,-199.627 190.169,-199.627 196.169,-205.627 196.169,-211.627 196.169,-211.627 196.169,-223.627 196.169,-223.627 196.169,-229.627 190.169,-235.627 184.169,-235.627 184.169,-235.627 65.1693,-235.627 65.1693,-235.627 59.1693,-235.627 53.1693,-229.627 53.1693,-223.627 53.1693,-223.627 53.1693,-211.627 53.1693,-211.627 53.1693,-205.627 59.1693,-199.627 65.1693,-199.627"/>
-<text text-anchor="start" x="106.169" y="-221.427" font-family="Times,serif" font-size="14.00">vmbr0</text>
-<text text-anchor="start" x="68.1693" y="-206.027" font-family="monospace" font-size="12.00">203.0.113.17/28</text>
-<path fill="none" stroke="green" stroke-width="2" d="M65.1693,-199.627C65.1693,-199.627 184.169,-199.627 184.169,-199.627 190.169,-199.627 196.169,-205.627 196.169,-211.627 196.169,-211.627 196.169,-223.627 196.169,-223.627 196.169,-229.627 190.169,-235.627 184.169,-235.627 184.169,-235.627 65.1693,-235.627 65.1693,-235.627 59.1693,-235.627 53.1693,-229.627 53.1693,-223.627 53.1693,-223.627 53.1693,-211.627 53.1693,-211.627 53.1693,-205.627 59.1693,-199.627 65.1693,-199.627"/>
-<polygon fill="#666666" stroke="none" stroke-width="2" points="93.6693,-188.627 93.6693,-198.627 138.669,-198.627 138.669,-188.627 93.6693,-188.627"/>
-<text text-anchor="start" x="94.6693" y="-191.727" font-family="monospace" font-size="8.00" fill="white">tap100i0</text>
+<path fill="#abbaba" stroke="none" d="M55.6074,-199.627C55.6074,-199.627 174.607,-199.627 174.607,-199.627 180.607,-199.627 186.607,-205.627 186.607,-211.627 186.607,-211.627 186.607,-223.627 186.607,-223.627 186.607,-229.627 180.607,-235.627 174.607,-235.627 174.607,-235.627 55.6074,-235.627 55.6074,-235.627 49.6074,-235.627 43.6074,-229.627 43.6074,-223.627 43.6074,-223.627 43.6074,-211.627 43.6074,-211.627 43.6074,-205.627 49.6074,-199.627 55.6074,-199.627"/>
+<text text-anchor="start" x="95.6074" y="-221.427" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">vmbr0</text>
+<text text-anchor="start" x="58.6074" y="-206.027" font-family="Courier,monospace" font-size="12.00" fill="white">203.0.113.17/28</text>
+<path fill="none" stroke="#666666" stroke-width="2" d="M55.6074,-199.627C55.6074,-199.627 174.607,-199.627 174.607,-199.627 180.607,-199.627 186.607,-205.627 186.607,-211.627 186.607,-211.627 186.607,-223.627 186.607,-223.627 186.607,-229.627 180.607,-235.627 174.607,-235.627 174.607,-235.627 55.6074,-235.627 55.6074,-235.627 49.6074,-235.627 43.6074,-229.627 43.6074,-223.627 43.6074,-223.627 43.6074,-211.627 43.6074,-211.627 43.6074,-205.627 49.6074,-199.627 55.6074,-199.627"/>
+<polygon fill="#666666" stroke="none" stroke-width="2" points="84.1074,-188.627 84.1074,-198.627 129.107,-198.627 129.107,-188.627 84.1074,-188.627"/>
+<text text-anchor="start" x="88.1074" y="-191.727" font-family="Courier,monospace" font-size="8.00" fill="white">tap100i0</text>
 </g>
 <!-- node1_vmbr0&#45;&#45;node1_eno0 -->
 <g id="edge5" class="edge"><title>node1_vmbr0&#45;&#45;node1_eno0</title>
-<path fill="none" stroke="red" d="M205.001,-212.627C255.404,-212.627 320.03,-212.627 370.418,-212.627"/>
-<text text-anchor="middle" x="287.669" y="-234.427" font-family="Times,serif" font-size="14.00">ip_forward=1</text>
-<text text-anchor="middle" x="287.669" y="-219.427" font-family="Times,serif" font-size="14.00">proxy_arp=1</text>
+<path fill="none" stroke="red" d="M195.526,-212.627C251.299,-212.627 325.125,-212.627 380.861,-212.627"/>
+<text text-anchor="end" x="346.107" y="-234.427" font-family="Courier,monospace" font-size="14.00" fill="white">ip_forward = 1</text>
+<text text-anchor="end" x="346.107" y="-219.427" font-family="Courier,monospace" font-size="14.00" fill="white">proxy_arp = 1</text>
 </g>
 <!-- vm100 -->
 <g id="node4" class="node"><title>vm100</title>
-<polygon fill="#666666" stroke="none" points="76.1693,-102.627 76.1693,-112.627 106.169,-112.627 106.169,-102.627 76.1693,-102.627"/>
-<text text-anchor="start" x="77.6693" y="-105.727" font-family="monospace" font-size="8.00" fill="white">ens18</text>
-<polygon fill="#888888" stroke="none" points="46.1693,-64.6273 46.1693,-102.627 145.169,-102.627 145.169,-64.6273 46.1693,-64.6273"/>
-<text text-anchor="start" x="72.1693" y="-87.4273" font-family="Times,serif" font-size="14.00" fill="white">VM 100</text>
-<text text-anchor="start" x="50.1693" y="-72.0273" font-family="monospace" font-size="12.00" fill="white">203.0.113.18</text>
-<polygon fill="none" stroke="#666666" stroke-width="2" points="47.1693,-65.6273 47.1693,-101.627 144.169,-101.627 144.169,-65.6273 47.1693,-65.6273"/>
+<polygon fill="#666666" stroke="none" points="74.1074,-102.627 74.1074,-112.627 104.107,-112.627 104.107,-102.627 74.1074,-102.627"/>
+<text text-anchor="start" x="77.6074" y="-105.727" font-family="Courier,monospace" font-size="8.00" fill="white">ens18</text>
+<polygon fill="#ff9100" stroke="none" points="39.6074,-64.6273 39.6074,-102.627 152.607,-102.627 152.607,-64.6273 39.6074,-64.6273"/>
+<text text-anchor="start" x="72.1074" y="-87.4273" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">VM 100</text>
+<text text-anchor="start" x="50.6074" y="-72.0273" font-family="Courier,monospace" font-size="12.00" fill="white">203.0.113.18</text>
+<polygon fill="none" stroke="#666666" stroke-width="2" points="40.6074,-65.6273 40.6074,-101.627 151.607,-101.627 151.607,-65.6273 40.6074,-65.6273"/>
 </g>
 <!-- node1_vmbr0&#45;&#45;vm100 -->
 <g id="edge1" class="edge"><title>node1_vmbr0:tap100i0&#45;&#45;vm100:ens18</title>
-<path fill="none" stroke="black" d="M116.169,-187.627C116.169,-187.627 91.1693,-113.627 91.1693,-113.627"/>
+<path fill="none" stroke="white" d="M106.607,-187.627C106.607,-187.627 88.6074,-113.627 88.6074,-113.627"/>
 </g>
 <!-- vm101 -->
 <g id="node5" class="node"><title>vm101</title>
-<polygon fill="#666666" stroke="none" points="246.169,-102.627 246.169,-112.627 276.169,-112.627 276.169,-102.627 246.169,-102.627"/>
-<text text-anchor="start" x="247.669" y="-105.727" font-family="monospace" font-size="8.00" fill="white">ens18</text>
-<polygon fill="#888888" stroke="none" points="216.169,-64.6273 216.169,-102.627 315.169,-102.627 315.169,-64.6273 216.169,-64.6273"/>
-<text text-anchor="start" x="242.169" y="-87.4273" font-family="Times,serif" font-size="14.00" fill="white">VM 101</text>
-<text text-anchor="start" x="220.169" y="-72.0273" font-family="monospace" font-size="12.00" fill="white">203.0.113.19</text>
-<polygon fill="none" stroke="#666666" stroke-width="2" points="217.169,-65.6273 217.169,-101.627 314.169,-101.627 314.169,-65.6273 217.169,-65.6273"/>
+<polygon fill="#666666" stroke="none" points="247.107,-102.627 247.107,-112.627 277.107,-112.627 277.107,-102.627 247.107,-102.627"/>
+<text text-anchor="start" x="250.607" y="-105.727" font-family="Courier,monospace" font-size="8.00" fill="white">ens18</text>
+<polygon fill="#ff9100" stroke="none" points="212.607,-64.6273 212.607,-102.627 325.607,-102.627 325.607,-64.6273 212.607,-64.6273"/>
+<text text-anchor="start" x="245.107" y="-87.4273" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">VM 101</text>
+<text text-anchor="start" x="223.607" y="-72.0273" font-family="Courier,monospace" font-size="12.00" fill="white">203.0.113.19</text>
+<polygon fill="none" stroke="#666666" stroke-width="2" points="213.607,-65.6273 213.607,-101.627 324.607,-101.627 324.607,-65.6273 213.607,-65.6273"/>
 </g>
 <!-- node1_vmbr0&#45;&#45;vm101 -->
 <g id="edge2" class="edge"><title>node1_vmbr0:tap100i0&#45;&#45;vm101:ens18</title>
-<path fill="none" stroke="black" d="M116.169,-187.627C116.169,-187.627 261.169,-113.627 261.169,-113.627"/>
+<path fill="none" stroke="white" d="M106.607,-187.627C106.607,-187.627 261.607,-113.627 261.607,-113.627"/>
 </g>
 <!-- vm102 -->
 <g id="node6" class="node"><title>vm102</title>
-<polygon fill="#666666" stroke="none" points="417.169,-102.627 417.169,-112.627 447.169,-112.627 447.169,-102.627 417.169,-102.627"/>
-<text text-anchor="start" x="418.669" y="-105.727" font-family="monospace" font-size="8.00" fill="white">ens18</text>
-<polygon fill="#888888" stroke="none" points="387.169,-64.6273 387.169,-102.627 486.169,-102.627 486.169,-64.6273 387.169,-64.6273"/>
-<text text-anchor="start" x="413.169" y="-87.4273" font-family="Times,serif" font-size="14.00" fill="white">VM 101</text>
-<text text-anchor="start" x="391.169" y="-72.0273" font-family="monospace" font-size="12.00" fill="white">203.0.113.20</text>
-<polygon fill="none" stroke="#666666" stroke-width="2" points="388.169,-65.6273 388.169,-101.627 485.169,-101.627 485.169,-65.6273 388.169,-65.6273"/>
+<polygon fill="#666666" stroke="none" points="420.107,-102.627 420.107,-112.627 450.107,-112.627 450.107,-102.627 420.107,-102.627"/>
+<text text-anchor="start" x="423.607" y="-105.727" font-family="Courier,monospace" font-size="8.00" fill="white">ens18</text>
+<polygon fill="#ff9100" stroke="none" points="385.607,-64.6273 385.607,-102.627 498.607,-102.627 498.607,-64.6273 385.607,-64.6273"/>
+<text text-anchor="start" x="418.107" y="-87.4273" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">VM 101</text>
+<text text-anchor="start" x="396.607" y="-72.0273" font-family="Courier,monospace" font-size="12.00" fill="white">203.0.113.20</text>
+<polygon fill="none" stroke="#666666" stroke-width="2" points="386.607,-65.6273 386.607,-101.627 497.607,-101.627 497.607,-65.6273 386.607,-65.6273"/>
 </g>
 <!-- node1_vmbr0&#45;&#45;vm102 -->
 <g id="edge3" class="edge"><title>node1_vmbr0:tap100i0&#45;&#45;vm102:ens18</title>
-<path fill="none" stroke="black" d="M116.169,-187.627C116.169,-187.627 432.169,-113.627 432.169,-113.627"/>
+<path fill="none" stroke="white" d="M106.607,-187.627C106.607,-187.627 434.607,-113.627 434.607,-113.627"/>
 </g>
 </g>
 </svg>

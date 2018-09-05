@@ -3,7 +3,7 @@
   <tr>
     <td fixedsize='TRUE' width='15' height='10'></td>
     [% FOREACH p IN draw_ports %]
-    <td port='[% p %]' fixedsize='TRUE' width='[% p.length*5+5 %]' height='10' BGCOLOR="#666666"><font face='monospace' point-size='8' color='white'>[% p %]</font></td>
+    <td port='[% p %]' fixedsize='TRUE' width='[% p.length*5+5 %]' height='10' BGCOLOR="#666666"><font face='Courier' point-size='8' color='white'>[% p %]</font></td>
     <td fixedsize='TRUE' width='1' height='10'></td>
     [% END %]
     <td fixedsize='TRUE' width='15' height='10'></td>
@@ -19,10 +19,10 @@
 	    [% IF top_ports %]
 	    <tr><td>[% PROCESS switch_ports draw_ports=top_ports %]</td></tr>
 	    [% END %]
-	    <tr><td><table color='green' BGCOLOR="lightgreen" border='2' cellspacing='2' cellpadding='0' cellborder='0' style='rounded'>	
-              <tr><td width='10'></td><td>[% title %]</td><td width='10'></td></tr>
+	    <tr><td><table color='#666666' BGCOLOR="#ABBABA" border='2' cellspacing='2' cellpadding='0' cellborder='0' style='rounded'>	
+              <tr><td width='10'></td><td><font  color='white' face='Helvetica'>[% title %]</font></td><td width='10'></td></tr>
 	      [% IF subtitle %]
-              <tr><td width='10'></td><td><font face='monospace' point-size='12'>[% subtitle %]</font></td><td width='10'></td></tr>
+              <tr><td width='10'></td><td><font color='white' face='Courier' point-size='12'>[% subtitle %]</font></td><td width='10'></td></tr>
 	      [% END %]
 	    </table></td></tr>
 	    [% IF ports %]
@@ -41,10 +41,10 @@
 	    [% IF top_ports %]
 	    <tr><td>[% PROCESS switch_ports draw_ports=top_ports %]</td></tr>
 	    [% END %]
-	    <tr><td><table color='#666666' BGCOLOR="#888888" border='2' cellspacing='2' cellpadding='0' cellborder='0'>	
-              <tr><td><font color='white'>[% title %]</font></td></tr>
+	    <tr><td><table color='#666666' BGCOLOR="#FF9100" border='2' cellspacing='2' cellpadding='0' cellborder='0'>	
+              <tr><td width='5'></td><td><font face='Helvetica' color='white'>[% title %]</font></td><td width='5'></td></tr>
 	      [% IF subtitle %]
-              <tr><td><font face='monospace' color='white' point-size='12'>[% subtitle %]</font></td></tr>
+              <tr><td width='5'></td><td><font face='Courier' color='white' point-size='12'>[% subtitle %]</font></td><td width='5'></td></tr>
 	      [% END %]
  	    </table></td></tr>
 	    [% IF ports %]
@@ -63,7 +63,7 @@
 	    <tr><td>[% PROCESS switch_ports draw_ports=ifname %]</td></tr>
 	    [% IF cidr %]
 	    <tr><td><table color='green' BGCOLOR="lightgreen" border='2' cellspacing='2' cellpadding='0' cellborder='0' style='rounded'>
-              <tr><td width='10'></td><td><font face='monospace' point-size='12'>[% cidr %]</font></td><td width='10'></td></tr>
+              <tr><td width='10'></td><td><font face='Courier' point-size='12'>[% cidr %]</font></td><td width='10'></td></tr>
 	    </table></td></tr>
 	    [% END %]
 	  </table>>

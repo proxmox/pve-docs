@@ -2,8 +2,9 @@
 
 graph default_network_setup_bridge {
     splines=line
+    fontname="Helvetica"
     node [shape=record];
-    edge [];
+    edge [color="#FF9100"]
 
     size="8.0,5.0!"
     ratio=fill
@@ -21,7 +22,12 @@ graph default_network_setup_bridge {
     tor01:3 -- node2_vmbr0:eno1
 
     subgraph cluster_node1 {
-        label="Node: proxmox1" labeljust=l labelloc=b
+        label="Node: proxmox1" labelloc=b
+	style="rounded,filled"
+	color="#00617F"
+	fillcolor="#00617F"
+	fontcolor="white"
+	edge [color=white]
 
 	[% switch(
            id="node1_vmbr0",
@@ -40,7 +46,12 @@ graph default_network_setup_bridge {
     }
 
     subgraph cluster_node2 {
-        label="Node: proxmox2" labeljust=l labelloc=b
+        label="Node: proxmox2" labelloc=b
+	style="rounded,filled"
+	color="#00617F"
+	fillcolor="#00617F"
+	fontcolor="white"
+	edge [color=white]
 
 	[% switch(
            id="node2_vmbr0",
