@@ -407,7 +407,7 @@ function of VLAN 5 in the guest network, but in combination with VLAN anwareness
 bridge this it will not work for guest network VLAN 5.
 The downside of this setup is more CPU usage.
 
-.Example: Use VLAN 5 for the {pve} management IP
+.Example: Use VLAN 5 for the {pve} management IP with traditional Linux bridge
 ----
 auto lo
 iface lo inet loopback
@@ -433,10 +433,32 @@ iface vmbr0 inet manual
 
 ----
 
+.Example: Use VLAN 5 for the {pve} management IP with VLAN aware Linux bridge
+----
+auto lo
+iface lo inet loopback
+
+iface eno1 inet manual
+
+
+auto vmbr0.5
+iface vmbr0.5 inet static
+        address  10.10.10.2
+        netmask  255.255.255.0
+        gateway  10.10.10.1
+
+auto vmbr0
+iface vmbr0 inet manual
+        bridge_ports eno1
+        bridge_stp off
+        bridge_fd 0
+        bridge_vlan_aware yes
+----
+
 The next example is the same setup but a bond is used to
 make this network fail-safe.
 
-.Example: Use VLAN 5 with bond0 for the {pve} management IP
+.Example: Use VLAN 5 with bond0 for the {pve} management IP with traditional Linux bridge
 ----
 auto lo
 iface lo inet loopback
