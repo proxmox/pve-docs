@@ -402,10 +402,6 @@ abstraction layers between itself and the physical NIC.
 For example, in a default configuration where you want to place
 the host management address on a separate VLAN.
 
-NOTE: In the examples we use the VLAN at bridge level to ensure the correct
-function of VLAN 5 in the guest network, but in combination with VLAN anwareness
-bridge this it will not work for guest network VLAN 5.
-The downside of this setup is more CPU usage.
 
 .Example: Use VLAN 5 for the {pve} management IP with traditional Linux bridge
 ----
