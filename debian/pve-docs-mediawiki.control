@@ -1,7 +1,0 @@
-Package: pve-docs-mediawiki
-Architecture: all
-Section: doc
-Depends: ${misc:Depends}, pve-docs, libhtml-parser-perl
-Suggests: apache2
-Description: Proxmox VE Documentation - mediawiki plugin
- This package contains tools to view Proxmox VE Documentation with mediakiki.
