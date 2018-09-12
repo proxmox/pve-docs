@@ -31,7 +31,7 @@ endif::wiki[]
 Using the {pve} Installation CD-ROM
 -----------------------------------
 
-You can download the ISO from http://www.proxmox.com. It includes the
+You can download the ISO from {website}. It includes the
 following:
 
 * Complete operating system (Debian Linux, 64-bit)
