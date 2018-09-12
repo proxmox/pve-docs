@@ -2,29 +2,40 @@ Source: pve-docs
 Section: perl
 Priority: extra
 Maintainer: Proxmox Support Team <support@proxmox.com>
-Build-Depends: debhelper (>= 7.0.50~), lintian, asciidoc-dblatex, source-highlight, librsvg2-bin, graphviz
+Build-Depends: asciidoc-dblatex,
+               debhelper (>= 7.0.50~),
+               graphviz,
+               librsvg2-bin,
+               lintian,
+               source-highlight,
 Standards-Version: 3.8.4
-
-Package: pve-docs
-Section: doc
-Depends: libjs-extjs
-Architecture: all
-Description: Proxmox VE Documentation
- This package contains the Proxmox VE Documentation files.
 
 Package: pve-doc-generator
 Section: perl
 Architecture: any
-Depends: ${perl:Depends}, libpve-common-perl, asciidoc-dblatex, source-highlight, xmlto
+Depends: asciidoc-dblatex,
+         libpve-common-perl,
+         source-highlight,
+         xmlto,
+         ${perl:Depends},
 Description: Proxmox VE Documentation helpers
  Tool to auto-generate various Proxmox VE Documentation files and
  manual pages. This package is required to build most other Proxmox VE
  packages.
 
+Package: pve-docs
+Section: doc
+Depends: libjs-extjs,
+Architecture: all
+Description: Proxmox VE Documentation
+ This package contains the Proxmox VE Documentation files.
+
 Package: pve-docs-mediawiki
 Architecture: all
 Section: doc
-Depends: ${misc:Depends}, pve-docs, libhtml-parser-perl
-Suggests: apache2
+Depends: libhtml-parser-perl,
+         pve-docs,
+         ${misc:Depends},
+Suggests: apache2,
 Description: Proxmox VE Documentation - mediawiki plugin
  This package contains tools to view Proxmox VE Documentation with mediakiki.

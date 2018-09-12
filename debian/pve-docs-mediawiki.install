@@ -1,3 +1,3 @@
-debian/tree/pve-docs-mediawiki/pvedocs-include.php /usr/lib/pve-docs/
 /usr/bin/pve-docs-mediawiki-import
 debian/tree/pve-docs-mediawiki/pve-docs.conf /etc/apache2/sites-available/
+debian/tree/pve-docs-mediawiki/pvedocs-include.php /usr/lib/pve-docs/
