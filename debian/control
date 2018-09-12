@@ -3,7 +3,7 @@ Section: perl
 Priority: extra
 Maintainer: Proxmox Support Team <support@proxmox.com>
 Build-Depends: asciidoc-dblatex,
-               debhelper (>= 7.0.50~),
+               debhelper (>= 10~),
                graphviz,
                librsvg2-bin,
                lintian,
