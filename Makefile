@@ -118,8 +118,10 @@ pve-admin-guide.html: ${PVE_ADMIN_GUIDE_ADOCDEPENDS}
 	asciidoc -a pvelogo ${ADOC_STDARG} -o $@ pve-admin-guide.adoc
 
 pve-admin-guide.chunked: ${PVE_ADMIN_GUIDE_ADOCDEPENDS}
-	rm -rf pve-admin-guide.chunked
-	a2x -a docinfo -a docinfo1 -a icons -f chunked pve-admin-guide.adoc
+	rm -rf $@.tmp $@
+	mkdir $@.tmp
+	a2x -D $@.tmp -a docinfo -a docinfo1 -a icons -f chunked pve-admin-guide.adoc
+	mv $@.tmp/$@ $@
 
 PVE_DOCBOOK_CONF=-b $(shell pwd)/asciidoc/pve-docbook -f asciidoc/asciidoc-pve.conf
 PVE_DBLATEX_OPTS='-p ./asciidoc/pve-dblatex.xsl -s asciidoc/dblatex-custom.sty -c asciidoc/dblatex-export.conf'
@@ -135,7 +137,10 @@ pve-admin-guide.pdf: ${PVE_ADMIN_GUIDE_ADOCDEPENDS} docinfo.xml pve-admin-guide-
 	rm proxmox-logo.pdf proxmox-ci-header.pdf
 
 pve-admin-guide.epub: ${PVE_ADMIN_GUIDE_ADOCDEPENDS}
-	a2x -f epub --asciidoc-opts="${PVE_DOCBOOK_CONF}" pve-admin-guide.adoc
+	rm -rf $@.tmp $@
+	mkdir $@.tmp
+	a2x -D $@.tmp -f epub --asciidoc-opts="${PVE_DOCBOOK_CONF}" pve-admin-guide.adoc
+	mv $@.tmp/$@ $@
 
 api-viewer/apidata.js: extractapi.pl
 	./extractapi.pl >$@
