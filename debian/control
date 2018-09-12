@@ -4,7 +4,11 @@ Priority: extra
 Maintainer: Proxmox Support Team <support@proxmox.com>
 Build-Depends: asciidoc-dblatex,
                debhelper (>= 10~),
+               docbook-xsl,
+               git,
                graphviz,
+               imagemagick-6.q16,
+               libjson-perl,
                librsvg2-bin,
                lintian,
                source-highlight,
