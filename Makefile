@@ -35,7 +35,7 @@ pve-doc-generator.mk: .pve-doc-depends pve-doc-generator.mk.in
 	cat pve-doc-generator.mk.in .pve-doc-depends > $@.tmp
 	mv $@.tmp $@
 
-include ./pve-doc-generator.mk
+-include ./pve-doc-generator.mk
 
 GEN_DEB_SOURCES=				\
 	pve-doc-generator.mk			\
