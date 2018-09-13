@@ -198,12 +198,12 @@ Ext.onReady(function() {
 
 		    var returnhtml;
 		    if (retinf.items) {
-			returnhtml = '<pre>items: ' + JSON.stringify(retinf.items, null, 4) + '</pre>';
+			returnhtml = '<pre>items: ' + Ext.htmlEncode(JSON.stringify(retinf.items, null, 4)) + '</pre>';
 		    }
 
 		    if (retinf.properties) {
 			returnhtml = returnhtml || '';
-			returnhtml += '<pre>properties:' + JSON.stringify(retinf.properties, null, 4);
+			returnhtml += '<pre>properties:' + Ext.htmlEncode(JSON.stringify(retinf.properties, null, 4));
 		    }
 
 		    sections.push({
