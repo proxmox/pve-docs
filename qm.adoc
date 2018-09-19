@@ -788,6 +788,37 @@ NOTE: It is not possible to start templates, because this would modify
 the disk images. If you want to change the template, create a linked
 clone and modify that.
 
+VM Generation ID
+----------------
+
+{pve} supports VM Generation ID for virtual machines.
+This is used in the guest operating system to determine if any
+event happened to the vm which might resulted in a time shift event.
+
+On creation, a vm generation id will be automatically generated and
+set in the configuration.
+
+To disable it, either set the id to `0` or delete the property in the config
+with:
+
+ qm set ID -vmgenid 0
+ qm set ID -delete vmgenid
+
+To create one (either on an older vm or one where you disabled it), either
+set the uuid directly or use the special value `1` to let {pve} autogenerate
+one:
+
+ qm set ID -vmgenid 1
+ qm set ID -vmgenid 00000000-0000-0000-0000-000000000000
+
+The most common use case for the vm generation id is for Microsoft Windows
+operating system to be able to detect snapshots,backups,clones,etc. in such
+a way that services can react to it (e.g. Domain Controllers)
+
+For more information about vm generation id, see
+
+https://docs.microsoft.com/en-us/windows/desktop/hyperv_v2/virtual-machine-generation-identifier
+
 Importing Virtual Machines and disk images
 ------------------------------------------
 
