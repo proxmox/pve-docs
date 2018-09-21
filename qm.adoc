@@ -811,6 +811,10 @@ e.g.:
  qm set VMID -vmgenid 00000000-0000-0000-0000-000000000000
 ----
 
+NOTE: The initial addition of a 'vmgenid' device to an existing VM, may result
+in the same effects as a change on snapshot rollback, backup restore, etc., has
+as the VM can interpret this as generation change.
+
 In the rare case the 'vmgenid' mechanism is not wanted one can pass `0' for
 its value on VM creation, or retroactively delete the property in the
 configuration with:
@@ -821,8 +825,9 @@ configuration with:
 
 The most prominent use case for 'vmgenid' are newer Microsoft Windows
 operating systems, which use it to avoid problems in time sensitive or
-replicate services (e.g., databases, domain controller) on snapshot
-rollback, backup restore or a whole VM clone operation.
+replicate services (e.g., databases, domain controller
+footnote:[https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/get-started/virtual-dc/virtualized-domain-controller-architecture])
+on snapshot rollback, backup restore or a whole VM clone operation.
 
 Importing Virtual Machines and disk images
 ------------------------------------------
