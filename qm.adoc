@@ -791,33 +791,38 @@ clone and modify that.
 VM Generation ID
 ----------------
 
-{pve} supports VM Generation ID for virtual machines.
-This is used in the guest operating system to determine if any
-event happened to the vm which might resulted in a time shift event.
+{pve} supports Virtual Machine Generation ID ('vmgedid') footnote:[Official
+'vmgenid' Specification
+https://docs.microsoft.com/en-us/windows/desktop/hyperv_v2/virtual-machine-generation-identifier]
+for virtual machines.
+This can be used by the guest operating system to detect any event resulting
+in a time shift event, for example, restoring a backup or a snapshot rollback.
 
-On creation, a vm generation id will be automatically generated and
-set in the configuration.
+When creating new VMs, a 'vmgenid' will be automatically generated and saved
+in its configuration file.
 
-To disable it, either set the id to `0` or delete the property in the config
-with:
+To create and add a 'vmgenid' to an already existing VM one can pass the
+special value `1' to let {pve} autogenerate one or manually set the 'UUID'
+footnote:[Online GUID generator http://guid.one/] by using it as value,
+e.g.:
 
- qm set ID -vmgenid 0
- qm set ID -delete vmgenid
+----
+ qm set VMID -vmgenid 1
+ qm set VMID -vmgenid 00000000-0000-0000-0000-000000000000
+----
 
-To create one (either on an older vm or one where you disabled it), either
-set the uuid directly or use the special value `1` to let {pve} autogenerate
-one:
+In the rare case the 'vmgenid' mechanism is not wanted one can pass `0' for
+its value on VM creation, or retroactively delete the property in the
+configuration with:
 
- qm set ID -vmgenid 1
- qm set ID -vmgenid 00000000-0000-0000-0000-000000000000
+----
+ qm set VMID -delete vmgenid
+----
 
-The most common use case for the vm generation id is for Microsoft Windows
-operating system to be able to detect snapshots,backups,clones,etc. in such
-a way that services can react to it (e.g. Domain Controllers)
-
-For more information about vm generation id, see
-
-https://docs.microsoft.com/en-us/windows/desktop/hyperv_v2/virtual-machine-generation-identifier
+The most prominent use case for 'vmgenid' are newer Microsoft Windows
+operating systems, which use it to avoid problems in time sensitive or
+replicate services (e.g., databases, domain controller) on snapshot
+rollback, backup restore or a whole VM clone operation.
 
 Importing Virtual Machines and disk images
 ------------------------------------------
