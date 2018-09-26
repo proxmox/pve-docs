@@ -201,10 +201,6 @@ Each virtual network device has its own firewall enable flag. So you
 can selectively enable the firewall for each interface. This is
 required in addition to the general firewall `enable` option.
 
-The firewall requires a special network device setup, so you need to
-restart the VM/container after enabling the firewall on a network
-interface.
-
 
 Firewall Rules
 --------------
