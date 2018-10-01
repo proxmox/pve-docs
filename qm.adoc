@@ -335,7 +335,7 @@ To check if the {pve} host is vulnerable, execute the following command as root:
 for f in /sys/devices/system/cpu/vulnerabilities/*; do echo "${f##*/} -" $(cat "$f"); done
 ----
 
-A community script is also avalaible to detect is the host is still vulnerable.
+A community script is also available to detect is the host is still vulnerable.
 footnote:[spectre-meltdown-checker https://meltdown.ovh/]
 
 Intel processors
@@ -343,7 +343,7 @@ Intel processors
 
 * 'pcid'
 +
-This reduce the performance impact of the Meltdown (CVE-2017-5754) mitigation 
+This reduces the performance impact of the Meltdown (CVE-2017-5754) mitigation
 called 'Kernel Page-Table Isolation (KPTI)', which effectively hides
 the Kernel memory from the user space. Without PCID, KPTI is quite an expensive
 mechanism footnote:[PCID is now a critical performance/security feature on x86
@@ -359,17 +359,17 @@ If this does not return empty your host's CPU has support for 'pcid'.
 
 * 'spec-ctrl'
 +
-Required to enable the Spectre v1 (CVE-2017-5753) and Spectre v2 (CVE-2017-5715) fix, 
-in cases where retpolines are not sufficient. 
-Included by default in Intel CPU models with -IBRS suffix. 
-Must be explicitly turned on for Intel CPU models without -IBRS suffix. 
-Requires the host CPU microcode (intel-microcode >= 20180425).
+Required to enable the Spectre v1 (CVE-2017-5753) and Spectre v2 (CVE-2017-5715) fix,
+in cases where retpolines are not sufficient.
+Included by default in Intel CPU models with -IBRS suffix.
+Must be explicitly turned on for Intel CPU models without -IBRS suffix.
+Requires an updated host CPU microcode (intel-microcode >= 20180425).
 +
 * 'ssbd'
 +
-Required to enable the Spectre V4 (CVE-2018-3639) fix. Not included by default in any Intel CPU model. 
-Must be explicitly turned on for all Intel CPU models. 
-Requires the host CPU microcode(intel-microcode >= 20180703).
+Required to enable the Spectre V4 (CVE-2018-3639) fix. Not included by default in any Intel CPU model.
+Must be explicitly turned on for all Intel CPU models.
+Requires an updated host CPU microcode(intel-microcode >= 20180703).
 
 
 AMD processors
@@ -377,10 +377,10 @@ AMD processors
 
 * 'ibpb'
 +
-Required to enable the Spectre v1 (CVE-2017-5753) and Spectre v2 (CVE-2017-5715) fix, 
-in cases where retpolines are not sufficient. 
-Included by default in AMD CPU models with -IBPB suffix. 
-Must be explicitly turned on for AMD CPU models without -IBPB suffix. 
+Required to enable the Spectre v1 (CVE-2017-5753) and Spectre v2 (CVE-2017-5715) fix,
+in cases where retpolines are not sufficient.
+Included by default in AMD CPU models with -IBPB suffix.
+Must be explicitly turned on for AMD CPU models without -IBPB suffix.
 Requires the host CPU microcode to support this feature before it can be used for guest CPUs.
 
 
@@ -388,27 +388,27 @@ Requires the host CPU microcode to support this feature before it can be used fo
 * 'virt-ssbd'
 +
 Required to enable the Spectre v4 (CVE-2018-3639) fix.
-Not included by default in any AMD CPU model. 
-Must be explicitly turned on for all AMD CPU models. 
-This should be provided to guests, even if amd-ssbd is also provided, for maximum guest compatibility. 
-Note for some QEMU / libvirt versions, this must be force enabled when when using "Host model", 
-because this is a virtual feature that doesn’t exist in the physical host CPUs.
+Not included by default in any AMD CPU model.
+Must be explicitly turned on for all AMD CPU models.
+This should be provided to guests, even if amd-ssbd is also provided, for maximum guest compatibility.
+Note that this must be explicitly enabled when when using the "host" cpu model,
+because this is a virtual feature which does not exist in the physical CPUs.
 
 
 * 'amd-ssbd'
 +
-Required to enable the Spectre v4 (CVE-2018-3639) fix. 
-Not included by default in any AMD CPU model. Must be explicitly turned on for all AMD CPU models. 
-This provides higher performance than virt-ssbd so should be exposed to guests whenever available in the host. 
+Required to enable the Spectre v4 (CVE-2018-3639) fix.
+Not included by default in any AMD CPU model. Must be explicitly turned on for all AMD CPU models.
+This provides higher performance than virt-ssbd, therefore a host supporting this should always expose this to guests if possible.
 virt-ssbd should none the less also be exposed for maximum guest compatibility as some kernels only know about virt-ssbd.
 
 
 * 'amd-no-ssb'
 +
 Recommended to indicate the host is not vulnerable to Spectre V4 (CVE-2018-3639).
-Not included by default in any AMD CPU model. 
-Future hardware generations of CPU will not be vulnerable to CVE-2018-3639, 
-and thus the guest should be told not to enable its mitigations, by exposing amd-no-ssb. 
+Not included by default in any AMD CPU model.
+Future hardware generations of CPU will not be vulnerable to CVE-2018-3639,
+and thus the guest should be told not to enable its mitigations, by exposing amd-no-ssb.
 This is mutually exclusive with virt-ssbd and amd-ssbd.
 
 
@@ -919,13 +919,13 @@ Step-by-step example of a Windows OVF import
 
 Microsoft provides
 https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/[Virtual Machines downloads]
- to get started with Windows development.We are going to use one of these 
+ to get started with Windows development.We are going to use one of these
 to demonstrate the OVF import feature.
 
 Download the Virtual Machine zip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-After getting informed about the user agreement, choose the _Windows 10 
+After getting informed about the user agreement, choose the _Windows 10
 Enterprise (Evaluation - Build)_ for the VMware platform, and download the zip.
 
 Extract the disk image from the zip
@@ -948,7 +948,7 @@ The VM is ready to be started.
 Adding an external disk image to a Virtual Machine
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can also add an existing disk image to a VM, either coming from a 
+You can also add an existing disk image to a VM, either coming from a
 foreign hypervisor, or one that you created yourself.
 
 Suppose you created a Debian/Ubuntu disk image with the 'vmdebootstrap' tool:
