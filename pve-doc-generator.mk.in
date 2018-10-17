@@ -53,6 +53,14 @@ endif
 	perl ${PERL_DOC_INC} -T -e "use PVE::CLI::$*; PVE::CLI::$*->generate_bash_completions();" >$@.tmp
 	mv $@.tmp $@
 
+%.service-api-verified:
+	perl ${PERL_DOC_INC} -T -e "use PVE::Service::$*; PVE::Service::$*->verify_api();"
+	touch $@
+
+%.api-verified:
+	perl ${PERL_DOC_INC} -T -e "use PVE::CLI::$*; PVE::CLI::$*->verify_api();"
+	touch $@
+
 %-plain.html: %.adoc ${PVE_COMMON_DOC_SOURCES}
 	${ASCIIDOC_PVE} compile-wiki -o $@ $*.adoc
 
