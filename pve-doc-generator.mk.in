@@ -45,6 +45,13 @@ ifneq (${DGDIR},.)
 	mv $@.tmp $@
 endif
 
+%.service-bash-completion:
+	perl ${PERL_DOC_INC} -T -e "use PVE::Service::$*; PVE::Service::$*->generate_bash_completions();" >$@.tmp
+	mv $@.tmp $@
+
+%.bash-completion:
+	perl ${PERL_DOC_INC} -T -e "use PVE::CLI::$*; PVE::CLI::$*->generate_bash_completions();" >$@.tmp
+	mv $@.tmp $@
 
 %-plain.html: %.adoc ${PVE_COMMON_DOC_SOURCES}
 	${ASCIIDOC_PVE} compile-wiki -o $@ $*.adoc
