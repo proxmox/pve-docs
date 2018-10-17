@@ -17,7 +17,7 @@ Standards-Version: 3.8.4
 Package: pve-doc-generator
 Section: perl
 Architecture: any
-Depends: asciidoc-dblatex,
+Depends: asciidoc-base,
          libpve-common-perl,
          source-highlight,
          xmlto,
