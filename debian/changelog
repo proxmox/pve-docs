@@ -1,3 +1,25 @@
+pve-docs (5.2-9) unstable; urgency=medium
+
+  * add documentation for vxlan layer 2 network and layer 3 routing
+
+  * add graphviz picture for our default routed network setup
+
+  * add framework to generate network graphs using graphviz
+
+  * build system: fix broken parallel builds
+
+  * api-viewer: correctly escape html when displaying return types.
+
+  * qm: add vmgenid documentation
+
+  * improve spectre/meltdown cpu flags documentation
+
+  * pve-doc-generator: add rules for API verification and bash-completion
+
+  * update static auto generated files (API definitions, synopsis, ...)
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 23 Oct 2018 12:58:58 +0200
+
 pve-docs (5.2-8) unstable; urgency=medium
 
   * add lvm/zfs anchors
