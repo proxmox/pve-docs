@@ -36,7 +36,7 @@ Block device name.
 
 Use bluestore instead of filestore. This is the default.
 
-`--fstype` `<btrfs | ext4 | xfs>` ('default =' `xfs`)::
+`--fstype` `<ext4 | xfs>` ('default =' `xfs`)::
 
 File system type (filestore only).
 

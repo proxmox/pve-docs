@@ -597,7 +597,6 @@ var pveapi = [
                            ]
                         },
                         "returns" : {
-                           "properties" : {},
                            "type" : "object"
                         }
                      }
@@ -3885,6 +3884,7 @@ var pveapi = [
                                  "properties" : {
                                     "account" : {
                                        "optional" : 1,
+                                       "renderer" : "yaml",
                                        "type" : "object"
                                     },
                                     "directory" : {
@@ -4170,7 +4170,96 @@ var pveapi = [
                   },
                   "returns" : {
                      "items" : {
-                        "properties" : {},
+                        "properties" : {
+                           "cpu" : {
+                              "description" : "CPU utilization (when type in node,qemu,lxc).",
+                              "optional" : 1,
+                              "renderer" : "fraction_as_percentage",
+                              "type" : "number"
+                           },
+                           "disk" : {
+                              "description" : "Used disk space in bytes (when type in storage), used root image spave for VMs (type in qemu,lxc).",
+                              "optional" : 1,
+                              "renderer" : "bytes",
+                              "type" : "string"
+                           },
+                           "hastate" : {
+                              "description" : "HA service status (for HA managed VMs).",
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "id" : {
+                              "type" : "string"
+                           },
+                           "level" : {
+                              "description" : "Support level (when type == node).",
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "maxcpu" : {
+                              "description" : "Number of available CPUs (when type in node,qemu,lxc).",
+                              "optional" : 1,
+                              "type" : "number"
+                           },
+                           "maxdisk" : {
+                              "description" : "Storage size in bytes (when type in storage), root image size for VMs (type in qemu,lxc).",
+                              "optional" : 1,
+                              "renderer" : "bytes",
+                              "type" : "integer"
+                           },
+                           "maxmem" : {
+                              "description" : "Number of available memory in bytes (when type in node,qemu,lxc).",
+                              "optional" : 1,
+                              "renderer" : "bytes",
+                              "type" : "integer"
+                           },
+                           "mem" : {
+                              "description" : "Used memory in bytes (when type in node,qemu,lxc).",
+                              "optional" : 1,
+                              "renderer" : "bytes",
+                              "type" : "string"
+                           },
+                           "node" : {
+                              "description" : "The cluster node name (when type in node,storage,qemu,lxc).",
+                              "format" : "pve-node",
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "pool" : {
+                              "description" : "The pool name (when type in pool,qemu,lxc).",
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "status" : {
+                              "description" : "Resource type dependent status.",
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "storage" : {
+                              "description" : "The storage identifier (when type == storage).",
+                              "format" : "pve-storage-id",
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "type" : {
+                              "description" : "Resource type.",
+                              "enum" : [
+                                 "node",
+                                 "storage",
+                                 "pool",
+                                 "qemu",
+                                 "lxc",
+                                 "openvz"
+                              ],
+                              "type" : "string"
+                           },
+                           "uptime" : {
+                              "description" : "Node uptime in seconds (when type in node,qemu,lxc).",
+                              "optional" : 1,
+                              "renderer" : "duration",
+                              "type" : "integer"
+                           }
+                        },
                         "type" : "object"
                      },
                      "type" : "array"
@@ -4229,7 +4318,6 @@ var pveapi = [
                      ]
                   },
                   "returns" : {
-                     "properties" : {},
                      "type" : "object"
                   }
                },
@@ -4360,8 +4448,25 @@ var pveapi = [
                         "language" : {
                            "description" : "Default GUI language.",
                            "enum" : [
+                              "zh_CN",
+                              "zh_TW",
+                              "ca",
                               "en",
-                              "de"
+                              "eu",
+                              "fr",
+                              "de",
+                              "it",
+                              "es",
+                              "ja",
+                              "nb",
+                              "nn",
+                              "fa",
+                              "pl",
+                              "pt_BR",
+                              "ru",
+                              "sl",
+                              "sv",
+                              "tr"
                            ],
                            "optional" : 1,
                            "type" : "string"
@@ -7124,6 +7229,327 @@ var pveapi = [
                                     "leaf" : 1,
                                     "path" : "/nodes/{node}/qemu/{vmid}/agent/suspend-ram",
                                     "text" : "suspend-ram"
+                                 },
+                                 {
+                                    "info" : {
+                                       "POST" : {
+                                          "description" : "Sets the password for the given user to the given password",
+                                          "method" : "POST",
+                                          "name" : "set-user-password",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "crypted" : {
+                                                   "default" : 0,
+                                                   "description" : "set to 1 if the password has already been passed through crypt()",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "typetext" : "<boolean>"
+                                                },
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "password" : {
+                                                   "description" : "The new password.",
+                                                   "maxLength" : 64,
+                                                   "minLength" : 5,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "username" : {
+                                                   "description" : "The user to set the password for.",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a single `result` property.",
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/set-user-password",
+                                    "text" : "set-user-password"
+                                 },
+                                 {
+                                    "info" : {
+                                       "POST" : {
+                                          "description" : "Executes the given command in the vm via the guest-agent and returns an object with the pid.",
+                                          "method" : "POST",
+                                          "name" : "exec",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "command" : {
+                                                   "description" : "The command as a list of program + arguments",
+                                                   "format" : "string-alist",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "properties" : {
+                                                "pid" : {
+                                                   "description" : "The PID of the process started by the guest-agent.",
+                                                   "type" : "integer"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/exec",
+                                    "text" : "exec"
+                                 },
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "description" : "Gets the status of the given pid started by the guest-agent",
+                                          "method" : "GET",
+                                          "name" : "exec-status",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "pid" : {
+                                                   "description" : "The PID to query",
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "properties" : {
+                                                "err-data" : {
+                                                   "description" : "stderr of the process",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "err-truncated" : {
+                                                   "description" : "true if stderr was not fully captured",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "exitcode" : {
+                                                   "description" : "process exit code if it was normally terminated.",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "exited" : {
+                                                   "description" : "Tells if the given command has exited yet.",
+                                                   "type" : "boolean"
+                                                },
+                                                "out-data" : {
+                                                   "description" : "stdout of the process",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "out-truncated" : {
+                                                   "description" : "true if stdout was not fully captured",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "signal" : {
+                                                   "description" : "signal number or exception code if the process was abnormally terminated.",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/exec-status",
+                                    "text" : "exec-status"
+                                 },
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "description" : "Reads the given file via guest agent. Is limited to 16777216 bytes.",
+                                          "method" : "GET",
+                                          "name" : "file-read",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "file" : {
+                                                   "description" : "The path to the file",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "description" : "Returns an object with a `content` property.",
+                                             "properties" : {
+                                                "content" : {
+                                                   "description" : "The content of the file, maximum 16777216",
+                                                   "type" : "string"
+                                                },
+                                                "truncated" : {
+                                                   "description" : "If set to 1, the output is truncated and not complete",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/file-read",
+                                    "text" : "file-read"
+                                 },
+                                 {
+                                    "info" : {
+                                       "POST" : {
+                                          "description" : "Writes the given file via guest agent.",
+                                          "method" : "POST",
+                                          "name" : "file-write",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "content" : {
+                                                   "description" : "The content to write into the file.",
+                                                   "maxLength" : 61440,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "file" : {
+                                                   "description" : "The path to the file.",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Monitor"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "type" : "null"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/agent/file-write",
+                                    "text" : "file-write"
                                  }
                               ],
                               "info" : {
@@ -7420,10 +7846,2004 @@ var pveapi = [
                                     },
                                     "proxyto" : "node",
                                     "returns" : {
+                                       "description" : "The current VM configuration.",
                                        "properties" : {
+                                          "acpi" : {
+                                             "default" : 1,
+                                             "description" : "Enable/disable ACPI.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "agent" : {
+                                             "description" : "Enable/disable Qemu GuestAgent and its properties.",
+                                             "format" : {
+                                                "enabled" : {
+                                                   "default" : 0,
+                                                   "default_key" : 1,
+                                                   "description" : "Enable/disable Qemu GuestAgent.",
+                                                   "type" : "boolean"
+                                                },
+                                                "fstrim_cloned_disks" : {
+                                                   "default" : 0,
+                                                   "description" : "Run fstrim after cloning/moving a disk.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "args" : {
+                                             "description" : "Arbitrary arguments passed to kvm.",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "verbose_description" : "Arbitrary arguments passed to kvm, for example:\n\nargs: -no-reboot -no-hpet\n\nNOTE: this option is for experts only.\n"
+                                          },
+                                          "autostart" : {
+                                             "default" : 0,
+                                             "description" : "Automatic restart after crash (currently ignored).",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "balloon" : {
+                                             "description" : "Amount of target RAM for the VM in MB. Using zero disables the ballon driver.",
+                                             "minimum" : 0,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "bios" : {
+                                             "default" : "seabios",
+                                             "description" : "Select BIOS implementation.",
+                                             "enum" : [
+                                                "seabios",
+                                                "ovmf"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "boot" : {
+                                             "default" : "cdn",
+                                             "description" : "Boot on floppy (a), hard disk (c), CD-ROM (d), or network (n).",
+                                             "optional" : 1,
+                                             "pattern" : "[acdn]{1,4}",
+                                             "type" : "string"
+                                          },
+                                          "bootdisk" : {
+                                             "description" : "Enable booting from specified disk.",
+                                             "format" : "pve-qm-bootdisk",
+                                             "optional" : 1,
+                                             "pattern" : "(ide|sata|scsi|virtio)\\d+",
+                                             "type" : "string"
+                                          },
+                                          "cdrom" : {
+                                             "description" : "This is an alias for option -ide2",
+                                             "format" : "pve-qm-ide",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<volume>"
+                                          },
+                                          "cipassword" : {
+                                             "description" : "cloud-init: Password to assign the user. Using this is generally not recommended. Use ssh keys instead. Also note that older cloud-init versions do not support hashed passwords.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "citype" : {
+                                             "description" : "Specifies the cloud-init configuration format. The default depends on the configured operating system type (`ostype`. We use the `nocloud` format for Linux, and `configdrive2` for windows.",
+                                             "enum" : [
+                                                "configdrive2",
+                                                "nocloud"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "ciuser" : {
+                                             "description" : "cloud-init: User name to change ssh keys and password for instead of the image's configured default user.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "cores" : {
+                                             "default" : 1,
+                                             "description" : "The number of cores per socket.",
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "cpu" : {
+                                             "description" : "Emulated CPU type.",
+                                             "format" : {
+                                                "cputype" : {
+                                                   "default" : "kvm64",
+                                                   "default_key" : 1,
+                                                   "description" : "Emulated CPU type.",
+                                                   "enum" : [
+                                                      "486",
+                                                      "athlon",
+                                                      "Broadwell",
+                                                      "Broadwell-IBRS",
+                                                      "Broadwell-noTSX",
+                                                      "Broadwell-noTSX-IBRS",
+                                                      "Conroe",
+                                                      "core2duo",
+                                                      "coreduo",
+                                                      "EPYC",
+                                                      "EPYC-IBPB",
+                                                      "Haswell",
+                                                      "Haswell-IBRS",
+                                                      "Haswell-noTSX",
+                                                      "Haswell-noTSX-IBRS",
+                                                      "host",
+                                                      "IvyBridge",
+                                                      "IvyBridge-IBRS",
+                                                      "kvm32",
+                                                      "kvm64",
+                                                      "max",
+                                                      "Nehalem",
+                                                      "Nehalem-IBRS",
+                                                      "Opteron_G1",
+                                                      "Opteron_G2",
+                                                      "Opteron_G3",
+                                                      "Opteron_G4",
+                                                      "Opteron_G5",
+                                                      "Penryn",
+                                                      "pentium",
+                                                      "pentium2",
+                                                      "pentium3",
+                                                      "phenom",
+                                                      "qemu32",
+                                                      "qemu64",
+                                                      "SandyBridge",
+                                                      "SandyBridge-IBRS",
+                                                      "Skylake-Client",
+                                                      "Skylake-Client-IBRS",
+                                                      "Skylake-Server",
+                                                      "Skylake-Server-IBRS",
+                                                      "Westmere",
+                                                      "Westmere-IBRS"
+                                                   ],
+                                                   "type" : "string"
+                                                },
+                                                "flags" : {
+                                                   "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl', 'ibpb', 'ssbd', 'virt-ssbd', 'amd-ssbd', 'amd-no-ssb', 'pdpe1gb'.",
+                                                   "format_description" : "+FLAG[;-FLAG...]",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb)))*)",
+                                                   "type" : "string"
+                                                },
+                                                "hidden" : {
+                                                   "default" : 0,
+                                                   "description" : "Do not identify as a KVM virtual machine.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "cpulimit" : {
+                                             "default" : 0,
+                                             "description" : "Limit of CPU usage.",
+                                             "maximum" : 128,
+                                             "minimum" : 0,
+                                             "optional" : 1,
+                                             "type" : "number",
+                                             "verbose_description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has total of '2' CPU time. Value '0' indicates no CPU limit."
+                                          },
+                                          "cpuunits" : {
+                                             "default" : 1024,
+                                             "description" : "CPU weight for a VM.",
+                                             "maximum" : 262144,
+                                             "minimum" : 2,
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "verbose_description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs."
+                                          },
+                                          "description" : {
+                                             "description" : "Description for the VM. Only used on the configuration web interface. This is saved as comment inside the configuration file.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
                                           "digest" : {
                                              "description" : "SHA1 digest of configuration file. This can be used to prevent concurrent modifications.",
                                              "type" : "string"
+                                          },
+                                          "efidisk0" : {
+                                             "description" : "Configure a Disk for storing EFI vars",
+                                             "format" : {
+                                                "file" : {
+                                                   "default_key" : 1,
+                                                   "description" : "The drive's backing volume.",
+                                                   "format" : "pve-volume-id-or-qm-path",
+                                                   "format_description" : "volume",
+                                                   "type" : "string"
+                                                },
+                                                "format" : {
+                                                   "description" : "The drive's backing file's data format.",
+                                                   "enum" : [
+                                                      "raw",
+                                                      "cow",
+                                                      "qcow",
+                                                      "qed",
+                                                      "qcow2",
+                                                      "vmdk",
+                                                      "cloop"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "size" : {
+                                                   "description" : "Disk size. This is purely informational and has no effect.",
+                                                   "format" : "disk-size",
+                                                   "format_description" : "DiskSize",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "volume" : {
+                                                   "alias" : "file"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "freeze" : {
+                                             "description" : "Freeze CPU at startup (use 'c' monitor command to start execution).",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "hostpci[n]" : {
+                                             "description" : "Map host PCI devices into guest.",
+                                             "format" : "pve-qm-hostpci",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer \npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
+                                          },
+                                          "hotplug" : {
+                                             "default" : "network,disk,usb",
+                                             "description" : "Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to disable hotplug completely. Value '1' is an alias for the default 'network,disk,usb'.",
+                                             "format" : "pve-hotplug-features",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "hugepages" : {
+                                             "description" : "Enable/disable hugepages memory.",
+                                             "enum" : [
+                                                "any",
+                                                "2",
+                                                "1024"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "ide[n]" : {
+                                             "description" : "Use volume as IDE hard disk or CD-ROM (n is 0 to 3).",
+                                             "format" : {
+                                                "aio" : {
+                                                   "description" : "AIO type to use.",
+                                                   "enum" : [
+                                                      "native",
+                                                      "threads"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "backup" : {
+                                                   "description" : "Whether the drive should be included when making backups.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "bps" : {
+                                                   "description" : "Maximum r/w speed in bytes per second.",
+                                                   "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_rd" : {
+                                                   "description" : "Maximum read speed in bytes per second.",
+                                                   "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_rd_length" : {
+                                                   "alias" : "bps_rd_max_length"
+                                                },
+                                                "bps_rd_max_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_wr" : {
+                                                   "description" : "Maximum write speed in bytes per second.",
+                                                   "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_wr_length" : {
+                                                   "alias" : "bps_wr_max_length"
+                                                },
+                                                "bps_wr_max_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "cache" : {
+                                                   "description" : "The drive's cache mode",
+                                                   "enum" : [
+                                                      "none",
+                                                      "writethrough",
+                                                      "writeback",
+                                                      "unsafe",
+                                                      "directsync"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "cyls" : {
+                                                   "description" : "Force the drive's physical geometry to have a specific cylinder count.",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "detect_zeroes" : {
+                                                   "description" : "Controls whether to detect and try to optimize writes of zeroes.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "discard" : {
+                                                   "description" : "Controls whether to pass discard/trim requests to the underlying storage.",
+                                                   "enum" : [
+                                                      "ignore",
+                                                      "on"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "file" : {
+                                                   "default_key" : 1,
+                                                   "description" : "The drive's backing volume.",
+                                                   "format" : "pve-volume-id-or-qm-path",
+                                                   "format_description" : "volume",
+                                                   "type" : "string"
+                                                },
+                                                "format" : {
+                                                   "description" : "The drive's backing file's data format.",
+                                                   "enum" : [
+                                                      "raw",
+                                                      "cow",
+                                                      "qcow",
+                                                      "qed",
+                                                      "qcow2",
+                                                      "vmdk",
+                                                      "cloop"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "heads" : {
+                                                   "description" : "Force the drive's physical geometry to have a specific head count.",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops" : {
+                                                   "description" : "Maximum r/w I/O in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_max" : {
+                                                   "description" : "Maximum unthrottled r/w I/O pool in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_rd" : {
+                                                   "description" : "Maximum read I/O in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_rd_length" : {
+                                                   "alias" : "iops_rd_max_length"
+                                                },
+                                                "iops_rd_max" : {
+                                                   "description" : "Maximum unthrottled read I/O pool in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_rd_max_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_wr" : {
+                                                   "description" : "Maximum write I/O in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_wr_length" : {
+                                                   "alias" : "iops_wr_max_length"
+                                                },
+                                                "iops_wr_max" : {
+                                                   "description" : "Maximum unthrottled write I/O pool in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_wr_max_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "mbps" : {
+                                                   "description" : "Maximum r/w speed in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "mbps_max" : {
+                                                   "description" : "Maximum unthrottled r/w pool in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "mbps_rd" : {
+                                                   "description" : "Maximum read speed in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "mbps_rd_max" : {
+                                                   "description" : "Maximum unthrottled read pool in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "mbps_wr" : {
+                                                   "description" : "Maximum write speed in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "mbps_wr_max" : {
+                                                   "description" : "Maximum unthrottled write pool in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "media" : {
+                                                   "default" : "disk",
+                                                   "description" : "The drive's media type.",
+                                                   "enum" : [
+                                                      "cdrom",
+                                                      "disk"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "model" : {
+                                                   "description" : "The drive's reported model name, url-encoded, up to 40 bytes long.",
+                                                   "format" : "urlencoded",
+                                                   "format_description" : "model",
+                                                   "maxLength" : 120,
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "replicate" : {
+                                                   "default" : 1,
+                                                   "description" : "Whether the drive should considered for replication jobs.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "rerror" : {
+                                                   "description" : "Read error action.",
+                                                   "enum" : [
+                                                      "ignore",
+                                                      "report",
+                                                      "stop"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "secs" : {
+                                                   "description" : "Force the drive's physical geometry to have a specific sector count.",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "serial" : {
+                                                   "description" : "The drive's reported serial number, url-encoded, up to 20 bytes long.",
+                                                   "format" : "urlencoded",
+                                                   "format_description" : "serial",
+                                                   "maxLength" : 60,
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "shared" : {
+                                                   "default" : 0,
+                                                   "description" : "Mark this locally-managed volume as available on all nodes",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Mark this locally-managed volume as available on all nodes.\n\nWARNING: This option does not share the volume automatically, it assumes it is shared already!"
+                                                },
+                                                "size" : {
+                                                   "description" : "Disk size. This is purely informational and has no effect.",
+                                                   "format" : "disk-size",
+                                                   "format_description" : "DiskSize",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "snapshot" : {
+                                                   "description" : "Controls qemu's snapshot mode feature. If activated, changes made to the disk are temporary and will be discarded when the VM is shutdown.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "trans" : {
+                                                   "description" : "Force disk geometry bios translation mode.",
+                                                   "enum" : [
+                                                      "none",
+                                                      "lba",
+                                                      "auto"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "volume" : {
+                                                   "alias" : "file"
+                                                },
+                                                "werror" : {
+                                                   "description" : "Write error action.",
+                                                   "enum" : [
+                                                      "enospc",
+                                                      "ignore",
+                                                      "report",
+                                                      "stop"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "ipconfig[n]" : {
+                                             "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit gateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using dhcp on IPv4.\n",
+                                             "format" : "pve-qm-ipconfig",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "keyboard" : {
+                                             "default" : null,
+                                             "description" : "Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.cfg' configuration file.It should not be necessary to set it.",
+                                             "enum" : [
+                                                "de",
+                                                "de-ch",
+                                                "da",
+                                                "en-gb",
+                                                "en-us",
+                                                "es",
+                                                "fi",
+                                                "fr",
+                                                "fr-be",
+                                                "fr-ca",
+                                                "fr-ch",
+                                                "hu",
+                                                "is",
+                                                "it",
+                                                "ja",
+                                                "lt",
+                                                "mk",
+                                                "nl",
+                                                "no",
+                                                "pl",
+                                                "pt",
+                                                "pt-br",
+                                                "sv",
+                                                "sl",
+                                                "tr"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "kvm" : {
+                                             "default" : 1,
+                                             "description" : "Enable/disable KVM hardware virtualization.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "localtime" : {
+                                             "description" : "Set the real time clock to local time. This is enabled by default if ostype indicates a Microsoft OS.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "lock" : {
+                                             "description" : "Lock/unlock the VM.",
+                                             "enum" : [
+                                                "migrate",
+                                                "backup",
+                                                "snapshot",
+                                                "rollback"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "machine" : {
+                                             "description" : "Specifies the Qemu machine type.",
+                                             "maxLength" : 40,
+                                             "optional" : 1,
+                                             "pattern" : "(pc|pc(-i440fx)?-\\d+\\.\\d+(\\.pxe)?|q35|pc-q35-\\d+\\.\\d+(\\.pxe)?)",
+                                             "type" : "string"
+                                          },
+                                          "memory" : {
+                                             "default" : 512,
+                                             "description" : "Amount of RAM for the VM in MB. This is the maximum available memory when you use the balloon device.",
+                                             "minimum" : 16,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "migrate_downtime" : {
+                                             "default" : 0.1,
+                                             "description" : "Set maximum tolerated downtime (in seconds) for migrations.",
+                                             "minimum" : 0,
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "migrate_speed" : {
+                                             "default" : 0,
+                                             "description" : "Set maximum speed (in MB/s) for migrations. Value 0 is no limit.",
+                                             "minimum" : 0,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "name" : {
+                                             "description" : "Set a name for the VM. Only used on the configuration web interface.",
+                                             "format" : "dns-name",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "nameserver" : {
+                                             "description" : "cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
+                                             "format" : "address-list",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "net[n]" : {
+                                             "description" : "Specify network devices.",
+                                             "format" : {
+                                                "bridge" : {
+                                                   "description" : "Bridge to attach the network device to. The Proxmox VE standard bridge\nis called 'vmbr0'.\n\nIf you do not specify a bridge, we create a kvm user (NATed) network\ndevice, which provides DHCP and DNS services. The following addresses\nare used:\n\n 10.0.2.2   Gateway\n 10.0.2.3   DNS Server\n 10.0.2.4   SMB Server\n\nThe DHCP server assign addresses to the guest starting from 10.0.2.15.\n",
+                                                   "format_description" : "bridge",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "e1000" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "e1000-82540em" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "e1000-82544gc" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "e1000-82545em" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "firewall" : {
+                                                   "description" : "Whether this interface should be protected by the firewall.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "i82551" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "i82557b" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "i82559er" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "link_down" : {
+                                                   "description" : "Whether this interface should be disconnected (like pulling the plug).",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "macaddr" : {
+                                                   "description" : "MAC address. That address must be unique withing your network. This is automatically generated if not specified.",
+                                                   "format_description" : "XX:XX:XX:XX:XX:XX",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^i:[0-9a-f]{2}(?::[0-9a-f]{2}){5})",
+                                                   "type" : "string"
+                                                },
+                                                "model" : {
+                                                   "default_key" : 1,
+                                                   "description" : "Network Card Model. The 'virtio' model provides the best performance with very low CPU overhead. If your guest does not support this driver, it is usually best to use 'e1000'.",
+                                                   "enum" : [
+                                                      "rtl8139",
+                                                      "ne2k_pci",
+                                                      "e1000",
+                                                      "pcnet",
+                                                      "virtio",
+                                                      "ne2k_isa",
+                                                      "i82551",
+                                                      "i82557b",
+                                                      "i82559er",
+                                                      "vmxnet3",
+                                                      "e1000-82540em",
+                                                      "e1000-82544gc",
+                                                      "e1000-82545em"
+                                                   ],
+                                                   "type" : "string"
+                                                },
+                                                "ne2k_isa" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "ne2k_pci" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "pcnet" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "queues" : {
+                                                   "description" : "Number of packet queues to be used on the device.",
+                                                   "maximum" : 16,
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "rate" : {
+                                                   "description" : "Rate limit in mbps (megabytes per second) as floating point number.",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "rtl8139" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "tag" : {
+                                                   "description" : "VLAN tag to apply to packets on this interface.",
+                                                   "maximum" : 4094,
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "trunks" : {
+                                                   "description" : "VLAN trunks to pass through this interface.",
+                                                   "format_description" : "vlanid[;vlanid...]",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:\\d+(?:-\\d+)?(?:;\\d+(?:-\\d+)?)*)",
+                                                   "type" : "string"
+                                                },
+                                                "virtio" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
+                                                "vmxnet3" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "numa" : {
+                                             "default" : 0,
+                                             "description" : "Enable/disable NUMA.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "numa[n]" : {
+                                             "description" : "NUMA topology.",
+                                             "format" : {
+                                                "cpus" : {
+                                                   "description" : "CPUs accessing this NUMA node.",
+                                                   "format_description" : "id[-id];...",
+                                                   "pattern" : "(?^:\\d+(?:-\\d+)?(?:;\\d+(?:-\\d+)?)*)",
+                                                   "type" : "string"
+                                                },
+                                                "hostnodes" : {
+                                                   "description" : "Host NUMA nodes to use.",
+                                                   "format_description" : "id[-id];...",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:\\d+(?:-\\d+)?(?:;\\d+(?:-\\d+)?)*)",
+                                                   "type" : "string"
+                                                },
+                                                "memory" : {
+                                                   "description" : "Amount of memory this NUMA node provides.",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "policy" : {
+                                                   "description" : "NUMA allocation policy.",
+                                                   "enum" : [
+                                                      "preferred",
+                                                      "bind",
+                                                      "interleave"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "onboot" : {
+                                             "default" : 0,
+                                             "description" : "Specifies whether a VM will be started during system bootup.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "ostype" : {
+                                             "description" : "Specify guest operating system.",
+                                             "enum" : [
+                                                "other",
+                                                "wxp",
+                                                "w2k",
+                                                "w2k3",
+                                                "w2k8",
+                                                "wvista",
+                                                "win7",
+                                                "win8",
+                                                "win10",
+                                                "l24",
+                                                "l26",
+                                                "solaris"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6/3.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
+                                          },
+                                          "parallel[n]" : {
+                                             "description" : "Map host parallel devices (n is 0 to 2).",
+                                             "optional" : 1,
+                                             "pattern" : "/dev/parport\\d+|/dev/usb/lp\\d+",
+                                             "type" : "string",
+                                             "verbose_description" : "Map host parallel devices (n is 0 to 2).\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
+                                          },
+                                          "protection" : {
+                                             "default" : 0,
+                                             "description" : "Sets the protection flag of the VM. This will disable the remove VM and remove disk operations.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "reboot" : {
+                                             "default" : 1,
+                                             "description" : "Allow reboot. If set to '0' the VM exit on reboot.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "sata[n]" : {
+                                             "description" : "Use volume as SATA hard disk or CD-ROM (n is 0 to 5).",
+                                             "format" : {
+                                                "aio" : {
+                                                   "description" : "AIO type to use.",
+                                                   "enum" : [
+                                                      "native",
+                                                      "threads"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "backup" : {
+                                                   "description" : "Whether the drive should be included when making backups.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "bps" : {
+                                                   "description" : "Maximum r/w speed in bytes per second.",
+                                                   "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_rd" : {
+                                                   "description" : "Maximum read speed in bytes per second.",
+                                                   "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_rd_length" : {
+                                                   "alias" : "bps_rd_max_length"
+                                                },
+                                                "bps_rd_max_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_wr" : {
+                                                   "description" : "Maximum write speed in bytes per second.",
+                                                   "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_wr_length" : {
+                                                   "alias" : "bps_wr_max_length"
+                                                },
+                                                "bps_wr_max_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "cache" : {
+                                                   "description" : "The drive's cache mode",
+                                                   "enum" : [
+                                                      "none",
+                                                      "writethrough",
+                                                      "writeback",
+                                                      "unsafe",
+                                                      "directsync"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "cyls" : {
+                                                   "description" : "Force the drive's physical geometry to have a specific cylinder count.",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "detect_zeroes" : {
+                                                   "description" : "Controls whether to detect and try to optimize writes of zeroes.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "discard" : {
+                                                   "description" : "Controls whether to pass discard/trim requests to the underlying storage.",
+                                                   "enum" : [
+                                                      "ignore",
+                                                      "on"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "file" : {
+                                                   "default_key" : 1,
+                                                   "description" : "The drive's backing volume.",
+                                                   "format" : "pve-volume-id-or-qm-path",
+                                                   "format_description" : "volume",
+                                                   "type" : "string"
+                                                },
+                                                "format" : {
+                                                   "description" : "The drive's backing file's data format.",
+                                                   "enum" : [
+                                                      "raw",
+                                                      "cow",
+                                                      "qcow",
+                                                      "qed",
+                                                      "qcow2",
+                                                      "vmdk",
+                                                      "cloop"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "heads" : {
+                                                   "description" : "Force the drive's physical geometry to have a specific head count.",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops" : {
+                                                   "description" : "Maximum r/w I/O in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_max" : {
+                                                   "description" : "Maximum unthrottled r/w I/O pool in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_rd" : {
+                                                   "description" : "Maximum read I/O in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_rd_length" : {
+                                                   "alias" : "iops_rd_max_length"
+                                                },
+                                                "iops_rd_max" : {
+                                                   "description" : "Maximum unthrottled read I/O pool in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_rd_max_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_wr" : {
+                                                   "description" : "Maximum write I/O in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_wr_length" : {
+                                                   "alias" : "iops_wr_max_length"
+                                                },
+                                                "iops_wr_max" : {
+                                                   "description" : "Maximum unthrottled write I/O pool in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_wr_max_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "mbps" : {
+                                                   "description" : "Maximum r/w speed in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "mbps_max" : {
+                                                   "description" : "Maximum unthrottled r/w pool in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "mbps_rd" : {
+                                                   "description" : "Maximum read speed in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "mbps_rd_max" : {
+                                                   "description" : "Maximum unthrottled read pool in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "mbps_wr" : {
+                                                   "description" : "Maximum write speed in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "mbps_wr_max" : {
+                                                   "description" : "Maximum unthrottled write pool in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "media" : {
+                                                   "default" : "disk",
+                                                   "description" : "The drive's media type.",
+                                                   "enum" : [
+                                                      "cdrom",
+                                                      "disk"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "replicate" : {
+                                                   "default" : 1,
+                                                   "description" : "Whether the drive should considered for replication jobs.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "rerror" : {
+                                                   "description" : "Read error action.",
+                                                   "enum" : [
+                                                      "ignore",
+                                                      "report",
+                                                      "stop"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "secs" : {
+                                                   "description" : "Force the drive's physical geometry to have a specific sector count.",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "serial" : {
+                                                   "description" : "The drive's reported serial number, url-encoded, up to 20 bytes long.",
+                                                   "format" : "urlencoded",
+                                                   "format_description" : "serial",
+                                                   "maxLength" : 60,
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "shared" : {
+                                                   "default" : 0,
+                                                   "description" : "Mark this locally-managed volume as available on all nodes",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Mark this locally-managed volume as available on all nodes.\n\nWARNING: This option does not share the volume automatically, it assumes it is shared already!"
+                                                },
+                                                "size" : {
+                                                   "description" : "Disk size. This is purely informational and has no effect.",
+                                                   "format" : "disk-size",
+                                                   "format_description" : "DiskSize",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "snapshot" : {
+                                                   "description" : "Controls qemu's snapshot mode feature. If activated, changes made to the disk are temporary and will be discarded when the VM is shutdown.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "trans" : {
+                                                   "description" : "Force disk geometry bios translation mode.",
+                                                   "enum" : [
+                                                      "none",
+                                                      "lba",
+                                                      "auto"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "volume" : {
+                                                   "alias" : "file"
+                                                },
+                                                "werror" : {
+                                                   "description" : "Write error action.",
+                                                   "enum" : [
+                                                      "enospc",
+                                                      "ignore",
+                                                      "report",
+                                                      "stop"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "scsi[n]" : {
+                                             "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).",
+                                             "format" : {
+                                                "aio" : {
+                                                   "description" : "AIO type to use.",
+                                                   "enum" : [
+                                                      "native",
+                                                      "threads"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "backup" : {
+                                                   "description" : "Whether the drive should be included when making backups.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "bps" : {
+                                                   "description" : "Maximum r/w speed in bytes per second.",
+                                                   "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_rd" : {
+                                                   "description" : "Maximum read speed in bytes per second.",
+                                                   "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_rd_length" : {
+                                                   "alias" : "bps_rd_max_length"
+                                                },
+                                                "bps_rd_max_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_wr" : {
+                                                   "description" : "Maximum write speed in bytes per second.",
+                                                   "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_wr_length" : {
+                                                   "alias" : "bps_wr_max_length"
+                                                },
+                                                "bps_wr_max_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "cache" : {
+                                                   "description" : "The drive's cache mode",
+                                                   "enum" : [
+                                                      "none",
+                                                      "writethrough",
+                                                      "writeback",
+                                                      "unsafe",
+                                                      "directsync"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "cyls" : {
+                                                   "description" : "Force the drive's physical geometry to have a specific cylinder count.",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "detect_zeroes" : {
+                                                   "description" : "Controls whether to detect and try to optimize writes of zeroes.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "discard" : {
+                                                   "description" : "Controls whether to pass discard/trim requests to the underlying storage.",
+                                                   "enum" : [
+                                                      "ignore",
+                                                      "on"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "file" : {
+                                                   "default_key" : 1,
+                                                   "description" : "The drive's backing volume.",
+                                                   "format" : "pve-volume-id-or-qm-path",
+                                                   "format_description" : "volume",
+                                                   "type" : "string"
+                                                },
+                                                "format" : {
+                                                   "description" : "The drive's backing file's data format.",
+                                                   "enum" : [
+                                                      "raw",
+                                                      "cow",
+                                                      "qcow",
+                                                      "qed",
+                                                      "qcow2",
+                                                      "vmdk",
+                                                      "cloop"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "heads" : {
+                                                   "description" : "Force the drive's physical geometry to have a specific head count.",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops" : {
+                                                   "description" : "Maximum r/w I/O in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_max" : {
+                                                   "description" : "Maximum unthrottled r/w I/O pool in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_rd" : {
+                                                   "description" : "Maximum read I/O in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_rd_length" : {
+                                                   "alias" : "iops_rd_max_length"
+                                                },
+                                                "iops_rd_max" : {
+                                                   "description" : "Maximum unthrottled read I/O pool in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_rd_max_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_wr" : {
+                                                   "description" : "Maximum write I/O in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_wr_length" : {
+                                                   "alias" : "iops_wr_max_length"
+                                                },
+                                                "iops_wr_max" : {
+                                                   "description" : "Maximum unthrottled write I/O pool in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_wr_max_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iothread" : {
+                                                   "description" : "Whether to use iothreads for this drive",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "mbps" : {
+                                                   "description" : "Maximum r/w speed in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "mbps_max" : {
+                                                   "description" : "Maximum unthrottled r/w pool in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "mbps_rd" : {
+                                                   "description" : "Maximum read speed in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "mbps_rd_max" : {
+                                                   "description" : "Maximum unthrottled read pool in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "mbps_wr" : {
+                                                   "description" : "Maximum write speed in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "mbps_wr_max" : {
+                                                   "description" : "Maximum unthrottled write pool in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "media" : {
+                                                   "default" : "disk",
+                                                   "description" : "The drive's media type.",
+                                                   "enum" : [
+                                                      "cdrom",
+                                                      "disk"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "queues" : {
+                                                   "description" : "Number of queues.",
+                                                   "minimum" : 2,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "replicate" : {
+                                                   "default" : 1,
+                                                   "description" : "Whether the drive should considered for replication jobs.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "rerror" : {
+                                                   "description" : "Read error action.",
+                                                   "enum" : [
+                                                      "ignore",
+                                                      "report",
+                                                      "stop"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "scsiblock" : {
+                                                   "default" : 0,
+                                                   "description" : "whether to use scsi-block for full passthrough of host block device\n\nWARNING: can lead to I/O errors in combination with low memory or high memory fragmentation on host",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "secs" : {
+                                                   "description" : "Force the drive's physical geometry to have a specific sector count.",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "serial" : {
+                                                   "description" : "The drive's reported serial number, url-encoded, up to 20 bytes long.",
+                                                   "format" : "urlencoded",
+                                                   "format_description" : "serial",
+                                                   "maxLength" : 60,
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "shared" : {
+                                                   "default" : 0,
+                                                   "description" : "Mark this locally-managed volume as available on all nodes",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Mark this locally-managed volume as available on all nodes.\n\nWARNING: This option does not share the volume automatically, it assumes it is shared already!"
+                                                },
+                                                "size" : {
+                                                   "description" : "Disk size. This is purely informational and has no effect.",
+                                                   "format" : "disk-size",
+                                                   "format_description" : "DiskSize",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "snapshot" : {
+                                                   "description" : "Controls qemu's snapshot mode feature. If activated, changes made to the disk are temporary and will be discarded when the VM is shutdown.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "trans" : {
+                                                   "description" : "Force disk geometry bios translation mode.",
+                                                   "enum" : [
+                                                      "none",
+                                                      "lba",
+                                                      "auto"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "volume" : {
+                                                   "alias" : "file"
+                                                },
+                                                "werror" : {
+                                                   "description" : "Write error action.",
+                                                   "enum" : [
+                                                      "enospc",
+                                                      "ignore",
+                                                      "report",
+                                                      "stop"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "scsihw" : {
+                                             "default" : "lsi",
+                                             "description" : "SCSI controller model",
+                                             "enum" : [
+                                                "lsi",
+                                                "lsi53c810",
+                                                "virtio-scsi-pci",
+                                                "virtio-scsi-single",
+                                                "megasas",
+                                                "pvscsi"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "searchdomain" : {
+                                             "description" : "cloud-init: Sets DNS search domains for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "serial[n]" : {
+                                             "description" : "Create a serial device inside the VM (n is 0 to 3)",
+                                             "optional" : 1,
+                                             "pattern" : "(/dev/.+|socket)",
+                                             "type" : "string",
+                                             "verbose_description" : "Create a serial device inside the VM (n is 0 to 3), and pass through a\nhost serial device (i.e. /dev/ttyS0), or create a unix socket on the\nhost side (use 'qm terminal' to open a terminal connection).\n\nNOTE: If you pass through a host serial device, it is no longer possible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
+                                          },
+                                          "shares" : {
+                                             "default" : 1000,
+                                             "description" : "Amount of memory shares for auto-ballooning. The larger the number is, the more memory this VM gets. Number is relative to weights of all other running VMs. Using zero disables auto-ballooning. Auto-ballooning is done by pvestatd.",
+                                             "maximum" : 50000,
+                                             "minimum" : 0,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "smbios1" : {
+                                             "description" : "Specify SMBIOS type 1 fields.",
+                                             "format" : "pve-qm-smbios1",
+                                             "maxLength" : 256,
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "smp" : {
+                                             "default" : 1,
+                                             "description" : "The number of CPUs. Please use option -sockets instead.",
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "sockets" : {
+                                             "default" : 1,
+                                             "description" : "The number of CPU sockets.",
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "sshkeys" : {
+                                             "description" : "cloud-init: Setup public SSH keys (one key per line, OpenSSH format).",
+                                             "format" : "urlencoded",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "startdate" : {
+                                             "default" : "now",
+                                             "description" : "Set the initial date of the real time clock. Valid format for date are: 'now' or '2006-06-17T16:01:21' or '2006-06-17'.",
+                                             "optional" : 1,
+                                             "pattern" : "(now|\\d{4}-\\d{1,2}-\\d{1,2}(T\\d{1,2}:\\d{1,2}:\\d{1,2})?)",
+                                             "type" : "string",
+                                             "typetext" : "(now | YYYY-MM-DD | YYYY-MM-DDTHH:MM:SS)"
+                                          },
+                                          "startup" : {
+                                             "description" : "Startup and shutdown behavior. Order is a non-negative number defining the general startup order. Shutdown in done with reverse ordering. Additionally you can set the 'up' or 'down' delay in seconds, which specifies a delay to wait before the next VM is started or stopped.",
+                                             "format" : "pve-startup-order",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "[[order=]\\d+] [,up=\\d+] [,down=\\d+] "
+                                          },
+                                          "tablet" : {
+                                             "default" : 1,
+                                             "description" : "Enable/disable the USB tablet device.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "verbose_description" : "Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (-vga=qxl)."
+                                          },
+                                          "tdf" : {
+                                             "default" : 0,
+                                             "description" : "Enable/disable time drift fix.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "template" : {
+                                             "default" : 0,
+                                             "description" : "Enable/disable Template.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "unused[n]" : {
+                                             "description" : "Reference to unused volumes. This is used internally, and should not be modified manually.",
+                                             "format" : "pve-volume-id",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "usb[n]" : {
+                                             "description" : "Configure an USB device (n is 0 to 4).",
+                                             "format" : {
+                                                "host" : {
+                                                   "default_key" : 1,
+                                                   "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n",
+                                                   "format" : "pve-qm-usb-device",
+                                                   "format_description" : "HOSTUSBDEVICE|spice",
+                                                   "type" : "string"
+                                                },
+                                                "usb3" : {
+                                                   "default" : 0,
+                                                   "description" : "Specifies whether if given host option is a USB3 device or port (this does currently not work reliably with spice redirection and is then ignored).",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "vcpus" : {
+                                             "default" : 0,
+                                             "description" : "Number of hotplugged vcpus.",
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "vga" : {
+                                             "description" : "Select the VGA type.",
+                                             "enum" : [
+                                                "cirrus",
+                                                "qxl",
+                                                "qxl2",
+                                                "qxl3",
+                                                "qxl4",
+                                                "serial0",
+                                                "serial1",
+                                                "serial2",
+                                                "serial3",
+                                                "std",
+                                                "virtio",
+                                                "vmware"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "verbose_description" : "Select the VGA type. If you want to use high resolution modes (>= 1280x1024x16) then you should use the options 'std' or 'vmware'. Default is 'std' for win8/win7/w2k8, and 'cirrus' for other OS types. The 'qxl' option enables the SPICE display sever. For win* OS you can select how many independent displays you want, Linux guests can add displays them self. You can also run without any graphic card, using a serial device as terminal."
+                                          },
+                                          "virtio[n]" : {
+                                             "description" : "Use volume as VIRTIO hard disk (n is 0 to 15).",
+                                             "format" : {
+                                                "aio" : {
+                                                   "description" : "AIO type to use.",
+                                                   "enum" : [
+                                                      "native",
+                                                      "threads"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "backup" : {
+                                                   "description" : "Whether the drive should be included when making backups.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "bps" : {
+                                                   "description" : "Maximum r/w speed in bytes per second.",
+                                                   "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_rd" : {
+                                                   "description" : "Maximum read speed in bytes per second.",
+                                                   "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_rd_length" : {
+                                                   "alias" : "bps_rd_max_length"
+                                                },
+                                                "bps_rd_max_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_wr" : {
+                                                   "description" : "Maximum write speed in bytes per second.",
+                                                   "format_description" : "bps",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "bps_wr_length" : {
+                                                   "alias" : "bps_wr_max_length"
+                                                },
+                                                "bps_wr_max_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "cache" : {
+                                                   "description" : "The drive's cache mode",
+                                                   "enum" : [
+                                                      "none",
+                                                      "writethrough",
+                                                      "writeback",
+                                                      "unsafe",
+                                                      "directsync"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "cyls" : {
+                                                   "description" : "Force the drive's physical geometry to have a specific cylinder count.",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "detect_zeroes" : {
+                                                   "description" : "Controls whether to detect and try to optimize writes of zeroes.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "discard" : {
+                                                   "description" : "Controls whether to pass discard/trim requests to the underlying storage.",
+                                                   "enum" : [
+                                                      "ignore",
+                                                      "on"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "file" : {
+                                                   "default_key" : 1,
+                                                   "description" : "The drive's backing volume.",
+                                                   "format" : "pve-volume-id-or-qm-path",
+                                                   "format_description" : "volume",
+                                                   "type" : "string"
+                                                },
+                                                "format" : {
+                                                   "description" : "The drive's backing file's data format.",
+                                                   "enum" : [
+                                                      "raw",
+                                                      "cow",
+                                                      "qcow",
+                                                      "qed",
+                                                      "qcow2",
+                                                      "vmdk",
+                                                      "cloop"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "heads" : {
+                                                   "description" : "Force the drive's physical geometry to have a specific head count.",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops" : {
+                                                   "description" : "Maximum r/w I/O in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_max" : {
+                                                   "description" : "Maximum unthrottled r/w I/O pool in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_max_length" : {
+                                                   "description" : "Maximum length of I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_rd" : {
+                                                   "description" : "Maximum read I/O in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_rd_length" : {
+                                                   "alias" : "iops_rd_max_length"
+                                                },
+                                                "iops_rd_max" : {
+                                                   "description" : "Maximum unthrottled read I/O pool in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_rd_max_length" : {
+                                                   "description" : "Maximum length of read I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_wr" : {
+                                                   "description" : "Maximum write I/O in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_wr_length" : {
+                                                   "alias" : "iops_wr_max_length"
+                                                },
+                                                "iops_wr_max" : {
+                                                   "description" : "Maximum unthrottled write I/O pool in operations per second.",
+                                                   "format_description" : "iops",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iops_wr_max_length" : {
+                                                   "description" : "Maximum length of write I/O bursts in seconds.",
+                                                   "format_description" : "seconds",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "iothread" : {
+                                                   "description" : "Whether to use iothreads for this drive",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "mbps" : {
+                                                   "description" : "Maximum r/w speed in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "mbps_max" : {
+                                                   "description" : "Maximum unthrottled r/w pool in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "mbps_rd" : {
+                                                   "description" : "Maximum read speed in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "mbps_rd_max" : {
+                                                   "description" : "Maximum unthrottled read pool in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "mbps_wr" : {
+                                                   "description" : "Maximum write speed in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "mbps_wr_max" : {
+                                                   "description" : "Maximum unthrottled write pool in megabytes per second.",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "media" : {
+                                                   "default" : "disk",
+                                                   "description" : "The drive's media type.",
+                                                   "enum" : [
+                                                      "cdrom",
+                                                      "disk"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "replicate" : {
+                                                   "default" : 1,
+                                                   "description" : "Whether the drive should considered for replication jobs.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "rerror" : {
+                                                   "description" : "Read error action.",
+                                                   "enum" : [
+                                                      "ignore",
+                                                      "report",
+                                                      "stop"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "secs" : {
+                                                   "description" : "Force the drive's physical geometry to have a specific sector count.",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "serial" : {
+                                                   "description" : "The drive's reported serial number, url-encoded, up to 20 bytes long.",
+                                                   "format" : "urlencoded",
+                                                   "format_description" : "serial",
+                                                   "maxLength" : 60,
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "shared" : {
+                                                   "default" : 0,
+                                                   "description" : "Mark this locally-managed volume as available on all nodes",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Mark this locally-managed volume as available on all nodes.\n\nWARNING: This option does not share the volume automatically, it assumes it is shared already!"
+                                                },
+                                                "size" : {
+                                                   "description" : "Disk size. This is purely informational and has no effect.",
+                                                   "format" : "disk-size",
+                                                   "format_description" : "DiskSize",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "snapshot" : {
+                                                   "description" : "Controls qemu's snapshot mode feature. If activated, changes made to the disk are temporary and will be discarded when the VM is shutdown.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "trans" : {
+                                                   "description" : "Force disk geometry bios translation mode.",
+                                                   "enum" : [
+                                                      "none",
+                                                      "lba",
+                                                      "auto"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "volume" : {
+                                                   "alias" : "file"
+                                                },
+                                                "werror" : {
+                                                   "description" : "Write error action.",
+                                                   "enum" : [
+                                                      "enospc",
+                                                      "ignore",
+                                                      "report",
+                                                      "stop"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "vmgenid" : {
+                                             "default" : "1 (autogenerated)",
+                                             "description" : "Set VM Generation ID. Use '1' to autogenerate on create or update, pass '0' to disable explicitly.",
+                                             "format_description" : "UUID",
+                                             "optional" : 1,
+                                             "pattern" : "(?:[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}|[01])",
+                                             "type" : "string",
+                                             "verbose_description" : "The VM generation ID (vmgenid) device exposes a 128-bit integer value identifier to the guest OS. This allows to notify the guest operating system when the virtual machine is executed with a different configuration (e.g. snapshot execution or creation from a template). The guest operating system notices the change, and is then able to react as appropriate by marking its copies of distributed databases as dirty, re-initializing its random number generator, etc.\nNote that auto-creation only works when done throug API/CLI create or update methods, but not when manually editing the config file."
+                                          },
+                                          "vmstatestorage" : {
+                                             "description" : "Default storage for VM state volumes/files.",
+                                             "format" : "pve-storage-id",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "watchdog" : {
+                                             "description" : "Create a virtual hardware watchdog device.",
+                                             "format" : "pve-qm-watchdog",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "verbose_description" : "Create a virtual hardware watchdog device. Once enabled (by a guest action), the watchdog must be periodically polled by an agent inside the guest or else the watchdog will reset the guest (or execute the respective action specified)"
                                           }
                                        },
                                        "type" : "object"
@@ -7444,11 +9864,24 @@ var pveapi = [
                                              "typetext" : "<boolean>"
                                           },
                                           "agent" : {
-                                             "default" : 0,
-                                             "description" : "Enable/disable Qemu GuestAgent.",
+                                             "description" : "Enable/disable Qemu GuestAgent and its properties.",
+                                             "format" : {
+                                                "enabled" : {
+                                                   "default" : 0,
+                                                   "default_key" : 1,
+                                                   "description" : "Enable/disable Qemu GuestAgent.",
+                                                   "type" : "boolean"
+                                                },
+                                                "fstrim_cloned_disks" : {
+                                                   "default" : 0,
+                                                   "description" : "Run fstrim after cloning/moving a disk.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                }
+                                             },
                                              "optional" : 1,
-                                             "type" : "boolean",
-                                             "typetext" : "<boolean>"
+                                             "type" : "string",
+                                             "typetext" : "[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>]"
                                           },
                                           "args" : {
                                              "description" : "Arbitrary arguments passed to kvm.",
@@ -7594,10 +10027,10 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "flags" : {
-                                                   "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl'.",
+                                                   "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl', 'ibpb', 'ssbd', 'virt-ssbd', 'amd-ssbd', 'amd-no-ssb', 'pdpe1gb'.",
                                                    "format_description" : "+FLAG[;-FLAG...]",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl))(;(?^:[+-](pcid|spec-ctrl)))*)",
+                                                   "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb)))*)",
                                                    "type" : "string"
                                                 },
                                                 "hidden" : {
@@ -7650,6 +10083,45 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
+                                          },
+                                          "efidisk0" : {
+                                             "description" : "Configure a Disk for storing EFI vars",
+                                             "format" : {
+                                                "file" : {
+                                                   "default_key" : 1,
+                                                   "description" : "The drive's backing volume.",
+                                                   "format" : "pve-volume-id-or-qm-path",
+                                                   "format_description" : "volume",
+                                                   "type" : "string"
+                                                },
+                                                "format" : {
+                                                   "description" : "The drive's backing file's data format.",
+                                                   "enum" : [
+                                                      "raw",
+                                                      "cow",
+                                                      "qcow",
+                                                      "qed",
+                                                      "qcow2",
+                                                      "vmdk",
+                                                      "cloop"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "size" : {
+                                                   "description" : "Disk size. This is purely informational and has no effect.",
+                                                   "format" : "disk-size",
+                                                   "format_description" : "DiskSize",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "volume" : {
+                                                   "alias" : "file"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "[file=]<volume> [,format=<enum>] [,size=<DiskSize>]"
                                           },
                                           "force" : {
                                              "description" : "Force physical removal. Without this, we simple remove the disk from the config file and create an additional configuration entry called 'unused[n]', which contains the volume ID. Unlink of unused[n] always cause physical removal.",
@@ -8068,7 +10540,7 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "machine" : {
-                                             "description" : "Specific the Qemu machine type.",
+                                             "description" : "Specifies the Qemu machine type.",
                                              "maxLength" : 40,
                                              "optional" : 1,
                                              "pattern" : "(pc|pc(-i440fx)?-\\d+\\.\\d+(\\.pxe)?|q35|pc-q35-\\d+\\.\\d+(\\.pxe)?)",
@@ -9122,17 +11594,18 @@ var pveapi = [
                                           "vga" : {
                                              "description" : "Select the VGA type.",
                                              "enum" : [
-                                                "std",
                                                 "cirrus",
-                                                "vmware",
                                                 "qxl",
+                                                "qxl2",
+                                                "qxl3",
+                                                "qxl4",
                                                 "serial0",
                                                 "serial1",
                                                 "serial2",
                                                 "serial3",
-                                                "qxl2",
-                                                "qxl3",
-                                                "qxl4"
+                                                "std",
+                                                "virtio",
+                                                "vmware"
                                              ],
                                              "optional" : 1,
                                              "type" : "string",
@@ -9448,6 +11921,15 @@ var pveapi = [
                                              "type" : "string",
                                              "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
+                                          "vmgenid" : {
+                                             "default" : "1 (autogenerated)",
+                                             "description" : "Set VM Generation ID. Use '1' to autogenerate on create or update, pass '0' to disable explicitly.",
+                                             "format_description" : "UUID",
+                                             "optional" : 1,
+                                             "pattern" : "(?:[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}|[01])",
+                                             "type" : "string",
+                                             "verbose_description" : "The VM generation ID (vmgenid) device exposes a 128-bit integer value identifier to the guest OS. This allows to notify the guest operating system when the virtual machine is executed with a different configuration (e.g. snapshot execution or creation from a template). The guest operating system notices the change, and is then able to react as appropriate by marking its copies of distributed databases as dirty, re-initializing its random number generator, etc.\nNote that auto-creation only works when done throug API/CLI create or update methods, but not when manually editing the config file."
+                                          },
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
@@ -9511,11 +11993,24 @@ var pveapi = [
                                              "typetext" : "<boolean>"
                                           },
                                           "agent" : {
-                                             "default" : 0,
-                                             "description" : "Enable/disable Qemu GuestAgent.",
+                                             "description" : "Enable/disable Qemu GuestAgent and its properties.",
+                                             "format" : {
+                                                "enabled" : {
+                                                   "default" : 0,
+                                                   "default_key" : 1,
+                                                   "description" : "Enable/disable Qemu GuestAgent.",
+                                                   "type" : "boolean"
+                                                },
+                                                "fstrim_cloned_disks" : {
+                                                   "default" : 0,
+                                                   "description" : "Run fstrim after cloning/moving a disk.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                }
+                                             },
                                              "optional" : 1,
-                                             "type" : "boolean",
-                                             "typetext" : "<boolean>"
+                                             "type" : "string",
+                                             "typetext" : "[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>]"
                                           },
                                           "args" : {
                                              "description" : "Arbitrary arguments passed to kvm.",
@@ -9653,10 +12148,10 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "flags" : {
-                                                   "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl'.",
+                                                   "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl', 'ibpb', 'ssbd', 'virt-ssbd', 'amd-ssbd', 'amd-no-ssb', 'pdpe1gb'.",
                                                    "format_description" : "+FLAG[;-FLAG...]",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl))(;(?^:[+-](pcid|spec-ctrl)))*)",
+                                                   "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb)))*)",
                                                    "type" : "string"
                                                 },
                                                 "hidden" : {
@@ -9709,6 +12204,45 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
+                                          },
+                                          "efidisk0" : {
+                                             "description" : "Configure a Disk for storing EFI vars",
+                                             "format" : {
+                                                "file" : {
+                                                   "default_key" : 1,
+                                                   "description" : "The drive's backing volume.",
+                                                   "format" : "pve-volume-id-or-qm-path",
+                                                   "format_description" : "volume",
+                                                   "type" : "string"
+                                                },
+                                                "format" : {
+                                                   "description" : "The drive's backing file's data format.",
+                                                   "enum" : [
+                                                      "raw",
+                                                      "cow",
+                                                      "qcow",
+                                                      "qed",
+                                                      "qcow2",
+                                                      "vmdk",
+                                                      "cloop"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "size" : {
+                                                   "description" : "Disk size. This is purely informational and has no effect.",
+                                                   "format" : "disk-size",
+                                                   "format_description" : "DiskSize",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "volume" : {
+                                                   "alias" : "file"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "[file=]<volume> [,format=<enum>] [,size=<DiskSize>]"
                                           },
                                           "force" : {
                                              "description" : "Force physical removal. Without this, we simple remove the disk from the config file and create an additional configuration entry called 'unused[n]', which contains the volume ID. Unlink of unused[n] always cause physical removal.",
@@ -10127,7 +12661,7 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "machine" : {
-                                             "description" : "Specific the Qemu machine type.",
+                                             "description" : "Specifies the Qemu machine type.",
                                              "maxLength" : 40,
                                              "optional" : 1,
                                              "pattern" : "(pc|pc(-i440fx)?-\\d+\\.\\d+(\\.pxe)?|q35|pc-q35-\\d+\\.\\d+(\\.pxe)?)",
@@ -11181,17 +13715,18 @@ var pveapi = [
                                           "vga" : {
                                              "description" : "Select the VGA type.",
                                              "enum" : [
-                                                "std",
                                                 "cirrus",
-                                                "vmware",
                                                 "qxl",
+                                                "qxl2",
+                                                "qxl3",
+                                                "qxl4",
                                                 "serial0",
                                                 "serial1",
                                                 "serial2",
                                                 "serial3",
-                                                "qxl2",
-                                                "qxl3",
-                                                "qxl4"
+                                                "std",
+                                                "virtio",
+                                                "vmware"
                                              ],
                                              "optional" : 1,
                                              "type" : "string",
@@ -11506,6 +14041,15 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                          },
+                                          "vmgenid" : {
+                                             "default" : "1 (autogenerated)",
+                                             "description" : "Set VM Generation ID. Use '1' to autogenerate on create or update, pass '0' to disable explicitly.",
+                                             "format_description" : "UUID",
+                                             "optional" : 1,
+                                             "pattern" : "(?:[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}|[01])",
+                                             "type" : "string",
+                                             "verbose_description" : "The VM generation ID (vmgenid) device exposes a 128-bit integer value identifier to the guest OS. This allows to notify the guest operating system when the virtual machine is executed with a different configuration (e.g. snapshot execution or creation from a template). The guest operating system notices the change, and is then able to react as appropriate by marking its copies of distributed databases as dirty, re-initializing its random number generator, etc.\nNote that auto-creation only works when done throug API/CLI create or update methods, but not when manually editing the config file."
                                           },
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
@@ -11895,7 +14439,7 @@ var pveapi = [
                                              "typetext" : "<string>"
                                           },
                                           "proxy" : {
-                                             "description" : "SPICE proxy server. This can be used by the client to specify the proxy server. All nodes in a cluster runs 'spiceproxy', so it is up to the client to choose one. By default, we return the node where the VM is currently running. As resonable setting is to use same node you use to connect to the API (This is window.location.hostname for the JS GUI).",
+                                             "description" : "SPICE proxy server. This can be used by the client to specify the proxy server. All nodes in a cluster runs 'spiceproxy', so it is up to the client to choose one. By default, we return the node where the VM is currently running. As reasonable setting is to use same node you use to connect to the API (This is window.location.hostname for the JS GUI).",
                                              "format" : "address",
                                              "optional" : 1,
                                              "type" : "string",
@@ -11986,6 +14530,74 @@ var pveapi = [
                                           "protected" : 1,
                                           "proxyto" : "node",
                                           "returns" : {
+                                             "properties" : {
+                                                "agent" : {
+                                                   "description" : "Qemu GuestAgent enabled in config.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "cpus" : {
+                                                   "description" : "Maximum usable CPUs.",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "ha" : {
+                                                   "description" : "HA manager service status.",
+                                                   "type" : "object"
+                                                },
+                                                "maxdisk" : {
+                                                   "description" : "Root disk size in bytes.",
+                                                   "optional" : 1,
+                                                   "renderer" : "bytes",
+                                                   "type" : "integer"
+                                                },
+                                                "maxmem" : {
+                                                   "description" : "Maximum memory in bytes.",
+                                                   "optional" : 1,
+                                                   "renderer" : "bytes",
+                                                   "type" : "integer"
+                                                },
+                                                "name" : {
+                                                   "description" : "VM name.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "pid" : {
+                                                   "description" : "PID of running qemu process.",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "qmpstatus" : {
+                                                   "description" : "Qemu QMP agent status.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "spice" : {
+                                                   "description" : "Qemu VGA configuration supports spice.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "status" : {
+                                                   "description" : "Qemu process status.",
+                                                   "enum" : [
+                                                      "stopped",
+                                                      "running"
+                                                   ],
+                                                   "type" : "string"
+                                                },
+                                                "uptime" : {
+                                                   "description" : "Uptime.",
+                                                   "optional" : 1,
+                                                   "renderer" : "duration",
+                                                   "type" : "integer"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer"
+                                                }
+                                             },
                                              "type" : "object"
                                           }
                                        }
@@ -12004,7 +14616,7 @@ var pveapi = [
                                              "additionalProperties" : 0,
                                              "properties" : {
                                                 "machine" : {
-                                                   "description" : "Specific the Qemu machine type.",
+                                                   "description" : "Specifies the Qemu machine type.",
                                                    "maxLength" : 40,
                                                    "optional" : 1,
                                                    "pattern" : "(pc|pc(-i440fx)?-\\d+\\.\\d+(\\.pxe)?|q35|pc-q35-\\d+\\.\\d+(\\.pxe)?)",
@@ -13381,7 +15993,32 @@ var pveapi = [
                                     "proxyto" : "node",
                                     "returns" : {
                                        "items" : {
-                                          "properties" : {},
+                                          "properties" : {
+                                             "description" : {
+                                                "description" : "Snapshot description.",
+                                                "type" : "string"
+                                             },
+                                             "name" : {
+                                                "description" : "Snapshot identifier. Value 'current' identifies the current VM.",
+                                                "type" : "string"
+                                             },
+                                             "parent" : {
+                                                "description" : "Parent snapshot identifier.",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "snaptime" : {
+                                                "description" : "Snapshot creation time",
+                                                "optional" : 1,
+                                                "renderer" : "timestamp",
+                                                "type" : "integer"
+                                             },
+                                             "vmstate" : {
+                                                "description" : "Snapshot includes RAM.",
+                                                "optional" : 1,
+                                                "type" : "boolean"
+                                             }
+                                          },
                                           "type" : "object"
                                        },
                                        "links" : [
@@ -13673,7 +16310,60 @@ var pveapi = [
                         "proxyto" : "node",
                         "returns" : {
                            "items" : {
-                              "properties" : {},
+                              "properties" : {
+                                 "cpus" : {
+                                    "description" : "Maximum usable CPUs.",
+                                    "optional" : 1,
+                                    "type" : "number"
+                                 },
+                                 "maxdisk" : {
+                                    "description" : "Root disk size in bytes.",
+                                    "optional" : 1,
+                                    "renderer" : "bytes",
+                                    "type" : "integer"
+                                 },
+                                 "maxmem" : {
+                                    "description" : "Maximum memory in bytes.",
+                                    "optional" : 1,
+                                    "renderer" : "bytes",
+                                    "type" : "integer"
+                                 },
+                                 "name" : {
+                                    "description" : "VM name.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "pid" : {
+                                    "description" : "PID of running qemu process.",
+                                    "optional" : 1,
+                                    "type" : "integer"
+                                 },
+                                 "qmpstatus" : {
+                                    "description" : "Qemu QMP agent status.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "status" : {
+                                    "description" : "Qemu process status.",
+                                    "enum" : [
+                                       "stopped",
+                                       "running"
+                                    ],
+                                    "type" : "string"
+                                 },
+                                 "uptime" : {
+                                    "description" : "Uptime.",
+                                    "optional" : 1,
+                                    "renderer" : "duration",
+                                    "type" : "integer"
+                                 },
+                                 "vmid" : {
+                                    "description" : "The (unique) ID of the VM.",
+                                    "format" : "pve-vmid",
+                                    "minimum" : 1,
+                                    "type" : "integer"
+                                 }
+                              },
                               "type" : "object"
                            },
                            "links" : [
@@ -13700,11 +16390,24 @@ var pveapi = [
                                  "typetext" : "<boolean>"
                               },
                               "agent" : {
-                                 "default" : 0,
-                                 "description" : "Enable/disable Qemu GuestAgent.",
+                                 "description" : "Enable/disable Qemu GuestAgent and its properties.",
+                                 "format" : {
+                                    "enabled" : {
+                                       "default" : 0,
+                                       "default_key" : 1,
+                                       "description" : "Enable/disable Qemu GuestAgent.",
+                                       "type" : "boolean"
+                                    },
+                                    "fstrim_cloned_disks" : {
+                                       "default" : 0,
+                                       "description" : "Run fstrim after cloning/moving a disk.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    }
+                                 },
                                  "optional" : 1,
-                                 "type" : "boolean",
-                                 "typetext" : "<boolean>"
+                                 "type" : "string",
+                                 "typetext" : "[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>]"
                               },
                               "archive" : {
                                  "description" : "The backup file.",
@@ -13856,10 +16559,10 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "flags" : {
-                                       "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl'.",
+                                       "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl', 'ibpb', 'ssbd', 'virt-ssbd', 'amd-ssbd', 'amd-no-ssb', 'pdpe1gb'.",
                                        "format_description" : "+FLAG[;-FLAG...]",
                                        "optional" : 1,
-                                       "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl))(;(?^:[+-](pcid|spec-ctrl)))*)",
+                                       "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb)))*)",
                                        "type" : "string"
                                     },
                                     "hidden" : {
@@ -13898,6 +16601,45 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "efidisk0" : {
+                                 "description" : "Configure a Disk for storing EFI vars",
+                                 "format" : {
+                                    "file" : {
+                                       "default_key" : 1,
+                                       "description" : "The drive's backing volume.",
+                                       "format" : "pve-volume-id-or-qm-path",
+                                       "format_description" : "volume",
+                                       "type" : "string"
+                                    },
+                                    "format" : {
+                                       "description" : "The drive's backing file's data format.",
+                                       "enum" : [
+                                          "raw",
+                                          "cow",
+                                          "qcow",
+                                          "qed",
+                                          "qcow2",
+                                          "vmdk",
+                                          "cloop"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "size" : {
+                                       "description" : "Disk size. This is purely informational and has no effect.",
+                                       "format" : "disk-size",
+                                       "format_description" : "DiskSize",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "volume" : {
+                                       "alias" : "file"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "[file=]<volume> [,format=<enum>] [,size=<DiskSize>]"
                               },
                               "force" : {
                                  "description" : "Allow to overwrite existing VM.",
@@ -14316,7 +17058,7 @@ var pveapi = [
                                  "type" : "string"
                               },
                               "machine" : {
-                                 "description" : "Specific the Qemu machine type.",
+                                 "description" : "Specifies the Qemu machine type.",
                                  "maxLength" : 40,
                                  "optional" : 1,
                                  "pattern" : "(pc|pc(-i440fx)?-\\d+\\.\\d+(\\.pxe)?|q35|pc-q35-\\d+\\.\\d+(\\.pxe)?)",
@@ -15385,17 +18127,18 @@ var pveapi = [
                               "vga" : {
                                  "description" : "Select the VGA type.",
                                  "enum" : [
-                                    "std",
                                     "cirrus",
-                                    "vmware",
                                     "qxl",
+                                    "qxl2",
+                                    "qxl3",
+                                    "qxl4",
                                     "serial0",
                                     "serial1",
                                     "serial2",
                                     "serial3",
-                                    "qxl2",
-                                    "qxl3",
-                                    "qxl4"
+                                    "std",
+                                    "virtio",
+                                    "vmware"
                                  ],
                                  "optional" : 1,
                                  "type" : "string",
@@ -15711,6 +18454,15 @@ var pveapi = [
                                  "type" : "string",
                                  "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                               },
+                              "vmgenid" : {
+                                 "default" : "1 (autogenerated)",
+                                 "description" : "Set VM Generation ID. Use '1' to autogenerate on create or update, pass '0' to disable explicitly.",
+                                 "format_description" : "UUID",
+                                 "optional" : 1,
+                                 "pattern" : "(?:[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}|[01])",
+                                 "type" : "string",
+                                 "verbose_description" : "The VM generation ID (vmgenid) device exposes a 128-bit integer value identifier to the guest OS. This allows to notify the guest operating system when the virtual machine is executed with a different configuration (e.g. snapshot execution or creation from a template). The guest operating system notices the change, and is then able to react as appropriate by marking its copies of distributed databases as dirty, re-initializing its random number generator, etc.\nNote that auto-creation only works when done throug API/CLI create or update methods, but not when manually editing the config file."
+                              },
                               "vmid" : {
                                  "description" : "The (unique) ID of the VM.",
                                  "format" : "pve-vmid",
@@ -15790,8 +18542,415 @@ var pveapi = [
                                     "proxyto" : "node",
                                     "returns" : {
                                        "properties" : {
+                                          "arch" : {
+                                             "default" : "amd64",
+                                             "description" : "OS architecture type.",
+                                             "enum" : [
+                                                "amd64",
+                                                "i386",
+                                                "arm64",
+                                                "armhf"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "cmode" : {
+                                             "default" : "tty",
+                                             "description" : "Console mode. By default, the console command tries to open a connection to one of the available tty devices. By setting cmode to 'console' it tries to attach to /dev/console instead. If you set cmode to 'shell', it simply invokes a shell inside the container (no login).",
+                                             "enum" : [
+                                                "shell",
+                                                "console",
+                                                "tty"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "console" : {
+                                             "default" : 1,
+                                             "description" : "Attach a console device (/dev/console) to the container.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "cores" : {
+                                             "description" : "The number of cores assigned to the container. A container can use all available cores by default.",
+                                             "maximum" : 128,
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "cpulimit" : {
+                                             "default" : 0,
+                                             "description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has a total of '2' CPU time. Value '0' indicates no CPU limit.",
+                                             "maximum" : 128,
+                                             "minimum" : 0,
+                                             "optional" : 1,
+                                             "type" : "number"
+                                          },
+                                          "cpuunits" : {
+                                             "default" : 1024,
+                                             "description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to the weights of all the other running VMs.\n\nNOTE: You can disable fair-scheduler configuration by setting this to 0.",
+                                             "maximum" : 500000,
+                                             "minimum" : 0,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "description" : {
+                                             "description" : "Container description. Only used on the configuration web interface.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
                                           "digest" : {
                                              "description" : "SHA1 digest of configuration file. This can be used to prevent concurrent modifications.",
+                                             "type" : "string"
+                                          },
+                                          "features" : {
+                                             "description" : "Allow containers access to advanced features.",
+                                             "format" : {
+                                                "keyctl" : {
+                                                   "default" : 0,
+                                                   "description" : "For unprivileged containers only: Allow the use of the keyctl() system call. This is required to use docker inside a container. By default unprivileged containers will see this system call as non-existent. This is mostly a workaround for systemd-networkd, as it will treat it as a fatal error when some keyctl() operations are denied by the kernel due to lacking permissions. Essentially, you can choose between running systemd-networkd or docker.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "mount" : {
+                                                   "description" : "Allow mounting file systems of specific types. This should be a list of file system types as used with the mount command. Note that this can have negative effects on the container's security. With access to a loop device, mounting a file can circumvent the mknod permission of the devices cgroup, mounting an NFS file system can block the host's I/O completely and prevent it from rebooting, etc.",
+                                                   "format_description" : "fstype;fstype;...",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:[a-zA-Z0-9; ]+)",
+                                                   "type" : "string"
+                                                },
+                                                "nesting" : {
+                                                   "default" : 0,
+                                                   "description" : "Allow nesting. Best used with unprivileged containers with additional id mapping. Note that this will expose procfs and sysfs contents of the host to the guest.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "hostname" : {
+                                             "description" : "Set a host name for the container.",
+                                             "format" : "dns-name",
+                                             "maxLength" : 255,
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "lock" : {
+                                             "description" : "Lock/unlock the VM.",
+                                             "enum" : [
+                                                "backup",
+                                                "disk",
+                                                "migrate",
+                                                "mounted",
+                                                "rollback",
+                                                "snapshot",
+                                                "snapshot-delete"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "lxc" : {
+                                             "description" : "Array of lxc low-level configurations ([[key1, value1], [key2, value2] ...]).",
+                                             "items" : {
+                                                "items" : {
+                                                   "type" : "string"
+                                                },
+                                                "type" : "array"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array"
+                                          },
+                                          "memory" : {
+                                             "default" : 512,
+                                             "description" : "Amount of RAM for the VM in MB.",
+                                             "minimum" : 16,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "mp[n]" : {
+                                             "description" : "Use volume as container mount point.",
+                                             "format" : {
+                                                "acl" : {
+                                                   "description" : "Explicitly enable or disable ACL support.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "backup" : {
+                                                   "description" : "Whether to include the mount point in backups.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Whether to include the mount point in backups (only used for volume mount points)."
+                                                },
+                                                "mp" : {
+                                                   "description" : "Path to the mount point as seen from inside the container (must not contain symlinks).",
+                                                   "format" : "pve-lxc-mp-string",
+                                                   "format_description" : "Path",
+                                                   "type" : "string",
+                                                   "verbose_description" : "Path to the mount point as seen from inside the container.\n\nNOTE: Must not contain any symlinks for security reasons."
+                                                },
+                                                "quota" : {
+                                                   "description" : "Enable user quotas inside the container (not supported with zfs subvolumes)",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "replicate" : {
+                                                   "default" : 1,
+                                                   "description" : "Will include this volume to a storage replica job.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "ro" : {
+                                                   "description" : "Read-only mount point",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "shared" : {
+                                                   "default" : 0,
+                                                   "description" : "Mark this non-volume mount point as available on multiple nodes (see 'nodes')",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Mark this non-volume mount point as available on all nodes.\n\nWARNING: This option does not share the mount point automatically, it assumes it is shared already!"
+                                                },
+                                                "size" : {
+                                                   "description" : "Volume size (read only value).",
+                                                   "format" : "disk-size",
+                                                   "format_description" : "DiskSize",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "volume" : {
+                                                   "default_key" : 1,
+                                                   "description" : "Volume, device or directory to mount into the container.",
+                                                   "format" : "pve-lxc-mp-string",
+                                                   "format_description" : "volume",
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "nameserver" : {
+                                             "description" : "Sets DNS server IP address for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.",
+                                             "format" : "address-list",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "net[n]" : {
+                                             "description" : "Specifies network interfaces for the container.",
+                                             "format" : {
+                                                "bridge" : {
+                                                   "description" : "Bridge to attach the network device to.",
+                                                   "format_description" : "bridge",
+                                                   "optional" : 1,
+                                                   "pattern" : "[-_.\\w\\d]+",
+                                                   "type" : "string"
+                                                },
+                                                "firewall" : {
+                                                   "description" : "Controls whether this interface's firewall rules should be used.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "gw" : {
+                                                   "description" : "Default gateway for IPv4 traffic.",
+                                                   "format" : "ipv4",
+                                                   "format_description" : "GatewayIPv4",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "gw6" : {
+                                                   "description" : "Default gateway for IPv6 traffic.",
+                                                   "format" : "ipv6",
+                                                   "format_description" : "GatewayIPv6",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "hwaddr" : {
+                                                   "description" : "The interface MAC address. This is dynamically allocated by default, but you can set that statically if needed, for example to always have the same link-local IPv6 address. (lxc.network.hwaddr)",
+                                                   "format_description" : "XX:XX:XX:XX:XX:XX",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^i:(?:[a-f0-9]{2}:){5}[a-f0-9]{2})",
+                                                   "type" : "string"
+                                                },
+                                                "ip" : {
+                                                   "description" : "IPv4 address in CIDR format.",
+                                                   "format" : "pve-ipv4-config",
+                                                   "format_description" : "(IPv4/CIDR|dhcp|manual)",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "ip6" : {
+                                                   "description" : "IPv6 address in CIDR format.",
+                                                   "format" : "pve-ipv6-config",
+                                                   "format_description" : "(IPv6/CIDR|auto|dhcp|manual)",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "mtu" : {
+                                                   "description" : "Maximum transfer unit of the interface. (lxc.network.mtu)",
+                                                   "minimum" : 64,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "name" : {
+                                                   "description" : "Name of the network device as seen from inside the container. (lxc.network.name)",
+                                                   "format_description" : "string",
+                                                   "pattern" : "[-_.\\w\\d]+",
+                                                   "type" : "string"
+                                                },
+                                                "rate" : {
+                                                   "description" : "Apply rate limiting to the interface",
+                                                   "format_description" : "mbps",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "tag" : {
+                                                   "description" : "VLAN tag for this interface.",
+                                                   "maximum" : 4094,
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "trunks" : {
+                                                   "description" : "VLAN ids to pass through the interface",
+                                                   "format_description" : "vlanid[;vlanid...]",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:\\d+(?:;\\d+)*)",
+                                                   "type" : "string"
+                                                },
+                                                "type" : {
+                                                   "description" : "Network interface type.",
+                                                   "enum" : [
+                                                      "veth"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "onboot" : {
+                                             "default" : 0,
+                                             "description" : "Specifies whether a VM will be started during system bootup.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "ostype" : {
+                                             "description" : "OS type. This is used to setup configuration inside the container, and corresponds to lxc setup scripts in /usr/share/lxc/config/<ostype>.common.conf. Value 'unmanaged' can be used to skip and OS specific setup.",
+                                             "enum" : [
+                                                "debian",
+                                                "ubuntu",
+                                                "centos",
+                                                "fedora",
+                                                "opensuse",
+                                                "archlinux",
+                                                "alpine",
+                                                "gentoo",
+                                                "unmanaged"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "protection" : {
+                                             "default" : 0,
+                                             "description" : "Sets the protection flag of the container. This will prevent the CT or CT's disk remove/update operation.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "rootfs" : {
+                                             "description" : "Use volume as container root.",
+                                             "format" : {
+                                                "acl" : {
+                                                   "description" : "Explicitly enable or disable ACL support.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "quota" : {
+                                                   "description" : "Enable user quotas inside the container (not supported with zfs subvolumes)",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "replicate" : {
+                                                   "default" : 1,
+                                                   "description" : "Will include this volume to a storage replica job.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "ro" : {
+                                                   "description" : "Read-only mount point",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "shared" : {
+                                                   "default" : 0,
+                                                   "description" : "Mark this non-volume mount point as available on multiple nodes (see 'nodes')",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Mark this non-volume mount point as available on all nodes.\n\nWARNING: This option does not share the mount point automatically, it assumes it is shared already!"
+                                                },
+                                                "size" : {
+                                                   "description" : "Volume size (read only value).",
+                                                   "format" : "disk-size",
+                                                   "format_description" : "DiskSize",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "volume" : {
+                                                   "default_key" : 1,
+                                                   "description" : "Volume, device or directory to mount into the container.",
+                                                   "format" : "pve-lxc-mp-string",
+                                                   "format_description" : "volume",
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "searchdomain" : {
+                                             "description" : "Sets DNS search domains for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.",
+                                             "format" : "dns-name-list",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "startup" : {
+                                             "description" : "Startup and shutdown behavior. Order is a non-negative number defining the general startup order. Shutdown in done with reverse ordering. Additionally you can set the 'up' or 'down' delay in seconds, which specifies a delay to wait before the next VM is started or stopped.",
+                                             "format" : "pve-startup-order",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "[[order=]\\d+] [,up=\\d+] [,down=\\d+] "
+                                          },
+                                          "swap" : {
+                                             "default" : 512,
+                                             "description" : "Amount of SWAP for the VM in MB.",
+                                             "minimum" : 0,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "template" : {
+                                             "default" : 0,
+                                             "description" : "Enable/disable Template.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "tty" : {
+                                             "default" : 2,
+                                             "description" : "Specify the number of tty available to the container",
+                                             "maximum" : 6,
+                                             "minimum" : 0,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "unprivileged" : {
+                                             "default" : 0,
+                                             "description" : "Makes the container run as unprivileged user. (Should not be modified manually.)",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "unused[n]" : {
+                                             "description" : "Reference to unused volumes. This is used internally, and should not be modified manually.",
+                                             "format" : "pve-volume-id",
+                                             "optional" : 1,
                                              "type" : "string"
                                           }
                                        },
@@ -15810,7 +18969,9 @@ var pveapi = [
                                              "description" : "OS architecture type.",
                                              "enum" : [
                                                 "amd64",
-                                                "i386"
+                                                "i386",
+                                                "arm64",
+                                                "armhf"
                                              ],
                                              "optional" : 1,
                                              "type" : "string"
@@ -15879,6 +19040,33 @@ var pveapi = [
                                              "type" : "string",
                                              "typetext" : "<string>"
                                           },
+                                          "features" : {
+                                             "description" : "Allow containers access to advanced features.",
+                                             "format" : {
+                                                "keyctl" : {
+                                                   "default" : 0,
+                                                   "description" : "For unprivileged containers only: Allow the use of the keyctl() system call. This is required to use docker inside a container. By default unprivileged containers will see this system call as non-existent. This is mostly a workaround for systemd-networkd, as it will treat it as a fatal error when some keyctl() operations are denied by the kernel due to lacking permissions. Essentially, you can choose between running systemd-networkd or docker.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "mount" : {
+                                                   "description" : "Allow mounting file systems of specific types. This should be a list of file system types as used with the mount command. Note that this can have negative effects on the container's security. With access to a loop device, mounting a file can circumvent the mknod permission of the devices cgroup, mounting an NFS file system can block the host's I/O completely and prevent it from rebooting, etc.",
+                                                   "format_description" : "fstype;fstype;...",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:[a-zA-Z0-9; ]+)",
+                                                   "type" : "string"
+                                                },
+                                                "nesting" : {
+                                                   "default" : 0,
+                                                   "description" : "Allow nesting. Best used with unprivileged containers with additional id mapping. Note that this will expose procfs and sysfs contents of the host to the guest.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "[keyctl=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]"
+                                          },
                                           "hostname" : {
                                              "description" : "Set a host name for the container.",
                                              "format" : "dns-name",
@@ -15890,10 +19078,13 @@ var pveapi = [
                                           "lock" : {
                                              "description" : "Lock/unlock the VM.",
                                              "enum" : [
-                                                "migrate",
                                                 "backup",
+                                                "disk",
+                                                "migrate",
+                                                "mounted",
+                                                "rollback",
                                                 "snapshot",
-                                                "rollback"
+                                                "snapshot-delete"
                                              ],
                                              "optional" : 1,
                                              "type" : "string"
@@ -16283,6 +19474,60 @@ var pveapi = [
                                           "protected" : 1,
                                           "proxyto" : "node",
                                           "returns" : {
+                                             "properties" : {
+                                                "cpus" : {
+                                                   "description" : "Maximum usable CPUs.",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "ha" : {
+                                                   "description" : "HA manager service status.",
+                                                   "type" : "object"
+                                                },
+                                                "maxdisk" : {
+                                                   "description" : "Root disk size in bytes.",
+                                                   "optional" : 1,
+                                                   "renderer" : "bytes",
+                                                   "type" : "integer"
+                                                },
+                                                "maxmem" : {
+                                                   "description" : "Maximum memory in bytes.",
+                                                   "optional" : 1,
+                                                   "renderer" : "bytes",
+                                                   "type" : "integer"
+                                                },
+                                                "maxswap" : {
+                                                   "description" : "Maximum SWAP memory in bytes.",
+                                                   "optional" : 1,
+                                                   "renderer" : "bytes",
+                                                   "type" : "integer"
+                                                },
+                                                "name" : {
+                                                   "description" : "Container name.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "status" : {
+                                                   "description" : "LXC Container status.",
+                                                   "enum" : [
+                                                      "stopped",
+                                                      "running"
+                                                   ],
+                                                   "type" : "string"
+                                                },
+                                                "uptime" : {
+                                                   "description" : "Uptime.",
+                                                   "optional" : 1,
+                                                   "renderer" : "duration",
+                                                   "type" : "integer"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer"
+                                                }
+                                             },
                                              "type" : "object"
                                           }
                                        }
@@ -16892,7 +20137,27 @@ var pveapi = [
                                     "proxyto" : "node",
                                     "returns" : {
                                        "items" : {
-                                          "properties" : {},
+                                          "properties" : {
+                                             "description" : {
+                                                "description" : "Snapshot description.",
+                                                "type" : "string"
+                                             },
+                                             "name" : {
+                                                "description" : "Snapshot identifier. Value 'current' identifies the current VM.",
+                                                "type" : "string"
+                                             },
+                                             "parent" : {
+                                                "description" : "Parent snapshot identifier.",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "snaptime" : {
+                                                "description" : "Snapshot creation time",
+                                                "optional" : 1,
+                                                "renderer" : "timestamp",
+                                                "type" : "integer"
+                                             }
+                                          },
                                           "type" : "object"
                                        },
                                        "links" : [
@@ -19002,7 +22267,7 @@ var pveapi = [
                                              "typetext" : "<string>"
                                           },
                                           "proxy" : {
-                                             "description" : "SPICE proxy server. This can be used by the client to specify the proxy server. All nodes in a cluster runs 'spiceproxy', so it is up to the client to choose one. By default, we return the node where the VM is currently running. As resonable setting is to use same node you use to connect to the API (This is window.location.hostname for the JS GUI).",
+                                             "description" : "SPICE proxy server. This can be used by the client to specify the proxy server. All nodes in a cluster runs 'spiceproxy', so it is up to the client to choose one. By default, we return the node where the VM is currently running. As reasonable setting is to use same node you use to connect to the API (This is window.location.hostname for the JS GUI).",
                                              "format" : "address",
                                              "optional" : 1,
                                              "type" : "string",
@@ -19393,7 +22658,253 @@ var pveapi = [
                                                 "mp6",
                                                 "mp7",
                                                 "mp8",
-                                                "mp9"
+                                                "mp9",
+                                                "mp10",
+                                                "mp11",
+                                                "mp12",
+                                                "mp13",
+                                                "mp14",
+                                                "mp15",
+                                                "mp16",
+                                                "mp17",
+                                                "mp18",
+                                                "mp19",
+                                                "mp20",
+                                                "mp21",
+                                                "mp22",
+                                                "mp23",
+                                                "mp24",
+                                                "mp25",
+                                                "mp26",
+                                                "mp27",
+                                                "mp28",
+                                                "mp29",
+                                                "mp30",
+                                                "mp31",
+                                                "mp32",
+                                                "mp33",
+                                                "mp34",
+                                                "mp35",
+                                                "mp36",
+                                                "mp37",
+                                                "mp38",
+                                                "mp39",
+                                                "mp40",
+                                                "mp41",
+                                                "mp42",
+                                                "mp43",
+                                                "mp44",
+                                                "mp45",
+                                                "mp46",
+                                                "mp47",
+                                                "mp48",
+                                                "mp49",
+                                                "mp50",
+                                                "mp51",
+                                                "mp52",
+                                                "mp53",
+                                                "mp54",
+                                                "mp55",
+                                                "mp56",
+                                                "mp57",
+                                                "mp58",
+                                                "mp59",
+                                                "mp60",
+                                                "mp61",
+                                                "mp62",
+                                                "mp63",
+                                                "mp64",
+                                                "mp65",
+                                                "mp66",
+                                                "mp67",
+                                                "mp68",
+                                                "mp69",
+                                                "mp70",
+                                                "mp71",
+                                                "mp72",
+                                                "mp73",
+                                                "mp74",
+                                                "mp75",
+                                                "mp76",
+                                                "mp77",
+                                                "mp78",
+                                                "mp79",
+                                                "mp80",
+                                                "mp81",
+                                                "mp82",
+                                                "mp83",
+                                                "mp84",
+                                                "mp85",
+                                                "mp86",
+                                                "mp87",
+                                                "mp88",
+                                                "mp89",
+                                                "mp90",
+                                                "mp91",
+                                                "mp92",
+                                                "mp93",
+                                                "mp94",
+                                                "mp95",
+                                                "mp96",
+                                                "mp97",
+                                                "mp98",
+                                                "mp99",
+                                                "mp100",
+                                                "mp101",
+                                                "mp102",
+                                                "mp103",
+                                                "mp104",
+                                                "mp105",
+                                                "mp106",
+                                                "mp107",
+                                                "mp108",
+                                                "mp109",
+                                                "mp110",
+                                                "mp111",
+                                                "mp112",
+                                                "mp113",
+                                                "mp114",
+                                                "mp115",
+                                                "mp116",
+                                                "mp117",
+                                                "mp118",
+                                                "mp119",
+                                                "mp120",
+                                                "mp121",
+                                                "mp122",
+                                                "mp123",
+                                                "mp124",
+                                                "mp125",
+                                                "mp126",
+                                                "mp127",
+                                                "mp128",
+                                                "mp129",
+                                                "mp130",
+                                                "mp131",
+                                                "mp132",
+                                                "mp133",
+                                                "mp134",
+                                                "mp135",
+                                                "mp136",
+                                                "mp137",
+                                                "mp138",
+                                                "mp139",
+                                                "mp140",
+                                                "mp141",
+                                                "mp142",
+                                                "mp143",
+                                                "mp144",
+                                                "mp145",
+                                                "mp146",
+                                                "mp147",
+                                                "mp148",
+                                                "mp149",
+                                                "mp150",
+                                                "mp151",
+                                                "mp152",
+                                                "mp153",
+                                                "mp154",
+                                                "mp155",
+                                                "mp156",
+                                                "mp157",
+                                                "mp158",
+                                                "mp159",
+                                                "mp160",
+                                                "mp161",
+                                                "mp162",
+                                                "mp163",
+                                                "mp164",
+                                                "mp165",
+                                                "mp166",
+                                                "mp167",
+                                                "mp168",
+                                                "mp169",
+                                                "mp170",
+                                                "mp171",
+                                                "mp172",
+                                                "mp173",
+                                                "mp174",
+                                                "mp175",
+                                                "mp176",
+                                                "mp177",
+                                                "mp178",
+                                                "mp179",
+                                                "mp180",
+                                                "mp181",
+                                                "mp182",
+                                                "mp183",
+                                                "mp184",
+                                                "mp185",
+                                                "mp186",
+                                                "mp187",
+                                                "mp188",
+                                                "mp189",
+                                                "mp190",
+                                                "mp191",
+                                                "mp192",
+                                                "mp193",
+                                                "mp194",
+                                                "mp195",
+                                                "mp196",
+                                                "mp197",
+                                                "mp198",
+                                                "mp199",
+                                                "mp200",
+                                                "mp201",
+                                                "mp202",
+                                                "mp203",
+                                                "mp204",
+                                                "mp205",
+                                                "mp206",
+                                                "mp207",
+                                                "mp208",
+                                                "mp209",
+                                                "mp210",
+                                                "mp211",
+                                                "mp212",
+                                                "mp213",
+                                                "mp214",
+                                                "mp215",
+                                                "mp216",
+                                                "mp217",
+                                                "mp218",
+                                                "mp219",
+                                                "mp220",
+                                                "mp221",
+                                                "mp222",
+                                                "mp223",
+                                                "mp224",
+                                                "mp225",
+                                                "mp226",
+                                                "mp227",
+                                                "mp228",
+                                                "mp229",
+                                                "mp230",
+                                                "mp231",
+                                                "mp232",
+                                                "mp233",
+                                                "mp234",
+                                                "mp235",
+                                                "mp236",
+                                                "mp237",
+                                                "mp238",
+                                                "mp239",
+                                                "mp240",
+                                                "mp241",
+                                                "mp242",
+                                                "mp243",
+                                                "mp244",
+                                                "mp245",
+                                                "mp246",
+                                                "mp247",
+                                                "mp248",
+                                                "mp249",
+                                                "mp250",
+                                                "mp251",
+                                                "mp252",
+                                                "mp253",
+                                                "mp254",
+                                                "mp255"
                                              ],
                                              "type" : "string"
                                           },
@@ -19495,7 +23006,253 @@ var pveapi = [
                                                 "mp6",
                                                 "mp7",
                                                 "mp8",
-                                                "mp9"
+                                                "mp9",
+                                                "mp10",
+                                                "mp11",
+                                                "mp12",
+                                                "mp13",
+                                                "mp14",
+                                                "mp15",
+                                                "mp16",
+                                                "mp17",
+                                                "mp18",
+                                                "mp19",
+                                                "mp20",
+                                                "mp21",
+                                                "mp22",
+                                                "mp23",
+                                                "mp24",
+                                                "mp25",
+                                                "mp26",
+                                                "mp27",
+                                                "mp28",
+                                                "mp29",
+                                                "mp30",
+                                                "mp31",
+                                                "mp32",
+                                                "mp33",
+                                                "mp34",
+                                                "mp35",
+                                                "mp36",
+                                                "mp37",
+                                                "mp38",
+                                                "mp39",
+                                                "mp40",
+                                                "mp41",
+                                                "mp42",
+                                                "mp43",
+                                                "mp44",
+                                                "mp45",
+                                                "mp46",
+                                                "mp47",
+                                                "mp48",
+                                                "mp49",
+                                                "mp50",
+                                                "mp51",
+                                                "mp52",
+                                                "mp53",
+                                                "mp54",
+                                                "mp55",
+                                                "mp56",
+                                                "mp57",
+                                                "mp58",
+                                                "mp59",
+                                                "mp60",
+                                                "mp61",
+                                                "mp62",
+                                                "mp63",
+                                                "mp64",
+                                                "mp65",
+                                                "mp66",
+                                                "mp67",
+                                                "mp68",
+                                                "mp69",
+                                                "mp70",
+                                                "mp71",
+                                                "mp72",
+                                                "mp73",
+                                                "mp74",
+                                                "mp75",
+                                                "mp76",
+                                                "mp77",
+                                                "mp78",
+                                                "mp79",
+                                                "mp80",
+                                                "mp81",
+                                                "mp82",
+                                                "mp83",
+                                                "mp84",
+                                                "mp85",
+                                                "mp86",
+                                                "mp87",
+                                                "mp88",
+                                                "mp89",
+                                                "mp90",
+                                                "mp91",
+                                                "mp92",
+                                                "mp93",
+                                                "mp94",
+                                                "mp95",
+                                                "mp96",
+                                                "mp97",
+                                                "mp98",
+                                                "mp99",
+                                                "mp100",
+                                                "mp101",
+                                                "mp102",
+                                                "mp103",
+                                                "mp104",
+                                                "mp105",
+                                                "mp106",
+                                                "mp107",
+                                                "mp108",
+                                                "mp109",
+                                                "mp110",
+                                                "mp111",
+                                                "mp112",
+                                                "mp113",
+                                                "mp114",
+                                                "mp115",
+                                                "mp116",
+                                                "mp117",
+                                                "mp118",
+                                                "mp119",
+                                                "mp120",
+                                                "mp121",
+                                                "mp122",
+                                                "mp123",
+                                                "mp124",
+                                                "mp125",
+                                                "mp126",
+                                                "mp127",
+                                                "mp128",
+                                                "mp129",
+                                                "mp130",
+                                                "mp131",
+                                                "mp132",
+                                                "mp133",
+                                                "mp134",
+                                                "mp135",
+                                                "mp136",
+                                                "mp137",
+                                                "mp138",
+                                                "mp139",
+                                                "mp140",
+                                                "mp141",
+                                                "mp142",
+                                                "mp143",
+                                                "mp144",
+                                                "mp145",
+                                                "mp146",
+                                                "mp147",
+                                                "mp148",
+                                                "mp149",
+                                                "mp150",
+                                                "mp151",
+                                                "mp152",
+                                                "mp153",
+                                                "mp154",
+                                                "mp155",
+                                                "mp156",
+                                                "mp157",
+                                                "mp158",
+                                                "mp159",
+                                                "mp160",
+                                                "mp161",
+                                                "mp162",
+                                                "mp163",
+                                                "mp164",
+                                                "mp165",
+                                                "mp166",
+                                                "mp167",
+                                                "mp168",
+                                                "mp169",
+                                                "mp170",
+                                                "mp171",
+                                                "mp172",
+                                                "mp173",
+                                                "mp174",
+                                                "mp175",
+                                                "mp176",
+                                                "mp177",
+                                                "mp178",
+                                                "mp179",
+                                                "mp180",
+                                                "mp181",
+                                                "mp182",
+                                                "mp183",
+                                                "mp184",
+                                                "mp185",
+                                                "mp186",
+                                                "mp187",
+                                                "mp188",
+                                                "mp189",
+                                                "mp190",
+                                                "mp191",
+                                                "mp192",
+                                                "mp193",
+                                                "mp194",
+                                                "mp195",
+                                                "mp196",
+                                                "mp197",
+                                                "mp198",
+                                                "mp199",
+                                                "mp200",
+                                                "mp201",
+                                                "mp202",
+                                                "mp203",
+                                                "mp204",
+                                                "mp205",
+                                                "mp206",
+                                                "mp207",
+                                                "mp208",
+                                                "mp209",
+                                                "mp210",
+                                                "mp211",
+                                                "mp212",
+                                                "mp213",
+                                                "mp214",
+                                                "mp215",
+                                                "mp216",
+                                                "mp217",
+                                                "mp218",
+                                                "mp219",
+                                                "mp220",
+                                                "mp221",
+                                                "mp222",
+                                                "mp223",
+                                                "mp224",
+                                                "mp225",
+                                                "mp226",
+                                                "mp227",
+                                                "mp228",
+                                                "mp229",
+                                                "mp230",
+                                                "mp231",
+                                                "mp232",
+                                                "mp233",
+                                                "mp234",
+                                                "mp235",
+                                                "mp236",
+                                                "mp237",
+                                                "mp238",
+                                                "mp239",
+                                                "mp240",
+                                                "mp241",
+                                                "mp242",
+                                                "mp243",
+                                                "mp244",
+                                                "mp245",
+                                                "mp246",
+                                                "mp247",
+                                                "mp248",
+                                                "mp249",
+                                                "mp250",
+                                                "mp251",
+                                                "mp252",
+                                                "mp253",
+                                                "mp254",
+                                                "mp255"
                                              ],
                                              "type" : "string"
                                           }
@@ -19645,7 +23402,56 @@ var pveapi = [
                         "proxyto" : "node",
                         "returns" : {
                            "items" : {
-                              "properties" : {},
+                              "properties" : {
+                                 "cpus" : {
+                                    "description" : "Maximum usable CPUs.",
+                                    "optional" : 1,
+                                    "type" : "number"
+                                 },
+                                 "maxdisk" : {
+                                    "description" : "Root disk size in bytes.",
+                                    "optional" : 1,
+                                    "renderer" : "bytes",
+                                    "type" : "integer"
+                                 },
+                                 "maxmem" : {
+                                    "description" : "Maximum memory in bytes.",
+                                    "optional" : 1,
+                                    "renderer" : "bytes",
+                                    "type" : "integer"
+                                 },
+                                 "maxswap" : {
+                                    "description" : "Maximum SWAP memory in bytes.",
+                                    "optional" : 1,
+                                    "renderer" : "bytes",
+                                    "type" : "integer"
+                                 },
+                                 "name" : {
+                                    "description" : "Container name.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "status" : {
+                                    "description" : "LXC Container status.",
+                                    "enum" : [
+                                       "stopped",
+                                       "running"
+                                    ],
+                                    "type" : "string"
+                                 },
+                                 "uptime" : {
+                                    "description" : "Uptime.",
+                                    "optional" : 1,
+                                    "renderer" : "duration",
+                                    "type" : "integer"
+                                 },
+                                 "vmid" : {
+                                    "description" : "The (unique) ID of the VM.",
+                                    "format" : "pve-vmid",
+                                    "minimum" : 1,
+                                    "type" : "integer"
+                                 }
+                              },
                               "type" : "object"
                            },
                            "links" : [
@@ -19669,7 +23475,9 @@ var pveapi = [
                                  "description" : "OS architecture type.",
                                  "enum" : [
                                     "amd64",
-                                    "i386"
+                                    "i386",
+                                    "arm64",
+                                    "armhf"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -19731,6 +23539,33 @@ var pveapi = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "features" : {
+                                 "description" : "Allow containers access to advanced features.",
+                                 "format" : {
+                                    "keyctl" : {
+                                       "default" : 0,
+                                       "description" : "For unprivileged containers only: Allow the use of the keyctl() system call. This is required to use docker inside a container. By default unprivileged containers will see this system call as non-existent. This is mostly a workaround for systemd-networkd, as it will treat it as a fatal error when some keyctl() operations are denied by the kernel due to lacking permissions. Essentially, you can choose between running systemd-networkd or docker.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "mount" : {
+                                       "description" : "Allow mounting file systems of specific types. This should be a list of file system types as used with the mount command. Note that this can have negative effects on the container's security. With access to a loop device, mounting a file can circumvent the mknod permission of the devices cgroup, mounting an NFS file system can block the host's I/O completely and prevent it from rebooting, etc.",
+                                       "format_description" : "fstype;fstype;...",
+                                       "optional" : 1,
+                                       "pattern" : "(?^:[a-zA-Z0-9; ]+)",
+                                       "type" : "string"
+                                    },
+                                    "nesting" : {
+                                       "default" : 0,
+                                       "description" : "Allow nesting. Best used with unprivileged containers with additional id mapping. Note that this will expose procfs and sysfs contents of the host to the guest.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "[keyctl=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]"
+                              },
                               "force" : {
                                  "description" : "Allow to overwrite existing container.",
                                  "optional" : 1,
@@ -19754,10 +23589,13 @@ var pveapi = [
                               "lock" : {
                                  "description" : "Lock/unlock the VM.",
                                  "enum" : [
-                                    "migrate",
                                     "backup",
+                                    "disk",
+                                    "migrate",
+                                    "mounted",
+                                    "rollback",
                                     "snapshot",
-                                    "rollback"
+                                    "snapshot-delete"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -20333,8 +24171,7 @@ var pveapi = [
                                        "description" : "File system type (filestore only).",
                                        "enum" : [
                                           "xfs",
-                                          "ext4",
-                                          "btrfs"
+                                          "ext4"
                                        ],
                                        "optional" : 1,
                                        "type" : "string"
@@ -21794,7 +25631,6 @@ var pveapi = [
                                     "protected" : 1,
                                     "proxyto" : "node",
                                     "returns" : {
-                                       "properties" : {},
                                        "type" : "object"
                                     }
                                  }
@@ -22844,6 +26680,36 @@ var pveapi = [
                         "returns" : {
                            "type" : "null"
                         }
+                     },
+                     "PUT" : {
+                        "description" : "Reload network configuration",
+                        "method" : "PUT",
+                        "name" : "reload_network_config",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/nodes/{node}",
+                              [
+                                 "Sys.Modify"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "proxyto" : "node",
+                        "returns" : {
+                           "type" : "string"
+                        }
                      }
                   },
                   "leaf" : 0,
@@ -22864,6 +26730,7 @@ var pveapi = [
                                        "additionalProperties" : 0,
                                        "properties" : {
                                           "limit" : {
+                                             "default" : 50,
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
@@ -22876,6 +26743,7 @@ var pveapi = [
                                              "typetext" : "<string>"
                                           },
                                           "start" : {
+                                             "default" : 0,
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
@@ -23045,11 +26913,14 @@ var pveapi = [
                            "additionalProperties" : 0,
                            "properties" : {
                               "errors" : {
+                                 "default" : 0,
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
                               },
                               "limit" : {
+                                 "default" : 50,
+                                 "description" : "Only list this amount of tasks.",
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
@@ -23062,12 +26933,15 @@ var pveapi = [
                                  "typetext" : "<string>"
                               },
                               "start" : {
+                                 "default" : 0,
+                                 "description" : "List tasks beginning from this offset.",
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
                                  "typetext" : "<integer> (0 - N)"
                               },
                               "userfilter" : {
+                                 "description" : "Only list tasks from this user.",
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -23090,7 +26964,52 @@ var pveapi = [
                         "returns" : {
                            "items" : {
                               "properties" : {
+                                 "endtime" : {
+                                    "optional" : 1,
+                                    "title" : "Endtime",
+                                    "type" : "integer"
+                                 },
+                                 "id" : {
+                                    "optional" : 1,
+                                    "title" : "ID",
+                                    "type" : "string"
+                                 },
+                                 "node" : {
+                                    "optional" : 1,
+                                    "title" : "Node",
+                                    "type" : "string"
+                                 },
+                                 "pid" : {
+                                    "optional" : 1,
+                                    "title" : "PID",
+                                    "type" : "integer"
+                                 },
+                                 "pstart" : {
+                                    "optional" : 1,
+                                    "type" : "integer"
+                                 },
+                                 "starttime" : {
+                                    "optional" : 1,
+                                    "title" : "Starttime",
+                                    "type" : "integer"
+                                 },
+                                 "status" : {
+                                    "optional" : 1,
+                                    "title" : "Status",
+                                    "type" : "string"
+                                 },
+                                 "type" : {
+                                    "optional" : 1,
+                                    "title" : "Type",
+                                    "type" : "string"
+                                 },
                                  "upid" : {
+                                    "title" : "UPID",
+                                    "type" : "string"
+                                 },
+                                 "user" : {
+                                    "optional" : 1,
+                                    "title" : "User",
                                     "type" : "string"
                                  }
                               },
@@ -23144,6 +27063,7 @@ var pveapi = [
                                  "items" : {
                                     "properties" : {
                                        "pool" : {
+                                          "description" : "ZFS pool name.",
                                           "type" : "string"
                                        }
                                     },
@@ -23173,6 +27093,7 @@ var pveapi = [
                                        "typetext" : "<string>"
                                     },
                                     "server" : {
+                                       "description" : "The server address (name or IP).",
                                        "format" : "pve-storage-server",
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -23194,9 +27115,11 @@ var pveapi = [
                                  "items" : {
                                     "properties" : {
                                        "options" : {
+                                          "description" : "NFS export options.",
                                           "type" : "string"
                                        },
                                        "path" : {
+                                          "description" : "The exported path.",
                                           "type" : "string"
                                        }
                                     },
@@ -23220,6 +27143,7 @@ var pveapi = [
                                  "additionalProperties" : 0,
                                  "properties" : {
                                     "domain" : {
+                                       "description" : "SMB domain (Workgroup).",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -23231,16 +27155,19 @@ var pveapi = [
                                        "typetext" : "<string>"
                                     },
                                     "password" : {
+                                       "description" : "User password.",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
                                     "server" : {
+                                       "description" : "The server address (name or IP).",
                                        "format" : "pve-storage-server",
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
                                     "username" : {
+                                       "description" : "User name.",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -23262,9 +27189,11 @@ var pveapi = [
                                  "items" : {
                                     "properties" : {
                                        "description" : {
+                                          "description" : "Descriptive text from server.",
                                           "type" : "string"
                                        },
                                        "share" : {
+                                          "description" : "The cifs share name.",
                                           "type" : "string"
                                        }
                                     },
@@ -23294,6 +27223,7 @@ var pveapi = [
                                        "typetext" : "<string>"
                                     },
                                     "server" : {
+                                       "description" : "The server address (name or IP).",
                                        "format" : "pve-storage-server",
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -23315,6 +27245,7 @@ var pveapi = [
                                  "items" : {
                                     "properties" : {
                                        "volname" : {
+                                          "description" : "The volume name.",
                                           "type" : "string"
                                        }
                                     },
@@ -23344,6 +27275,7 @@ var pveapi = [
                                        "typetext" : "<string>"
                                     },
                                     "portal" : {
+                                       "description" : "The iSCSI portal (IP or DNS name with optional port).",
                                        "format" : "pve-storage-portal-dns",
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -23365,9 +27297,11 @@ var pveapi = [
                                  "items" : {
                                     "properties" : {
                                        "portal" : {
+                                          "description" : "The iSCSI portal name.",
                                           "type" : "string"
                                        },
                                        "target" : {
+                                          "description" : "The iSCSI target name.",
                                           "type" : "string"
                                        }
                                     },
@@ -23413,6 +27347,7 @@ var pveapi = [
                                  "items" : {
                                     "properties" : {
                                        "vg" : {
+                                          "description" : "The LVM logical volume group name.",
                                           "type" : "string"
                                        }
                                     },
@@ -23463,6 +27398,7 @@ var pveapi = [
                                  "items" : {
                                     "properties" : {
                                        "lv" : {
+                                          "description" : "The LVM Thin Pool name (LVM logical volume).",
                                           "type" : "string"
                                        }
                                     },
@@ -23788,7 +27724,33 @@ var pveapi = [
                                     "returns" : {
                                        "items" : {
                                           "properties" : {
+                                             "format" : {
+                                                "description" : "Format identifier ('raw', 'qcow2', 'subvol', 'iso', 'tgz' ...)",
+                                                "type" : "string"
+                                             },
+                                             "parent" : {
+                                                "description" : "Volume identifier of parent (for linked cloned).",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "size" : {
+                                                "description" : "Volume size in bytes.",
+                                                "renderer" : "bytes",
+                                                "type" : "integer"
+                                             },
+                                             "used" : {
+                                                "description" : "Used space. Please note that most storage plugins does not report anything useful here.",
+                                                "optional" : 1,
+                                                "renderer" : "bytes",
+                                                "type" : "integer"
+                                             },
+                                             "vmid" : {
+                                                "description" : "Associated Owner VMID.",
+                                                "optional" : 1,
+                                                "type" : "integer"
+                                             },
                                              "volid" : {
+                                                "description" : "Volume identifier.",
                                                 "type" : "string"
                                              }
                                           },
@@ -23910,7 +27872,6 @@ var pveapi = [
                                     "protected" : 1,
                                     "proxyto" : "node",
                                     "returns" : {
-                                       "properties" : {},
                                        "type" : "object"
                                     }
                                  }
@@ -24244,8 +28205,58 @@ var pveapi = [
                         "returns" : {
                            "items" : {
                               "properties" : {
-                                 "storage" : {
+                                 "active" : {
+                                    "description" : "Set when storage is accessible.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
+                                 "avail" : {
+                                    "description" : "Available storage space in bytes.",
+                                    "optional" : 1,
+                                    "renderer" : "bytes",
+                                    "type" : "integer"
+                                 },
+                                 "content" : {
+                                    "description" : "Allowed storage content types.",
+                                    "format" : "pve-storage-content-list",
                                     "type" : "string"
+                                 },
+                                 "enabled" : {
+                                    "description" : "Set when storage is enabled (not disabled).",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
+                                 "shared" : {
+                                    "description" : "Shared flag from storage configuration.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
+                                 "storage" : {
+                                    "description" : "The storage identifier.",
+                                    "format" : "pve-storage-id",
+                                    "type" : "string"
+                                 },
+                                 "total" : {
+                                    "description" : "Total storage space in bytes.",
+                                    "optional" : 1,
+                                    "renderer" : "bytes",
+                                    "type" : "integer"
+                                 },
+                                 "type" : {
+                                    "description" : "Storage type.",
+                                    "type" : "string"
+                                 },
+                                 "used" : {
+                                    "description" : "Used storage space in bytes.",
+                                    "optional" : 1,
+                                    "renderer" : "bytes",
+                                    "type" : "integer"
+                                 },
+                                 "used_fraction" : {
+                                    "description" : "Used fraction (used/total).",
+                                    "optional" : 1,
+                                    "renderer" : "fraction_as_percentage",
+                                    "type" : "number"
                                  }
                               },
                               "type" : "object"
@@ -24269,6 +28280,652 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "description" : "List LVM Volume Groups",
+                              "method" : "GET",
+                              "name" : "index",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Audit",
+                                       "Datastore.Audit"
+                                    ],
+                                    "any",
+                                    1
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "properties" : {
+                                    "children" : {
+                                       "items" : {
+                                          "properties" : {
+                                             "children" : {
+                                                "description" : "The underlying physical volumes",
+                                                "items" : {
+                                                   "properties" : {
+                                                      "free" : {
+                                                         "description" : "The free bytes in the physical volume",
+                                                         "type" : "integer"
+                                                      },
+                                                      "leaf" : {
+                                                         "type" : "boolean"
+                                                      },
+                                                      "name" : {
+                                                         "description" : "The name of the physical volume",
+                                                         "type" : "string"
+                                                      },
+                                                      "size" : {
+                                                         "description" : "The size of the physical volume in bytes",
+                                                         "type" : "integer"
+                                                      }
+                                                   },
+                                                   "type" : "object"
+                                                },
+                                                "optional" : 1,
+                                                "type" : "array"
+                                             },
+                                             "free" : {
+                                                "description" : "The free bytes in the volume group",
+                                                "type" : "integer"
+                                             },
+                                             "leaf" : {
+                                                "type" : "boolean"
+                                             },
+                                             "name" : {
+                                                "description" : "The name of the volume group",
+                                                "type" : "string"
+                                             },
+                                             "size" : {
+                                                "description" : "The size of the volume group in bytes",
+                                                "type" : "integer"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "type" : "array"
+                                    },
+                                    "leaf" : {
+                                       "type" : "boolean"
+                                    }
+                                 },
+                                 "type" : "object"
+                              }
+                           },
+                           "POST" : {
+                              "description" : "Create an LVM Volume Group",
+                              "method" : "POST",
+                              "name" : "create",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "add_storage" : {
+                                       "default" : 0,
+                                       "description" : "Configure storage using the Volume Group",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "device" : {
+                                       "description" : "The block device you want to create the volume group on",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "name" : {
+                                       "description" : "The storage identifier.",
+                                       "format" : "pve-storage-id",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify",
+                                       "Datastore.Allocate"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/disks/lvm",
+                        "text" : "lvm"
+                     },
+                     {
+                        "info" : {
+                           "GET" : {
+                              "description" : "List LVM thinpools",
+                              "method" : "GET",
+                              "name" : "index",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Audit",
+                                       "Datastore.Audit"
+                                    ],
+                                    "any",
+                                    1
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "lv" : {
+                                          "description" : "The name of the thinpool.",
+                                          "type" : "string"
+                                       },
+                                       "lv_size" : {
+                                          "description" : "The size of the thinpool in bytes.",
+                                          "type" : "integer"
+                                       },
+                                       "metadata_size" : {
+                                          "description" : "The size of the metadata lv in bytes.",
+                                          "type" : "integer"
+                                       },
+                                       "metadata_used" : {
+                                          "description" : "The used bytes of the metadata lv.",
+                                          "type" : "integer"
+                                       },
+                                       "used" : {
+                                          "description" : "The used bytes of the thinpool.",
+                                          "type" : "integer"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "type" : "array"
+                              }
+                           },
+                           "POST" : {
+                              "description" : "Create an LVM thinpool",
+                              "method" : "POST",
+                              "name" : "create",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "add_storage" : {
+                                       "default" : 0,
+                                       "description" : "Configure storage using the thinpool.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "device" : {
+                                       "description" : "The block device you want to create the thinpool on.",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "name" : {
+                                       "description" : "The storage identifier.",
+                                       "format" : "pve-storage-id",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify",
+                                       "Datastore.Allocate"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/disks/lvmthin",
+                        "text" : "lvmthin"
+                     },
+                     {
+                        "info" : {
+                           "GET" : {
+                              "description" : "PVE Managed Directory storages.",
+                              "method" : "GET",
+                              "name" : "index",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Audit",
+                                       "Datastore.Audit"
+                                    ],
+                                    "any",
+                                    1
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "device" : {
+                                          "description" : "The mounted device.",
+                                          "type" : "string"
+                                       },
+                                       "options" : {
+                                          "description" : "The mount options.",
+                                          "type" : "string"
+                                       },
+                                       "path" : {
+                                          "description" : "The mount path.",
+                                          "type" : "string"
+                                       },
+                                       "type" : {
+                                          "description" : "The filesystem type.",
+                                          "type" : "string"
+                                       },
+                                       "unitfile" : {
+                                          "description" : "The path of the mount unit.",
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "type" : "array"
+                              }
+                           },
+                           "POST" : {
+                              "description" : "Create a Filesystem on an unused disk. Will be mounted under '/mnt/pve/NAME'.",
+                              "method" : "POST",
+                              "name" : "create",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "add_storage" : {
+                                       "default" : 0,
+                                       "description" : "Configure storage using the directory.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "device" : {
+                                       "description" : "The block device you want to create the filesystem on.",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "filesystem" : {
+                                       "default" : "ext4",
+                                       "description" : "The desired filesystem.",
+                                       "enum" : [
+                                          "ext4",
+                                          "xfs"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "name" : {
+                                       "description" : "The storage identifier.",
+                                       "format" : "pve-storage-id",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify",
+                                       "Datastore.Allocate"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/disks/directory",
+                        "text" : "directory"
+                     },
+                     {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "GET" : {
+                                    "description" : "Get details about a zpool.",
+                                    "method" : "GET",
+                                    "name" : "detail",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "name" : {
+                                             "description" : "The storage identifier.",
+                                             "format" : "pve-storage-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/",
+                                          [
+                                             "Sys.Audit",
+                                             "Datastore.Audit"
+                                          ],
+                                          "any",
+                                          1
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "properties" : {
+                                          "action" : {
+                                             "description" : "Information about the recommended action to fix the state.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "children" : {
+                                             "description" : "The tree of the vdevs. Depending on the configuration of the zpool, they can be nested.",
+                                             "items" : {
+                                                "properties" : {
+                                                   "cksum" : {
+                                                      "type" : "number"
+                                                   },
+                                                   "msg" : {
+                                                      "description" : "An optional message about the vdev.",
+                                                      "type" : "string"
+                                                   },
+                                                   "name" : {
+                                                      "description" : "The name of the vdev.",
+                                                      "type" : "string"
+                                                   },
+                                                   "read" : {
+                                                      "type" : "number"
+                                                   },
+                                                   "state" : {
+                                                      "description" : "The state of the vdev.",
+                                                      "type" : "string"
+                                                   },
+                                                   "write" : {
+                                                      "type" : "number"
+                                                   }
+                                                },
+                                                "type" : "object"
+                                             },
+                                             "type" : "array"
+                                          },
+                                          "name" : {
+                                             "description" : "The name of the zpool.",
+                                             "type" : "string"
+                                          },
+                                          "scan" : {
+                                             "description" : "Information about the errors on the zpool.",
+                                             "type" : "string"
+                                          },
+                                          "state" : {
+                                             "description" : "The state of the zpool.",
+                                             "type" : "string"
+                                          },
+                                          "status" : {
+                                             "description" : "Information about the state of the zpool.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/disks/zfs/{name}",
+                              "text" : "{name}"
+                           }
+                        ],
+                        "info" : {
+                           "GET" : {
+                              "description" : "List Zpools.",
+                              "method" : "GET",
+                              "name" : "index",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Audit",
+                                       "Datastore.Audit"
+                                    ],
+                                    "any",
+                                    1
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "alloc" : {
+                                          "description" : "",
+                                          "type" : "integer"
+                                       },
+                                       "dedup" : {
+                                          "description" : "",
+                                          "type" : "number"
+                                       },
+                                       "frag" : {
+                                          "description" : "",
+                                          "type" : "integer"
+                                       },
+                                       "free" : {
+                                          "description" : "",
+                                          "type" : "integer"
+                                       },
+                                       "health" : {
+                                          "description" : "",
+                                          "type" : "string"
+                                       },
+                                       "name" : {
+                                          "description" : "",
+                                          "type" : "string"
+                                       },
+                                       "size" : {
+                                          "description" : "",
+                                          "type" : "integer"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "links" : [
+                                    {
+                                       "href" : "{name}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
+                              }
+                           },
+                           "POST" : {
+                              "description" : "Create a ZFS pool.",
+                              "method" : "POST",
+                              "name" : "create",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "add_storage" : {
+                                       "default" : 0,
+                                       "description" : "Configure storage using the zpool.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "ashift" : {
+                                       "default" : 12,
+                                       "description" : "Pool sector size exponent.",
+                                       "maximum" : 16,
+                                       "minimum" : 9,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (9 - 16)"
+                                    },
+                                    "compression" : {
+                                       "default" : "on",
+                                       "description" : "The compression algorithm to use.",
+                                       "enum" : [
+                                          "on",
+                                          "off",
+                                          "gzip",
+                                          "lz4",
+                                          "lzjb",
+                                          "zle"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "devices" : {
+                                       "description" : "The block devices you want to create the zpool on.",
+                                       "format" : "string-list",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "name" : {
+                                       "description" : "The storage identifier.",
+                                       "format" : "pve-storage-id",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "raidlevel" : {
+                                       "description" : "The RAID level to use.",
+                                       "enum" : [
+                                          "single",
+                                          "mirror",
+                                          "raid10",
+                                          "raidz",
+                                          "raidz2",
+                                          "raidz3"
+                                       ],
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify",
+                                       "Datastore.Allocate"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
+                        "path" : "/nodes/{node}/disks/zfs",
+                        "text" : "zfs"
+                     },
+                     {
+                        "info" : {
+                           "GET" : {
                               "description" : "List local disks.",
                               "method" : "GET",
                               "name" : "list",
@@ -24280,6 +28937,22 @@ var pveapi = [
                                        "format" : "pve-node",
                                        "type" : "string",
                                        "typetext" : "<string>"
+                                    },
+                                    "skipsmart" : {
+                                       "default" : 0,
+                                       "description" : "Skip smart checks.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "type" : {
+                                       "description" : "Only list specific types of disks.",
+                                       "enum" : [
+                                          "unused",
+                                          "journal_disks"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
                                     }
                                  }
                               },
@@ -25549,7 +30222,6 @@ var pveapi = [
                                     "protected" : 1,
                                     "proxyto" : "node",
                                     "returns" : {
-                                       "properties" : {},
                                        "type" : "object"
                                     }
                                  }
@@ -25932,11 +30604,13 @@ var pveapi = [
                                        "notafter" : {
                                           "description" : "Certificate's notAfter timestamp (UNIX epoch).",
                                           "optional" : 1,
+                                          "renderer" : "timestamp",
                                           "type" : "integer"
                                        },
                                        "notbefore" : {
                                           "description" : "Certificate's notBefore timestamp (UNIX epoch).",
                                           "optional" : 1,
+                                          "renderer" : "timestamp",
                                           "type" : "integer"
                                        },
                                        "pem" : {
@@ -25951,6 +30625,7 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "optional" : 1,
+                                          "renderer" : "yaml",
                                           "type" : "array"
                                        },
                                        "subject" : {
@@ -26063,11 +30738,13 @@ var pveapi = [
                                     "notafter" : {
                                        "description" : "Certificate's notAfter timestamp (UNIX epoch).",
                                        "optional" : 1,
+                                       "renderer" : "timestamp",
                                        "type" : "integer"
                                     },
                                     "notbefore" : {
                                        "description" : "Certificate's notBefore timestamp (UNIX epoch).",
                                        "optional" : 1,
+                                       "renderer" : "timestamp",
                                        "type" : "integer"
                                     },
                                     "pem" : {
@@ -26082,6 +30759,7 @@ var pveapi = [
                                           "type" : "string"
                                        },
                                        "optional" : 1,
+                                       "renderer" : "yaml",
                                        "type" : "array"
                                     },
                                     "subject" : {
@@ -26165,7 +30843,6 @@ var pveapi = [
                         },
                         "proxyto" : "node",
                         "returns" : {
-                           "properties" : {},
                            "type" : "object"
                         }
                      },
@@ -26315,7 +30992,6 @@ var pveapi = [
                         },
                         "proxyto" : "node",
                         "returns" : {
-                           "properties" : {},
                            "type" : "object"
                         }
                      },
@@ -26436,7 +31112,6 @@ var pveapi = [
                         "protected" : 1,
                         "proxyto" : "node",
                         "returns" : {
-                           "properties" : {},
                            "type" : "array"
                         }
                      }
@@ -26864,7 +31539,7 @@ var pveapi = [
                                  "typetext" : "<string>"
                               },
                               "proxy" : {
-                                 "description" : "SPICE proxy server. This can be used by the client to specify the proxy server. All nodes in a cluster runs 'spiceproxy', so it is up to the client to choose one. By default, we return the node where the VM is currently running. As resonable setting is to use same node you use to connect to the API (This is window.location.hostname for the JS GUI).",
+                                 "description" : "SPICE proxy server. This can be used by the client to specify the proxy server. All nodes in a cluster runs 'spiceproxy', so it is up to the client to choose one. By default, we return the node where the VM is currently running. As reasonable setting is to use same node you use to connect to the API (This is window.location.hostname for the JS GUI).",
                                  "format" : "address",
                                  "optional" : 1,
                                  "type" : "string",
@@ -27066,11 +31741,13 @@ var pveapi = [
                               "localtime" : {
                                  "description" : "Seconds since 1970-01-01 00:00:00 (local time)",
                                  "minimum" : 1297163644,
+                                 "renderer" : "timestamp_gmt",
                                  "type" : "integer"
                               },
                               "time" : {
                                  "description" : "Seconds since 1970-01-01 00:00:00 UTC.",
                                  "minimum" : 1297163644,
+                                 "renderer" : "timestamp",
                                  "type" : "integer"
                               },
                               "timezone" : {
@@ -27384,6 +32061,97 @@ var pveapi = [
                   "leaf" : 1,
                   "path" : "/nodes/{node}/migrateall",
                   "text" : "migrateall"
+               },
+               {
+                  "info" : {
+                     "GET" : {
+                        "description" : "Get the content of /etc/hosts.",
+                        "method" : "GET",
+                        "name" : "get_etc_hosts",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Audit"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "proxyto" : "node",
+                        "returns" : {
+                           "properties" : {
+                              "data" : {
+                                 "description" : "The content of /etc/hosts.",
+                                 "type" : "string"
+                              },
+                              "digest" : {
+                                 "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
+                                 "maxLength" : 40,
+                                 "optional" : 1,
+                                 "type" : "string"
+                              }
+                           },
+                           "type" : "object"
+                        }
+                     },
+                     "POST" : {
+                        "description" : "Write /etc/hosts.",
+                        "method" : "POST",
+                        "name" : "write_etc_hosts",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "data" : {
+                                 "description" : "The target content of /etc/hosts.",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "digest" : {
+                                 "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
+                                 "maxLength" : 40,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/nodes/{node}",
+                              [
+                                 "Sys.Modify"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "proxyto" : "node",
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/nodes/{node}/hosts",
+                  "text" : "hosts"
                }
             ],
             "info" : {
@@ -27438,7 +32206,61 @@ var pveapi = [
             },
             "returns" : {
                "items" : {
-                  "properties" : {},
+                  "properties" : {
+                     "cpu" : {
+                        "description" : "CPU utilization.",
+                        "optional" : 1,
+                        "renderer" : "fraction_as_percentage",
+                        "type" : "number"
+                     },
+                     "level" : {
+                        "description" : "Support level.",
+                        "optional" : 1,
+                        "type" : "string"
+                     },
+                     "maxcpu" : {
+                        "description" : "Number of available CPUs.",
+                        "optional" : 1,
+                        "type" : "integer"
+                     },
+                     "maxmem" : {
+                        "description" : "Number of available memory in bytes.",
+                        "optional" : 1,
+                        "renderer" : "bytes",
+                        "type" : "integer"
+                     },
+                     "mem" : {
+                        "description" : "Used memory in bytes.",
+                        "optional" : 1,
+                        "renderer" : "bytes",
+                        "type" : "string"
+                     },
+                     "node" : {
+                        "description" : "The cluster node name.",
+                        "format" : "pve-node",
+                        "type" : "string"
+                     },
+                     "ssl_fingerprint" : {
+                        "description" : "The SSL fingerprint for the node certificate.",
+                        "optional" : 1,
+                        "type" : "string"
+                     },
+                     "status" : {
+                        "description" : "Node status.",
+                        "enum" : [
+                           "unknown",
+                           "online",
+                           "offline"
+                        ],
+                        "type" : "string"
+                     },
+                     "uptime" : {
+                        "description" : "Node uptime in seconds.",
+                        "optional" : 1,
+                        "renderer" : "duration",
+                        "type" : "integer"
+                     }
+                  },
                   "type" : "object"
                },
                "links" : [
@@ -27644,6 +32466,12 @@ var pveapi = [
                            "optional" : 1,
                            "type" : "boolean",
                            "typetext" : "<boolean>"
+                        },
+                        "lio_tpg" : {
+                           "description" : "target portal group for Linux LIO targets",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
                         },
                         "maxfiles" : {
                            "description" : "Maximal number of backup files per VM. Use '0' for unlimted.",
@@ -28007,6 +32835,12 @@ var pveapi = [
                      "optional" : 1,
                      "type" : "boolean",
                      "typetext" : "<boolean>"
+                  },
+                  "lio_tpg" : {
+                     "description" : "target portal group for Linux LIO targets",
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "<string>"
                   },
                   "maxfiles" : {
                      "description" : "Maximal number of backup files per VM. Use '0' for unlimted.",

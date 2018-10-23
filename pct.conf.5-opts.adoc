@@ -1,4 +1,4 @@
-`arch`: `<amd64 | i386>` ('default =' `amd64`)::
+`arch`: `<amd64 | arm64 | armhf | i386>` ('default =' `amd64`)::
 
 OS architecture type.
 
@@ -30,11 +30,27 @@ NOTE: You can disable fair-scheduler configuration by setting this to 0.
 
 Container description. Only used on the configuration web interface.
 
+`features`: `[keyctl=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]` ::
+
+Allow containers access to advanced features.
+
+`keyctl`=`<boolean>` ('default =' `0`);;
+
+For unprivileged containers only: Allow the use of the keyctl() system call. This is required to use docker inside a container. By default unprivileged containers will see this system call as non-existent. This is mostly a workaround for systemd-networkd, as it will treat it as a fatal error when some keyctl() operations are denied by the kernel due to lacking permissions. Essentially, you can choose between running systemd-networkd or docker.
+
+`mount`=`<fstype;fstype;...>` ;;
+
+Allow mounting file systems of specific types. This should be a list of file system types as used with the mount command. Note that this can have negative effects on the container's security. With access to a loop device, mounting a file can circumvent the mknod permission of the devices cgroup, mounting an NFS file system can block the host's I/O completely and prevent it from rebooting, etc.
+
+`nesting`=`<boolean>` ('default =' `0`);;
+
+Allow nesting. Best used with unprivileged containers with additional id mapping. Note that this will expose procfs and sysfs contents of the host to the guest.
+
 `hostname`: `<string>` ::
 
 Set a host name for the container.
 
-`lock`: `<backup | migrate | rollback | snapshot>` ::
+`lock`: `<backup | disk | migrate | mounted | rollback | snapshot | snapshot-delete>` ::
 
 Lock/unlock the VM.
 

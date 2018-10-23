@@ -74,6 +74,10 @@ iscsi provider
 
 Access rbd through krbd kernel module.
 
+`--lio_tpg` `<string>` ::
+
+target portal group for Linux LIO targets
+
 `--maxfiles` `<integer> (0 - N)` ::
 
 Maximal number of backup files per VM. Use '0' for unlimted.
@@ -216,19 +220,19 @@ Scan remote CIFS server.
 
 `<server>`: `<string>` ::
 
-no description available
+The server address (name or IP).
 
 `--domain` `<string>` ::
 
-no description available
+SMB domain (Workgroup).
 
 `--password` `<password>` ::
 
-no description available
+User password.
 
 `--username` `<string>` ::
 
-no description available
+User name.
 
 *pvesm export* `<volume> <format> <filename>` `[OPTIONS]`
 
@@ -284,7 +288,7 @@ Scan remote GlusterFS server.
 
 `<server>`: `<string>` ::
 
-no description available
+The server address (name or IP).
 
 *pvesm help* `[OPTIONS]`
 
@@ -326,13 +330,13 @@ A snapshot to delete on success
 
 Whether the stream includes intermediate snapshots
 
-*pvesm iscsiscan* `--portal <string>` `[OPTIONS]`
+*pvesm iscsiscan* `<portal>`
 
 Scan remote iSCSI server.
 
-`--portal` `<string>` ::
+`<portal>`: `<string>` ::
 
-no description available
+The iSCSI portal (IP or DNS name with optional port).
 
 *pvesm list* `<storage>` `[OPTIONS]`
 
@@ -368,7 +372,7 @@ Scan remote NFS server.
 
 `<server>`: `<string>` ::
 
-no description available
+The server address (name or IP).
 
 *pvesm path* `<volume>`
 
@@ -447,6 +451,10 @@ Assume the given path is an externally managed mountpoint and consider the stora
 `--krbd` `<boolean>` ::
 
 Access rbd through krbd kernel module.
+
+`--lio_tpg` `<string>` ::
+
+target portal group for Linux LIO targets
 
 `--maxfiles` `<integer> (0 - N)` ::
 
