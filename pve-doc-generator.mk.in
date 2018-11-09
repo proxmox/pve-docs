@@ -16,7 +16,7 @@ PVE_COMMON_DOC_SOURCES=                 \
 
 all:
 
-attributes.txt docinfo.xml pmxcfs.8-synopsis.adoc:
+attributes.txt docinfo.xml pmxcfs.8-synopsis.adoc qmeventd.8-synopsis.adoc:
 	cp ${DGDIR}/$@ $@.tmp
 	mv $@.tmp $@
 

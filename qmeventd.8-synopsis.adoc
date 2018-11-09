@@ -1,0 +1,16 @@
+*qmeventd* `[-f]` `[-v]` `PATH`
+
+`-v`:: Turn on verbose messages
+
+`-f`:: Do not daemonize server
+
+`PATH`:: The path to listen on
+
+This service is usually started and managed using systemd toolset. The
+service is called 'qmeventd'.
+
+ systemctl start qmeventd
+
+ systemctl stop qmeventd
+
+ systemctl status qmeventd

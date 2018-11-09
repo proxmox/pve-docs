@@ -41,6 +41,7 @@ GEN_DEB_SOURCES=				\
 	pve-doc-generator.mk			\
 	${MANUAL_SOURCES}			\
 	pmxcfs.8-synopsis.adoc			\
+	qmeventd.8-synopsis.adoc		\
 	docinfo.xml
 
 GEN_SCRIPTS=					\
@@ -228,7 +229,7 @@ update-static:
 
 .PHONY: clean-static
 clean-static:
-	find . -regex '.*-\(opts\|synopsis\)\.adoc' -not -name pmxcfs.8-synopsis.adoc -exec rm -f \{\} \;
+	find . -regex '.*-\(opts\|synopsis\)\.adoc' -not -name pmxcfs.8-synopsis.adoc -not name qmeventd.8-synopsis.adoc -exec rm -f \{\} \;
 	rm -f api-viewer/apidata.js
 	rm -f pve-firewall-macros.adoc pct-network-opts.adoc pct-mountpoint-opts.adoc
 
