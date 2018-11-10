@@ -199,6 +199,11 @@ when the filesystem of a VM marks blocks as unused after removing files, the
 emulated SCSI controller will relay this information to the storage, which will
 then shrink the disk image accordingly.
 
+If you would like a drive to be presented to the guest as a solid-state drive
+rather than a rotational hard disk, you can set the *SSD emulation* option on
+that drive. There is no requirement that the underlying storage actually be
+backed by SSDs; this feature can be used with physical media of any type.
+
 .IO Thread
 The option *IO Thread* can only be used when using a disk with the
 *VirtIO* controller, or with the *SCSI* controller, when the emulated controller
