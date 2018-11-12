@@ -1021,6 +1021,9 @@ ifndef::wiki[]
 include::qm-cloud-init.adoc[]
 endif::wiki[]
 
+ifndef::wiki[]
+include::qm-pci-passthrough.adoc[]
+endif::wiki[]
 
 
 Managing Virtual Machines with `qm`
