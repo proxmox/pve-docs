@@ -595,6 +595,34 @@ traffic increases. We recommend to set this option only when the VM has to
 process a great number of incoming connections, such as when the VM is running
 as a router, reverse proxy or a busy HTTP server doing long polling.
 
+[[qm_display]]
+Display
+~~~~~~~
+
+QEMU can virtualize a few types of VGA hardware. Some examples are:
+
+* *std*, the default, emulates a card with Bochs VBE extensions.
+* *vmware*, is a VMWare SVGA-II compatible adapter.
+* *qxl*, is the QXL paravirtualized graphics card. Selecting this also
+enables SPICE for the VM.
+
+You can edit the amount of memory given to the virtual GPU, by setting
+the *memory* option. This can enable higher resolutions inside the VM,
+especially with SPICE/QXL.
+
+Selecting Multi-Monitor mode for SPICE (e.g., qxl2 for dual monitors) has
+some implications:
+
+* Windows needs a device for each monitor, so if your ostype is some
+version of windows, {pve} gives the VM an extra device per monitor.
+Each device gets the specified amount of memory.
+* Linux VMs, can always enable more virtual monitors, but selecting
+a Multi-Monitor mode multiplies the memory given to the device with
+the number of monitors.
+
+Selecting *serialX* as display disables the VGA output, and redirects
+the Web Console to the selected serial port. A configured memory setting
+will be ignored in that case.
 
 [[qm_usb_passthrough]]
 USB Passthrough
