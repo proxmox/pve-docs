@@ -883,7 +883,7 @@ clone and modify that.
 VM Generation ID
 ----------------
 
-{pve} supports Virtual Machine Generation ID ('vmgedid') footnote:[Official
+{pve} supports Virtual Machine Generation ID ('vmgenid') footnote:[Official
 'vmgenid' Specification
 https://docs.microsoft.com/en-us/windows/desktop/hyperv_v2/virtual-machine-generation-identifier]
 for virtual machines.
