@@ -99,7 +99,9 @@ Create the Cluster
 Login via `ssh` to the first {pve} node. Use a unique name for your cluster.
 This name cannot be changed later. The cluster name follows the same rules as node names.
 
- hp1# pvecm create YOUR-CLUSTER-NAME
+----
+ hp1# pvecm create CLUSTERNAME
+----
 
 CAUTION: The cluster name is used to compute the default multicast
 address. Please use unique cluster names if you run more than one
@@ -107,7 +109,9 @@ cluster inside your network.
 
 To check the state of your cluster use:
 
+----
  hp1# pvecm status
+----
 
 Multiple Clusters In Same Network
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -130,7 +134,9 @@ Adding Nodes to the Cluster
 
 Login via `ssh` to the node you want to add.
 
+----
  hp2# pvecm add IP-ADDRESS-CLUSTER
+----
 
 For `IP-ADDRESS-CLUSTER` use the IP from an existing cluster node.
 
@@ -142,7 +148,9 @@ adding the node to the cluster.
 
 To check the state of cluster:
 
+----
  # pvecm status
+----
 
 .Cluster status after adding 4 nodes
 ----
@@ -175,7 +183,9 @@ Membership information
 
 If you only want the list of all nodes use:
 
+----
  # pvecm nodes
+----
 
 .List nodes in a cluster
 ----
@@ -244,7 +254,9 @@ it could be difficult to restore a clean cluster state.
 
 After powering off the node hp4, we can safely remove it from the cluster.
 
+----
  hp1# pvecm delnode hp4
+----
 
 If the operation succeeds no output is returned, just check the node
 list again with `pvecm nodes` or `pvecm status`. You should see
