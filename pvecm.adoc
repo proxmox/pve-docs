@@ -92,20 +92,27 @@ Currently the cluster creation can either be done on the console (login via
 `ssh`) or the API, which we have a GUI implementation for (__Datacenter ->
 Cluster__).
 
+While it's often common use to reference all other nodenames in `/etc/hosts`
+with their IP this is not strictly necessary for a cluster, which normally uses
+multicast, to work. It maybe useful as you then can connect from one node to
+the other with SSH through the easier to remember node name.
+
 [[pvecm_create_cluster]]
 Create the Cluster
 ------------------
 
 Login via `ssh` to the first {pve} node. Use a unique name for your cluster.
-This name cannot be changed later. The cluster name follows the same rules as node names.
+This name cannot be changed later. The cluster name follows the same rules as
+node names.
 
 ----
  hp1# pvecm create CLUSTERNAME
 ----
 
-CAUTION: The cluster name is used to compute the default multicast
-address. Please use unique cluster names if you run more than one
-cluster inside your network.
+CAUTION: The cluster name is used to compute the default multicast address.
+Please use unique cluster names if you run more than one cluster inside your
+network. To avoid human confusion, it is also recommended to choose different
+names even if clusters do not share the cluster network.
 
 To check the state of your cluster use:
 
