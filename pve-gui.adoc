@@ -101,8 +101,6 @@ search bar nearside you can search for specific objects (VMs,
 containers, nodes, ...). This is sometimes faster than selecting an
 object in the resource tree.
 
-[thumbnail="screenshot/gui-my-settings.png"]
-
 To the right of the search bar we see the identity (login name). The
 gear symbol is a button opening the 'My Settings' dialog. There you
 can customize some client side user interface setting (reset the saved
@@ -118,6 +116,35 @@ Create&nbsp;VM :: Opens the virtual machine creation wizard.
 Create&nbsp;CT :: Open the container creation wizard.
 
 Logout :: Logout, and show the login dialog again.
+
+
+[[gui_my_settings]]
+My Settings
+~~~~~~~~~~~
+
+[thumbnail="screenshot/gui-my-settings.png"]
+
+The 'My Settings' window allows you to set locally stored settings. These
+include the 'Dashboard Storages' which allow you to enable or disable specific
+storages to be counted towards the total amount visible in the datacenter
+summary. If no storage is checked the total is the sum of all storages, same
+as enabling every single one.
+
+Below the dashboard settings you find the stored user name and a button to
+clear it as well as a button to reset every layout in the GUI to its default.
+
+On the right side there are 'xterm.js Settings'. These contain the following
+options:
+
+[horizontal]
+Font-Family :: The font to be used in xterm.js (e.g. Arial).
+
+Font-Size :: The preferred font size to be used.
+
+Letter Spacing :: Increases or decreases spacing between letters in text.
+
+Line Height :: Specify the absolute height of a line.
+
 
 
 Resource Tree
