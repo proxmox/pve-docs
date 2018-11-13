@@ -88,7 +88,9 @@ First, install {PVE} on all nodes. Make sure that each node is
 installed with the final hostname and IP configuration. Changing the
 hostname and IP is not possible after cluster creation.
 
-Currently the cluster creation can either be done on the console(login via `ssh`) or the GUI.
+Currently the cluster creation can either be done on the console (login via
+`ssh`) or the API, which we have a GUI implementation for (__Datacenter ->
+Cluster__).
 
 [[pvecm_create_cluster]]
 Create the Cluster
