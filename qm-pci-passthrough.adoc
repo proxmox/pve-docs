@@ -275,3 +275,71 @@ For this feature, platform support is especially important. It may be necessary
 to enable this feature in the BIOS/EFI first, or to use a specific PCI(e) port
 for it to work. In doubt, consult the manual of the platform or contact its
 vendor.
+
+Mediated Devices, vGPU/GVT-g
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Mediated devices are another method to use virtualized hardware.
+These are found most common in virtualized GPU setups such as
+Intels GVT-g and Nvidias vGPUs used in their GRID technology.
+
+With this, a physical Card is able to create virtual cards, similar to
+SR-IOV, the difference is that mediated devices do not appear as PCI(e) devices
+in the host, and are such only suited for using in virtual machines.
+
+Host Configuration
+^^^^^^^^^^^^^^^^^^
+
+In general your driver of the card must support that feature, otherwise it will
+not work. So please refer to your vendor for compatbile drivers and how to
+configure them.
+
+Intels drivers for GVT-g are integraded in the Kernel and should work
+with 5th, 6th and 7th generation Intel Core Processors and E3 v4, E3 v5 and
+E3 v6 Xeon Processors.
+
+To enable it for Intel Graphcs, you have to make sure to load the module
+'kvmgt' (for example via `/etc/modules`) and to enable it on the Kernel
+commandline. For this you can edit `'/etc/default/grub''
+and add the following to the 'GRUB_CMDLINE_LINUX_DEFAULT' variable:
+
+----
+ i915.enable_gvt=1
+----
+
+After that remember to
+xref:qm_pci_passthrough_update_initramfs[update the `initramfs`],
+xref:qm_pci_passthrough_update_grub[update grub] and
+reboot your host.
+
+VM Configuration
+^^^^^^^^^^^^^^^^
+
+To use a mediated device, simply specify the `mdev` on a `hostpciX`
+configuration of a VM. This needs to be a type of mediated device supported
+by the specified PCI(e) card.
+
+You can get the supported devices via the 'sysfs'. For example, listing
+the supported types for the device '0000:00:02.0' you can simply list them
+with:
+
+----
+# ls /sys/bus/pci/devices/0000:00:02.0/mdev_supported_types
+----
+
+Each entry is a directory which contains the following important files:
+
+* 'available_instances' contains the amount of still available instances of this
+type
+* 'description' contains a short description about the capabilities of the type
+* 'create' is the endpoint to create such a device, in {pve} this happens
+automatically if you specify a type with a 'hostpciX' line.
+
+Example configuration of a Intel GVT-g vGPU on an Intel Skylake 6700k Processor:
+
+----
+# qm set VMID -hostpci0 00:02.0,mdev=i915-GVTg_V5_4
+----
+
+With this set, {pve} automatically creates such a device on VM start, and
+cleans it up again when the VM stops.
