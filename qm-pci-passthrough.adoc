@@ -40,11 +40,10 @@ Once you ensured that your hardware supports passthrough, you will need to do
 some configuration to enable PCI(e) passthrough.
 
 
-IOMMU
-+++++
+.IOMMU
 
 The IOMMU has to be activated on the kernel commandline. The easiest way is to
-enable trough grub. Edit `'/etc/default/grub'' and add the following to th
+enable trough grub. Edit `'/etc/default/grub'' and add the following to the
 'GRUB_CMDLINE_LINUX_DEFAULT' variable:
 
 * for Intel CPUs:
@@ -58,14 +57,14 @@ enable trough grub. Edit `'/etc/default/grub'' and add the following to th
  amd_iommu=on
 ----
 
+[[qm_pci_passthrough_update_grub]]
 To bring this change in effect, make sure you run:
 
 ----
 # update-grub
 ----
 
-Kernel Modules
-++++++++++++++
+.Kernel Modules
 
 You have to make sure the following modules are loaded. This can be achieved by
 adding them to `'/etc/modules''
@@ -85,8 +84,7 @@ After changing anything modules related, you need to refresh your
 # update-initramfs -u -k all
 ----
 
-Finish Configuration
-++++++++++++++++++++
+.Finish Configuration
 
 Finally reboot to bring the changes into effect and check that it is indeed
 enabled.
@@ -198,8 +196,7 @@ Some PCI(e) devices need this disabled.
 * *romfile=<path>*, is an optional path to a ROM file for the device to use.
 This is a relative path under */usr/share/kvm/*.
 
-Example
-+++++++
+.Example
 
 An example of PCIe passthrough with a GPU set to primary:
 
@@ -261,7 +258,7 @@ the fly. For example, to setup 4 VFs on device 0000:01:00.0 execute:
 ----
 +
 To make this change persistent you can use the `sysfsutils` Debian package.
-After installation configure it via */etc/sysfs.conf* or a `FILE.conf' inf
+After installation configure it via */etc/sysfs.conf* or a `FILE.conf' in
 */etc/sysfs.d/*.
 
 VM Configuration
