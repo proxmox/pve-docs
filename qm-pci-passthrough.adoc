@@ -3,235 +3,278 @@ PCI(e) Passthrough
 ------------------
 
 PCI(e) passthrough is a mechanism to give a virtual machine control over
-a pci device usually only available for the host. This can have some
-advantages over using virtualized hardware, for example lower latency,
-higher performance, or more features (e.g., offloading).
+a PCI device from the host. This can have some advantages over using
+virtualized hardware, for example lower latency, higher performance, or more
+features (e.g., offloading).
 
-If you pass through a device to a virtual machine, you cannot use that
+But, if you pass through a device to a virtual machine, you cannot use that
 device anymore on the host or in any other VM.
 
 General Requirements
 ~~~~~~~~~~~~~~~~~~~~
 
 Since passthrough is a feature which also needs hardware support, there are
-some requirements and steps before it can work.
+some requirements to check and preparations to be done to make it work.
+
 
 Hardware
 ^^^^^^^^
+Your hardware needs to support `IOMMU` (*I*/*O* **M**emory **M**anagement
+**U**nit) interrupt remapping, this includes the CPU and the mainboard.
 
-Your hardware has to support IOMMU interrupt remapping, this includes CPU and
-Mainboard.
+Generally, Intel systems with VT-d, and AMD systems with AMD-Vi support this.
+But it is not guaranteed that everything will work out of the box, due
+to bad hardware implementation and missing or low quality drivers.
 
-Generally Intel systems with VT-d, and AMD systems with AMD-Vi support this,
-but it is not guaranteed that everything will work out of the box, due
-to bad hardware implementation or missing/low quality drivers.
-
-In most cases, server grade hardware has better support than consumer grade
+Further, server grade hardware has often better support than consumer grade
 hardware, but even then, many modern system can support this.
 
-Please refer to your hardware vendor if this is a feature that is supported
-under Linux.
+Please refer to your hardware vendor to check if they support this feature
+under Linux for your specific setup
+
 
 Configuration
 ^^^^^^^^^^^^^
 
-To enable PCI(e) passthrough, there are some configurations needed.
+Once you ensured that your hardware supports passthrough, you will need to do
+some configuration to enable PCI(e) passthrough.
 
-First, the iommu has to be activated on the kernel commandline.
-The easiest way is to enable it in */etc/default/grub*. Just add
 
+IOMMU
++++++
+
+The IOMMU has to be activated on the kernel commandline. The easiest way is to
+enable trough grub. Edit `'/etc/default/grub'' and add the following to th
+'GRUB_CMDLINE_LINUX_DEFAULT' variable:
+
+* for Intel CPUs:
++
+----
  intel_iommu=on
-
-or if you have AMD hardware:
-
+----
+* for AMD CPUs:
++
+----
  amd_iommu=on
+----
 
-to GRUB_CMDLINE_LINUX_DEFAULT
+To bring this change in effect, make sure you run:
 
-After that, make sure you run 'update grub' to update grub.
+----
+# update-grub
+----
 
-Second, you have to make sure the following modules are loaded.
-This can be achieved by adding them to */etc/modules*
+Kernel Modules
+++++++++++++++
 
+You have to make sure the following modules are loaded. This can be achieved by
+adding them to `'/etc/modules''
+
+----
  vfio
  vfio_iommu_type1
  vfio_pci
  vfio_virqfd
+----
 
+[[qm_pci_passthrough_update_initramfs]]
 After changing anything modules related, you need to refresh your
-initramfs with
+`initramfs`. On {pve} this can be done by executing:
 
 ----
-update-initramfs -u -k all
+# update-initramfs -u -k all
 ----
 
-Finally reboot and check that it is indeed enabled.
+Finish Configuration
+++++++++++++++++++++
+
+Finally reboot to bring the changes into effect and check that it is indeed
+enabled.
 
 ----
-dmesg -e DMAR -e IOMMU -e AMD-Vi
+# dmesg -e DMAR -e IOMMU -e AMD-Vi
 ----
 
-should display that IOMMU, Directed I/O or Interrupt Remapping is enabled.
-(The exact message can vary, depending on hardware and kernel version)
+should display that `IOMMU`, `Directed I/O` or `Interrupt Remapping` is
+enabled, depending on hardware and kernel the exact message can vary.
 
 It is also important that the device(s) you want to pass through
-are in a seperate IOMMU group.  This can be checked with:
+are in a *separate* `IOMMU` group. This can be checked with:
 
 ----
-find /sys/kernel/iommu_groups/ -type l
+# find /sys/kernel/iommu_groups/ -type l
 ----
 
-It is okay if the device is in an IOMMU group together with its functions
+It is okay if the device is in an `IOMMU` group together with its functions
 (e.g. a GPU with the HDMI Audio device) or with its root port or PCI(e) bridge.
 
 .PCI(e) slots
 [NOTE]
 ====
-Some platforms handle their PCI(e) slots differently, so if you
-do not get the desired IOMMU group separation, it may be helpful to
-try to put the card in a another PCI(e) slot.
+Some platforms handle their physical PCI(e) slots differently. So, sometimes
+it can help to put the card in a another PCI(e) slot, if you do not get the
+desired `IOMMU` group separation.
 ====
 
 .Unsafe interrupts
 [NOTE]
 ====
 For some platforms, it may be necessary to allow unsafe interrupts.
-This can most easily enabled with adding the following line
-in a .conf file in */etc/modprobe.d/*.
+For this add  the following line in a file ending with `.conf' file in
+*/etc/modprobe.d/*:
 
+----
  options vfio_iommu_type1 allow_unsafe_interrupts=1
+----
 
 Please be aware that this option can make your system unstable.
 ====
 
-Host Device Passhtrough
+Host Device Passthrough
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 The most used variant of PCI(e) passthrough is to pass through a whole
-PCI(e) card, for example a GPU or network card.
+PCI(e) card, for example a GPU or a network card.
+
 
 Host Configuration
 ^^^^^^^^^^^^^^^^^^
 
-In this case, the host can not use the card. This can be achieved by two
-methods:
+In this case, the host cannot use the card. There are two methods to achieve
+this:
 
-Either add the ids to the options of the vfio-pci modules. This works
-with adding
-
+* pass the device IDs to the options of the 'vfio-pci' modules by adding
++
+----
  options vfio-pci ids=1234:5678,4321:8765
-
-to a .conf file in */etc/modprobe.d/* where 1234:5678 and 4321:8765 are
-the vendor and device ids obtained by:
-
 ----
-lcpci -nn
++
+to a .conf file in */etc/modprobe.d/* where `1234:5678` and `4321:8765` are
+the vendor and device IDs obtained by:
++
+----
+# lcpci -nn
 ----
 
-Or simply blacklist the driver completely on the host with
-
+* blacklist the driver completely on the host, ensuring that it is free to bind
+for passthrough, with
++
+----
  blacklist DRIVERNAME
+----
++
+in a .conf file in */etc/modprobe.d/*.
 
-also in a .conf file in */etc/modprobe.d/*.  Again update the initramfs
-and reboot after that.
+For both methods you need to
+xref:qm_pci_passthrough_update_initramfs[update the `initramfs`] again and
+reboot after that.
 
+[[qm_pci_passthrough_vm_config]]
 VM Configuration
 ^^^^^^^^^^^^^^^^
-
-To pass through the device you set *hostpciX* on the VM with
+To pass through the device you need to set the *hostpciX* option in the VM
+configuration, for example by executing:
 
 ----
-qm set VMID -hostpci0 00:02.0
+# qm set VMID -hostpci0 00:02.0
 ----
 
 If your device has multiple functions, you can pass them through all together
-with the shortened syntax
-
- 00:02
+with the shortened syntax ``00:02`'
 
 There are some options to which may be necessary, depending on the device
-and guest OS.
+and guest OS:
 
-* *x-vga=on|off* marks the PCI(e) device the primary GPU of the VM.
-With this enabled the *vga* parameter of the config will be ignored.
+* *x-vga=on|off* marks the PCI(e) device as the primary GPU of the VM.
+With this enabled the *vga* configuration option will be ignored.
+
 * *pcie=on|off* tells {pve} to use a PCIe or PCI port. Some guests/device
-combination require PCIe rather than PCI (only available for q35 machine types).
+combination require PCIe rather than PCI. PCIe is only available for 'q35'
+machine types.
+
 * *rombar=on|off* makes the firmware ROM visible for the guest. Default is on.
 Some PCI(e) devices need this disabled.
+
 * *romfile=<path>*, is an optional path to a ROM file for the device to use.
-this is a relative path under */usr/share/kvm/*.
+This is a relative path under */usr/share/kvm/*.
+
+Example
++++++++
 
 An example of PCIe passthrough with a GPU set to primary:
 
 ----
-qm set VMID -hostpci0 02:00,pcie=on,x-vga=on
+# qm set VMID -hostpci0 02:00,pcie=on,x-vga=on
 ----
+
 
 Other considerations
 ^^^^^^^^^^^^^^^^^^^^
 
 When passing through a GPU, the best compatibility is reached when using
-q35 as machine type, OVMF instead of SeaBIOS and PCIe instead of PCI.
-Note that if you want to use OVMF for GPU passthrough, the GPU needs
-to have an EFI capable ROM, otherwise use SeaBIOS instead.
+'q35' as machine type, 'OVMF' ('EFI' for VMs) instead of SeaBIOS and PCIe
+instead of PCI. Note that if you want to use 'OVMF' for GPU passthrough, the
+GPU needs to have an EFI capable ROM, otherwise use SeaBIOS instead.
 
 SR-IOV
 ~~~~~~
 
-Another variant of passing through PCI(e) devices, is to use the hardware
-virtualization features of your devices.
+Another variant for passing through PCI(e) devices, is to use the hardware
+virtualization features of your devices, if available.
 
-SR-IOV (Single-root input/output virtualization) enables a single device
-to provide multiple vf (virtual functions) to the system, so that each
-vf can be used in a different VM, with full hardware features, better
-performance and lower latency than software virtualized devices.
+'SR-IOV' (**S**ingle-**R**oot **I**nput/**O**utput **V**irtualization) enables
+a single device to provide multiple 'VF' (**V**irtual **F**unctions) to the
+system. Each of those 'VF' can be used in a different VM, with full hardware
+features and also better performance and lower latency than software
+virtualized devices.
 
-The most used devices for this are NICs with SR-IOV which can provide
-multiple vf per physical port, allowing features such as
-checksum offloading, etc. to be used inside a VM, reducing CPU overhead.
+Currently, the most common use case for this are NICs (**N**etwork
+**I**nterface **C**ard) with SR-IOV support, which can provide multiple VFs per
+physical port. This allows using features such as checksum offloading, etc. to
+be used inside a VM, reducing the (host) CPU overhead.
+
 
 Host Configuration
 ^^^^^^^^^^^^^^^^^^
 
-Generally there are 2 methods for enabling virtual functions on a device.
+Generally, there are two methods for enabling virtual functions on a device.
 
-In some cases there is an option for the driver module e.g. for some
+* sometimes there is an option for the driver module e.g. for some
 Intel drivers
-
++
+----
  max_vfs=4
-
-which could be put in a file in a .conf file in */etc/modprobe.d/*.
+----
++
+which could be put file with '.conf' ending under */etc/modprobe.d/*.
 (Do not forget to update your initramfs after that)
-
++
 Please refer to your driver module documentation for the exact
 parameters and options.
 
-The second (more generic) approach is via the sysfs.
-If a device and driver supports this you can change the number of vfs on
-the fly. For example 4 vfs on device 0000:01:00.0 with:
-
+* The second, more generic, approach is using the `sysfs`.
+If a device and driver supports this you can change the number of VFs on
+the fly. For example, to setup 4 VFs on device 0000:01:00.0 execute:
++
 ----
-echo 4 > /sys/bus/pci/devices/0000:01:00.0/sriov_numvfs
+# echo 4 > /sys/bus/pci/devices/0000:01:00.0/sriov_numvfs
 ----
-
-To make this change persistent you can use sysfsutils.
-Just install them via
-
-----
-apt install sysfsutils
-----
-
-and configure it via */etc/sysfs.conf* or */etc/sysfs.d/*.
++
+To make this change persistent you can use the `sysfsutils` Debian package.
+After installation configure it via */etc/sysfs.conf* or a `FILE.conf' inf
+*/etc/sysfs.d/*.
 
 VM Configuration
 ^^^^^^^^^^^^^^^^
 
-After creating vfs, you should see them as seperate PCI(e) devices, which
-can be passed through like a normal PCI(e) device.
+After creating VFs, you should see them as separate PCI(e) devices when
+outputting them with `lspci`. Get their ID and pass them through like a
+xref:qm_pci_passthrough_vm_config[normal PCI(e) device].
 
 Other considerations
 ^^^^^^^^^^^^^^^^^^^^
 
 For this feature, platform support is especially important. It may be necessary
-to enable this feature in the BIOS or to use a specific PCI(e) port for it
-to work. In doubt, consult the manual of the platform or contact the vendor.
+to enable this feature in the BIOS/EFI first, or to use a specific PCI(e) port
+for it to work. In doubt, consult the manual of the platform or contact its
+vendor.
