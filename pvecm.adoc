@@ -77,8 +77,12 @@ manually enabled first.
 
 * Root password of a cluster node is required for adding nodes.
 
-NOTE: It is not possible to mix Proxmox VE 3.x and earlier with
-Proxmox VE 4.0 cluster nodes.
+NOTE: It is not possible to mix {pve} 3.x and earlier with {pve} 4.X cluster
+nodes.
+
+NOTE: While it's possible for {pve} 4.4 and {pve} 5.0 this is not supported as
+production configuration and should only used temporarily during upgrading the
+whole cluster from one to another major version.
 
 
 Preparing Nodes
