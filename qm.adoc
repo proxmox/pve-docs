@@ -193,16 +193,21 @@ As of {pve} 5.0, replication requires the disk images to be on a storage of type
 configured requires to skip replication for this disk image.
 
 If your storage supports _thin provisioning_ (see the storage chapter in the
-{pve} guide), and your VM has a *SCSI* controller you can activate the *Discard*
-option on the hard disks connected to that controller. With *Discard* enabled,
-when the filesystem of a VM marks blocks as unused after removing files, the
-emulated SCSI controller will relay this information to the storage, which will
-then shrink the disk image accordingly.
+{pve} guide), you can activate the *Discard* option on a drive. With *Discard*
+set and a _TRIM_-enabled guest OS footnote:[TRIM, UNMAP, and discard
+https://en.wikipedia.org/wiki/Trim_%28computing%29], when the VM's filesystem
+marks blocks as unused after deleting files, the controller will relay this
+information to the storage, which will then shrink the disk image accordingly.
+For the guest to be able to issue _TRIM_ commands, you must either use a
+*VirtIO SCSI* (or *VirtIO SCSI Single*) controller or set the *SSD emulation*
+option on the drive. Note that *Discard* is not supported on *VirtIO Block*
+drives.
 
 If you would like a drive to be presented to the guest as a solid-state drive
 rather than a rotational hard disk, you can set the *SSD emulation* option on
 that drive. There is no requirement that the underlying storage actually be
 backed by SSDs; this feature can be used with physical media of any type.
+Note that *SSD emulation* is not supported on *VirtIO Block* drives.
 
 .IO Thread
 The option *IO Thread* can only be used when using a disk with the
