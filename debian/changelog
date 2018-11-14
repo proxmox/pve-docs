@@ -1,3 +1,25 @@
+pve-docs (5.2-10) unstable; urgency=medium
+
+  * fix #1850: document API vs SSH cluster joining
+
+  * fix #1975: extend 'My Settings' documentation
+
+  * fix #1959: remove 'auto' (SLAAC) from cloud-init ip config documentation
+
+  * document new ssd option
+
+  * add display type documentation
+
+  * add pci passthrough and sr-iov documentation
+
+  * add documentation for mediated devices (vGPU/GVT-g)
+
+  * add manpage for qmeventd
+
+  * typo fixes
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 14 Nov 2018 15:27:33 +0100
+
 pve-docs (5.2-9) unstable; urgency=medium
 
   * add documentation for vxlan layer 2 network and layer 3 routing
