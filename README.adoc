@@ -142,6 +142,24 @@ Bulleted lists should be created using the '*' symbol:
 * First level again
 
 
+If you need to have other elements on the same level than a list element you
+can do this with the '+' symbol:
+
+----
+. First level
+.. Second level
++
+Anothe Sentence (or Block) on the continued second level.
+. First level again
+----
+
+. First level
+.. Second level
++
+Anothe Sentence (or Block) on the continued second level.
+
+. First level again
+
 Labeled Lists
 ^^^^^^^^^^^^^
 
