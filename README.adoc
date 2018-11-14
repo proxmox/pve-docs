@@ -96,6 +96,10 @@ below the title text:
  Level 3:                 ^^^^^^^^^^^^^^^^^^^^^^
  Level 4 (bottom level):  ++++++++++++++++++++++
 
+NOTE: Level 4 headings are currently not working for `manpage` outputs, you may
+want to use `.SECTION' instead, which results in the same rendering, and this
+level of Heading isn't displayed in any Index/TOC anyway.
+
 Section titles should always be preceded by two empty lines. Each word
 in a title should be capitalized except for ``articles, coordinating
 conjunctions, prepositions, and the word to in infinitives unless they
