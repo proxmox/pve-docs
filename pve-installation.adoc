@@ -59,6 +59,11 @@ Install Proxmox VE::
 
 Start normal installation.
 
+TIP: It is possible to only use the keyboard to progress through the
+installation wizard. Buttons can be pressed by pressing down the `ALT`
+key, combined with the underlined character from the respective Button.
+E.g., `ALT + N` to press a `Next` button.
+
 Install Proxmox VE (Debug mode)::
 
 Start installation in debug mode. It opens a shell console at several
