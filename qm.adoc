@@ -437,7 +437,7 @@ will allow proper distribution of the VM resources on the host system.
 This option is also required to hot-plug cores or RAM in a VM.
 
 If the NUMA option is used, it is recommended to set the number of sockets to
-the number of sockets of the host system.
+the number of nodes of the host system.
 
 vCPU hot-plug
 ^^^^^^^^^^^^^
