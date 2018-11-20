@@ -829,7 +829,7 @@ migrate a VM to a totally different storage. You can also change the
 disk image *Format* if the storage driver supports several formats.
 +
 
-NOTE: A full clone need to read and copy all VM image data. This is
+NOTE: A full clone needs to read and copy all VM image data. This is
 usually much slower than creating a linked clone.
 +
 
@@ -840,7 +840,7 @@ never includes any additional snapshots from the original VM.
 
 Linked Clone::
 
-Modern storage drivers supports a way to generate fast linked
+Modern storage drivers support a way to generate fast linked
 clones. Such a clone is a writable copy whose initial contents are the
 same as the original data. Creating a linked clone is nearly
 instantaneous, and initially consumes no additional space.
@@ -857,8 +857,8 @@ can convert any VM into a read-only <<qm_templates, Template>>). Such
 templates can later be used to create linked clones efficiently.
 +
 
-NOTE: You cannot delete the original template while linked clones
-exists.
+NOTE: You cannot delete an original template while linked clones
+exist.
 +
 
 It is not possible to change the *Target storage* for linked clones,
@@ -869,7 +869,7 @@ The *Target node* option allows you to create the new VM on a
 different node. The only restriction is that the VM is on shared
 storage, and that storage is also available on the target node.
 
-To avoid resource conflicts, all network interface MAC addresses gets
+To avoid resource conflicts, all network interface MAC addresses get
 randomized, and we generate a new 'UUID' for the VM BIOS (smbios1)
 setting.
 
