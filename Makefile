@@ -229,7 +229,7 @@ update-static:
 
 .PHONY: clean-static
 clean-static:
-	find . -regex '.*-\(opts\|synopsis\)\.adoc' -not -name pmxcfs.8-synopsis.adoc -not name qmeventd.8-synopsis.adoc -exec rm -f \{\} \;
+	find . -regex '.*-\(opts\|synopsis\)\.adoc' -not -name pmxcfs.8-synopsis.adoc -not -name qmeventd.8-synopsis.adoc -exec rm -f \{\} \;
 	rm -f api-viewer/apidata.js
 	rm -f pve-firewall-macros.adoc pct-network-opts.adoc pct-mountpoint-opts.adoc
 
