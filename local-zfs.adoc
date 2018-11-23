@@ -307,14 +307,18 @@ time this value changes:
 ====
 
 
+[[zfs_swap]]
 .SWAP on ZFS
 
-SWAP on ZFS on Linux may generate some troubles, like blocking the
+Swap-space created on a zvol may generate some troubles, like blocking the
 server or generating a high IO load, often seen when starting a Backup
 to an external Storage.
 
 We strongly recommend to use enough memory, so that you normally do not
-run into low memory situations. Additionally, you can lower the
+run into low memory situations. Should you need or want to add swap, it is
+preferred to create a partition on a physical disk and use it as swapdevice.
+You can leave some space free for this purpose in the advanced options of the
+installer. Additionally, you can lower the
 ``swappiness'' value. A good value for servers is 10:
 
  sysctl -w vm.swappiness=10
