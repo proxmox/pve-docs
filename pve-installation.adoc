@@ -94,10 +94,11 @@ defaults to `ext4`. The installer uses LVM if you select `ext3`,
 `ext4` or `xfs` as file system, and offers additional option to
 restrict LVM space (see <<advanced_lvm_options,below>>)
 
-If you have more than one disk, you can also use ZFS as file system.
-ZFS supports several software RAID levels, so this is specially useful
-if you do not have a hardware RAID controller. The `Options` button
-lets you select the ZFS RAID level, and you can choose disks there.
+You can also use ZFS as file system. ZFS supports several software RAID
+levels, so this is specially useful if you do not have a hardware RAID
+controller. The `Options` button lets you select the ZFS RAID level, and
+you can choose disks there. Additionally you can set additional options (see
+<<advanced_zfs_options,below>>).
 
 [thumbnail="screenshot/pve-select-location.png", float="left"]
 
@@ -203,6 +204,39 @@ will be used.
 +
 NOTE: LVM requires free space in the VG for snapshot creation (not
 required for lvmthin snapshots).
+
+[[advanced_zfs_options]]
+Advanced ZFS Configuration Options
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The installer creates a ZFS pool `rpool`. When selecting ZFS, no swap space is
+created by default. You can leave some unpartitioned space for swap or create
+a swap zvol after installation, though the latter can lead to problems
+(see <<zfs_swap,ZFS swap notes>>).
+
+`ashift`::
+
+Defines the `ashift` value for the created pool. The `ashift` needs
+to be set at least to the sector-size of the underlying disks (2 to
+the power of `ashift` is the sector-size), or any disk,
+which might be put in the pool (e.g. during replacing a defective disk).
+
+`compress`::
+
+Defines whether compression is enabled for `rpool`.
+
+`checksum`::
+
+Defines which checksumming algorithm should be used for `rpool`.
+
+`copies`::
+
+Defines the `copies` parameter for `rpool`. Check the `zfs(8)` manpage for the
+semantics, and why this does not replace redundancy on disk-level.
+
+`hdsize`::
+
+Defines the total HD size to be used. This way you can save free
+space on the HD for further partitioning (e.g. for creating a swap-partition).
 
 
 ZFS Performance Tips
