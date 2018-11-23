@@ -192,8 +192,8 @@ configuration, for example by executing:
 # qm set VMID -hostpci0 00:02.0
 ----
 
-If your device has multiple functions, you can pass them through all together
-with the shortened syntax ``00:02`'
+If your device has multiple functions (e.g., ``00:02.0`' and ``00:02.1`'),
+you can pass them through all together with the shortened syntax ``00:02`'
 
 There are some options to which may be necessary, depending on the device
 and guest OS:
