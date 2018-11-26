@@ -128,20 +128,18 @@ For this add  the following line in a file ending with `.conf' file in
 Please be aware that this option can make your system unstable.
 ====
 
-Notes for GPU passthrough
-^^^^^^^^^^^^^^^^^^^^^^^^^
+GPU Passthrough Notes
+^^^^^^^^^^^^^^^^^^^^^
 
-When passing through a GPU (be it a full device, or a vGPU), if you want to use
-it for displaying, you have to either physically connect a monitor to the
-card (if possible), or configure a remote desktop software (e.g., VNC, RDP)
-inside the guest and use that.
+It is not possible to display the frame buffer of the GPU via NoVNC or SPICE on
+the {pve} web interface.
 
-It is not possible to display the content of the GPU via NoVNC/SPICE on the
-{pve} web interface.
+When passing through a whole GPU or a vGPU and graphic output is wanted, one
+has to either physically connect a monitor to the card, or configure a remote
+desktop software (for example, VNC or RDP) inside the guest.
 
-If you want to use the GPU for things like OpenCL or CUDA, this is not an issue,
-since the application should be able to choose the hardware without using
-it as a display.
+If you want to use the GPU as a hardware accelerator, for example, for
+programs using OpenCL or CUDA, this is not required.
 
 Host Device Passthrough
 ~~~~~~~~~~~~~~~~~~~~~~~
