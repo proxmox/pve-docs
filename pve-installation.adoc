@@ -31,8 +31,8 @@ endif::wiki[]
 Using the {pve} Installation CD-ROM
 -----------------------------------
 
-You can download the ISO from {website}. It includes the
-following:
+You can download the ISO from {website}en/downloads.
+It includes the following:
 
 * Complete operating system (Debian Linux, 64-bit)
 
@@ -46,8 +46,8 @@ following:
 
 * Web based management interface for using the toolset
 
-NOTE: By default, the complete server is used and all existing data is
-removed.
+NOTE: During the installation process, the complete server
+is used by default and all existing data is removed.
 
 [thumbnail="screenshot/pve-grub-menu.png"]
 
@@ -286,7 +286,7 @@ configuration is also completely up to you.
 In general, this is not trivial, especially when you use LVM or
 ZFS.
 
-You can find a detailed step by step howto on the
+You can find a detailed step by step how-to guide on the
 {webwiki-url}Install_Proxmox_VE_on_Debian_Stretch[wiki].
 
 include::pve-usbstick.adoc[]
