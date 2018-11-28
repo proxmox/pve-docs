@@ -92,6 +92,7 @@ the ones from Ceph.
 WARNING: Avoid RAID controller, use host bus adapter (HBA) instead.
 
 
+[[pve_ceph_install]]
 Installation of Ceph Packages
 -----------------------------
 
@@ -415,6 +416,123 @@ mkdir /etc/pve/priv/ceph
 cp /etc/ceph/ceph.client.admin.keyring /etc/pve/priv/ceph/my-ceph-storage.keyring
 ----
 
+[[pveceph_fs]]
+CephFS
+------
+
+Ceph provides also a filesystem running on top of the same object storage as
+RADOS block devices do. A **M**eta**d**ata **S**erver (`MDS`) is used to map
+the RADOS backed objects to files and directories, allowing to provide a
+POSIX-compliant replicated filesystem. This allows one to have a clustered
+highly available shared filesystem in an easy way if ceph is already used.  Its
+Metadata Servers guarantee that files get balanced out over the whole Ceph
+cluster, this way even high load will not overload a single host, which can be
+be an issue with traditional shared filesystem approaches, like `NFS`, for
+example.
+
+{pve} supports both, using an existing xref:storage_cephfs[CephFS as storage])
+to save backups, ISO files or container templates and creating a
+hyper-converged CephFS itself.
+
+
+[[pveceph_fs_mds]]
+Metadata Server (MDS)
+~~~~~~~~~~~~~~~~~~~~~
+
+CephFS needs at least one Metadata Server to be configured and running to be
+able to work. One can simply create one through the {pve} web GUI's `Node ->
+CephFS` panel or on the command line with:
+
+----
+pveceph mds create
+----
+
+Multiple metadata servers can be created in a cluster. But with the default
+settings only one can be active at any time. If an MDS, or its node, becomes
+unresponsive (or crashes), another `standby` MDS will get promoted to `active`.
+One can speed up the hand-over between the active and a standby MDS up by using
+the 'hotstandby' parameter option on create, or if you have already created it
+you may set/add:
+
+----
+mds standby replay = true
+----
+
+in the ceph.conf respective MDS section. With this enabled, this specific MDS
+will always poll the active one, so that it can take over faster as it is in a
+`warm' state. But naturally, the active polling will cause some additional
+performance impact on your system and active `MDS`.
+
+Multiple Active MDS
+^^^^^^^^^^^^^^^^^^^
+
+Since Luminous (12.2.x) you can also have multiple active metadata servers
+running, but this is normally only useful for a high count on parallel clients,
+as else the `MDS` seldom is the bottleneck. If you want to set this up please
+refer to the ceph documentation. footnote:[Configuring multiple active MDS
+daemons http://docs.ceph.com/docs/mimic/cephfs/multimds/]
+
+[[pveceph_fs_create]]
+Create a CephFS
+~~~~~~~~~~~~~~~
+
+With {pve}'s CephFS integration into you can create a CephFS easily over the
+Web GUI, the CLI or an external API interface. Some prerequisites are required
+for this to work:
+
+.Prerequisites for a successful CephFS setup:
+- xref:pve_ceph_install[Install Ceph packages], if this was already done some
+  time ago you might want to rerun it on an up to date system to ensure that
+  also all CephFS related packages get installed.
+- xref:pve_ceph_monitors[Setup Monitors]
+- xref:pve_ceph_monitors[Setup your OSDs]
+- xref:pveceph_fs_mds[Setup at least one MDS]
+
+After this got all checked and done you can simply create a CephFS through
+either the Web GUI's `Node -> CephFS` panel or the command line tool `pveceph`,
+for example with:
+
+----
+pveceph fs create --pg_num 128 --add-storage
+----
+
+This creates a CephFS named `'cephfs'' using a pool for its data named
+`'cephfs_data'' with `128` placement groups and a pool for its metadata named
+`'cephfs_metadata'' with one quarter of the data pools placement groups (`32`).
+Check the xref:pve_ceph_pools[{pve} managed Ceph pool chapter] or visit the
+Ceph documentation for more information regarding a fitting placement group
+number (`pg_num`) for your setup footnote:[Ceph Placement Groups
+http://docs.ceph.com/docs/mimic/rados/operations/placement-groups/].
+Additionally, the `'--add-storage'' parameter will add the CephFS to the {pve}
+storage configuration after it was created successfully.
+
+Destroy CephFS
+~~~~~~~~~~~~~~
+
+WARN: Destroying a CephFS will render all its data unusable, this cannot be
+undone!
+
+If you really want to destroy an existing CephFS you first need to stop, or
+destroy, all metadata server (`M̀DS`). You can destroy them either over the Web
+GUI or the command line interface, with:
+
+----
+pveceph mds destroy NAME
+----
+on each {pve} node hosting a MDS daemon.
+
+Then, you can remove (destroy) CephFS by issuing a:
+
+----
+ceph rm fs NAME --yes-i-really-mean-it
+----
+on a single node hosting Ceph. After this you may want to remove the created
+data and metadata pools, this can be done either over the Web GUI or the CLI
+with:
+
+----
+pveceph pool destroy NAME
+----
 
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
