@@ -285,10 +285,10 @@ A pool is a logical group for storing objects. It holds **P**lacement
 **G**roups (PG), a collection of objects.
 
 When no options are given, we set a
-default of **64 PGs**, a **size of 3 replicas** and a **min_size of 2 replicas**
+default of **128 PGs**, a **size of 3 replicas** and a **min_size of 2 replicas**
 for serving objects in a degraded state.
 
-NOTE: The default number of PGs works for 2-6 disks. Ceph throws a
+NOTE: The default number of PGs works for 2-5 disks. Ceph throws a
 "HEALTH_WARNING" if you have too few or too many PGs in your cluster.
 
 It is advised to calculate the PG number depending on your setup, you can find
