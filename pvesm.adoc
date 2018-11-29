@@ -73,12 +73,12 @@ snapshots and clones.
 |NFS            |nfs         |file  |yes   |no^1^    |yes
 |CIFS           |cifs        |file  |yes   |no^1^    |yes
 |GlusterFS      |glusterfs   |file  |yes   |no^1^    |yes
+|CephFS         |cephfs      |file  |yes   |yes      |yes
 |LVM            |lvm         |block |no^2^ |no       |yes
 |LVM-thin       |lvmthin     |block |no    |yes      |yes
 |iSCSI/kernel   |iscsi       |block |yes   |no       |yes
 |iSCSI/libiscsi |iscsidirect |block |yes   |no       |yes
 |Ceph/RBD       |rbd         |block |yes   |yes      |yes
-|Ceph/CephFS    |cephfs      |file  |yes   |yes      |yes
 |Sheepdog       |sheepdog    |block |yes   |yes      |beta
 |ZFS over iSCSI |zfs         |block |yes   |yes      |yes
 |=========================================================
