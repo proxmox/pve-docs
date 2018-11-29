@@ -509,7 +509,7 @@ storage configuration after it was created successfully.
 Destroy CephFS
 ~~~~~~~~~~~~~~
 
-WARN: Destroying a CephFS will render all its data unusable, this cannot be
+WARNING: Destroying a CephFS will render all its data unusable, this cannot be
 undone!
 
 If you really want to destroy an existing CephFS you first need to stop, or
