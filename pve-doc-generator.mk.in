@@ -1,5 +1,5 @@
 # also update debian/changelog
-DOCRELEASE=5.2
+DOCRELEASE=5.3
 
 DGDIR?=/usr/share/pve-doc-generator
 

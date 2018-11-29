@@ -1,3 +1,19 @@
+pve-docs (5.3-1) unstable; urgency=medium
+
+  * fix #1138: installation: note how one can progress with keyboard only
+
+  * fix #1292: qm: NUMA: a socket can have more nodes
+
+  * fix clean-static find call
+
+  * Expand documentation for swap with ZFS.
+
+  * pveceph: add initial CephFS documentation
+
+  * update static auto generated files (API definitions, synopsis, ...)
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 29 Nov 2018 13:15:54 +0100
+
 pve-docs (5.2-10) unstable; urgency=medium
 
   * fix #1850: document API vs SSH cluster joining
