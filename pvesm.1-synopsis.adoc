@@ -4,7 +4,7 @@
 
 Create a new storage.
 
-`<type>`: `<cephfs | cifs | dir | drbd | glusterfs | iscsi | iscsidirect | lvm | lvmthin | nfs | rbd | sheepdog | zfs | zfspool>` ::
+`<type>`: `<cephfs | cifs | dir | drbd | fake | glusterfs | iscsi | iscsidirect | lvm | lvmthin | nfs | rbd | sheepdog | zfs | zfspool>` ::
 
 Storage type.
 
@@ -72,7 +72,7 @@ iscsi provider
 
 `--krbd` `<boolean>` ::
 
-Access rbd through krbd kernel module.
+Always access rbd through krbd kernel module.
 
 `--lio_tpg` `<string>` ::
 
@@ -214,25 +214,9 @@ no description available
 +
 NOTE: Requires option(s): `size`
 
-*pvesm cifsscan* `<server>` `[OPTIONS]`
+*pvesm cifsscan*
 
-Scan remote CIFS server.
-
-`<server>`: `<string>` ::
-
-The server address (name or IP).
-
-`--domain` `<string>` ::
-
-SMB domain (Workgroup).
-
-`--password` `<password>` ::
-
-User password.
-
-`--username` `<string>` ::
-
-User name.
+An alias for 'pvesm scan cifs'.
 
 *pvesm export* `<volume> <format> <filename>` `[OPTIONS]`
 
@@ -282,13 +266,9 @@ Volume identifier
 
 The storage identifier.
 
-*pvesm glusterfsscan* `<server>`
+*pvesm glusterfsscan*
 
-Scan remote GlusterFS server.
-
-`<server>`: `<string>` ::
-
-The server address (name or IP).
+An alias for 'pvesm scan glusterfs'.
 
 *pvesm help* `[OPTIONS]`
 
@@ -330,13 +310,9 @@ A snapshot to delete on success
 
 Whether the stream includes intermediate snapshots
 
-*pvesm iscsiscan* `<portal>`
+*pvesm iscsiscan*
 
-Scan remote iSCSI server.
-
-`<portal>`: `<string>` ::
-
-The iSCSI portal (IP or DNS name with optional port).
+An alias for 'pvesm scan iscsi'.
 
 *pvesm list* `<storage>` `[OPTIONS]`
 
@@ -356,23 +332,15 @@ Only list images for this VM
 
 *pvesm lvmscan*
 
-List local LVM volume groups.
+An alias for 'pvesm scan lvm'.
 
-*pvesm lvmthinscan* `<vg>`
+*pvesm lvmthinscan*
 
-List local LVM Thin Pools.
+An alias for 'pvesm scan lvmthin'.
 
-`<vg>`: `[a-zA-Z0-9\.\+\_][a-zA-Z0-9\.\+\_\-]+` ::
+*pvesm nfsscan*
 
-no description available
-
-*pvesm nfsscan* `<server>`
-
-Scan remote NFS server.
-
-`<server>`: `<string>` ::
-
-The server address (name or IP).
+An alias for 'pvesm scan nfs'.
 
 *pvesm path* `<volume>`
 
@@ -389,6 +357,66 @@ Delete storage configuration.
 `<storage>`: `<string>` ::
 
 The storage identifier.
+
+*pvesm scan cifs* `<server>` `[OPTIONS]`
+
+Scan remote CIFS server.
+
+`<server>`: `<string>` ::
+
+The server address (name or IP).
+
+`--domain` `<string>` ::
+
+SMB domain (Workgroup).
+
+`--password` `<password>` ::
+
+User password.
+
+`--username` `<string>` ::
+
+User name.
+
+*pvesm scan glusterfs* `<server>`
+
+Scan remote GlusterFS server.
+
+`<server>`: `<string>` ::
+
+The server address (name or IP).
+
+*pvesm scan iscsi* `<portal>`
+
+Scan remote iSCSI server.
+
+`<portal>`: `<string>` ::
+
+The iSCSI portal (IP or DNS name with optional port).
+
+*pvesm scan lvm*
+
+List local LVM volume groups.
+
+*pvesm scan lvmthin* `<vg>`
+
+List local LVM Thin Pools.
+
+`<vg>`: `[a-zA-Z0-9\.\+\_][a-zA-Z0-9\.\+\_\-]+` ::
+
+no description available
+
+*pvesm scan nfs* `<server>`
+
+Scan remote NFS server.
+
+`<server>`: `<string>` ::
+
+The server address (name or IP).
+
+*pvesm scan zfs*
+
+Scan zfs pool list on local node.
 
 *pvesm set* `<storage>` `[OPTIONS]`
 
@@ -450,7 +478,7 @@ Assume the given path is an externally managed mountpoint and consider the stora
 
 `--krbd` `<boolean>` ::
 
-Access rbd through krbd kernel module.
+Always access rbd through krbd kernel module.
 
 `--lio_tpg` `<string>` ::
 
@@ -564,6 +592,6 @@ If target is different to 'node', we only lists shared storages which content is
 
 *pvesm zfsscan*
 
-Scan zfs pool list on local node.
+An alias for 'pvesm scan zfs'.
 
 

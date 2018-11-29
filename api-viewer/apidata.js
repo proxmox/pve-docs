@@ -314,7 +314,7 @@ var pveapi = [
                               }
                            },
                            "POST" : {
-                              "description" : "Adds a node to the cluster configuration.",
+                              "description" : "Adds a node to the cluster configuration. This call is for internal use.",
                               "method" : "POST",
                               "name" : "addnode",
                               "parameters" : {
@@ -794,8 +794,54 @@ var pveapi = [
                                     "proxyto" : null,
                                     "returns" : {
                                        "properties" : {
+                                          "action" : {
+                                             "type" : "string"
+                                          },
+                                          "comment" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "dest" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "dport" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "enable" : {
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "iface" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "ipversion" : {
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "macro" : {
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
                                           "pos" : {
                                              "type" : "integer"
+                                          },
+                                          "proto" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "source" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "sport" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "type" : {
+                                             "type" : "string"
                                           }
                                        },
                                        "type" : "object"
@@ -1324,8 +1370,54 @@ var pveapi = [
                               "proxyto" : null,
                               "returns" : {
                                  "properties" : {
+                                    "action" : {
+                                       "type" : "string"
+                                    },
+                                    "comment" : {
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "dest" : {
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "dport" : {
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "enable" : {
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "iface" : {
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "ipversion" : {
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "macro" : {
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
                                     "pos" : {
                                        "type" : "integer"
+                                    },
+                                    "proto" : {
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "source" : {
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "sport" : {
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "type" : {
+                                       "type" : "string"
                                     }
                                  },
                                  "type" : "object"
@@ -4741,8 +4833,54 @@ var pveapi = [
                                                 "proxyto" : null,
                                                 "returns" : {
                                                    "properties" : {
+                                                      "action" : {
+                                                         "type" : "string"
+                                                      },
+                                                      "comment" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "dest" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "dport" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "enable" : {
+                                                         "optional" : 1,
+                                                         "type" : "integer"
+                                                      },
+                                                      "iface" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "ipversion" : {
+                                                         "optional" : 1,
+                                                         "type" : "integer"
+                                                      },
+                                                      "macro" : {
+                                                         "optional" : 1,
+                                                         "type" : "integer"
+                                                      },
                                                       "pos" : {
                                                          "type" : "integer"
+                                                      },
+                                                      "proto" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "source" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "sport" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "type" : {
+                                                         "type" : "string"
                                                       }
                                                    },
                                                    "type" : "object"
@@ -7873,6 +8011,15 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "string"
                                           },
+                                          "arch" : {
+                                             "description" : "Virtual processor architecture. Defaults to the host.",
+                                             "enum" : [
+                                                "x86_64",
+                                                "aarch64"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
                                           "args" : {
                                              "description" : "Arbitrary arguments passed to kvm.",
                                              "optional" : 1,
@@ -8495,7 +8642,7 @@ var pveapi = [
                                              "description" : "Specifies the Qemu machine type.",
                                              "maxLength" : 40,
                                              "optional" : 1,
-                                             "pattern" : "(pc|pc(-i440fx)?-\\d+\\.\\d+(\\.pxe)?|q35|pc-q35-\\d+\\.\\d+(\\.pxe)?)",
+                                             "pattern" : "(pc|pc(-i440fx)?-\\d+\\.\\d+(\\.pxe)?|q35|pc-q35-\\d+\\.\\d+(\\.pxe)?|virt(?:-\\d+\\.\\d+)?)",
                                              "type" : "string"
                                           },
                                           "memory" : {
@@ -9510,24 +9657,40 @@ var pveapi = [
                                              "type" : "integer"
                                           },
                                           "vga" : {
-                                             "description" : "Select the VGA type.",
-                                             "enum" : [
-                                                "cirrus",
-                                                "qxl",
-                                                "qxl2",
-                                                "qxl3",
-                                                "qxl4",
-                                                "serial0",
-                                                "serial1",
-                                                "serial2",
-                                                "serial3",
-                                                "std",
-                                                "virtio",
-                                                "vmware"
-                                             ],
+                                             "description" : "Configure the VGA hardware.",
+                                             "format" : {
+                                                "memory" : {
+                                                   "description" : "Sets the VGA memory (in MiB). Has no effect with serial display.",
+                                                   "maximum" : 512,
+                                                   "minimum" : 4,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "type" : {
+                                                   "default" : "std",
+                                                   "default_key" : 1,
+                                                   "description" : "Select the VGA type.",
+                                                   "enum" : [
+                                                      "cirrus",
+                                                      "qxl",
+                                                      "qxl2",
+                                                      "qxl3",
+                                                      "qxl4",
+                                                      "serial0",
+                                                      "serial1",
+                                                      "serial2",
+                                                      "serial3",
+                                                      "std",
+                                                      "virtio",
+                                                      "vmware"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                }
+                                             },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "verbose_description" : "Select the VGA type. If you want to use high resolution modes (>= 1280x1024x16) then you should use the options 'std' or 'vmware'. Default is 'std' for win8/win7/w2k8, and 'cirrus' for other OS types. The 'qxl' option enables the SPICE display sever. For win* OS you can select how many independent displays you want, Linux guests can add displays them self. You can also run without any graphic card, using a serial device as terminal."
+                                             "verbose_description" : "Configure the VGA Hardware. If you want to use high resolution modes (>= 1280x1024x16) you may need to increase the vga memory option. Since QEMU 2.9 the default VGA display type is 'std' for all OS types besides some Windows versions (XP and older) which use 'cirrus'. The 'qxl' option enables the SPICE display server. For win* OS you can select how many independent displays you want, Linux guests can add displays them self.\nYou can also run without any graphic card, using a serial device as terminal."
                                           },
                                           "virtio[n]" : {
                                              "description" : "Use volume as VIRTIO hard disk (n is 0 to 15).",
@@ -9898,6 +10061,15 @@ var pveapi = [
                                              "type" : "string",
                                              "typetext" : "[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>]"
                                           },
+                                          "arch" : {
+                                             "description" : "Virtual processor architecture. Defaults to the host.",
+                                             "enum" : [
+                                                "x86_64",
+                                                "aarch64"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
                                           "args" : {
                                              "description" : "Arbitrary arguments passed to kvm.",
                                              "optional" : 1,
@@ -10156,7 +10328,7 @@ var pveapi = [
                                              "format" : "pve-qm-hostpci",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]",
+                                             "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]",
                                              "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer \npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "hotplug" : {
@@ -10563,7 +10735,7 @@ var pveapi = [
                                              "description" : "Specifies the Qemu machine type.",
                                              "maxLength" : 40,
                                              "optional" : 1,
-                                             "pattern" : "(pc|pc(-i440fx)?-\\d+\\.\\d+(\\.pxe)?|q35|pc-q35-\\d+\\.\\d+(\\.pxe)?)",
+                                             "pattern" : "(pc|pc(-i440fx)?-\\d+\\.\\d+(\\.pxe)?|q35|pc-q35-\\d+\\.\\d+(\\.pxe)?|virt(?:-\\d+\\.\\d+)?)",
                                              "type" : "string"
                                           },
                                           "memory" : {
@@ -11622,24 +11794,41 @@ var pveapi = [
                                              "typetext" : "<integer> (1 - N)"
                                           },
                                           "vga" : {
-                                             "description" : "Select the VGA type.",
-                                             "enum" : [
-                                                "cirrus",
-                                                "qxl",
-                                                "qxl2",
-                                                "qxl3",
-                                                "qxl4",
-                                                "serial0",
-                                                "serial1",
-                                                "serial2",
-                                                "serial3",
-                                                "std",
-                                                "virtio",
-                                                "vmware"
-                                             ],
+                                             "description" : "Configure the VGA hardware.",
+                                             "format" : {
+                                                "memory" : {
+                                                   "description" : "Sets the VGA memory (in MiB). Has no effect with serial display.",
+                                                   "maximum" : 512,
+                                                   "minimum" : 4,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "type" : {
+                                                   "default" : "std",
+                                                   "default_key" : 1,
+                                                   "description" : "Select the VGA type.",
+                                                   "enum" : [
+                                                      "cirrus",
+                                                      "qxl",
+                                                      "qxl2",
+                                                      "qxl3",
+                                                      "qxl4",
+                                                      "serial0",
+                                                      "serial1",
+                                                      "serial2",
+                                                      "serial3",
+                                                      "std",
+                                                      "virtio",
+                                                      "vmware"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                }
+                                             },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "verbose_description" : "Select the VGA type. If you want to use high resolution modes (>= 1280x1024x16) then you should use the options 'std' or 'vmware'. Default is 'std' for win8/win7/w2k8, and 'cirrus' for other OS types. The 'qxl' option enables the SPICE display sever. For win* OS you can select how many independent displays you want, Linux guests can add displays them self. You can also run without any graphic card, using a serial device as terminal."
+                                             "typetext" : "[[type=]<enum>] [,memory=<integer>]",
+                                             "verbose_description" : "Configure the VGA Hardware. If you want to use high resolution modes (>= 1280x1024x16) you may need to increase the vga memory option. Since QEMU 2.9 the default VGA display type is 'std' for all OS types besides some Windows versions (XP and older) which use 'cirrus'. The 'qxl' option enables the SPICE display server. For win* OS you can select how many independent displays you want, Linux guests can add displays them self.\nYou can also run without any graphic card, using a serial device as terminal."
                                           },
                                           "virtio[n]" : {
                                              "description" : "Use volume as VIRTIO hard disk (n is 0 to 15).",
@@ -12042,6 +12231,15 @@ var pveapi = [
                                              "type" : "string",
                                              "typetext" : "[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>]"
                                           },
+                                          "arch" : {
+                                             "description" : "Virtual processor architecture. Defaults to the host.",
+                                             "enum" : [
+                                                "x86_64",
+                                                "aarch64"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
                                           "args" : {
                                              "description" : "Arbitrary arguments passed to kvm.",
                                              "optional" : 1,
@@ -12292,7 +12490,7 @@ var pveapi = [
                                              "format" : "pve-qm-hostpci",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]",
+                                             "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]",
                                              "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer \npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "hotplug" : {
@@ -12699,7 +12897,7 @@ var pveapi = [
                                              "description" : "Specifies the Qemu machine type.",
                                              "maxLength" : 40,
                                              "optional" : 1,
-                                             "pattern" : "(pc|pc(-i440fx)?-\\d+\\.\\d+(\\.pxe)?|q35|pc-q35-\\d+\\.\\d+(\\.pxe)?)",
+                                             "pattern" : "(pc|pc(-i440fx)?-\\d+\\.\\d+(\\.pxe)?|q35|pc-q35-\\d+\\.\\d+(\\.pxe)?|virt(?:-\\d+\\.\\d+)?)",
                                              "type" : "string"
                                           },
                                           "memory" : {
@@ -13758,24 +13956,41 @@ var pveapi = [
                                              "typetext" : "<integer> (1 - N)"
                                           },
                                           "vga" : {
-                                             "description" : "Select the VGA type.",
-                                             "enum" : [
-                                                "cirrus",
-                                                "qxl",
-                                                "qxl2",
-                                                "qxl3",
-                                                "qxl4",
-                                                "serial0",
-                                                "serial1",
-                                                "serial2",
-                                                "serial3",
-                                                "std",
-                                                "virtio",
-                                                "vmware"
-                                             ],
+                                             "description" : "Configure the VGA hardware.",
+                                             "format" : {
+                                                "memory" : {
+                                                   "description" : "Sets the VGA memory (in MiB). Has no effect with serial display.",
+                                                   "maximum" : 512,
+                                                   "minimum" : 4,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "type" : {
+                                                   "default" : "std",
+                                                   "default_key" : 1,
+                                                   "description" : "Select the VGA type.",
+                                                   "enum" : [
+                                                      "cirrus",
+                                                      "qxl",
+                                                      "qxl2",
+                                                      "qxl3",
+                                                      "qxl4",
+                                                      "serial0",
+                                                      "serial1",
+                                                      "serial2",
+                                                      "serial3",
+                                                      "std",
+                                                      "virtio",
+                                                      "vmware"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                }
+                                             },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "verbose_description" : "Select the VGA type. If you want to use high resolution modes (>= 1280x1024x16) then you should use the options 'std' or 'vmware'. Default is 'std' for win8/win7/w2k8, and 'cirrus' for other OS types. The 'qxl' option enables the SPICE display sever. For win* OS you can select how many independent displays you want, Linux guests can add displays them self. You can also run without any graphic card, using a serial device as terminal."
+                                             "typetext" : "[[type=]<enum>] [,memory=<integer>]",
+                                             "verbose_description" : "Configure the VGA Hardware. If you want to use high resolution modes (>= 1280x1024x16) you may need to increase the vga memory option. Since QEMU 2.9 the default VGA display type is 'std' for all OS types besides some Windows versions (XP and older) which use 'cirrus'. The 'qxl' option enables the SPICE display server. For win* OS you can select how many independent displays you want, Linux guests can add displays them self.\nYou can also run without any graphic card, using a serial device as terminal."
                                           },
                                           "virtio[n]" : {
                                              "description" : "Use volume as VIRTIO hard disk (n is 0 to 15).",
@@ -14664,7 +14879,7 @@ var pveapi = [
                                                    "description" : "Specifies the Qemu machine type.",
                                                    "maxLength" : 40,
                                                    "optional" : 1,
-                                                   "pattern" : "(pc|pc(-i440fx)?-\\d+\\.\\d+(\\.pxe)?|q35|pc-q35-\\d+\\.\\d+(\\.pxe)?)",
+                                                   "pattern" : "(pc|pc(-i440fx)?-\\d+\\.\\d+(\\.pxe)?|q35|pc-q35-\\d+\\.\\d+(\\.pxe)?|virt(?:-\\d+\\.\\d+)?)",
                                                    "type" : "string"
                                                 },
                                                 "migratedfrom" : {
@@ -16454,6 +16669,15 @@ var pveapi = [
                                  "type" : "string",
                                  "typetext" : "[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>]"
                               },
+                              "arch" : {
+                                 "description" : "Virtual processor architecture. Defaults to the host.",
+                                 "enum" : [
+                                    "x86_64",
+                                    "aarch64"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
                               "archive" : {
                                  "description" : "The backup file.",
                                  "maxLength" : 255,
@@ -16704,7 +16928,7 @@ var pveapi = [
                                  "format" : "pve-qm-hostpci",
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]",
+                                 "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]",
                                  "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer \npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                               },
                               "hotplug" : {
@@ -17111,7 +17335,7 @@ var pveapi = [
                                  "description" : "Specifies the Qemu machine type.",
                                  "maxLength" : 40,
                                  "optional" : 1,
-                                 "pattern" : "(pc|pc(-i440fx)?-\\d+\\.\\d+(\\.pxe)?|q35|pc-q35-\\d+\\.\\d+(\\.pxe)?)",
+                                 "pattern" : "(pc|pc(-i440fx)?-\\d+\\.\\d+(\\.pxe)?|q35|pc-q35-\\d+\\.\\d+(\\.pxe)?|virt(?:-\\d+\\.\\d+)?)",
                                  "type" : "string"
                               },
                               "memory" : {
@@ -18185,24 +18409,41 @@ var pveapi = [
                                  "typetext" : "<integer> (1 - N)"
                               },
                               "vga" : {
-                                 "description" : "Select the VGA type.",
-                                 "enum" : [
-                                    "cirrus",
-                                    "qxl",
-                                    "qxl2",
-                                    "qxl3",
-                                    "qxl4",
-                                    "serial0",
-                                    "serial1",
-                                    "serial2",
-                                    "serial3",
-                                    "std",
-                                    "virtio",
-                                    "vmware"
-                                 ],
+                                 "description" : "Configure the VGA hardware.",
+                                 "format" : {
+                                    "memory" : {
+                                       "description" : "Sets the VGA memory (in MiB). Has no effect with serial display.",
+                                       "maximum" : 512,
+                                       "minimum" : 4,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "type" : {
+                                       "default" : "std",
+                                       "default_key" : 1,
+                                       "description" : "Select the VGA type.",
+                                       "enum" : [
+                                          "cirrus",
+                                          "qxl",
+                                          "qxl2",
+                                          "qxl3",
+                                          "qxl4",
+                                          "serial0",
+                                          "serial1",
+                                          "serial2",
+                                          "serial3",
+                                          "std",
+                                          "virtio",
+                                          "vmware"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    }
+                                 },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "verbose_description" : "Select the VGA type. If you want to use high resolution modes (>= 1280x1024x16) then you should use the options 'std' or 'vmware'. Default is 'std' for win8/win7/w2k8, and 'cirrus' for other OS types. The 'qxl' option enables the SPICE display sever. For win* OS you can select how many independent displays you want, Linux guests can add displays them self. You can also run without any graphic card, using a serial device as terminal."
+                                 "typetext" : "[[type=]<enum>] [,memory=<integer>]",
+                                 "verbose_description" : "Configure the VGA Hardware. If you want to use high resolution modes (>= 1280x1024x16) you may need to increase the vga memory option. Since QEMU 2.9 the default VGA display type is 'std' for all OS types besides some Windows versions (XP and older) which use 'cirrus'. The 'qxl' option enables the SPICE display server. For win* OS you can select how many independent displays you want, Linux guests can add displays them self.\nYou can also run without any graphic card, using a serial device as terminal."
                               },
                               "virtio[n]" : {
                                  "description" : "Use volume as VIRTIO hard disk (n is 0 to 15).",
@@ -18666,6 +18907,12 @@ var pveapi = [
                                           "features" : {
                                              "description" : "Allow containers access to advanced features.",
                                              "format" : {
+                                                "fuse" : {
+                                                   "default" : 0,
+                                                   "description" : "Allow using 'fuse' file systems in a container. Note that interactions between fuse and the freezer cgroup can potentially cause I/O deadlocks.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "keyctl" : {
                                                    "default" : 0,
                                                    "description" : "For unprivileged containers only: Allow the use of the keyctl() system call. This is required to use docker inside a container. By default unprivileged containers will see this system call as non-existent. This is mostly a workaround for systemd-networkd, as it will treat it as a fatal error when some keyctl() operations are denied by the kernel due to lacking permissions. Essentially, you can choose between running systemd-networkd or docker.",
@@ -19103,6 +19350,12 @@ var pveapi = [
                                           "features" : {
                                              "description" : "Allow containers access to advanced features.",
                                              "format" : {
+                                                "fuse" : {
+                                                   "default" : 0,
+                                                   "description" : "Allow using 'fuse' file systems in a container. Note that interactions between fuse and the freezer cgroup can potentially cause I/O deadlocks.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "keyctl" : {
                                                    "default" : 0,
                                                    "description" : "For unprivileged containers only: Allow the use of the keyctl() system call. This is required to use docker inside a container. By default unprivileged containers will see this system call as non-existent. This is mostly a workaround for systemd-networkd, as it will treat it as a fatal error when some keyctl() operations are denied by the kernel due to lacking permissions. Essentially, you can choose between running systemd-networkd or docker.",
@@ -19125,7 +19378,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[keyctl=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]"
+                                             "typetext" : "[fuse=<1|0>] [,keyctl=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]"
                                           },
                                           "hostname" : {
                                              "description" : "Set a host name for the container.",
@@ -20383,8 +20636,54 @@ var pveapi = [
                                                 "proxyto" : null,
                                                 "returns" : {
                                                    "properties" : {
+                                                      "action" : {
+                                                         "type" : "string"
+                                                      },
+                                                      "comment" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "dest" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "dport" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "enable" : {
+                                                         "optional" : 1,
+                                                         "type" : "integer"
+                                                      },
+                                                      "iface" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "ipversion" : {
+                                                         "optional" : 1,
+                                                         "type" : "integer"
+                                                      },
+                                                      "macro" : {
+                                                         "optional" : 1,
+                                                         "type" : "integer"
+                                                      },
                                                       "pos" : {
                                                          "type" : "integer"
+                                                      },
+                                                      "proto" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "source" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "sport" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "type" : {
+                                                         "type" : "string"
                                                       }
                                                    },
                                                    "type" : "object"
@@ -23602,6 +23901,12 @@ var pveapi = [
                               "features" : {
                                  "description" : "Allow containers access to advanced features.",
                                  "format" : {
+                                    "fuse" : {
+                                       "default" : 0,
+                                       "description" : "Allow using 'fuse' file systems in a container. Note that interactions between fuse and the freezer cgroup can potentially cause I/O deadlocks.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
                                     "keyctl" : {
                                        "default" : 0,
                                        "description" : "For unprivileged containers only: Allow the use of the keyctl() system call. This is required to use docker inside a container. By default unprivileged containers will see this system call as non-existent. This is mostly a workaround for systemd-networkd, as it will treat it as a fatal error when some keyctl() operations are denied by the kernel due to lacking permissions. Essentially, you can choose between running systemd-networkd or docker.",
@@ -23624,7 +23929,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[keyctl=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]"
+                                 "typetext" : "[fuse=<1|0>] [,keyctl=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]"
                               },
                               "force" : {
                                  "description" : "Allow to overwrite existing container.",
@@ -24268,6 +24573,293 @@ var pveapi = [
                         "text" : "osd"
                      },
                      {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "DELETE" : {
+                                    "description" : "Destroy Ceph Metadata Server",
+                                    "method" : "DELETE",
+                                    "name" : "destroymds",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "name" : {
+                                             "description" : "The name (ID) of the mds",
+                                             "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
+                                             "type" : "string"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/",
+                                          [
+                                             "Sys.Modify"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "POST" : {
+                                    "description" : "Create Ceph Metadata Server (MDS)",
+                                    "method" : "POST",
+                                    "name" : "createmds",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "hotstandby" : {
+                                             "default" : "0",
+                                             "description" : "Determines whether a ceph-mds daemon should poll and replay the log of an active MDS. Faster switch on MDS failure, but needs more idle resources.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "name" : {
+                                             "default" : "nodename",
+                                             "description" : "The ID for the mds, when omitted the same as the nodename",
+                                             "optional" : 1,
+                                             "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
+                                             "type" : "string"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/",
+                                          [
+                                             "Sys.Modify"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/ceph/mds/{name}",
+                              "text" : "{name}"
+                           }
+                        ],
+                        "info" : {
+                           "GET" : {
+                              "description" : "MDS directory index.",
+                              "method" : "GET",
+                              "name" : "index",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Audit",
+                                       "Datastore.Audit"
+                                    ],
+                                    "any",
+                                    1
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "addr" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "host" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "name" : {
+                                          "description" : "The name (ID) for the MDS"
+                                       },
+                                       "rank" : {
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "standby_replay" : {
+                                          "description" : "If true, the standby MDS is polling the active MDS for faster recovery (hot standby).",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       },
+                                       "state" : {
+                                          "description" : "State of the MDS",
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "links" : [
+                                    {
+                                       "href" : "{name}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
+                        "path" : "/nodes/{node}/ceph/mds",
+                        "text" : "mds"
+                     },
+                     {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "POST" : {
+                                    "description" : "Create a Ceph filesystem",
+                                    "method" : "POST",
+                                    "name" : "createfs",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "add-storage" : {
+                                             "default" : 0,
+                                             "description" : "Configure the created CephFS as storage for this cluster.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "name" : {
+                                             "default" : "cephfs",
+                                             "description" : "The ceph filesystem name.",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "pg_num" : {
+                                             "default" : 128,
+                                             "description" : "Number of placement groups for the backing data pool. The metadata pool will use a quarter of this.",
+                                             "maximum" : 32768,
+                                             "minimum" : 8,
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (8 - 32768)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/",
+                                          [
+                                             "Sys.Modify"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/ceph/fs/{name}",
+                              "text" : "{name}"
+                           }
+                        ],
+                        "info" : {
+                           "GET" : {
+                              "description" : "Directory index.",
+                              "method" : "GET",
+                              "name" : "index",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Audit",
+                                       "Datastore.Audit"
+                                    ],
+                                    "any",
+                                    1
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "data_pool" : {
+                                          "description" : "The name of the data pool.",
+                                          "type" : "string"
+                                       },
+                                       "metadata_pool" : {
+                                          "description" : "The name of the metadata pool.",
+                                          "type" : "string"
+                                       },
+                                       "name" : {
+                                          "description" : "The ceph filesystem name.",
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "links" : [
+                                    {
+                                       "href" : "{name}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
+                        "path" : "/nodes/{node}/ceph/fs",
+                        "text" : "fs"
+                     },
+                     {
                         "info" : {
                            "GET" : {
                               "description" : "List local disks.",
@@ -24554,6 +25146,15 @@ var pveapi = [
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
+                                    "cluster-network" : {
+                                       "description" : "Declare a separate cluster network, OSDs will routeheartbeat, object replication and recovery traffic over it",
+                                       "format" : "CIDR",
+                                       "maxLength" : 128,
+                                       "optional" : 1,
+                                       "requires" : "network",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
                                     "disable_cephx" : {
                                        "default" : 0,
                                        "description" : "Disable cephx authentification.\n\nWARNING: cephx is a security feature protecting against man-in-the-middle attacks. Only consider disabling cephx if your network is private!",
@@ -24727,6 +25328,7 @@ var pveapi = [
                                        "typetext" : "<string>"
                                     },
                                     "service" : {
+                                       "default" : "ceph.target",
                                        "description" : "Ceph service name.",
                                        "optional" : 1,
                                        "pattern" : "(mon|mds|osd|mgr)\\.[A-Za-z0-9\\-]{1,32}",
@@ -24770,6 +25372,7 @@ var pveapi = [
                                        "typetext" : "<string>"
                                     },
                                     "service" : {
+                                       "default" : "ceph.target",
                                        "description" : "Ceph service name.",
                                        "optional" : 1,
                                        "pattern" : "(mon|mds|osd|mgr)\\.[A-Za-z0-9\\-]{1,32}",
@@ -24796,6 +25399,50 @@ var pveapi = [
                         "leaf" : 1,
                         "path" : "/nodes/{node}/ceph/start",
                         "text" : "start"
+                     },
+                     {
+                        "info" : {
+                           "POST" : {
+                              "description" : "Restart ceph services.",
+                              "method" : "POST",
+                              "name" : "restart",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "service" : {
+                                       "default" : "ceph.target",
+                                       "description" : "Ceph service name.",
+                                       "optional" : 1,
+                                       "pattern" : "(mon|mds|osd|mgr)\\.[A-Za-z0-9\\-]{1,32}",
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/ceph/restart",
+                        "text" : "restart"
                      },
                      {
                         "info" : {
@@ -24958,7 +25605,7 @@ var pveapi = [
                                  "additionalProperties" : 0,
                                  "properties" : {
                                     "add_storages" : {
-                                       "description" : "Configure VM and CT storages using the new pool.",
+                                       "description" : "Configure VM and CT storage using the new pool.",
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
@@ -25000,7 +25647,7 @@ var pveapi = [
                                        "typetext" : "<string>"
                                     },
                                     "pg_num" : {
-                                       "default" : 64,
+                                       "default" : 128,
                                        "description" : "Number of placement groups.",
                                        "maximum" : 32768,
                                        "minimum" : 8,
@@ -27605,6 +28252,274 @@ var pveapi = [
                               "children" : [
                                  {
                                     "info" : {
+                                       "GET" : {
+                                          "description" : "List mediated device types for given PCI device.",
+                                          "method" : "GET",
+                                          "name" : "mdevscan",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "pciid" : {
+                                                   "description" : "The PCI ID to list the mdev types for.",
+                                                   "pattern" : "(?:[0-9a-fA-F]{4}:)?[0-9a-fA-F]{2}:[0-9a-fA-F]{2}\\.[0-9a-fA-F]",
+                                                   "type" : "string"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/",
+                                                [
+                                                   "Sys.Modify"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "items" : {
+                                                "properties" : {
+                                                   "available" : {
+                                                      "description" : "The number of still available instances of this type.",
+                                                      "type" : "integer"
+                                                   },
+                                                   "description" : {
+                                                      "type" : "string"
+                                                   },
+                                                   "type" : {
+                                                      "description" : "The name of the mdev type.",
+                                                      "type" : "string"
+                                                   }
+                                                },
+                                                "type" : "object"
+                                             },
+                                             "type" : "array"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/hardware/pci/{pciid}/mdev",
+                                    "text" : "mdev"
+                                 }
+                              ],
+                              "info" : {
+                                 "GET" : {
+                                    "description" : "Index of available pci methods",
+                                    "method" : "GET",
+                                    "name" : "pciindex",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "pciid" : {
+                                             "pattern" : "(?:[0-9a-fA-F]{4}:)?[0-9a-fA-F]{2}:[0-9a-fA-F]{2}\\.[0-9a-fA-F]",
+                                             "type" : "string"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "user" : "all"
+                                    },
+                                    "returns" : {
+                                       "items" : {
+                                          "properties" : {
+                                             "method" : {
+                                                "type" : "string"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "links" : [
+                                          {
+                                             "href" : "{method}",
+                                             "rel" : "child"
+                                          }
+                                       ],
+                                       "type" : "array"
+                                    }
+                                 }
+                              },
+                              "leaf" : 0,
+                              "path" : "/nodes/{node}/hardware/pci/{pciid}",
+                              "text" : "{pciid}"
+                           }
+                        ],
+                        "info" : {
+                           "GET" : {
+                              "description" : "List local PCI devices.",
+                              "method" : "GET",
+                              "name" : "pciscan",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "pci-class-blacklist" : {
+                                       "default" : "05;06;08;0b",
+                                       "description" : "A list of blacklisted PCI classes, which will not be returned. Following are filtered by default: Memory Controller (05), Bridge (06), Generic System Peripheral (08) and Processor (0b).",
+                                       "format" : "string-list",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "verbose" : {
+                                       "default" : 1,
+                                       "description" : "If disabled, does only print the PCI IDs. Otherwise, additional information like vendor and device will be returned.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "class" : {
+                                          "description" : "The PCI Class of the device.",
+                                          "type" : "string"
+                                       },
+                                       "device" : {
+                                          "description" : "The Device ID.",
+                                          "type" : "string"
+                                       },
+                                       "device_name" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "id" : {
+                                          "description" : "The PCI ID.",
+                                          "type" : "string"
+                                       },
+                                       "iommugroup" : {
+                                          "description" : "The IOMMU group in which the device is in. If no IOMMU group is detected, it is set to -1.",
+                                          "type" : "integer"
+                                       },
+                                       "mdev" : {
+                                          "description" : "If set, marks that the device is capable of creating mediated devices.",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       },
+                                       "subsystem_device" : {
+                                          "description" : "The Subsystem Device ID.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "subsystem_device_name" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "subsystem_vendor" : {
+                                          "description" : "The Subsystem Vendor ID.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "subsystem_vendor_name" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "vendor" : {
+                                          "description" : "The Vendor ID.",
+                                          "type" : "string"
+                                       },
+                                       "vendor_name" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "links" : [
+                                    {
+                                       "href" : "{id}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
+                        "path" : "/nodes/{node}/hardware/pci",
+                        "text" : "pci"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "description" : "Index of hardware types",
+                        "method" : "GET",
+                        "name" : "index",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "user" : "all"
+                        },
+                        "returns" : {
+                           "items" : {
+                              "properties" : {
+                                 "type" : {
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{type}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/nodes/{node}/hardware",
+                  "text" : "hardware"
+               },
+               {
+                  "children" : [
+                     {
+                        "children" : [
+                           {
+                              "children" : [
+                                 {
+                                    "info" : {
                                        "DELETE" : {
                                           "description" : "Delete volume",
                                           "method" : "DELETE",
@@ -28764,10 +29679,11 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "children" : {
-                                             "description" : "The tree of the vdevs. Depending on the configuration of the zpool, they can be nested.",
+                                             "description" : "The pool configuration information, including the vdevs for each section (e.g. spares, cache), may be nested.",
                                              "items" : {
                                                 "properties" : {
                                                    "cksum" : {
+                                                      "optional" : 1,
                                                       "type" : "number"
                                                    },
                                                    "msg" : {
@@ -28775,17 +29691,20 @@ var pveapi = [
                                                       "type" : "string"
                                                    },
                                                    "name" : {
-                                                      "description" : "The name of the vdev.",
+                                                      "description" : "The name of the vdev or section.",
                                                       "type" : "string"
                                                    },
                                                    "read" : {
+                                                      "optional" : 1,
                                                       "type" : "number"
                                                    },
                                                    "state" : {
                                                       "description" : "The state of the vdev.",
+                                                      "optional" : 1,
                                                       "type" : "string"
                                                    },
                                                    "write" : {
+                                                      "optional" : 1,
                                                       "type" : "number"
                                                    }
                                                 },
@@ -28793,12 +29712,16 @@ var pveapi = [
                                              },
                                              "type" : "array"
                                           },
+                                          "errors" : {
+                                             "description" : "Information about the errors on the zpool.",
+                                             "type" : "string"
+                                          },
                                           "name" : {
                                              "description" : "The name of the zpool.",
                                              "type" : "string"
                                           },
                                           "scan" : {
-                                             "description" : "Information about the errors on the zpool.",
+                                             "description" : "Information about the last/current scrub.",
                                              "type" : "string"
                                           },
                                           "state" : {
@@ -29539,8 +30462,54 @@ var pveapi = [
                                     "proxyto" : "node",
                                     "returns" : {
                                        "properties" : {
+                                          "action" : {
+                                             "type" : "string"
+                                          },
+                                          "comment" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "dest" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "dport" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "enable" : {
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "iface" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "ipversion" : {
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "macro" : {
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
                                           "pos" : {
                                              "type" : "integer"
+                                          },
+                                          "proto" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "source" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "sport" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "type" : {
+                                             "type" : "string"
                                           }
                                        },
                                        "type" : "object"
@@ -32522,7 +33491,7 @@ var pveapi = [
                            "typetext" : "<string>"
                         },
                         "krbd" : {
-                           "description" : "Access rbd through krbd kernel module.",
+                           "description" : "Always access rbd through krbd kernel module.",
                            "optional" : 1,
                            "type" : "boolean",
                            "typetext" : "<boolean>"
@@ -32718,6 +33687,7 @@ var pveapi = [
                         "cifs",
                         "dir",
                         "drbd",
+                        "fake",
                         "glusterfs",
                         "iscsi",
                         "iscsidirect",
@@ -32891,7 +33861,7 @@ var pveapi = [
                      "typetext" : "<string>"
                   },
                   "krbd" : {
-                     "description" : "Access rbd through krbd kernel module.",
+                     "description" : "Always access rbd through krbd kernel module.",
                      "optional" : 1,
                      "type" : "boolean",
                      "typetext" : "<boolean>"
@@ -33083,6 +34053,7 @@ var pveapi = [
                         "cifs",
                         "dir",
                         "drbd",
+                        "fake",
                         "glusterfs",
                         "iscsi",
                         "iscsidirect",
@@ -33212,13 +34183,19 @@ var pveapi = [
                                  "type" : "string"
                               },
                               "email" : {
+                                 "format" : "email-opt",
                                  "optional" : 1,
                                  "type" : "string"
                               },
                               "enable" : {
+                                 "default" : 1,
+                                 "description" : "Enable the account (default). You can set this to '0' to disable the account",
+                                 "optional" : 1,
                                  "type" : "boolean"
                               },
                               "expire" : {
+                                 "description" : "Account expiration date (seconds since epoch). '0' means no expiration date.",
+                                 "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer"
                               },
@@ -33230,6 +34207,7 @@ var pveapi = [
                                  "type" : "array"
                               },
                               "keys" : {
+                                 "description" : "Keys for two factor auth (yubico).",
                                  "optional" : 1,
                                  "type" : "string"
                               },
@@ -33237,7 +34215,8 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "string"
                               }
-                           }
+                           },
+                           "type" : "object"
                         }
                      },
                      "PUT" : {
@@ -33265,7 +34244,8 @@ var pveapi = [
                                  "typetext" : "<string>"
                               },
                               "enable" : {
-                                 "description" : "Enable/disable the account.",
+                                 "default" : 1,
+                                 "description" : "Enable the account (default). You can set this to '0' to disable the account",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
@@ -33352,7 +34332,44 @@ var pveapi = [
                   "returns" : {
                      "items" : {
                         "properties" : {
+                           "comment" : {
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "email" : {
+                              "format" : "email-opt",
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "enable" : {
+                              "default" : 1,
+                              "description" : "Enable the account (default). You can set this to '0' to disable the account",
+                              "optional" : 1,
+                              "type" : "boolean"
+                           },
+                           "expire" : {
+                              "description" : "Account expiration date (seconds since epoch). '0' means no expiration date.",
+                              "minimum" : 0,
+                              "optional" : 1,
+                              "type" : "integer"
+                           },
+                           "firstname" : {
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "keys" : {
+                              "description" : "Keys for two factor auth (yubico).",
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "lastname" : {
+                              "optional" : 1,
+                              "type" : "string"
+                           },
                            "userid" : {
+                              "description" : "User ID",
+                              "format" : "pve-userid",
+                              "maxLength" : 64,
                               "type" : "string"
                            }
                         },
@@ -33387,7 +34404,7 @@ var pveapi = [
                         },
                         "enable" : {
                            "default" : 1,
-                           "description" : "Enable the account (default). You can set this to '0' to disable the accout",
+                           "description" : "Enable the account (default). You can set this to '0' to disable the account",
                            "optional" : 1,
                            "type" : "boolean",
                            "typetext" : "<boolean>"
@@ -33533,6 +34550,9 @@ var pveapi = [
                               },
                               "members" : {
                                  "items" : {
+                                    "description" : "User ID",
+                                    "format" : "pve-userid",
+                                    "maxLength" : 64,
                                     "type" : "string"
                                  },
                                  "type" : "array"
@@ -33595,7 +34615,12 @@ var pveapi = [
                   "returns" : {
                      "items" : {
                         "properties" : {
+                           "comment" : {
+                              "optional" : 1,
+                              "type" : "string"
+                           },
                            "groupid" : {
+                              "format" : "pve-groupid",
                               "type" : "string"
                            }
                         },
@@ -33697,10 +34722,143 @@ var pveapi = [
                         "permissions" : {
                            "user" : "all"
                         },
-                        "returns" : {}
+                        "returns" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "Datastore.Allocate" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Datastore.AllocateSpace" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Datastore.AllocateTemplate" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Datastore.Audit" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Group.Allocate" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Permissions.Modify" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Pool.Allocate" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Realm.Allocate" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Realm.AllocateUser" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Sys.Audit" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Sys.Console" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Sys.Modify" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Sys.PowerMgmt" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Sys.Syslog" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "User.Modify" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Allocate" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Audit" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Backup" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Clone" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Config.CDROM" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Config.CPU" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Config.Disk" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Config.HWType" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Config.Memory" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Config.Network" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Config.Options" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Console" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Migrate" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Monitor" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.PowerMgmt" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Snapshot" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Snapshot.Rollback" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              }
+                           },
+                           "type" : "object"
+                        }
                      },
                      "PUT" : {
-                        "description" : "Create new role.",
+                        "description" : "Update an existing role.",
                         "method" : "PUT",
                         "name" : "update_role",
                         "parameters" : {
@@ -33714,6 +34872,7 @@ var pveapi = [
                               },
                               "privs" : {
                                  "format" : "pve-priv-list",
+                                 "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
@@ -33758,8 +34917,19 @@ var pveapi = [
                   "returns" : {
                      "items" : {
                         "properties" : {
-                           "roleid" : {
+                           "privs" : {
+                              "format" : "pve-priv-list",
+                              "optional" : 1,
                               "type" : "string"
+                           },
+                           "roleid" : {
+                              "format" : "pve-roleid",
+                              "type" : "string"
+                           },
+                           "special" : {
+                              "default" : 0,
+                              "optional" : 1,
+                              "type" : "boolean"
                            }
                         },
                         "type" : "object"
@@ -33830,9 +35000,13 @@ var pveapi = [
                         "additionalProperties" : 0,
                         "properties" : {
                            "path" : {
+                              "description" : "Access control path",
                               "type" : "string"
                            },
                            "propagate" : {
+                              "default" : 1,
+                              "description" : "Allow to propagate (inherit) permissions.",
+                              "optional" : 1,
                               "type" : "boolean"
                            },
                            "roleid" : {
@@ -34411,6 +35585,10 @@ var pveapi = [
                            "optional" : 1,
                            "type" : "string"
                         },
+                        "clustername" : {
+                           "optional" : 1,
+                           "type" : "string"
+                        },
                         "ticket" : {
                            "optional" : 1,
                            "type" : "string"
@@ -34432,7 +35610,7 @@ var pveapi = [
                "PUT" : {
                   "description" : "Change user password.",
                   "method" : "PUT",
-                  "name" : "change_passsword",
+                  "name" : "change_password",
                   "parameters" : {
                      "additionalProperties" : 0,
                      "properties" : {

@@ -38,7 +38,7 @@ Number of votes for this node
 
 *pvecm addnode* `<node>` `[OPTIONS]`
 
-Adds a node to the cluster configuration.
+Adds a node to the cluster configuration. This call is for internal use.
 
 `<node>`: `<string>` ::
 

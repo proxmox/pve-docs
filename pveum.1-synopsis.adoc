@@ -1,6 +1,6 @@
 *pveum* `<COMMAND> [ARGS] [OPTIONS]`
 
-*pveum acldel* `<path> --roles <string>` `[OPTIONS]`
+*pveum acl delete* `<path> --roles <string>` `[OPTIONS]`
 
 Update Access Control List (add or remove permissions).
 
@@ -24,7 +24,7 @@ List of roles.
 
 List of users.
 
-*pveum aclmod* `<path> --roles <string>` `[OPTIONS]`
+*pveum acl modify* `<path> --roles <string>` `[OPTIONS]`
 
 Update Access Control List (add or remove permissions).
 
@@ -48,7 +48,15 @@ List of roles.
 
 List of users.
 
-*pveum groupadd* `<groupid>` `[OPTIONS]`
+*pveum acldel*
+
+An alias for 'pveum acl delete'.
+
+*pveum aclmod*
+
+An alias for 'pveum acl modify'.
+
+*pveum group add* `<groupid>` `[OPTIONS]`
 
 Create new group.
 
@@ -60,7 +68,7 @@ no description available
 
 no description available
 
-*pveum groupdel* `<groupid>`
+*pveum group delete* `<groupid>`
 
 Delete group.
 
@@ -68,7 +76,7 @@ Delete group.
 
 no description available
 
-*pveum groupmod* `<groupid>` `[OPTIONS]`
+*pveum group modify* `<groupid>` `[OPTIONS]`
 
 Update group data.
 
@@ -79,6 +87,18 @@ no description available
 `--comment` `<string>` ::
 
 no description available
+
+*pveum groupadd*
+
+An alias for 'pveum group add'.
+
+*pveum groupdel*
+
+An alias for 'pveum group delete'.
+
+*pveum groupmod*
+
+An alias for 'pveum group modify'.
 
 *pveum help* `[OPTIONS]`
 
@@ -100,7 +120,7 @@ Change user password.
 
 User ID
 
-*pveum roleadd* `<roleid>` `[OPTIONS]`
+*pveum role add* `<roleid>` `[OPTIONS]`
 
 Create new role.
 
@@ -112,7 +132,7 @@ no description available
 
 no description available
 
-*pveum roledel* `<roleid>`
+*pveum role delete* `<roleid>`
 
 Delete role.
 
@@ -120,9 +140,9 @@ Delete role.
 
 no description available
 
-*pveum rolemod* `<roleid> --privs <string>` `[OPTIONS]`
+*pveum role modify* `<roleid>` `[OPTIONS]`
 
-Create new role.
+Update an existing role.
 
 `<roleid>`: `<string>` ::
 
@@ -137,6 +157,18 @@ NOTE: Requires option(s): `privs`
 `--privs` `<string>` ::
 
 no description available
+
+*pveum roleadd*
+
+An alias for 'pveum role add'.
+
+*pveum roledel*
+
+An alias for 'pveum role delete'.
+
+*pveum rolemod*
+
+An alias for 'pveum role modify'.
 
 *pveum ticket* `<username>` `[OPTIONS]`
 
@@ -166,7 +198,7 @@ NOTE: Requires option(s): `path`
 
 You can optionally pass the realm using this parameter. Normally the realm is simply added to the username <username>@<relam>.
 
-*pveum useradd* `<userid>` `[OPTIONS]`
+*pveum user add* `<userid>` `[OPTIONS]`
 
 Create new user.
 
@@ -184,7 +216,7 @@ no description available
 
 `--enable` `<boolean>` ('default =' `1`)::
 
-Enable the account (default). You can set this to '0' to disable the accout
+Enable the account (default). You can set this to '0' to disable the account
 
 `--expire` `<integer> (0 - N)` ::
 
@@ -206,11 +238,11 @@ Keys for two factor auth (yubico).
 
 no description available
 
-`--password` `<password>` ::
+`--password` `<string>` ::
 
 Initial password.
 
-*pveum userdel* `<userid>`
+*pveum user delete* `<userid>`
 
 Delete user.
 
@@ -218,7 +250,7 @@ Delete user.
 
 User ID
 
-*pveum usermod* `<userid>` `[OPTIONS]`
+*pveum user modify* `<userid>` `[OPTIONS]`
 
 Update user configuration.
 
@@ -240,9 +272,9 @@ no description available
 
 no description available
 
-`--enable` `<boolean>` ::
+`--enable` `<boolean>` ('default =' `1`)::
 
-Enable/disable the account.
+Enable the account (default). You can set this to '0' to disable the account
 
 `--expire` `<integer> (0 - N)` ::
 
@@ -263,5 +295,17 @@ Keys for two factor auth (yubico).
 `--lastname` `<string>` ::
 
 no description available
+
+*pveum useradd*
+
+An alias for 'pveum user add'.
+
+*pveum userdel*
+
+An alias for 'pveum user delete'.
+
+*pveum usermod*
+
+An alias for 'pveum user modify'.
 
 

@@ -112,7 +112,7 @@ NOTE: You can disable fair-scheduler configuration by setting this to 0.
 
 Container description. Only used on the configuration web interface.
 
-`--features` `[keyctl=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]` ::
+`--features` `[fuse=<1|0>] [,keyctl=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]` ::
 
 Allow containers access to advanced features.
 
@@ -426,6 +426,18 @@ File permissions to use (octal by default, prefix with '0x' for hexadecimal).
 
 Owner user name or id. When using a name it must exist inside the container.
 
+*pct rescan* `[OPTIONS]`
+
+Rescan all storages and update disk sizes and unused disk images.
+
+`--dryrun` `<boolean>` ('default =' `0`)::
+
+Do not actually write changes out to conifg.
+
+`--vmid` `<integer> (1 - N)` ::
+
+The (unique) ID of the VM.
+
 *pct resize* `<vmid> <disk> <size>` `[OPTIONS]`
 
 Resize a container mount point.
@@ -494,7 +506,7 @@ NOTE: You can disable fair-scheduler configuration by setting this to 0.
 
 Container description. Only used on the configuration web interface.
 
-`--features` `[keyctl=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]` ::
+`--features` `[fuse=<1|0>] [,keyctl=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]` ::
 
 Allow containers access to advanced features.
 
@@ -662,7 +674,7 @@ Container description. Only used on the configuration web interface.
 
 Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
 
-`--features` `[keyctl=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]` ::
+`--features` `[fuse=<1|0>] [,keyctl=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]` ::
 
 Allow containers access to advanced features.
 

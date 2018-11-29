@@ -1,132 +1,52 @@
 *pveceph* `<COMMAND> [ARGS] [OPTIONS]`
 
-*pveceph createmgr* `[OPTIONS]`
+*pveceph createmgr*
 
-Create Ceph Manager
+An alias for 'pveceph mgr create'.
 
-`--id` `[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?` ::
+*pveceph createmon*
 
-The ID for the manager, when omitted the same as the nodename
+An alias for 'pveceph mon create'.
 
-*pveceph createmon* `[OPTIONS]`
+*pveceph createosd*
 
-Create Ceph Monitor and Manager
+An alias for 'pveceph osd create'.
 
-`--exclude-manager` `<boolean>` ('default =' `0`)::
+*pveceph createpool*
 
-When set, only a monitor will be created.
+An alias for 'pveceph pool create'.
 
-`--id` `[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?` ::
+*pveceph destroymgr*
 
-The ID for the monitor, when omitted the same as the nodename
+An alias for 'pveceph mgr destroy'.
 
-`--mon-address` `<string>` ::
+*pveceph destroymon*
 
-Overwrites autodetected monitor IP address. Must be in the public network of ceph.
+An alias for 'pveceph mon destroy'.
 
-*pveceph createosd* `<dev>` `[OPTIONS]`
+*pveceph destroyosd*
 
-Create OSD
+An alias for 'pveceph osd destroy'.
 
-`<dev>`: `<string>` ::
+*pveceph destroypool*
 
-Block device name.
+An alias for 'pveceph pool destroy'.
 
-`--bluestore` `<boolean>` ('default =' `1`)::
+*pveceph fs create* `[OPTIONS]`
 
-Use bluestore instead of filestore. This is the default.
+Create a Ceph filesystem
 
-`--fstype` `<ext4 | xfs>` ('default =' `xfs`)::
+`--add-storage` `<boolean>` ('default =' `0`)::
 
-File system type (filestore only).
+Configure the created CephFS as storage for this cluster.
 
-`--journal_dev` `<string>` ::
+`--name` `<string>` ('default =' `cephfs`)::
 
-Block device name for journal (filestore) or block.db (bluestore).
+The ceph filesystem name.
 
-`--wal_dev` `<string>` ::
+`--pg_num` `<integer> (8 - 32768)` ('default =' `128`)::
 
-Block device name for block.wal (bluestore only).
-
-*pveceph createpool* `<name>` `[OPTIONS]`
-
-Create POOL
-
-`<name>`: `<string>` ::
-
-The name of the pool. It must be unique.
-
-`--add_storages` `<boolean>` ::
-
-Configure VM and CT storages using the new pool.
-
-`--application` `<cephfs | rbd | rgw>` ::
-
-The application of the pool, 'rbd' by default.
-
-`--crush_rule` `<string>` ::
-
-The rule to use for mapping object placement in the cluster.
-
-`--min_size` `<integer> (1 - 7)` ('default =' `2`)::
-
-Minimum number of replicas per object
-
-`--pg_num` `<integer> (8 - 32768)` ('default =' `64`)::
-
-Number of placement groups.
-
-`--size` `<integer> (1 - 7)` ('default =' `3`)::
-
-Number of replicas per object
-
-*pveceph destroymgr* `<id>`
-
-Destroy Ceph Manager.
-
-`<id>`: `[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?` ::
-
-The ID of the manager
-
-*pveceph destroymon* `<monid>` `[OPTIONS]`
-
-Destroy Ceph Monitor and Manager.
-
-`<monid>`: `[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?` ::
-
-Monitor ID
-
-`--exclude-manager` `<boolean>` ('default =' `0`)::
-
-When set, removes only the monitor, not the manager
-
-*pveceph destroyosd* `<osdid>` `[OPTIONS]`
-
-Destroy OSD
-
-`<osdid>`: `<integer>` ::
-
-OSD ID
-
-`--cleanup` `<boolean>` ('default =' `0`)::
-
-If set, we remove partition table entries.
-
-*pveceph destroypool* `<name>` `[OPTIONS]`
-
-Destroy pool
-
-`<name>`: `<string>` ::
-
-The name of the pool. It must be unique.
-
-`--force` `<boolean>` ('default =' `0`)::
-
-If true, destroys pool even if in use
-
-`--remove_storages` `<boolean>` ('default =' `0`)::
-
-Remove all pveceph-managed storages configured for this pool
+Number of placement groups for the backing data pool. The metadata pool will use a quarter of this.
 
 *pveceph help* `[OPTIONS]`
 
@@ -143,6 +63,12 @@ Verbose output format.
 *pveceph init* `[OPTIONS]`
 
 Create initial ceph default configuration and setup symlinks.
+
+`--cluster-network` `<string>` ::
+
+Declare a separate cluster network, OSDs will routeheartbeat, object replication and recovery traffic over it
++
+NOTE: Requires option(s): `network`
 
 `--disable_cephx` `<boolean>` ('default =' `0`)::
 
@@ -178,6 +104,158 @@ no description available
 
 *pveceph lspools*
 
+An alias for 'pveceph pool ls'.
+
+*pveceph mds create* `[OPTIONS]`
+
+Create Ceph Metadata Server (MDS)
+
+`--hotstandby` `<boolean>` ('default =' `0`)::
+
+Determines whether a ceph-mds daemon should poll and replay the log of an active MDS. Faster switch on MDS failure, but needs more idle resources.
+
+`--name` `[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?` ('default =' `nodename`)::
+
+The ID for the mds, when omitted the same as the nodename
+
+*pveceph mds destroy* `<name>`
+
+Destroy Ceph Metadata Server
+
+`<name>`: `[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?` ::
+
+The name (ID) of the mds
+
+*pveceph mgr create* `[OPTIONS]`
+
+Create Ceph Manager
+
+`--id` `[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?` ::
+
+The ID for the manager, when omitted the same as the nodename
+
+*pveceph mgr destroy* `<id>`
+
+Destroy Ceph Manager.
+
+`<id>`: `[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?` ::
+
+The ID of the manager
+
+*pveceph mon create* `[OPTIONS]`
+
+Create Ceph Monitor and Manager
+
+`--exclude-manager` `<boolean>` ('default =' `0`)::
+
+When set, only a monitor will be created.
+
+`--id` `[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?` ::
+
+The ID for the monitor, when omitted the same as the nodename
+
+`--mon-address` `<string>` ::
+
+Overwrites autodetected monitor IP address. Must be in the public network of ceph.
+
+*pveceph mon destroy* `<monid>` `[OPTIONS]`
+
+Destroy Ceph Monitor and Manager.
+
+`<monid>`: `[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?` ::
+
+Monitor ID
+
+`--exclude-manager` `<boolean>` ('default =' `0`)::
+
+When set, removes only the monitor, not the manager
+
+*pveceph osd create* `<dev>` `[OPTIONS]`
+
+Create OSD
+
+`<dev>`: `<string>` ::
+
+Block device name.
+
+`--bluestore` `<boolean>` ('default =' `1`)::
+
+Use bluestore instead of filestore. This is the default.
+
+`--fstype` `<ext4 | xfs>` ('default =' `xfs`)::
+
+File system type (filestore only).
+
+`--journal_dev` `<string>` ::
+
+Block device name for journal (filestore) or block.db (bluestore).
+
+`--wal_dev` `<string>` ::
+
+Block device name for block.wal (bluestore only).
+
+*pveceph osd destroy* `<osdid>` `[OPTIONS]`
+
+Destroy OSD
+
+`<osdid>`: `<integer>` ::
+
+OSD ID
+
+`--cleanup` `<boolean>` ('default =' `0`)::
+
+If set, we remove partition table entries.
+
+*pveceph pool create* `<name>` `[OPTIONS]`
+
+Create POOL
+
+`<name>`: `<string>` ::
+
+The name of the pool. It must be unique.
+
+`--add_storages` `<boolean>` ::
+
+Configure VM and CT storage using the new pool.
+
+`--application` `<cephfs | rbd | rgw>` ::
+
+The application of the pool, 'rbd' by default.
+
+`--crush_rule` `<string>` ::
+
+The rule to use for mapping object placement in the cluster.
+
+`--min_size` `<integer> (1 - 7)` ('default =' `2`)::
+
+Minimum number of replicas per object
+
+`--pg_num` `<integer> (8 - 32768)` ('default =' `128`)::
+
+Number of placement groups.
+
+`--size` `<integer> (1 - 7)` ('default =' `3`)::
+
+Number of replicas per object
+
+*pveceph pool destroy* `<name>` `[OPTIONS]`
+
+Destroy pool
+
+`<name>`: `<string>` ::
+
+The name of the pool. It must be unique.
+
+`--force` `<boolean>` ('default =' `0`)::
+
+If true, destroys pool even if in use
+
+`--remove_storages` `<boolean>` ('default =' `0`)::
+
+Remove all pveceph-managed storages configured for this pool
+
+*pveceph pool ls*
+
 List all pools.
 
 *pveceph purge*
@@ -188,7 +266,7 @@ Destroy ceph related data and configuration files.
 
 Start ceph services.
 
-`<service>`: `(mon|mds|osd|mgr)\.[A-Za-z0-9\-]{1,32}` ::
+`<service>`: `(mon|mds|osd|mgr)\.[A-Za-z0-9\-]{1,32}` ('default =' `ceph.target`)::
 
 Ceph service name.
 
@@ -200,7 +278,7 @@ Get ceph status.
 
 Stop ceph services.
 
-`<service>`: `(mon|mds|osd|mgr)\.[A-Za-z0-9\-]{1,32}` ::
+`<service>`: `(mon|mds|osd|mgr)\.[A-Za-z0-9\-]{1,32}` ('default =' `ceph.target`)::
 
 Ceph service name.
 

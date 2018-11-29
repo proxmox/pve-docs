@@ -30,9 +30,13 @@ NOTE: You can disable fair-scheduler configuration by setting this to 0.
 
 Container description. Only used on the configuration web interface.
 
-`features`: `[keyctl=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]` ::
+`features`: `[fuse=<1|0>] [,keyctl=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]` ::
 
 Allow containers access to advanced features.
+
+`fuse`=`<boolean>` ('default =' `0`);;
+
+Allow using 'fuse' file systems in a container. Note that interactions between fuse and the freezer cgroup can potentially cause I/O deadlocks.
 
 `keyctl`=`<boolean>` ('default =' `0`);;
 
