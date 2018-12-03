@@ -236,7 +236,9 @@ semantics, and why this does not replace redundancy on disk-level.
 `hdsize`::
 
 Defines the total HD size to be used. This way you can save free
-space on the HD for further partitioning (e.g. for creating a swap-partition).
+space on the HD(s) for further partitioning (e.g. for creating a swap-partition).
+`hdsize` is only honored for all bootable disks (i.e. only the first disk/mirror
+for RAID0/1/10, and all disks in RAID-Z[123]).
 
 
 ZFS Performance Tips
