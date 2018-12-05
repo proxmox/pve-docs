@@ -1,6 +1,9 @@
 [[qm_pci_passthrough]]
 PCI(e) Passthrough
 ------------------
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
 
 PCI(e) passthrough is a mechanism to give a virtual machine control over
 a PCI device from the host. This can have some advantages over using
@@ -356,3 +359,12 @@ Example configuration with an `Intel GVT-g vGPU` (`Intel Skylake 6700k`):
 
 With this set, {pve} automatically creates such a device on VM start, and
 cleans it up again when the VM stops.
+
+ifdef::wiki[]
+
+See Also
+~~~~~~~~
+
+* link:/wiki/Pci_passthrough[PCI Passthrough Examples]
+
+endif::wiki[]
