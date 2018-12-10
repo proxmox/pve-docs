@@ -524,7 +524,7 @@ on each {pve} node hosting a MDS daemon.
 Then, you can remove (destroy) CephFS by issuing a:
 
 ----
-ceph rm fs NAME --yes-i-really-mean-it
+ceph fs rm NAME --yes-i-really-mean-it
 ----
 on a single node hosting Ceph. After this you may want to remove the created
 data and metadata pools, this can be done either over the Web GUI or the CLI
