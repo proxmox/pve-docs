@@ -48,6 +48,13 @@ Storage Types
 
 There are basically two different classes of storage types:
 
+File level storage::
+
+File level based storage technologies allow access to a full featured (POSIX)
+file system.  They are in general more flexible than any Block level storage
+(see below), and allow you to store content of any type. ZFS is probably the
+most advanced system, and it has full support for snapshots and clones.
+
 Block level storage::
 
 Allows to store large 'raw' images. It is usually not possible to store
@@ -55,13 +62,6 @@ other files (ISO, backups, ..) on such storage types. Most modern
 block level storage implementations support snapshots and clones.
 RADOS, Sheepdog and GlusterFS are distributed systems, replicating storage
 data to different nodes.
-
-File level storage::
-
-They allow access to a full featured (POSIX) file system. They are
-more flexible, and allows you to store any content type. ZFS is
-probably the most advanced system, and it has full support for
-snapshots and clones.
 
 
 .Available storage types
