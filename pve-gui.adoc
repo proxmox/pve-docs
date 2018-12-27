@@ -269,7 +269,7 @@ All belongs of a node can be managed at this level.
 * *Disk:* gives you an brief overview about you physical hard drives and
    how they are used.
 
-* *Ceph:* is only used if you have installed a Ceph sever on you
+* *Ceph:* is only used if you have installed a Ceph server on your
    host. Then you can manage your Ceph cluster and see the status
    of it here.
 
@@ -286,16 +286,16 @@ Guests
 
 There are two differed kinds of VM types and both types can be converted to a template.
 One of them are Kernel-based Virtual Machine (KVM) and the other one are Linux Containers (LXC).
-General the navigation are the same only some option are different.
+General the navigation are the same only some options are different.
 
-In the main management center the VM navigation begin if a VM is selected in the left tree.
+In the main management center the VM navigation begins if a VM is selected in the left tree.
 
 The top header contains important VM operation commands like 'Start', 'Shutdown', 'Reset',
 'Remove', 'Migrate', 'Console' and 'Help'.
 Some of them have hidden buttons like 'Shutdown' has 'Stop' and
 'Console' contains the different console types 'SPICE', 'noVNC' and 'xterm.js'.
 
-On the right side the content switch white the focus of the option.
+On the right side the content switches depending on the selected option.
 
 On the left side.
 All available options are listed one below the other.
@@ -336,12 +336,12 @@ Storage
 
 In this view we have a two partition split view.
 On the left side we have the storage options
-and on the right side the content of the selected option will shown.
+and on the right side the content of the selected option will be shown.
 
-* *Summary:* show you important information about your storage like
+* *Summary:* shows you important information about your storage like
 'Usage', 'Type', 'Content', 'Active' and 'Enabled'.
 
-* *Content:* Here all contend will listed grouped by content.
+* *Content:* Here all content will listed grouped by content type.
 
 * *Permissions:* manage the user permission for this storage.
 
@@ -353,7 +353,7 @@ Pools
 
 In this view we have a two partition split view.
 On the left side we have the logical pool options
-and on the right side the content of the selected option will shown.
+and on the right side the content of the selected option will be shown.
 
 * *Summary:* show the description of the pool.
 

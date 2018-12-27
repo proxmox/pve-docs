@@ -26,7 +26,7 @@ For example, we ship Intel network card drivers to support their
 newest hardware.
 
 The following sections will concentrate on virtualization related
-topics. They either explains things which are different on {pve}, or
+topics. They either explain things which are different on {pve}, or
 tasks which are commonly used on {pve}. For other topics, please refer
 to the standard Debian documentation.
 
