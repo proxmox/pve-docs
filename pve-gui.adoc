@@ -258,11 +258,11 @@ All belongs of a node can be managed at this level.
 
 * *Summary:* gives a brief overview over the resource usage.
 
-* *Shell:* log you in the shell of the node.
+* *Shell:* logs you into the shell of the node.
 
 * *System:* is for configuring the network, dns and time, and also shows your syslog.
 
-* *Updates:* will upgrade the system and informs you about new packets.
+* *Updates:* will upgrade the system and inform you about new packets.
 
 * *Firewall:* on this level is only for this node.
 
@@ -273,7 +273,7 @@ All belongs of a node can be managed at this level.
    host. Then you can manage your Ceph cluster and see the status
    of it here.
 
-* *Task History:* here all past task are shown.
+* *Task History:* here all past tasks are shown.
 
 * *Subscription:* here you can upload you subscription key and get a
    system overview in case of a support case.
@@ -312,21 +312,21 @@ All available options are listed one below the other.
 
 * *(LXC)DNS:* the LXC DNS settings.
 
-* *Options:* all VM options can be set here, this distinguishes between KVM and LXC.
+* *Options:* all guest options can be set here.
 
-* *Task History:* here all previous task from this VM will be shown.
+* *Task History:* here all previous tasks from the selected guest will be shown.
 
 * *(KVM) Monitor:* is the interactive communication interface to the KVM process.
 
-* *Backup:* shows the available backups from this VM and also create a backupset.
+* *Backup:* shows the available backups from the selected guest and also create a backupset.
 
-* *Replication:* shows the replication jobs for this VM and allows to create new jobs.
+* *Replication:* shows the replication jobs for the selected guest and allows to create new jobs.
 
 * *Snapshots:* manage VM snapshots.
 
 * *Firewall:* manage the firewall on VM level.
 
-* *Permissions:* manage the user permission for this VM.
+* *Permissions:* manage the user permission for the selected guest.
 
 
 Storage
@@ -334,7 +334,7 @@ Storage
 
 [thumbnail="screenshot/gui-storage-summary-local.png"]
 
-In this view we have a two partition split view.
+In this view we have a two partition split-view.
 On the left side we have the storage options
 and on the right side the content of the selected option will be shown.
 
