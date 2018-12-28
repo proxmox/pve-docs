@@ -83,7 +83,7 @@ Examples
 
 Scan a remote iSCSI portal, and returns a list of possible targets:
 
- pvesm iscsiscan -portal <HOST[:PORT]>
+ pvesm scan iscsi <HOST[:PORT]>
 
 ifdef::wiki[]
 
