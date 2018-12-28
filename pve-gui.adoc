@@ -284,9 +284,9 @@ Guests
 
 [thumbnail="screenshot/gui-qemu-summary.png"]
 
-There are two differed kinds of VM types and both types can be converted to a template.
-One of them are Kernel-based Virtual Machine (KVM) and the other one are Linux Containers (LXC).
-General the navigation are the same only some options are different.
+There are two different kinds of guests and both can be converted to a template.
+One of them is a Kernel-based Virtual Machine (KVM) and the other one a Linux Container (LXC).
+Generally the navigation is the same, only some options are different.
 
 In the main management center the VM navigation begins if a VM is selected in the left tree.
 
@@ -338,10 +338,10 @@ In this view we have a two partition split view.
 On the left side we have the storage options
 and on the right side the content of the selected option will be shown.
 
-* *Summary:* shows you important information about your storage like
+* *Summary:* shows important information about storages like
 'Usage', 'Type', 'Content', 'Active' and 'Enabled'.
 
-* *Content:* Here all content will listed grouped by content type.
+* *Content:* Here all content will be listed grouped by content type.
 
 * *Permissions:* manage the user permission for this storage.
 
