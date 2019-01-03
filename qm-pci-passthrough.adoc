@@ -93,7 +93,7 @@ Finally reboot to bring the changes into effect and check that it is indeed
 enabled.
 
 ----
-# dmesg -e DMAR -e IOMMU -e AMD-Vi
+# dmesg | grep -e DMAR -e IOMMU -e AMD-Vi
 ----
 
 should display that `IOMMU`, `Directed I/O` or `Interrupt Remapping` is
