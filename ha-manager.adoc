@@ -597,7 +597,7 @@ resource runs twice when it gets recovered on another node. This is a
 really important task, because without, it would not be possible to
 recover a resource on another node.
 
-If a node would not get fenced, it would be in an unknown state where
+If a node did not get fenced, it would be in an unknown state where
 it may have still access to shared resources. This is really
 dangerous!  Imagine that every network but the storage one broke. Now,
 while not reachable from the public network, the VM still runs and
