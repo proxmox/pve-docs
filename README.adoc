@@ -18,6 +18,7 @@ To simplify the documentation task, we keep all Documentation within
 this repository. It is possible to generate the docs without installing
 any additional Proxmox packages with:
 
+ make pve-doc-generator.mk
  make index
 
 To update the auto-generate API definitions use:
