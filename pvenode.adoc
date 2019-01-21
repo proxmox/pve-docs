@@ -50,6 +50,35 @@ systemctl restart pveproxy
 
 Setup ACME account and order a certificate for local node.
 
+Wake-on-LAN
+-----------
+Wake-on-LAN (WoL) allows to switch on a sleeping computer in the network by
+sendig a magic packet. At least one NIC must support this feature and the
+respective option needs to be enabled in the computers firmware (BIOS/UEFI)
+configuration. The option name can vary from 'Enable Wake-on-Lan' to
+'Power On By PCIE Device', check your motherboards vendor manual, if unsure.
+`ethtool` can be used to check the WoL configuration of `<interface>` by
+running:
+
+----
+ethtool <interface> | grep Wake-on
+----
+
+`pvenode` allows to wake sleeping members of a cluster via WoL using the
+command:
+
+----
+pvenode wakeonlan <node>
+----
+
+This broadcasts the WoL magic packet on UDP port 9, containing the MAC address
+of `<node>` obtained from the `wakeonlan` property. The node specific
+`wakeonlan` property can be set by the following command:
+
+----
+pvenode config set -wakeonlan XX:XX:XX:XX:XX:XX
+----
+
 // TODO: extend and improve chapter!
 
 ifdef::manvolnum[]
