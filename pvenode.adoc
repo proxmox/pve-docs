@@ -53,7 +53,7 @@ Setup ACME account and order a certificate for local node.
 Wake-on-LAN
 -----------
 Wake-on-LAN (WoL) allows to switch on a sleeping computer in the network by
-sendig a magic packet. At least one NIC must support this feature and the
+sending a magic packet. At least one NIC must support this feature and the
 respective option needs to be enabled in the computers firmware (BIOS/UEFI)
 configuration. The option name can vary from 'Enable Wake-on-Lan' to
 'Power On By PCIE Device', check your motherboards vendor manual, if unsure.
