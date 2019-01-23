@@ -9,8 +9,9 @@ endif::wiki[]
 Certificates for communication within the cluster
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Each {PVE} cluster creates its own internal Certificate Authority (CA) and
-generates a self-signed certificate for each node. These certificates are used
+Each {PVE} cluster creates its own (self-signed) Certificate Authority (CA) and
+generates a certificate for each node and signs it by the previously created CA. 
+These certificates are used
 for encrypted communication with the cluster's pveproxy service and the
 Shell/Console feature if SPICE is used.
 
