@@ -69,8 +69,8 @@ to implement snapshots and cloning.
 .Storage features for backend `nfs`
 [width="100%",cols="m,m,3*d",options="header"]
 |==============================================================================
-|Content types                     |Image formats  |Shared |Snapshots |Clones
-|images rootdir vztmpl iso backup  |raw qcow2 vmdk |yes    |qcow2     |qcow2
+|Content types                              |Image formats  |Shared |Snapshots |Clones
+|images rootdir vztmpl iso backup snippets  |raw qcow2 vmdk |yes    |qcow2     |qcow2
 |==============================================================================
 
 Examples

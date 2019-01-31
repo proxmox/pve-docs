@@ -66,8 +66,8 @@ snapshot/clone implementation.
 .Storage features for backend `glusterfs`
 [width="100%",cols="m,m,3*d",options="header"]
 |==============================================================================
-|Content types             |Image formats   |Shared |Snapshots |Clones
-|images vztmpl iso backup  |raw qcow2 vmdk  |yes    |qcow2     |qcow2
+|Content types                      |Image formats   |Shared |Snapshots |Clones
+|images vztmpl iso backup snippets  |raw qcow2 vmdk  |yes    |qcow2     |qcow2
 |==============================================================================
 
 ifdef::wiki[]

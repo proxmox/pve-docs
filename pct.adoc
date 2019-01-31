@@ -590,6 +590,16 @@ start after those where the parameter is set, and this parameter only
 makes sense between the machines running locally on a host, and not
 cluster-wide.
 
+Hookscripts
+~~~~~~~~~~~
+
+You can add a hook script to CTs with the config property `hookscript`.
+
+ pct set 100 -hookscript local:snippets/hookscript.pl
+
+It will be called during various phases of the guests lifetime.
+For an example and documentation see the example script under
+`/usr/share/pve-docs/examples/guest-example-hookscript.pl`.
 
 Backup and Restore
 ------------------

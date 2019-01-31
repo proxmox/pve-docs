@@ -211,6 +211,10 @@ iso:::
 
 ISO images
 
+snippets:::
+
+Snippet files, for example guest hook scripts
+
 shared::
 
 Mark storage as shared.

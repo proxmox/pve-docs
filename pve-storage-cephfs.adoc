@@ -89,8 +89,8 @@ The `cephfs` backend is a POSIX-compliant filesystem on top of a Ceph cluster.
 .Storage features for backend `cephfs`
 [width="100%",cols="m,m,3*d",options="header"]
 |==============================================================================
-|Content types     |Image formats  |Shared |Snapshots |Clones
-|vztmpl iso backup |none           |yes    |yes^[1]^  |no
+|Content types              |Image formats  |Shared |Snapshots |Clones
+|vztmpl iso backup snippets |none           |yes    |yes^[1]^  |no
 |==============================================================================
 ^[1]^ Snapshots, while no known bugs, cannot be guaranteed to be stable yet, as
 they lack testing.

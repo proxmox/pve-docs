@@ -1030,6 +1030,16 @@ ifndef::wiki[]
 include::qm-pci-passthrough.adoc[]
 endif::wiki[]
 
+Hookscripts
+~~~~~~~~~~~
+
+You can add a hook script to VMs with the config property `hookscript`.
+
+ qm set 100 -hookscript local:snippets/hookscript.pl
+
+It will be called during various phases of the guests lifetime.
+For an example and documentation see the example script under
+`/usr/share/pve-docs/examples/guest-example-hookscript.pl`.
 
 Managing Virtual Machines with `qm`
 ------------------------------------

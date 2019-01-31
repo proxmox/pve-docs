@@ -39,6 +39,7 @@ storage backends.
 |ISO images          |`template/iso/`
 |Container templates |`template/cache/`
 |Backup files        |`dump/`
+|Snippets            |`snippets/`
 |===========================================================
 
 
@@ -107,8 +108,8 @@ feature to create clones.
 .Storage features for backend `dir`
 [width="100%",cols="m,m,3*d",options="header"]
 |==============================================================================
-|Content types                     |Image formats         |Shared |Snapshots |Clones
-|images rootdir vztmpl iso backup  |raw qcow2 vmdk subvol |no     |qcow2     |qcow2
+|Content types                              |Image formats         |Shared |Snapshots |Clones
+|images rootdir vztmpl iso backup snippets  |raw qcow2 vmdk subvol |no     |qcow2     |qcow2
 |==============================================================================
 
 
