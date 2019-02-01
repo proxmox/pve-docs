@@ -50,6 +50,10 @@ Allow mounting file systems of specific types. This should be a list of file sys
 
 Allow nesting. Best used with unprivileged containers with additional id mapping. Note that this will expose procfs and sysfs contents of the host to the guest.
 
+`hookscript`: `<string>` ::
+
+Script that will be exectued during various steps in the containers lifetime.
+
 `hostname`: `<string>` ::
 
 Set a host name for the container.

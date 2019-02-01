@@ -125,6 +125,10 @@ Node description/comment.
 
 Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
 
+`--wakeonlan` `<string>` ::
+
+MAC address for wake on LAN
+
 *pvenode help* `[OPTIONS]`
 
 Get help about specified command.
@@ -185,9 +189,17 @@ no description available
 
 Only list this amount of tasks.
 
+`--source` `<active | all | archive>` ('default =' `archive`)::
+
+List archived, active or all tasks.
+
 `--start` `<integer> (0 - N)` ('default =' `0`)::
 
 List tasks beginning from this offset.
+
+`--typefilter` `<string>` ::
+
+Only list tasks of this type (e.g., vzstart, vzdump).
 
 `--userfilter` `<string>` ::
 
@@ -216,5 +228,13 @@ Read task status.
 `<upid>`: `<string>` ::
 
 no description available
+
+*pvenode wakeonlan* `<node>`
+
+Try to wake a node via 'wake on LAN' network packet.
+
+`<node>`: `<string>` ::
+
+target node for wake on LAN packet
 
 

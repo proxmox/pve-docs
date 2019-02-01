@@ -2,11 +2,11 @@
 
 Call output rendering functions to produce human readable text.
 
-`--noborder` `<boolean>` ('default =' `1`)::
+`--noborder` `<boolean>` ('default =' `0`)::
 
 Do not draw borders (for 'text' format).
 
-`--noheader` `<boolean>` ('default =' `1`)::
+`--noheader` `<boolean>` ('default =' `0`)::
 
 Do not show column headers (for 'text' format).
 

@@ -14,6 +14,10 @@ Log level for outgoing traffic.
 
 Enable NDP.
 
+`nf_conntrack_allow_invalid`: `<boolean>` ('default =' `0`)::
+
+Allow invalid packets on connection tracking.
+
 `nf_conntrack_max`: `<integer> (32768 - N)` ::
 
 Maximum number of tracked connections.

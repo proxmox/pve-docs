@@ -66,7 +66,7 @@ cloud-init: User name to change ssh keys and password for instead of the image's
 
 The number of cores per socket.
 
-`cpu`: `[cputype=]<enum> [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>]` ::
+`cpu`: `[cputype=]<enum> [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>]` ::
 
 Emulated CPU type.
 
@@ -81,6 +81,10 @@ List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to
 `hidden`=`<boolean>` ('default =' `0`);;
 
 Do not identify as a KVM virtual machine.
+
+`hv-vendor-id`=`<vendor-id>` ;;
+
+The Hyper-V vendor ID. Some drivers or programs inside Windows guests need a specific ID.
 
 `cpulimit`: `<number> (0 - 128)` ('default =' `0`)::
 
@@ -115,6 +119,10 @@ Disk size. This is purely informational and has no effect.
 `freeze`: `<boolean>` ::
 
 Freeze CPU at startup (use 'c' monitor command to start execution).
+
+`hookscript`: `<string>` ::
+
+Script that will be executed during various steps in the vms lifetime.
 
 `hostpci[n]`: `[host=]<HOSTPCIID[;HOSTPCIID2...]> [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]` ::
 
@@ -381,7 +389,7 @@ Enable/disable KVM hardware virtualization.
 
 Set the real time clock to local time. This is enabled by default if ostype indicates a Microsoft OS.
 
-`lock`: `<backup | migrate | rollback | snapshot>` ::
+`lock`: `<backup | clone | create | migrate | rollback | snapshot | snapshot-delete>` ::
 
 Lock/unlock the VM.
 
@@ -1002,7 +1010,7 @@ You can also run without any graphic card, using a serial device as terminal.
 
 Sets the VGA memory (in MiB). Has no effect with serial display.
 
-`type`=`<cirrus | qxl | qxl2 | qxl3 | qxl4 | serial0 | serial1 | serial2 | serial3 | std | virtio | vmware>` ('default =' `std`);;
+`type`=`<cirrus | none | qxl | qxl2 | qxl3 | qxl4 | serial0 | serial1 | serial2 | serial3 | std | virtio | vmware>` ('default =' `std`);;
 
 Select the VGA type.
 

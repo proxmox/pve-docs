@@ -823,7 +823,7 @@ var pveapi = [
                                           },
                                           "macro" : {
                                              "optional" : 1,
-                                             "type" : "integer"
+                                             "type" : "string"
                                           },
                                           "pos" : {
                                              "type" : "integer"
@@ -1399,7 +1399,7 @@ var pveapi = [
                                     },
                                     "macro" : {
                                        "optional" : 1,
-                                       "type" : "integer"
+                                       "type" : "string"
                                     },
                                     "pos" : {
                                        "type" : "integer"
@@ -3316,7 +3316,58 @@ var pveapi = [
                                     ]
                                  ]
                               },
-                              "returns" : {}
+                              "returns" : {
+                                 "properties" : {
+                                    "comment" : {
+                                       "description" : "Description.",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "digest" : {
+                                       "description" : "Can be used to prevent concurrent modifications.",
+                                       "type" : "string"
+                                    },
+                                    "group" : {
+                                       "description" : "The HA group identifier.",
+                                       "format" : "pve-configid",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "max_relocate" : {
+                                       "description" : "Maximal number of service relocate tries when a service failes to start.",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "max_restart" : {
+                                       "description" : "Maximal number of tries to restart the service on a node after its start failed.",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "sid" : {
+                                       "description" : "HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).",
+                                       "format" : "pve-ha-resource-or-vm-id",
+                                       "type" : "string",
+                                       "typetext" : "<type>:<name>"
+                                    },
+                                    "state" : {
+                                       "description" : "Requested resource state.",
+                                       "enum" : [
+                                          "started",
+                                          "stopped",
+                                          "enabled",
+                                          "disabled",
+                                          "ignored"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "type" : {
+                                       "description" : "The type of the resources.",
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              }
                            },
                            "PUT" : {
                               "description" : "Update resource configuration.",
@@ -4499,6 +4550,25 @@ var pveapi = [
                            "optional" : 1,
                            "type" : "string"
                         },
+                        "ha" : {
+                           "description" : "Cluster wide HA settings.",
+                           "format" : {
+                              "shutdown_policy" : {
+                                 "default" : "conditional",
+                                 "description" : "The policy for HA services on node shutdown. 'freeze' disables auto-recovery, 'failover' ensures recovery, 'conditional' recovers on poweroff and freezes on reboot. Running HA Services will always get stopped first on shutdown.",
+                                 "enum" : [
+                                    "freeze",
+                                    "failover",
+                                    "conditional"
+                                 ],
+                                 "type" : "string",
+                                 "verbose_description" : "Describes the policy for handling HA services on poweroff or reboot of a node. Freeze will always freeze services which are still located on the node on shutdown, those services won't be recovered by the HA manager. Failover will not mark the services as frozen and thus the services will get recovered to other nodes, if the shutdown node does not come up again quickly (< 1min). 'conditional' chooses automatically depending on the type of shutdown, i.e., on a reboot the service will be frozen but on a poweroff the service will stay as is, and thus get recovered after about 2 minutes."
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "shutdown_policy=<freeze|failover|conditional>"
+                        },
                         "http_proxy" : {
                            "description" : "Specify external http proxy which is used for downloads (example: 'http://username:password@host:port/')",
                            "optional" : 1,
@@ -4862,7 +4932,7 @@ var pveapi = [
                                                       },
                                                       "macro" : {
                                                          "optional" : 1,
-                                                         "type" : "integer"
+                                                         "type" : "string"
                                                       },
                                                       "pos" : {
                                                          "type" : "integer"
@@ -7964,6 +8034,14 @@ var pveapi = [
                                              "type" : "string",
                                              "typetext" : "<string>"
                                           },
+                                          "snapshot" : {
+                                             "description" : "Fetch config values from given snapshot.",
+                                             "format" : "pve-configid",
+                                             "maxLength" : 40,
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
@@ -8161,6 +8239,13 @@ var pveapi = [
                                                    "description" : "Do not identify as a KVM virtual machine.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
+                                                },
+                                                "hv-vendor-id" : {
+                                                   "description" : "The Hyper-V vendor ID. Some drivers or programs inside Windows guests need a specific ID.",
+                                                   "format_description" : "vendor-id",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:[a-zA-Z0-9]{1,12})",
+                                                   "type" : "string"
                                                 }
                                              },
                                              "optional" : 1,
@@ -8235,6 +8320,12 @@ var pveapi = [
                                              "description" : "Freeze CPU at startup (use 'c' monitor command to start execution).",
                                              "optional" : 1,
                                              "type" : "boolean"
+                                          },
+                                          "hookscript" : {
+                                             "description" : "Script that will be executed during various steps in the vms lifetime.",
+                                             "format" : "pve-volume-id",
+                                             "optional" : 1,
+                                             "type" : "string"
                                           },
                                           "hostpci[n]" : {
                                              "description" : "Map host PCI devices into guest.",
@@ -8630,10 +8721,13 @@ var pveapi = [
                                           "lock" : {
                                              "description" : "Lock/unlock the VM.",
                                              "enum" : [
-                                                "migrate",
                                                 "backup",
+                                                "clone",
+                                                "create",
+                                                "migrate",
+                                                "rollback",
                                                 "snapshot",
-                                                "rollback"
+                                                "snapshot-delete"
                                              ],
                                              "optional" : 1,
                                              "type" : "string"
@@ -9676,6 +9770,7 @@ var pveapi = [
                                                       "qxl2",
                                                       "qxl3",
                                                       "qxl4",
+                                                      "none",
                                                       "serial0",
                                                       "serial1",
                                                       "serial2",
@@ -10225,11 +10320,18 @@ var pveapi = [
                                                    "description" : "Do not identify as a KVM virtual machine.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
+                                                },
+                                                "hv-vendor-id" : {
+                                                   "description" : "The Hyper-V vendor ID. Some drivers or programs inside Windows guests need a specific ID.",
+                                                   "format_description" : "vendor-id",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:[a-zA-Z0-9]{1,12})",
+                                                   "type" : "string"
                                                 }
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[cputype=]<enum> [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>]"
+                                             "typetext" : "[cputype=]<enum> [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>]"
                                           },
                                           "cpulimit" : {
                                              "default" : 0,
@@ -10322,6 +10424,13 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "boolean",
                                              "typetext" : "<boolean>"
+                                          },
+                                          "hookscript" : {
+                                             "description" : "Script that will be executed during various steps in the vms lifetime.",
+                                             "format" : "pve-volume-id",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
                                           },
                                           "hostpci[n]" : {
                                              "description" : "Map host PCI devices into guest.",
@@ -10723,10 +10832,13 @@ var pveapi = [
                                           "lock" : {
                                              "description" : "Lock/unlock the VM.",
                                              "enum" : [
-                                                "migrate",
                                                 "backup",
+                                                "clone",
+                                                "create",
+                                                "migrate",
+                                                "rollback",
                                                 "snapshot",
-                                                "rollback"
+                                                "snapshot-delete"
                                              ],
                                              "optional" : 1,
                                              "type" : "string"
@@ -11813,6 +11925,7 @@ var pveapi = [
                                                       "qxl2",
                                                       "qxl3",
                                                       "qxl4",
+                                                      "none",
                                                       "serial0",
                                                       "serial1",
                                                       "serial2",
@@ -12387,11 +12500,18 @@ var pveapi = [
                                                    "description" : "Do not identify as a KVM virtual machine.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
+                                                },
+                                                "hv-vendor-id" : {
+                                                   "description" : "The Hyper-V vendor ID. Some drivers or programs inside Windows guests need a specific ID.",
+                                                   "format_description" : "vendor-id",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:[a-zA-Z0-9]{1,12})",
+                                                   "type" : "string"
                                                 }
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[cputype=]<enum> [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>]"
+                                             "typetext" : "[cputype=]<enum> [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>]"
                                           },
                                           "cpulimit" : {
                                              "default" : 0,
@@ -12484,6 +12604,13 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "boolean",
                                              "typetext" : "<boolean>"
+                                          },
+                                          "hookscript" : {
+                                             "description" : "Script that will be executed during various steps in the vms lifetime.",
+                                             "format" : "pve-volume-id",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
                                           },
                                           "hostpci[n]" : {
                                              "description" : "Map host PCI devices into guest.",
@@ -12885,10 +13012,13 @@ var pveapi = [
                                           "lock" : {
                                              "description" : "Lock/unlock the VM.",
                                              "enum" : [
-                                                "migrate",
                                                 "backup",
+                                                "clone",
+                                                "create",
+                                                "migrate",
+                                                "rollback",
                                                 "snapshot",
-                                                "rollback"
+                                                "snapshot-delete"
                                              ],
                                              "optional" : 1,
                                              "type" : "string"
@@ -13975,6 +14105,7 @@ var pveapi = [
                                                       "qxl2",
                                                       "qxl3",
                                                       "qxl4",
+                                                      "none",
                                                       "serial0",
                                                       "serial1",
                                                       "serial2",
@@ -16839,11 +16970,18 @@ var pveapi = [
                                        "description" : "Do not identify as a KVM virtual machine.",
                                        "optional" : 1,
                                        "type" : "boolean"
+                                    },
+                                    "hv-vendor-id" : {
+                                       "description" : "The Hyper-V vendor ID. Some drivers or programs inside Windows guests need a specific ID.",
+                                       "format_description" : "vendor-id",
+                                       "optional" : 1,
+                                       "pattern" : "(?^:[a-zA-Z0-9]{1,12})",
+                                       "type" : "string"
                                     }
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[cputype=]<enum> [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>]"
+                                 "typetext" : "[cputype=]<enum> [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>]"
                               },
                               "cpulimit" : {
                                  "default" : 0,
@@ -16922,6 +17060,13 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
+                              },
+                              "hookscript" : {
+                                 "description" : "Script that will be executed during various steps in the vms lifetime.",
+                                 "format" : "pve-volume-id",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               },
                               "hostpci[n]" : {
                                  "description" : "Map host PCI devices into guest.",
@@ -17323,10 +17468,13 @@ var pveapi = [
                               "lock" : {
                                  "description" : "Lock/unlock the VM.",
                                  "enum" : [
-                                    "migrate",
                                     "backup",
+                                    "clone",
+                                    "create",
+                                    "migrate",
+                                    "rollback",
                                     "snapshot",
-                                    "rollback"
+                                    "snapshot-delete"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -18428,6 +18576,7 @@ var pveapi = [
                                           "qxl2",
                                           "qxl3",
                                           "qxl4",
+                                          "none",
                                           "serial0",
                                           "serial1",
                                           "serial2",
@@ -18822,6 +18971,14 @@ var pveapi = [
                                              "type" : "string",
                                              "typetext" : "<string>"
                                           },
+                                          "snapshot" : {
+                                             "description" : "Fetch config values from given snapshot.",
+                                             "format" : "pve-configid",
+                                             "maxLength" : 40,
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
@@ -18933,6 +19090,12 @@ var pveapi = [
                                                    "type" : "boolean"
                                                 }
                                              },
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "hookscript" : {
+                                             "description" : "Script that will be exectued during various steps in the containers lifetime.",
+                                             "format" : "pve-volume-id",
                                              "optional" : 1,
                                              "type" : "string"
                                           },
@@ -19379,6 +19542,13 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "[fuse=<1|0>] [,keyctl=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]"
+                                          },
+                                          "hookscript" : {
+                                             "description" : "Script that will be exectued during various steps in the containers lifetime.",
+                                             "format" : "pve-volume-id",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
                                           },
                                           "hostname" : {
                                              "description" : "Set a host name for the container.",
@@ -20665,7 +20835,7 @@ var pveapi = [
                                                       },
                                                       "macro" : {
                                                          "optional" : 1,
-                                                         "type" : "integer"
+                                                         "type" : "string"
                                                       },
                                                       "pos" : {
                                                          "type" : "integer"
@@ -23937,6 +24107,13 @@ var pveapi = [
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
                               },
+                              "hookscript" : {
+                                 "description" : "Script that will be exectued during various steps in the containers lifetime.",
+                                 "format" : "pve-volume-id",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "hostname" : {
                                  "description" : "Set a host name for the container.",
                                  "format" : "dns-name",
@@ -24739,6 +24916,251 @@ var pveapi = [
                         "children" : [
                            {
                               "info" : {
+                                 "DELETE" : {
+                                    "description" : "Destroy Ceph Manager.",
+                                    "method" : "DELETE",
+                                    "name" : "destroymgr",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "id" : {
+                                             "description" : "The ID of the manager",
+                                             "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
+                                             "type" : "string"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/",
+                                          [
+                                             "Sys.Modify"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/ceph/mgr/{id}",
+                              "text" : "{id}"
+                           }
+                        ],
+                        "info" : {
+                           "POST" : {
+                              "description" : "Create Ceph Manager",
+                              "method" : "POST",
+                              "name" : "createmgr",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "id" : {
+                                       "description" : "The ID for the manager, when omitted the same as the nodename",
+                                       "optional" : 1,
+                                       "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
+                                       "type" : "string"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
+                        "path" : "/nodes/{node}/ceph/mgr",
+                        "text" : "mgr"
+                     },
+                     {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "DELETE" : {
+                                    "description" : "Destroy Ceph Monitor and Manager.",
+                                    "method" : "DELETE",
+                                    "name" : "destroymon",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "exclude-manager" : {
+                                             "default" : 0,
+                                             "description" : "When set, removes only the monitor, not the manager",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "monid" : {
+                                             "description" : "Monitor ID",
+                                             "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
+                                             "type" : "string"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/",
+                                          [
+                                             "Sys.Modify"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/ceph/mon/{monid}",
+                              "text" : "{monid}"
+                           }
+                        ],
+                        "info" : {
+                           "GET" : {
+                              "description" : "Get Ceph monitor list.",
+                              "method" : "GET",
+                              "name" : "listmon",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Audit",
+                                       "Datastore.Audit"
+                                    ],
+                                    "any",
+                                    1
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "addr" : {
+                                          "type" : "string"
+                                       },
+                                       "name" : {
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "links" : [
+                                    {
+                                       "href" : "{name}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
+                              }
+                           },
+                           "POST" : {
+                              "description" : "Create Ceph Monitor and Manager",
+                              "method" : "POST",
+                              "name" : "createmon",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "exclude-manager" : {
+                                       "default" : 0,
+                                       "description" : "When set, only a monitor will be created.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "id" : {
+                                       "description" : "The ID for the monitor, when omitted the same as the nodename",
+                                       "optional" : 1,
+                                       "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
+                                       "type" : "string"
+                                    },
+                                    "mon-address" : {
+                                       "description" : "Overwrites autodetected monitor IP address. Must be in the public network of ceph.",
+                                       "format" : "ip",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
+                        "path" : "/nodes/{node}/ceph/mon",
+                        "text" : "mon"
+                     },
+                     {
+                        "children" : [
+                           {
+                              "info" : {
                                  "POST" : {
                                     "description" : "Create a Ceph filesystem",
                                     "method" : "POST",
@@ -24980,164 +25402,6 @@ var pveapi = [
                         "text" : "config"
                      },
                      {
-                        "children" : [
-                           {
-                              "info" : {
-                                 "DELETE" : {
-                                    "description" : "Destroy Ceph Monitor and Manager.",
-                                    "method" : "DELETE",
-                                    "name" : "destroymon",
-                                    "parameters" : {
-                                       "additionalProperties" : 0,
-                                       "properties" : {
-                                          "exclude-manager" : {
-                                             "default" : 0,
-                                             "description" : "When set, removes only the monitor, not the manager",
-                                             "optional" : 1,
-                                             "type" : "boolean",
-                                             "typetext" : "<boolean>"
-                                          },
-                                          "monid" : {
-                                             "description" : "Monitor ID",
-                                             "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
-                                             "type" : "string"
-                                          },
-                                          "node" : {
-                                             "description" : "The cluster node name.",
-                                             "format" : "pve-node",
-                                             "type" : "string",
-                                             "typetext" : "<string>"
-                                          }
-                                       }
-                                    },
-                                    "permissions" : {
-                                       "check" : [
-                                          "perm",
-                                          "/",
-                                          [
-                                             "Sys.Modify"
-                                          ]
-                                       ]
-                                    },
-                                    "protected" : 1,
-                                    "proxyto" : "node",
-                                    "returns" : {
-                                       "type" : "string"
-                                    }
-                                 }
-                              },
-                              "leaf" : 1,
-                              "path" : "/nodes/{node}/ceph/mon/{monid}",
-                              "text" : "{monid}"
-                           }
-                        ],
-                        "info" : {
-                           "GET" : {
-                              "description" : "Get Ceph monitor list.",
-                              "method" : "GET",
-                              "name" : "listmon",
-                              "parameters" : {
-                                 "additionalProperties" : 0,
-                                 "properties" : {
-                                    "node" : {
-                                       "description" : "The cluster node name.",
-                                       "format" : "pve-node",
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    }
-                                 }
-                              },
-                              "permissions" : {
-                                 "check" : [
-                                    "perm",
-                                    "/",
-                                    [
-                                       "Sys.Audit",
-                                       "Datastore.Audit"
-                                    ],
-                                    "any",
-                                    1
-                                 ]
-                              },
-                              "protected" : 1,
-                              "proxyto" : "node",
-                              "returns" : {
-                                 "items" : {
-                                    "properties" : {
-                                       "addr" : {
-                                          "type" : "string"
-                                       },
-                                       "name" : {
-                                          "type" : "string"
-                                       }
-                                    },
-                                    "type" : "object"
-                                 },
-                                 "links" : [
-                                    {
-                                       "href" : "{name}",
-                                       "rel" : "child"
-                                    }
-                                 ],
-                                 "type" : "array"
-                              }
-                           },
-                           "POST" : {
-                              "description" : "Create Ceph Monitor and Manager",
-                              "method" : "POST",
-                              "name" : "createmon",
-                              "parameters" : {
-                                 "additionalProperties" : 0,
-                                 "properties" : {
-                                    "exclude-manager" : {
-                                       "default" : 0,
-                                       "description" : "When set, only a monitor will be created.",
-                                       "optional" : 1,
-                                       "type" : "boolean",
-                                       "typetext" : "<boolean>"
-                                    },
-                                    "id" : {
-                                       "description" : "The ID for the monitor, when omitted the same as the nodename",
-                                       "optional" : 1,
-                                       "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
-                                       "type" : "string"
-                                    },
-                                    "mon-address" : {
-                                       "description" : "Overwrites autodetected monitor IP address. Must be in the public network of ceph.",
-                                       "format" : "ip",
-                                       "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    },
-                                    "node" : {
-                                       "description" : "The cluster node name.",
-                                       "format" : "pve-node",
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    }
-                                 }
-                              },
-                              "permissions" : {
-                                 "check" : [
-                                    "perm",
-                                    "/",
-                                    [
-                                       "Sys.Modify"
-                                    ]
-                                 ]
-                              },
-                              "protected" : 1,
-                              "proxyto" : "node",
-                              "returns" : {
-                                 "type" : "string"
-                              }
-                           }
-                        },
-                        "leaf" : 0,
-                        "path" : "/nodes/{node}/ceph/mon",
-                        "text" : "mon"
-                     },
-                     {
                         "info" : {
                            "POST" : {
                               "description" : "Create initial ceph default configuration and setup symlinks.",
@@ -25224,93 +25488,6 @@ var pveapi = [
                         "leaf" : 1,
                         "path" : "/nodes/{node}/ceph/init",
                         "text" : "init"
-                     },
-                     {
-                        "children" : [
-                           {
-                              "info" : {
-                                 "DELETE" : {
-                                    "description" : "Destroy Ceph Manager.",
-                                    "method" : "DELETE",
-                                    "name" : "destroymgr",
-                                    "parameters" : {
-                                       "additionalProperties" : 0,
-                                       "properties" : {
-                                          "id" : {
-                                             "description" : "The ID of the manager",
-                                             "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
-                                             "type" : "string"
-                                          },
-                                          "node" : {
-                                             "description" : "The cluster node name.",
-                                             "format" : "pve-node",
-                                             "type" : "string",
-                                             "typetext" : "<string>"
-                                          }
-                                       }
-                                    },
-                                    "permissions" : {
-                                       "check" : [
-                                          "perm",
-                                          "/",
-                                          [
-                                             "Sys.Modify"
-                                          ]
-                                       ]
-                                    },
-                                    "protected" : 1,
-                                    "proxyto" : "node",
-                                    "returns" : {
-                                       "type" : "string"
-                                    }
-                                 }
-                              },
-                              "leaf" : 1,
-                              "path" : "/nodes/{node}/ceph/mgr/{id}",
-                              "text" : "{id}"
-                           }
-                        ],
-                        "info" : {
-                           "POST" : {
-                              "description" : "Create Ceph Manager",
-                              "method" : "POST",
-                              "name" : "createmgr",
-                              "parameters" : {
-                                 "additionalProperties" : 0,
-                                 "properties" : {
-                                    "id" : {
-                                       "description" : "The ID for the manager, when omitted the same as the nodename",
-                                       "optional" : 1,
-                                       "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
-                                       "type" : "string"
-                                    },
-                                    "node" : {
-                                       "description" : "The cluster node name.",
-                                       "format" : "pve-node",
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    }
-                                 }
-                              },
-                              "permissions" : {
-                                 "check" : [
-                                    "perm",
-                                    "/",
-                                    [
-                                       "Sys.Modify"
-                                    ]
-                                 ]
-                              },
-                              "protected" : 1,
-                              "proxyto" : "node",
-                              "returns" : {
-                                 "type" : "string"
-                              }
-                           }
-                        },
-                        "leaf" : 0,
-                        "path" : "/nodes/{node}/ceph/mgr",
-                        "text" : "mgr"
                      },
                      {
                         "info" : {
@@ -26772,7 +26949,7 @@ var pveapi = [
                               "key" : {
                                  "description" : "Proxmox VE subscription key",
                                  "maxLength" : 32,
-                                 "pattern" : "pve([124])([cbsp])-[0-9a-f]{10}",
+                                 "pattern" : "pve([1248])([cbsp])-[0-9a-f]{10}",
                                  "type" : "string"
                               },
                               "node" : {
@@ -27639,6 +27816,17 @@ var pveapi = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "source" : {
+                                 "default" : "archive",
+                                 "description" : "List archived, active or all tasks.",
+                                 "enum" : [
+                                    "archive",
+                                    "active",
+                                    "all"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
                               "start" : {
                                  "default" : 0,
                                  "description" : "List tasks beginning from this offset.",
@@ -27646,6 +27834,12 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "integer",
                                  "typetext" : "<integer> (0 - N)"
+                              },
+                              "typefilter" : {
+                                 "description" : "Only list tasks of this type (e.g., vzstart, vzdump).",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               },
                               "userfilter" : {
                                  "description" : "Only list tasks from this user.",
@@ -27677,26 +27871,21 @@ var pveapi = [
                                     "type" : "integer"
                                  },
                                  "id" : {
-                                    "optional" : 1,
                                     "title" : "ID",
                                     "type" : "string"
                                  },
                                  "node" : {
-                                    "optional" : 1,
                                     "title" : "Node",
                                     "type" : "string"
                                  },
                                  "pid" : {
-                                    "optional" : 1,
                                     "title" : "PID",
                                     "type" : "integer"
                                  },
                                  "pstart" : {
-                                    "optional" : 1,
                                     "type" : "integer"
                                  },
                                  "starttime" : {
-                                    "optional" : 1,
                                     "title" : "Starttime",
                                     "type" : "integer"
                                  },
@@ -27706,7 +27895,6 @@ var pveapi = [
                                     "type" : "string"
                                  },
                                  "type" : {
-                                    "optional" : 1,
                                     "title" : "Type",
                                     "type" : "string"
                                  },
@@ -27715,7 +27903,6 @@ var pveapi = [
                                     "type" : "string"
                                  },
                                  "user" : {
-                                    "optional" : 1,
                                     "title" : "User",
                                     "type" : "string"
                                  }
@@ -30491,7 +30678,7 @@ var pveapi = [
                                           },
                                           "macro" : {
                                              "optional" : 1,
-                                             "type" : "integer"
+                                             "type" : "string"
                                           },
                                           "pos" : {
                                              "type" : "integer"
@@ -30907,6 +31094,12 @@ var pveapi = [
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
+                                    "nf_conntrack_allow_invalid" : {
+                                       "default" : 0,
+                                       "description" : "Allow invalid packets on connection tracking.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
                                     "nf_conntrack_max" : {
                                        "description" : "Maximum number of tracked connections.",
                                        "minimum" : 32768,
@@ -31026,6 +31219,13 @@ var pveapi = [
                                     },
                                     "ndp" : {
                                        "description" : "Enable NDP.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "nf_conntrack_allow_invalid" : {
+                                       "default" : 0,
+                                       "description" : "Allow invalid packets on connection tracking.",
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
@@ -31929,6 +32129,13 @@ var pveapi = [
                                  "format" : "pve-node",
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "wakeonlan" : {
+                                 "description" : "MAC address for wake on LAN",
+                                 "format" : "mac-addr",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               }
                            }
                         },
@@ -32148,6 +32355,44 @@ var pveapi = [
                   "leaf" : 1,
                   "path" : "/nodes/{node}/execute",
                   "text" : "execute"
+               },
+               {
+                  "info" : {
+                     "POST" : {
+                        "description" : "Try to wake a node via 'wake on LAN' network packet.",
+                        "method" : "POST",
+                        "name" : "wakeonlan",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "node" : {
+                                 "description" : "target node for wake on LAN packet",
+                                 "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/nodes/{node}",
+                              [
+                                 "Sys.PowerMgmt"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "description" : "MAC address used to assemble the WoL magic packet.",
+                           "format" : "mac-addr",
+                           "type" : "string"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/nodes/{node}/wakeonlan",
+                  "text" : "wakeonlan"
                },
                {
                   "info" : {

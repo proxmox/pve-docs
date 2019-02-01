@@ -36,6 +36,14 @@ Set the fencing mode of the HA cluster. Hardware mode needs a valid configuratio
 +
 WARNING: 'hardware' and 'both' are EXPERIMENTAL & WIP
 
+`ha`: `shutdown_policy=<freeze|failover|conditional>` ::
+
+Cluster wide HA settings.
+
+`shutdown_policy`=`<conditional | failover | freeze>` ('default =' `conditional`);;
+
+Describes the policy for handling HA services on poweroff or reboot of a node. Freeze will always freeze services which are still located on the node on shutdown, those services won't be recovered by the HA manager. Failover will not mark the services as frozen and thus the services will get recovered to other nodes, if the shutdown node does not come up again quickly (< 1min). 'conditional' chooses automatically depending on the type of shutdown, i.e., on a reboot the service will be frozen but on a poweroff the service will stay as is, and thus get recovered after about 2 minutes.
+
 `http_proxy`: `http://.*` ::
 
 Specify external http proxy which is used for downloads (example: 'http://username:password@host:port/')

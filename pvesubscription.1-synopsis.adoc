@@ -20,7 +20,7 @@ Verbose output format.
 
 Set subscription key.
 
-`<key>`: `pve([124])([cbsp])-[0-9a-f]{10}` ::
+`<key>`: `pve([1248])([cbsp])-[0-9a-f]{10}` ::
 
 Proxmox VE subscription key
 

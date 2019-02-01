@@ -40,13 +40,17 @@ Target storage for full clone.
 
 Target node. Only allowed if the original VM is on shared storage.
 
-*pct config* `<vmid>`
+*pct config* `<vmid>` `[OPTIONS]`
 
 Get container configuration.
 
 `<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
+
+`--snapshot` `<string>` ::
+
+Fetch config values from given snapshot.
 
 *pct console* `<vmid>` `[OPTIONS]`
 
@@ -119,6 +123,10 @@ Allow containers access to advanced features.
 `--force` `<boolean>` ::
 
 Allow to overwrite existing container.
+
+`--hookscript` `<string>` ::
+
+Script that will be exectued during various steps in the containers lifetime.
 
 `--hostname` `<string>` ::
 
@@ -514,6 +522,10 @@ Allow containers access to advanced features.
 
 Allow to overwrite existing container.
 
+`--hookscript` `<string>` ::
+
+Script that will be exectued during various steps in the containers lifetime.
+
 `--hostname` `<string>` ::
 
 Set a host name for the container.
@@ -677,6 +689,10 @@ Prevent changes if current configuration file has different SHA1 digest. This ca
 `--features` `[fuse=<1|0>] [,keyctl=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]` ::
 
 Allow containers access to advanced features.
+
+`--hookscript` `<string>` ::
+
+Script that will be exectued during various steps in the containers lifetime.
 
 `--hostname` `<string>` ::
 
