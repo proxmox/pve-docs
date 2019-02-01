@@ -186,14 +186,14 @@ gen-install: $(GEN_DEB_SOURCES) asciidoc-pve asciidoc/mediawiki.conf
 	install -m 0644 asciidoc/pve-html.conf $(DESTDIR)/usr/share/${GEN_PACKAGE}/asciidoc/
 
 .PHONY: doc-install
-doc-install: index.html $(WIKI_IMPORTS) $(API_VIEWER_SOURCES) verify-images guest-example-hookscript.pl
+doc-install: index.html $(WIKI_IMPORTS) $(API_VIEWER_SOURCES) verify-images examples
 	install -dm755 $(DESTDIR)/usr/share/$(DOC_PACKAGE)
 	install -dm755 $(DESTDIR)/usr/share/doc/$(DOC_PACKAGE)
 	# install files for pvedocs package
 	install -dm755 $(DESTDIR)/usr/share/${DOC_PACKAGE}
 	install -dm755 $(DESTDIR)/usr/share/doc/${DOC_PACKAGE}
 	install -dm755 $(DESTDIR)/usr/share/${DOC_PACKAGE}/examples/
-	install -m 755 guest-example-hookscript.pl $(DESTDIR)/usr/share/${DOC_PACKAGE}/examples/
+	install -m 755 examples/guest-example-hookscript.pl $(DESTDIR)/usr/share/${DOC_PACKAGE}/examples/
 	install -m 0644 index.html ${INDEX_INCLUDES} $(DESTDIR)/usr/share/${DOC_PACKAGE}
 	install -m 0644 ${WIKI_IMPORTS} $(DESTDIR)/usr/share/${DOC_PACKAGE}
 	# install images
