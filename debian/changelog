@@ -1,3 +1,17 @@
+pve-docs (5.3-2) unstable; urgency=medium
+
+  * improve pveceph and cephfs chapters
+
+  * update static generated files
+
+  * add guest hook documentation and example script
+
+  * add wakeonlan documentation
+
+  * grammar and typography fixes
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 01 Feb 2019 13:46:41 +0100
+
 pve-docs (5.3-1) unstable; urgency=medium
 
   * fix #1138: installation: note how one can progress with keyboard only
