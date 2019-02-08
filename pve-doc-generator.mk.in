@@ -53,6 +53,14 @@ endif
 	perl ${PERL_DOC_INC} -T -e "use PVE::CLI::$*; PVE::CLI::$*->generate_bash_completions();" >$@.tmp
 	mv $@.tmp $@
 
+%.service-zsh-completion:
+	perl ${PERL_DOC_INC} -T -e "use PVE::Service::$*; PVE::Service::$*->generate_zsh_completions();" >$@.tmp
+	mv $@.tmp $@
+
+%.zsh-completion:
+	perl ${PERL_DOC_INC} -T -e "use PVE::CLI::$*; PVE::CLI::$*->generate_zsh_completions();" >$@.tmp
+	mv $@.tmp $@
+
 %.service-api-verified:
 	perl ${PERL_DOC_INC} -T -e "use PVE::Service::$*; PVE::Service::$*->verify_api();"
 	touch $@
