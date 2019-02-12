@@ -427,7 +427,7 @@ POSIX-compliant replicated filesystem. This allows one to have a clustered
 highly available shared filesystem in an easy way if ceph is already used.  Its
 Metadata Servers guarantee that files get balanced out over the whole Ceph
 cluster, this way even high load will not overload a single host, which can be
-be an issue with traditional shared filesystem approaches, like `NFS`, for
+an issue with traditional shared filesystem approaches, like `NFS`, for
 example.
 
 {pve} supports both, using an existing xref:storage_cephfs[CephFS as storage])
