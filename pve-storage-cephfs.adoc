@@ -71,12 +71,19 @@ Create the directory `/etc/pve/priv/ceph` with
 
 Then copy the secret
 
- scp <cephserver>:/etc/ceph/cephfs.secret /etc/pve/priv/ceph/<STORAGE_ID>.secret
+ scp cephfs.secret <proxmox>:/etc/pve/priv/ceph/<STORAGE_ID>.secret
 
 The secret must be named to match your `<STORAGE_ID>`. Copying the
 secret generally requires root privileges. The file must only contain the
 secret key itself, opposed to the `rbd` backend which also contains a
 `[client.userid]` section.
+
+A secret can be received from the ceph cluster (as ceph admin) by issuing the
+following command. Replace the `userid` with the actual client ID configured to
+access the cluster. For further ceph user managment see the Ceph docs
+footnote:[Ceph user management http://docs.ceph.com/docs/luminous/rados/operations/user-management/].
+
+ ceph auth get-key client.userid > cephfs.secret
 
 If Ceph is installed locally on the PVE cluster, i.e., setup with `pveceph`,
 this is done automatically.
