@@ -460,7 +460,7 @@ mds standby replay = true
 
 in the ceph.conf respective MDS section. With this enabled, this specific MDS
 will always poll the active one, so that it can take over faster as it is in a
-`warm' state. But naturally, the active polling will cause some additional
+`warm` state. But naturally, the active polling will cause some additional
 performance impact on your system and active `MDS`.
 
 Multiple Active MDS
