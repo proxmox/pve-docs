@@ -58,7 +58,7 @@ and VMs on the same node is possible.
 To simplify management, we provide 'pveceph' - a tool to install and
 manage {ceph} services on {pve} nodes.
 
-.Ceph consists of a couple of Daemons footnote:[Ceph intro http://docs.ceph.com/docs/master/start/intro/], for use as a RBD storage:
+.Ceph consists of a couple of Daemons footnote:[Ceph intro http://docs.ceph.com/docs/luminous/start/intro/], for use as a RBD storage:
 - Ceph Monitor (ceph-mon)
 - Ceph Manager (ceph-mgr)
 - Ceph OSD (ceph-osd; Object Storage Daemon)
@@ -470,7 +470,7 @@ Since Luminous (12.2.x) you can also have multiple active metadata servers
 running, but this is normally only useful for a high count on parallel clients,
 as else the `MDS` seldom is the bottleneck. If you want to set this up please
 refer to the ceph documentation. footnote:[Configuring multiple active MDS
-daemons http://docs.ceph.com/docs/mimic/cephfs/multimds/]
+daemons http://docs.ceph.com/docs/luminous/cephfs/multimds/]
 
 [[pveceph_fs_create]]
 Create a CephFS
@@ -502,7 +502,7 @@ This creates a CephFS named `'cephfs'' using a pool for its data named
 Check the xref:pve_ceph_pools[{pve} managed Ceph pool chapter] or visit the
 Ceph documentation for more information regarding a fitting placement group
 number (`pg_num`) for your setup footnote:[Ceph Placement Groups
-http://docs.ceph.com/docs/mimic/rados/operations/placement-groups/].
+http://docs.ceph.com/docs/luminous/rados/operations/placement-groups/].
 Additionally, the `'--add-storage'' parameter will add the CephFS to the {pve}
 storage configuration after it was created successfully.
 
