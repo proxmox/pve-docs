@@ -95,6 +95,31 @@ deb http://download.proxmox.com/debian/pve stretch pvetest
 WARNING: the `pvetest` repository should (as the name implies) only be used
 for testing new features or bug fixes.
 
+[[sysadmin_package_repositories_ceph]]
+{pve} Ceph Repository
+~~~~~~~~~~~~~~~~~~~~~
+
+This is {pve}'s main Ceph repository and holds the Ceph packages for
+production use. You can also use this repository to update only the Ceph
+client.
+
+.File `/etc/apt/sources.list.d/ceph.list`
+----
+deb http://download.proxmox.com/debian/ceph-luminous stretch main
+----
+
+
+{pve} Ceph Testing Repository
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This Ceph repository contains the Ceph packages before they are moved into the
+main repository and is used to test new Ceph release on {pve}.
+
+.File `/etc/apt/sources.list.d/ceph.list`
+----
+deb http://download.proxmox.com/debian/ceph-luminous stretch test
+----
+
 
 SecureApt
 ~~~~~~~~~
@@ -215,3 +240,6 @@ upgrade to latest version as soon as possible.
 
 
 endif::wiki[]
+ifdef::manvolnum[]
+include::pve-copyright.adoc[]
+endif::manvolnum[]

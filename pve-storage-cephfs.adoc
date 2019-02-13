@@ -18,6 +18,15 @@ configuring a CephFS storage easier. As recent hardware has plenty of CPU power
 and RAM, running storage services and VMs on same node is possible without a
 big performance impact.
 
+To use the CephFS storage plugin you need update the debian stock Ceph client.
+Add our Ceph repository xref:sysadmin_package_repositories_ceph[Ceph repository].
+Once added, run an `apt update` and `apt dist-upgrade` cycle to get the newest
+packages.
+
+You need to make sure that there is no other Ceph repository configured,
+otherwise the installation will fail or there will be mixed package
+versions on the node, leading to unexpected behavior.
+
 [[storage_cephfs_config]]
 Configuration
 ~~~~~~~~~~~~~
