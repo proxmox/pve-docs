@@ -211,7 +211,7 @@ This is the default when creating OSDs in Ceph luminous.
 pveceph createosd /dev/sd[X]
 ----
 
-NOTE: In order to select a disk in the GUI, to be more failsafe, the disk needs
+NOTE: In order to select a disk in the GUI, to be more fail-safe, the disk needs
 to have a GPT footnoteref:[GPT, GPT partition table
 https://en.wikipedia.org/wiki/GUID_Partition_Table] partition table. You can
 create this with `gdisk /dev/sd(x)`. If there is no GPT, you cannot select the
@@ -227,7 +227,7 @@ pveceph createosd /dev/sd[X] -journal_dev /dev/sd[Y]
 ----
 
 NOTE: The DB stores BlueStore’s internal metadata and the WAL is BlueStore’s
-internal journal or write-ahead log. It is recommended to use a fast SSDs or
+internal journal or write-ahead log. It is recommended to use a fast SSD or
 NVRAM for better performance.
 
 
@@ -235,7 +235,7 @@ Ceph Filestore
 ~~~~~~~~~~~~~
 Till Ceph luminous, Filestore was used as storage type for Ceph OSDs. It can
 still be used and might give better performance in small setups, when backed by
-a NVMe SSD or similar.
+an NVMe SSD or similar.
 
 [source,bash]
 ----
