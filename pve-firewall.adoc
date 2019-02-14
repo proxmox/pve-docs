@@ -231,8 +231,8 @@ Here are some examples:
 IN SSH(ACCEPT) -i net0
 IN SSH(ACCEPT) -i net0 # a comment
 IN SSH(ACCEPT) -i net0 -source 192.168.2.192 # only allow SSH from 192.168.2.192
-IN SSH(ACCEPT) -i net0 -source 10.0.0.1-10.0.0.10 # accept SSH for ip range
-IN SSH(ACCEPT) -i net0 -source 10.0.0.1,10.0.0.2,10.0.0.3 #accept ssh for ip list
+IN SSH(ACCEPT) -i net0 -source 10.0.0.1-10.0.0.10 # accept SSH for IP range
+IN SSH(ACCEPT) -i net0 -source 10.0.0.1,10.0.0.2,10.0.0.3 #accept ssh for IP list
 IN SSH(ACCEPT) -i net0 -source +mynetgroup # accept ssh for ipset mynetgroup
 IN SSH(ACCEPT) -i net0 -source myserveralias #accept ssh for alias myserveralias
 
@@ -303,7 +303,7 @@ explicitly assign the local IP address
 ----
 #  /etc/pve/firewall/cluster.fw
 [ALIASES]
-local_network 1.2.3.4 # use the single ip address
+local_network 1.2.3.4 # use the single IP address
 ----
 
 [[pve_firewall_ip_sets]]
@@ -471,7 +471,7 @@ address are used. By default the `NDP` option is enabled on both host and VM
 level to allow neighbor discovery (NDP) packets to be sent and received.
 
 Beside neighbor discovery NDP is also used for a couple of other things, like
-autoconfiguration and advertising routers.
+auto-configuration and advertising routers.
 
 By default VMs are allowed to send out router solicitation messages (to query
 for a router), and to receive router advertisement packets. This allows them to
