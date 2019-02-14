@@ -50,7 +50,7 @@ See Also
 
 * link:/wiki/ZFS_on_Linux[ZFS on Linux]
 
-* link:/wiki/Certificate_Management[Certificate Managment]
+* link:/wiki/Certificate_Management[Certificate Management]
 endif::wiki[]
 
 
@@ -72,7 +72,7 @@ include::local-lvm.adoc[]
 
 include::local-zfs.adoc[]
 
-include::certificate-managment.adoc[]
+include::certificate-management.adoc[]
 
 endif::wiki[]
 
