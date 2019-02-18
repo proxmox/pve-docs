@@ -225,6 +225,8 @@ On the datacenter level you can access cluster wide settings and information.
 
 * *Summary:* gives a brief overview over the cluster health.
 
+* *Cluster:* allows to create/join cluster and shows join information.
+
 * *Options:* can show and set defaults, which apply cluster wide.
 
 * *Storage:* is the place where a storage will add/managed/removed.
@@ -232,6 +234,8 @@ On the datacenter level you can access cluster wide settings and information.
 * *Backup:* has the capability to schedule Backups. This is
    cluster wide, so you do not care about where the VM/Container are on
    your cluster at schedule time.
+
+* *Replication:* shows replication jobs and allows to create new ones.
 
 * *Permissions:* will manage user and group permission, LDAP,
    MS-AD and Two-Factor authentication can be setup here.
@@ -251,27 +255,36 @@ Nodes
 
 [thumbnail="screenshot/gui-node-summary.png"]
 
-All belongs of a node can be managed at this level.
+Nodes in your cluster can be managed invidiually at this level.
+
+The top header has useful buttons such as 'Reboot', 'Shutdown', 'Shell',
+'Bulk Actions' and 'Help'.
+'Shell' has the options 'noVNC', 'SPICE' and 'xterm.js'.
+'Bulk Actions' has the options 'Bulk Start', 'Bulk Stop' and 'Bulk Migrate'.
 
 * *Search:* it is possible to search anything on the node,
  this can be a VM, Container, Storage or a pool.
 
 * *Summary:* gives a brief overview over the resource usage.
 
+* *Notes:* is where custom notes about a node can be written.
+
 * *Shell:* logs you into the shell of the node.
 
-* *System:* is for configuring the network, dns and time, and also shows your syslog.
+* *System:* is for configuring the network, DNS and time, and also shows your syslog.
 
-* *Updates:* will upgrade the system and inform you about new packets.
+* *Updates:* will upgrade the system and inform you about new packages.
 
 * *Firewall:* on this level is only for this node.
 
-* *Disk:* gives you an brief overview about you physical hard drives and
+* *Disks:* gives you a brief overview about you physical hard drives and
    how they are used.
 
 * *Ceph:* is only used if you have installed a Ceph server on your
    host. Then you can manage your Ceph cluster and see the status
    of it here.
+
+* *Replication:* shows replication jobs and allows to create new ones.
 
 * *Task History:* here all past tasks are shown.
 
