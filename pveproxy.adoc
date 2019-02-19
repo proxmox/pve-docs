@@ -69,6 +69,12 @@ You can define the cipher list in `/etc/default/pveproxy`, for example
 Above is the default. See the ciphers(1) man page from the openssl
 package for a list of all available options.
 
+Additionally you can define that the client choses the used cipher in
+`/etc/default/pveproxy` (default is the first cipher in the list available to
+both client and `pveproxy`):
+
+ HONOR_CIPHER_ORDER=0
+
 
 Diffie-Hellman Parameters
 -------------------------
@@ -97,6 +103,14 @@ pveproxy uses `/etc/pve/local/pveproxy-ssl.pem` and
 The private key may not use a passphrase.
 
 See the Host System Administration chapter of the documentation for details.
+
+COMPRESSION
+-----------
+
+By default `pveproxy` uses gzip HTTP-level compression for compressible
+content, if the client supports it. This can disabled in `/etc/default/pveproxy`
+
+ COMPRESSION=0
 
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
