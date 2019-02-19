@@ -83,7 +83,7 @@ Technology Overview
 
 * CRIU: for live migration (planned)
 
-* Use latest available kernels (4.4.X)
+* Runs on modern Linux kernels
 
 * Image based deployment (templates)
 
