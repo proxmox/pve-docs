@@ -127,8 +127,9 @@ pve-admin-guide.chunked: ${PVE_ADMIN_GUIDE_ADOCDEPENDS}
 PVE_DOCBOOK_CONF=-b $(shell pwd)/asciidoc/pve-docbook -f asciidoc/asciidoc-pve.conf
 PVE_DBLATEX_OPTS='-p ./asciidoc/pve-dblatex.xsl -s asciidoc/dblatex-custom.sty -c asciidoc/dblatex-export.conf'
 
+YEAR:=$(shell date '+%Y')
 pve-admin-guide-docinfo.xml: pve-admin-guide-docinfo.xml.in
-	sed -e 's/@RELEASE@/${DOCRELEASE}/' <$< >$@
+	sed -e 's/@RELEASE@/${DOCRELEASE}/' -e 's/@YEAR@/${YEAR}/' <$< >$@
 
 pve-admin-guide.pdf: ${PVE_ADMIN_GUIDE_ADOCDEPENDS} docinfo.xml pve-admin-guide-docinfo.xml
 	rsvg-convert -f pdf -o proxmox-logo.pdf images/proxmox-logo.svg

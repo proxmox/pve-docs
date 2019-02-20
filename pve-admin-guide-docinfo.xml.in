@@ -1,7 +1,7 @@
 <subtitle>Release @RELEASE@</subtitle>
 
 <copyright>
-  <year>2017</year>
+  <year>@YEAR@</year>
   <holder>Proxmox Server Solutions Gmbh</holder>
 </copyright>
 
