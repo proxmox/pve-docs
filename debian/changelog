@@ -1,3 +1,15 @@
+pve-docs (5.3-3) unstable; urgency=medium
+
+  * add zsh completion targets
+
+  * improve gramar and typography
+
+  * Fix #2018: CephFS client needs newer binaries
+
+  * Fix #2015: add how to get a auth secret for cephfs
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 20 Feb 2019 12:20:05 +0100
+
 pve-docs (5.3-2) unstable; urgency=medium
 
   * improve pveceph and cephfs chapters
