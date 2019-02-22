@@ -703,6 +703,25 @@ you need to set the client resolution in the OVMF menu(which you can reach
 with a press of the ESC button during boot), or you have to choose
 SPICE as the display type.
 
+[[qm_ivshmem]]
+Inter-VM shared memory
+~~~~~~~~~~~~~~~~~~~~~~
+
+You can add a Inter-VM shared memory device (`ivshmem`) to be able to
+share memory between the host and a guest, or between multiple guests.
+
+To add such a device, you can use `qm`:
+
+  qm set <vmid> -ivshmem size=32,name=foo
+
+Where the size is in MiB. The file will be located under
+`/dev/shm/pve-shm-$name` (the default name is the vmid).
+
+A usecase for such a device is Looking Glass
+footnote:[Looking Glass: https://looking-glass.hostfission.com/]
+which enables high performance, low-latency display mirroring between
+host and guest.
+
 [[qm_startup_and_shutdown]]
 Automatic Start and Shutdown of Virtual Machines
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
