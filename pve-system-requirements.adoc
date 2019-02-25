@@ -31,18 +31,26 @@ Minimum Requirements, for Evaluation
 Recommended System Requirements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* CPU: 64bit (Intel EMT64 or AMD64), Multi core CPU recommended
+* Intel EMT64 or AMD64 with Intel VT/AMD-V CPU flag.
 
-* Intel VT/AMD-V capable CPU/Mainboard for KVM Full Virtualization support
+* Memory, minimum 2 GB for OS and Proxmox VE services. Plus designated memory
+  for guests. For Ceph or ZFS additional memory is required, approximately 1 GB
+  memory for every TB used storage.
 
-* RAM: 8 GB RAM, plus additional RAM used for guests
+* Fast and redundant storage, best results with SSD disks.
 
-* Hardware RAID with batteries protected write cache (``BBU'') or flash
- based protection
+* OS storage: Hardware RAID with batteries protected write cache (``BBU'') or
+  non-RAID with ZFS and SSD cache.
 
-* Fast hard drives, best results with 15k rpm SAS, Raid10
+* VM storage: For local storage use a hardware RAID with battery backed
+  write cache (BBU) or non-RAID for ZFS. Neither ZFS nor Ceph are compatible
+  with a hardware RAID controller. Shared and distributed storage is also
+  possible.
 
-* At least two NICs, depending on the used storage technology you need more
+* Redundant Gbit NICs, additional NICs depending on the preferred storage
+  technology and cluster setup – 10 Gbit and higher is also supported.
+
+* For PCI passthrough a CPU with VT-d/AMD-d CPU flag is needed.
 
 
 Simple Performance Overview
