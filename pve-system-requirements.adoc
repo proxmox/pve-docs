@@ -69,10 +69,9 @@ To use the web interface you need a modern browser, this includes:
 * Firefox, a release from the current year, or the latest Extended
 Support Release
 * Chrome, a release from the current year
-* the Microsoft currently supported versions of Internet Explorer (as
-of 2016, this means IE 11 or IE Edge)
-* the Apple currently supported versions of Safari (as of 2016, this
-means Safari 9)
+* Microsoft's currently supported versions of Internet Explorer (as
+of 2019, this means IE 11 or IE Edge)
+* Safari, a release from the current year
 
 If {pve} detects you're connecting from a mobile device, you will be
 redirected to a lightweight touch-based UI.
