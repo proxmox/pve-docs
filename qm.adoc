@@ -484,7 +484,7 @@ host.
 .Fixed Memory Allocation
 [thumbnail="screenshot/gui-create-vm-memory.png"]
 
-When setting memory and minimum memory to the same amount
+ghen setting memory and minimum memory to the same amount
 {pve} will simply allocate what you specify to your VM.
 
 Even when using a fixed memory size, the ballooning device gets added to the
@@ -707,8 +707,8 @@ SPICE as the display type.
 Inter-VM shared memory
 ~~~~~~~~~~~~~~~~~~~~~~
 
-You can add a Inter-VM shared memory device (`ivshmem`) to be able to
-share memory between the host and a guest, or between multiple guests.
+You can add an Inter-VM shared memory device (`ivshmem`), which allows one to
+share memory between the host and a guest, or also between multiple guests.
 
 To add such a device, you can use `qm`:
 
@@ -717,8 +717,8 @@ To add such a device, you can use `qm`:
 Where the size is in MiB. The file will be located under
 `/dev/shm/pve-shm-$name` (the default name is the vmid).
 
-A usecase for such a device is Looking Glass
-footnote:[Looking Glass: https://looking-glass.hostfission.com/]
+A use case for such a device is the Looking Glass
+footnote:[Looking Glass: https://looking-glass.hostfission.com/] project,
 which enables high performance, low-latency display mirroring between
 host and guest.
 
