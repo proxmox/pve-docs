@@ -373,7 +373,7 @@ when the now separate node exited, you may set the expected votes to 1 as a work
 pvecm expected 1
 ----
 
-And the repeat the 'pvecm delnode' command.
+And then repeat the 'pvecm delnode' command.
 
 Now switch back to the separated node, here delete all remaining files left
 from the old cluster. This ensures that the node can be added to another
