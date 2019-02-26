@@ -717,6 +717,10 @@ To add such a device, you can use `qm`:
 Where the size is in MiB. The file will be located under
 `/dev/shm/pve-shm-$name` (the default name is the vmid).
 
+NOTE: Currently the device will get deleted as soon as any VM using it got
+shutdown or stopped. Open connections will still persist, but new connections
+to the exact same device cannot be made anymore.
+
 A use case for such a device is the Looking Glass
 footnote:[Looking Glass: https://looking-glass.hostfission.com/] project,
 which enables high performance, low-latency display mirroring between
