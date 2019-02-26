@@ -7,19 +7,19 @@ ifdef::wiki[]
 :title: Installation
 endif::wiki[]
 
-{pve} is based on Debian and comes with an installation CD-ROM
-which includes a complete Debian system ("stretch" for version 5.x) as
+{pve} is based on Debian, therefore the disk image (ISO file) provided
+by us includes a complete Debian system ("stretch" for version 5.x) as
 well as all necessary {pve} packages.
 
-The installer just asks you a few questions, then partitions the local
-disk(s), installs all required packages, and configures the system
-including a basic network setup. You can get a fully functional system
-within a few minutes. This is the preferred and recommended
-installation method.
+Using the installer will guide you through the setup, allowing
+you to partition the local disk(s), apply basic system configurations
+(e.g. timezone, language, network) and install all required packages.
+Using the provided ISO will get you started in just a few minutes,
+that's why we recommend this method for new and existing users.
 
 Alternatively, {pve} can be installed on top of an existing Debian
 system. This option is only recommended for advanced users since
-detail knowledge about {pve} is necessary.
+detailed knowledge about {pve} is necessary.
 
 ifndef::wiki[]
 
@@ -28,15 +28,15 @@ include::pve-system-requirements.adoc[]
 endif::wiki[]
 
 
-Using the {pve} Installation CD-ROM
------------------------------------
+Using the {pve} Installer
+-------------------------
 
 You can download the ISO from {website}en/downloads.
 It includes the following:
 
 * Complete operating system (Debian Linux, 64-bit)
 
-* The {pve} installer, which partitions the hard drive(s) with ext4,
+* The {pve} installer, which partitions the local disk(s) with ext4,
   ext3, xfs or ZFS and installs the operating system.
 
 * {pve} kernel (Linux) with LXC and KVM support
@@ -49,11 +49,13 @@ It includes the following:
 NOTE: During the installation process, the complete server
 is used by default and all existing data is removed.
 
+Please insert the installation media (e.g. USB-Stick, CD-ROM) and boot
+from it.
+
 [thumbnail="screenshot/pve-grub-menu.png"]
 
-Please insert the installation CD-ROM, then boot from that
-drive. Immediately afterwards you can choose the following menu
-options:
+After choosing the correct entry (e.g. Boot from USB) the {pve} menu
+will be displayed, you can now select one of the following options:
 
 Install Proxmox VE::
 
@@ -104,8 +106,8 @@ you can choose disks there. Additionally you can set additional options (see
 
 The next page just ask for basic configuration options like your
 location, the time zone and keyboard layout. The location is used to
-select a download server near you to speedup updates. The installer is
-usually able to auto detect those setting, so you only need to change
+select a download server near you to speed up updates. The installer is
+usually able to auto detect those settings, so you only need to change
 them in rare situations when auto detection fails, or when you want to
 use some special keyboard layout not commonly used in your country.
 
@@ -124,7 +126,7 @@ recommend to use stronger passwords - here are some guidelines:
   romantic links (current or past) and biographical information (e.g.,
   ID numbers, ancestors' names or dates).
 
-It is sometimes necessary to send notification to the system
+It is sometimes necessary to send notifications to the system
 administrator, for example:
 
 - Information about available package updates.
@@ -144,7 +146,7 @@ dual stack node, you can easily do that after installation.
 
 If you press `Next` now, installation starts to format disks, and
 copies packages to the target. Please wait until that is finished,
-then reboot the server.
+then remove the installation media and restart your system.
 
 Further configuration is done via the Proxmox web interface. Just
 point your browser to the IP address given during installation
@@ -257,22 +259,23 @@ installation using the following command:
 
 ifdef::wiki[]
 
-link:/wiki/Install_Proxmox_VE_on_Debian_Stretch[Install Proxmox VE on Debian Stretch]
--------------------------------------------------------------------------------------
-
 link:/wiki/Install_from_USB_Stick[Install from USB Stick]
 ---------------------------------------------------------
+
+link:/wiki/Install_Proxmox_VE_on_Debian_Stretch[Install Proxmox VE on Debian Stretch]
+-------------------------------------------------------------------------------------
 
 endif::wiki[]
 
 ifndef::wiki[]
 
+include::pve-usbstick.adoc[]
+
 Install {pve} on Debian
 -----------------------
 
 {pve} ships as a set of Debian packages, so you can install it
-on top of a normal Debian installation. After configuring the
-repositories, you need to run:
+on top of a standard Debian installation. xref:sysadmin_package_repositories[After configuring the repositories], you need to run:
 
 [source,bash]
 ----
@@ -291,7 +294,6 @@ ZFS.
 You can find a detailed step by step how-to guide on the
 {webwiki-url}Install_Proxmox_VE_on_Debian_Stretch[wiki].
 
-include::pve-usbstick.adoc[]
 
 endif::wiki[]
 

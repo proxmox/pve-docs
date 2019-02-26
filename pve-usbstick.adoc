@@ -100,9 +100,11 @@ diskutil unmountDisk /dev/diskX
 NOTE: replace X with the disk number from the last command.
 
 ----
-sudo dd if=proxmox-ve_*.dmg of=/dev/rdiskN bs=1m
+sudo dd if=proxmox-ve_*.dmg of=/dev/rdiskX bs=1m
 ----
 
+NOTE: 'rdiskX', instead of 'diskX', in the last command is intended,
+this will increase write speed
 
 Instructions for Windows
 ~~~~~~~~~~~~~~~~~~~~~~~~
