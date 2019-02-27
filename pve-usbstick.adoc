@@ -4,8 +4,7 @@ ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]
 
-The {pve} installation media is now a hybrid ISO image, working in two
-ways:
+The {pve} installation media is a hybrid ISO image, working in two ways:
 
 * An ISO image file ready to burn on CD
 

@@ -49,7 +49,7 @@ It includes the following:
 NOTE: During the installation process, the complete server
 is used by default and all existing data is removed.
 
-Please insert the installation media (e.g. USB-Stick, CD-ROM) and boot
+Please insert the installation media (e.g. USB stick, CD-ROM) and boot
 from it.
 
 [thumbnail="screenshot/pve-grub-menu.png"]
