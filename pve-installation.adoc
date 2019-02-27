@@ -275,7 +275,9 @@ Install {pve} on Debian
 -----------------------
 
 {pve} ships as a set of Debian packages, so you can install it
-on top of a standard Debian installation. xref:sysadmin_package_repositories[After configuring the repositories], you need to run:
+on top of a standard Debian installation.
+xref:sysadmin_package_repositories[After configuring the repositories], you
+need to run:
 
 [source,bash]
 ----
