@@ -778,7 +778,7 @@ subsystem based on an external running third-party arbitrator's decision.
 Its primary use is to allow a cluster to sustain more node failures than
 standard quorum rules allow. This can be done safely as the external device
 can see all nodes and thus choose only one set of nodes to give its vote.
-This will only be done if said set of nodes can quorate (again) when
+This will only be done if said set of nodes can have quorum (again) when
 receiving the third-party vote.
 
 Currently only 'QDevice Net' is supported as a third-party arbitrator. It is
@@ -897,10 +897,9 @@ In case of a tie, where two same-sized cluster partitions cannot see each
 other but the QDevice, the QDevice chooses randomly one of those partitions and
 provides a vote to it.
 
-Still TODO
-^^^^^^^^^^
-
-There ist still stuff to add here
+//Still TODO
+//^^^^^^^^^^
+//There ist still stuff to add here
 
 
 Corosync Configuration
