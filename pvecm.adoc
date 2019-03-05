@@ -900,17 +900,27 @@ provides a vote to it.
 Possible Negative Implications
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-For clusters with an even node count you do not get any negative implications
+For clusters with an even node count there are no negative implications
 when setting up a QDevice. If it fails to work, you are as good as without
 QDevice at all.
 
-Adding/Deleting Nodes Once QDevice Got Setup
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Adding/Deleting Nodes After QDevice Setup
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you want to add a new node or remove an existing one from a cluster with a
-QDevice setup, you need to remove it first. After that, you can add or remove
-nodes normally. Once you have again a cluster with an even node count you can
-also setup the QDevice again as described above.
+QDevice setup, you need to remove the QDevice first. After
+that, you can add or remove nodes normally. Once you have a cluster with an
+even node count again, you can set up the QDevice again as described above.
+
+Removing the QDevice
+^^^^^^^^^^^^^^^^^^^^
+
+If you used the official `pvecm` tool to add the QDevice, you can remove it trivially
+by running:
+
+----
+pve# pvecm qdevice remove
+----
 
 //Still TODO
 //^^^^^^^^^^
