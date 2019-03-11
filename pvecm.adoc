@@ -180,7 +180,7 @@ Votequorum information
 Expected votes:   4
 Highest expected: 4
 Total votes:      4
-Quorum:           2
+Quorum:           3
 Flags:            Quorate
 
 Membership information
@@ -290,7 +290,7 @@ Votequorum information
 Expected votes:   3
 Highest expected: 3
 Total votes:      3
-Quorum:           3
+Quorum:           2
 Flags:            Quorate
 
 Membership information
