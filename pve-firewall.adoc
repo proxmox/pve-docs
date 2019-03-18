@@ -404,6 +404,49 @@ If you want to see the generated iptables rules you can use:
 
  # iptables-save
 
+Logging of firewall rules
+-------------------------
+
+By default, logging of traffic filtered by the firewall rules is disabled. To
+enable logging for the default firewall rules, the log-level for incommig and
+outgoing traffic has to be set in the firewall `Options` tab for the host and/or
+the VM/CT firewall.
+Logging of dropped packets is rate limited to 1 packet per second in order to
+reduce output to the log file.
+Further, only some dropped or rejected packets are logged for the standard rules.
+
+In order to log packets filtered by user-defined firewall rules, it is possible
+to set a log-level parameter for each rule individually.
+This allows to log in a fine grained manner and independent of the log-level
+defined for the standard rules.
+In particular, each rule is logged independently from the log-level set for the
+standard rules in the firewall `Options`.
+
+The log level for the rule can also be set via the firewall configuration file by
+appending a `-log <loglevel>` to the selected rule.
+Here, `<loglevel>` is one of the following flags, attached to the log output:
+`nolog, emerg, alert, crit, err, warning, notice, info, debug`
+
+For example:
+
+----
+IN REJECT -p icmp -log nolog
+----
+
+is the same as
+
+----
+IN REJECT -p icmp
+----
+
+whereas
+
+----
+IN REJECT -p icmp -log debug
+----
+
+produces a log output flagged with the `debug` level.
+
 
 Tips and Tricks
 ---------------
