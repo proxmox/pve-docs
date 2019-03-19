@@ -35,7 +35,7 @@ containers. Features like firewall macros, security groups, IP sets
 and aliases help to make that task easier.
 
 While all configuration is stored on the cluster file system, the
-`iptables`-based firewall runs on each cluster node, and thus provides
+`iptables`-based firewall service runs on each cluster node, and thus provides
 full isolation between virtual machines. The distributed nature of
 this system also provides much higher bandwidth than a central
 firewall solution.
@@ -74,9 +74,9 @@ You can configure anything using the GUI (i.e. *Datacenter* -> *Firewall*,
 or on a *Node* -> *Firewall*), or you can edit the configuration files
 directly using your preferred editor.
 
-Firewall configuration files contains sections of key-value
+Firewall configuration files contain sections of key-value
 pairs. Lines beginning with a `#` and blank lines are considered
-comments. Sections starts with a header line containing the section
+comments. Sections start with a header line containing the section
 name enclosed in `[` and `]`.
 
 
