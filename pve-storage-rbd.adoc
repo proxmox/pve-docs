@@ -49,8 +49,10 @@ RBD user Id. Optional, only needed if Ceph is not running on the PVE cluster.
 
 krbd::
 
-Access rbd through krbd kernel module. This is required if you want to
-use the storage for containers.
+Access rbd through the krbd kernel module. Optional.
+
+NOTE: Irrespective of the krbd option, containers use always krbd. You can
+choose the access method used for VMs, by setting the krbd option.
 
 .Configuration Example for a external Ceph cluster (`/etc/pve/storage.cfg`)
 ----
