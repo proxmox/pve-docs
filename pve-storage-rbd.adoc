@@ -49,7 +49,7 @@ RBD user Id. Optional, only needed if Ceph is not running on the PVE cluster.
 
 krbd::
 
-Enforce access to rados block devies through the krbd kernel module. Optional.
+Enforce access to rados block devices through the krbd kernel module. Optional.
 
 NOTE: Containers will use `krbd` independent of the option value.
 
