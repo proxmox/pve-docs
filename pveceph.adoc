@@ -63,8 +63,10 @@ manage {ceph} services on {pve} nodes.
 - Ceph Manager (ceph-mgr)
 - Ceph OSD (ceph-osd; Object Storage Daemon)
 
-TIP: We recommend to get familiar with the Ceph vocabulary.
-footnote:[Ceph glossary http://docs.ceph.com/docs/luminous/glossary]
+TIP: We highly recommend to get familiar with Ceph's architecture
+footnote:[Ceph architecture http://docs.ceph.com/docs/luminous/architecture/]
+and vocabulary
+footnote:[Ceph glossary http://docs.ceph.com/docs/luminous/glossary].
 
 
 Precondition
