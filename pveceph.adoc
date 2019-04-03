@@ -536,6 +536,30 @@ with:
 pveceph pool destroy NAME
 ----
 
+
+Ceph monitoring & troubleshooting
+---------------------------------
+A good start is to monitor the ceph health to begin with. Either through the
+ceph tools itself or also by accessing the status through the {pve}
+link:api-viewer/index.html[API].
+
+If the cluster is in an unhealthy state the commands below will give an
+overview on the current events.
+
+----
+ceph -s
+ceph -w
+----
+
+To get a more detailed view, every ceph service has a log file under
+`/var/log/ceph/` and if there is not enough detail, the log level can be
+adjusted footnote:[Ceph log and debugging http://docs.ceph.com/docs/luminous/rados/troubleshooting/log-and-debug/].
+
+You can find more information about troubleshooting
+footnote:[Ceph troubleshooting http://docs.ceph.com/docs/luminous/rados/troubleshooting/]
+a Ceph cluster on its website.
+
+
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
 endif::manvolnum[]
