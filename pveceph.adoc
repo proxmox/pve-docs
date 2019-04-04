@@ -143,12 +143,64 @@ NOTE: Above recommendations should be seen as a rough guidance for choosing
 hardware. Therefore, it is still essential to adapt it to your specific needs,
 test your setup and monitor health and performance continuously.
 
+[[pve_ceph_install_wizard]]
+Initial Ceph installation & configuration
+-----------------------------------------
+
+[thumbnail="screenshot/gui-node-ceph-install.png"]
+
+With {pve} you have the benefit of an easy to use installation wizard
+for Ceph. Click on one of your cluster nodes and navigate to the Ceph
+section in the menu tree. If Ceph is not installed already you will be
+offered to do this now.
+
+The wizard is divided into different sections, where each needs to be
+done successfully in order to use Ceph. After starting the installation
+the wizard will load and install all required packages.
+
+After finishing the first step, you will need to create a configuration.
+This step is only needed on the first run of the wizard, because the
+configuration is cluster wide and therefore distributed automatically
+to all remaining cluster members - see xref:chapter_pmxcfs[cluster file system (pmxcfs)] section.
+
+The configuration step includes the following settings:
+
+* *Public Network:* You should setup a dedicated network for Ceph, this
+setting is required. Separating your Ceph traffic is highly recommended,
+because it could lead to troubles with other latency dependent services
+e.g. cluster communication.
+
+[thumbnail="screenshot/gui-node-ceph-install-wizard-step2.png"]
+
+* *Cluster Network:* As an optional step you can go even further and
+separate the xref:pve_ceph_osds[OSD] replication & heartbeat traffic
+as well. This will relieve the public network and could lead to
+significant performance improvements especially in big clusters.
+
+You have two more options which are considered advanced and therefore
+should only changed if you are an expert.
+
+* *Number of replicas*: Defines the how often a object is replicated
+* *Minimum replicas*: Defines the minimum number of required replicas
+for I/O.
+
+Additionally you need to choose a monitor node, this is required.
+
+That's it, you should see a success page as the last step with further
+instructions on how to go on. You are now prepared to start using Ceph,
+even though you will need to create additional xref:pve_ceph_monitors[monitors],
+create some xref:pve_ceph_osds[OSDs] and at least one xref:pve_ceph_pools[pool].
+
+The rest of this chapter will guide you on how to get the most out of
+your {pve} based Ceph setup, this will include aforementioned and
+more like xref:pveceph_fs[CephFS] which is a very handy addition to your
+new Ceph cluster.
 
 [[pve_ceph_install]]
 Installation of Ceph Packages
 -----------------------------
-
-On each node run the installation script as follows:
+Use {pve} Ceph installation wizard (recommended) or run the following
+command on each node:
 
 [source,bash]
 ----
@@ -164,20 +216,20 @@ Creating initial Ceph configuration
 
 [thumbnail="screenshot/gui-ceph-config.png"]
 
-After installation of packages, you need to create an initial Ceph
-configuration on just one node, based on your network (`10.10.10.0/24`
-in the following example) dedicated for Ceph:
+Use the {pve} Ceph installation wizard (recommended) or run the
+following command on one node:
 
 [source,bash]
 ----
 pveceph init --network 10.10.10.0/24
 ----
 
-This creates an initial configuration at `/etc/pve/ceph.conf`. That file is
-automatically distributed to all {pve} nodes by using
-xref:chapter_pmxcfs[pmxcfs]. The command also creates a symbolic link
-from `/etc/ceph/ceph.conf` pointing to that file. So you can simply run
-Ceph commands without the need to specify a configuration file.
+This creates an initial configuration at `/etc/pve/ceph.conf` with a
+dedicated network for ceph. That file is automatically distributed to
+all {pve} nodes by using xref:chapter_pmxcfs[pmxcfs]. The command also
+creates a symbolic link from `/etc/ceph/ceph.conf` pointing to that file.
+So you can simply run Ceph commands without the need to specify a
+configuration file.
 
 
 [[pve_ceph_monitors]]
@@ -189,7 +241,10 @@ Creating Ceph Monitors
 The Ceph Monitor (MON)
 footnote:[Ceph Monitor http://docs.ceph.com/docs/luminous/start/intro/]
 maintains a master copy of the cluster map. For high availability you need to
-have at least 3 monitors.
+have at least 3 monitors. One monitor will already be installed if you
+used the installation wizard. You wont need more than 3 monitors as long
+as your cluster is small to midsize, only really large clusters will
+need more than that.
 
 On each node where you want to place a monitor (three monitors are recommended),
 create it by using the 'Ceph -> Monitor' tab in the GUI or run.
@@ -483,7 +538,7 @@ cluster, this way even high load will not overload a single host, which can be
 an issue with traditional shared filesystem approaches, like `NFS`, for
 example.
 
-{pve} supports both, using an existing xref:storage_cephfs[CephFS as storage])
+{pve} supports both, using an existing xref:storage_cephfs[CephFS as storage]
 to save backups, ISO files or container templates and creating a
 hyper-converged CephFS itself.
 
