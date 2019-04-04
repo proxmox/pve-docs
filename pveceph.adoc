@@ -537,18 +537,22 @@ pveceph pool destroy NAME
 ----
 
 
-Ceph monitoring & troubleshooting
----------------------------------
-A good start is to monitor the ceph health to begin with. Either through the
-ceph tools itself or also by accessing the status through the {pve}
-link:api-viewer/index.html[API].
+Ceph monitoring and troubleshooting
+-----------------------------------
+A good start is to continuosly monitor the ceph health from the start of
+initial deployment. Either through the ceph tools itself, but also by accessing
+the status through the {pve} link:api-viewer/index.html[API].
 
-If the cluster is in an unhealthy state the commands below will give an
-overview on the current events.
+The following ceph commands below can be used to see if the cluster is healthy
+('HEALTH_OK'), if there are warnings ('HEALTH_WARN'), or even errors
+('HEALTH_ERR'). If the cluster is in an unhealthy state the status commands
+below will also give you an overview on the current events and actions take.
 
 ----
-ceph -s
-ceph -w
+# single time output
+pve# ceph -s
+# continuously output status changes (press CTRL+C to stop)
+pve# ceph -w
 ----
 
 To get a more detailed view, every ceph service has a log file under
