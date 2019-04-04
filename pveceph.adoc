@@ -151,24 +151,25 @@ Initial Ceph installation & configuration
 
 With {pve} you have the benefit of an easy to use installation wizard
 for Ceph. Click on one of your cluster nodes and navigate to the Ceph
-section in the menu tree. If Ceph is not installed already you will be
-offered to do this now.
+section in the menu tree. If Ceph is not already installed you will be
+offered to do so now.
 
 The wizard is divided into different sections, where each needs to be
-done successfully in order to use Ceph. After starting the installation
-the wizard will load and install all required packages.
+finished successfully in order to use Ceph. After starting the installation
+the wizard will download and install all required packages from {pve}'s ceph
+repository.
 
 After finishing the first step, you will need to create a configuration.
-This step is only needed on the first run of the wizard, because the
-configuration is cluster wide and therefore distributed automatically
-to all remaining cluster members - see xref:chapter_pmxcfs[cluster file system (pmxcfs)] section.
+This step is only needed once per cluster, as this configuration is distributed
+automatically to all remaining cluster members through {pve}'s clustered
+xref:chapter_pmxcfs[configuration file system (pmxcfs)].
 
 The configuration step includes the following settings:
 
 * *Public Network:* You should setup a dedicated network for Ceph, this
 setting is required. Separating your Ceph traffic is highly recommended,
-because it could lead to troubles with other latency dependent services
-e.g. cluster communication.
+because it could lead to troubles with other latency dependent services,
+e.g., cluster communication may decrease Ceph's performance, if not done.
 
 [thumbnail="screenshot/gui-node-ceph-install-wizard-step2.png"]
 
@@ -182,9 +183,9 @@ should only changed if you are an expert.
 
 * *Number of replicas*: Defines the how often a object is replicated
 * *Minimum replicas*: Defines the minimum number of required replicas
-for I/O.
+  for I/O to be marked as complete.
 
-Additionally you need to choose a monitor node, this is required.
+Additionally you need to choose your first monitor node, this is required.
 
 That's it, you should see a success page as the last step with further
 instructions on how to go on. You are now prepared to start using Ceph,
