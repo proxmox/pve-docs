@@ -10,6 +10,10 @@ Restrict TCP/UDP destination port. You can use service names or simple numbers (
 
 Network interface name. You have to use network configuration key names for VMs and containers ('net\d+'). Host related rules can use arbitrary strings.
 
+`--log` `<alert | crit | debug | emerg | err | info | nolog | notice | warning>` ::
+
+Log level for firewall rule.
+
 `--proto` `<string>` ::
 
 IP protocol. You can use protocol names ('tcp'/'udp') or simple numbers, as defined in '/etc/protocols'.

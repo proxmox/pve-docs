@@ -156,6 +156,26 @@ Run a command with a tcp socket as standard input. The IP address and port are p
 
 Displays the local view of the cluster nodes.
 
+*pvecm qdevice remove*
+
+Remove a configured QDevice
+
+*pvecm qdevice setup* `<address>` `[OPTIONS]`
+
+Setup the use of a QDevice
+
+`<address>`: `<string>` ::
+
+Specifies the network address of an external corosync QDevice
+
+`--force` `<boolean>` ::
+
+Do not throw error on possible dangerous operations.
+
+`--network` `<string>` ::
+
+The network which should be used to connect to the external qdevice
+
 *pvecm status*
 
 Displays the local view of the cluster status.

@@ -266,7 +266,7 @@ Destroy ceph related data and configuration files.
 
 Start ceph services.
 
-`<service>`: `(mon|mds|osd|mgr)\.[A-Za-z0-9\-]{1,32}` ('default =' `ceph.target`)::
+`<service>`: `(ceph|mon|mds|osd|mgr)\.[A-Za-z0-9\-]{1,32}` ('default =' `ceph.target`)::
 
 Ceph service name.
 
@@ -278,7 +278,7 @@ Get ceph status.
 
 Stop ceph services.
 
-`<service>`: `(mon|mds|osd|mgr)\.[A-Za-z0-9\-]{1,32}` ('default =' `ceph.target`)::
+`<service>`: `(ceph|mon|mds|osd|mgr)\.[A-Za-z0-9\-]{1,32}` ('default =' `ceph.target`)::
 
 Ceph service name.
 

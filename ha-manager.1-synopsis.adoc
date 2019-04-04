@@ -134,7 +134,7 @@ HA resource ID. This consists of a resource type followed by a resource specific
 
 `<node>`: `<string>` ::
 
-The cluster node name.
+Target node.
 
 *ha-manager relocate* `<sid> <node>`
 
@@ -147,7 +147,7 @@ HA resource ID. This consists of a resource type followed by a resource specific
 
 `<node>`: `<string>` ::
 
-The cluster node name.
+Target node.
 
 *ha-manager remove* `<sid>`
 

@@ -10,6 +10,10 @@ Log level for incoming traffic.
 
 Log level for outgoing traffic.
 
+`log_nf_conntrack`: `<boolean>` ('default =' `0`)::
+
+Enable logging of conntrack information.
+
 `ndp`: `<boolean>` ::
 
 Enable NDP.

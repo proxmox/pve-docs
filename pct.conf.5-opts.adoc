@@ -136,7 +136,7 @@ Default gateway for IPv6 traffic.
 
 `hwaddr`=`<XX:XX:XX:XX:XX:XX>` ;;
 
-The interface MAC address. This is dynamically allocated by default, but you can set that statically if needed, for example to always have the same link-local IPv6 address. (lxc.network.hwaddr)
+A common MAC address with the I/G (Individual/Group) bit not set.
 
 `ip`=`<(IPv4/CIDR|dhcp|manual)>` ;;
 

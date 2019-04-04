@@ -12,6 +12,10 @@ The (unique) ID of the VM.
 
 VMID for the clone.
 
+`--bwlimit` `<number> (0 - N)` ('default =' `clone limit from datacenter or storage config`)::
+
+Override I/O bandwidth limit (in KiB/s).
+
 `--description` `<string>` ::
 
 Description for the new CT.
@@ -84,9 +88,9 @@ The OS template or backup file.
 
 OS architecture type.
 
-`--bwlimit` `<number> (0 - N)` ::
+`--bwlimit` `<number> (0 - N)` ('default =' `restore limit from datacenter or storage config`)::
 
-Override i/o bandwidth limit (in KiB/s).
+Override I/O bandwidth limit (in KiB/s).
 
 `--cmode` `<console | shell | tty>` ('default =' `tty`)::
 
@@ -216,6 +220,12 @@ Enable/disable Template.
 
 Specify the number of tty available to the container
 
+`--unique` `<boolean>` ::
+
+Assign a unique random ethernet address.
++
+NOTE: Requires option(s): `restore`
+
 `--unprivileged` `<boolean>` ('default =' `0`)::
 
 Makes the container run as unprivileged user. (Should not be modified manually.)
@@ -292,6 +302,14 @@ A volume on which to run the filesystem check
 
 Force checking, even if the filesystem seems clean
 
+*pct fstrim* `<vmid>`
+
+Run fstrim on a chosen CT and its mountpoints.
+
+`<vmid>`: `<integer> (1 - N)` ::
+
+The (unique) ID of the VM.
+
 *pct help* `[OPTIONS]`
 
 Get help about specified command.
@@ -327,6 +345,10 @@ The (unique) ID of the VM.
 `<target>`: `<string>` ::
 
 Target node.
+
+`--bwlimit` `<number> (0 - N)` ('default =' `migrate limit from datacenter or storage config`)::
+
+Override I/O bandwidth limit (in KiB/s).
 
 `--force` `<boolean>` ::
 
@@ -369,6 +391,10 @@ Volume which will be moved.
 `<storage>`: `<string>` ::
 
 Target Storage.
+
+`--bwlimit` `<number> (0 - N)` ('default =' `clone limit from datacenter or storage config`)::
+
+Override I/O bandwidth limit (in KiB/s).
 
 `--delete` `<boolean>` ('default =' `0`)::
 
@@ -482,9 +508,9 @@ The OS template or backup file.
 
 OS architecture type.
 
-`--bwlimit` `<number> (0 - N)` ::
+`--bwlimit` `<number> (0 - N)` ('default =' `restore limit from datacenter or storage config`)::
 
-Override i/o bandwidth limit (in KiB/s).
+Override I/O bandwidth limit (in KiB/s).
 
 `--cmode` `<console | shell | tty>` ('default =' `tty`)::
 
@@ -609,6 +635,12 @@ Enable/disable Template.
 `--tty` `<integer> (0 - 6)` ('default =' `2`)::
 
 Specify the number of tty available to the container
+
+`--unique` `<boolean>` ::
+
+Assign a unique random ethernet address.
++
+NOTE: Requires option(s): `restore`
 
 `--unprivileged` `<boolean>` ('default =' `0`)::
 

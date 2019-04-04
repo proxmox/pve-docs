@@ -821,6 +821,22 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "integer"
                                           },
+                                          "log" : {
+                                             "description" : "Log level for firewall rule",
+                                             "enum" : [
+                                                "emerg",
+                                                "alert",
+                                                "crit",
+                                                "err",
+                                                "warning",
+                                                "notice",
+                                                "info",
+                                                "debug",
+                                                "nolog"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
                                           "macro" : {
                                              "optional" : 1,
                                              "type" : "string"
@@ -918,6 +934,22 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
+                                          },
+                                          "log" : {
+                                             "description" : "Log level for firewall rule.",
+                                             "enum" : [
+                                                "emerg",
+                                                "alert",
+                                                "crit",
+                                                "err",
+                                                "warning",
+                                                "notice",
+                                                "info",
+                                                "debug",
+                                                "nolog"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
                                           },
                                           "macro" : {
                                              "description" : "Use predefined standard macro.",
@@ -1133,6 +1165,22 @@ var pveapi = [
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
+                                    },
+                                    "log" : {
+                                       "description" : "Log level for firewall rule.",
+                                       "enum" : [
+                                          "emerg",
+                                          "alert",
+                                          "crit",
+                                          "err",
+                                          "warning",
+                                          "notice",
+                                          "info",
+                                          "debug",
+                                          "nolog"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
                                     },
                                     "macro" : {
                                        "description" : "Use predefined standard macro.",
@@ -1397,6 +1445,22 @@ var pveapi = [
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
+                                    "log" : {
+                                       "description" : "Log level for firewall rule",
+                                       "enum" : [
+                                          "emerg",
+                                          "alert",
+                                          "crit",
+                                          "err",
+                                          "warning",
+                                          "notice",
+                                          "info",
+                                          "debug",
+                                          "nolog"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
                                     "macro" : {
                                        "optional" : 1,
                                        "type" : "string"
@@ -1487,6 +1551,22 @@ var pveapi = [
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
+                                    },
+                                    "log" : {
+                                       "description" : "Log level for firewall rule.",
+                                       "enum" : [
+                                          "emerg",
+                                          "alert",
+                                          "crit",
+                                          "err",
+                                          "warning",
+                                          "notice",
+                                          "info",
+                                          "debug",
+                                          "nolog"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
                                     },
                                     "macro" : {
                                        "description" : "Use predefined standard macro.",
@@ -1656,6 +1736,22 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "log" : {
+                                 "description" : "Log level for firewall rule.",
+                                 "enum" : [
+                                    "emerg",
+                                    "alert",
+                                    "crit",
+                                    "err",
+                                    "warning",
+                                    "notice",
+                                    "info",
+                                    "debug",
+                                    "nolog"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
                               },
                               "macro" : {
                                  "description" : "Use predefined standard macro.",
@@ -2370,6 +2466,34 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "integer"
                               },
+                              "log_ratelimit" : {
+                                 "description" : "Log ratelimiting settings",
+                                 "format" : {
+                                    "burst" : {
+                                       "default" : 5,
+                                       "description" : "Inital burst of packages which will get logged",
+                                       "minimum" : 0,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "enable" : {
+                                       "default" : "1",
+                                       "default_key" : 1,
+                                       "description" : "Enable or disable log rate limiting",
+                                       "type" : "boolean"
+                                    },
+                                    "rate" : {
+                                       "default" : "1/second",
+                                       "description" : "Frequency with which the burst bucket gets refilled",
+                                       "format_description" : "rate",
+                                       "optional" : 1,
+                                       "pattern" : "[1-9][0-9]*\\/(second|minute|hour|day)",
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
                               "policy_in" : {
                                  "description" : "Input policy.",
                                  "enum" : [
@@ -2428,6 +2552,35 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "integer",
                                  "typetext" : "<integer> (0 - N)"
+                              },
+                              "log_ratelimit" : {
+                                 "description" : "Log ratelimiting settings",
+                                 "format" : {
+                                    "burst" : {
+                                       "default" : 5,
+                                       "description" : "Inital burst of packages which will get logged",
+                                       "minimum" : 0,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "enable" : {
+                                       "default" : "1",
+                                       "default_key" : 1,
+                                       "description" : "Enable or disable log rate limiting",
+                                       "type" : "boolean"
+                                    },
+                                    "rate" : {
+                                       "default" : "1/second",
+                                       "description" : "Frequency with which the burst bucket gets refilled",
+                                       "format_description" : "rate",
+                                       "optional" : 1,
+                                       "pattern" : "[1-9][0-9]*\\/(second|minute|hour|day)",
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "[enable=]<1|0> [,burst=<integer>] [,rate=<rate>]"
                               },
                               "policy_in" : {
                                  "description" : "Input policy.",
@@ -3187,7 +3340,7 @@ var pveapi = [
                                        "additionalProperties" : 0,
                                        "properties" : {
                                           "node" : {
-                                             "description" : "The cluster node name.",
+                                             "description" : "Target node.",
                                              "format" : "pve-node",
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -3229,7 +3382,7 @@ var pveapi = [
                                        "additionalProperties" : 0,
                                        "properties" : {
                                           "node" : {
-                                             "description" : "The cluster node name.",
+                                             "description" : "Target node.",
                                              "format" : "pve-node",
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -4475,35 +4628,35 @@ var pveapi = [
                            "description" : "Set bandwidth/io limits various operations.",
                            "format" : {
                               "clone" : {
-                                 "description" : "bandwidth limit in MiB/s for cloning disks",
+                                 "description" : "bandwidth limit in KiB/s for cloning disks",
                                  "format_description" : "LIMIT",
                                  "minimum" : "0",
                                  "optional" : 1,
                                  "type" : "number"
                               },
                               "default" : {
-                                 "description" : "default bandwidth limit in MiB/s",
+                                 "description" : "default bandwidth limit in KiB/s",
                                  "format_description" : "LIMIT",
                                  "minimum" : "0",
                                  "optional" : 1,
                                  "type" : "number"
                               },
                               "migration" : {
-                                 "description" : "bandwidth limit in MiB/s for migrating guests",
+                                 "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
                                  "format_description" : "LIMIT",
                                  "minimum" : "0",
                                  "optional" : 1,
                                  "type" : "number"
                               },
                               "move" : {
-                                 "description" : "bandwidth limit in MiB/s for moving disks",
+                                 "description" : "bandwidth limit in KiB/s for moving disks",
                                  "format_description" : "LIMIT",
                                  "minimum" : "0",
                                  "optional" : 1,
                                  "type" : "number"
                               },
                               "restore" : {
-                                 "description" : "bandwidth limit in MiB/s for restoring guests from backups",
+                                 "description" : "bandwidth limit in KiB/s for restoring guests from backups",
                                  "format_description" : "LIMIT",
                                  "minimum" : "0",
                                  "optional" : 1,
@@ -4635,9 +4788,10 @@ var pveapi = [
                         },
                         "mac_prefix" : {
                            "description" : "Prefix for autogenerated MAC addresses.",
+                           "format" : "mac-prefix",
                            "optional" : 1,
-                           "pattern" : "(?^i:[a-f0-9]{2}(?::[a-f0-9]{2}){0,2}:?)",
-                           "type" : "string"
+                           "type" : "string",
+                           "typetext" : "<string>"
                         },
                         "max_workers" : {
                            "description" : "Defines how many workers (per node) are maximal started  on actions like 'stopall VMs' or task from the ha-manager.",
@@ -4676,6 +4830,26 @@ var pveapi = [
                            "optional" : 1,
                            "type" : "boolean",
                            "typetext" : "<boolean>"
+                        },
+                        "u2f" : {
+                           "description" : "u2f",
+                           "format" : {
+                              "appid" : {
+                                 "description" : "U2F AppId URL override. Defaults to the origin.",
+                                 "format_description" : "APPID",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "origin" : {
+                                 "description" : "U2F Origin override. Mostly useful for single nodes with a single URL.",
+                                 "format_description" : "URL",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "[appid=<APPID>] [,origin=<URL>]"
                         }
                      }
                   },
@@ -4930,6 +5104,22 @@ var pveapi = [
                                                          "optional" : 1,
                                                          "type" : "integer"
                                                       },
+                                                      "log" : {
+                                                         "description" : "Log level for firewall rule",
+                                                         "enum" : [
+                                                            "emerg",
+                                                            "alert",
+                                                            "crit",
+                                                            "err",
+                                                            "warning",
+                                                            "notice",
+                                                            "info",
+                                                            "debug",
+                                                            "nolog"
+                                                         ],
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
                                                       "macro" : {
                                                          "optional" : 1,
                                                          "type" : "string"
@@ -5020,6 +5210,22 @@ var pveapi = [
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
+                                                      },
+                                                      "log" : {
+                                                         "description" : "Log level for firewall rule.",
+                                                         "enum" : [
+                                                            "emerg",
+                                                            "alert",
+                                                            "crit",
+                                                            "err",
+                                                            "warning",
+                                                            "notice",
+                                                            "info",
+                                                            "debug",
+                                                            "nolog"
+                                                         ],
+                                                         "optional" : 1,
+                                                         "type" : "string"
                                                       },
                                                       "macro" : {
                                                          "description" : "Use predefined standard macro.",
@@ -5217,6 +5423,22 @@ var pveapi = [
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
+                                                },
+                                                "log" : {
+                                                   "description" : "Log level for firewall rule.",
+                                                   "enum" : [
+                                                      "emerg",
+                                                      "alert",
+                                                      "crit",
+                                                      "err",
+                                                      "warning",
+                                                      "notice",
+                                                      "info",
+                                                      "debug",
+                                                      "nolog"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
                                                 },
                                                 "macro" : {
                                                    "description" : "Use predefined standard macro.",
@@ -8147,6 +8369,12 @@ var pveapi = [
                                              "type" : "string",
                                              "typetext" : "<volume>"
                                           },
+                                          "cicustom" : {
+                                             "description" : "cloud-init: Specify custom files to replace the automatically generated ones at start.",
+                                             "format" : "pve-qm-cicustom",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
                                           "cipassword" : {
                                              "description" : "cloud-init: Password to assign the user. Using this is generally not recommended. Use ssh keys instead. Also note that older cloud-init versions do not support hashed passwords.",
                                              "optional" : 1,
@@ -8663,6 +8891,13 @@ var pveapi = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
+                                                },
+                                                "wwn" : {
+                                                   "description" : "The drive's worldwide name, encoded as 16 bytes hex string, prefixed by '0x'.",
+                                                   "format_description" : "wwn",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:^(0x)[0-9a-fA-F]{16})",
+                                                   "type" : "string"
                                                 }
                                              },
                                              "optional" : 1,
@@ -8671,6 +8906,25 @@ var pveapi = [
                                           "ipconfig[n]" : {
                                              "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit gateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using dhcp on IPv4.\n",
                                              "format" : "pve-qm-ipconfig",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "ivshmem" : {
+                                             "description" : "Inter-VM shared memory. Useful for direct communication between VMs, or to the host.",
+                                             "format" : {
+                                                "name" : {
+                                                   "description" : "The name of the file. Will be prefixed with 'pve-shm-'. Default is the VMID. Will be deleted when the VM is stopped.",
+                                                   "format_description" : "string",
+                                                   "optional" : 1,
+                                                   "pattern" : "[a-zA-Z0-9\\-]+",
+                                                   "type" : "string"
+                                                },
+                                                "size" : {
+                                                   "description" : "The size of the file in MB.",
+                                                   "minimum" : 1,
+                                                   "type" : "integer"
+                                                }
+                                             },
                                              "optional" : 1,
                                              "type" : "string"
                                           },
@@ -8727,7 +8981,9 @@ var pveapi = [
                                                 "migrate",
                                                 "rollback",
                                                 "snapshot",
-                                                "snapshot-delete"
+                                                "snapshot-delete",
+                                                "suspending",
+                                                "suspended"
                                              ],
                                              "optional" : 1,
                                              "type" : "string"
@@ -8821,10 +9077,11 @@ var pveapi = [
                                                 },
                                                 "macaddr" : {
                                                    "description" : "MAC address. That address must be unique withing your network. This is automatically generated if not specified.",
+                                                   "format" : "mac-addr",
                                                    "format_description" : "XX:XX:XX:XX:XX:XX",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^i:[0-9a-f]{2}(?::[0-9a-f]{2}){5})",
-                                                   "type" : "string"
+                                                   "type" : "string",
+                                                   "verbose_description" : "A common MAC address with the I/G (Individual/Group) bit not set."
                                                 },
                                                 "model" : {
                                                    "default_key" : 1,
@@ -9291,6 +9548,13 @@ var pveapi = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
+                                                },
+                                                "wwn" : {
+                                                   "description" : "The drive's worldwide name, encoded as 16 bytes hex string, prefixed by '0x'.",
+                                                   "format_description" : "wwn",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:^(0x)[0-9a-fA-F]{16})",
+                                                   "type" : "string"
                                                 }
                                              },
                                              "optional" : 1,
@@ -9616,6 +9880,13 @@ var pveapi = [
                                                       "stop"
                                                    ],
                                                    "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "wwn" : {
+                                                   "description" : "The drive's worldwide name, encoded as 16 bytes hex string, prefixed by '0x'.",
+                                                   "format_description" : "wwn",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:^(0x)[0-9a-fA-F]{16})",
                                                    "type" : "string"
                                                 }
                                              },
@@ -10225,6 +10496,13 @@ var pveapi = [
                                              "type" : "string",
                                              "typetext" : "<volume>"
                                           },
+                                          "cicustom" : {
+                                             "description" : "cloud-init: Specify custom files to replace the automatically generated ones at start.",
+                                             "format" : "pve-qm-cicustom",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "[meta=<volume>] [,network=<volume>] [,user=<volume>]"
+                                          },
                                           "cipassword" : {
                                              "description" : "cloud-init: Password to assign the user. Using this is generally not recommended. Use ssh keys instead. Also note that older cloud-init versions do not support hashed passwords.",
                                              "optional" : 1,
@@ -10770,11 +11048,18 @@ var pveapi = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
+                                                },
+                                                "wwn" : {
+                                                   "description" : "The drive's worldwide name, encoded as 16 bytes hex string, prefixed by '0x'.",
+                                                   "format_description" : "wwn",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:^(0x)[0-9a-fA-F]{16})",
+                                                   "type" : "string"
                                                 }
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "ipconfig[n]" : {
                                              "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit gateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using dhcp on IPv4.\n",
@@ -10782,6 +11067,26 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "[gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>]"
+                                          },
+                                          "ivshmem" : {
+                                             "description" : "Inter-VM shared memory. Useful for direct communication between VMs, or to the host.",
+                                             "format" : {
+                                                "name" : {
+                                                   "description" : "The name of the file. Will be prefixed with 'pve-shm-'. Default is the VMID. Will be deleted when the VM is stopped.",
+                                                   "format_description" : "string",
+                                                   "optional" : 1,
+                                                   "pattern" : "[a-zA-Z0-9\\-]+",
+                                                   "type" : "string"
+                                                },
+                                                "size" : {
+                                                   "description" : "The size of the file in MB.",
+                                                   "minimum" : 1,
+                                                   "type" : "integer"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "size=<integer> [,name=<string>]"
                                           },
                                           "keyboard" : {
                                              "default" : null,
@@ -10838,7 +11143,9 @@ var pveapi = [
                                                 "migrate",
                                                 "rollback",
                                                 "snapshot",
-                                                "snapshot-delete"
+                                                "snapshot-delete",
+                                                "suspending",
+                                                "suspended"
                                              ],
                                              "optional" : 1,
                                              "type" : "string"
@@ -10937,10 +11244,11 @@ var pveapi = [
                                                 },
                                                 "macaddr" : {
                                                    "description" : "MAC address. That address must be unique withing your network. This is automatically generated if not specified.",
+                                                   "format" : "mac-addr",
                                                    "format_description" : "XX:XX:XX:XX:XX:XX",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^i:[0-9a-f]{2}(?::[0-9a-f]{2}){5})",
-                                                   "type" : "string"
+                                                   "type" : "string",
+                                                   "verbose_description" : "A common MAC address with the I/G (Individual/Group) bit not set."
                                                 },
                                                 "model" : {
                                                    "default_key" : 1,
@@ -11426,11 +11734,18 @@ var pveapi = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
+                                                },
+                                                "wwn" : {
+                                                   "description" : "The drive's worldwide name, encoded as 16 bytes hex string, prefixed by '0x'.",
+                                                   "format_description" : "wwn",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:^(0x)[0-9a-fA-F]{16})",
+                                                   "type" : "string"
                                                 }
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "scsi[n]" : {
                                              "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).",
@@ -11753,11 +12068,18 @@ var pveapi = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
+                                                },
+                                                "wwn" : {
+                                                   "description" : "The drive's worldwide name, encoded as 16 bytes hex string, prefixed by '0x'.",
+                                                   "format_description" : "wwn",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:^(0x)[0-9a-fA-F]{16})",
+                                                   "type" : "string"
                                                 }
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "scsihw" : {
                                              "default" : "lsi",
@@ -12405,6 +12727,13 @@ var pveapi = [
                                              "type" : "string",
                                              "typetext" : "<volume>"
                                           },
+                                          "cicustom" : {
+                                             "description" : "cloud-init: Specify custom files to replace the automatically generated ones at start.",
+                                             "format" : "pve-qm-cicustom",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "[meta=<volume>] [,network=<volume>] [,user=<volume>]"
+                                          },
                                           "cipassword" : {
                                              "description" : "cloud-init: Password to assign the user. Using this is generally not recommended. Use ssh keys instead. Also note that older cloud-init versions do not support hashed passwords.",
                                              "optional" : 1,
@@ -12950,11 +13279,18 @@ var pveapi = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
+                                                },
+                                                "wwn" : {
+                                                   "description" : "The drive's worldwide name, encoded as 16 bytes hex string, prefixed by '0x'.",
+                                                   "format_description" : "wwn",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:^(0x)[0-9a-fA-F]{16})",
+                                                   "type" : "string"
                                                 }
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "ipconfig[n]" : {
                                              "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit gateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using dhcp on IPv4.\n",
@@ -12962,6 +13298,26 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "[gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>]"
+                                          },
+                                          "ivshmem" : {
+                                             "description" : "Inter-VM shared memory. Useful for direct communication between VMs, or to the host.",
+                                             "format" : {
+                                                "name" : {
+                                                   "description" : "The name of the file. Will be prefixed with 'pve-shm-'. Default is the VMID. Will be deleted when the VM is stopped.",
+                                                   "format_description" : "string",
+                                                   "optional" : 1,
+                                                   "pattern" : "[a-zA-Z0-9\\-]+",
+                                                   "type" : "string"
+                                                },
+                                                "size" : {
+                                                   "description" : "The size of the file in MB.",
+                                                   "minimum" : 1,
+                                                   "type" : "integer"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "size=<integer> [,name=<string>]"
                                           },
                                           "keyboard" : {
                                              "default" : null,
@@ -13018,7 +13374,9 @@ var pveapi = [
                                                 "migrate",
                                                 "rollback",
                                                 "snapshot",
-                                                "snapshot-delete"
+                                                "snapshot-delete",
+                                                "suspending",
+                                                "suspended"
                                              ],
                                              "optional" : 1,
                                              "type" : "string"
@@ -13117,10 +13475,11 @@ var pveapi = [
                                                 },
                                                 "macaddr" : {
                                                    "description" : "MAC address. That address must be unique withing your network. This is automatically generated if not specified.",
+                                                   "format" : "mac-addr",
                                                    "format_description" : "XX:XX:XX:XX:XX:XX",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^i:[0-9a-f]{2}(?::[0-9a-f]{2}){5})",
-                                                   "type" : "string"
+                                                   "type" : "string",
+                                                   "verbose_description" : "A common MAC address with the I/G (Individual/Group) bit not set."
                                                 },
                                                 "model" : {
                                                    "default_key" : 1,
@@ -13606,11 +13965,18 @@ var pveapi = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
+                                                },
+                                                "wwn" : {
+                                                   "description" : "The drive's worldwide name, encoded as 16 bytes hex string, prefixed by '0x'.",
+                                                   "format_description" : "wwn",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:^(0x)[0-9a-fA-F]{16})",
+                                                   "type" : "string"
                                                 }
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "scsi[n]" : {
                                              "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).",
@@ -13933,11 +14299,18 @@ var pveapi = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
+                                                },
+                                                "wwn" : {
+                                                   "description" : "The drive's worldwide name, encoded as 16 bytes hex string, prefixed by '0x'.",
+                                                   "format_description" : "wwn",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:^(0x)[0-9a-fA-F]{16})",
+                                                   "type" : "string"
                                                 }
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "scsihw" : {
                                              "default" : "lsi",
@@ -14936,6 +15309,11 @@ var pveapi = [
                                                    "description" : "HA manager service status.",
                                                    "type" : "object"
                                                 },
+                                                "lock" : {
+                                                   "description" : "The current config lock, if any.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
                                                 "maxdisk" : {
                                                    "description" : "Root disk size in bytes.",
                                                    "optional" : 1,
@@ -15303,6 +15681,21 @@ var pveapi = [
                                                    "type" : "boolean",
                                                    "typetext" : "<boolean>"
                                                 },
+                                                "statestorage" : {
+                                                   "description" : "The storage for the VM state",
+                                                   "format" : "pve-storage-id",
+                                                   "optional" : 1,
+                                                   "requires" : "todisk",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "todisk" : {
+                                                   "default" : 0,
+                                                   "description" : "If set, suspends the VM to disk. Will be resumed on next VM start.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "typetext" : "<boolean>"
+                                                },
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
@@ -15574,6 +15967,14 @@ var pveapi = [
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
+                                          "bwlimit" : {
+                                             "default" : "clone limit from datacenter or storage config",
+                                             "description" : "Override I/O bandwidth limit (in KiB/s).",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (0 - N)"
+                                          },
                                           "description" : {
                                              "description" : "Description for the new VM.",
                                              "optional" : 1,
@@ -15706,6 +16107,14 @@ var pveapi = [
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
+                                          "bwlimit" : {
+                                             "default" : "move limit from datacenter or storage config",
+                                             "description" : "Override I/O bandwidth limit (in KiB/s).",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (0 - N)"
+                                          },
                                           "delete" : {
                                              "default" : 0,
                                              "description" : "Delete the original disk after successful copy. By default the original disk is kept as unused disk.",
@@ -15839,6 +16248,14 @@ var pveapi = [
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
+                                          "bwlimit" : {
+                                             "default" : "migrate limit from datacenter or storage config",
+                                             "description" : "Override I/O bandwidth limit (in KiB/s).",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (0 - N)"
+                                          },
                                           "force" : {
                                              "description" : "Allow to migrate VMs which use local devices. Only root may use this option.",
                                              "optional" : 1,
@@ -16707,6 +17124,11 @@ var pveapi = [
                                     "optional" : 1,
                                     "type" : "number"
                                  },
+                                 "lock" : {
+                                    "description" : "The current config lock, if any.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
                                  "maxdisk" : {
                                     "description" : "Root disk size in bytes.",
                                     "optional" : 1,
@@ -16862,7 +17284,8 @@ var pveapi = [
                                  "type" : "string"
                               },
                               "bwlimit" : {
-                                 "description" : "Override i/o bandwidth limit (in KiB/s).",
+                                 "default" : "restore limit from datacenter or storage config",
+                                 "description" : "Override I/O bandwidth limit (in KiB/s).",
                                  "minimum" : "0",
                                  "optional" : 1,
                                  "type" : "integer",
@@ -16874,6 +17297,13 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<volume>"
+                              },
+                              "cicustom" : {
+                                 "description" : "cloud-init: Specify custom files to replace the automatically generated ones at start.",
+                                 "format" : "pve-qm-cicustom",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "[meta=<volume>] [,network=<volume>] [,user=<volume>]"
                               },
                               "cipassword" : {
                                  "description" : "cloud-init: Password to assign the user. Using this is generally not recommended. Use ssh keys instead. Also note that older cloud-init versions do not support hashed passwords.",
@@ -17406,11 +17836,18 @@ var pveapi = [
                                        ],
                                        "optional" : 1,
                                        "type" : "string"
+                                    },
+                                    "wwn" : {
+                                       "description" : "The drive's worldwide name, encoded as 16 bytes hex string, prefixed by '0x'.",
+                                       "format_description" : "wwn",
+                                       "optional" : 1,
+                                       "pattern" : "(?^:^(0x)[0-9a-fA-F]{16})",
+                                       "type" : "string"
                                     }
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                               },
                               "ipconfig[n]" : {
                                  "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit gateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using dhcp on IPv4.\n",
@@ -17418,6 +17855,26 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "[gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>]"
+                              },
+                              "ivshmem" : {
+                                 "description" : "Inter-VM shared memory. Useful for direct communication between VMs, or to the host.",
+                                 "format" : {
+                                    "name" : {
+                                       "description" : "The name of the file. Will be prefixed with 'pve-shm-'. Default is the VMID. Will be deleted when the VM is stopped.",
+                                       "format_description" : "string",
+                                       "optional" : 1,
+                                       "pattern" : "[a-zA-Z0-9\\-]+",
+                                       "type" : "string"
+                                    },
+                                    "size" : {
+                                       "description" : "The size of the file in MB.",
+                                       "minimum" : 1,
+                                       "type" : "integer"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "size=<integer> [,name=<string>]"
                               },
                               "keyboard" : {
                                  "default" : null,
@@ -17474,7 +17931,9 @@ var pveapi = [
                                     "migrate",
                                     "rollback",
                                     "snapshot",
-                                    "snapshot-delete"
+                                    "snapshot-delete",
+                                    "suspending",
+                                    "suspended"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -17573,10 +18032,11 @@ var pveapi = [
                                     },
                                     "macaddr" : {
                                        "description" : "MAC address. That address must be unique withing your network. This is automatically generated if not specified.",
+                                       "format" : "mac-addr",
                                        "format_description" : "XX:XX:XX:XX:XX:XX",
                                        "optional" : 1,
-                                       "pattern" : "(?^i:[0-9a-f]{2}(?::[0-9a-f]{2}){5})",
-                                       "type" : "string"
+                                       "type" : "string",
+                                       "verbose_description" : "A common MAC address with the I/G (Individual/Group) bit not set."
                                     },
                                     "model" : {
                                        "default_key" : 1,
@@ -18062,11 +18522,18 @@ var pveapi = [
                                        ],
                                        "optional" : 1,
                                        "type" : "string"
+                                    },
+                                    "wwn" : {
+                                       "description" : "The drive's worldwide name, encoded as 16 bytes hex string, prefixed by '0x'.",
+                                       "format_description" : "wwn",
+                                       "optional" : 1,
+                                       "pattern" : "(?^:^(0x)[0-9a-fA-F]{16})",
+                                       "type" : "string"
                                     }
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                               },
                               "scsi[n]" : {
                                  "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).",
@@ -18389,11 +18856,18 @@ var pveapi = [
                                        ],
                                        "optional" : 1,
                                        "type" : "string"
+                                    },
+                                    "wwn" : {
+                                       "description" : "The drive's worldwide name, encoded as 16 bytes hex string, prefixed by '0x'.",
+                                       "format_description" : "wwn",
+                                       "optional" : 1,
+                                       "pattern" : "(?^:^(0x)[0-9a-fA-F]{16})",
+                                       "type" : "string"
                                     }
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                               },
                               "scsihw" : {
                                  "default" : "lsi",
@@ -19080,7 +19554,7 @@ var pveapi = [
                                                    "description" : "Allow mounting file systems of specific types. This should be a list of file system types as used with the mount command. Note that this can have negative effects on the container's security. With access to a loop device, mounting a file can circumvent the mknod permission of the devices cgroup, mounting an NFS file system can block the host's I/O completely and prevent it from rebooting, etc.",
                                                    "format_description" : "fstype;fstype;...",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^:[a-zA-Z0-9; ]+)",
+                                                   "pattern" : "(?^:[a-zA-Z0-9_; ]+)",
                                                    "type" : "string"
                                                 },
                                                 "nesting" : {
@@ -19237,10 +19711,11 @@ var pveapi = [
                                                 },
                                                 "hwaddr" : {
                                                    "description" : "The interface MAC address. This is dynamically allocated by default, but you can set that statically if needed, for example to always have the same link-local IPv6 address. (lxc.network.hwaddr)",
+                                                   "format" : "mac-addr",
                                                    "format_description" : "XX:XX:XX:XX:XX:XX",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^i:(?:[a-f0-9]{2}:){5}[a-f0-9]{2})",
-                                                   "type" : "string"
+                                                   "type" : "string",
+                                                   "verbose_description" : "A common MAC address with the I/G (Individual/Group) bit not set."
                                                 },
                                                 "ip" : {
                                                    "description" : "IPv4 address in CIDR format.",
@@ -19529,7 +20004,7 @@ var pveapi = [
                                                    "description" : "Allow mounting file systems of specific types. This should be a list of file system types as used with the mount command. Note that this can have negative effects on the container's security. With access to a loop device, mounting a file can circumvent the mknod permission of the devices cgroup, mounting an NFS file system can block the host's I/O completely and prevent it from rebooting, etc.",
                                                    "format_description" : "fstype;fstype;...",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^:[a-zA-Z0-9; ]+)",
+                                                   "pattern" : "(?^:[a-zA-Z0-9_; ]+)",
                                                    "type" : "string"
                                                 },
                                                 "nesting" : {
@@ -19681,10 +20156,11 @@ var pveapi = [
                                                 },
                                                 "hwaddr" : {
                                                    "description" : "The interface MAC address. This is dynamically allocated by default, but you can set that statically if needed, for example to always have the same link-local IPv6 address. (lxc.network.hwaddr)",
+                                                   "format" : "mac-addr",
                                                    "format_description" : "XX:XX:XX:XX:XX:XX",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^i:(?:[a-f0-9]{2}:){5}[a-f0-9]{2})",
-                                                   "type" : "string"
+                                                   "type" : "string",
+                                                   "verbose_description" : "A common MAC address with the I/G (Individual/Group) bit not set."
                                                 },
                                                 "ip" : {
                                                    "description" : "IPv4 address in CIDR format.",
@@ -19966,6 +20442,11 @@ var pveapi = [
                                                 "ha" : {
                                                    "description" : "HA manager service status.",
                                                    "type" : "object"
+                                                },
+                                                "lock" : {
+                                                   "description" : "The current config lock, if any.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
                                                 },
                                                 "maxdisk" : {
                                                    "description" : "Root disk size in bytes.",
@@ -20833,6 +21314,22 @@ var pveapi = [
                                                          "optional" : 1,
                                                          "type" : "integer"
                                                       },
+                                                      "log" : {
+                                                         "description" : "Log level for firewall rule",
+                                                         "enum" : [
+                                                            "emerg",
+                                                            "alert",
+                                                            "crit",
+                                                            "err",
+                                                            "warning",
+                                                            "notice",
+                                                            "info",
+                                                            "debug",
+                                                            "nolog"
+                                                         ],
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
                                                       "macro" : {
                                                          "optional" : 1,
                                                          "type" : "string"
@@ -20923,6 +21420,22 @@ var pveapi = [
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
+                                                      },
+                                                      "log" : {
+                                                         "description" : "Log level for firewall rule.",
+                                                         "enum" : [
+                                                            "emerg",
+                                                            "alert",
+                                                            "crit",
+                                                            "err",
+                                                            "warning",
+                                                            "notice",
+                                                            "info",
+                                                            "debug",
+                                                            "nolog"
+                                                         ],
+                                                         "optional" : 1,
+                                                         "type" : "string"
                                                       },
                                                       "macro" : {
                                                          "description" : "Use predefined standard macro.",
@@ -21120,6 +21633,22 @@ var pveapi = [
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
+                                                },
+                                                "log" : {
+                                                   "description" : "Log level for firewall rule.",
+                                                   "enum" : [
+                                                      "emerg",
+                                                      "alert",
+                                                      "crit",
+                                                      "err",
+                                                      "warning",
+                                                      "notice",
+                                                      "info",
+                                                      "debug",
+                                                      "nolog"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
                                                 },
                                                 "macro" : {
                                                    "description" : "Use predefined standard macro.",
@@ -22858,6 +23387,14 @@ var pveapi = [
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
+                                          "bwlimit" : {
+                                             "default" : "migrate limit from datacenter or storage config",
+                                             "description" : "Override I/O bandwidth limit (in KiB/s).",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number",
+                                             "typetext" : "<number> (0 - N)"
+                                          },
                                           "force" : {
                                              "description" : "Force migration despite local bind / device mounts. NOTE: deprecated, use 'shared' property of mount point instead.",
                                              "optional" : 1,
@@ -23045,6 +23582,14 @@ var pveapi = [
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
+                                          "bwlimit" : {
+                                             "default" : "clone limit from datacenter or storage config",
+                                             "description" : "Override I/O bandwidth limit (in KiB/s).",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number",
+                                             "typetext" : "<number> (0 - N)"
+                                          },
                                           "description" : {
                                              "description" : "Description for the new CT.",
                                              "optional" : 1,
@@ -23489,6 +24034,14 @@ var pveapi = [
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
+                                          "bwlimit" : {
+                                             "default" : "clone limit from datacenter or storage config",
+                                             "description" : "Override I/O bandwidth limit (in KiB/s).",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number",
+                                             "typetext" : "<number> (0 - N)"
+                                          },
                                           "delete" : {
                                              "default" : 0,
                                              "description" : "Delete the original volume after successful copy. By default the original is kept as an unused volume entry.",
@@ -23937,6 +24490,11 @@ var pveapi = [
                                     "optional" : 1,
                                     "type" : "number"
                                  },
+                                 "lock" : {
+                                    "description" : "The current config lock, if any.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
                                  "maxdisk" : {
                                     "description" : "Root disk size in bytes.",
                                     "optional" : 1,
@@ -24012,7 +24570,8 @@ var pveapi = [
                                  "type" : "string"
                               },
                               "bwlimit" : {
-                                 "description" : "Override i/o bandwidth limit (in KiB/s).",
+                                 "default" : "restore limit from datacenter or storage config",
+                                 "description" : "Override I/O bandwidth limit (in KiB/s).",
                                  "minimum" : "0",
                                  "optional" : 1,
                                  "type" : "number",
@@ -24087,7 +24646,7 @@ var pveapi = [
                                        "description" : "Allow mounting file systems of specific types. This should be a list of file system types as used with the mount command. Note that this can have negative effects on the container's security. With access to a loop device, mounting a file can circumvent the mknod permission of the devices cgroup, mounting an NFS file system can block the host's I/O completely and prevent it from rebooting, etc.",
                                        "format_description" : "fstype;fstype;...",
                                        "optional" : 1,
-                                       "pattern" : "(?^:[a-zA-Z0-9; ]+)",
+                                       "pattern" : "(?^:[a-zA-Z0-9_; ]+)",
                                        "type" : "string"
                                     },
                                     "nesting" : {
@@ -24251,10 +24810,11 @@ var pveapi = [
                                     },
                                     "hwaddr" : {
                                        "description" : "The interface MAC address. This is dynamically allocated by default, but you can set that statically if needed, for example to always have the same link-local IPv6 address. (lxc.network.hwaddr)",
+                                       "format" : "mac-addr",
                                        "format_description" : "XX:XX:XX:XX:XX:XX",
                                        "optional" : 1,
-                                       "pattern" : "(?^i:(?:[a-f0-9]{2}:){5}[a-f0-9]{2})",
-                                       "type" : "string"
+                                       "type" : "string",
+                                       "verbose_description" : "A common MAC address with the I/G (Individual/Group) bit not set."
                                     },
                                     "ip" : {
                                        "description" : "IPv4 address in CIDR format.",
@@ -24485,6 +25045,13 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "integer",
                                  "typetext" : "<integer> (0 - 6)"
+                              },
+                              "unique" : {
+                                 "description" : "Assign a unique random ethernet address.",
+                                 "optional" : 1,
+                                 "requires" : "restore",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
                               },
                               "unprivileged" : {
                                  "default" : 0,
@@ -25249,6 +25816,7 @@ var pveapi = [
                                  ]
                               },
                               "protected" : 1,
+                              "proxyto" : "node",
                               "returns" : {
                                  "items" : {
                                     "properties" : {
@@ -25392,6 +25960,7 @@ var pveapi = [
                                     1
                                  ]
                               },
+                              "proxyto" : "node",
                               "returns" : {
                                  "type" : "string"
                               }
@@ -25508,7 +26077,7 @@ var pveapi = [
                                        "default" : "ceph.target",
                                        "description" : "Ceph service name.",
                                        "optional" : 1,
-                                       "pattern" : "(mon|mds|osd|mgr)\\.[A-Za-z0-9\\-]{1,32}",
+                                       "pattern" : "(ceph|mon|mds|osd|mgr)\\.[A-Za-z0-9\\-]{1,32}",
                                        "type" : "string"
                                     }
                                  }
@@ -25552,7 +26121,7 @@ var pveapi = [
                                        "default" : "ceph.target",
                                        "description" : "Ceph service name.",
                                        "optional" : 1,
-                                       "pattern" : "(mon|mds|osd|mgr)\\.[A-Za-z0-9\\-]{1,32}",
+                                       "pattern" : "(ceph|mon|mds|osd|mgr)\\.[A-Za-z0-9\\-]{1,32}",
                                        "type" : "string"
                                     }
                                  }
@@ -30676,6 +31245,22 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "integer"
                                           },
+                                          "log" : {
+                                             "description" : "Log level for firewall rule",
+                                             "enum" : [
+                                                "emerg",
+                                                "alert",
+                                                "crit",
+                                                "err",
+                                                "warning",
+                                                "notice",
+                                                "info",
+                                                "debug",
+                                                "nolog"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
                                           "macro" : {
                                              "optional" : 1,
                                              "type" : "string"
@@ -30766,6 +31351,22 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
+                                          },
+                                          "log" : {
+                                             "description" : "Log level for firewall rule.",
+                                             "enum" : [
+                                                "emerg",
+                                                "alert",
+                                                "crit",
+                                                "err",
+                                                "warning",
+                                                "notice",
+                                                "info",
+                                                "debug",
+                                                "nolog"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
                                           },
                                           "macro" : {
                                              "description" : "Use predefined standard macro.",
@@ -30950,6 +31551,22 @@ var pveapi = [
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
+                                    "log" : {
+                                       "description" : "Log level for firewall rule.",
+                                       "enum" : [
+                                          "emerg",
+                                          "alert",
+                                          "crit",
+                                          "err",
+                                          "warning",
+                                          "notice",
+                                          "info",
+                                          "debug",
+                                          "nolog"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
                                     "macro" : {
                                        "description" : "Use predefined standard macro.",
                                        "maxLength" : 128,
@@ -31089,6 +31706,12 @@ var pveapi = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
+                                    "log_nf_conntrack" : {
+                                       "default" : 0,
+                                       "description" : "Enable logging of conntrack information.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
                                     "ndp" : {
                                        "description" : "Enable NDP.",
                                        "optional" : 1,
@@ -31216,6 +31839,13 @@ var pveapi = [
                                        ],
                                        "optional" : 1,
                                        "type" : "string"
+                                    },
+                                    "log_nf_conntrack" : {
+                                       "default" : 0,
+                                       "description" : "Enable logging of conntrack information.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
                                     },
                                     "ndp" : {
                                        "description" : "Enable NDP.",
@@ -32611,6 +33241,17 @@ var pveapi = [
                         "parameters" : {
                            "additionalProperties" : 0,
                            "properties" : {
+                              "cmd" : {
+                                 "default" : "login",
+                                 "description" : "Run specific command or default to login.",
+                                 "enum" : [
+                                    "upgrade",
+                                    "ceph_install",
+                                    "login"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
                               "height" : {
                                  "description" : "sets the height of the console in pixels.",
                                  "maximum" : 2160,
@@ -32627,7 +33268,7 @@ var pveapi = [
                               },
                               "upgrade" : {
                                  "default" : 0,
-                                 "description" : "Run 'apt-get dist-upgrade' instead of normal shell.",
+                                 "description" : "Deprecated, use the 'cmd' property instead! Run 'apt-get dist-upgrade' instead of normal shell.",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
@@ -32694,6 +33335,17 @@ var pveapi = [
                         "parameters" : {
                            "additionalProperties" : 0,
                            "properties" : {
+                              "cmd" : {
+                                 "default" : "login",
+                                 "description" : "Run specific command or default to login.",
+                                 "enum" : [
+                                    "upgrade",
+                                    "ceph_install",
+                                    "login"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
                               "node" : {
                                  "description" : "The cluster node name.",
                                  "format" : "pve-node",
@@ -32702,7 +33354,7 @@ var pveapi = [
                               },
                               "upgrade" : {
                                  "default" : 0,
-                                 "description" : "Run 'apt-get dist-upgrade' instead of normal shell.",
+                                 "description" : "Deprecated, use the 'cmd' property instead! Run 'apt-get dist-upgrade' instead of normal shell.",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
@@ -32806,6 +33458,17 @@ var pveapi = [
                         "parameters" : {
                            "additionalProperties" : 0,
                            "properties" : {
+                              "cmd" : {
+                                 "default" : "login",
+                                 "description" : "Run specific command or default to login.",
+                                 "enum" : [
+                                    "upgrade",
+                                    "ceph_install",
+                                    "login"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
                               "node" : {
                                  "description" : "The cluster node name.",
                                  "format" : "pve-node",
@@ -32821,7 +33484,7 @@ var pveapi = [
                               },
                               "upgrade" : {
                                  "default" : 0,
-                                 "description" : "Run 'apt-get dist-upgrade' instead of normal shell.",
+                                 "description" : "Deprecated, use the 'cmd' property instead! Run 'apt-get dist-upgrade' instead of normal shell.",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
@@ -33629,35 +34292,35 @@ var pveapi = [
                            "description" : "Set bandwidth/io limits various operations.",
                            "format" : {
                               "clone" : {
-                                 "description" : "bandwidth limit in MiB/s for cloning disks",
+                                 "description" : "bandwidth limit in KiB/s for cloning disks",
                                  "format_description" : "LIMIT",
                                  "minimum" : "0",
                                  "optional" : 1,
                                  "type" : "number"
                               },
                               "default" : {
-                                 "description" : "default bandwidth limit in MiB/s",
+                                 "description" : "default bandwidth limit in KiB/s",
                                  "format_description" : "LIMIT",
                                  "minimum" : "0",
                                  "optional" : 1,
                                  "type" : "number"
                               },
                               "migration" : {
-                                 "description" : "bandwidth limit in MiB/s for migrating guests",
+                                 "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
                                  "format_description" : "LIMIT",
                                  "minimum" : "0",
                                  "optional" : 1,
                                  "type" : "number"
                               },
                               "move" : {
-                                 "description" : "bandwidth limit in MiB/s for moving disks",
+                                 "description" : "bandwidth limit in KiB/s for moving disks",
                                  "format_description" : "LIMIT",
                                  "minimum" : "0",
                                  "optional" : 1,
                                  "type" : "number"
                               },
                               "restore" : {
-                                 "description" : "bandwidth limit in MiB/s for restoring guests from backups",
+                                 "description" : "bandwidth limit in KiB/s for restoring guests from backups",
                                  "format_description" : "LIMIT",
                                  "minimum" : "0",
                                  "optional" : 1,
@@ -34001,35 +34664,35 @@ var pveapi = [
                      "description" : "Set bandwidth/io limits various operations.",
                      "format" : {
                         "clone" : {
-                           "description" : "bandwidth limit in MiB/s for cloning disks",
+                           "description" : "bandwidth limit in KiB/s for cloning disks",
                            "format_description" : "LIMIT",
                            "minimum" : "0",
                            "optional" : 1,
                            "type" : "number"
                         },
                         "default" : {
-                           "description" : "default bandwidth limit in MiB/s",
+                           "description" : "default bandwidth limit in KiB/s",
                            "format_description" : "LIMIT",
                            "minimum" : "0",
                            "optional" : 1,
                            "type" : "number"
                         },
                         "migration" : {
-                           "description" : "bandwidth limit in MiB/s for migrating guests",
+                           "description" : "bandwidth limit in KiB/s for migrating guests (including moving local disks)",
                            "format_description" : "LIMIT",
                            "minimum" : "0",
                            "optional" : 1,
                            "type" : "number"
                         },
                         "move" : {
-                           "description" : "bandwidth limit in MiB/s for moving disks",
+                           "description" : "bandwidth limit in KiB/s for moving disks",
                            "format_description" : "LIMIT",
                            "minimum" : "0",
                            "optional" : 1,
                            "type" : "number"
                         },
                         "restore" : {
-                           "description" : "bandwidth limit in MiB/s for restoring guests from backups",
+                           "description" : "bandwidth limit in KiB/s for restoring guests from backups",
                            "format_description" : "LIMIT",
                            "minimum" : "0",
                            "optional" : 1,
@@ -35518,7 +36181,7 @@ var pveapi = [
                                  "maxLength" : 128,
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "<string>"
+                                 "typetext" : "type=<TFATYPE> [,digits=<COUNT>] [,id=<ID>] [,key=<KEY>] [,step=<SECONDS>] [,url=<URL>]"
                               },
                               "user_attr" : {
                                  "description" : "LDAP user attribute name",
@@ -35704,7 +36367,7 @@ var pveapi = [
                            "maxLength" : 128,
                            "optional" : 1,
                            "type" : "string",
-                           "typetext" : "<string>"
+                           "typetext" : "type=<TFATYPE> [,digits=<COUNT>] [,id=<ID>] [,key=<KEY>] [,step=<SECONDS>] [,url=<URL>]"
                         },
                         "type" : {
                            "description" : "Realm type.",
@@ -35907,6 +36570,121 @@ var pveapi = [
             "leaf" : 1,
             "path" : "/access/password",
             "text" : "password"
+         },
+         {
+            "info" : {
+               "POST" : {
+                  "description" : "Finish a u2f challenge.",
+                  "method" : "POST",
+                  "name" : "verify_tfa",
+                  "parameters" : {
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "response" : {
+                           "description" : "The response to the current authentication challenge.",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        }
+                     }
+                  },
+                  "permissions" : {
+                     "user" : "all"
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "properties" : {
+                        "ticket" : {
+                           "type" : "string"
+                        }
+                     },
+                     "type" : "object"
+                  }
+               },
+               "PUT" : {
+                  "description" : "Change user u2f authentication.",
+                  "method" : "PUT",
+                  "name" : "change_tfa",
+                  "parameters" : {
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "action" : {
+                           "description" : "The action to perform",
+                           "enum" : [
+                              "delete",
+                              "new",
+                              "confirm"
+                           ],
+                           "type" : "string"
+                        },
+                        "config" : {
+                           "description" : "A TFA configuration. This must currently be of type TOTP of not set at all.",
+                           "format" : "pve-tfa-config",
+                           "maxLength" : 128,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "type=<TFATYPE> [,digits=<COUNT>] [,id=<ID>] [,key=<KEY>] [,step=<SECONDS>] [,url=<URL>]"
+                        },
+                        "key" : {
+                           "description" : "When adding TOTP, the shared secret value.",
+                           "optional" : 1,
+                           "pattern" : "(?^:[A-Z2-7=]{16}|[A-Fa-f0-9]{40})",
+                           "type" : "string"
+                        },
+                        "password" : {
+                           "description" : "The current password.",
+                           "maxLength" : 64,
+                           "minLength" : 5,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "response" : {
+                           "description" : "Either the the response to the current u2f registration challenge, or, when adding TOTP, the currently valid TOTP value.",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "userid" : {
+                           "description" : "User ID",
+                           "format" : "pve-userid",
+                           "maxLength" : 64,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        }
+                     }
+                  },
+                  "permissions" : {
+                     "check" : [
+                        "or",
+                        [
+                           "userid-param",
+                           "self"
+                        ],
+                        [
+                           "and",
+                           [
+                              "userid-param",
+                              "Realm.AllocateUser"
+                           ],
+                           [
+                              "userid-group",
+                              [
+                                 "User.Modify"
+                              ]
+                           ]
+                        ]
+                     ],
+                     "description" : "A user can change their own u2f or totp token."
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "type" : "object"
+                  }
+               }
+            },
+            "leaf" : 1,
+            "path" : "/access/tfa",
+            "text" : "tfa"
          }
       ],
       "info" : {

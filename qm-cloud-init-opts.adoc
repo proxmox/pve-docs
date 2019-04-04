@@ -1,3 +1,19 @@
+`cicustom`: `[meta=<volume>] [,network=<volume>] [,user=<volume>]` ::
+
+Specify custom files to replace the automatically generated ones at start.
+
+`meta`=`<volume>` ;;
+
+Specify a custom file containing all meta data passed to the VM via cloud-init. This is provider specific meaning configdrive2 and nocloud differ.
+
+`network`=`<volume>` ;;
+
+Specify a custom file containing all network data passed to the VM via cloud-init.
+
+`user`=`<volume>` ;;
+
+Specify a custom file containing all user data passed to the VM via cloud-init.
+
 `cipassword`: `<string>` ::
 
 Password to assign the user. Using this is generally not recommended. Use ssh keys instead. Also note that older cloud-init versions do not support hashed passwords.
