@@ -72,15 +72,58 @@ footnote:[Ceph glossary http://docs.ceph.com/docs/luminous/glossary].
 Precondition
 ------------
 
-To build a Proxmox Ceph Cluster there should be at least three (preferably)
-identical servers for the setup.
-
-A 10Gb network, exclusively used for Ceph, is recommended. A meshed network
-setup is also an option if there are no 10Gb switches available, see our wiki
-article footnote:[Full Mesh Network for Ceph {webwiki-url}Full_Mesh_Network_for_Ceph_Server] .
+To build a hyper-converged Proxmox + Ceph Cluster there should be at least
+three (preferably) identical servers for the setup.
 
 Check also the recommendations from
 http://docs.ceph.com/docs/luminous/start/hardware-recommendations/[Ceph's website].
+
+.CPU
+As higher the core frequency the better, this will reduce latency.  Among other
+things, this benefits the services of Ceph, as they can process data faster.
+To simplify planning, you should assign a CPU core (or thread) to each Ceph
+service to provide enough resources for stable and durable Ceph performance.
+
+.Memory
+Especially in a hyper-converged setup, the memory consumption needs to be
+carefully monitored. In addition to the intended workload (VM / Container),
+Ceph needs enough memory to provide good and stable performance. As a rule of
+thumb, for roughly 1TiB of data, 1 GiB of memory will be used by an OSD. With
+additionally needed memory for OSD caching.
+
+.Network
+We recommend a network bandwidth of at least 10 GbE or more, which is used
+exclusively for Ceph. A meshed network setup
+footnote:[Full Mesh Network for Ceph {webwiki-url}Full_Mesh_Network_for_Ceph_Server]
+is also an option if there are no 10 GbE switches available.
+
+To be explicit about the network, since Ceph is a distributed network storage,
+its traffic must be put on its own physical network. The volume of traffic
+especially during recovery will interfere with other services on the same
+network.
+
+Further, estimate your bandwidth needs. While one HDD might not saturate a 1 Gb
+link, a SSD or a NVMe SSD certainly can. Modern NVMe SSDs will even saturate 10
+Gb of bandwidth. You also should consider higher bandwidths, as these tend to
+come with lower latency.
+
+.Disks
+When planning the size of your Ceph cluster, it is important to take the
+recovery time into consideration. Especially with small clusters, the recovery
+might take long. It is recommended that you use SSDs instead of HDDs in small
+setups to reduce recovery time, minimizing the likelihood of a subsequent
+failure event during recovery.
+
+In general SSDs will provide more IOPs then spinning disks. This fact and the
+higher cost may make a xref:pve_ceph_device_classes[class based] separation of
+pools appealing.  Another possibility to speedup OSDs is to use a faster disk
+as journal or DB/WAL device, see xref:pve_ceph_osds[creating Ceph OSDs]. If a
+faster disk is used for multiple OSDs, a proper balance between OSD and WAL /
+DB (or journal) disk must be selected, otherwise the faster disk becomes the
+bottleneck for all linked OSDs.
+
+Aside from the disk type, Ceph best performs with an even sized and distributed
+amount of disks per node. For example, 4x disks à 500 GB in each node.
 
 .Avoid RAID
 As Ceph handles data object redundancy and multiple parallel writes to disks
@@ -92,6 +135,10 @@ reduce performance, as their write and caching algorithms may interfere with
 the ones from Ceph.
 
 WARNING: Avoid RAID controller, use host bus adapter (HBA) instead.
+
+NOTE: Above recommendations should be seen as a rough guidance for choosing
+hardware. Therefore, it is still essential to test your setup and monitor
+health & performance.
 
 
 [[pve_ceph_install]]
@@ -316,6 +363,7 @@ operation footnote:[Ceph pool operation
 http://docs.ceph.com/docs/luminous/rados/operations/pools/]
 manual.
 
+[[pve_ceph_device_classes]]
 Ceph CRUSH & device classes
 ---------------------------
 The foundation of Ceph is its algorithm, **C**ontrolled **R**eplication
