@@ -147,6 +147,7 @@ ldap an optional fallback server, optional port, and SSL
 encryption can be configured.
 
 
+[[pveum_tfa_auth]]
 Two factor authentication
 -------------------------
 
@@ -199,6 +200,7 @@ https://www.yubico.com/products/services-software/yubicloud/[YubiCloud] or
 https://developers.yubico.com/Software_Projects/YubiKey_OTP/YubiCloud_Validation_Servers/[
 host your own verification server].
 
+[[pveum_user_configured_totp]]
 User configured TOTP authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -256,6 +258,7 @@ situation where this does not happen, particularly when using a top level domain
 recommended to test the configuration with multiple browsers, as changing the
 'AppId' later will render existing 'U2F' registrations unusable.
 
+[[pveum_user_configured_u2f]]
 Activating U2F as a user
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
