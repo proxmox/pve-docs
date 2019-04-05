@@ -205,6 +205,8 @@ User configured TOTP authentication
 A user can choose to use 'TOTP' as a second factor on login via the 'TFA' button
 in the user list, unless the realm enforces 'YubiKey OTP'.
 
+[thumbnail="screenshot/gui-datacenter-users-tfa.png"]
+
 After opening the 'TFA' window, the user is presented with a dialog to setup
 'TOTP' authentication. The 'Secret' field contains the key, which can simply be
 generated randomly via the 'Randomize' button. An optional 'Issuer Name' can be
