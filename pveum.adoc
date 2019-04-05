@@ -310,9 +310,15 @@ of predefined roles which satisfies most needs.
 
 You can see the whole set of predefined roles on the GUI.
 
-Adding new roles can be done via both GUI and the command line, like
-this:
+Adding new roles can be done via both GUI and the command line.
 
+[thumbnail="screenshot/gui-datacenter-role-add.png"]
+For the GUI just navigate to 'Permissions -> User' Tab from 'Datacenter' and
+click on the 'Create' button, there you can set a name and select all desired
+roles from the 'Privileges' dropdown box.
+
+To add a role through the command line you can use the 'pveum' CLI tool, like
+this:
 [source,bash]
 ----
 pveum roleadd PVE_Power-only -privs "VM.PowerMgmt VM.Console"
