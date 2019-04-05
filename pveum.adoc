@@ -150,8 +150,23 @@ encryption can be configured.
 Two factor authentication
 -------------------------
 
-Each realm can optionally be secured additionally by two factor
-authentication. This can be done by selecting one of the available methods
+There are two ways to use two factor authentication:
+
+It can be required by the authentication realm, either via 'TOTP' or
+'YubiKey OTP'. In this case a newly created user needs their keys added
+immediately as there is no way to log in without the second factor. In the case
+of 'TOTP' a user can also change the 'TOTP' later on provided they can log in
+first.
+
+Alternatively a user can choose to opt into two factor authentication via 'TOTP'
+later on even if the realm does not enforce it. As another option, if the server
+has an 'AppId' configured, a user can opt into 'U2F' authentication, provided
+the realm does not enforce any other second factor.
+
+Realm enforced two factor authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This can be done by selecting one of the available methods
 via the 'TFA' dropdown box when adding or editing an Authentication Realm.
 When a realm has TFA enabled it becomes a requirement and only users with
 configured TFA will be able to login.
@@ -184,6 +199,73 @@ https://www.yubico.com/products/services-software/yubicloud/[YubiCloud] or
 https://developers.yubico.com/Software_Projects/YubiKey_OTP/YubiCloud_Validation_Servers/[
 host your own verification server].
 
+User configured TOTP authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A user can choose to use 'TOTP' as a second factor on login via the 'TFA' button
+in the user list, unless the realm enforces 'YubiKey OTP'.
+
+After opening the 'TFA' window, the user is presented with a dialog to setup
+'TOTP' authentication. The 'Secret' field contains the key, which can simply be
+generated randomly via the 'Randomize' button. An optional 'Issuer Name' can be
+added to provide information to the 'TOTP' app what the key belongs to.
+Most 'TOTP' apps will show the issuer name together with the corresponding
+'OTP' values. The user name is also included in the QR code for the 'TOTP' app.
+
+After generating a key, a QR code will be displayed which can be used with most
+OTP apps such as FreeOTP. Now the user needs to verify both the current user
+password (unless logged in as 'root'), as well as the ability to correctly use
+the 'TOTP' key by typing the current 'OTP' value into the 'Verification Code'
+field before pressing the 'Apply' button.
+
+Server side U2F configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To allow users to use 'U2F' authentication, the server needs to have a valid
+domain with a valid https certificate. Initially an 'AppId'
+footnote:[AppId https://developers.yubico.com/U2F/App_ID.html]
+needs to be configured.
+
+NOTE: Changing the 'AppId' will render all existing 'U2F' registrations
+unusable!
+
+This is done via `/etc/pve/datacenter.cfg`, for instance:
+
+----
+u2f: appid=https://mypve.example.com:8006
+----
+
+For a single node, the 'AppId' can simply be the web UI address exactly as it
+is used in the browser, including the 'https://' and the port as shown above.
+Please note that some browsers may be more strict than others when matching
+'AppIds'.
+
+When using multiple nodes, it is best to have a separate `https` server
+providing an `appid.json`
+footnote:[Multi-facet apps: https://developers.yubico.com/U2F/App_ID.html]
+file, as it seems to be compatible with most
+browsers. If all nodes use subdomains of the same top level domain, it may be
+enough to use the TLD as 'AppId', but note that some browsers may not accept
+this.
+
+NOTE: A bad 'AppId' will usually produce an error, but we have encountered
+situation where this does not happen, particularly when using a top level domain
+'AppId' for a node accessed via a subdomain in Chromium. For this reason it is
+recommended to test the configuration with multiple browsers, as changing the
+'AppId' later will render existing 'U2F' registrations unusable.
+
+Activating U2F as a user
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+To enable 'U2F' authentication, open the 'TFA' window's 'U2F' tab, type in the
+current password (unless logged in as root), and press the 'Register' button.
+If the server is setup correctly and the browser accepted the server's provided
+'AppId', a message will appear prompting the user to press the button on the
+'U2F' device (if it is a 'YubiKey' the button light should be toggling off and
+on steadily around twice per second).
+
+Firefox users may need to enable 'security.webauth.u2f' via 'about:config'
+before they can use a 'U2F' token.
 
 [[pveum_permission_management]]
 Permission Management
