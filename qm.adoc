@@ -699,8 +699,12 @@ BIOS and UEFI
 ~~~~~~~~~~~~~
 
 In order to properly emulate a computer, QEMU needs to use a firmware.
-By default QEMU uses *SeaBIOS* for this, which is an open-source, x86 BIOS
-implementation. SeaBIOS is a good choice for most standard setups.
+Which, on common PCs often known as BIOS or (U)EFI, is executed as one of the
+first steps when booting a VM. It is responsible for doing basic hardware
+initialization and for providing an interface to the firmware and hardware for
+the operating system. By default QEMU uses *SeaBIOS* for this, which is an
+open-source, x86 BIOS implementation. SeaBIOS is a good choice for most
+standard setups.
 
 There are, however, some scenarios in which a BIOS is not a good firmware
 to boot from, e.g. if you want to do VGA passthrough. footnote:[Alex Williamson has a very good blog entry about this.
