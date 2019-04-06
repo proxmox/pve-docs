@@ -126,8 +126,8 @@ BIOS clock to have the UTC time.
 System Settings
 ~~~~~~~~~~~~~~~
 
-On VM creation you can change the type some basic system components of the new
-VM. You can specify which xref:qm_display[display type] you want to use.
+On VM creation you can change some basic system components of the new VM. You
+can specify which xref:qm_display[display type] you want to use.
 [thumbnail="screenshot/gui-create-vm-system.png"]
 Additionally, the xref:qm_hard_disk[SCSI controller] can be changed.
 If you plan to install the QEMU Guest Agent, or if your selected ISO image
