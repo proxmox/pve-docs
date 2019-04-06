@@ -117,11 +117,34 @@ OS Settings
 
 [thumbnail="screenshot/gui-create-vm-os.png"]
 
-When creating a VM, setting the proper Operating System(OS) allows {pve} to
-optimize some low level parameters. For instance Windows OS expect the BIOS
-clock to use the local time, while Unix based OS expect the BIOS clock to have
-the UTC time.
+When creating a virtual machine (VM), setting the proper Operating System(OS)
+allows {pve} to optimize some low level parameters. For instance Windows OS
+expect the BIOS clock to use the local time, while Unix based OS expect the
+BIOS clock to have the UTC time.
 
+[[qm_system_settings]]
+System Settings
+~~~~~~~~~~~~~~~
+
+On VM creation you can change the type some basic system components of the new
+VM. You can specify which xref:qm_display[display type] you want to use.
+[thumbnail="screenshot/gui-create-vm-system.png"]
+Additionally, the xref:qm_hard_disk[SCSI controller] can be changed.
+If you plan to install the QEMU Guest Agent, or if your selected ISO image
+already ships and installs it automatically, you may want to tick the 'Qemu
+Agent' box, which lets {pve} know that it can use its features to show some
+more information, and complete some actions (for example, shutdown or
+snapshots) more intelligently.
+
+{pve} allows to boot VMs with different firmware and machine types, namely
+xref:qm_bios_and_uefi[SeaBIOS and OVMF]. In most cases you want to switch from
+the default SeabBIOS to OVMF only if you plan to use
+xref:qm_pci_passthrough[PCIe pass through]. A VMs 'Machine Type' defines the
+hardware layout of the VM's virtual motherboard. You can choose between the
+default https://en.wikipedia.org/wiki/Intel_440FX[Intel 440FX] or the
+https://ark.intel.com/content/www/us/en/ark/products/31918/intel-82q35-graphics-and-memory-controller.html[Q35]
+chipset, which also provides a virtual PCIe bus, and thus may be desired if
+one want's to pass through PCIe hardware.
 
 [[qm_hard_disk]]
 Hard Disk
