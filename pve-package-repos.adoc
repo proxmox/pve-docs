@@ -21,6 +21,7 @@ acquired by `apt-get update`.
 .File `/etc/apt/sources.list`
 ----
 deb http://ftp.debian.org/debian stretch main contrib
+deb http://ftp.debian.org/debian stretch-updates main contrib
 
 # security updates
 deb http://security.debian.org stretch/updates main contrib
@@ -69,6 +70,7 @@ We recommend to configure this repository in `/etc/apt/sources.list`.
 .File `/etc/apt/sources.list`
 ----
 deb http://ftp.debian.org/debian stretch main contrib
+deb http://ftp.debian.org/debian stretch-updates main contrib
 
 # PVE pve-no-subscription repository provided by proxmox.com,
 # NOT recommended for production use
