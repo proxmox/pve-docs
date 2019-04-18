@@ -161,6 +161,8 @@ The integrated firewall allows you to filter network packets on
 any VM or Container interface. Common sets of firewall rules can
 be grouped into ``security groups''.
 
+include::hyper-converged-infrastructure.adoc[]
+
 
 Why Open Source
 ---------------

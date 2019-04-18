@@ -18,8 +18,8 @@ DESCRIPTION
 -----------
 endif::manvolnum[]
 ifndef::manvolnum[]
-Manage Ceph Services on Proxmox VE Nodes
-========================================
+Deploy Ceph Cluster on {pve}
+===========================
 :pve-toplevel:
 endif::manvolnum[]
 

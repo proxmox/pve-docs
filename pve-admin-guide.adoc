@@ -25,12 +25,6 @@ include::pve-installation.adoc[]
 
 include::sysadmin.adoc[]
 
-include::hyper-converged-infrastructure.adoc[]
-
-:leveloffset: 2
-include::pveceph.adoc[]
-:leveloffset: 1
-
 include::pve-gui.adoc[]
 
 include::pvecm.adoc[]
@@ -38,6 +32,8 @@ include::pvecm.adoc[]
 include::pmxcfs.adoc[]
 
 include::pvesm.adoc[]
+
+include::pveceph.adoc[]
 
 include::pvesr.adoc[]
 

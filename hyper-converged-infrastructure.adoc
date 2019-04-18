@@ -1,6 +1,7 @@
 [[chapter_hyper_converged_infrastructure]]
 Hyper-converged Infrastructure
-==============================
+------------------------------
+
 ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]
@@ -16,7 +17,7 @@ choice to deploy and manage an open source
 https://en.wikipedia.org/wiki/Hyper-converged_infrastructure[hyper-converged infrastructure].
 
 Benefits of a Hyper-Converged Infrastructure (HCI) with {pve}
--------------------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A hyper-converged infrastructure (HCI) is especially useful for deployments in
 which a high infrastructure demand meets a low administration budget, for
@@ -43,7 +44,7 @@ HCI provides the following advantages:
 ifdef::wiki[]
 
 See Also
---------
+~~~~~~~~
 
 * xref:chapter_pveceph[pveceph - Manage Ceph Services on Proxmox VE Nodes]
 
