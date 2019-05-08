@@ -366,7 +366,7 @@ VLAN for Guest Networks
 
 {pve} supports this setup out of the box. You can specify the VLAN tag
 when you create a VM. The VLAN tag is part of the guest network
-confinuration. The networking layer supports differnet modes to
+configuration. The networking layer supports differnet modes to
 implement VLANs, depending on the bridge configuration:
 
 * *VLAN awareness on the Linux bridge:*
