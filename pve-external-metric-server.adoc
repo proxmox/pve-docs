@@ -4,53 +4,57 @@ ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]
 
-Starting with {pve} 4.0, you can define external metric servers,
-which will be sent various stats about your hosts, virtual machines and storages.
+Starting with {pve} 4.0, you can define external metric servers, which will
+be sent various stats about your hosts, virtual machines and storages.
 
 Currently supported are:
 
- * graphite (see http://graphiteapp.org )
- * influxdb (see https://www.influxdata.com/time-series-platform/influxdb/ )
+ * Graphite (see http://graphiteapp.org )
+ * InfluxDB (see https://www.influxdata.com/time-series-platform/influxdb/ )
 
-The server definitions are saved in
- /etc/pve/status.cfg
+The server definitions are saved in '/etc/pve/status.cfg'
 
 Graphite server configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The definition of a server is:
 
+----
  graphite: your-id
     server your-server
     port your-port
     path your-path
+----
 
-where your-port defaults to *2003*
-and your-path defaults to *proxmox*
+where your-port defaults to *2003* and your-path defaults to *proxmox*
 
-{pve} sends the data over udp, so the graphite server
-has to be configured for this
+{pve} sends the data over UDP, so the graphite server has to be configured
+for this.
 
 Influxdb plugin configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The definition is:
 
+----
  influxdb: your-id
     server your-server
     port your-port
+----
 
-{pve} sends the data over udp, so the influxdb server
-has to be configured for this
+{pve} sends the data over UDP, so the influxdb server has to be configured
+for this.
 
 Here is an example configuration for influxdb (on your influxdb server):
 
+----
  [[udp]]
    enabled = true
    bind-address = "0.0.0.0:8089"
    database = "proxmox"
    batch-size = 1000
    batch-timeout = "1s"
+----
 
 With this configuration, your server listens on all IP addresses on
 port 8089, and writes the data in the *proxmox* database
@@ -59,10 +63,11 @@ Multiple Definitions and Example
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The *id* is optional, but if you want to have multiple definitions of a single
-type, then the ids must be different.
+type, then the ids must be defined and different from each other.
 
 Here is an example of a finished status.cfg
 
+----
  graphite:
     server 10.0.0.5
 
@@ -73,3 +78,4 @@ Here is an example of a finished status.cfg
  influxdb: influx2
     server 10.0.0.7
     port 8090
+----
