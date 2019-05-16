@@ -11,6 +11,7 @@ Build-Depends: asciidoc-dblatex,
                libjson-perl,
                librsvg2-bin,
                lintian,
+               rsync,
                source-highlight,
 Standards-Version: 3.8.4
 
