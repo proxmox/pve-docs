@@ -1,6 +1,6 @@
 Source: pve-docs
 Section: perl
-Priority: extra
+Priority: optional
 Maintainer: Proxmox Support Team <support@proxmox.com>
 Build-Depends: asciidoc-dblatex,
                debhelper (>= 10~),
