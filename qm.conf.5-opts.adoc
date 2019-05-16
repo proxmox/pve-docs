@@ -144,14 +144,14 @@ Script that will be executed during various steps in the vms lifetime.
 
 Map host PCI devices into guest.
 +
-NOTE: This option allows direct access to host hardware. So it is no longer 
+NOTE: This option allows direct access to host hardware. So it is no longer
 possible to migrate such machines - use with special care.
 +
 CAUTION: Experimental! User reported problems with this option.
 
 `host`=`<HOSTPCIID[;HOSTPCIID2...]>` ;;
 
-Host PCI device pass through. The PCI ID of a host's PCI device or a list 
+Host PCI device pass through. The PCI ID of a host's PCI device or a list
 of PCI virtual functions of the host. HOSTPCIID syntax is:
 +
 'bus:dev.func' (hexadecimal numbers)

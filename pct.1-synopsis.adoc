@@ -140,7 +140,7 @@ Set a host name for the container.
 
 Ignore errors when extracting the template.
 
-`--lock` `<backup | disk | migrate | mounted | rollback | snapshot | snapshot-delete>` ::
+`--lock` `<backup | create | disk | fstrim | migrate | mounted | rollback | snapshot | snapshot-delete>` ::
 
 Lock/unlock the VM.
 
@@ -560,7 +560,7 @@ Set a host name for the container.
 
 Ignore errors when extracting the template.
 
-`--lock` `<backup | disk | migrate | mounted | rollback | snapshot | snapshot-delete>` ::
+`--lock` `<backup | create | disk | fstrim | migrate | mounted | rollback | snapshot | snapshot-delete>` ::
 
 Lock/unlock the VM.
 
@@ -730,7 +730,7 @@ Script that will be exectued during various steps in the containers lifetime.
 
 Set a host name for the container.
 
-`--lock` `<backup | disk | migrate | mounted | rollback | snapshot | snapshot-delete>` ::
+`--lock` `<backup | create | disk | fstrim | migrate | mounted | rollback | snapshot | snapshot-delete>` ::
 
 Lock/unlock the VM.
 

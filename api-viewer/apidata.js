@@ -8560,7 +8560,7 @@ var pveapi = [
                                              "format" : "pve-qm-hostpci",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer \npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
+                                             "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer\npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "hotplug" : {
                                              "default" : "network,disk,usb",
@@ -10716,7 +10716,7 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]",
-                                             "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer \npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
+                                             "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer\npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "hotplug" : {
                                              "default" : "network,disk,usb",
@@ -12947,7 +12947,7 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]",
-                                             "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer \npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
+                                             "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer\npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "hotplug" : {
                                              "default" : "network,disk,usb",
@@ -17504,7 +17504,7 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]",
-                                 "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer \npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
+                                 "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer\npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                               },
                               "hotplug" : {
                                  "default" : "network,disk,usb",
@@ -19584,7 +19584,9 @@ var pveapi = [
                                              "description" : "Lock/unlock the VM.",
                                              "enum" : [
                                                 "backup",
+                                                "create",
                                                 "disk",
+                                                "fstrim",
                                                 "migrate",
                                                 "mounted",
                                                 "rollback",
@@ -20037,7 +20039,9 @@ var pveapi = [
                                              "description" : "Lock/unlock the VM.",
                                              "enum" : [
                                                 "backup",
+                                                "create",
                                                 "disk",
+                                                "fstrim",
                                                 "migrate",
                                                 "mounted",
                                                 "rollback",
@@ -24691,7 +24695,9 @@ var pveapi = [
                                  "description" : "Lock/unlock the VM.",
                                  "enum" : [
                                     "backup",
+                                    "create",
                                     "disk",
+                                    "fstrim",
                                     "migrate",
                                     "mounted",
                                     "rollback",
@@ -27705,6 +27711,20 @@ var pveapi = [
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
                                     },
+                                    "cidr" : {
+                                       "description" : "IPv4 CIDR.",
+                                       "format" : "CIDRv4",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "cidr6" : {
+                                       "description" : "IPv6 CIDR.",
+                                       "format" : "CIDRv6",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
                                     "comments" : {
                                        "description" : "Comments",
                                        "optional" : 1,
@@ -28000,6 +28020,20 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
+                              },
+                              "cidr" : {
+                                 "description" : "IPv4 CIDR.",
+                                 "format" : "CIDRv4",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "cidr6" : {
+                                 "description" : "IPv6 CIDR.",
+                                 "format" : "CIDRv6",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               },
                               "comments" : {
                                  "description" : "Comments",
@@ -33234,6 +33268,79 @@ var pveapi = [
                },
                {
                   "info" : {
+                     "GET" : {
+                        "description" : "Read Journal",
+                        "method" : "GET",
+                        "name" : "journal",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "endcursor" : {
+                                 "description" : "End before the given Cursor. Conflicts with 'until'",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "lastentries" : {
+                                 "description" : "Limit to the last X lines. Conflicts with a range.",
+                                 "minimum" : 0,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (0 - N)"
+                              },
+                              "node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "since" : {
+                                 "description" : "Display all log since this UNIX epoch. Conflicts with 'startcursor'.",
+                                 "minimum" : 0,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (0 - N)"
+                              },
+                              "startcursor" : {
+                                 "description" : "Start after the given Cursor. Conflicts with 'since'",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "until" : {
+                                 "description" : "Display all log until this UNIX epoch. Conflicts with 'endcursor'.",
+                                 "minimum" : 0,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (0 - N)"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/nodes/{node}",
+                              [
+                                 "Sys.Syslog"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "proxyto" : "node",
+                        "returns" : {
+                           "items" : {
+                              "type" : "string"
+                           },
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/nodes/{node}/journal",
+                  "text" : "journal"
+               },
+               {
+                  "info" : {
                      "POST" : {
                         "description" : "Creates a VNC Shell proxy.",
                         "method" : "POST",
@@ -33245,9 +33352,9 @@ var pveapi = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "upgrade",
                                     "ceph_install",
-                                    "login"
+                                    "login",
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -33339,9 +33446,9 @@ var pveapi = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "upgrade",
                                     "ceph_install",
-                                    "login"
+                                    "login",
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -33462,9 +33569,9 @@ var pveapi = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "upgrade",
                                     "ceph_install",
-                                    "login"
+                                    "login",
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -35021,6 +35128,73 @@ var pveapi = [
          {
             "children" : [
                {
+                  "children" : [
+                     {
+                        "info" : {
+                           "GET" : {
+                              "description" : "Get user TFA types (Personal and Realm).",
+                              "method" : "GET",
+                              "name" : "read_user_tfa_type",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "userid" : {
+                                       "description" : "User ID",
+                                       "format" : "pve-userid",
+                                       "maxLength" : 64,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "or",
+                                    [
+                                       "userid-param",
+                                       "self"
+                                    ],
+                                    [
+                                       "userid-group",
+                                       [
+                                          "User.Modify",
+                                          "Sys.Audit"
+                                       ]
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "realm" : {
+                                       "description" : "The type of TFA the users realm has set, if any.",
+                                       "enum" : [
+                                          "oath",
+                                          "yubico"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "user" : {
+                                       "description" : "The type of TFA the user has set, if any.",
+                                       "enum" : [
+                                          "oath",
+                                          "u2f"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/access/users/{userid}/tfa",
+                        "text" : "tfa"
+                     }
+                  ],
                   "info" : {
                      "DELETE" : {
                         "description" : "Delete user.",
@@ -35212,7 +35386,7 @@ var pveapi = [
                         }
                      }
                   },
-                  "leaf" : 1,
+                  "leaf" : 0,
                   "path" : "/access/users/{userid}",
                   "text" : "{userid}"
                }
