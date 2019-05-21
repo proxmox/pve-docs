@@ -217,7 +217,7 @@ mediawiki-install: pve-docs-mediawiki-import
 
 .PHONY: upload
 upload: ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}
-	tar cf - ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB} | ssh -X repoman@repo.proxmox.com -- upload --product pve --dist stretch
+	tar cf - ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB} | ssh -X repoman@repo.proxmox.com -- upload --product pve --dist buster
 
 .PHONY: update
 update:
