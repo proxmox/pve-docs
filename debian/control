@@ -13,7 +13,7 @@ Build-Depends: asciidoc-dblatex,
                lintian,
                rsync,
                source-highlight,
-Standards-Version: 3.8.4
+Standards-Version: 4.3.0
 
 Package: pve-doc-generator
 Section: perl
