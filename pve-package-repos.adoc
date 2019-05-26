@@ -20,11 +20,11 @@ acquired by `apt-get update`.
 
 .File `/etc/apt/sources.list`
 ----
-deb http://ftp.debian.org/debian stretch main contrib
-deb http://ftp.debian.org/debian stretch-updates main contrib
+deb http://ftp.debian.org/debian buster main contrib
+deb http://ftp.debian.org/debian buster-updates main contrib
 
 # security updates
-deb http://security.debian.org stretch/updates main contrib
+deb http://security.debian.org buster/updates main contrib
 ----
 
 In addition, {pve} provides three different package repositories.
@@ -39,7 +39,7 @@ enabled by default:
 
 .File `/etc/apt/sources.list.d/pve-enterprise.list`
 ----
-deb https://enterprise.proxmox.com/debian/pve stretch pve-enterprise
+deb https://enterprise.proxmox.com/debian/pve buster pve-enterprise
 ----
 
 As soon as updates are available, the `root@pam` user is notified via
@@ -69,15 +69,15 @@ We recommend to configure this repository in `/etc/apt/sources.list`.
 
 .File `/etc/apt/sources.list`
 ----
-deb http://ftp.debian.org/debian stretch main contrib
-deb http://ftp.debian.org/debian stretch-updates main contrib
+deb http://ftp.debian.org/debian buster main contrib
+deb http://ftp.debian.org/debian buster-updates main contrib
 
 # PVE pve-no-subscription repository provided by proxmox.com,
 # NOT recommended for production use
-deb http://download.proxmox.com/debian/pve stretch pve-no-subscription
+deb http://download.proxmox.com/debian/pve buster pve-no-subscription
 
 # security updates
-deb http://security.debian.org stretch/updates main contrib
+deb http://security.debian.org buster/updates main contrib
 ----
 
 
@@ -91,7 +91,7 @@ features. As usual, you can configure this using
 
 .sources.list entry for `pvetest`
 ----
-deb http://download.proxmox.com/debian/pve stretch pvetest
+deb http://download.proxmox.com/debian/pve buster pvetest
 ----
 
 WARNING: the `pvetest` repository should (as the name implies) only be used
@@ -107,7 +107,7 @@ client.
 
 .File `/etc/apt/sources.list.d/ceph.list`
 ----
-deb http://download.proxmox.com/debian/ceph-luminous stretch main
+deb http://download.proxmox.com/debian/ceph-nautilus buster main
 ----
 
 
@@ -119,9 +119,20 @@ main repository and is used to test new Ceph release on {pve}.
 
 .File `/etc/apt/sources.list.d/ceph.list`
 ----
-deb http://download.proxmox.com/debian/ceph-luminous stretch test
+deb http://download.proxmox.com/debian/ceph-nautilus buster test
 ----
 
+{pve} Ceph Luminous Repository For Upgrade
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This is a build of tje Ceph Luminous release for {pve} 6.0, this can be used to
+upgrade a {pve} cluster with Ceph Luminous deployed first to our 6.0 release,
+based on Debian Buster, and only afterwards upgrade the Ceph on it's own.
+
+.File `/etc/apt/sources.list.d/ceph.list`
+----
+deb http://download.proxmox.com/debian/ceph-luminous buster main
+----
 
 SecureApt
 ~~~~~~~~~
@@ -134,26 +145,46 @@ The key used for verification is already installed if you install from
 our installation CD. If you install by other means, you can manually
 download the key with:
 
- # wget http://download.proxmox.com/debian/proxmox-ve-release-5.x.gpg -O /etc/apt/trusted.gpg.d/proxmox-ve-release-5.x.gpg
+ # wget http://download.proxmox.com/debian/proxmox-ve-release-6.x.gpg -O /etc/apt/trusted.gpg.d/proxmox-ve-release-6.x.gpg
 
 Please verify the checksum afterwards:
 
 ----
-# sha512sum /etc/apt/trusted.gpg.d/proxmox-ve-release-5.x.gpg
-ffb95f0f4be68d2e753c8875ea2f8465864a58431d5361e88789568673551501ae574283a4e0492f17d79dc67edfb173a56a6304dea39e01f249ebdabc9f074a  /etc/apt/trusted.gpg.d/proxmox-ve-release-5.x.gpg
+# sha512sum /etc/apt/trusted.gpg.d/proxmox-ve-release-6.x.gpg
+acca6f416917e8e11490a08a1e2842d500b3a5d9f322c6319db0927b2901c3eae23cfb5cd5df6facf2b57399d3cfa52ad7769ebdd75d9b204549ca147da52626 /etc/apt/trusted.gpg.d/proxmox-ve-release-6.x.gpg
 ----
 
 or
 
 ----
-# md5sum /etc/apt/trusted.gpg.d/proxmox-ve-release-5.x.gpg
-511d36d0f1350c01c42a3dc9f3c27939  /etc/apt/trusted.gpg.d/proxmox-ve-release-5.x.gpg
+# md5sum /etc/apt/trusted.gpg.d/proxmox-ve-release-6.x.gpg
+f3f6c5a3a67baf38ad178e5ff1ee270c /etc/apt/trusted.gpg.d/proxmox-ve-release-6.x.gpg
 ----
 
 
 ifdef::wiki[]
 
 // include note about older releases, but only for wiki
+
+
+{pve} 5.x Repositories
+~~~~~~~~~~~~~~~~~~~~~~
+
+{pve} 5.x is based on Debian 9.x (``stretch''). Please note that this release
+is out of date, and you should update your installation.
+Nevertheless, we still provide access to those repositories at our download
+servers.
+
+[width="100%",cols="<d,3m",options="header"]
+|===========================================================
+|Repository                 | sources.list entry
+|{pve} 5.x Enterprise       |
+deb https://enterprise.proxmox.com/debian stretch pve-enterprise
+|{pve} 5.x No-Subscription  |
+deb http://download.proxmox.com/debian stretch pve-no-subscription
+|{pve} 5.x Test             |
+deb http://download.proxmox.com/debian stretch pvetest
+|===========================================================
 
 
 {pve} 4.x Repositories
