@@ -1,5 +1,6 @@
 # also update debian/changelog
-DOCRELEASE=6.0 # FIXME: depend on dpkg-dev and use $(DEB_VERSION_UPSTREAM) here?
+# FIXME: depend on dpkg-dev and use $(DEB_VERSION_UPSTREAM) here?
+DOCRELEASE=6.0
 
 DGDIR?=/usr/share/pve-doc-generator
 
