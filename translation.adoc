@@ -1,0 +1,29 @@
+[[translation]]
+Translating {pve}
+-----------------
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
+
+
+A lot of users speak a language other than English and we depend on contributions
+to make {pve} available to users all over the world.
+We are always happy to welcome new localizers and invite you to help shape
+{pve}.
+
+Our language files are available as https://git.proxmox.com/?p=proxmox-i18n.git[git repository].
+If you are familiar with git we would be glad to see your contribution according
+to our {webwiki-url}Developer_Documentation[Developer Documentation].
+
+Nonetheless, translating does not require special technical skills.
+You can get the language files without setting up a development environment
+https://git.proxmox.com/?p=proxmox-i18n.git;a=tree[here].
+Right click on the "raw" link of your language and choose "Save Link As...".
+Do not hesitate to send your translation directly to office(at)proxmox.com with
+your signed {webwiki-url}Developer_Documentation#Software_License_and_Copyright[contributor license agreement].
+
+We use https://www.gnu.org/software/gettext/[gettext] to translate {pve}.
+As a result, the actual translation task is to write a translation of the
+`msgid` into the `msgstr` below it.
+Tools like https://poedit.net/[Poedit] make this process more convenient,
+especially for contributors who are not programmers.

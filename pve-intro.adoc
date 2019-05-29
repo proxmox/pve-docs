@@ -242,4 +242,5 @@ integrated, and they can use the same storage and network features
 as virtual machines.
 
 include::howto-improve-pve-docs.adoc[]
+include::translation.adoc[]
 
