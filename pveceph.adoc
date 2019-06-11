@@ -296,15 +296,14 @@ TIP: We recommend a Ceph cluster size, starting with 12 OSDs, distributed evenly
 among your, at least three nodes (4 OSDs on each node).
 
 If the disk was used before (eg. ZFS/RAID/OSD), to remove partition table, boot
-sector and any OSD leftover the following commands should be sufficient.
+sector and any OSD leftover the following command should be sufficient.
 
 [source,bash]
 ----
-dd if=/dev/zero of=/dev/sd[X] bs=1M count=200
-ceph-disk zap /dev/sd[X]
+ceph-volume lvm zap /dev/sd[X] --destroy
 ----
 
-WARNING: The above commands will destroy data on the disk!
+WARNING: The above command will destroy data on the disk!
 
 Ceph Bluestore
 ~~~~~~~~~~~~~~
@@ -312,27 +311,34 @@ Ceph Bluestore
 Starting with the Ceph Kraken release, a new Ceph OSD storage type was
 introduced, the so called Bluestore
 footnote:[Ceph Bluestore http://ceph.com/community/new-luminous-bluestore/].
-This is the default when creating OSDs in Ceph luminous.
+This is the default when creating OSDs since Ceph Luminous.
 
 [source,bash]
 ----
 pveceph createosd /dev/sd[X]
 ----
 
-NOTE: In order to select a disk in the GUI, to be more fail-safe, the disk needs
-to have a GPT footnoteref:[GPT, GPT partition table
-https://en.wikipedia.org/wiki/GUID_Partition_Table] partition table. You can
-create this with `gdisk /dev/sd(x)`. If there is no GPT, you cannot select the
-disk as DB/WAL.
+Block.db and block.wal
+^^^^^^^^^^^^^^^^^^^^^^
 
 If you want to use a separate DB/WAL device for your OSDs, you can specify it
-through the '-journal_dev' option. The WAL is placed with the DB, if not
+through the '-db_dev' and '-wal_dev' options. The WAL is placed with the DB, if not
 specified separately.
 
 [source,bash]
 ----
-pveceph createosd /dev/sd[X] -journal_dev /dev/sd[Y]
+pveceph createosd /dev/sd[X] -db_dev /dev/sd[Y] -wal_dev /dev/sd[Z]
 ----
+
+You can directly choose the size for those with the '-db_size' and '-wal_size'
+paremeters respectively. If they are not given the following values (in order)
+will be used:
+
+* bluestore_block_{db,wal}_size in ceph config database section 'osd'
+* bluestore_block_{db,wal}_size in ceph config database section 'global'
+* bluestore_block_{db,wal}_size in ceph config section 'osd'
+* bluestore_block_{db,wal}_size in ceph config section 'global'
+* 10% (DB)/1% (WAL) of OSD size
 
 NOTE: The DB stores BlueStore’s internal metadata and the WAL is BlueStore’s
 internal journal or write-ahead log. It is recommended to use a fast SSD or
@@ -340,48 +346,20 @@ NVRAM for better performance.
 
 
 Ceph Filestore
-~~~~~~~~~~~~~
-Till Ceph luminous, Filestore was used as storage type for Ceph OSDs. It can
+~~~~~~~~~~~~~~
+
+Until Ceph Luminous, Filestore was used as storage type for Ceph OSDs. It can
 still be used and might give better performance in small setups, when backed by
 an NVMe SSD or similar.
 
-[source,bash]
-----
-pveceph createosd /dev/sd[X] -bluestore 0
-----
-
-NOTE: In order to select a disk in the GUI, the disk needs to have a
-GPT footnoteref:[GPT] partition table. You can
-create this with `gdisk /dev/sd(x)`. If there is no GPT, you cannot select the
-disk as journal. Currently the journal size is fixed to 5 GB.
-
-If you want to use a dedicated SSD journal disk:
+Starting with Ceph Nautilus, {pve} does not support creating such OSDs with
+pveceph anymore. If you still want to create filestore OSDs, use 'ceph-volume'
+directly.
 
 [source,bash]
 ----
-pveceph createosd /dev/sd[X] -journal_dev /dev/sd[Y] -bluestore 0
+ceph-volume lvm create --filestore --data /dev/sd[X] --journal /dev/sd[Y]
 ----
-
-Example: Use /dev/sdf as data disk (4TB) and /dev/sdb is the dedicated SSD
-journal disk.
-
-[source,bash]
-----
-pveceph createosd /dev/sdf -journal_dev /dev/sdb -bluestore 0
-----
-
-This partitions the disk (data and journal partition), creates
-filesystems and starts the OSD, afterwards it is running and fully
-functional.
-
-NOTE: This command refuses to initialize disk when it detects existing data. So
-if you want to overwrite a disk you should remove existing data first. You can
-do that using: 'ceph-disk zap /dev/sd[X]'
-
-You can create OSDs containing both journal and data partitions or you
-can place the journal on a dedicated SSD. Using a SSD journal disk is
-highly recommended to achieve good performance.
-
 
 [[pve_ceph_pools]]
 Creating Ceph Pools
