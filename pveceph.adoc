@@ -115,10 +115,10 @@ failure event during recovery.
 In general SSDs will provide more IOPs than spinning disks. This fact and the
 higher cost may make a xref:pve_ceph_device_classes[class based] separation of
 pools appealing. Another possibility to speedup OSDs is to use a faster disk
-as journal or DB/WAL device, see xref:pve_ceph_osds[creating Ceph OSDs]. If a
-faster disk is used for multiple OSDs, a proper balance between OSD and WAL /
-DB (or journal) disk must be selected, otherwise the faster disk becomes the
-bottleneck for all linked OSDs.
+as journal or DB/**W**rite-**A**head-**L**og device, see
+xref:pve_ceph_osds[creating Ceph OSDs]. If a faster disk is used for multiple
+OSDs, a proper balance between OSD and WAL / DB (or journal) disk must be
+selected, otherwise the faster disk becomes the bottleneck for all linked OSDs.
 
 Aside from the disk type, Ceph best performs with an even sized and distributed
 amount of disks per node. For example, 4 x 500 GB disks with in each node is
@@ -334,10 +334,11 @@ You can directly choose the size for those with the '-db_size' and '-wal_size'
 paremeters respectively. If they are not given the following values (in order)
 will be used:
 
-* bluestore_block_{db,wal}_size in ceph config database section 'osd'
-* bluestore_block_{db,wal}_size in ceph config database section 'global'
-* bluestore_block_{db,wal}_size in ceph config section 'osd'
-* bluestore_block_{db,wal}_size in ceph config section 'global'
+* bluestore_block_{db,wal}_size from ceph configuration...
+** ... database, section 'osd'
+** ... database, section 'global'
+** ... file, section 'osd'
+** ... file, section 'global'
 * 10% (DB)/1% (WAL) of OSD size
 
 NOTE: The DB stores BlueStore’s internal metadata and the WAL is BlueStore’s
@@ -348,13 +349,10 @@ NVRAM for better performance.
 Ceph Filestore
 ~~~~~~~~~~~~~~
 
-Until Ceph Luminous, Filestore was used as storage type for Ceph OSDs. It can
-still be used and might give better performance in small setups, when backed by
-an NVMe SSD or similar.
-
+Before Ceph Luminous, Filestore was used as default storage type for Ceph OSDs.
 Starting with Ceph Nautilus, {pve} does not support creating such OSDs with
-pveceph anymore. If you still want to create filestore OSDs, use 'ceph-volume'
-directly.
+'pveceph' anymore. If you still want to create filestore OSDs, use
+'ceph-volume' directly.
 
 [source,bash]
 ----
