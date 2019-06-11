@@ -1081,7 +1081,7 @@ include::qm-pci-passthrough.adoc[]
 endif::wiki[]
 
 Hookscripts
-~~~~~~~~~~~
+-----------
 
 You can add a hook script to VMs with the config property `hookscript`.
 
