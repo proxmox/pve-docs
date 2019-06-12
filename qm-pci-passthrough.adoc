@@ -33,7 +33,7 @@ Further, server grade hardware has often better support than consumer grade
 hardware, but even then, many modern system can support this.
 
 Please refer to your hardware vendor to check if they support this feature
-under Linux for your specific setup
+under Linux for your specific setup.
 
 
 Configuration
@@ -295,7 +295,7 @@ vendor.
 Mediated Devices (vGPU, GVT-g)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Mediated devices are another method to use reuse features and performance from
+Mediated devices are another method to reuse features and performance from
 physical hardware for virtualized hardware. These are found most common in
 virtualized GPU setups such as Intels GVT-g and Nvidias vGPUs used in their
 GRID technology.
@@ -309,12 +309,12 @@ Host Configuration
 ^^^^^^^^^^^^^^^^^^
 
 In general your card's driver must support that feature, otherwise it will
-not work. So please refer to your vendor for compatbile drivers and how to
+not work. So please refer to your vendor for compatible drivers and how to
 configure them.
 
-Intels drivers for GVT-g are integraded in the Kernel and should work
-with the 5th, 6th and 7th generation Intel Core Processors, further E3 v4, E3
-v5 and E3 v6 Xeon Processors are supported.
+Intels drivers for GVT-g are integrated in the Kernel and should work
+with 5th, 6th and 7th generation Intel Core Processors, as well as E3 v4, E3
+v5 and E3 v6 Xeon Processors.
 
 To enable it for Intel Graphcs, you have to make sure to load the module
 'kvmgt' (for example via `/etc/modules`) and to enable it on the Kernel

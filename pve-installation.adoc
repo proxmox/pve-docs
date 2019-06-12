@@ -104,7 +104,7 @@ you can choose disks there. Additionally you can set additional options (see
 
 [thumbnail="screenshot/pve-select-location.png", float="left"]
 
-The next page just ask for basic configuration options like your
+The next page just asks for basic configuration options like your
 location, the time zone and keyboard layout. The location is used to
 select a download server near you to speed up updates. The installer is
 usually able to auto detect those settings, so you only need to change

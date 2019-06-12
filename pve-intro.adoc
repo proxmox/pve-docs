@@ -39,7 +39,7 @@ enables you to store the configuration of thousands of virtual
 machines. By using corosync, these files are replicated in real time
 on all cluster nodes. The file system stores all data inside a
 persistent database on disk, nonetheless, a copy of the data resides
-in RAM which provides a maximum storage size is 30MB - more than
+in RAM which provides a maximum storage size of 30MB - more than
 enough for thousands of VMs.
 +
 Proxmox VE is the only virtualization platform using this unique
@@ -145,7 +145,7 @@ Flexible Networking
 Proxmox VE uses a bridged networking model. All VMs can share one
 bridge as if virtual network cables from each guest were all plugged
 into the same switch. For connecting VMs to the outside world, bridges
-are attached to physical network cards assigned a TCP/IP
+are attached to physical network cards and assigned a TCP/IP
 configuration.
 
 For further flexibility, VLANs (IEEE 802.1q) and network
@@ -183,7 +183,7 @@ Open source software also helps to keep your costs low and makes your
 core infrastructure independent from a single vendor.
 
 
-Your benefit with {pve}
+Your benefits with {pve}
 -----------------------
 
 * Open source software

@@ -47,7 +47,7 @@ email about the available new packages. On the GUI, the change-log of
 each package can be viewed (if available), showing all details of the
 update. So you will never miss important security fixes.
 
-Please note that and you need a valid subscription key to access this
+Please note that you need a valid subscription key to access this
 repository. We offer different support levels, and you can find further
 details at https://www.proxmox.com/en/proxmox-ve/pricing.
 

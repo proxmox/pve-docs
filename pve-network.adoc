@@ -5,14 +5,14 @@ ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]
 
-Network configuration can be done either via the GUI, or by manually 
+Network configuration can be done either via the GUI, or by manually
 editing the file `/etc/network/interfaces`, which contains the
 whole network configuration. The  `interfaces(5)` manual page contains the
 complete format description. All {pve} tools try hard to keep direct
  user modifications, but using the GUI is still preferable, because it
 protects you from errors.
 
-Once the network is configured, you can use the Debian traditional tools `ifup` 
+Once the network is configured, you can use the Debian traditional tools `ifup`
 and `ifdown` commands to bring interfaces up and down.
 
 NOTE: {pve} does not write changes directly to
@@ -68,16 +68,16 @@ For more information see https://www.freedesktop.org/wiki/Software/systemd/Predi
 Choosing a network configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Depending on your current network organization and your resources you can 
+Depending on your current network organization and your resources you can
 choose either a bridged, routed, or masquerading networking setup.
 
 {pve} server in a private LAN, using an external gateway to reach the internet
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The *Bridged* model makes the most sense in this case, and this is also 
+The *Bridged* model makes the most sense in this case, and this is also
 the default mode on new {pve} installations.
-Each of your Guest system will have a virtual interface attached to the 
-{pve} bridge. This is similar in effect to having the Guest network card 
+Each of your Guest system will have a virtual interface attached to the
+{pve} bridge. This is similar in effect to having the Guest network card
 directly connected to a new switch on your LAN, the {pve} host playing the role
 of the switch.
 
@@ -91,7 +91,7 @@ what your provider allows.
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In that case the only way to get outgoing network accesses for your guest
-systems is to use *Masquerading*. For incoming network access to your guests, 
+systems is to use *Masquerading*. For incoming network access to your guests,
 you will need to configure *Port Forwarding*.
 
 For further flexibility, you can configure
@@ -104,7 +104,7 @@ Default Configuration using a Bridge
 
 [thumbnail="default-network-setup-bridge.svg"]
 Bridges are like physical network switches implemented in software.
-All VMs can share a single bridge, or you can create multiple bridges to 
+All VMs can share a single bridge, or you can create multiple bridges to
 separate network domains. Each host can have up to 4094 bridges.
 
 The installation program creates a single bridge named `vmbr0`, which
@@ -275,7 +275,7 @@ network-peers use different MAC addresses for their network packet
 traffic.
 
 If your switch support the LACP (IEEE 802.3ad) protocol then we recommend using
-the corresponding bonding mode (802.3ad). Otherwise you should generally use the 
+the corresponding bonding mode (802.3ad). Otherwise you should generally use the
 active-backup mode. +
 // http://lists.linux-ha.org/pipermail/linux-ha/2013-January/046295.html
 If you intend to run your cluster network on the bonding interfaces, then you
@@ -366,25 +366,25 @@ VLAN for Guest Networks
 
 {pve} supports this setup out of the box. You can specify the VLAN tag
 when you create a VM. The VLAN tag is part of the guest network
-configuration. The networking layer supports differnet modes to
+configuration. The networking layer supports different modes to
 implement VLANs, depending on the bridge configuration:
 
 * *VLAN awareness on the Linux bridge:*
 In this case, each guest's virtual network card is assigned to a VLAN tag,
 which is transparently supported by the Linux bridge.
-Trunk mode is also possible, but that makes the configuration
+Trunk mode is also possible, but that makes configuration
 in the guest necessary.
 
 * *"traditional" VLAN on the Linux bridge:*
 In contrast to the VLAN awareness method, this method is not transparent
 and creates a VLAN device with associated bridge for each VLAN.
-That is, if e.g. in our default network, a guest VLAN 5 is used
-to create eno1.5 and vmbr0v5, which remains until rebooting.
+That is, creating a guest on VLAN 5 for example, would create two
+interfaces eno1.5 and vmbr0v5, which would remain until a reboot occurs.
 
 * *Open vSwitch VLAN:*
 This mode uses the OVS VLAN feature.
 
-* *Guest configured VLAN:* 
+* *Guest configured VLAN:*
 VLANs are assigned inside the guest. In this case, the setup is
 completely done inside the guest and can not be influenced from the
 outside. The benefit is that you can use more than one VLAN on a
