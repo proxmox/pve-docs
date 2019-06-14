@@ -184,7 +184,7 @@ core infrastructure independent from a single vendor.
 
 
 Your benefits with {pve}
------------------------
+------------------------
 
 * Open source software
 * No vendor lock-in
