@@ -149,7 +149,8 @@ Login via `ssh` to the node you want to add.
  hp2# pvecm add IP-ADDRESS-CLUSTER
 ----
 
-For `IP-ADDRESS-CLUSTER` use the IP from an existing cluster node.
+For `IP-ADDRESS-CLUSTER` use the IP or hostname of an existing cluster node.
+An IP address is recommended (see <<corosync-addresses,Ring Address Types>>).
 
 CAUTION: A new node cannot hold any VMs, because you would get
 conflicts about identical VM IDs. Also, all existing configuration in
@@ -572,7 +573,8 @@ you do not see them already. Those *must* match the node name.
 
 Then replace the address from the 'ring0_addr' properties with the new
 addresses.  You may use plain IP addresses or also hostnames here. If you use
-hostnames ensure that they are resolvable from all nodes.
+hostnames ensure that they are resolvable from all nodes. (see also
+<<corosync-addresses,Ring Address Types>>)
 
 In my example I want to switch my cluster communication to the 10.10.10.1/25
 network. So I replace all 'ring0_addr' respectively. I also set the bindnetaddr
@@ -653,6 +655,36 @@ systemctl status corosync
 
 If corosync runs again correct restart corosync also on all other nodes.
 They will then join the cluster membership one by one on the new network.
+
+[[corosync-addresses]]
+Corosync addresses
+~~~~~~~~~~~~~~~~~~
+
+A corosync link or ring address can be specified in two ways:
+
+* **IPv4/v6 addresses** will be used directly. They are recommended, since they
+are static and usually not changed carelessly.
+
+* **Hostnames** will be resolved using `getaddrinfo`, which means that per
+default, IPv6 addresses will be used first, if available (see also
+`man gai.conf`). Keep this in mind, especially when upgrading an existing
+cluster to IPv6.
+
+CAUTION: Hostnames should be used with care, since the address they
+resolve to can be changed without touching corosync or the node it runs on -
+which may lead to a situation where an address is changed without thinking
+about implications for corosync.
+
+A seperate, static hostname specifically for corosync is recommended, if
+hostnames are preferred. Also, make sure that every node in the cluster can
+resolve all hostnames correctly.
+
+Since {pve} 5.1, while supported, hostnames will be resolved at the time of
+entry. Only the resolved IP is then saved to the configuration.
+
+Nodes that joined the cluster on earlier versions likely still use their
+unresolved hostname in `corosync.conf`. It might be a good idea to replace
+them with IPs or a seperate hostname, as mentioned above.
 
 [[pvecm_rrp]]
 Redundant Ring Protocol
