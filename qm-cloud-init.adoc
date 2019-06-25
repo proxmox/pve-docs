@@ -131,6 +131,42 @@ commands for reducing the line length. Also make sure to adopt the IP
 setup for your specific environment.
 
 
+Custom Cloud-Init Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Cloud-Init integration also allows custom config files to be used instead
+of the automatically generated configs. This is done via the `cicustom`
+option on the command line:
+
+----
+qm set 9000 --cicustom "user=<volume>,network=<volume>,meta=<volume>"
+----
+
+The custom config files have to be on a storage that supports snippets and have
+to be available on all nodes the VM is going to be migrated to. Otherwise the
+VM won't be able to start.
+For example:
+
+----
+qm set 9000 --cicustom "user=local:snippets/userconfig.yaml"
+----
+
+There are three kinds of configs for Cloud-Init. The first one is the `user`
+config as seen in the example above. The second is the `network` config and
+the third the `meta` config. They can all be specified together or mixed
+and matched however needed.
+The automatically generated config will be used for any that don't have a
+custom config file specified.
+
+The generated config can be dumped to serve as a base for custom configs:
+
+----
+qm cloudinit dump 9000 user
+----
+
+The same command exists for `network` and `meta`.
+
+
 Cloud-Init specific Options
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
