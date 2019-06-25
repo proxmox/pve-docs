@@ -69,6 +69,18 @@ Target storage for full clone.
 
 Target node. Only allowed if the original VM is on shared storage.
 
+*qm cloudinit dump* `<vmid> <type>`
+
+Get automatically generated cloudinit config.
+
+`<vmid>`: `<integer> (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`<type>`: `<meta | network | user>` ::
+
+Config type.
+
 *qm config* `<vmid>` `[OPTIONS]`
 
 Get current virtual machine configuration. This does not include pending
@@ -327,7 +339,7 @@ Create a serial device inside the VM (n is 0 to 3)
 
 Amount of memory shares for auto-ballooning. The larger the number is, the more memory this VM gets. Number is relative to weights of all other running VMs. Using zero disables auto-ballooning. Auto-ballooning is done by pvestatd.
 
-`--smbios1` `[family=<string>] [,manufacturer=<string>] [,product=<string>] [,serial=<string>] [,sku=<string>] [,uuid=<UUID>] [,version=<string>]` ::
+`--smbios1` `[base64=<1|0>] [,family=<Base64 encoded string>] [,manufacturer=<Base64 encoded string>] [,product=<Base64 encoded string>] [,serial=<Base64 encoded string>] [,sku=<Base64 encoded string>] [,uuid=<UUID>] [,version=<Base64 encoded string>]` ::
 
 Specify SMBIOS type 1 fields.
 
@@ -1009,7 +1021,7 @@ Amount of memory shares for auto-ballooning. The larger the number is, the more 
 
 Ignore locks - only root is allowed to use this option.
 
-`--smbios1` `[family=<string>] [,manufacturer=<string>] [,product=<string>] [,serial=<string>] [,sku=<string>] [,uuid=<UUID>] [,version=<string>]` ::
+`--smbios1` `[base64=<1|0>] [,family=<Base64 encoded string>] [,manufacturer=<Base64 encoded string>] [,product=<Base64 encoded string>] [,serial=<Base64 encoded string>] [,sku=<Base64 encoded string>] [,uuid=<UUID>] [,version=<Base64 encoded string>]` ::
 
 Specify SMBIOS type 1 fields.
 

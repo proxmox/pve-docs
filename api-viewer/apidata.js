@@ -326,6 +326,29 @@ var pveapi = [
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
                                     },
+                                    "link[n]" : {
+                                       "description" : "Address and priority information of a single corosync link.",
+                                       "format" : {
+                                          "address" : {
+                                             "default_key" : 1,
+                                             "description" : "Hostname (or IP) of this corosync link address.",
+                                             "format" : "address",
+                                             "format_description" : "IP",
+                                             "type" : "string"
+                                          },
+                                          "priority" : {
+                                             "default" : 0,
+                                             "description" : "The priority for the link when knet is used in 'passive' mode. Lower value means higher priority.",
+                                             "maximum" : 255,
+                                             "minimum" : 0,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          }
+                                       },
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "[address=]<IP> [,priority=<integer>]"
+                                    },
                                     "node" : {
                                        "description" : "The cluster node name.",
                                        "format" : "pve-node",
@@ -338,21 +361,6 @@ var pveapi = [
                                        "optional" : 1,
                                        "type" : "integer",
                                        "typetext" : "<integer> (1 - N)"
-                                    },
-                                    "ring0_addr" : {
-                                       "default" : "Hostname of the node",
-                                       "description" : "Hostname (or IP) of the corosync ring0 address of this node.",
-                                       "format" : "address",
-                                       "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    },
-                                    "ring1_addr" : {
-                                       "description" : "Hostname (or IP) of the corosync ring1 address of this node. Requires a valid configured ring 1 (bindnet1_addr) in the cluster.",
-                                       "format" : "address",
-                                       "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
                                     },
                                     "votes" : {
                                        "description" : "Number of votes for this node",
@@ -485,9 +493,24 @@ var pveapi = [
                                           "type" : "integer"
                                        },
                                        "ring0_addr" : {
-                                          "default" : "Hostname of the node",
-                                          "description" : "Hostname (or IP) of the corosync ring0 address of this node.",
-                                          "format" : "address",
+                                          "description" : "Address and priority information of a single corosync link.",
+                                          "format" : {
+                                             "address" : {
+                                                "default_key" : 1,
+                                                "description" : "Hostname (or IP) of this corosync link address.",
+                                                "format" : "address",
+                                                "format_description" : "IP",
+                                                "type" : "string"
+                                             },
+                                             "priority" : {
+                                                "default" : 0,
+                                                "description" : "The priority for the link when knet is used in 'passive' mode. Lower value means higher priority.",
+                                                "maximum" : 255,
+                                                "minimum" : 0,
+                                                "optional" : 1,
+                                                "type" : "integer"
+                                             }
+                                          },
                                           "optional" : 1,
                                           "type" : "string"
                                        }
@@ -531,6 +554,30 @@ var pveapi = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "link[n]" : {
+                                 "default" : "IP resolved by node's hostname",
+                                 "description" : "Address and priority information of a single corosync link.",
+                                 "format" : {
+                                    "address" : {
+                                       "default_key" : 1,
+                                       "description" : "Hostname (or IP) of this corosync link address.",
+                                       "format" : "address",
+                                       "format_description" : "IP",
+                                       "type" : "string"
+                                    },
+                                    "priority" : {
+                                       "default" : 0,
+                                       "description" : "The priority for the link when knet is used in 'passive' mode. Lower value means higher priority.",
+                                       "maximum" : 255,
+                                       "minimum" : 0,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "[address=]<IP> [,priority=<integer>]"
+                              },
                               "nodeid" : {
                                  "description" : "Node id for this node.",
                                  "minimum" : 1,
@@ -541,21 +588,6 @@ var pveapi = [
                               "password" : {
                                  "description" : "Superuser (root) password of peer node.",
                                  "maxLength" : 128,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "ring0_addr" : {
-                                 "default" : "IP resolved by node's hostname",
-                                 "description" : "Hostname (or IP) of the corosync ring0 address of this node.",
-                                 "format" : "address",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "ring1_addr" : {
-                                 "description" : "Hostname (or IP) of the corosync ring1 address of this node. Requires a valid configured ring 1 (bindnet1_addr) in the cluster.",
-                                 "format" : "address",
-                                 "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
@@ -644,20 +676,6 @@ var pveapi = [
                   "parameters" : {
                      "additionalProperties" : 0,
                      "properties" : {
-                        "bindnet0_addr" : {
-                           "description" : "This specifies the network address the corosync ring 0 executive should bind to and defaults to the local IP address of the node.",
-                           "format" : "ip",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "bindnet1_addr" : {
-                           "description" : "This specifies the network address the corosync ring 1 executive should bind to and is optional.",
-                           "format" : "ip",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
                         "clustername" : {
                            "description" : "The name of the cluster.",
                            "format" : "pve-node",
@@ -665,27 +683,35 @@ var pveapi = [
                            "type" : "string",
                            "typetext" : "<string>"
                         },
+                        "link[n]" : {
+                           "description" : "Address and priority information of a single corosync link.",
+                           "format" : {
+                              "address" : {
+                                 "default_key" : 1,
+                                 "description" : "Hostname (or IP) of this corosync link address.",
+                                 "format" : "address",
+                                 "format_description" : "IP",
+                                 "type" : "string"
+                              },
+                              "priority" : {
+                                 "default" : 0,
+                                 "description" : "The priority for the link when knet is used in 'passive' mode. Lower value means higher priority.",
+                                 "maximum" : 255,
+                                 "minimum" : 0,
+                                 "optional" : 1,
+                                 "type" : "integer"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "[address=]<IP> [,priority=<integer>]"
+                        },
                         "nodeid" : {
                            "description" : "Node id for this node.",
                            "minimum" : 1,
                            "optional" : 1,
                            "type" : "integer",
                            "typetext" : "<integer> (1 - N)"
-                        },
-                        "ring0_addr" : {
-                           "default" : "Hostname of the node",
-                           "description" : "Hostname (or IP) of the corosync ring0 address of this node.",
-                           "format" : "address",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "ring1_addr" : {
-                           "description" : "Hostname (or IP) of the corosync ring1 address of this node. Requires a valid configured ring 1 (bindnet1_addr) in the cluster.",
-                           "format" : "address",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
                         },
                         "votes" : {
                            "description" : "Number of votes for this node.",
@@ -3000,7 +3026,7 @@ var pveapi = [
                               },
                               "stop" : {
                                  "default" : 0,
-                                 "description" : "Stop runnig backup jobs on this host.",
+                                 "description" : "Stop running backup jobs on this host.",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
@@ -3269,7 +3295,7 @@ var pveapi = [
                         },
                         "stop" : {
                            "default" : 0,
-                           "description" : "Stop runnig backup jobs on this host.",
+                           "description" : "Stop running backup jobs on this host.",
                            "optional" : 1,
                            "type" : "boolean",
                            "typetext" : "<boolean>"
@@ -4875,7 +4901,7 @@ var pveapi = [
          {
             "info" : {
                "GET" : {
-                  "description" : "Get cluster status informations.",
+                  "description" : "Get cluster status information.",
                   "method" : "GET",
                   "name" : "get_status",
                   "parameters" : {
@@ -4939,6 +4965,101 @@ var pveapi = [
             "leaf" : 1,
             "path" : "/cluster/nextid",
             "text" : "nextid"
+         },
+         {
+            "children" : [
+               {
+                  "info" : {
+                     "GET" : {
+                        "description" : "Get ceph metadata.",
+                        "method" : "GET",
+                        "name" : "ceph_metadata",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Audit",
+                                 "Datastore.Audit"
+                              ],
+                              "any",
+                              1
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "object"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/ceph/metadata",
+                  "text" : "metadata"
+               },
+               {
+                  "info" : {
+                     "GET" : {
+                        "description" : "Get ceph status.",
+                        "method" : "GET",
+                        "name" : "cephstatus",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Audit",
+                                 "Datastore.Audit"
+                              ],
+                              "any",
+                              1
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "object"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/ceph/status",
+                  "text" : "status"
+               }
+            ],
+            "info" : {
+               "GET" : {
+                  "description" : "Cluster ceph index.",
+                  "method" : "GET",
+                  "name" : "cephindex",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "permissions" : {
+                     "user" : "all"
+                  },
+                  "returns" : {
+                     "items" : {
+                        "properties" : {},
+                        "type" : "object"
+                     },
+                     "links" : [
+                        {
+                           "href" : "{name}",
+                           "rel" : "child"
+                        }
+                     ],
+                     "type" : "array"
+                  }
+               }
+            },
+            "leaf" : 0,
+            "path" : "/cluster/ceph",
+            "text" : "ceph"
          }
       ],
       "info" : {
@@ -8456,10 +8577,10 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "flags" : {
-                                                   "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl', 'ibpb', 'ssbd', 'virt-ssbd', 'amd-ssbd', 'amd-no-ssb', 'pdpe1gb'.",
+                                                   "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl', 'ibpb', 'ssbd', 'virt-ssbd', 'amd-ssbd', 'amd-no-ssb', 'pdpe1gb', 'md-clear'.",
                                                    "format_description" : "+FLAG[;-FLAG...]",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb)))*)",
+                                                   "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear)))*)",
                                                    "type" : "string"
                                                 },
                                                 "hidden" : {
@@ -9930,7 +10051,7 @@ var pveapi = [
                                           "smbios1" : {
                                              "description" : "Specify SMBIOS type 1 fields.",
                                              "format" : "pve-qm-smbios1",
-                                             "maxLength" : 256,
+                                             "maxLength" : 512,
                                              "optional" : 1,
                                              "type" : "string"
                                           },
@@ -10587,10 +10708,10 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "flags" : {
-                                                   "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl', 'ibpb', 'ssbd', 'virt-ssbd', 'amd-ssbd', 'amd-no-ssb', 'pdpe1gb'.",
+                                                   "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl', 'ibpb', 'ssbd', 'virt-ssbd', 'amd-ssbd', 'amd-no-ssb', 'pdpe1gb', 'md-clear'.",
                                                    "format_description" : "+FLAG[;-FLAG...]",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb)))*)",
+                                                   "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear)))*)",
                                                    "type" : "string"
                                                 },
                                                 "hidden" : {
@@ -12126,10 +12247,10 @@ var pveapi = [
                                           "smbios1" : {
                                              "description" : "Specify SMBIOS type 1 fields.",
                                              "format" : "pve-qm-smbios1",
-                                             "maxLength" : 256,
+                                             "maxLength" : 512,
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[family=<string>] [,manufacturer=<string>] [,product=<string>] [,serial=<string>] [,sku=<string>] [,uuid=<UUID>] [,version=<string>]"
+                                             "typetext" : "[base64=<1|0>] [,family=<Base64 encoded string>] [,manufacturer=<Base64 encoded string>] [,product=<Base64 encoded string>] [,serial=<Base64 encoded string>] [,sku=<Base64 encoded string>] [,uuid=<UUID>] [,version=<Base64 encoded string>]"
                                           },
                                           "smp" : {
                                              "default" : 1,
@@ -12818,10 +12939,10 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "flags" : {
-                                                   "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl', 'ibpb', 'ssbd', 'virt-ssbd', 'amd-ssbd', 'amd-no-ssb', 'pdpe1gb'.",
+                                                   "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl', 'ibpb', 'ssbd', 'virt-ssbd', 'amd-ssbd', 'amd-no-ssb', 'pdpe1gb', 'md-clear'.",
                                                    "format_description" : "+FLAG[;-FLAG...]",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb)))*)",
+                                                   "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear)))*)",
                                                    "type" : "string"
                                                 },
                                                 "hidden" : {
@@ -14357,10 +14478,10 @@ var pveapi = [
                                           "smbios1" : {
                                              "description" : "Specify SMBIOS type 1 fields.",
                                              "format" : "pve-qm-smbios1",
-                                             "maxLength" : 256,
+                                             "maxLength" : 512,
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[family=<string>] [,manufacturer=<string>] [,product=<string>] [,serial=<string>] [,sku=<string>] [,uuid=<UUID>] [,version=<string>]"
+                                             "typetext" : "[base64=<1|0>] [,family=<Base64 encoded string>] [,manufacturer=<Base64 encoded string>] [,product=<Base64 encoded string>] [,serial=<Base64 encoded string>] [,sku=<Base64 encoded string>] [,uuid=<UUID>] [,version=<Base64 encoded string>]"
                                           },
                                           "smp" : {
                                              "default" : 1,
@@ -16241,6 +16362,68 @@ var pveapi = [
                            },
                            {
                               "info" : {
+                                 "GET" : {
+                                    "description" : "Get preconditions for migration.",
+                                    "method" : "GET",
+                                    "name" : "migrate_vm_precondition",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "target" : {
+                                             "description" : "Target node.",
+                                             "format" : "pve-node",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "minimum" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - N)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/vms/{vmid}",
+                                          [
+                                             "VM.Migrate"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "properties" : {
+                                          "allowed_nodes" : {
+                                             "description" : "List nodes allowed for offline migration with same local storage as source node, only passed if VM is offline",
+                                             "optional" : 1,
+                                             "type" : "array"
+                                          },
+                                          "local_disks" : {
+                                             "description" : "List local disks including CD-Rom, unsused and not referenced disks",
+                                             "type" : "array"
+                                          },
+                                          "local_resources" : {
+                                             "description" : "List local resources e.g. pci, usb",
+                                             "type" : "array"
+                                          },
+                                          "running" : {
+                                             "type" : "boolean"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 },
                                  "POST" : {
                                     "description" : "Migrate virtual machine. Creates a new migration task.",
                                     "method" : "POST",
@@ -16992,6 +17175,65 @@ var pveapi = [
                               "leaf" : 1,
                               "path" : "/nodes/{node}/qemu/{vmid}/template",
                               "text" : "template"
+                           },
+                           {
+                              "children" : [
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "description" : "Get automatically generated cloudinit config.",
+                                          "method" : "GET",
+                                          "name" : "cloudinit_generated_config_dump",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "type" : {
+                                                   "description" : "Config type.",
+                                                   "enum" : [
+                                                      "user",
+                                                      "network",
+                                                      "meta"
+                                                   ],
+                                                   "type" : "string"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Audit"
+                                                ]
+                                             ]
+                                          },
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "type" : "string"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/cloudinit/dump",
+                                    "text" : "dump"
+                                 }
+                              ],
+                              "leaf" : 0,
+                              "path" : "/nodes/{node}/qemu/{vmid}/cloudinit",
+                              "text" : "cloudinit"
                            }
                         ],
                         "info" : {
@@ -17389,10 +17631,10 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "flags" : {
-                                       "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl', 'ibpb', 'ssbd', 'virt-ssbd', 'amd-ssbd', 'amd-no-ssb', 'pdpe1gb'.",
+                                       "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl', 'ibpb', 'ssbd', 'virt-ssbd', 'amd-ssbd', 'amd-no-ssb', 'pdpe1gb', 'md-clear'.",
                                        "format_description" : "+FLAG[;-FLAG...]",
                                        "optional" : 1,
-                                       "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb)))*)",
+                                       "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear)))*)",
                                        "type" : "string"
                                     },
                                     "hidden" : {
@@ -18908,10 +19150,10 @@ var pveapi = [
                               "smbios1" : {
                                  "description" : "Specify SMBIOS type 1 fields.",
                                  "format" : "pve-qm-smbios1",
-                                 "maxLength" : 256,
+                                 "maxLength" : 512,
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[family=<string>] [,manufacturer=<string>] [,product=<string>] [,serial=<string>] [,sku=<string>] [,uuid=<UUID>] [,version=<string>]"
+                                 "typetext" : "[base64=<1|0>] [,family=<Base64 encoded string>] [,manufacturer=<Base64 encoded string>] [,product=<Base64 encoded string>] [,serial=<Base64 encoded string>] [,sku=<Base64 encoded string>] [,uuid=<UUID>] [,version=<Base64 encoded string>]"
                               },
                               "smp" : {
                                  "default" : 1,
@@ -25269,33 +25511,33 @@ var pveapi = [
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
-                                    "bluestore" : {
-                                       "default" : 1,
-                                       "description" : "Use bluestore instead of filestore. This is the default.",
+                                    "db_dev" : {
+                                       "description" : "Block device name for block.db.",
                                        "optional" : 1,
-                                       "type" : "boolean",
-                                       "typetext" : "<boolean>"
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "db_size" : {
+                                       "default" : "bluestore_block_db_size or 10% of OSD size",
+                                       "description" : "Size in GiB for block.db.",
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "requires" : "db_dev",
+                                       "type" : "number",
+                                       "typetext" : "<number> (1 - N)",
+                                       "verbose_description" : "If a block.db is requested but the size is not given, will be automatically selected by: bluestore_block_db_size from the ceph database (osd or global section) or config (osd or global section)in that order. If this is not available, it will be sized 10% of the size of the OSD device. Fails if the available size is not enough."
                                     },
                                     "dev" : {
                                        "description" : "Block device name.",
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
-                                    "fstype" : {
-                                       "default" : "xfs",
-                                       "description" : "File system type (filestore only).",
-                                       "enum" : [
-                                          "xfs",
-                                          "ext4"
-                                       ],
+                                    "encrypted" : {
+                                       "default" : 0,
+                                       "description" : "Enables encryption of the OSD.",
                                        "optional" : 1,
-                                       "type" : "string"
-                                    },
-                                    "journal_dev" : {
-                                       "description" : "Block device name for journal (filestore) or block.db (bluestore).",
-                                       "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
                                     },
                                     "node" : {
                                        "description" : "The cluster node name.",
@@ -25304,10 +25546,20 @@ var pveapi = [
                                        "typetext" : "<string>"
                                     },
                                     "wal_dev" : {
-                                       "description" : "Block device name for block.wal (bluestore only).",
+                                       "description" : "Block device name for block.wal.",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
+                                    },
+                                    "wal_size" : {
+                                       "default" : "bluestore_block_wal_size or 1% of OSD size",
+                                       "description" : "Size in GiB for block.wal.",
+                                       "minimum" : 0.5,
+                                       "optional" : 1,
+                                       "requires" : "wal_dev",
+                                       "type" : "number",
+                                       "typetext" : "<number> (0.5 - N)",
+                                       "verbose_description" : "If a block.wal is requested but the size is not given, will be automatically selected by: bluestore_block_wal_size from the ceph database (osd or global section) or config (osd or global section)in that order. If this is not available, it will be sized 1% of the size of the OSD device. Fails if the available size is not enough."
                                     }
                                  }
                               },
@@ -25523,6 +25775,42 @@ var pveapi = [
                                     "returns" : {
                                        "type" : "string"
                                     }
+                                 },
+                                 "POST" : {
+                                    "description" : "Create Ceph Manager",
+                                    "method" : "POST",
+                                    "name" : "createmgr",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "id" : {
+                                             "description" : "The ID for the manager, when omitted the same as the nodename",
+                                             "optional" : 1,
+                                             "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
+                                             "type" : "string"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/",
+                                          [
+                                             "Sys.Modify"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
                                  }
                               },
                               "leaf" : 1,
@@ -25531,19 +25819,13 @@ var pveapi = [
                            }
                         ],
                         "info" : {
-                           "POST" : {
-                              "description" : "Create Ceph Manager",
-                              "method" : "POST",
-                              "name" : "createmgr",
+                           "GET" : {
+                              "description" : "MGR directory index.",
+                              "method" : "GET",
+                              "name" : "index",
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
-                                    "id" : {
-                                       "description" : "The ID for the manager, when omitted the same as the nodename",
-                                       "optional" : 1,
-                                       "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
-                                       "type" : "string"
-                                    },
                                     "node" : {
                                        "description" : "The cluster node name.",
                                        "format" : "pve-node",
@@ -25557,14 +25839,43 @@ var pveapi = [
                                     "perm",
                                     "/",
                                     [
-                                       "Sys.Modify"
-                                    ]
+                                       "Sys.Audit",
+                                       "Datastore.Audit"
+                                    ],
+                                    "any",
+                                    1
                                  ]
                               },
                               "protected" : 1,
                               "proxyto" : "node",
                               "returns" : {
-                                 "type" : "string"
+                                 "items" : {
+                                    "properties" : {
+                                       "addr" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "host" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "name" : {
+                                          "description" : "The name (ID) for the MGR"
+                                       },
+                                       "state" : {
+                                          "description" : "State of the MGR",
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "links" : [
+                                    {
+                                       "href" : "{name}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
                               }
                            }
                         },
@@ -25583,15 +25894,51 @@ var pveapi = [
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
-                                          "exclude-manager" : {
-                                             "default" : 0,
-                                             "description" : "When set, removes only the monitor, not the manager",
-                                             "optional" : 1,
-                                             "type" : "boolean",
-                                             "typetext" : "<boolean>"
-                                          },
                                           "monid" : {
                                              "description" : "Monitor ID",
+                                             "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
+                                             "type" : "string"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/",
+                                          [
+                                             "Sys.Modify"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "POST" : {
+                                    "description" : "Create Ceph Monitor and Manager",
+                                    "method" : "POST",
+                                    "name" : "createmon",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "mon-address" : {
+                                             "description" : "Overwrites autodetected monitor IP address. Must be in the public network of ceph.",
+                                             "format" : "ip",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "monid" : {
+                                             "description" : "The ID for the monitor, when omitted the same as the nodename",
+                                             "optional" : 1,
                                              "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
                                              "type" : "string"
                                           },
@@ -25658,6 +26005,11 @@ var pveapi = [
                                  "items" : {
                                     "properties" : {
                                        "addr" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "host" : {
+                                          "optional" : 1,
                                           "type" : "string"
                                        },
                                        "name" : {
@@ -25673,56 +26025,6 @@ var pveapi = [
                                     }
                                  ],
                                  "type" : "array"
-                              }
-                           },
-                           "POST" : {
-                              "description" : "Create Ceph Monitor and Manager",
-                              "method" : "POST",
-                              "name" : "createmon",
-                              "parameters" : {
-                                 "additionalProperties" : 0,
-                                 "properties" : {
-                                    "exclude-manager" : {
-                                       "default" : 0,
-                                       "description" : "When set, only a monitor will be created.",
-                                       "optional" : 1,
-                                       "type" : "boolean",
-                                       "typetext" : "<boolean>"
-                                    },
-                                    "id" : {
-                                       "description" : "The ID for the monitor, when omitted the same as the nodename",
-                                       "optional" : 1,
-                                       "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
-                                       "type" : "string"
-                                    },
-                                    "mon-address" : {
-                                       "description" : "Overwrites autodetected monitor IP address. Must be in the public network of ceph.",
-                                       "format" : "ip",
-                                       "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    },
-                                    "node" : {
-                                       "description" : "The cluster node name.",
-                                       "format" : "pve-node",
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    }
-                                 }
-                              },
-                              "permissions" : {
-                                 "check" : [
-                                    "perm",
-                                    "/",
-                                    [
-                                       "Sys.Modify"
-                                    ]
-                                 ]
-                              },
-                              "protected" : 1,
-                              "proxyto" : "node",
-                              "returns" : {
-                                 "type" : "string"
                               }
                            }
                         },
@@ -25996,7 +26298,7 @@ var pveapi = [
                                     },
                                     "disable_cephx" : {
                                        "default" : 0,
-                                       "description" : "Disable cephx authentification.\n\nWARNING: cephx is a security feature protecting against man-in-the-middle attacks. Only consider disabling cephx if your network is private!",
+                                       "description" : "Disable cephx authentication.\n\nWARNING: cephx is a security feature protecting against man-in-the-middle attacks. Only consider disabling cephx if your network is private!",
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
@@ -26985,7 +27287,7 @@ var pveapi = [
                               },
                               "stop" : {
                                  "default" : 0,
-                                 "description" : "Stop runnig backup jobs on this host.",
+                                 "description" : "Stop running backup jobs on this host.",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
@@ -27699,7 +28001,7 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "bridge_ports" : {
-                                       "description" : "Specify the iterfaces you want to add to your bridge.",
+                                       "description" : "Specify the interfaces you want to add to your bridge.",
                                        "format" : "pve-iface-list",
                                        "optional" : 1,
                                        "type" : "string",
@@ -27811,7 +28113,7 @@ var pveapi = [
                                        "typetext" : "<string>"
                                     },
                                     "ovs_ports" : {
-                                       "description" : "Specify the iterfaces you want to add to your bridge.",
+                                       "description" : "Specify the interfaces you want to add to your bridge.",
                                        "format" : "pve-iface-list",
                                        "optional" : 1,
                                        "type" : "string",
@@ -28009,7 +28311,7 @@ var pveapi = [
                                  "type" : "string"
                               },
                               "bridge_ports" : {
-                                 "description" : "Specify the iterfaces you want to add to your bridge.",
+                                 "description" : "Specify the interfaces you want to add to your bridge.",
                                  "format" : "pve-iface-list",
                                  "optional" : 1,
                                  "type" : "string",
@@ -28114,7 +28416,7 @@ var pveapi = [
                                  "typetext" : "<string>"
                               },
                               "ovs_ports" : {
-                                 "description" : "Specify the iterfaces you want to add to your bridge.",
+                                 "description" : "Specify the interfaces you want to add to your bridge.",
                                  "format" : "pve-iface-list",
                                  "optional" : 1,
                                  "type" : "string",
@@ -29825,7 +30127,7 @@ var pveapi = [
                                              "typetext" : "<string>"
                                           },
                                           "tmpfilename" : {
-                                             "description" : "The source file name. This parameter is usually set by the REST handler. You can only overwrite it when connecting to the trustet port on localhost.",
+                                             "description" : "The source file name. This parameter is usually set by the REST handler. You can only overwrite it when connecting to the trusted port on localhost.",
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -32847,12 +33149,15 @@ var pveapi = [
                         "returns" : {
                            "properties" : {
                               "release" : {
+                                 "description" : "The current installed Proxmox VE Release",
                                  "type" : "string"
                               },
                               "repoid" : {
+                                 "description" : "The short git commit hash ID from which this version was build",
                                  "type" : "string"
                               },
                               "version" : {
+                                 "description" : "The current installed pve-manager package version",
                                  "type" : "string"
                               }
                            },
@@ -33353,8 +33658,8 @@ var pveapi = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "ceph_install",
-                                    "login",
-                                    "upgrade"
+                                    "upgrade",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -33447,8 +33752,8 @@ var pveapi = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "ceph_install",
-                                    "login",
-                                    "upgrade"
+                                    "upgrade",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -33570,8 +33875,8 @@ var pveapi = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "ceph_install",
-                                    "login",
-                                    "upgrade"
+                                    "upgrade",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -33891,7 +34196,7 @@ var pveapi = [
                                  "typetext" : "<string>"
                               },
                               "template" : {
-                                 "description" : "The template wich will downloaded",
+                                 "description" : "The template which will downloaded",
                                  "maxLength" : 255,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -34702,7 +35007,6 @@ var pveapi = [
                         "cifs",
                         "dir",
                         "drbd",
-                        "fake",
                         "glusterfs",
                         "iscsi",
                         "iscsidirect",
@@ -34710,7 +35014,6 @@ var pveapi = [
                         "lvmthin",
                         "nfs",
                         "rbd",
-                        "sheepdog",
                         "zfs",
                         "zfspool"
                      ],
@@ -35068,7 +35371,6 @@ var pveapi = [
                         "cifs",
                         "dir",
                         "drbd",
-                        "fake",
                         "glusterfs",
                         "iscsi",
                         "iscsidirect",
@@ -35076,7 +35378,6 @@ var pveapi = [
                         "lvmthin",
                         "nfs",
                         "rbd",
-                        "sheepdog",
                         "zfs",
                         "zfspool"
                      ],

@@ -18,7 +18,7 @@ The storage where the template will be stored
 
 `<template>`: `<string>` ::
 
-The template wich will downloaded
+The template which will downloaded
 
 *pveam help* `[OPTIONS]`
 

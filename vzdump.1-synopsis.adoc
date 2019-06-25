@@ -90,7 +90,7 @@ Write tar to stdout, not to a file.
 
 `--stop` `<boolean>` ('default =' `0`)::
 
-Stop runnig backup jobs on this host.
+Stop running backup jobs on this host.
 
 `--stopwait` `<integer> (0 - N)` ('default =' `10`)::
 

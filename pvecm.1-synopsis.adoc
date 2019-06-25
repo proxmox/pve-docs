@@ -16,17 +16,13 @@ Certificate SHA 256 fingerprint.
 
 Do not throw error if node already exists.
 
+`--link[n]` `[address=]<IP> [,priority=<integer>]` ::
+
+Address and priority information of a single corosync link.
+
 `--nodeid` `<integer> (1 - N)` ::
 
 Node id for this node.
-
-`--ring0_addr` `<string>` ('default =' `Hostname of the node`)::
-
-Hostname (or IP) of the corosync ring0 address of this node.
-
-`--ring1_addr` `<string>` ::
-
-Hostname (or IP) of the corosync ring1 address of this node. Requires a valid configured ring 1 (bindnet1_addr) in the cluster.
 
 `--use_ssh` `<boolean>` ::
 
@@ -48,17 +44,13 @@ The cluster node name.
 
 Do not throw error if node already exists.
 
+`--link[n]` `[address=]<IP> [,priority=<integer>]` ::
+
+Address and priority information of a single corosync link.
+
 `--nodeid` `<integer> (1 - N)` ::
 
 Node id for this node.
-
-`--ring0_addr` `<string>` ('default =' `Hostname of the node`)::
-
-Hostname (or IP) of the corosync ring0 address of this node.
-
-`--ring1_addr` `<string>` ::
-
-Hostname (or IP) of the corosync ring1 address of this node. Requires a valid configured ring 1 (bindnet1_addr) in the cluster.
 
 `--votes` `<integer> (0 - N)` ::
 
@@ -72,25 +64,13 @@ Generate new cluster configuration.
 
 The name of the cluster.
 
-`--bindnet0_addr` `<string>` ::
+`--link[n]` `[address=]<IP> [,priority=<integer>]` ::
 
-This specifies the network address the corosync ring 0 executive should bind to and defaults to the local IP address of the node.
-
-`--bindnet1_addr` `<string>` ::
-
-This specifies the network address the corosync ring 1 executive should bind to and is optional.
+Address and priority information of a single corosync link.
 
 `--nodeid` `<integer> (1 - N)` ::
 
 Node id for this node.
-
-`--ring0_addr` `<string>` ('default =' `Hostname of the node`)::
-
-Hostname (or IP) of the corosync ring0 address of this node.
-
-`--ring1_addr` `<string>` ::
-
-Hostname (or IP) of the corosync ring1 address of this node. Requires a valid configured ring 1 (bindnet1_addr) in the cluster.
 
 `--votes` `<integer> (1 - N)` ::
 
@@ -131,26 +111,6 @@ Generate new cryptographic key for corosync.
 `<filename>`: `<string>` ::
 
 Output file name
-
-*pvecm mtunnel* `[<extra-args>]` `[OPTIONS]`
-
-Used by VM/CT migration - do not use manually.
-
-`<extra-args>`: `<array>` ::
-
-Extra arguments as array
-
-`--get_migration_ip` `<boolean>` ('default =' `0`)::
-
-return the migration IP, if configured
-
-`--migration_network` `<string>` ::
-
-the migration network used to detect the local migration IP
-
-`--run-command` `<boolean>` ::
-
-Run a command with a tcp socket as standard input. The IP address and port are printed via this command's stdandard output first, each on a separate line.
 
 *pvecm nodes*
 

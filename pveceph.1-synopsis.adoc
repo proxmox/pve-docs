@@ -72,7 +72,7 @@ NOTE: Requires option(s): `network`
 
 `--disable_cephx` `<boolean>` ('default =' `0`)::
 
-Disable cephx authentification.
+Disable cephx authentication.
 +
 WARNING: cephx is a security feature protecting against man-in-the-middle attacks. Only consider disabling cephx if your network is private!
 
@@ -98,9 +98,9 @@ Targeted number of replicas per object
 
 Install ceph related packages.
 
-`--version` `<luminous>` ::
+`--version` `<luminous | nautilus>` ('default =' `nautilus`)::
 
-no description available
+Ceph version to install.
 
 *pveceph lspools*
 
@@ -146,29 +146,21 @@ The ID of the manager
 
 Create Ceph Monitor and Manager
 
-`--exclude-manager` `<boolean>` ('default =' `0`)::
-
-When set, only a monitor will be created.
-
-`--id` `[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?` ::
-
-The ID for the monitor, when omitted the same as the nodename
-
 `--mon-address` `<string>` ::
 
 Overwrites autodetected monitor IP address. Must be in the public network of ceph.
 
-*pveceph mon destroy* `<monid>` `[OPTIONS]`
+`--monid` `[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?` ::
+
+The ID for the monitor, when omitted the same as the nodename
+
+*pveceph mon destroy* `<monid>`
 
 Destroy Ceph Monitor and Manager.
 
 `<monid>`: `[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?` ::
 
 Monitor ID
-
-`--exclude-manager` `<boolean>` ('default =' `0`)::
-
-When set, removes only the monitor, not the manager
 
 *pveceph osd create* `<dev>` `[OPTIONS]`
 
@@ -178,21 +170,29 @@ Create OSD
 
 Block device name.
 
-`--bluestore` `<boolean>` ('default =' `1`)::
+`--db_dev` `<string>` ::
 
-Use bluestore instead of filestore. This is the default.
+Block device name for block.db.
 
-`--fstype` `<ext4 | xfs>` ('default =' `xfs`)::
+`--db_size` `<number> (1 - N)` ('default =' `bluestore_block_db_size or 10% of OSD size`)::
 
-File system type (filestore only).
+Size in GiB for block.db.
++
+NOTE: Requires option(s): `db_dev`
 
-`--journal_dev` `<string>` ::
+`--encrypted` `<boolean>` ('default =' `0`)::
 
-Block device name for journal (filestore) or block.db (bluestore).
+Enables encryption of the OSD.
 
 `--wal_dev` `<string>` ::
 
-Block device name for block.wal (bluestore only).
+Block device name for block.wal.
+
+`--wal_size` `<number> (0.5 - N)` ('default =' `bluestore_block_wal_size or 1% of OSD size`)::
+
+Size in GiB for block.wal.
++
+NOTE: Requires option(s): `wal_dev`
 
 *pveceph osd destroy* `<osdid>` `[OPTIONS]`
 

@@ -4,7 +4,7 @@
 
 Create a new storage.
 
-`<type>`: `<cephfs | cifs | dir | drbd | fake | glusterfs | iscsi | iscsidirect | lvm | lvmthin | nfs | rbd | sheepdog | zfs | zfspool>` ::
+`<type>`: `<cephfs | cifs | dir | drbd | glusterfs | iscsi | iscsidirect | lvm | lvmthin | nfs | rbd | zfs | zfspool>` ::
 
 Storage type.
 
