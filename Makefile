@@ -1,4 +1,5 @@
-DGDIR=. # overwriting this ensures that we can build without full PVE installed
+# overwriting below ensures that we can build without full PVE installed
+DGDIR=.
 ASCIIDOC_PVE=./asciidoc-pve
 
 GEN_PACKAGE=pve-doc-generator
