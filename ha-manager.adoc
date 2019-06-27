@@ -446,6 +446,57 @@ quorum the node cannot reset the watchdog. This will trigger a reboot
 after the watchdog then times out, this happens after 60 seconds.
 
 
+HA Simulator
+------------
+
+[thumbnail="screenshot/gui-ha-manager-status.png"]
+
+By using the HA simulator you can test and learn all functionalities of the
+Proxmox VE HA solutions.
+
+The simulator allows you to watch and test the behaviour of a real-world 3 node
+cluster with 6 VMs.  You can also add or remove additional VMs or Container.
+
+You do not have to setup or configure a real cluster, the HA simulator runs out
+of the box.
+
+Install with apt:
+
+----
+apt install pve-ha-simulator
+----
+
+You can even install the package on a Debian or Debian based system without any
+other Proxmox VE packages.  For that you will need to download the package and
+copy it to the system you want to run it on for installation.  When you install
+the package with apt from the local file system it will also resolve the
+required dependencies for you.
+
+
+To start the simulator on a remote machine you must have a X11 redirection to
+your current system.
+
+If you are on a Linux machine you can use:
+
+----
+ssh root@<IPofPVE4> -Y
+----
+
+On Windows it is working with https://mobaxterm.mobatek.net/[mobaxterm].
+
+After starting the simulator create a working directory:
+
+----
+mkdir working
+----
+
+To start the simulator type
+
+----
+pve-ha-simulator working/
+----
+
+
 Configuration
 -------------
 
