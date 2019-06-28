@@ -454,8 +454,9 @@ HA Simulator
 By using the HA simulator you can test and learn all functionalities of the
 Proxmox VE HA solutions.
 
-The simulator allows you to watch and test the behaviour of a real-world 3 node
-cluster with 6 VMs.  You can also add or remove additional VMs or Container.
+By default, the simulator allows you to watch and test the behaviour of a
+real-world 3 node cluster with 6 VMs. You can also add or remove additional VMs
+or Container.
 
 You do not have to setup or configure a real cluster, the HA simulator runs out
 of the box.
@@ -466,7 +467,7 @@ Install with apt:
 apt install pve-ha-simulator
 ----
 
-You can even install the package on a Debian or Debian based system without any
+You can even install the package on any Debian based system without any
 other Proxmox VE packages.  For that you will need to download the package and
 copy it to the system you want to run it on for installation.  When you install
 the package with apt from the local file system it will also resolve the
@@ -479,23 +480,30 @@ your current system.
 If you are on a Linux machine you can use:
 
 ----
-ssh root@<IPofPVE4> -Y
+ssh root@<IPofPVE> -Y
 ----
 
 On Windows it is working with https://mobaxterm.mobatek.net/[mobaxterm].
 
-After starting the simulator create a working directory:
+After either connecting to a existing {pve} with the simulator installed, or
+installing it on your local Debian based system manually you can try it out as
+follows.
+
+First you need to create a working directory where the simulator saves it's
+current state and writes its the default config:
 
 ----
 mkdir working
 ----
 
-To start the simulator type
+Then, simply pass the created directory as parameter to 'pve-ha-simulator':
 
 ----
 pve-ha-simulator working/
 ----
 
+You can then start, stop, migrate the simulated HA services, or even check out
+what happens on a node failure.
 
 Configuration
 -------------
