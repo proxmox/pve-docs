@@ -42,6 +42,10 @@ Backup mode.
 
 Use pigz instead of gzip when N>0. N=1 uses half of cores, N>1 uses N as thread count.
 
+`pool`: `<string>` ::
+
+Backup all known guest systems included in the specified pool.
+
 `remove`: `<boolean>` ('default =' `1`)::
 
 Remove old backup files if there are more than 'maxfiles' backup files.

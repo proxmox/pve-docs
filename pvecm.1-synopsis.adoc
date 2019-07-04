@@ -112,6 +112,26 @@ Generate new cryptographic key for corosync.
 
 Output file name
 
+*pvecm mtunnel* `[<extra-args>]` `[OPTIONS]`
+
+Used by VM/CT migration - do not use manually.
+
+`<extra-args>`: `<array>` ::
+
+Extra arguments as array
+
+`--get_migration_ip` `<boolean>` ('default =' `0`)::
+
+return the migration IP, if configured
+
+`--migration_network` `<string>` ::
+
+the migration network used to detect the local migration IP
+
+`--run-command` `<boolean>` ::
+
+Run a command with a tcp socket as standard input. The IP address and port are printed via this command's stdandard output first, each on a separate line.
+
 *pvecm nodes*
 
 Displays the local view of the cluster nodes.

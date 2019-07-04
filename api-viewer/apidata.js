@@ -636,6 +636,33 @@ var pveapi = [
                   "leaf" : 1,
                   "path" : "/cluster/config/totem",
                   "text" : "totem"
+               },
+               {
+                  "info" : {
+                     "GET" : {
+                        "description" : "Get QDevice status",
+                        "method" : "GET",
+                        "name" : "status",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Audit"
+                              ]
+                           ]
+                        },
+                        "returns" : {
+                           "type" : "object"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/config/qdevice",
+                  "text" : "qdevice"
                }
             ],
             "info" : {
@@ -2983,6 +3010,12 @@ var pveapi = [
                                  "type" : "integer",
                                  "typetext" : "<integer>"
                               },
+                              "pool" : {
+                                 "description" : "Backup all known guest systems included in the specified pool.",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "quiet" : {
                                  "default" : 0,
                                  "description" : "Be quiet.",
@@ -3251,6 +3284,12 @@ var pveapi = [
                            "optional" : 1,
                            "type" : "integer",
                            "typetext" : "<integer>"
+                        },
+                        "pool" : {
+                           "description" : "Backup all known guest systems included in the specified pool.",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
                         },
                         "quiet" : {
                            "default" : 0,
@@ -16405,7 +16444,7 @@ var pveapi = [
                                     "returns" : {
                                        "properties" : {
                                           "allowed_nodes" : {
-                                             "description" : "List nodes allowed for offline migration with same local storage as source node, only passed if VM is offline",
+                                             "description" : "List nodes allowed for offline migration, only passed if VM is offline",
                                              "optional" : 1,
                                              "type" : "array"
                                           },
@@ -16416,6 +16455,11 @@ var pveapi = [
                                           "local_resources" : {
                                              "description" : "List local resources e.g. pci, usb",
                                              "type" : "array"
+                                          },
+                                          "not_allowed_nodes" : {
+                                             "description" : "List not allowed nodes with additional informations, only passed if VM is offline",
+                                             "optional" : 1,
+                                             "type" : "object"
                                           },
                                           "running" : {
                                              "type" : "boolean"
@@ -27244,6 +27288,12 @@ var pveapi = [
                                  "type" : "integer",
                                  "typetext" : "<integer>"
                               },
+                              "pool" : {
+                                 "description" : "Backup all known guest systems included in the specified pool.",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "quiet" : {
                                  "default" : 0,
                                  "description" : "Be quiet.",
@@ -33657,9 +33707,9 @@ var pveapi = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "ceph_install",
                                     "upgrade",
-                                    "login"
+                                    "login",
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -33751,9 +33801,9 @@ var pveapi = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "ceph_install",
                                     "upgrade",
-                                    "login"
+                                    "login",
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -33874,9 +33924,9 @@ var pveapi = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "ceph_install",
                                     "upgrade",
-                                    "login"
+                                    "login",
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
