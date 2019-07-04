@@ -1,3 +1,13 @@
+pve-docs (6.0-2) pve; urgency=medium
+
+  * fix #2092: re-add HA Simulator documentation
+
+  * document #2247: add info about SSH fingerprints on cluster leave
+
+  * update static synopsis and schema resources
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 04 Jul 2019 16:19:33 +0200
+
 pve-docs (6.0-1) pve; urgency=medium
 
   * general typo and grammar fixes
