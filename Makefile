@@ -1,3 +1,5 @@
+include /usr/share/dpkg/pkg-info.mk
+
 # overwriting below ensures that we can build without full PVE installed
 DGDIR=.
 ASCIIDOC_PVE=./asciidoc-pve
@@ -6,16 +8,13 @@ GEN_PACKAGE=pve-doc-generator
 DOC_PACKAGE=pve-docs
 MEDIAWIKI_PACKAGE=pve-docs-mediawiki
 
-# also update debian/changelog
-PKGREL=2
-
 GITVERSION:=$(shell git rev-parse HEAD)
 
 ARCH:=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
 
-GEN_DEB=${GEN_PACKAGE}_${DOCRELEASE}-${PKGREL}_${ARCH}.deb
-DOC_DEB=${DOC_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
-MEDIAWIKI_DEB=${MEDIAWIKI_PACKAGE}_${DOCRELEASE}-${PKGREL}_all.deb
+GEN_DEB=${GEN_PACKAGE}_${DEB_VERSION_UPSTREAM_REVISION}_${ARCH}.deb
+DOC_DEB=${DOC_PACKAGE}_${DEB_VERSION_UPSTREAM_REVISION}_all.deb
+MEDIAWIKI_DEB=${MEDIAWIKI_PACKAGE}_${DEB_VERSION_UPSTREAM_REVISION}_all.deb
 
 export SOURCE_DATE_EPOCH ?= $(shell dpkg-parsechangelog -STimestamp)
 SOURCE_DATE_HUMAN := $(shell date -d "@${SOURCE_DATE_EPOCH}")
@@ -34,6 +33,7 @@ ADOC_SOURCES_GUESS=$(filter-out %-synopsis.adoc %-opts.adoc %-table.adoc, $(wild
 
 pve-doc-generator.mk: .pve-doc-depends pve-doc-generator.mk.in
 	cat pve-doc-generator.mk.in .pve-doc-depends > $@.tmp
+	sed -i "s/@RELEASE@$$/${DEB_VERSION_UPSTREAM}/" $@.tmp
 	mv $@.tmp $@
 
 -include ./pve-doc-generator.mk
