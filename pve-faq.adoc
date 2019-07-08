@@ -86,8 +86,8 @@ recommended.
 [width="100%",cols="5*d",options="header"]
 |===========================================================
 | {pve} Version | Debian Version    | First Release | Debian EOL | Proxmox EOL
-| {pve} 6.x     | Debian 10 (Buster)| tba           | tba        | tba
-| {pve} 5.x     | Debian 9 (Stretch)| 2017-07       | tba        | tba
+| {pve} 6.x     | Debian 10 (Buster)| 2019-07       | tba        | tba
+| {pve} 5.x     | Debian 9 (Stretch)| 2017-07       | 2020-07    | 2020-07
 | {pve} 4.x     | Debian 8 (Jessie) | 2015-10       | 2018-06    | 2018-06
 | {pve} 3.x     | Debian 7 (Wheezy) | 2013-05       | 2016-04    | 2017-02
 | {pve} 2.x     | Debian 6 (Squeeze)| 2012-04       | 2014-05    | 2014-05
