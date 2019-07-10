@@ -156,7 +156,7 @@ Bootloader
 
 Depending on whether the system is booted in EFI or legacy BIOS mode the
 {pve} installer sets up either `grub` or `systemd-boot` as main bootloader.
-See the chapter on  xref:system_booting[bootladers] for details.
+See the chapter on xref:sysboot[{pve} host bootladers] for details.
 
 
 ZFS Administration

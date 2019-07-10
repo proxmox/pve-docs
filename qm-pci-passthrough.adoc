@@ -46,7 +46,7 @@ some configuration to enable PCI(e) passthrough.
 .IOMMU
 
 The IOMMU has to be activated on the
-xref:edit_kernel_cmdline[kernel commandline].
+xref:sysboot_edit_kernel_cmdline[kernel commandline].
 
 The command line parameters are:
 
@@ -83,7 +83,7 @@ After changing anything modules related, you need to refresh your
 ----
 
 If you are using `systemd-boot` make sure to
-xref:systemd-boot-refresh[sync the new initramfs to the bootable partitions].
+xref:sysboot_systemd_boot_refresh[sync the new initramfs to the bootable partitions].
 
 .Finish Configuration
 
@@ -316,7 +316,7 @@ v5 and E3 v6 Xeon Processors.
 
 To enable it for Intel Graphics, you have to make sure to load the module
 'kvmgt' (for example via `/etc/modules`) and to enable it on the
-xref:edit_kernel_cmdline[Kernel commandline] and add the following parameter:
+xref:sysboot_edit_kernel_cmdline[Kernel commandline] and add the following parameter:
 
 ----
  i915.enable_gvt=1
