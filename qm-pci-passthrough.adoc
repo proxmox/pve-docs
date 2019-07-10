@@ -45,9 +45,10 @@ some configuration to enable PCI(e) passthrough.
 
 .IOMMU
 
-The IOMMU has to be activated on the kernel commandline. The easiest way is to
-enable trough grub. Edit `'/etc/default/grub'' and add the following to the
-'GRUB_CMDLINE_LINUX_DEFAULT' variable:
+The IOMMU has to be activated on the
+xref:edit_kernel_cmdline[kernel commandline].
+
+The command line parameters are:
 
 * for Intel CPUs:
 +
@@ -60,12 +61,6 @@ enable trough grub. Edit `'/etc/default/grub'' and add the following to the
  amd_iommu=on
 ----
 
-[[qm_pci_passthrough_update_grub]]
-To bring this change in effect, make sure you run:
-
-----
-# update-grub
-----
 
 .Kernel Modules
 
@@ -86,6 +81,9 @@ After changing anything modules related, you need to refresh your
 ----
 # update-initramfs -u -k all
 ----
+
+If you are using `systemd-boot` make sure to
+xref:systemd-boot-refresh[sync the new initramfs to the bootable partitions].
 
 .Finish Configuration
 
@@ -316,10 +314,9 @@ Intels drivers for GVT-g are integrated in the Kernel and should work
 with 5th, 6th and 7th generation Intel Core Processors, as well as E3 v4, E3
 v5 and E3 v6 Xeon Processors.
 
-To enable it for Intel Graphcs, you have to make sure to load the module
-'kvmgt' (for example via `/etc/modules`) and to enable it on the Kernel
-commandline. For this you can edit `'/etc/default/grub'' and add the following
-to the 'GRUB_CMDLINE_LINUX_DEFAULT' variable:
+To enable it for Intel Graphics, you have to make sure to load the module
+'kvmgt' (for example via `/etc/modules`) and to enable it on the
+xref:edit_kernel_cmdline[Kernel commandline] and add the following parameter:
 
 ----
  i915.enable_gvt=1
@@ -327,8 +324,7 @@ to the 'GRUB_CMDLINE_LINUX_DEFAULT' variable:
 
 After that remember to
 xref:qm_pci_passthrough_update_initramfs[update the `initramfs`],
-xref:qm_pci_passthrough_update_grub[update grub] and
-reboot your host.
+and reboot your host.
 
 VM Configuration
 ^^^^^^^^^^^^^^^^

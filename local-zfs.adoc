@@ -154,15 +154,9 @@ rpool/swap        4.25G  7.69T    64K  -
 Bootloader
 ~~~~~~~~~~
 
-The default ZFS disk partitioning scheme does not use the first 2048
-sectors. This gives enough room to install a GRUB boot partition. The
-{pve} installer automatically allocates that space, and installs the
-GRUB boot loader there. If you use a redundant RAID setup, it installs
-the boot loader on all disk required for booting. So you can boot
-even if some disks fail.
-
-NOTE: It is not possible to use ZFS as root file system with UEFI
-boot.
+Depending on whether the system is booted in EFI or legacy BIOS mode the
+{pve} installer sets up either `grub` or `systemd-boot` as main bootloader.
+See the chapter on  xref:system_booting[bootladers] for details.
 
 
 ZFS Administration
@@ -255,7 +249,13 @@ can be used as cache.
 
 .Changing a failed device
 
- zpool replace -f <pool> <old device> <new-device>
+ zpool replace -f <pool> <old device> <new device>
+
+.Changing a failed bootable device when using systemd-boot
+
+ sgdisk <healthy bootable device> -R <new device>
+ sgdisk -G <new device>
+ zpool replace -f <pool> <old zfs partition> <new zfs partition>
 
 
 Activate E-Mail Notification
