@@ -153,7 +153,7 @@ api-viewer/apidoc.js: api-viewer/apidata.js api-viewer/PVEAPI.js
 
 .PHONY: dinstall
 dinstall: ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}
-	dpkg -i ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}
+	dpkg -i ${GEN_DEB} ${DOC_DEB} # ${MEDIAWIKI_DEB}
 
 .PHONY: deb
 deb: $(DOC_DEB)
