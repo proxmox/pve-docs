@@ -1,3 +1,13 @@
+pve-docs (6.0-3) pve; urgency=medium
+
+  * Update pvecm documentation for corosync 3
+
+  * Add documentation on supported bootloaders (systemd-boot, GRUB)
+
+  * boot/zfs: add docs for pve-efiboot-tool
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 11 Jul 2019 19:14:26 +0200
+
 pve-docs (6.0-2) pve; urgency=medium
 
   * fix #2092: re-add HA Simulator documentation
