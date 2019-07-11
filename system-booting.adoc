@@ -158,7 +158,7 @@ pve-efiboot-tool format /dev/sda2
 ----
 
 To setup an existing, unmounted ESP located on `/dev/sda2` for inclusion in
-{pve}'s synchronization mechanism, use the following:
+{pve}'s kernel update synchronization mechanism, use the following:
 
 ----
 pve-efiboot-tool init /dev/sda2
