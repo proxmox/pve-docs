@@ -141,17 +141,43 @@ options " > /mnt/esp/loader/entries/preferred.conf
 cat /etc/kernel/cmdline >> /mnt/esp/loader/entries/preferred.conf
 ----
 
+[[sysboot_systemd_boot_setup]]
+.Setting up a new partition for use as synced ESP
+
+To format and initialize a partition as synced ESP, e.g., after replacing a
+failed vdev in an rpool, or when converting an existing system that pre-dates
+the sync mechanism, `pve-efiboot-tool` from `pve-kernel-helpers` can be used.
+
+WARNING: the `format` command will format the `<partition>`, make sure to pass
+in the right device/partition!
+
+For example, to format an empty partition `/dev/sda2` as ESP, run the following:
+
+----
+pve-efiboot-tool format /dev/sda2
+----
+
+To setup an existing, unmounted ESP located on `/dev/sda2` for inclusion in
+{pve}'s synchronization mechanism, use the following:
+
+----
+pve-efiboot-tool init /dev/sda2
+----
+
+Afterwards `/etc/kernel/pve-efiboot-uuids` should contain a new line with the
+UUID of the newly added partition. The `init` command will also automatically
+trigger a refresh of all configured ESPs.
 
 [[sysboot_systemd_boot_refresh]]
 .Updating the configuration on all ESPs
 
-To copy and configure all bootable kernels and keep all ESPs in sync you just
-need to run the kernel hook script `/etc/kernel/postinst.d/zz-pve-efiboot`.
+To copy and configure all bootable kernels and keep all ESPs listed in
+`/etc/kernel/pve-efiboot-uuids` in sync you just need to run `pve-efiboot-tool
+refresh`.
 (The equivalent to running `update-grub` on Systems being booted with `grub`).
 
-This is necessary should you make changes to the kernel commandline, or if you
-want to add another ESP (e.g. when replacing a failed disk in a redundant ZFS
-pool).
+This is necessary should you make changes to the kernel commandline, or want to
+sync all kernels and initrds after regenerating the latter.
 
 [[sysboot_edit_kernel_cmdline]]
 Editing the kernel commandline

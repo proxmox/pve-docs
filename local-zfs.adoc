@@ -256,6 +256,12 @@ can be used as cache.
  sgdisk <healthy bootable device> -R <new device>
  sgdisk -G <new device>
  zpool replace -f <pool> <old zfs partition> <new zfs partition>
+ pve-efiboot-tool format <new disk's ESP>
+ pve-efiboot-tool init <new disk's ESP>
+
+NOTE: `ESP` stands for EFI System Partition, which is setup as partition #2 on
+bootable disks setup by the {pve} installer since version 5.4. For details, see
+xref:sysboot_systemd_boot_setup[Setting up a new partition for use as synced ESP].
 
 
 Activate E-Mail Notification
