@@ -40,6 +40,7 @@ Architecture: all
 Section: doc
 Depends: libhtml-parser-perl,
          pve-docs,
+         libmediawiki-api-perl,
          ${misc:Depends},
          ${perl:Depends},
 Suggests: apache2,
