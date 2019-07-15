@@ -1,3 +1,13 @@
+pve-docs (6.0-4) pve; urgency=medium
+
+  * add some documentation for ZFS encryption
+
+  * system boot: refer to new pve-efiboot-tool commands
+
+  * add and update some screenshots
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 15 Jul 2019 21:45:00 +0200
+
 pve-docs (6.0-3) pve; urgency=medium
 
   * Update pvecm documentation for corosync 3
