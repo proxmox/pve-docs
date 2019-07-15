@@ -355,7 +355,7 @@ improve performance when sufficient memory exists in a system.
 
 ZFS on Linux version 0.8.0 introduced support for native encryption of
 datasets. After an upgrade from previous ZFS on Linux versions, the encryption
-feature needs to be enabled per pool:
+feature can be enabled per pool:
 
 ----
 # zpool get feature@encryption tank
@@ -408,7 +408,7 @@ Enter passphrase for 'tank/encrypted_data':
 
 It is also possible to use a (random) keyfile instead of prompting for a
 passphrase by setting the `keylocation` and `keyformat` properties, either at
-creation time or with `zfs change-key`:
+creation time or with `zfs change-key` on existing datasets:
 
 ----
 # dd if=/dev/urandom of=/path/to/keyfile bs=32 count=1
