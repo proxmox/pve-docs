@@ -117,6 +117,8 @@ Although the specific upgrade steps depend on your respective setup, we
 provide general instructions and advice of how a upgrade should be
 performed:
 +
+* https://pve.proxmox.com/wiki/Upgrade_from_5.x_to_6.0[Upgrade from {pve} 5.x to 6.0]
+
 * https://pve.proxmox.com/wiki/Upgrade_from_4.x_to_5.0[Upgrade from {pve} 4.x to 5.0]
 
 * https://pve.proxmox.com/wiki/Upgrade_from_3.x_to_4.0[Upgrade from {pve} 3.x to 4.0]
