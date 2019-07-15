@@ -314,7 +314,8 @@ time this value changes:
 
 
 [[zfs_swap]]
-.SWAP on ZFS
+SWAP on ZFS
+~~~~~~~~~~~
 
 Swap-space created on a zvol may generate some troubles, like blocking the
 server or generating a high IO load, often seen when starting a Backup
@@ -351,7 +352,8 @@ improve performance when sufficient memory exists in a system.
 |===========================================================
 
 [[zfs_encryption]]
-.Encrypted ZFS Datasets
+Encrypted ZFS Datasets
+~~~~~~~~~~~~~~~~~~~~~~
 
 ZFS on Linux version 0.8.0 introduced support for native encryption of
 datasets. After an upgrade from previous ZFS on Linux versions, the encryption
