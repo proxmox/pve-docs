@@ -86,8 +86,9 @@ The following kernel versions are configured by default:
 
 * the currently running kernel
 * the version being newly installed on package updates
-* the two latest kernels
-* the latest version of each kernel series (e.g. 4.15, 5.0).
+* the two latest already installed kernels
+* the latest version of the second-to-last kernel series (e.g. 4.15, 5.0), if applicable
+* any manually selected kernels (see below)
 
 The ESPs are not kept mounted during regular operation, in contrast to `grub`,
 which keeps an ESP mounted on `/boot/efi`. This helps to prevent filesystem
