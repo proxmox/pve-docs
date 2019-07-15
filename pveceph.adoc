@@ -318,8 +318,7 @@ This is the default when creating OSDs since Ceph Luminous.
 pveceph createosd /dev/sd[X]
 ----
 
-Block.db and block.wal
-^^^^^^^^^^^^^^^^^^^^^^
+.Block.db and block.wal
 
 If you want to use a separate DB/WAL device for your OSDs, you can specify it
 through the '-db_dev' and '-wal_dev' options. The WAL is placed with the DB, if not
@@ -515,6 +514,8 @@ cluster, this way even high load will not overload a single host, which can be
 an issue with traditional shared filesystem approaches, like `NFS`, for
 example.
 
+[thumbnail="screenshot/gui-node-ceph-cephfs-panel.png"]
+
 {pve} supports both, using an existing xref:storage_cephfs[CephFS as storage]
 to save backups, ISO files or container templates and creating a
 hyper-converged CephFS itself.
@@ -548,8 +549,7 @@ will always poll the active one, so that it can take over faster as it is in a
 `warm` state. But naturally, the active polling will cause some additional
 performance impact on your system and active `MDS`.
 
-Multiple Active MDS
-^^^^^^^^^^^^^^^^^^^
+.Multiple Active MDS
 
 Since Luminous (12.2.x) you can also have multiple active metadata servers
 running, but this is normally only useful for a high count on parallel clients,
