@@ -79,7 +79,8 @@ system boots even if the first boot device fails.  The ESPs are kept in sync by
 a kernel postinstall hook script `/etc/kernel/postinst.d/zz-pve-efiboot`. The
 script copies certain kernel versions and the initrd images to `EFI/proxmox/`
 on the root of each ESP and creates the appropriate config files in
-`loader/entries/proxmox-*.conf`.
+`loader/entries/proxmox-*.conf`. The `pve-efiboot-tool` script assists in
+managing both the synced ESPs themselves and their contents.
 
 The following kernel versions are configured by default:
 
