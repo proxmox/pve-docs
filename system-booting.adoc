@@ -118,28 +118,35 @@ initrd   /EFI/proxmox/5.0.15-1-pve/initrd.img-5.0.15-1-pve
 .Manually keeping a kernel bootable
 
 Should you wish to add a certain kernel and initrd image to the list of
-bootable kernels you need to:
+bootable kernel use `pve-efiboot-tool kernel add`.
 
-* create a directory on the ESP (e.g. `/EFI/personalkernel`)
-* copy the kernel and initrd image to that directory
-* create a entry for this kernel in `/loader/entries/*.conf`
-
-NOTE: do not use `/EFI/proxmox` as directory since all entries there can be
-removed by `/etc/kernel/postinst.d/zz-pve-efiboot`
-
-Example (keeping kernel 5.0.15-1-pve and copying to an ESP mounted on
-`/mnt/esp`):
+For example run the following to add the kernel with ABI version `5.0.15-1-pve`
+to the list of kernels to keep installed and synced to all ESPs:
 
 ----
-mkdir /mnt/esp/EFI/preferred-kernel
-cp /boot/initrd.img-5.0.15-1-pve /boot/vmlinuz-5.0.15-1-pve /mnt/esp/EFI/preferred-kernel
-echo -n "title Preferred Kernel
-version 5.0.15-1-pve
-linux /mnt/esp/EFI/preferred-kernel/vmlinuz-5.0.15-1-pve
-initrd /mnt/esp/EFI/preferred-kernel/initrd.img-5.0.15-1-pve
-options " > /mnt/esp/loader/entries/preferred.conf
-cat /etc/kernel/cmdline >> /mnt/esp/loader/entries/preferred.conf
+pve-efiboot-tool kernel add 5.0.15-1-pve
 ----
+
+`pve-efiboot-tool kernel list` will list all kernel versions currently selected
+for booting:
+
+----
+# pve-efiboot-tool kernel list
+Manually selected kernels:
+5.0.15-1-pve
+
+Automatically selected kernels:
+5.0.12-1-pve
+4.15.18-18-pve
+----
+
+Run `pve-efiboot-tool remove` to remove a kernel from the list of manually
+selected kernels, for example:
+
+----
+pve-efiboot-tool kernel remove 5.0.15-1-pve
+----
+
 
 [[sysboot_systemd_boot_setup]]
 .Setting up a new partition for use as synced ESP
