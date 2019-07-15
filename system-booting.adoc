@@ -149,6 +149,8 @@ selected kernels, for example:
 pve-efiboot-tool kernel remove 5.0.15-1-pve
 ----
 
+NOTE: It's required to run `pve-efiboot-tool refresh` to update all EFI System
+Partitions (ESPs) after a manual kernel addition or removal from above.
 
 [[sysboot_systemd_boot_setup]]
 .Setting up a new partition for use as synced ESP
@@ -181,8 +183,11 @@ trigger a refresh of all configured ESPs.
 .Updating the configuration on all ESPs
 
 To copy and configure all bootable kernels and keep all ESPs listed in
-`/etc/kernel/pve-efiboot-uuids` in sync you just need to run `pve-efiboot-tool
-refresh`.
+`/etc/kernel/pve-efiboot-uuids` in sync you just need to run:
+
+----
+ pve-efiboot-tool refresh
+----
 (The equivalent to running `update-grub` on Systems being booted with `grub`).
 
 This is necessary should you make changes to the kernel commandline, or want to
