@@ -148,7 +148,7 @@ Lock/unlock the VM.
 
 Amount of RAM for the VM in MB.
 
-`--mp[n]` `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
+`--mp[n]` `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
 Use volume as container mount point.
 
@@ -184,7 +184,7 @@ Sets the protection flag of the container. This will prevent the CT or CT's disk
 
 Mark this as restore task.
 
-`--rootfs` `[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
+`--rootfs` `[volume=]<volume> [,acl=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
 Use volume as container root.
 
@@ -568,7 +568,7 @@ Lock/unlock the VM.
 
 Amount of RAM for the VM in MB.
 
-`--mp[n]` `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
+`--mp[n]` `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
 Use volume as container mount point.
 
@@ -600,7 +600,7 @@ Add the VM to the specified pool.
 
 Sets the protection flag of the container. This will prevent the CT or CT's disk remove/update operation.
 
-`--rootfs` `[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
+`--rootfs` `[volume=]<volume> [,acl=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
 Use volume as container root.
 
@@ -738,7 +738,7 @@ Lock/unlock the VM.
 
 Amount of RAM for the VM in MB.
 
-`--mp[n]` `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
+`--mp[n]` `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
 Use volume as container mount point.
 
@@ -762,7 +762,7 @@ OS type. This is used to setup configuration inside the container, and correspon
 
 Sets the protection flag of the container. This will prevent the CT or CT's disk remove/update operation.
 
-`--rootfs` `[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
+`--rootfs` `[volume=]<volume> [,acl=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
 Use volume as container root.
 

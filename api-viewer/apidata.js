@@ -19914,6 +19914,13 @@ var pveapi = [
                                                    "type" : "boolean",
                                                    "verbose_description" : "Whether to include the mount point in backups (only used for volume mount points)."
                                                 },
+                                                "mountoptions" : {
+                                                   "description" : "Extra mount options for rootfs/mps.",
+                                                   "format_description" : "opt[;opt...]",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:(?^:(noatime|nodev|nosuid|noexec))(;(?^:(noatime|nodev|nosuid|noexec)))*)",
+                                                   "type" : "string"
+                                                },
                                                 "mp" : {
                                                    "description" : "Path to the mount point as seen from inside the container (must not contain symlinks).",
                                                    "format" : "pve-lxc-mp-string",
@@ -20098,6 +20105,13 @@ var pveapi = [
                                                    "description" : "Explicitly enable or disable ACL support.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
+                                                },
+                                                "mountoptions" : {
+                                                   "description" : "Extra mount options for rootfs/mps.",
+                                                   "format_description" : "opt[;opt...]",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:(?^:(noatime|nodev|nosuid|noexec))(;(?^:(noatime|nodev|nosuid|noexec)))*)",
+                                                   "type" : "string"
                                                 },
                                                 "quota" : {
                                                    "description" : "Enable user quotas inside the container (not supported with zfs subvolumes)",
@@ -20359,6 +20373,13 @@ var pveapi = [
                                                    "type" : "boolean",
                                                    "verbose_description" : "Whether to include the mount point in backups (only used for volume mount points)."
                                                 },
+                                                "mountoptions" : {
+                                                   "description" : "Extra mount options for rootfs/mps.",
+                                                   "format_description" : "opt[;opt...]",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:(?^:(noatime|nodev|nosuid|noexec))(;(?^:(noatime|nodev|nosuid|noexec)))*)",
+                                                   "type" : "string"
+                                                },
                                                 "mp" : {
                                                    "description" : "Path to the mount point as seen from inside the container (must not contain symlinks).",
                                                    "format" : "pve-lxc-mp-string",
@@ -20406,7 +20427,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
+                                             "typetext" : "[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
                                           },
                                           "nameserver" : {
                                              "description" : "Sets DNS server IP address for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.",
@@ -20555,6 +20576,13 @@ var pveapi = [
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
+                                                "mountoptions" : {
+                                                   "description" : "Extra mount options for rootfs/mps.",
+                                                   "format_description" : "opt[;opt...]",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:(?^:(noatime|nodev|nosuid|noexec))(;(?^:(noatime|nodev|nosuid|noexec)))*)",
+                                                   "type" : "string"
+                                                },
                                                 "quota" : {
                                                    "description" : "Enable user quotas inside the container (not supported with zfs subvolumes)",
                                                    "optional" : 1,
@@ -20595,7 +20623,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
+                                             "typetext" : "[volume=]<volume> [,acl=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
                                           },
                                           "searchdomain" : {
                                              "description" : "Sets DNS search domains for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.",
@@ -25015,6 +25043,13 @@ var pveapi = [
                                        "type" : "boolean",
                                        "verbose_description" : "Whether to include the mount point in backups (only used for volume mount points)."
                                     },
+                                    "mountoptions" : {
+                                       "description" : "Extra mount options for rootfs/mps.",
+                                       "format_description" : "opt[;opt...]",
+                                       "optional" : 1,
+                                       "pattern" : "(?^:(?^:(noatime|nodev|nosuid|noexec))(;(?^:(noatime|nodev|nosuid|noexec)))*)",
+                                       "type" : "string"
+                                    },
                                     "mp" : {
                                        "description" : "Path to the mount point as seen from inside the container (must not contain symlinks).",
                                        "format" : "pve-lxc-mp-string",
@@ -25062,7 +25097,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
+                                 "typetext" : "[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
                               },
                               "nameserver" : {
                                  "description" : "Sets DNS server IP address for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.",
@@ -25237,6 +25272,13 @@ var pveapi = [
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
+                                    "mountoptions" : {
+                                       "description" : "Extra mount options for rootfs/mps.",
+                                       "format_description" : "opt[;opt...]",
+                                       "optional" : 1,
+                                       "pattern" : "(?^:(?^:(noatime|nodev|nosuid|noexec))(;(?^:(noatime|nodev|nosuid|noexec)))*)",
+                                       "type" : "string"
+                                    },
                                     "quota" : {
                                        "description" : "Enable user quotas inside the container (not supported with zfs subvolumes)",
                                        "optional" : 1,
@@ -25277,7 +25319,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
+                                 "typetext" : "[volume=]<volume> [,acl=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
                               },
                               "searchdomain" : {
                                  "description" : "Sets DNS search domains for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.",
@@ -25472,6 +25514,55 @@ var pveapi = [
                                     "leaf" : 1,
                                     "path" : "/nodes/{node}/ceph/osd/{osdid}/out",
                                     "text" : "out"
+                                 },
+                                 {
+                                    "info" : {
+                                       "POST" : {
+                                          "description" : "Instruct the OSD to scrub.",
+                                          "method" : "POST",
+                                          "name" : "scrub",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "deep" : {
+                                                   "default" : 0,
+                                                   "description" : "If set, instructs a deep scrub instead of a normal one.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "typetext" : "<boolean>"
+                                                },
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "osdid" : {
+                                                   "description" : "OSD ID",
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer>"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/",
+                                                [
+                                                   "Sys.Modify"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "type" : "null"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/ceph/osd/{osdid}/scrub",
+                                    "text" : "scrub"
                                  }
                               ],
                               "info" : {
@@ -26321,6 +26412,69 @@ var pveapi = [
                         "leaf" : 1,
                         "path" : "/nodes/{node}/ceph/config",
                         "text" : "config"
+                     },
+                     {
+                        "info" : {
+                           "GET" : {
+                              "description" : "Get Ceph configuration database.",
+                              "method" : "GET",
+                              "name" : "configdb",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Audit",
+                                       "Datastore.Audit"
+                                    ],
+                                    "any",
+                                    1
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "can_update_at_runtime" : {
+                                          "type" : "boolean"
+                                       },
+                                       "level" : {
+                                          "type" : "string"
+                                       },
+                                       "mask" : {
+                                          "type" : "string"
+                                       },
+                                       "name" : {
+                                          "type" : "string"
+                                       },
+                                       "section" : {
+                                          "type" : "string"
+                                       },
+                                       "value" : {
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/ceph/configdb",
+                        "text" : "configdb"
                      },
                      {
                         "info" : {
@@ -33708,8 +33862,8 @@ var pveapi = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "upgrade",
-                                    "login",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -33802,8 +33956,8 @@ var pveapi = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "upgrade",
-                                    "login",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -33925,8 +34079,8 @@ var pveapi = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "upgrade",
-                                    "login",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"

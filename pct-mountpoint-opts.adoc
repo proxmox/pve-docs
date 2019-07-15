@@ -1,8 +1,8 @@
-`rootfs`: `[volume=]<volume> [,acl=<1|0>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
+`rootfs`: `[volume=]<volume> [,acl=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
 Use volume as container root. See below for a detailed description of all options.
 
-`mp[n]`: `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
+`mp[n]`: `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
 Use volume as container mount point.
 
@@ -13,6 +13,10 @@ Explicitly enable or disable ACL support.
 `backup`=`<boolean>` ;;
 
 Whether to include the mount point in backups (only used for volume mount points).
+
+`mountoptions`=`<opt[;opt...]>` ;;
+
+Extra mount options for rootfs/mps.
 
 `mp`=`<Path>` ;;
 

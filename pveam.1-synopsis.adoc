@@ -4,7 +4,7 @@
 
 List available templates.
 
-`--section` `<system | turnkeylinux>` ::
+`--section` `<mail | system | turnkeylinux>` ::
 
 Restrict list to specified section.
 

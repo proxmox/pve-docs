@@ -296,7 +296,7 @@ Import stream format
 
 `<filename>`: `<string>` ::
 
-Source file name
+Source file name. For '-' stdin is used, the tcp://<IP-or-CIDR> format allows to use a TCP connection as input. Else, the file is treated as common file.
 
 `--base` `(?^:[a-z0-9_\-]{1,40})` ::
 
