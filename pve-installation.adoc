@@ -133,10 +133,10 @@ administrator, for example:
 
 - Error messages from periodic CRON jobs.
 
+[thumbnail="screenshot/pve-setup-network.png"]
+
 All those notification mails will be sent to the specified email
 address.
-
-[thumbnail="screenshot/pve-setup-network.png"]
 
 The last step is the network configuration. Please note that you can
 use either IPv4 or IPv6 here, but not both. If you want to configure a
@@ -144,15 +144,26 @@ dual stack node, you can easily do that after installation.
 
 [thumbnail="screenshot/pve-installation.png", float="left"]
 
-If you press `Next` now, installation starts to format disks, and
+If you press `Next` now, you will see an overview of your entered
+configuration. Please re-check every setting, you can still use the
+`Previous` button to go back and edit all settings here.
+
+If you press `Install` now, installation starts to format disks, and
 copies packages to the target. Please wait until that is finished,
 then remove the installation media and restart your system.
 
-Further configuration is done via the Proxmox web interface. Just
+[thumbnail="screenshot/pve-install-summary.png"]
+
+If the installation failed check out specific errors on the second TTY
+(`CTRL + ALT + F2'), ensure your systems mets the
+xref:install_minimal_requirements[minimum requirements]. If the installation
+is still not working then look at our xref:getting_help[how to get help chapter].
+
+Further configuration can be done via the Proxmox web interface. Just
 point your browser to the IP address given during installation
 (https://youripaddress:8006).
 
-NOTE: Default login is "root" (realm 'PAM') and the root password is
+NOTE: Default login is "root" (realm 'PAM') and the root password was
 defined during the installation process.
 
 

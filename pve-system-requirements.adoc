@@ -13,7 +13,7 @@ can be centrally managed thanks to the included cluster functionality.
 {pve} can use local storage (DAS), SAN, NAS and also distributed
 storage (Ceph RBD). For details see xref:chapter_storage[chapter storage].
 
-
+[[install_minimal_requirements]]
 Minimum Requirements, for Evaluation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -28,6 +28,7 @@ Minimum Requirements, for Evaluation
 * One NIC
 
 
+[[install_recommended_requirements]]
 Recommended System Requirements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
