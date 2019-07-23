@@ -221,10 +221,10 @@ set and a _TRIM_-enabled guest OS footnote:[TRIM, UNMAP, and discard
 https://en.wikipedia.org/wiki/Trim_%28computing%29], when the VM's filesystem
 marks blocks as unused after deleting files, the controller will relay this
 information to the storage, which will then shrink the disk image accordingly.
-For the guest to be able to issue _TRIM_ commands, you must either use a
-*VirtIO SCSI* (or *VirtIO SCSI Single*) controller or set the *SSD emulation*
-option on the drive. Note that *Discard* is not supported on *VirtIO Block*
-drives.
+For the guest to be able to issue _TRIM_ commands, you must enable the *Discard*
+option on the drive. Some guest operating systems may also require the
+*SSD Emulation* flag to be set. Note that *Discard* on *VirtIO Block* drives is
+only supported on guests using Linux Kernel 5.0 or higher.
 
 If you would like a drive to be presented to the guest as a solid-state drive
 rather than a rotational hard disk, you can set the *SSD emulation* option on
