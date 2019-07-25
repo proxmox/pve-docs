@@ -28,7 +28,7 @@ function efPvedocsParserFunction_Setup(&$parser) {
 # similar code as in <htmlet> tag...
 function efPvedocsPostProcessFunction($parser, &$text) {
 	$text = preg_replace_callback(
-		'/<--- @PVEDOCSHACK@ ([0-9a-zA-Z\\+\\/]+=*) @PVEDOCSHACK@ -->/sm',
+		'/-_- @PVEDOCS_BASE64@ ([0-9a-zA-Z\\+\\/]+=*) @PVEDOCS_BASE64@ -_-/sm',
 		function ($m) {	return base64_decode("$m[1]"); },
 		$text);
 
@@ -66,7 +66,9 @@ function efPvedocsParserFunction_Render($parser, $param1 = '', $param2 = '') {
 
 	$content = file_get_contents("/usr/share/pve-docs/$param1");
 
-    $output = '<--- @PVEDOCSHACK@ '.base64_encode($content).' @PVEDOCSHACK@ -->';
+    # do not use '<' or '>', it seems newer mediawiki converts it to '&lt;' and '&gt;'
+    # and then the regex for the decode in efPvedocsPostProcessFunction does not matches..
+    $output = '-_- @PVEDOCS_BASE64@ '.base64_encode($content).' @PVEDOCS_BASE64@ -_-';
     return array($output, 'noparse' => true, 'isHTML' => true);
 }
 
