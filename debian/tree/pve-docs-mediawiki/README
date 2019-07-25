@@ -26,10 +26,4 @@ In the MediaWiki settings PHP file ('/var/www/mediawiki/LocalSettings.php') add:
 # ----8<----
 # for docs-inclusion plugin:
 require_once("/usr/lib/pve-docs/pvedocs-include.php");
-
-# for the JS snippet which generates the Table of Content and footer links
-$wgHooks['BeforePageDisplay'][] = function( OutputPage &$out, Skin &$skin ) {
-    $asciidoc_js = file_get_contents("/usr/share/doc/pve-docs-mediawiki/mediawiki-asciidoc.js");
-    $out->addInlineScript($asciidoc_js);
-};
 # ---->8----
