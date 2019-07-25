@@ -208,13 +208,14 @@ doc-install: index.html $(WIKI_IMPORTS) $(API_VIEWER_SOURCES) verify-images exam
 	install -m 0644 ${API_VIEWER_SOURCES} $(DESTDIR)/usr/share/${DOC_PACKAGE}/api-viewer
 
 .PHONY: mediawiki-install
-mediawiki-install: pve-docs-mediawiki-import
+mediawiki-install: pve-docs-mediawiki-import asciidoc/mediawiki-asciidoc.js
 	install -dm755 $(DESTDIR)/usr/share/$(MEDIAWIKI_PACKAGE)
 	install -dm755 $(DESTDIR)/usr/share/doc/$(MEDIAWIKI_PACKAGE)
 	install -dm755 $(DESTDIR)/usr/bin
 	install -dm755 $(DESTDIR)/usr/share/$(MEDIAWIKI_PACKAGE)
 	install -dm755 $(DESTDIR)/usr/share/doc/$(MEDIAWIKI_PACKAGE)
 	install -m 0755 pve-docs-mediawiki-import $(DESTDIR)/usr/bin/
+	install -m 0644 -o www-data asciidoc/mediawiki-asciidoc.js $(DESTDIR)/usr/share/doc/$(MEDIAWIKI_PACKAGE)/mediawiki-asciidoc.js
 
 .PHONY: upload
 upload: ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}

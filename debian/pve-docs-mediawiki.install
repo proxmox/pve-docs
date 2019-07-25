@@ -1,3 +1,4 @@
 /usr/bin/pve-docs-mediawiki-import
+/usr/share/doc/pve-docs-mediawiki/mediawiki-asciidoc.js
 debian/tree/pve-docs-mediawiki/pve-docs.conf /etc/apache2/sites-available/
 debian/tree/pve-docs-mediawiki/pvedocs-include.php /usr/lib/pve-docs/
