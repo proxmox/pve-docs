@@ -82,9 +82,6 @@ After changing anything modules related, you need to refresh your
 # update-initramfs -u -k all
 ----
 
-If you are using `systemd-boot` make sure to
-xref:sysboot_systemd_boot_refresh[sync the new initramfs to the bootable partitions].
-
 .Finish Configuration
 
 Finally reboot to bring the changes into effect and check that it is indeed
