@@ -203,7 +203,7 @@ Ext.onReady(function() {
 
 		    if (retinf.properties) {
 			returnhtml = returnhtml || '';
-			returnhtml += '<pre>properties:' + Ext.htmlEncode(JSON.stringify(retinf.properties, null, 4));
+			returnhtml += '<pre>properties:' + Ext.htmlEncode(JSON.stringify(retinf.properties, null, 4)) + '</pre>';
 		    }
 
 		    sections.push({
