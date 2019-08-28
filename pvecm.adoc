@@ -108,20 +108,31 @@ recommend to reference nodes by their IP addresses in the cluster configuration.
 Create the Cluster
 ------------------
 
-Login via `ssh` to the first {pve} node. Use a unique name for your cluster.
-This name cannot be changed later. The cluster name follows the same rules as
-node names.
+Use a unique name for your cluster. This name cannot be changed later. The
+cluster name follows the same rules as node names.
+
+Create via Web GUI
+~~~~~~~~~~~~~~~~~~
+
+Under __Datacenter -> Cluster__, click on *Create Cluster*. Enter the cluster
+name and select a network connection from the dropdown to serve as the main
+cluster network (Link 0). It defaults to the IP resolved via the node's
+hostname.
+
+To add a second link as fallback, you can select the 'Advanced' checkbox and
+choose an additional network interface (Link 1, see also
+xref:pvecm_redundancy[Corosync Redundancy]).
+
+Create via Command Line
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Login via `ssh` to the first {pve} node and run the following command:
 
 ----
  hp1# pvecm create CLUSTERNAME
 ----
 
-NOTE: It is possible to create multiple clusters in the same physical or logical
-network. Use unique cluster names if you do so. To avoid human confusion, it is
-also recommended to choose different names even if clusters do not share the
-cluster network.
-
-To check the state of your cluster use:
+To check the state of the new cluster use:
 
 ----
  hp1# pvecm status
@@ -131,9 +142,9 @@ Multiple Clusters In Same Network
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 It is possible to create multiple clusters in the same physical or logical
-network. Each such cluster must have a unique name, this does not only helps
-admins to distinguish on which cluster they currently operate, it is also
-required to avoid possible clashes in the cluster communication stack.
+network. Each such cluster must have a unique name to avoid possible clashes in
+the cluster communication stack. This also helps avoid human confusion by making
+clusters clearly distinguishable.
 
 While the bandwidth requirement of a corosync cluster is relatively low, the
 latency of packages and the package per second (PPS) rate is the limiting
@@ -145,6 +156,37 @@ infrastructure for bigger clusters.
 Adding Nodes to the Cluster
 ---------------------------
 
+CAUTION: A node that is about to be added to the cluster cannot hold any guests.
+All existing configuration in `/etc/pve` is overwritten when joining a cluster,
+since guest IDs could be conflicting. As a workaround create a backup of the
+guest (`vzdump`) and restore it as a different ID after the node has been added
+to the cluster.
+
+Add Node via GUI
+~~~~~~~~~~~~~~~~
+
+Login to the web interface on an existing cluster node. Under __Datacenter ->
+Cluster__, click the button *Join Information* at the top. Then, click on the
+button *Copy Information*. Alternatively, copy the string from the 'Information'
+field manually.
+
+Next, login to the web interface on the node you want to add.
+Under __Datacenter -> Cluster__, click on *Join Cluster*. Fill in the
+'Information' field with the text you copied earlier.
+
+For security reasons, the cluster password has to be entered manually.
+
+NOTE: To enter all required data manually, you can disable the 'Assisted Join'
+checkbox.
+
+After clicking on *Join* the node will immediately be added to the cluster. You
+might need to reload the web page and re-login with the cluster credentials.
+
+Confirm that your node is visible under __Datacenter -> Cluster__.
+
+Add Node via Command Line
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Login via `ssh` to the node you want to add.
 
 ----
@@ -154,11 +196,6 @@ Login via `ssh` to the node you want to add.
 For `IP-ADDRESS-CLUSTER` use the IP or hostname of an existing cluster node.
 An IP address is recommended (see xref:pvecm_corosync_addresses[Link Address Types]).
 
-CAUTION: A new node cannot hold any VMs, because you would get
-conflicts about identical VM IDs. Also, all existing configuration in
-`/etc/pve` is overwritten when you join a new node to the cluster. To
-workaround, use `vzdump` to backup and restore to a different VMID after
-adding the node to the cluster.
 
 To check the state of the cluster use:
 
@@ -229,6 +266,8 @@ pvecm add IP-ADDRESS-CLUSTER -link0 LOCAL-IP-ADDRESS-LINK0
 If you want to use the built-in xref:pvecm_redundancy[redundancy] of the
 kronosnet transport layer, also use the 'link1' parameter.
 
+Using the GUI, you can select the correct interface from the corresponding 'Link 0'
+and 'Link 1' fields in the *Cluster Join* dialog.
 
 Remove a Cluster Node
 ---------------------
@@ -692,8 +731,9 @@ Corosync Redundancy
 Corosync supports redundant networking via its integrated kronosnet layer by
 default (it is not supported on the legacy udp/udpu transports). It can be
 enabled by specifying more than one link address, either via the '--linkX'
-parameters of `pvecm` (while creating a cluster or adding a new node) or by
-specifying more than one 'ringX_addr' in `corosync.conf`.
+parameters of `pvecm`, in the GUI as **Link 1** (while creating a cluster or
+adding a new node) or by specifying more than one 'ringX_addr' in
+`corosync.conf`.
 
 NOTE: To provide useful failover, every link should be on its own
 physical network connection.
