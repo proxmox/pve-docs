@@ -114,6 +114,8 @@ cluster name follows the same rules as node names.
 Create via Web GUI
 ~~~~~~~~~~~~~~~~~~
 
+[thumbnail="screenshot/gui-cluster-create.png"]
+
 Under __Datacenter -> Cluster__, click on *Create Cluster*. Enter the cluster
 name and select a network connection from the dropdown to serve as the main
 cluster network (Link 0). It defaults to the IP resolved via the node's
@@ -165,10 +167,14 @@ to the cluster.
 Add Node via GUI
 ~~~~~~~~~~~~~~~~
 
+[thumbnail="screenshot/gui-cluster-join-information.png"]
+
 Login to the web interface on an existing cluster node. Under __Datacenter ->
 Cluster__, click the button *Join Information* at the top. Then, click on the
 button *Copy Information*. Alternatively, copy the string from the 'Information'
 field manually.
+
+[thumbnail="screenshot/gui-cluster-join.png"]
 
 Next, login to the web interface on the node you want to add.
 Under __Datacenter -> Cluster__, click on *Join Cluster*. Fill in the
