@@ -879,7 +879,6 @@ iface vmbr4000 inet manual
         bridge_ports vxlan4000
         bridge_stp off
         bridge_fd 0
-        hwaddress 44:39:39:FF:40:90  #must be different on each node
         vrf vrf1
 ----
 
@@ -888,6 +887,7 @@ frr.conf
 ----
 vrf vrf1
  vni 4000
+ exit-vrf
 !
 router bgp 1234
  bgp router-id 192.168.0.1
@@ -900,18 +900,6 @@ router bgp 1234
   neighbor 192.168.0.2 activate
   neighbor 192.168.0.3 activate
   advertise-all-vni
- exit-address-family
-!
-router bgp 1234 vrf vrf1
-! 
- bgp router-id 192.168.0.1
- ! 
- address-family ipv4 unicast
-  redistribute connected
- exit-address-family
- !
- address-family l2vpn evpn
-  advertise ipv4 unicast
  exit-address-family
 !
 line vty
@@ -992,7 +980,6 @@ iface vmbr4000 inet manual
         bridge_ports vxlan4000
         bridge_stp off
         bridge_fd 0
-        hwaddress 44:39:39:FF:40:91  #must be different on each node
         vrf vrf1
 ----
 
@@ -1002,6 +989,7 @@ frr.conf
 ----
 vrf vrf1
  vni 4000
+ exit-vrf
 !
 router bgp 1234
  bgp router-id 192.168.0.2
@@ -1014,18 +1002,6 @@ router bgp 1234
   neighbor 192.168.0.1 activate
   neighbor 192.168.0.3 activate
   advertise-all-vni
- exit-address-family
-!
-router bgp 1234 vrf vrf1
-! 
- bgp router-id 192.168.0.2
- ! 
- address-family ipv4 unicast
-  redistribute connected
- exit-address-family
- !
- address-family l2vpn evpn
-  advertise ipv4 unicast
  exit-address-family
 !
 line vty
@@ -1106,7 +1082,6 @@ iface vmbr4000 inet manual
         bridge_ports vxlan4000
         bridge_stp off
         bridge_fd 0
-        hwaddress 44:39:39:FF:40:92  #must be different on each node
         vrf vrf1
 ----
 
@@ -1116,6 +1091,7 @@ frr.conf
 ----
 vrf vrf1
  vni 4000
+ exit-vrf
 !
 router bgp 1234
  bgp router-id 192.168.0.3
@@ -1130,18 +1106,6 @@ router bgp 1234
   advertise-all-vni
  exit-address-family
 !
-router bgp 1234 vrf vrf1
-! 
- bgp router-id 192.168.0.3
- ! 
- address-family ipv4 unicast
-  redistribute connected
- exit-address-family
- !
- address-family l2vpn evpn
-  advertise ipv4 unicast
- exit-address-family
-!
 line vty
 !
 ----
@@ -1153,8 +1117,7 @@ Routing to outside need the symmetric model.
 1 gateway node
 ^^^^^^^^^^^^^^
 In this example, we'll use only 1 proxmox node as exit gateway. (node1)
-This node have a simple default gw in the vrf to the external router (no bgp between router and node1)
-and announce this default gw to other proxmox nodes.
+This node announce the default gw in vrf1 (default originate) and forward to his own default gateway (192.168.0.254) (no bgp between router and node1)
 
 
 *node1
@@ -1172,18 +1135,10 @@ auto vmbr0
 iface vmbr0 inet static
          address 192.168.0.1
          netmask  255.255.255.0
+         gateway 192.168.0.254
          bridge_ports eno1
          bridge_stp off
          bridge_fd 0
-
-auto eno2
-iface eno2
-        address 172.16.0.1
-        netmask 255.255.255.0
-        vrf vrf1
-        post-up ip route add default via 172.16.0.254 dev eno2 vrf vrf1
-	#if you have multiple external routers, you can use ecmp balancing
-	#post-up route add default nexthop via 172.16.0.253 dev eno2 vrf vrf1 nexthop via 172.16.0.254 dev eno2 vrf vrf1
 
 auto vxlan2
 iface vxlan2 inet manual
@@ -1238,7 +1193,6 @@ iface vmbr4000 inet manual
         bridge_ports vxlan4000
         bridge_stp off
         bridge_fd 0
-        hwaddress 44:39:39:FF:40:90  #must be different on each node
         vrf vrf1
 ----
 
@@ -1248,6 +1202,7 @@ frr.conf
 ----
 vrf vrf1
  vni 4000
+ exit-vrf
 !
 router bgp 1234
  bgp router-id 192.168.0.1
@@ -1255,6 +1210,10 @@ router bgp 1234
  coalesce-time 1000
  neighbor 192.168.0.2 remote-as 1234
  neighbor 192.168.0.3 remote-as 1234
+ !
+ address-family ipv4 unicast
+  import vrf vrf1
+ exit-address-family
  !
  address-family l2vpn evpn
   neighbor 192.168.0.2 activate
@@ -1264,15 +1223,8 @@ router bgp 1234
 !
 router bgp 1234 vrf vrf1
 !
- bgp router-id 172.16.0.1
- !
- address-family ipv4 unicast
-  redistribute connected
-  redistribute kernel !announce your default gw to all nodes
- exit-address-family
- !
  address-family l2vpn evpn
-  advertise ipv4 unicast
+  default-originate ipv4
  exit-address-family
 !
 line vty
@@ -1353,7 +1305,6 @@ iface vmbr4000 inet manual
         bridge_ports vxlan4000
         bridge_stp off
         bridge_fd 0
-        hwaddress 44:39:39:FF:40:91  #must be different on each node
         vrf vrf1
 ----
 
@@ -1363,6 +1314,7 @@ frr.conf
 ----
 vrf vrf1
  vni 4000
+ exit-vrf
 !
 router bgp 1234
  bgp router-id 192.168.0.2
@@ -1375,18 +1327,6 @@ router bgp 1234
   neighbor 192.168.0.1 activate
   neighbor 192.168.0.3 activate
   advertise-all-vni
- exit-address-family
-!
-router bgp 1234 vrf vrf1
-! 
- bgp router-id 192.168.0.2
- ! 
- address-family ipv4 unicast
-  redistribute connected
- exit-address-family
- !
- address-family l2vpn evpn
-  advertise ipv4 unicast
  exit-address-family
 !
 line vty
@@ -1467,7 +1407,6 @@ iface vmbr4000 inet manual
         bridge_ports vxlan4000
         bridge_stp off
         bridge_fd 0
-        hwaddress 44:39:39:FF:40:92  #must be different on each node
         vrf vrf1
 ----
 
@@ -1477,6 +1416,7 @@ frr.conf
 ----
 vrf vrf1
  vni 4000
+ exit-vrf
 !
 router bgp 1234
  bgp router-id 192.168.0.3
@@ -1491,18 +1431,6 @@ router bgp 1234
   advertise-all-vni
  exit-address-family
 !
-router bgp 1234 vrf vrf1
-! 
- bgp router-id 192.168.0.3
- ! 
- address-family ipv4 unicast
-  redistribute connected
- exit-address-family
- !
- address-family l2vpn evpn
-  advertise ipv4 unicast
- exit-address-family
-!
 line vty
 !
 ----
@@ -1510,8 +1438,8 @@ line vty
 multiple gateway nodes
 ^^^^^^^^^^^^^^^^^^^^^^
 In this example, all nodes will be used as exit gateway. (But you can use only 2 nodes if you want)
-All nodes have a simple default gw in the vrf to the external router (no bgp between router and node1)
-and announce this default gw.
+All nodes have a a default gw to the external router (192.168.0.254) (no bgp between router and node1)
+and announce this default gw in the vrf (default originate)
 The external router have ecmp routes to all proxmox nodes.(balancing).
 If the router send the packet to a wrong node (vm is not on this node), this node will route through
 vxlan the packet to final destination.
@@ -1531,19 +1459,10 @@ auto vmbr0
 iface vmbr0 inet static
          address 192.168.0.1
          netmask  255.255.255.0
+         gateway 192.168.0.254
          bridge_ports eno1
          bridge_stp off
          bridge_fd 0
-
-auto eno2
-iface eno2
-        address 172.16.0.1
-        netmask 255.255.255.0
-        vrf vrf1
-	mtu 1550
-        post-up ip route add default via 172.16.0.254 dev eno2 vrf vrf1
-	#if you have multiple external routers, you can use ecmp balancing
-	#post-up route add default nexthop via 172.16.0.253 dev eno2 vrf vrf1 nexthop via 172.16.0.254 dev eno2 vrf vrf1
 
 auto vxlan2
 iface vxlan2 inet manual
@@ -1598,7 +1517,6 @@ iface vmbr4000 inet manual
         bridge_ports vxlan4000
         bridge_stp off
         bridge_fd 0
-        hwaddress 44:39:39:FF:40:90  #must be different on each node
         vrf vrf1
 ----
 
@@ -1608,6 +1526,7 @@ frr.conf
 ----
 vrf vrf1
  vni 4000
+ exit-vrf
 !
 router bgp 1234
  bgp router-id 192.168.0.1
@@ -1615,6 +1534,10 @@ router bgp 1234
  coalesce-time 1000
  neighbor 192.168.0.2 remote-as 1234
  neighbor 192.168.0.3 remote-as 1234
+ !
+ address-family ipv4 unicast
+  import vrf vrf1
+ exit-address-family
  !
  address-family l2vpn evpn
   neighbor 192.168.0.2 activate
@@ -1624,15 +1547,8 @@ router bgp 1234
 !
 router bgp 1234 vrf vrf1
 !
- bgp router-id 172.16.0.1
- !
- address-family ipv4 unicast
-  redistribute connected
-  redistribute kernel !announce your default gw to all nodes
- exit-address-family
- !
  address-family l2vpn evpn
-  advertise ipv4 unicast
+  default-originate ipv4
  exit-address-family
 !
 line vty
@@ -1655,19 +1571,10 @@ auto vmbr0
 iface vmbr0 inet static
          address 192.168.0.2
          netmask  255.255.255.0
+         gateway 192.168.0.254
          bridge_ports eno1
          bridge_stp off
          bridge_fd 0
-
-auto eno2
-iface eno2
-        address 172.16.0.3
-        netmask 255.255.255.0
-        vrf vrf1
-	mtu 1550
-        post-up ip route add default via 172.16.0.254 dev eno2 vrf vrf1
-	#if you have multiple external routers, you can use ecmp balancing
-	#post-up route add default nexthop via 172.16.0.253 dev eno2 vrf vrf1 nexthop via 172.16.0.254 dev eno2 vrf vrf1
 
 auto vxlan2
 iface vxlan2 inet manual
@@ -1723,7 +1630,6 @@ iface vmbr4000 inet manual
         bridge_ports vxlan4000
         bridge_stp off
         bridge_fd 0
-        hwaddress 44:39:39:FF:40:91  #must be different on each node
         vrf vrf1
 ----
 
@@ -1733,6 +1639,7 @@ frr.conf
 ----
 vrf vrf1
  vni 4000
+ exit-vrf
 !
 router bgp 1234
  bgp router-id 192.168.0.2
@@ -1741,23 +1648,18 @@ router bgp 1234
  neighbor 192.168.0.1 remote-as 1234
  neighbor 192.168.0.3 remote-as 1234
  !
+ address-family ipv4 unicast
+  import vrf vrf1
+ exit-address-family
+ !
  address-family l2vpn evpn
   neighbor 192.168.0.1 activate
   neighbor 192.168.0.3 activate
   advertise-all-vni
  exit-address-family
 !
-router bgp 1234 vrf vrf1
-!
- bgp router-id 172.16.0.2
- !
- address-family ipv4 unicast
-  redistribute connected
-  redistribute kernel !announce your default gw to all nodes
- exit-address-family
- !
  address-family l2vpn evpn
-  advertise ipv4 unicast
+  default-originate ipv4
  exit-address-family
 !
 line vty
@@ -1780,19 +1682,10 @@ auto vmbr0
 iface vmbr0 inet static
          address 192.168.0.3
          netmask  255.255.255.0
+         gateway 192.168.0.254
          bridge_ports eno1
          bridge_stp off
          bridge_fd 0
-
-auto eno2
-iface eno2
-        address 172.16.0.3
-        netmask 255.255.255.0
-        vrf vrf1
-	mtu 1550
-        post-up ip route add default via 172.16.0.254 dev eno2 vrf vrf1
-	#if you have multiple external routers, you can use ecmp balancing
-	#post-up route add default nexthop via 172.16.0.253 dev eno2 vrf vrf1 nexthop via 172.16.0.254 dev eno2 vrf vrf1
 
 auto vxlan2
 iface vxlan2 inet manual
@@ -1848,7 +1741,6 @@ iface vmbr4000 inet manual
         bridge_ports vxlan4000
         bridge_stp off
         bridge_fd 0
-        hwaddress 44:39:39:FF:40:92  #must be different on each node
         vrf vrf1
 ----
 
@@ -1858,6 +1750,7 @@ frr.conf
 ----
 vrf vrf1
  vni 4000
+ exit-vrf
 !
 router bgp 1234
  bgp router-id 192.168.0.3
@@ -1865,6 +1758,10 @@ router bgp 1234
  coalesce-time 1000
  neighbor 192.168.0.1 remote-as 1234
  neighbor 192.168.0.2 remote-as 1234
+ !
+ address-family ipv4 unicast
+  import vrf vrf1
+ exit-address-family
  !
  address-family l2vpn evpn
   neighbor 192.168.0.1 activate
@@ -1874,15 +1771,8 @@ router bgp 1234
 !
 router bgp 1234 vrf vrf1
 !
- bgp router-id 172.16.0.3
- !
- address-family ipv4 unicast
-  redistribute connected
-  redistribute kernel !announce your default gw to all nodes
- exit-address-family
- !
  address-family l2vpn evpn
-  advertise ipv4 unicast
+  default-originate ipv4
  exit-address-family
 !
 line vty
@@ -1892,41 +1782,46 @@ line vty
 Note
 ^^^^
 
-If your external router don't support ecmp to reach multiple proxmox nodes,
+If your external router don't support ecmp static route to reach multiple proxmox nodes,
 you can setup an HA floating vip on proxmox nodes with vrrp
 
-I this example, we will setup an floating 172.16.0.10 ip on node1 and node2.
+In this example, we will setup an floating 192.168.0.10 ip on node1 and node2.
 Node1 is the primary and failover to node2 in case of failure.
 
+This setup need vrrpd package (apt install vrrpd).
+#TODO : It should be possible to do it with frr directly with last version.
 
 * node1
 
 ----
-auto eno2
-iface eno2
-        address 172.16.0.1
-        netmask 255.255.255.0
-        vrf vrf1
-	mtu 1550
-        post-up ip route add default via 172.16.0.254 dev eno2 vrf vrf1
-	vrrp-id 1
-	vrrp-priority 1
-	vrrp-virtual-ip 172.16.0.10
+auto vmbr0
+iface vmbr0 inet static
+         address 192.168.0.1
+         netmask  255.255.255.0
+         gateway 192.168.0.254
+         bridge_ports eno1
+         bridge_stp off
+         bridge_fd 0
+         vrrp-id 1
+         vrrp-priority 1
+         vrrp-virtual-ip 192.168.0.10
 ----
 
 * node2
 
 ----
-auto eno2
-iface eno2
-        address 172.16.0.2
-        netmask 255.255.255.0
-	mtu 1550
-        vrf vrf1
-        post-up ip route add default via 172.16.0.254 dev eno2 vrf vrf1
-	vrrp-id 1
-	vrrp-priority 2
-	vrrp-virtual-ip 172.16.0.10
+auto vmbr0
+iface vmbr0 inet static
+         address 192.168.0.2
+         netmask  255.255.255.0
+         gateway 192.168.0.254
+         bridge_ports eno1
+         bridge_stp off
+         bridge_fd 0
+         vrrp-id 1
+         vrrp-priority 2
+         vrrp-virtual-ip 192.168.0.10
 ----
 
 
+#TODO : Documentation with bgp upstream router.
