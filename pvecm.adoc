@@ -40,7 +40,7 @@ Grouping nodes into a cluster has the following advantages:
 
 * Centralized, web based management
 
-* Multi-master clusters: each node can do all management task
+* Multi-master clusters: each node can do all management tasks
 
 * `pmxcfs`: database-driven file system for storing configuration files,
  replicated in real-time on all nodes using `corosync`.
@@ -1084,7 +1084,7 @@ pvecm expected 1
 This sets the expected vote count to 1 and makes the cluster quorate. You can
 now fix your configuration, or revert it back to the last working backup.
 
-This is not enough if corosync cannot start anymore. Here its best to edit the
+This is not enough if corosync cannot start anymore. Here it is best to edit the
 local copy of the corosync configuration in '/etc/corosync/corosync.conf' so
 that corosync can start again. Ensure that on all nodes this configuration has
 the same content to avoid split brains. If you are not sure what went wrong
@@ -1149,7 +1149,7 @@ example passwords or encryption keys).
 
 Therefore, we strongly recommend using the secure channel if you do
 not have full control over the network and can not guarantee that no
-one is eavesdropping to it.
+one is eavesdropping on it.
 
 NOTE: Storage migration does not follow this setting. Currently, it
 always sends the storage content over a secure channel.
