@@ -739,7 +739,7 @@ If you have a cluster, you can migrate your Containers with
 
 This works as long as your Container is offline. If it has local volumes or
 mountpoints defined, the migration will copy the content over the network to
-the target host if there is the same storage defined.
+the target host if the same storage is defined there.
 
 If you want to migrate online Containers, the only way is to use
 restart migration. This can be initiated with the -restart flag and the optional
