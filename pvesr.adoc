@@ -214,7 +214,7 @@ to Node B manually.
 
 WARNING: If expected votes are set avoid changes which affect the cluster
 (for example adding/removing nodes, storages, virtual guests)  at all costs.
-Only use it to get vital guests up and running again or to resolve to quorum
+Only use it to get vital guests up and running again or to resolve the quorum
 issue itself.
 
 - move both guest configuration files form the origin node A to node B:
