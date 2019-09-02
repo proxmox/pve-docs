@@ -60,7 +60,7 @@ When you connect to the server, you will first see the login window.
 you can select the language here. The GUI is translated to more
 than 20 languages.
 
-NOTE: You can save the user name on the client side by selection the
+NOTE: You can save the user name on the client side by selecting the
 checkbox at the bottom. This saves some typing when you login next
 time.
 
@@ -80,7 +80,7 @@ most important actions.
 Resource Tree:: At the left side. A navigation tree where you can select
 specific objects.
 
-Content Panel:: Center region. Selected objects displays configuration
+Content Panel:: Center region. Selected objects display configuration
 options and status here.
 
 Log Panel:: At the bottom. Displays log entries for recent tasks. You
