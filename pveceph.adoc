@@ -243,7 +243,7 @@ The Ceph Monitor (MON)
 footnote:[Ceph Monitor http://docs.ceph.com/docs/luminous/start/intro/]
 maintains a master copy of the cluster map. For high availability you need to
 have at least 3 monitors. One monitor will already be installed if you
-used the installation wizard. You wont need more than 3 monitors as long
+used the installation wizard. You won't need more than 3 monitors as long
 as your cluster is small to midsize, only really large clusters will
 need more than that.
 
@@ -388,9 +388,9 @@ You can create pools through command line or on the GUI on each PVE host under
 pveceph createpool <name>
 ----
 
-If you would like to automatically get also a storage definition for your pool,
-active the checkbox "Add storages" on the GUI or use the command line option
-'--add_storages' on pool creation.
+If you would like to automatically also get a storage definition for your pool,
+mark the checkbox "Add storages" in the GUI or use the command line option
+'--add_storages' at pool creation.
 
 Further information on Ceph pool handling can be found in the Ceph pool
 operation footnote:[Ceph pool operation
@@ -486,7 +486,7 @@ You can then configure {pve} to use such pools to store VM or
 Container images. Simply use the GUI too add a new `RBD` storage (see
 section xref:ceph_rados_block_devices[Ceph RADOS Block Devices (RBD)]).
 
-You also need to copy the keyring to a predefined location for a external Ceph
+You also need to copy the keyring to a predefined location for an external Ceph
 cluster. If Ceph is installed on the Proxmox nodes itself, then this will be
 done automatically.
 
@@ -598,7 +598,7 @@ WARNING: Destroying a CephFS will render all its data unusable, this cannot be
 undone!
 
 If you really want to destroy an existing CephFS you first need to stop, or
-destroy, all metadata server (`M̀DS`). You can destroy them either over the Web
+destroy, all metadata servers (`M̀DS`). You can destroy them either over the Web
 GUI or the command line interface, with:
 
 ----
@@ -629,7 +629,7 @@ the status through the {pve} link:api-viewer/index.html[API].
 The following ceph commands below can be used to see if the cluster is healthy
 ('HEALTH_OK'), if there are warnings ('HEALTH_WARN'), or even errors
 ('HEALTH_ERR'). If the cluster is in an unhealthy state the status commands
-below will also give you an overview on the current events and actions take.
+below will also give you an overview of the current events and actions to take.
 
 ----
 # single time output
@@ -644,7 +644,7 @@ adjusted footnote:[Ceph log and debugging http://docs.ceph.com/docs/luminous/rad
 
 You can find more information about troubleshooting
 footnote:[Ceph troubleshooting http://docs.ceph.com/docs/luminous/rados/troubleshooting/]
-a Ceph cluster on its website.
+a Ceph cluster on the official website.
 
 
 ifdef::manvolnum[]
