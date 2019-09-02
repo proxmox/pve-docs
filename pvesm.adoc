@@ -40,7 +40,7 @@ copy VM image data, so live migration is very fast in that case.
 
 The storage library (package `libpve-storage-perl`) uses a flexible
 plugin system to provide a common interface to all storage types. This
-can be easily adopted to include further storage types in future.
+can be easily adopted to include further storage types in the future.
 
 
 Storage Types
@@ -50,7 +50,7 @@ There are basically two different classes of storage types:
 
 File level storage::
 
-File level based storage technologies allow access to a full featured (POSIX)
+File level based storage technologies allow access to a fully featured (POSIX)
 file system.  They are in general more flexible than any Block level storage
 (see below), and allow you to store content of any type. ZFS is probably the
 most advanced system, and it has full support for snapshots and clones.
@@ -122,8 +122,8 @@ file at `/etc/pve/storage.cfg`. As this file is within `/etc/pve/`, it
 gets automatically distributed to all cluster nodes. So all nodes
 share the same storage configuration.
 
-Sharing storage configuration make perfect sense for shared storage,
-because the same ``shared'' storage is accessible from all nodes. But is
+Sharing storage configuration makes perfect sense for shared storage,
+because the same ``shared'' storage is accessible from all nodes. But it is
 also useful for local storage types. In this case such local storage
 is available on all nodes, but it is physically different and can have
 totally different content.
@@ -143,8 +143,8 @@ Each storage pool has a `<type>`, and is uniquely identified by its
 ----
 
 The `<type>: <STORAGE_ID>` line starts the pool definition, which is then
-followed by a list of properties. Most properties have values, but some of
-them come with reasonable default. In that case you can omit the value.
+followed by a list of properties. Most properties have values and some of
+them come with a reasonable default. In that case you can omit the value.
 
 To be more specific, take a look at the default storage configuration
 after installation. It contains one special local storage pool named
@@ -188,7 +188,7 @@ content::
 A storage can support several content types, for example virtual disk
 images, cdrom iso images, container templates or container root
 directories. Not all storage types support all content types. One can set
-this property to select for what this storage is used for.
+this property to select what this storage is used for.
 
 images:::
 
