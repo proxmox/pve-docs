@@ -8,7 +8,7 @@ FORMAT_OPTIONS
 endif::manvolnum[]
 
 It is possible to specify the output format using the
-`--outout-format` parameter. The default format 'text' uses ASCII-art
+`--output-format` parameter. The default format 'text' uses ASCII-art
 to draw nice borders around tables. It additionally transforms some
 values into human-readable text, for example:
 
