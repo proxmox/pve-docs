@@ -139,12 +139,13 @@ Each storage pool has a `<type>`, and is uniquely identified by its
 <type>: <STORAGE_ID>
 	<property> <value>
 	<property> <value>
+	<property>
 	...
 ----
 
 The `<type>: <STORAGE_ID>` line starts the pool definition, which is then
-followed by a list of properties. Most properties have values and some of
-them come with a reasonable default. In that case you can omit the value.
+followed by a list of properties. Most properties require a value. Some have
+reasonable defaults, in which case you can omit the value.
 
 To be more specific, take a look at the default storage configuration
 after installation. It contains one special local storage pool named
