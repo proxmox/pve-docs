@@ -78,17 +78,17 @@ consistency, the use of the `snapshot` mode is recommended instead.
 `snapshot` mode::
 
 This mode provides the lowest operation downtime, at the cost of a
-small inconsistency risk.  It works by performing a Proxmox VE live
+small inconsistency risk. It works by performing a {pve} live
 backup, in which data blocks are copied while the VM is running. If the
 guest agent is enabled (`agent: 1`) and running, it calls
 `guest-fsfreeze-freeze` and `guest-fsfreeze-thaw` to improve
 consistency.
 
-A technical overview of the Proxmox VE live backup for QemuServer can
+A technical overview of the {pve} live backup for QemuServer can
 be found online
 https://git.proxmox.com/?p=pve-qemu.git;a=blob_plain;f=backup.txt[here].
 
-NOTE: Proxmox VE live backup provides snapshot-like semantics on any
+NOTE: {pve} live backup provides snapshot-like semantics on any
 storage type. It does not require that the underlying storage supports
 snapshots. Also please note that since the backups are done via 
 a background Qemu process, a stopped VM will appear as running for a 
