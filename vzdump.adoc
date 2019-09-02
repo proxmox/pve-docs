@@ -78,7 +78,7 @@ consistency, the use of the `snapshot` mode is recommended instead.
 `snapshot` mode::
 
 This mode provides the lowest operation downtime, at the cost of a
-small inconstancy risk.  It works by performing a Proxmox VE live
+small inconsistency risk.  It works by performing a Proxmox VE live
 backup, in which data blocks are copied while the VM is running. If the
 guest agent is enabled (`agent: 1`) and running, it calls
 `guest-fsfreeze-freeze` and `guest-fsfreeze-thaw` to improve
@@ -166,7 +166,7 @@ Bandwidth Limit
 
 Restoring one or more big backups may need a lot of resources, especially
 storage bandwidth for both reading from the backup storage and writing to
-the target storage. This can negatively effect other virtual guest as access
+the target storage. This can negatively affect other virtual guests as access
 to storage can get congested.
 
 To avoid this you can set bandwidth limits for a backup job. {pve}
