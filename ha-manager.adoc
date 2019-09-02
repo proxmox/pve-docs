@@ -100,7 +100,7 @@ carefully calculate the benefits, and compare with those additional
 costs.
 
 TIP: Increasing availability from 99% to 99.9% is relatively
-simply. But increasing availability from 99.9999% to 99.99999% is very
+simple. But increasing availability from 99.9999% to 99.99999% is very
 hard and costly. `ha-manager` has typical error detection and failover
 times of about 2 minutes, so you can get no more than 99.999%
 availability.
@@ -761,7 +761,7 @@ specific for each resource.
 
 max_restart::
 
-Maximum number of tries to restart an failed service on the actual
+Maximum number of tries to restart a failed service on the actual
 node.  The default is set to one.
 
 max_relocate::
@@ -809,9 +809,9 @@ Package Updates
 When updating the ha-manager you should do one node after the other, never
 all at once for various reasons. First, while we test our software
 thoughtfully, a bug affecting your specific setup cannot totally be ruled out.
-Upgrading one node after the other and checking the functionality of each node
-after finishing the update helps to recover from an eventual problems, while
-updating all could render you in a broken cluster state and is generally not
+Updating one node after the other and checking the functionality of each node
+after finishing the update helps to recover from eventual problems, while
+updating all at once could result in a broken cluster and is generally not
 good practice.
 
 Also, the {pve} HA stack uses a request acknowledge protocol to perform
