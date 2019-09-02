@@ -120,7 +120,7 @@ initrd   /EFI/proxmox/5.0.15-1-pve/initrd.img-5.0.15-1-pve
 .Manually keeping a kernel bootable
 
 Should you wish to add a certain kernel and initrd image to the list of
-bootable kernel use `pve-efiboot-tool kernel add`.
+bootable kernels use `pve-efiboot-tool kernel add`.
 
 For example run the following to add the kernel with ABI version `5.0.15-1-pve`
 to the list of kernels to keep installed and synced to all ESPs:
@@ -188,7 +188,7 @@ To copy and configure all bootable kernels and keep all ESPs listed in
 ----
  pve-efiboot-tool refresh
 ----
-(The equivalent to running `update-grub` on Systems being booted with `grub`).
+(The equivalent to running `update-grub` on systems being booted with `grub`).
 
 This is necessary should you make changes to the kernel commandline, or want to
 sync all kernels and initrds.
@@ -201,7 +201,7 @@ Editing the kernel commandline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can modify the kernel commandline in the following places, depending on the
-bootloarder used:
+bootloader used:
 
 .Grub
 
