@@ -1782,13 +1782,14 @@ line vty
 Note
 ^^^^
 
-If your external router don't support ecmp static route to reach multiple proxmox nodes,
-you can setup an HA floating vip on proxmox nodes with vrrp
+If your external router doesn't support 'ECMP static routes' to reach multiple
+{pve} nodes, you can setup an HA floating vip on proxmox nodes by using the
+Virtual Router Redundancy Protocol (VRRP).
 
-In this example, we will setup an floating 192.168.0.10 ip on node1 and node2.
-Node1 is the primary and failover to node2 in case of failure.
+In this example, we will setup an floating 192.168.0.10 IP on node1 and node2.
+Node1 is the primary with failover to node2 in case of outage.
 
-This setup need vrrpd package (apt install vrrpd).
+This setup currently needs 'vrrpd' package (`apt install vrrpd`).
 #TODO : It should be possible to do it with frr directly with last version.
 
 * node1
@@ -1824,13 +1825,16 @@ iface vmbr0 inet static
 ----
 
 
-route reflectors
+Route Reflectors
 ^^^^^^^^^^^^^^^^
-If you have a lot of proxmox nodes, or multiple proxmox clusters,
-maybe do you want to avoid that each node peer with each others nodes.
-For this, you can create dedicated route reflectors servers. (Minimum 2 servers for redundancy).
-Here an example of configuration with frr, with rrserver1 (192.168.0.200) and rrserver2 (192.168.0.201).
+If you have a lot of proxmox nodes, or multiple proxmox clusters, you may want
+to avoid that all node peers with each others nodes.
+For this, you can create dedicated route reflectors (RR) servers. As a RR is a
+single point of failure, a minimum of two servers acting as an RR is highly
+recommended for redundancy.
 
+Below is an example of configuration with 'frr', with `rrserver1
+(192.168.0.200)' and `rrserver2 (192.168.0.201)`.
 
 rrserver1
 ----
