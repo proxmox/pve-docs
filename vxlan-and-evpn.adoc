@@ -1824,4 +1824,79 @@ iface vmbr0 inet static
 ----
 
 
+route reflectors
+^^^^^^^^^^^^^^^^
+If you have a lot of proxmox nodes, or multiple proxmox clusters,
+maybe do you want to avoid that each node peer with each others nodes.
+For this, you can create dedicated route reflectors servers. (Minimum 2 servers for redundancy).
+Here an example of configuration with frr, with rrserver1 (192.168.0.200) and rrserver2 (192.168.0.201).
+
+
+rrserver1
+----
+router bgp 1234
+  bgp router-id 192.168.0.200
+  bgp cluster-id 1.1.1.1  #cluster-id must be the same on each route reflector    
+  bgp log-neighbor-changes
+  no bgp default ipv4-unicast
+  neighbor fabric peer-group
+  neighbor fabric remote-as 1234
+  neighbor fabric capability extended-nexthop
+  neighbor fabric update-source 192.168.0.200
+  bgp listen range 192.168.0.0/24 peer-group fabric #allow any proxmoxnode client in the network range
+  !
+  address-family l2vpn evpn
+   neighbor fabric activate
+   neighbor fabric route-reflector-client
+   neighbor fabric allowas-in
+  exit-address-family
+  !
+  exit
+!
+---
+
+rrserver2
+----
+router bgp 1234
+  bgp router-id 192.168.0.201
+  bgp cluster-id 1.1.1.1      
+  bgp log-neighbor-changes
+  no bgp default ipv4-unicast
+  neighbor fabric peer-group
+  neighbor fabric remote-as 1234
+  neighbor fabric capability extended-nexthop
+  neighbor fabric update-source 192.168.0.201
+  bgp listen range 192.168.0.0/24 peer-group fabric
+  !
+  address-family l2vpn evpn
+   neighbor fabric activate
+   neighbor fabric route-reflector-client
+   neighbor fabric allowas-in
+  exit-address-family
+  !
+  exit
+!
+---
+
+proxmoxnode(s)
+----
+router bgp 1234
+ bgp router-id 192.168.0.x
+ no bgp default ipv4-unicast
+ coalesce-time 1000
+ neighbor 192.168.0.200 remote-as 1234
+ neighbor 192.168.0.201 remote-as 1234
+ !
+ address-family ipv4 unicast
+  import vrf vrf1
+ exit-address-family
+ !
+ address-family l2vpn evpn
+  neighbor 192.168.0.200 activate
+  neighbor 192.168.0.201 activate
+  advertise-all-vni
+ exit-address-family
+!
+----
+
 #TODO : Documentation with bgp upstream router.
