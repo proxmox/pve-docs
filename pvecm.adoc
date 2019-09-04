@@ -75,9 +75,9 @@ Requirements
 NOTE: It is not possible to mix {pve} 3.x and earlier with {pve} 4.X cluster
 nodes.
 
-NOTE: While it's possible for {pve} 4.4 and {pve} 5.0 this is not supported as
-production configuration and should only used temporarily during upgrading the
-whole cluster from one to another major version.
+NOTE: While it's possible to mix {pve} 4.4 and {pve} 5.0  nodes, doing so is
+not supported as production configuration and should only used temporarily
+during upgrading the whole cluster from one to another major version.
 
 NOTE: Running a cluster of {pve} 6.x with earlier versions is not possible. The
 cluster protocol (corosync) between {pve} 6.x and earlier versions changed
@@ -92,10 +92,6 @@ First, install {PVE} on all nodes. Make sure that each node is
 installed with the final hostname and IP configuration. Changing the
 hostname and IP is not possible after cluster creation.
 
-Currently the cluster creation can either be done on the console (login via
-`ssh`) or the API, which we have a GUI implementation for (__Datacenter ->
-Cluster__).
-
 While it's common to reference all nodenames and their IPs in `/etc/hosts` (or
 make their names resolvable through other means), this is not necessary for a
 cluster to work. It may be useful however, as you can then connect from one node
@@ -105,12 +101,16 @@ recommend to reference nodes by their IP addresses in the cluster configuration.
 
 
 [[pvecm_create_cluster]]
-Create the Cluster
-------------------
+Create a Cluster
+----------------
 
-Use a unique name for your cluster. This name cannot be changed later. The
-cluster name follows the same rules as node names.
+You can either create a cluster on the console (login via `ssh`), or through
+the API using the {pve} Webinterface (__Datacenter -> Cluster__).
 
+NOTE: Use a unique name for your cluster. This name cannot be changed later.
+The cluster name follows the same rules as node names.
+
+[[pvecm_cluster_create_via_gui]]
 Create via Web GUI
 ~~~~~~~~~~~~~~~~~~
 
@@ -125,6 +125,13 @@ To add a second link as fallback, you can select the 'Advanced' checkbox and
 choose an additional network interface (Link 1, see also
 xref:pvecm_redundancy[Corosync Redundancy]).
 
+NOTE: Ensure the network selected for the cluster communication is not used for
+any high traffic loads like those of (network) storages or live-migration.
+While the cluster network itself produces small amounts of data, it is very
+sensitive to latency. Check out full
+xref:pvecm_cluster_network_requirements[cluster network requirements].
+
+[[pvecm_cluster_create_via_cli]]
 Create via Command Line
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -164,8 +171,8 @@ since guest IDs could be conflicting. As a workaround create a backup of the
 guest (`vzdump`) and restore it as a different ID after the node has been added
 to the cluster.
 
-Add Node via GUI
-~~~~~~~~~~~~~~~~
+Join Node to Cluster via GUI
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 [thumbnail="screenshot/gui-cluster-join-information.png"]
 
@@ -178,22 +185,27 @@ field manually.
 
 Next, login to the web interface on the node you want to add.
 Under __Datacenter -> Cluster__, click on *Join Cluster*. Fill in the
-'Information' field with the text you copied earlier.
-
-For security reasons, the cluster password has to be entered manually.
+'Information' field with the 'Join Information' text you copied earlier.
+Most settings required for joining the cluster will be filled out
+automatically. For security reasons, the cluster password has to be entered
+manually.
 
 NOTE: To enter all required data manually, you can disable the 'Assisted Join'
 checkbox.
 
-After clicking on *Join* the node will immediately be added to the cluster. You
-might need to reload the web page and re-login with the cluster credentials.
+After clicking the *Join* button, the cluster join process will start
+immediately. After the node joined the cluster its current node certificate
+will be replaced by one signed from the cluster certificate authority (CA),
+that means the current session will stop to work after a few seconds. You might
+then need to force-reload the webinterface and re-login with the cluster
+credentials.
 
-Confirm that your node is visible under __Datacenter -> Cluster__.
+Now your node should be visible under __Datacenter -> Cluster__.
 
-Add Node via Command Line
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Join Node to Cluster via Command Line
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Login via `ssh` to the node you want to add.
+Login via `ssh` to the node you want to join into an existing cluster.
 
 ----
  hp2# pvecm add IP-ADDRESS-CLUSTER
