@@ -527,7 +527,7 @@ With this need, each vmbr bridge will be the gateway for the vm.
 Same vmbr on different node, will have same ip address and same mac address,
 to have working vm live migration and no network disruption.
 
-VXLAN layer3 routing only work with FRR and non-aware bridge. 
+VXLAN layer3 routing only work with FRR and non-aware bridge.
 (vlan aware bridge support is buggy currently).
 
 asymmetric model
@@ -535,9 +535,9 @@ asymmetric model
 
 This is the simplest mode. To get it work, all vxlan need to be defined on all nodes.
 
-The asymmetric model allows routing and bridging on the VXLAN tunnel ingress, 
-but only bridging on the egress. 
-This results in bi-directional VXLAN traffic traveling on different VNIs 
+The asymmetric model allows routing and bridging on the VXLAN tunnel ingress,
+but only bridging on the egress.
+This results in bi-directional VXLAN traffic traveling on different VNIs
 in each direction (always the destination VNI) across the routed infrastructure.
 
 image::images/vxlan-l3-asymmetric.svg["vxlan l3 asymmetric",align="center"]
@@ -557,7 +557,7 @@ net.ipv6.conf.all.forwarding=1
 auto eno1
 iface eno1 inet manual
 	mtu 1550
- 
+
 auto vmbr0
 iface vmbr0 inet static
          address 192.168.0.1
@@ -565,7 +565,7 @@ iface vmbr0 inet static
          bridge_ports eno1
          bridge_stp off
          bridge_fd 0
- 
+
 auto vxlan2
 iface vxlan2 inet manual
         vxlan-id 2
@@ -620,7 +620,7 @@ router bgp 1234
  address-family l2vpn evpn
   neighbor 192.168.0.2 activate
   neighbor 192.168.0.3 activate
-  advertise-all-vni	
+  advertise-all-vni
  exit-address-family
 !
 line vty
@@ -634,7 +634,7 @@ line vty
 auto eno1
 iface eno1 inet manual
 	mtu 1550
- 
+
 auto vmbr0
 iface vmbr0 inet static
          address 192.168.0.2
@@ -642,7 +642,7 @@ iface vmbr0 inet static
          bridge_ports eno1
          bridge_stp off
          bridge_fd 0
- 
+
 auto vxlan2
 iface vxlan2 inet manual
         vxlan-id 2
@@ -697,7 +697,7 @@ router bgp 1234
  address-family l2vpn evpn
   neighbor 192.168.0.1 activate
   neighbor 192.168.0.3 activate
-  advertise-all-vni	
+  advertise-all-vni
  exit-address-family
 !
 line vty
@@ -711,7 +711,7 @@ line vty
 auto eno1
 iface eno1 inet manual
 	mtu 1550
- 
+
 auto vmbr0
 iface vmbr0 inet static
          address 192.168.0.3
@@ -719,7 +719,7 @@ iface vmbr0 inet static
          bridge_ports eno1
          bridge_stp off
          bridge_fd 0
- 
+
 auto vxlan2
 iface vxlan2 inet manual
         vxlan-id 2
@@ -774,7 +774,7 @@ router bgp 1234
  address-family l2vpn evpn
   neighbor 192.168.0.1 activate
   neighbor 192.168.0.2 activate
-  advertise-all-vni	
+  advertise-all-vni
  exit-address-family
 !
 line vty
@@ -786,12 +786,12 @@ symmetric model
 ^^^^^^^^^^^^^^^
 
 With this model, you don't need to have all vxlan on all nodes.
-This model will also be needed to route traffic to an external router. 
+This model will also be needed to route traffic to an external router.
 
-The symmetric model routes and bridges on both the ingress and the egress leafs. 
-This results in bi-directional traffic being able to travel on the same VNI, hence the symmetric name. 
-However, a new specialty transit VNI is used for all routed VXLAN traffic, called the L3VNI. 
-All traffic that needs to be routed will be routed onto the L3VNI, tunneled across the layer 3 Infrastructure, 
+The symmetric model routes and bridges on both the ingress and the egress leafs.
+This results in bi-directional traffic being able to travel on the same VNI, hence the symmetric name.
+However, a new specialty transit VNI is used for all routed VXLAN traffic, called the L3VNI.
+All traffic that needs to be routed will be routed onto the L3VNI, tunneled across the layer 3 Infrastructure,
 routed off the L3VNI to the appropriate VLAN and ultimately bridged to the destination.
 
 A vrf is needed for the L3VNI, so all vmbr bridge need to be in the vrf if they want to be able to reach each others.
@@ -816,7 +816,7 @@ iface vrf1
 auto eno1
 iface eno1 inet manual
 	mtu 1550
- 
+
 auto vmbr0
 iface vmbr0 inet static
          address 192.168.0.1
@@ -917,7 +917,7 @@ iface vrf1
 auto eno1
 iface eno1 inet manual
 	mtu 1550
- 
+
 auto vmbr0
 iface vmbr0 inet static
          address 192.168.0.2
@@ -1019,7 +1019,7 @@ iface vrf1
 auto eno1
 iface eno1 inet manual
 	mtu 1550
- 
+
 auto vmbr0
 iface vmbr0 inet static
          address 192.168.0.3
@@ -1242,7 +1242,7 @@ iface vrf1
 auto eno1
 iface eno1 inet manual
 	mtu 1550
- 
+
 auto vmbr0
 iface vmbr0 inet static
          address 192.168.0.2
@@ -1344,7 +1344,7 @@ iface vrf1
 auto eno1
 iface eno1 inet manual
 	mtu 1550
- 
+
 auto vmbr0
 iface vmbr0 inet static
          address 192.168.0.3
@@ -1566,7 +1566,7 @@ iface vrf1
 auto eno1
 iface eno1 inet manual
 	mtu 1550
- 
+
 auto vmbr0
 iface vmbr0 inet static
          address 192.168.0.2
@@ -1836,7 +1836,7 @@ rrserver1
 ----
 router bgp 1234
   bgp router-id 192.168.0.200
-  bgp cluster-id 1.1.1.1  #cluster-id must be the same on each route reflector    
+  bgp cluster-id 1.1.1.1  #cluster-id must be the same on each route reflector
   bgp log-neighbor-changes
   no bgp default ipv4-unicast
   neighbor fabric peer-group
@@ -1859,7 +1859,7 @@ rrserver2
 ----
 router bgp 1234
   bgp router-id 192.168.0.201
-  bgp cluster-id 1.1.1.1      
+  bgp cluster-id 1.1.1.1
   bgp log-neighbor-changes
   no bgp default ipv4-unicast
   neighbor fabric peer-group
