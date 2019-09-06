@@ -1155,6 +1155,8 @@ iface vmbr0 inet static
          bridge_ports eno1
          bridge_stp off
          bridge_fd 0
+         ip-forward on
+         ip6-forward on
 
 auto vxlan2
 iface vxlan2 inet manual
@@ -1222,6 +1224,8 @@ iface vmbr4000 inet manual
 frr.conf
 
 ----
+ip prefix-list deny seq 10 deny any
+!
 vrf vrf1
  vni 4000
  exit-vrf
@@ -1235,6 +1239,8 @@ router bgp 1234
  !
  address-family ipv4 unicast
   import vrf vrf1
+  neighbor 192.168.0.2 prefix-list deny out
+  neighbor 192.168.0.3 prefix-list deny out
  exit-address-family
  !
  address-family l2vpn evpn
@@ -1245,6 +1251,10 @@ router bgp 1234
 !
 router bgp 1234 vrf vrf1
 !
+ address-family ipv4 unicast
+  redistribute connected
+ exit-address-family
+ !
  address-family l2vpn evpn
   default-originate ipv4
  exit-address-family
@@ -1497,6 +1507,8 @@ iface vmbr0 inet static
          bridge_ports eno1
          bridge_stp off
          bridge_fd 0
+         ip-forward on
+         ip6-forward on
 
 auto vxlan2
 iface vxlan2 inet manual
@@ -1564,6 +1576,8 @@ iface vmbr4000 inet manual
 frr.conf
 
 ----
+ip prefix-list deny seq 10 deny any
+!
 vrf vrf1
  vni 4000
  exit-vrf
@@ -1577,6 +1591,8 @@ router bgp 1234
  !
  address-family ipv4 unicast
   import vrf vrf1
+  neighbor 192.168.0.2 prefix-list deny out
+  neighbor 192.168.0.3 prefix-list deny out
  exit-address-family
  !
  address-family l2vpn evpn
@@ -1587,6 +1603,10 @@ router bgp 1234
 !
 router bgp 1234 vrf vrf1
 !
+ address-family ipv4 unicast
+  redistribute connected
+ exit-address-family
+ !
  address-family l2vpn evpn
   default-originate ipv4
  exit-address-family
@@ -1615,6 +1635,8 @@ iface vmbr0 inet static
          bridge_ports eno1
          bridge_stp off
          bridge_fd 0
+         ip-forward on
+         ip6-forward on
 
 auto vxlan2
 iface vxlan2 inet manual
@@ -1683,6 +1705,8 @@ iface vmbr4000 inet manual
 frr.conf
 
 ----
+ip prefix-list deny seq 10 deny any
+!
 vrf vrf1
  vni 4000
  exit-vrf
@@ -1696,6 +1720,8 @@ router bgp 1234
  !
  address-family ipv4 unicast
   import vrf vrf1
+  neighbor 192.168.0.1 prefix-list deny out
+  neighbor 192.168.0.3 prefix-list deny out
  exit-address-family
  !
  address-family l2vpn evpn
@@ -1704,6 +1730,10 @@ router bgp 1234
   advertise-all-vni
  exit-address-family
 !
+ address-family ipv4 unicast
+  redistribute connected
+ exit-address-family
+ !
  address-family l2vpn evpn
   default-originate ipv4
  exit-address-family
@@ -1732,6 +1762,8 @@ iface vmbr0 inet static
          bridge_ports eno1
          bridge_stp off
          bridge_fd 0
+         ip-forward on
+         ip6-forward on
 
 auto vxlan2
 iface vxlan2 inet manual
@@ -1800,6 +1832,8 @@ iface vmbr4000 inet manual
 frr.conf
 
 ----
+ip prefix-list deny seq 10 deny any
+!
 vrf vrf1
  vni 4000
  exit-vrf
@@ -1813,6 +1847,8 @@ router bgp 1234
  !
  address-family ipv4 unicast
   import vrf vrf1
+  neighbor 192.168.0.1 prefix-list deny out
+  neighbor 192.168.0.2 prefix-list deny out
  exit-address-family
  !
  address-family l2vpn evpn
@@ -1823,6 +1859,10 @@ router bgp 1234
 !
 router bgp 1234 vrf vrf1
 !
+ address-family ipv4 unicast
+  redistribute connected
+ exit-address-family
+ !
  address-family l2vpn evpn
   default-originate ipv4
  exit-address-family
@@ -1942,10 +1982,6 @@ router bgp 1234
  coalesce-time 1000
  neighbor 192.168.0.200 remote-as 1234
  neighbor 192.168.0.201 remote-as 1234
- !
- address-family ipv4 unicast
-  import vrf vrf1
- exit-address-family
  !
  address-family l2vpn evpn
   neighbor 192.168.0.200 activate
