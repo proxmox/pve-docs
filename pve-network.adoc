@@ -104,8 +104,8 @@ Default Configuration using a Bridge
 
 [thumbnail="default-network-setup-bridge.svg"]
 Bridges are like physical network switches implemented in software.
-All VMs can share a single bridge, or you can create multiple bridges to
-separate network domains. Each host can have up to 4094 bridges.
+All virtual guests can share a single bridge, or you can create multiple
+bridges to separate network domains. Each host can have up to 4094 bridges.
 
 The installation program creates a single bridge named `vmbr0`, which
 is connected to the first Ethernet card. The corresponding
