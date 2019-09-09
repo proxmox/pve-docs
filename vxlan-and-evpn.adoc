@@ -1249,6 +1249,10 @@ router bgp 1234
   import vrf vrf1
  exit-address-family
  !
+ address-family ipv6 unicast
+  import vrf vrf1
+ exit-address-family
+ !
  address-family l2vpn evpn
   neighbor 192.168.0.2 activate
   neighbor 192.168.0.3 activate
@@ -1261,8 +1265,13 @@ router bgp 1234 vrf vrf1
   redistribute connected
  exit-address-family
  !
+ address-family ipv6 unicast
+  redistribute connected
+ exit-address-family
+ !
  address-family l2vpn evpn
   default-originate ipv4
+  default-originate ipv6
  exit-address-family
 !
 line vty
@@ -1600,6 +1609,10 @@ router bgp 1234
   import vrf vrf1
  exit-address-family
  !
+ address-family ipv6 unicast
+  import vrf vrf1
+ exit-address-family
+ !
  address-family l2vpn evpn
   neighbor 192.168.0.2 activate
   neighbor 192.168.0.3 activate
@@ -1612,8 +1625,13 @@ router bgp 1234 vrf vrf1
   redistribute connected
  exit-address-family
  !
+ address-family ipv6 unicast
+  redistribute connected
+ exit-address-family
+ !
  address-family l2vpn evpn
   default-originate ipv4
+  default-originate ipv6
  exit-address-family
 !
 line vty
@@ -1726,6 +1744,10 @@ router bgp 1234
   import vrf vrf1
  exit-address-family
  !
+ address-family ipv6 unicast
+  import vrf vrf1
+ exit-address-family
+ !
  address-family l2vpn evpn
   neighbor 192.168.0.1 activate
   neighbor 192.168.0.3 activate
@@ -1736,8 +1758,13 @@ router bgp 1234
   redistribute connected
  exit-address-family
  !
+ address-family ipv6 unicast
+  redistribute connected
+ exit-address-family
+ !
  address-family l2vpn evpn
   default-originate ipv4
+  default-originate ipv6
  exit-address-family
 !
 line vty
@@ -1850,6 +1877,10 @@ router bgp 1234
   import vrf vrf1
  exit-address-family
  !
+ address-family ipv6 unicast
+  import vrf vrf1
+ exit-address-family
+ !
  address-family l2vpn evpn
   neighbor 192.168.0.1 activate
   neighbor 192.168.0.2 activate
@@ -1862,8 +1893,13 @@ router bgp 1234 vrf vrf1
   redistribute connected
  exit-address-family
  !
+ address-family ipv6 unicast
+  redistribute connected
+ exit-address-family
+ !
  address-family l2vpn evpn
   default-originate ipv4
+  default-originate ipv6
  exit-address-family
 !
 line vty
