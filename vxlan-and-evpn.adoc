@@ -1505,6 +1505,16 @@ The external router have ecmp routes to all proxmox nodes.(balancing).
 If the router send the packet to a wrong node (vm is not on this node), this node will route through
 vxlan the packet to final destination.
 
+If you have multiple gateway nodes, disable rp_filter as packet could incoming in a 1 node, and outgoing
+to another node.
+
+sysctl.conf tuning
+-----
+net.ipv4.conf.default.rp_filter=0
+net.ipv4.conf.all.rp_filter=0
+-----
+
+
 *node1
 
 ----
