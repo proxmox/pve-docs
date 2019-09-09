@@ -367,6 +367,7 @@ iface vmbr3 inet manual
 ----
 router bgp 1234
  no bgp default ipv4-unicast
+ no bgp default ipv6-unicast
  coalesce-time 1000
  neighbor 192.168.0.2 remote-as 1234
  neighbor 192.168.0.3 remote-as 1234
@@ -436,6 +437,7 @@ iface vmbr3 inet manual
 ----
 router bgp 1234
  no bgp default ipv4-unicast
+ no bgp default ipv6-unicast
  coalesce-time 1000
  neighbor 192.168.0.1 remote-as 1234
  neighbor 192.168.0.3 remote-as 1234
@@ -506,6 +508,7 @@ iface vmbr3 inet manual
 ----
 router bgp 1234
  no bgp default ipv4-unicast
+ no bgp default ipv6-unicast
  coalesce-time 1000
  neighbor 192.168.0.1 remote-as 1234
  neighbor 192.168.0.2 remote-as 1234
@@ -609,6 +612,7 @@ frr.conf
 router bgp 1234
  bgp router-id 192.168.0.1
  no bgp default ipv4-unicast
+ no bgp default ipv6-unicast
  coalesce-time 1000
  neighbor 192.168.0.2 remote-as 1234
  neighbor 192.168.0.3 remote-as 1234
@@ -692,6 +696,7 @@ frr.conf
 router bgp 1234
  bgp router-id 192.168.0.2
  no bgp default ipv4-unicast
+ no bgp default ipv6-unicast
  coalesce-time 1000
  neighbor 192.168.0.1 remote-as 1234
  neighbor 192.168.0.3 remote-as 1234
@@ -773,6 +778,7 @@ frr.conf
 router bgp 1234
  bgp router-id 192.168.0.3
  no bgp default ipv4-unicast
+ no bgp default ipv6-unicast
  coalesce-time 1000
  neighbor 192.168.0.1 remote-as 1234
  neighbor 192.168.0.2 remote-as 1234
@@ -896,6 +902,7 @@ vrf vrf1
 router bgp 1234
  bgp router-id 192.168.0.1
  no bgp default ipv4-unicast
+ no bgp default ipv6-unicast
  coalesce-time 1000
  neighbor 192.168.0.2 remote-as 1234
  neighbor 192.168.0.3 remote-as 1234
@@ -1004,6 +1011,7 @@ vrf vrf1
 router bgp 1234
  bgp router-id 192.168.0.2
  no bgp default ipv4-unicast
+ no bgp default ipv6-unicast
  coalesce-time 1000
  neighbor 192.168.0.1 remote-as 1234
  neighbor 192.168.0.3 remote-as 1234
@@ -1112,6 +1120,7 @@ vrf vrf1
 router bgp 1234
  bgp router-id 192.168.0.3
  no bgp default ipv4-unicast
+ no bgp default ipv6-unicast
  coalesce-time 1000
  neighbor 192.168.0.1 remote-as 1234
  neighbor 192.168.0.2 remote-as 1234
@@ -1224,8 +1233,6 @@ iface vmbr4000 inet manual
 frr.conf
 
 ----
-ip prefix-list deny seq 10 deny any
-!
 vrf vrf1
  vni 4000
  exit-vrf
@@ -1233,14 +1240,13 @@ vrf vrf1
 router bgp 1234
  bgp router-id 192.168.0.1
  no bgp default ipv4-unicast
+ no bgp default ipv6-unicast
  coalesce-time 1000
  neighbor 192.168.0.2 remote-as 1234
  neighbor 192.168.0.3 remote-as 1234
  !
  address-family ipv4 unicast
   import vrf vrf1
-  neighbor 192.168.0.2 prefix-list deny out
-  neighbor 192.168.0.3 prefix-list deny out
  exit-address-family
  !
  address-family l2vpn evpn
@@ -1357,6 +1363,7 @@ vrf vrf1
 router bgp 1234
  bgp router-id 192.168.0.2
  no bgp default ipv4-unicast
+ no bgp default ipv6-unicast
  coalesce-time 1000
  neighbor 192.168.0.1 remote-as 1234
  neighbor 192.168.0.3 remote-as 1234
@@ -1465,6 +1472,7 @@ vrf vrf1
 router bgp 1234
  bgp router-id 192.168.0.3
  no bgp default ipv4-unicast
+ no bgp default ipv6-unicast
  coalesce-time 1000
  neighbor 192.168.0.1 remote-as 1234
  neighbor 192.168.0.2 remote-as 1234
@@ -1576,8 +1584,6 @@ iface vmbr4000 inet manual
 frr.conf
 
 ----
-ip prefix-list deny seq 10 deny any
-!
 vrf vrf1
  vni 4000
  exit-vrf
@@ -1585,14 +1591,13 @@ vrf vrf1
 router bgp 1234
  bgp router-id 192.168.0.1
  no bgp default ipv4-unicast
+ no bgp default ipv6-unicast
  coalesce-time 1000
  neighbor 192.168.0.2 remote-as 1234
  neighbor 192.168.0.3 remote-as 1234
  !
  address-family ipv4 unicast
   import vrf vrf1
-  neighbor 192.168.0.2 prefix-list deny out
-  neighbor 192.168.0.3 prefix-list deny out
  exit-address-family
  !
  address-family l2vpn evpn
@@ -1705,8 +1710,6 @@ iface vmbr4000 inet manual
 frr.conf
 
 ----
-ip prefix-list deny seq 10 deny any
-!
 vrf vrf1
  vni 4000
  exit-vrf
@@ -1714,14 +1717,13 @@ vrf vrf1
 router bgp 1234
  bgp router-id 192.168.0.2
  no bgp default ipv4-unicast
+ no bgp default ipv6-unicast
  coalesce-time 1000
  neighbor 192.168.0.1 remote-as 1234
  neighbor 192.168.0.3 remote-as 1234
  !
  address-family ipv4 unicast
   import vrf vrf1
-  neighbor 192.168.0.1 prefix-list deny out
-  neighbor 192.168.0.3 prefix-list deny out
  exit-address-family
  !
  address-family l2vpn evpn
@@ -1832,8 +1834,6 @@ iface vmbr4000 inet manual
 frr.conf
 
 ----
-ip prefix-list deny seq 10 deny any
-!
 vrf vrf1
  vni 4000
  exit-vrf
@@ -1841,14 +1841,13 @@ vrf vrf1
 router bgp 1234
  bgp router-id 192.168.0.3
  no bgp default ipv4-unicast
+ no bgp default ipv6-unicast
  coalesce-time 1000
  neighbor 192.168.0.1 remote-as 1234
  neighbor 192.168.0.2 remote-as 1234
  !
  address-family ipv4 unicast
   import vrf vrf1
-  neighbor 192.168.0.1 prefix-list deny out
-  neighbor 192.168.0.2 prefix-list deny out
  exit-address-family
  !
  address-family l2vpn evpn
@@ -1935,6 +1934,7 @@ router bgp 1234
   bgp cluster-id 1.1.1.1  #cluster-id must be the same on each route reflector
   bgp log-neighbor-changes
   no bgp default ipv4-unicast
+  no bgp default ipv6-unicast
   neighbor fabric peer-group
   neighbor fabric remote-as 1234
   neighbor fabric capability extended-nexthop
@@ -1958,6 +1958,7 @@ router bgp 1234
   bgp cluster-id 1.1.1.1
   bgp log-neighbor-changes
   no bgp default ipv4-unicast
+  no bgp default ipv6-unicast
   neighbor fabric peer-group
   neighbor fabric remote-as 1234
   neighbor fabric capability extended-nexthop
@@ -1979,6 +1980,7 @@ proxmoxnode(s)
 router bgp 1234
  bgp router-id 192.168.0.x
  no bgp default ipv4-unicast
+ no bgp default ipv6-unicast
  coalesce-time 1000
  neighbor 192.168.0.200 remote-as 1234
  neighbor 192.168.0.201 remote-as 1234
