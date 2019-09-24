@@ -76,21 +76,21 @@ chapter-%.html: %.adoc ${PVE_COMMON_DOC_SOURCES}
 
 %.1: %.adoc %.1-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
 	${ASCIIDOC_PVE} compile-man -o $@ $*.adoc
-	test -n "$${NOVIEW}" || man -l $@
+	test -n "$${PVE_DOC_INSTANTVIEW}" && man -l $@
 
 %.1.html: %.adoc %.1-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
 	${ASCIIDOC_PVE} compile-man-html -o $@ $*.adoc
 
 %.8: %.adoc %.8-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
 	${ASCIIDOC_PVE} compile-man -o $@ $*.adoc
-	test -n "$${NOVIEW}" || man -l $@
+	test -n "$${PVE_DOC_INSTANTVIEW}" && man -l $@
 
 %.8.html: %.adoc %.8-synopsis.adoc ${PVE_COMMON_DOC_SOURCES}
 	${ASCIIDOC_PVE} compile-man-html -o $@ $*.adoc
 
 %.5: %.adoc %.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
 	${ASCIIDOC_PVE} compile-man -o $@ $*.adoc
-	test -n "$${NOVIEW}" || man -l $@
+	test -n "$${PVE_DOC_INSTANTVIEW}" && man -l $@
 
 %.5.html: %.adoc %.5-opts.adoc ${PVE_COMMON_DOC_SOURCES}
 	${ASCIIDOC_PVE} compile-man-html -o $@ $*.adoc
