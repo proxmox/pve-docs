@@ -29,6 +29,7 @@ deb http://security.debian.org buster/updates main contrib
 
 In addition, {pve} provides three different package repositories.
 
+[[sysadmin_enterprise_repo]]
 {pve} Enterprise Repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -57,6 +58,7 @@ if you do not have a subscription key. Please configure the
 `pve-no-subscription` repository in that case.
 
 
+[[sysadmin_no_subscription_repo]]
 {pve} No-Subscription Repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -81,6 +83,7 @@ deb http://security.debian.org buster/updates main contrib
 ----
 
 
+[[sysadmin_test_repo]]
 {pve} Test Repository
 ~~~~~~~~~~~~~~~~~~~~~~
 
