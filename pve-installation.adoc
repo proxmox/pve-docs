@@ -8,7 +8,7 @@ ifdef::wiki[]
 endif::wiki[]
 
 {pve} is based on Debian, therefore the disk image (ISO file) provided
-by us includes a complete Debian system ("stretch" for version 5.x) as
+by us includes a complete Debian system ("buster" for version 6.x) as
 well as all necessary {pve} packages.
 
 Using the installer will guide you through the setup, allowing
