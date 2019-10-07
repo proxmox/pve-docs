@@ -819,6 +819,69 @@ start after those where the parameter is set. Further, this parameter can only
 be enforced between virtual machines running on the same host, not
 cluster-wide.
 
+[[qm_spice_enhancements]]
+SPICE Enhancements
+~~~~~~~~~~~~~~~~~~
+
+SPICE Enhancements are optional features that can improve the remote viewer
+experience.
+
+To enable them via the GUI go to the *Options* panel of the virtual machine. Run
+the following command to enable them via the CLI:
+
+----
+qm set <vmid> -spice_enhancements foldersharing=1,videostreaming=all
+----
+
+NOTE: To use these features the <<qm_display,*Display*>> of the virtual machine
+must be set to SPICE (qxl).
+
+Folder Sharing
+^^^^^^^^^^^^^^
+
+Share a local folder with the guest. The `spice-webdavd` daemon needs to be
+installed in the guest. It makes the shared folder available through a local
+WebDAV server located at http://localhost:9843.
+
+For Windows guests the installer for the 'Spice WebDAV daemon' can be downloaded
+from the
+https://www.spice-space.org/download.html#windows-binaries[official SPICE website].
+
+Most Linux distributions have a package called `spice-webdavd` that can be
+installed.
+
+To share a folder in Virt-Viewer (Remote Viewer) go to 'File -> Preferences'.
+Select the folder to share and then enable the checkbox.
+
+NOTE: Folder sharing currently only works in the Linux version of Virt-Viewer.
+
+Video Streaming
+^^^^^^^^^^^^^^^
+
+Fast refreshing areas are encoded into a video stream. Two options exist:
+
+* *all*: Any fast refreshing area will be encoded into a video stream.
+* *filter*: Additional filters are used to decide if video streaming should be
+  used (currently only small window surfaces are skipped).
+
+A general recommendation if video streaming should be enabled and which option
+to choose from cannot be given. Your mileage may vary depending on the specific
+circumstances.
+
+Troubleshooting
+^^^^^^^^^^^^^^^
+
+Shared folder does not show up
+++++++++++++++++++++++++++++++
+
+Make sure the WebDAV service is enabled and running in the guest. On Windows it
+is called 'Spice webdav proxy'. In Linux the name is 'spice-webdavd' but can be
+different depending on the distribution.
+
+If the service is running, check the WebDAV server by opening
+http://localhost:9843 in a browser in the guest.
+
+It can help to restart the SPICE session.
 
 [[qm_migration]]
 Migration
