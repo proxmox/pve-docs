@@ -1,3 +1,23 @@
+pve-docs (6.0-5) pve; urgency=medium
+
+  * update various screenshots
+
+  * Add audio device documentation
+
+  * Update documentation for TRIM/Discard on virtio-blk
+
+  * efi boot: add note about update-initramfs hooks
+
+  * fix typos all over the place
+
+  * Mention GUI for creating a cluster and adding nodes, with screenshots
+
+  * imrpove documentation for experimental SDN plugins
+
+  * add spice enhancements documentation
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 07 Oct 2019 16:10:47 +0200
+
 pve-docs (6.0-4) pve; urgency=medium
 
   * add some documentation for ZFS encryption
