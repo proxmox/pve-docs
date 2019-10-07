@@ -871,8 +871,7 @@ circumstances.
 Troubleshooting
 ^^^^^^^^^^^^^^^
 
-Shared folder does not show up
-++++++++++++++++++++++++++++++
+.Shared folder does not show up
 
 Make sure the WebDAV service is enabled and running in the guest. On Windows it
 is called 'Spice webdav proxy'. In Linux the name is 'spice-webdavd' but can be
