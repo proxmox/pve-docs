@@ -636,7 +636,8 @@ necessary footnote:[https://www.kraxel.org/blog/2014/10/qemu-using-cirrus-consid
 qemu: using cirrus considered harmful], e.g., if using Windows XP or earlier
 * *vmware*, is a VMWare SVGA-II compatible adapter.
 * *qxl*, is the QXL paravirtualized graphics card. Selecting this also
-enables SPICE for the VM.
+enables https://www.spice-space.org/[SPICE] (a remote viewer protocol) for the
+VM.
 
 You can edit the amount of memory given to the virtual GPU, by setting
 the 'memory' option. This can enable higher resolutions inside the VM,
