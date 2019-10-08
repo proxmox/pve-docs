@@ -95,7 +95,7 @@ README.html: README.adoc
 
 .PHONY: index
 index: index.html
-	test -n "$${PVE_DOC_INSTANTVIEW}" && $(BROWSER) index.html &
+	test -z "$${PVE_DOC_INSTANTVIEW}" || $(BROWSER) index.html &
 
 chapter-index-table.adoc: asciidoc-pve
 	./asciidoc-pve chapter-table >$@.tmp
