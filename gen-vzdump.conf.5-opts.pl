@@ -4,9 +4,9 @@ use lib '.';
 use strict;
 use warnings;
 use PVE::RESTHandler;
-use PVE::VZDump;
+use PVE::VZDump::Common;
 
-my $prop = PVE::VZDump::json_config_properties();
+my $prop = PVE::VZDump::Common::json_config_properties();
 my $skip = {
     all => 1,
     exclude => 1,
