@@ -213,5 +213,5 @@ The kernel commandline needs to be placed in the variable
 .Systemd-boot
 
 The kernel commandline needs to be placed as one line in `/etc/kernel/cmdline`.
-To apply your changes, run `pve-efiboot-tool·refresh`, which sets it as the
+To apply your changes, run `pve-efiboot-tool refresh`, which sets it as the
 `option` line for all config files in `loader/entries/proxmox-*.conf`.
