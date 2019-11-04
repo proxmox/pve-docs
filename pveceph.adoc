@@ -253,7 +253,7 @@ create it by using the 'Ceph -> Monitor' tab in the GUI or run.
 
 [source,bash]
 ----
-pveceph createmon
+pveceph mon create
 ----
 
 This will also install the needed Ceph Manager ('ceph-mgr') by default. If you
@@ -275,7 +275,7 @@ high availability install more then one manager.
 
 [source,bash]
 ----
-pveceph createmgr
+pveceph mgr create
 ----
 
 
@@ -289,7 +289,7 @@ via GUI or via CLI as follows:
 
 [source,bash]
 ----
-pveceph createosd /dev/sd[X]
+pveceph osd create /dev/sd[X]
 ----
 
 TIP: We recommend a Ceph cluster size, starting with 12 OSDs, distributed evenly
@@ -315,7 +315,7 @@ This is the default when creating OSDs since Ceph Luminous.
 
 [source,bash]
 ----
-pveceph createosd /dev/sd[X]
+pveceph osd create /dev/sd[X]
 ----
 
 .Block.db and block.wal
@@ -326,7 +326,7 @@ specified separately.
 
 [source,bash]
 ----
-pveceph createosd /dev/sd[X] -db_dev /dev/sd[Y] -wal_dev /dev/sd[Z]
+pveceph osd create /dev/sd[X] -db_dev /dev/sd[Y] -wal_dev /dev/sd[Z]
 ----
 
 You can directly choose the size for those with the '-db_size' and '-wal_size'
@@ -385,7 +385,7 @@ You can create pools through command line or on the GUI on each PVE host under
 
 [source,bash]
 ----
-pveceph createpool <name>
+pveceph pool create <name>
 ----
 
 If you would like to automatically also get a storage definition for your pool,
