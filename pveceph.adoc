@@ -719,12 +719,20 @@ pveceph pool destroy NAME
 
 Ceph maintenance
 ----------------
+
 Replace OSDs
 ~~~~~~~~~~~~
+
 One of the common maintenance tasks in Ceph is to replace a disk of an OSD. If
 a disk is already in a failed state, then you can go ahead and run through the
 steps in xref:pve_ceph_osd_destroy[Destroy OSDs]. Ceph will recreate those
-copies on the remaining OSDs if possible.
+copies on the remaining OSDs if possible. This rebalancing will start as soon
+as an OSD failure is detected or an OSD was actively stopped.
+
+NOTE: With the default size/min_size (3/2) of a pool, recovery only starts when
+`size + 1` nodes are available. The reason for this is that the Ceph object
+balancer xref:pve_ceph_device_classes[CRUSH] defaults to a full node as
+`failure domain'.
 
 To replace a still functioning disk, on the GUI go through the steps in
 xref:pve_ceph_osd_destroy[Destroy OSDs]. The only addition is to wait until
@@ -749,9 +757,6 @@ pveceph osd destroy <id>
 
 Replace the old disk with the new one and use the same procedure as described
 in xref:pve_ceph_osd_create[Create OSDs].
-
-NOTE: With the default size/min_size (3/2) of a pool, recovery only starts when
-`size + 1` nodes are available.
 
 Run fstrim (discard)
 ~~~~~~~~~~~~~~~~~~~~
