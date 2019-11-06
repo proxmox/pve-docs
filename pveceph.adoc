@@ -245,6 +245,7 @@ as your cluster is small to midsize, only really large clusters will
 need more than that.
 
 
+[[pveceph_create_mon]]
 Create Monitors
 ~~~~~~~~~~~~~~~
 
@@ -259,7 +260,7 @@ create it by using the 'Ceph -> Monitor' tab in the GUI or run.
 pveceph mon create
 ----
 
-
+[[pveceph_destroy_mon]]
 Destroy Monitors
 ~~~~~~~~~~~~~~~~
 
@@ -285,6 +286,7 @@ monitor the cluster. Since the Ceph luminous release at least one ceph-mgr
 footnote:[Ceph Manager https://docs.ceph.com/docs/{ceph_codename}/mgr/] daemon is
 required.
 
+[i[pveceph_create_mgr]]
 Create Manager
 ~~~~~~~~~~~~~~
 
@@ -299,6 +301,7 @@ NOTE: It is recommended to install the Ceph Manager on the monitor nodes. For
 high availability install more then one manager.
 
 
+[[pveceph_destroy_mgr]]
 Destroy Manager
 ~~~~~~~~~~~~~~~
 
@@ -756,6 +759,7 @@ It is a good measure to run 'fstrim' (discard) regularly on VMs or containers.
 This releases data blocks that the filesystem isn’t using anymore. It reduces
 data usage and the resource load.
 
+[[pveceph_scrub]]
 Scrub & Deep Scrub
 ~~~~~~~~~~~~~~~~~~
 Ceph ensures data integrity by 'scrubbing' placement groups. Ceph checks every
