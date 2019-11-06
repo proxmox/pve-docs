@@ -325,6 +325,7 @@ network. It is recommended to use one OSD per physical disk.
 
 NOTE: By default an object is 4 MiB in size.
 
+[[pve_ceph_osd_create]]
 Create OSDs
 ~~~~~~~~~~~
 
@@ -401,6 +402,7 @@ Starting with Ceph Nautilus, {pve} does not support creating such OSDs with
 ceph-volume lvm create --filestore --data /dev/sd[X] --journal /dev/sd[Y]
 ----
 
+[[pve_ceph_osd_destroy]]
 Destroy OSDs
 ~~~~~~~~~~~~
 
@@ -710,6 +712,59 @@ with:
 ----
 pveceph pool destroy NAME
 ----
+
+
+Ceph maintenance
+----------------
+Replace OSDs
+~~~~~~~~~~~~
+One of the common maintenance tasks in Ceph is to replace a disk of an OSD. If
+a disk is already in a failed state, then you can go ahead and run through the
+steps in xref:pve_ceph_osd_destroy[Destroy OSDs]. Ceph will recreate those
+copies on the remaining OSDs if possible.
+
+To replace a still functioning disk, on the GUI go through the steps in
+xref:pve_ceph_osd_destroy[Destroy OSDs]. The only addition is to wait until
+the cluster shows 'HEALTH_OK' before stopping the OSD to destroy it.
+
+On the command line use the following commands.
+----
+ceph osd out osd.<id>
+----
+
+You can check with the command below if the OSD can be safely removed.
+----
+ceph osd safe-to-destroy osd.<id>
+----
+
+Once the above check tells you that it is save to remove the OSD, you can
+continue with following commands.
+----
+systemctl stop ceph-osd@<id>.service
+pveceph osd destroy <id>
+----
+
+Replace the old disk with the new one and use the same procedure as described
+in xref:pve_ceph_osd_create[Create OSDs].
+
+NOTE: With the default size/min_size (3/2) of a pool, recovery only starts when
+`size + 1` nodes are available.
+
+Run fstrim (discard)
+~~~~~~~~~~~~~~~~~~~~
+It is a good measure to run 'fstrim' (discard) regularly on VMs or containers.
+This releases data blocks that the filesystem isn’t using anymore. It reduces
+data usage and the resource load.
+
+Scrub & Deep Scrub
+~~~~~~~~~~~~~~~~~~
+Ceph ensures data integrity by 'scrubbing' placement groups. Ceph checks every
+object in a PG for its health. There are two forms of Scrubbing, daily
+(metadata compare) and weekly. The weekly reads the objects and uses checksums
+to ensure data integrity. If a running scrub interferes with business needs,
+you can adjust the time when scrubs footnote:[Ceph scrubbing
+https://docs.ceph.com/docs/nautilus/rados/configuration/osd-config-ref/#scrubbing]
+are executed.
 
 
 Ceph monitoring and troubleshooting
