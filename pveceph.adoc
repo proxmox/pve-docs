@@ -296,6 +296,24 @@ pveceph mgr create
 ----
 
 
+Destroying Ceph Manager
+----------------------
+
+To remove a Ceph Manager via the GUI first select a node in the tree view and
+go to the **Ceph -> Monitor** panel. Select the Manager and click the
+**Destroy** button.
+
+To remove a Ceph Monitor via the CLI first connect to the node on which the
+Manager is running. Then execute the following command:
+[source,bash]
+----
+pveceph mgr destroy
+----
+
+NOTE: A Ceph cluster can function without a Manager, but certain functions like
+the cluster status or usage require a running Manager.
+
+
 [[pve_ceph_osds]]
 Creating Ceph OSDs
 ------------------
