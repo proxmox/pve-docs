@@ -287,13 +287,13 @@ ceph-mgr footnote:[Ceph Manager http://docs.ceph.com/docs/luminous/mgr/] daemon
 is required. During monitor installation the ceph manager will be installed as
 well.
 
-NOTE: It is recommended to install the Ceph Manager on the monitor nodes. For
-high availability install more then one manager.
-
 [source,bash]
 ----
 pveceph mgr create
 ----
+
+NOTE: It is recommended to install the Ceph Manager on the monitor nodes. For
+high availability install more then one manager.
 
 
 Destroying Ceph Manager
