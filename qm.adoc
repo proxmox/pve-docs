@@ -507,7 +507,7 @@ host.
 .Fixed Memory Allocation
 [thumbnail="screenshot/gui-create-vm-memory.png"]
 
-ghen setting memory and minimum memory to the same amount
+When setting memory and minimum memory to the same amount
 {pve} will simply allocate what you specify to your VM.
 
 Even when using a fixed memory size, the ballooning device gets added to the
