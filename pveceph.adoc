@@ -650,8 +650,8 @@ refer to the ceph documentation. footnote:[Configuring multiple active MDS
 daemons http://docs.ceph.com/docs/luminous/cephfs/multimds/]
 
 [[pveceph_fs_create]]
-Create a CephFS
-~~~~~~~~~~~~~~~
+Create CephFS
+~~~~~~~~~~~~~
 
 With {pve}'s CephFS integration into you can create a CephFS easily over the
 Web GUI, the CLI or an external API interface. Some prerequisites are required
