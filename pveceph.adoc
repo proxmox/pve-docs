@@ -212,8 +212,8 @@ This sets up an `apt` package repository in
 `/etc/apt/sources.list.d/ceph.list` and installs the required software.
 
 
-Creating initial Ceph configuration
------------------------------------
+Create initial Ceph configuration
+---------------------------------
 
 [thumbnail="screenshot/gui-ceph-config.png"]
 
@@ -234,11 +234,8 @@ configuration file.
 
 
 [[pve_ceph_monitors]]
-Creating Ceph Monitors
-----------------------
-
-[thumbnail="screenshot/gui-ceph-monitor.png"]
-
+Ceph Monitor
+-----------
 The Ceph Monitor (MON)
 footnote:[Ceph Monitor http://docs.ceph.com/docs/luminous/start/intro/]
 maintains a master copy of the cluster map. For high availability you need to
@@ -246,6 +243,12 @@ have at least 3 monitors. One monitor will already be installed if you
 used the installation wizard. You won't need more than 3 monitors as long
 as your cluster is small to midsize, only really large clusters will
 need more than that.
+
+
+Create Monitors
+~~~~~~~~~~~~~~~
+
+[thumbnail="screenshot/gui-ceph-monitor.png"]
 
 On each node where you want to place a monitor (three monitors are recommended),
 create it by using the 'Ceph -> Monitor' tab in the GUI or run.
@@ -256,12 +259,9 @@ create it by using the 'Ceph -> Monitor' tab in the GUI or run.
 pveceph mon create
 ----
 
-This will also install the needed Ceph Manager ('ceph-mgr') by default. If you
-do not want to install a manager, specify the '-exclude-manager' option.
 
-
-Destroying Ceph Monitor
-----------------------
+Destroy Monitors
+~~~~~~~~~~~~~~~~
 
 To remove a Ceph Monitor via the GUI first select a node in the tree view and
 go to the **Ceph -> Monitor** panel. Select the MON and click the **Destroy**
@@ -278,14 +278,17 @@ NOTE: At least three Monitors are needed for quorum.
 
 
 [[pve_ceph_manager]]
-Creating Ceph Manager
-----------------------
+Ceph Manager
+------------
+The Manager daemon runs alongside the monitors. It provides an interface to
+monitor the cluster. Since the Ceph luminous release at least one ceph-mgr
+footnote:[Ceph Manager http://docs.ceph.com/docs/luminous/mgr/] daemon is
+required.
 
-The Manager daemon runs alongside the monitors, providing an interface for
-monitoring the cluster. Since the Ceph luminous release the
-ceph-mgr footnote:[Ceph Manager http://docs.ceph.com/docs/luminous/mgr/] daemon
-is required. During monitor installation the ceph manager will be installed as
-well.
+Create Manager
+~~~~~~~~~~~~~~
+
+Multiple Managers can be installed, but at any time only one Manager is active.
 
 [source,bash]
 ----
@@ -296,8 +299,8 @@ NOTE: It is recommended to install the Ceph Manager on the monitor nodes. For
 high availability install more then one manager.
 
 
-Destroying Ceph Manager
-----------------------
+Destroy Manager
+~~~~~~~~~~~~~~~
 
 To remove a Ceph Manager via the GUI first select a node in the tree view and
 go to the **Ceph -> Monitor** panel. Select the Manager and click the
@@ -315,8 +318,15 @@ the cluster status or usage require a running Manager.
 
 
 [[pve_ceph_osds]]
-Creating Ceph OSDs
-------------------
+Ceph OSDs
+---------
+Ceph **O**bject **S**torage **D**aemons are storing objects for Ceph over the
+network. It is recommended to use one OSD per physical disk.
+
+NOTE: By default an object is 4 MiB in size.
+
+Create OSDs
+~~~~~~~~~~~
 
 [thumbnail="screenshot/gui-ceph-osd-status.png"]
 
@@ -327,8 +337,8 @@ via GUI or via CLI as follows:
 pveceph osd create /dev/sd[X]
 ----
 
-TIP: We recommend a Ceph cluster size, starting with 12 OSDs, distributed evenly
-among your, at least three nodes (4 OSDs on each node).
+TIP: We recommend a Ceph cluster size, starting with 12 OSDs, distributed
+evenly among your, at least three nodes (4 OSDs on each node).
 
 If the disk was used before (eg. ZFS/RAID/OSD), to remove partition table, boot
 sector and any OSD leftover the following command should be sufficient.
@@ -340,8 +350,7 @@ ceph-volume lvm zap /dev/sd[X] --destroy
 
 WARNING: The above command will destroy data on the disk!
 
-Ceph Bluestore
-~~~~~~~~~~~~~~
+.Ceph Bluestore
 
 Starting with the Ceph Kraken release, a new Ceph OSD storage type was
 introduced, the so called Bluestore
@@ -356,8 +365,8 @@ pveceph osd create /dev/sd[X]
 .Block.db and block.wal
 
 If you want to use a separate DB/WAL device for your OSDs, you can specify it
-through the '-db_dev' and '-wal_dev' options. The WAL is placed with the DB, if not
-specified separately.
+through the '-db_dev' and '-wal_dev' options. The WAL is placed with the DB, if
+not specified separately.
 
 [source,bash]
 ----
@@ -380,8 +389,7 @@ internal journal or write-ahead log. It is recommended to use a fast SSD or
 NVRAM for better performance.
 
 
-Ceph Filestore
-~~~~~~~~~~~~~~
+.Ceph Filestore
 
 Before Ceph Luminous, Filestore was used as default storage type for Ceph OSDs.
 Starting with Ceph Nautilus, {pve} does not support creating such OSDs with
@@ -393,8 +401,8 @@ Starting with Ceph Nautilus, {pve} does not support creating such OSDs with
 ceph-volume lvm create --filestore --data /dev/sd[X] --journal /dev/sd[Y]
 ----
 
-Destroying Ceph OSDs
---------------------
+Destroy OSDs
+~~~~~~~~~~~~
 
 To remove an OSD via the GUI first select a {PVE} node in the tree view and go
 to the **Ceph -> OSD** panel. Select the OSD to destroy. Next click the **OUT**
@@ -422,13 +430,16 @@ WARNING: The above command will destroy data on the disk!
 
 
 [[pve_ceph_pools]]
-Creating Ceph Pools
--------------------
-
-[thumbnail="screenshot/gui-ceph-pools.png"]
-
+Ceph Pools
+----------
 A pool is a logical group for storing objects. It holds **P**lacement
 **G**roups (`PG`, `pg_num`), a collection of objects.
+
+
+Create Pools
+~~~~~~~~~~~~
+
+[thumbnail="screenshot/gui-ceph-pools.png"]
 
 When no options are given, we set a default of **128 PGs**, a **size of 3
 replicas** and a **min_size of 2 replicas** for serving objects in a degraded
@@ -461,8 +472,8 @@ http://docs.ceph.com/docs/luminous/rados/operations/pools/]
 manual.
 
 
-Destroying Ceph Pools
----------------------
+Destroy Pools
+~~~~~~~~~~~~~
 
 To destroy a pool via the GUI select a node in the tree view and go to the
 **Ceph -> Pools** panel. Select the pool to destroy and click the **Destroy**
@@ -553,8 +564,8 @@ ceph osd pool set <pool-name> crush_rule <rule-name>
 ----
 
 TIP: If the pool already contains objects, all of these have to be moved
-accordingly. Depending on your setup this may introduce a big performance hit on
-your cluster. As an alternative, you can create a new pool and move disks
+accordingly. Depending on your setup this may introduce a big performance hit
+on your cluster. As an alternative, you can create a new pool and move disks
 separately.
 
 
