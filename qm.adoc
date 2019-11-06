@@ -871,6 +871,8 @@ Select the folder to share and then enable the checkbox.
 
 NOTE: Folder sharing currently only works in the Linux version of Virt-Viewer.
 
+CAUTION: Experimental! Currently this feature does not work reliably.
+
 Video Streaming
 ^^^^^^^^^^^^^^^
 
