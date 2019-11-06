@@ -358,6 +358,34 @@ Starting with Ceph Nautilus, {pve} does not support creating such OSDs with
 ceph-volume lvm create --filestore --data /dev/sd[X] --journal /dev/sd[Y]
 ----
 
+Destroying Ceph OSDs
+--------------------
+
+To remove an OSD via the GUI first select a {PVE} node in the tree view and go
+to the **Ceph -> OSD** panel. Select the OSD to destroy. Next click the **OUT**
+button. Once the OSD status changed from `in` to `out` click the **STOP**
+button. As soon as the status changed from `up` to `down` select **Destroy**
+from the `More` drop-down menu.
+
+To remove an OSD via the CLI run the following commands.
+[source,bash]
+----
+ceph osd out <ID>
+systemctl stop ceph-osd@<ID>.service
+----
+NOTE: The first command instructs Ceph not to include the OSD in the data
+distribution. The second command stops the OSD service. Until this time, no
+data is lost.
+
+The following command destroys the OSD. Specify the '-cleanup' option to
+additionally destroy the partition table.
+[source,bash]
+----
+pveceph osd destroy <ID>
+----
+WARNING: The above command will destroy data on the disk!
+
+
 [[pve_ceph_pools]]
 Creating Ceph Pools
 -------------------
