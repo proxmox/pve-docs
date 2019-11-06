@@ -260,6 +260,23 @@ This will also install the needed Ceph Manager ('ceph-mgr') by default. If you
 do not want to install a manager, specify the '-exclude-manager' option.
 
 
+Destroying Ceph Monitor
+----------------------
+
+To remove a Ceph Monitor via the GUI first select a node in the tree view and
+go to the **Ceph -> Monitor** panel. Select the MON and click the **Destroy**
+button.
+
+To remove a Ceph Monitor via the CLI first connect to the node on which the MON
+is running. Then execute the following command:
+[source,bash]
+----
+pveceph mon destroy
+----
+
+NOTE: At least three Monitors are needed for quorum.
+
+
 [[pve_ceph_manager]]
 Creating Ceph Manager
 ----------------------
