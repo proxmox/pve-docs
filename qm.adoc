@@ -150,6 +150,9 @@ one want's to pass through PCIe hardware.
 Hard Disk
 ~~~~~~~~~
 
+[[qm_hard_disk_bus]]
+Bus/Controller
+^^^^^^^^^^^^^^
 Qemu can emulate a number of storage controllers:
 
 * the *IDE* controller, has a design which goes back to the 1984 PC/AT disk
@@ -182,6 +185,10 @@ is an older type of paravirtualized controller. It has been superseded by the
 VirtIO SCSI Controller, in terms of features.
 
 [thumbnail="screenshot/gui-create-vm-hard-disk.png"]
+
+[[qm_hard_disk_formats]]
+Image Format
+^^^^^^^^^^^^
 On each controller you attach a number of emulated hard disks, which are backed
 by a file or a block device residing in the configured storage. The choice of
 a storage type will determine the format of the hard disk image. Storages which
@@ -200,6 +207,9 @@ either the *raw disk image format* or the *QEMU image format*.
  * the *VMware image format* only makes sense if you intend to import/export the
  disk image to other hypervisors.
 
+[[qm_hard_disk_cache]]
+Cache Mode
+^^^^^^^^^^
 Setting the *Cache* mode of the hard drive will impact how the host system will
 notify the guest systems of block write completions. The *No cache* default
 means that the guest system will be notified that a write is complete when each
@@ -215,6 +225,9 @@ As of {pve} 5.0, replication requires the disk images to be on a storage of type
 `zfspool`, so adding a disk image to other storages when the VM has replication
 configured requires to skip replication for this disk image.
 
+[[qm_hard_disk_discard]]
+Trim/Discard
+^^^^^^^^^^^^
 If your storage supports _thin provisioning_ (see the storage chapter in the
 {pve} guide), you can activate the *Discard* option on a drive. With *Discard*
 set and a _TRIM_-enabled guest OS footnote:[TRIM, UNMAP, and discard
@@ -232,7 +245,10 @@ that drive. There is no requirement that the underlying storage actually be
 backed by SSDs; this feature can be used with physical media of any type.
 Note that *SSD emulation* is not supported on *VirtIO Block* drives.
 
-.IO Thread
+
+[[qm_hard_disk_iothread]]
+IO Thread
+^^^^^^^^^
 The option *IO Thread* can only be used when using a disk with the
 *VirtIO* controller, or with the *SCSI* controller, when the emulated controller
  type is  *VirtIO SCSI single*.
