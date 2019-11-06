@@ -460,6 +460,24 @@ operation footnote:[Ceph pool operation
 http://docs.ceph.com/docs/luminous/rados/operations/pools/]
 manual.
 
+
+Destroying Ceph Pools
+---------------------
+
+To destroy a pool via the GUI select a node in the tree view and go to the
+**Ceph -> Pools** panel. Select the pool to destroy and click the **Destroy**
+button. To confirm the destruction of the pool you need to enter the pool name.
+
+Run the following command to destroy a pool. Specify the '-remove_storages' to
+also remove the associated storage.
+[source,bash]
+----
+pveceph pool destroy <name>
+----
+
+NOTE: Deleting the data of a pool is a background task and can take some time.
+You will notice that the data usage in the cluster is decreasing.
+
 [[pve_ceph_device_classes]]
 Ceph CRUSH & device classes
 ---------------------------
