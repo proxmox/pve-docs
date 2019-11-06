@@ -771,10 +771,10 @@ Scrub & Deep Scrub
 ~~~~~~~~~~~~~~~~~~
 Ceph ensures data integrity by 'scrubbing' placement groups. Ceph checks every
 object in a PG for its health. There are two forms of Scrubbing, daily
-(metadata compare) and weekly. The weekly reads the objects and uses checksums
-to ensure data integrity. If a running scrub interferes with business needs,
-you can adjust the time when scrubs footnote:[Ceph scrubbing
-https://docs.ceph.com/docs/{ceph_codename}/rados/configuration/osd-config-ref/#scrubbing]
+cheap metadata checks and weekly deep data checks. The weekly deep scrub reads
+the objects and uses checksums to ensure data integrity. If a running scrub
+interferes with business (performance) needs, you can adjust the time when
+scrubs footnote:[Ceph scrubbing https://docs.ceph.com/docs/{ceph_codename}/rados/configuration/osd-config-ref/#scrubbing]
 are executed.
 
 
