@@ -758,11 +758,13 @@ pveceph osd destroy <id>
 Replace the old disk with the new one and use the same procedure as described
 in xref:pve_ceph_osd_create[Create OSDs].
 
-Run fstrim (discard)
-~~~~~~~~~~~~~~~~~~~~
+Trim/Discard
+~~~~~~~~~~~~
 It is a good measure to run 'fstrim' (discard) regularly on VMs or containers.
 This releases data blocks that the filesystem isn’t using anymore. It reduces
-data usage and the resource load.
+data usage and the resource load. Most modern operating systems issue such
+discard commands to their disks regurarly. You only need to ensure that the
+Virtual Machines enable the xref:qm_hard_disk_discard[disk discard option].
 
 [[pveceph_scrub]]
 Scrub & Deep Scrub
