@@ -762,9 +762,9 @@ Trim/Discard
 ~~~~~~~~~~~~
 It is a good measure to run 'fstrim' (discard) regularly on VMs or containers.
 This releases data blocks that the filesystem isn’t using anymore. It reduces
-data usage and the resource load. Most modern operating systems issue such
-discard commands to their disks regurarly. You only need to ensure that the
-Virtual Machines enable the xref:qm_hard_disk_discard[disk discard option].
+data usage and resource load. Most modern operating systems issue such discard
+commands to their disks regularly. You only need to ensure that the Virtual
+Machines enable the xref:qm_hard_disk_discard[disk discard option].
 
 [[pveceph_scrub]]
 Scrub & Deep Scrub
