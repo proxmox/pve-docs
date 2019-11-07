@@ -286,7 +286,7 @@ monitor the cluster. Since the Ceph luminous release at least one ceph-mgr
 footnote:[Ceph Manager https://docs.ceph.com/docs/{ceph_codename}/mgr/] daemon is
 required.
 
-[i[pveceph_create_mgr]]
+[[pveceph_create_mgr]]
 Create Manager
 ~~~~~~~~~~~~~~
 
