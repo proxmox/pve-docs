@@ -431,3 +431,56 @@ See the `encryptionroot`, `encryption`, `keylocation`, `keyformat` and
 `keystatus` properties, the `zfs load-key`, `zfs unload-key` and `zfs
 change-key` commands and the `Encryption` section from `man zfs` for more
 details and advanced usage.
+
+
+ZFS Special Device
+~~~~~~~~~~~~~~~~~~
+
+Since version 0.8.0 ZFS supports `special` devices. A `special` device in a
+pool is used to store metadata, deduplication tables, and optionally small
+file blocks.
+
+A `special` device can improve the speed of a pool consisting of slow spinning
+hard disks with a lot of changing metadata. For example workloads that involve
+creating or deleting a large number of files will benefit from the presence of
+a `special` device. ZFS datasets can be configured to store whole small files
+on the `special` device which can further improve the performance. Use SSDs for
+the `special` device.
+
+IMPORTANT: The redundancy of the `special` device should match the one of the
+pool, since the `special` device is a point of failure for the whole pool.
+
+WARNING: Adding a `special` device to a pool cannot be undone!
+
+.Create a pool with `special` device and RAID-1:
+
+ zpool create -f -o ashift=12 <pool> mirror <device1> <device2> special mirror <device3> <device4>
+
+.Add a `special` device to an existing pool with RAID-1:
+
+ zpool add <pool> special mirror <device1> <device2>
+
+ZFS datasets expose the `special_small_blocks=<size>` property. `size` can be
+`0` to disable storing small file blocks on the `special` device or a power of
+two in the range between `512B` to `128K`. After setting the property new file
+blocks smaller than `size` will be allocated on the `special` device.
+
+IMPORTANT: If the value for `special_small_blocks` is greater than or equal to
+the `recordsize` of the dataset, *all* data will be written to the `special`
+device, so be careful!
+
+Setting the `special_small_blocks` property on a pool will change the default
+value of that property for all child ZFS datasets (for example all containers
+in the pool will opt in for small file blocks).
+
+.Opt in for small file blocks pool-wide:
+
+ zfs set special_small_blocks=4K <pool>
+
+.Opt in for small file blocks for a single dataset:
+
+ zfs set special_small_blocks=4K <pool>/<filesystem>
+
+.Opt out from small file blocks for a single dataset:
+
+ zfs set special_small_blocks=0 <pool>/<filesystem>
