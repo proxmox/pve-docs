@@ -441,11 +441,11 @@ pool is used to store metadata, deduplication tables, and optionally small
 file blocks.
 
 A `special` device can improve the speed of a pool consisting of slow spinning
-hard disks with a lot of changing metadata. For example workloads that involve
-creating or deleting a large number of files will benefit from the presence of
-a `special` device. ZFS datasets can be configured to store whole small files
-on the `special` device which can further improve the performance. Use SSDs for
-the `special` device.
+hard disks with a lot of metadata changes. For example workloads that involve
+creating, updating or deleting a large number of files will benefit from the
+presence of a `special` device. ZFS datasets can also be configured to store
+whole small files on the `special` device which can further improve the
+performance. Use fast SSDs for the `special` device.
 
 IMPORTANT: The redundancy of the `special` device should match the one of the
 pool, since the `special` device is a point of failure for the whole pool.
@@ -466,14 +466,14 @@ two in the range between `512B` to `128K`. After setting the property new file
 blocks smaller than `size` will be allocated on the `special` device.
 
 IMPORTANT: If the value for `special_small_blocks` is greater than or equal to
-the `recordsize` of the dataset, *all* data will be written to the `special`
-device, so be careful!
+the `recordsize` (default `128K`) of the dataset, *all* data will be written to
+the `special` device, so be careful!
 
 Setting the `special_small_blocks` property on a pool will change the default
 value of that property for all child ZFS datasets (for example all containers
 in the pool will opt in for small file blocks).
 
-.Opt in for small file blocks pool-wide:
+.Opt in for all file smaller than 4K-blocks pool-wide:
 
  zfs set special_small_blocks=4K <pool>
 
