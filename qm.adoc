@@ -283,8 +283,8 @@ is greater than the number of cores on the server (e.g., 4 VMs with each 4
 cores on a machine with only 8 cores). In that case the host system will
 balance the Qemu execution threads between your server cores, just like if you
 were running a standard multithreaded application. However, {pve} will prevent
-you from assigning more virtual CPU cores than physically available, as this will
-only bring the performance down due to the cost of context switches.
+you from starting VMs with more virtual CPU cores than physically available, as
+this will only bring the performance down due to the cost of context switches.
 
 [[qm_cpu_resource_limits]]
 Resource Limits
