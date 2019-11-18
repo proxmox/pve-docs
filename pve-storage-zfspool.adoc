@@ -32,6 +32,12 @@ sparse::
 Use ZFS thin-provisioning. A sparse volume is a volume whose
 reservation is not equal to the volume size.
 
+mountpoint::
+
+The mount point of the ZFS pool/filesystem. Changing this does not
+affect the `mountpoint` property of the dataset seen by `zfs`.
+Defaults to `/<pool>`.
+
 .Configuration Example (`/etc/pve/storage.cfg`)
 ----
 zfspool: vmdata
