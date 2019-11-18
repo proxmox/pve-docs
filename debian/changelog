@@ -1,3 +1,17 @@
+pve-docs (6.0-9) pve; urgency=medium
+
+  * Fix #2459: qm: Make info about core limit clear
+
+  * Fix #1958: pveceph: add section Ceph maintenance
+
+  * reorganize and improve ceph chapter
+
+  * some typo and grammar fixes
+
+  * update static schema/synopsis definitions
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 18 Nov 2019 12:51:43 +0100
+
 pve-docs (6.0-8) pve; urgency=medium
 
   * adapt to VZDump helper code refactoring
