@@ -262,6 +262,10 @@ Delete volume
 
 Volume identifier
 
+`--delay` `<integer> (1 - 30)` ::
+
+Time to wait for the task to finish. We return 'null' if the task finish within that time.
+
 `--storage` `<string>` ::
 
 The storage identifier.

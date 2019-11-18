@@ -58,7 +58,7 @@ Script that will be exectued during various steps in the containers lifetime.
 
 Set a host name for the container.
 
-`lock`: `<backup | create | disk | fstrim | migrate | mounted | rollback | snapshot | snapshot-delete>` ::
+`lock`: `<backup | create | destroyed | disk | fstrim | migrate | mounted | rollback | snapshot | snapshot-delete>` ::
 
 Lock/unlock the VM.
 

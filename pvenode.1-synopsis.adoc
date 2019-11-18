@@ -159,15 +159,16 @@ Only consider Guests with these IDs.
 
 *pvenode startall* `[OPTIONS]`
 
-Start all VMs and containers (when onboot=1).
+Start all VMs and containers located on this node (by default only those
+with onboot=1).
 
-`--force` `<boolean>` ::
+`--force` `<boolean>` ('default =' `off`)::
 
-force if onboot=0.
+Issue start command even if virtual guest have 'onboot' not set or set to off.
 
 `--vms` `<string>` ::
 
-Only consider Guests with these IDs.
+Only consider guests from this comma separated list of VMIDs.
 
 *pvenode stopall* `[OPTIONS]`
 

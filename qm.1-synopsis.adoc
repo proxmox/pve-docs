@@ -126,6 +126,10 @@ The backup file.
 
 Arbitrary arguments passed to kvm.
 
+`--audio0` `device=<ich9-intel-hda|intel-hda|AC97> [,driver=<spice>]` ::
+
+Configure a audio device, useful in combination with QXL/Spice.
+
 `--autostart` `<boolean>` ('default =' `0`)::
 
 Automatic restart after crash (currently ignored).
@@ -255,7 +259,7 @@ Set the real time clock to local time. This is enabled by default if ostype indi
 
 Lock/unlock the VM.
 
-`--machine` `(pc|pc(-i440fx)?-\d+\.\d+(\.pxe)?|q35|pc-q35-\d+\.\d+(\.pxe)?|virt(?:-\d+\.\d+)?)` ::
+`--machine` `(pc|pc(-i440fx)?-\d+(\.\d+)+(\.pxe)?|q35|pc-q35-\d+(\.\d+)+(\.pxe)?|virt(?:-\d+(\.\d+)+)?)` ::
 
 Specifies the Qemu machine type.
 
@@ -351,6 +355,10 @@ The number of CPUs. Please use option -sockets instead.
 
 The number of CPU sockets.
 
+`--spice_enhancements` `[foldersharing=<1|0>] [,videostreaming=<off|all|filter>]` ::
+
+Configure additional enhancements for SPICE.
+
 `--sshkeys` `<filepath>` ::
 
 cloud-init: Setup public SSH keys (one key per line, OpenSSH format).
@@ -444,6 +452,10 @@ Destroy the vm (also delete all used/owned volumes).
 `<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
+
+`--purge` `<boolean>` ::
+
+Remove vmid from backup cron jobs.
 
 `--skiplock` `<boolean>` ::
 
@@ -612,7 +624,7 @@ Migration traffic is encrypted using an SSH tunnel by default. On secure, comple
 
 `--online` `<boolean>` ::
 
-Use online/live migration.
+Use online/live migration if VM is running. Ignored if VM is stopped.
 
 `--targetstorage` `<string>` ::
 
@@ -681,6 +693,19 @@ Get virtual machine configuration, including pending changes.
 `<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
+
+*qm reboot* `<vmid>` `[OPTIONS]`
+
+Reboot the VM by shutting it down, and starting it again. Applies pending
+changes.
+
+`<vmid>`: `<integer> (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`--timeout` `<integer> (0 - N)` ::
+
+Wait maximal timeout seconds for the shutdown.
 
 *qm rescan* `[OPTIONS]`
 
@@ -799,6 +824,10 @@ Virtual processor architecture. Defaults to the host.
 `--args` `<string>` ::
 
 Arbitrary arguments passed to kvm.
+
+`--audio0` `device=<ich9-intel-hda|intel-hda|AC97> [,driver=<spice>]` ::
+
+Configure a audio device, useful in combination with QXL/Spice.
 
 `--autostart` `<boolean>` ('default =' `0`)::
 
@@ -933,7 +962,7 @@ Set the real time clock to local time. This is enabled by default if ostype indi
 
 Lock/unlock the VM.
 
-`--machine` `(pc|pc(-i440fx)?-\d+\.\d+(\.pxe)?|q35|pc-q35-\d+\.\d+(\.pxe)?|virt(?:-\d+\.\d+)?)` ::
+`--machine` `(pc|pc(-i440fx)?-\d+(\.\d+)+(\.pxe)?|q35|pc-q35-\d+(\.\d+)+(\.pxe)?|virt(?:-\d+(\.\d+)+)?)` ::
 
 Specifies the Qemu machine type.
 
@@ -1032,6 +1061,10 @@ The number of CPUs. Please use option -sockets instead.
 `--sockets` `<integer> (1 - N)` ('default =' `1`)::
 
 The number of CPU sockets.
+
+`--spice_enhancements` `[foldersharing=<1|0>] [,videostreaming=<off|all|filter>]` ::
+
+Configure additional enhancements for SPICE.
 
 `--sshkeys` `<filepath>` ::
 
@@ -1159,7 +1192,7 @@ Start virtual machine.
 
 The (unique) ID of the VM.
 
-`--machine` `(pc|pc(-i440fx)?-\d+\.\d+(\.pxe)?|q35|pc-q35-\d+\.\d+(\.pxe)?|virt(?:-\d+\.\d+)?)` ::
+`--machine` `(pc|pc(-i440fx)?-\d+(\.\d+)+(\.pxe)?|q35|pc-q35-\d+(\.\d+)+(\.pxe)?|virt(?:-\d+(\.\d+)+)?)` ::
 
 Specifies the Qemu machine type.
 

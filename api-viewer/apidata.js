@@ -3135,6 +3135,8 @@ var pveapi = [
                      "items" : {
                         "properties" : {
                            "id" : {
+                              "description" : "The job ID.",
+                              "maxLength" : 50,
                               "type" : "string"
                            }
                         },
@@ -4473,6 +4475,828 @@ var pveapi = [
             "text" : "acme"
          },
          {
+            "children" : [
+               {
+                  "info" : {
+                     "GET" : {
+                        "description" : "Get ceph metadata.",
+                        "method" : "GET",
+                        "name" : "metadata",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Audit",
+                                 "Datastore.Audit"
+                              ],
+                              "any",
+                              1
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "object"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/ceph/metadata",
+                  "text" : "metadata"
+               },
+               {
+                  "info" : {
+                     "GET" : {
+                        "description" : "Get ceph status.",
+                        "method" : "GET",
+                        "name" : "status",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Audit",
+                                 "Datastore.Audit"
+                              ],
+                              "any",
+                              1
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "object"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/ceph/status",
+                  "text" : "status"
+               },
+               {
+                  "children" : [
+                     {
+                        "info" : {
+                           "GET" : {
+                              "description" : "Get the status of a specific ceph flag.",
+                              "method" : "GET",
+                              "name" : "get_flag",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "flag" : {
+                                       "description" : "The name of the flag name to get.",
+                                       "enum" : [
+                                          "nobackfill",
+                                          "nodeep-scrub",
+                                          "nodown",
+                                          "noin",
+                                          "noout",
+                                          "norebalance",
+                                          "norecover",
+                                          "noscrub",
+                                          "notieragent",
+                                          "noup",
+                                          "pause"
+                                       ],
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Audit"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "boolean"
+                              }
+                           },
+                           "PUT" : {
+                              "description" : "Set or clear (unset) a specific ceph flag",
+                              "method" : "PUT",
+                              "name" : "update_flag",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "flag" : {
+                                       "description" : "The ceph flag to update",
+                                       "enum" : [
+                                          "nobackfill",
+                                          "nodeep-scrub",
+                                          "nodown",
+                                          "noin",
+                                          "noout",
+                                          "norebalance",
+                                          "norecover",
+                                          "noscrub",
+                                          "notieragent",
+                                          "noup",
+                                          "pause"
+                                       ],
+                                       "type" : "string"
+                                    },
+                                    "value" : {
+                                       "description" : "The new value of the flag",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/cluster/ceph/flags/{flag}",
+                        "text" : "{flag}"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "description" : "get the status of all ceph flags",
+                        "method" : "GET",
+                        "name" : "get_all_flags",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Audit"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "items" : {
+                              "additionalProperties" : 1,
+                              "properties" : {
+                                 "name" : {
+                                    "description" : "Flag name.",
+                                    "enum" : [
+                                       "nobackfill",
+                                       "nodeep-scrub",
+                                       "nodown",
+                                       "noin",
+                                       "noout",
+                                       "norebalance",
+                                       "norecover",
+                                       "noscrub",
+                                       "notieragent",
+                                       "noup",
+                                       "pause"
+                                    ],
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{name}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     },
+                     "PUT" : {
+                        "description" : "Set/Unset multiple ceph flags at once.",
+                        "method" : "PUT",
+                        "name" : "set_flags",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "nobackfill" : {
+                                 "description" : "Backfilling of PGs is suspended.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "nodeep-scrub" : {
+                                 "description" : "Deep Scrubbing is disabled.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "nodown" : {
+                                 "description" : "OSD failure reports are being ignored, such that the monitors will not mark OSDs down.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "noin" : {
+                                 "description" : "OSDs that were previously marked out will not be marked back in when they start.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "noout" : {
+                                 "description" : "OSDs will not automatically be marked out after the configured interval.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "norebalance" : {
+                                 "description" : "Rebalancing of PGs is suspended.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "norecover" : {
+                                 "description" : "Recovery of PGs is suspended.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "noscrub" : {
+                                 "description" : "Scrubbing is disabled.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "notieragent" : {
+                                 "description" : "Cache tiering activity is suspended.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "noup" : {
+                                 "description" : "OSDs are not allowed to start.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "pause" : {
+                                 "description" : "Pauses read and writes.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Modify"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "string"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/cluster/ceph/flags",
+                  "text" : "flags"
+               }
+            ],
+            "info" : {
+               "GET" : {
+                  "description" : "Cluster ceph index.",
+                  "method" : "GET",
+                  "name" : "cephindex",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "permissions" : {
+                     "user" : "all"
+                  },
+                  "returns" : {
+                     "items" : {
+                        "properties" : {},
+                        "type" : "object"
+                     },
+                     "links" : [
+                        {
+                           "href" : "{name}",
+                           "rel" : "child"
+                        }
+                     ],
+                     "type" : "array"
+                  }
+               }
+            },
+            "leaf" : 0,
+            "path" : "/cluster/ceph",
+            "text" : "ceph"
+         },
+         {
+            "children" : [
+               {
+                  "info" : {
+                     "DELETE" : {
+                        "description" : "Delete sdn object configuration.",
+                        "method" : "DELETE",
+                        "name" : "delete",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "sdn" : {
+                                 "description" : "The SDN object identifier.",
+                                 "format" : "pve-sdn-id",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     },
+                     "GET" : {
+                        "description" : "Read sdn configuration.",
+                        "method" : "GET",
+                        "name" : "read",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "sdn" : {
+                                 "description" : "The SDN object identifier.",
+                                 "format" : "pve-sdn-id",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "returns" : {
+                           "type" : "object"
+                        }
+                     },
+                     "PUT" : {
+                        "description" : "Update sdn object configuration.",
+                        "method" : "PUT",
+                        "name" : "update",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "alias" : {
+                                 "description" : "alias name of the vnet",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "asn" : {
+                                 "description" : "autonomous system number",
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer>"
+                              },
+                              "controller" : {
+                                 "description" : "Frr router name",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "delete" : {
+                                 "description" : "A list of settings you want to delete.",
+                                 "format" : "pve-configid-list",
+                                 "maxLength" : 4096,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "digest" : {
+                                 "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
+                                 "maxLength" : 40,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "dp-id" : {
+                                 "description" : "Faucet dataplane id",
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer>"
+                              },
+                              "gateway-external-peers" : {
+                                 "description" : "upstream bgp peers address list.",
+                                 "format" : "ip-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "gateway-nodes" : {
+                                 "description" : "List of cluster node names.",
+                                 "format" : "pve-node-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "ipv4" : {
+                                 "description" : "Anycast router ipv4 address.",
+                                 "format" : "CIDRv4",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "ipv6" : {
+                                 "description" : "Anycast router ipv6 address.",
+                                 "format" : "CIDRv6",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "mac" : {
+                                 "description" : "Anycast router mac address",
+                                 "format" : "mac-addr",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "mtu" : {
+                                 "description" : "mtu",
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer>"
+                              },
+                              "multicast-address" : {
+                                 "description" : "Multicast address.",
+                                 "format" : "ipv4-multicast",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "peers" : {
+                                 "description" : "peers address list.",
+                                 "format" : "ip-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "sdn" : {
+                                 "description" : "The SDN object identifier.",
+                                 "format" : "pve-sdn-id",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "tag" : {
+                                 "description" : "vlan or vxlan id",
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer>"
+                              },
+                              "transportzone" : {
+                                 "description" : "transportzone id",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "unicast-address" : {
+                                 "description" : "Unicast peers address ip list.",
+                                 "format" : "ip-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "uplink-id" : {
+                                 "description" : "Uplink interface",
+                                 "maximum" : 4096,
+                                 "minimum" : 1,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (1 - 4096)"
+                              },
+                              "vlan-allowed" : {
+                                 "description" : "Allowed vlan range",
+                                 "format" : "pve-sdn-vlanrange",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "vlan-protocol" : {
+                                 "default" : "802.1q",
+                                 "description" : "vlan protocol",
+                                 "enum" : [
+                                    "802.1q",
+                                    "802.1ad"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "vrf" : {
+                                 "description" : "vrf name.",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "vrf-vxlan" : {
+                                 "description" : "l3vni.",
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer>"
+                              },
+                              "vxlan-allowed" : {
+                                 "description" : "Allowed vlan range",
+                                 "format" : "pve-sdn-vxlanrange",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           },
+                           "type" : "object"
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/sdn/{sdn}",
+                  "text" : "{sdn}"
+               }
+            ],
+            "info" : {
+               "DELETE" : {
+                  "description" : "Revert sdn changes.",
+                  "method" : "DELETE",
+                  "name" : "revert_configuration",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "type" : "null"
+                  }
+               },
+               "GET" : {
+                  "description" : "SDN index.",
+                  "method" : "GET",
+                  "name" : "index",
+                  "parameters" : {
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "type" : {
+                           "description" : "Only list sdn of specific type",
+                           "enum" : [
+                              "evpn",
+                              "evpncontroller",
+                              "faucet",
+                              "faucetcontroller",
+                              "qinq",
+                              "vlan",
+                              "vnet",
+                              "vxlan"
+                           ],
+                           "optional" : 1,
+                           "type" : "string"
+                        }
+                     }
+                  },
+                  "permissions" : {
+                     "description" : "Only list entries where you have 'SDN.Audit' or 'SDN.Allocate' permissions on '/cluster/sdn/<sdn>'",
+                     "user" : "all"
+                  },
+                  "returns" : {
+                     "items" : {
+                        "properties" : {
+                           "role" : {
+                              "type" : "string"
+                           },
+                           "sdn" : {
+                              "type" : "string"
+                           },
+                           "type" : {
+                              "type" : "string"
+                           }
+                        },
+                        "type" : "object"
+                     },
+                     "links" : [
+                        {
+                           "href" : "{sdn}",
+                           "rel" : "child"
+                        }
+                     ],
+                     "type" : "array"
+                  }
+               },
+               "POST" : {
+                  "description" : "Create a new sdn object.",
+                  "method" : "POST",
+                  "name" : "create",
+                  "parameters" : {
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "alias" : {
+                           "description" : "alias name of the vnet",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "asn" : {
+                           "description" : "autonomous system number",
+                           "optional" : 1,
+                           "type" : "integer",
+                           "typetext" : "<integer>"
+                        },
+                        "controller" : {
+                           "description" : "Frr router name",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "dp-id" : {
+                           "description" : "Faucet dataplane id",
+                           "optional" : 1,
+                           "type" : "integer",
+                           "typetext" : "<integer>"
+                        },
+                        "gateway-external-peers" : {
+                           "description" : "upstream bgp peers address list.",
+                           "format" : "ip-list",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "gateway-nodes" : {
+                           "description" : "List of cluster node names.",
+                           "format" : "pve-node-list",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "ipv4" : {
+                           "description" : "Anycast router ipv4 address.",
+                           "format" : "CIDRv4",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "ipv6" : {
+                           "description" : "Anycast router ipv6 address.",
+                           "format" : "CIDRv6",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "mac" : {
+                           "description" : "Anycast router mac address",
+                           "format" : "mac-addr",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "mtu" : {
+                           "description" : "mtu",
+                           "optional" : 1,
+                           "type" : "integer",
+                           "typetext" : "<integer>"
+                        },
+                        "multicast-address" : {
+                           "description" : "Multicast address.",
+                           "format" : "ipv4-multicast",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "peers" : {
+                           "description" : "peers address list.",
+                           "format" : "ip-list",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "sdn" : {
+                           "description" : "The SDN object identifier.",
+                           "format" : "pve-sdn-id",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "tag" : {
+                           "description" : "vlan or vxlan id",
+                           "optional" : 1,
+                           "type" : "integer",
+                           "typetext" : "<integer>"
+                        },
+                        "transportzone" : {
+                           "description" : "transportzone id",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "type" : {
+                           "description" : "Plugin type.",
+                           "enum" : [
+                              "evpn",
+                              "evpncontroller",
+                              "faucet",
+                              "faucetcontroller",
+                              "qinq",
+                              "vlan",
+                              "vnet",
+                              "vxlan"
+                           ],
+                           "format" : "pve-configid",
+                           "type" : "string"
+                        },
+                        "unicast-address" : {
+                           "description" : "Unicast peers address ip list.",
+                           "format" : "ip-list",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "uplink-id" : {
+                           "description" : "Uplink interface",
+                           "maximum" : 4096,
+                           "minimum" : 1,
+                           "optional" : 1,
+                           "type" : "integer",
+                           "typetext" : "<integer> (1 - 4096)"
+                        },
+                        "vlan-allowed" : {
+                           "description" : "Allowed vlan range",
+                           "format" : "pve-sdn-vlanrange",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "vlan-protocol" : {
+                           "default" : "802.1q",
+                           "description" : "vlan protocol",
+                           "enum" : [
+                              "802.1q",
+                              "802.1ad"
+                           ],
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "vrf" : {
+                           "description" : "vrf name.",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "vrf-vxlan" : {
+                           "description" : "l3vni.",
+                           "optional" : 1,
+                           "type" : "integer",
+                           "typetext" : "<integer>"
+                        },
+                        "vxlan-allowed" : {
+                           "description" : "Allowed vlan range",
+                           "format" : "pve-sdn-vxlanrange",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        }
+                     },
+                     "type" : "object"
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "type" : "null"
+                  }
+               },
+               "PUT" : {
+                  "description" : "Apply sdn changes.",
+                  "method" : "PUT",
+                  "name" : "apply_configuration",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "type" : "null"
+                  }
+               }
+            },
+            "leaf" : 0,
+            "path" : "/cluster/sdn",
+            "text" : "sdn"
+         },
+         {
             "info" : {
                "GET" : {
                   "description" : "Read cluster log",
@@ -4519,7 +5343,8 @@ var pveapi = [
                            "enum" : [
                               "vm",
                               "storage",
-                              "node"
+                              "node",
+                              "sdn"
                            ],
                            "optional" : 1,
                            "type" : "string"
@@ -4610,7 +5435,8 @@ var pveapi = [
                                  "pool",
                                  "qemu",
                                  "lxc",
-                                 "openvz"
+                                 "openvz",
+                                 "sdn"
                               ],
                               "type" : "string"
                            },
@@ -4828,25 +5654,27 @@ var pveapi = [
                         "language" : {
                            "description" : "Default GUI language.",
                            "enum" : [
-                              "zh_CN",
-                              "zh_TW",
                               "ca",
-                              "en",
-                              "eu",
-                              "fr",
+                              "da",
                               "de",
-                              "it",
+                              "en",
                               "es",
+                              "eu",
+                              "fa",
+                              "fr",
+                              "he",
+                              "it",
                               "ja",
                               "nb",
                               "nn",
-                              "fa",
                               "pl",
                               "pt_BR",
                               "ru",
                               "sl",
                               "sv",
-                              "tr"
+                              "tr",
+                              "zh_CN",
+                              "zh_TW"
                            ],
                            "optional" : 1,
                            "type" : "string"
@@ -5004,101 +5832,6 @@ var pveapi = [
             "leaf" : 1,
             "path" : "/cluster/nextid",
             "text" : "nextid"
-         },
-         {
-            "children" : [
-               {
-                  "info" : {
-                     "GET" : {
-                        "description" : "Get ceph metadata.",
-                        "method" : "GET",
-                        "name" : "ceph_metadata",
-                        "parameters" : {
-                           "additionalProperties" : 0
-                        },
-                        "permissions" : {
-                           "check" : [
-                              "perm",
-                              "/",
-                              [
-                                 "Sys.Audit",
-                                 "Datastore.Audit"
-                              ],
-                              "any",
-                              1
-                           ]
-                        },
-                        "protected" : 1,
-                        "returns" : {
-                           "type" : "object"
-                        }
-                     }
-                  },
-                  "leaf" : 1,
-                  "path" : "/cluster/ceph/metadata",
-                  "text" : "metadata"
-               },
-               {
-                  "info" : {
-                     "GET" : {
-                        "description" : "Get ceph status.",
-                        "method" : "GET",
-                        "name" : "cephstatus",
-                        "parameters" : {
-                           "additionalProperties" : 0
-                        },
-                        "permissions" : {
-                           "check" : [
-                              "perm",
-                              "/",
-                              [
-                                 "Sys.Audit",
-                                 "Datastore.Audit"
-                              ],
-                              "any",
-                              1
-                           ]
-                        },
-                        "protected" : 1,
-                        "returns" : {
-                           "type" : "object"
-                        }
-                     }
-                  },
-                  "leaf" : 1,
-                  "path" : "/cluster/ceph/status",
-                  "text" : "status"
-               }
-            ],
-            "info" : {
-               "GET" : {
-                  "description" : "Cluster ceph index.",
-                  "method" : "GET",
-                  "name" : "cephindex",
-                  "parameters" : {
-                     "additionalProperties" : 0
-                  },
-                  "permissions" : {
-                     "user" : "all"
-                  },
-                  "returns" : {
-                     "items" : {
-                        "properties" : {},
-                        "type" : "object"
-                     },
-                     "links" : [
-                        {
-                           "href" : "{name}",
-                           "rel" : "child"
-                        }
-                     ],
-                     "type" : "array"
-                  }
-               }
-            },
-            "leaf" : 0,
-            "path" : "/cluster/ceph",
-            "text" : "ceph"
          }
       ],
       "info" : {
@@ -7844,7 +8577,7 @@ var pveapi = [
                                                 },
                                                 "password" : {
                                                    "description" : "The new password.",
-                                                   "maxLength" : 64,
+                                                   "maxLength" : 1024,
                                                    "minLength" : 5,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -8486,6 +9219,31 @@ var pveapi = [
                                              "type" : "string",
                                              "verbose_description" : "Arbitrary arguments passed to kvm, for example:\n\nargs: -no-reboot -no-hpet\n\nNOTE: this option is for experts only.\n"
                                           },
+                                          "audio0" : {
+                                             "description" : "Configure a audio device, useful in combination with QXL/Spice.",
+                                             "format" : {
+                                                "device" : {
+                                                   "description" : "Configure an audio device.",
+                                                   "enum" : [
+                                                      "ich9-intel-hda",
+                                                      "intel-hda",
+                                                      "AC97"
+                                                   ],
+                                                   "type" : "string"
+                                                },
+                                                "driver" : {
+                                                   "default" : "spice",
+                                                   "description" : "Driver backend for the audio device.",
+                                                   "enum" : [
+                                                      "spice"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
                                           "autostart" : {
                                              "default" : 0,
                                              "description" : "Automatic restart after crash (currently ignored).",
@@ -8575,6 +9333,7 @@ var pveapi = [
                                                       "Broadwell-IBRS",
                                                       "Broadwell-noTSX",
                                                       "Broadwell-noTSX-IBRS",
+                                                      "Cascadelake-Server",
                                                       "Conroe",
                                                       "core2duo",
                                                       "coreduo",
@@ -8587,6 +9346,7 @@ var pveapi = [
                                                       "host",
                                                       "IvyBridge",
                                                       "IvyBridge-IBRS",
+                                                      "KnightsMill",
                                                       "kvm32",
                                                       "kvm64",
                                                       "max",
@@ -8616,10 +9376,10 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "flags" : {
-                                                   "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl', 'ibpb', 'ssbd', 'virt-ssbd', 'amd-ssbd', 'amd-no-ssb', 'pdpe1gb', 'md-clear'.",
+                                                   "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: pcid, spec-ctrl, ibpb, ssbd, virt-ssbd, amd-ssbd, amd-no-ssb, pdpe1gb, md-clear, hv-tlbflush, hv-evmcs, aes.",
                                                    "format_description" : "+FLAG[;-FLAG...]",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear)))*)",
+                                                   "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear|hv-tlbflush|hv-evmcs|aes))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear|hv-tlbflush|hv-evmcs|aes)))*)",
                                                    "type" : "string"
                                                 },
                                                 "hidden" : {
@@ -9152,7 +9912,7 @@ var pveapi = [
                                              "description" : "Specifies the Qemu machine type.",
                                              "maxLength" : 40,
                                              "optional" : 1,
-                                             "pattern" : "(pc|pc(-i440fx)?-\\d+\\.\\d+(\\.pxe)?|q35|pc-q35-\\d+\\.\\d+(\\.pxe)?|virt(?:-\\d+\\.\\d+)?)",
+                                             "pattern" : "(pc|pc(-i440fx)?-\\d+(\\.\\d+)+(\\.pxe)?|q35|pc-q35-\\d+(\\.\\d+)+(\\.pxe)?|virt(?:-\\d+(\\.\\d+)+)?)",
                                              "type" : "string"
                                           },
                                           "memory" : {
@@ -10108,6 +10868,30 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "integer"
                                           },
+                                          "spice_enhancements" : {
+                                             "description" : "Configure additional enhancements for SPICE.",
+                                             "format" : {
+                                                "foldersharing" : {
+                                                   "default" : "0",
+                                                   "description" : "Enable folder sharing via SPICE. Needs Spice-WebDAV daemon installed in the VM.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "videostreaming" : {
+                                                   "default" : "off",
+                                                   "description" : "Enable video streaming. Uses compression for detected video streams.",
+                                                   "enum" : [
+                                                      "off",
+                                                      "all",
+                                                      "filter"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
                                           "sshkeys" : {
                                              "description" : "cloud-init: Setup public SSH keys (one key per line, OpenSSH format).",
                                              "format" : "urlencoded",
@@ -10166,7 +10950,7 @@ var pveapi = [
                                                 },
                                                 "usb3" : {
                                                    "default" : 0,
-                                                   "description" : "Specifies whether if given host option is a USB3 device or port (this does currently not work reliably with spice redirection and is then ignored).",
+                                                   "description" : "Specifies whether if given host option is a USB3 device or port.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 }
@@ -10603,6 +11387,32 @@ var pveapi = [
                                              "typetext" : "<string>",
                                              "verbose_description" : "Arbitrary arguments passed to kvm, for example:\n\nargs: -no-reboot -no-hpet\n\nNOTE: this option is for experts only.\n"
                                           },
+                                          "audio0" : {
+                                             "description" : "Configure a audio device, useful in combination with QXL/Spice.",
+                                             "format" : {
+                                                "device" : {
+                                                   "description" : "Configure an audio device.",
+                                                   "enum" : [
+                                                      "ich9-intel-hda",
+                                                      "intel-hda",
+                                                      "AC97"
+                                                   ],
+                                                   "type" : "string"
+                                                },
+                                                "driver" : {
+                                                   "default" : "spice",
+                                                   "description" : "Driver backend for the audio device.",
+                                                   "enum" : [
+                                                      "spice"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "device=<ich9-intel-hda|intel-hda|AC97> [,driver=<spice>]"
+                                          },
                                           "autostart" : {
                                              "default" : 0,
                                              "description" : "Automatic restart after crash (currently ignored).",
@@ -10706,6 +11516,7 @@ var pveapi = [
                                                       "Broadwell-IBRS",
                                                       "Broadwell-noTSX",
                                                       "Broadwell-noTSX-IBRS",
+                                                      "Cascadelake-Server",
                                                       "Conroe",
                                                       "core2duo",
                                                       "coreduo",
@@ -10718,6 +11529,7 @@ var pveapi = [
                                                       "host",
                                                       "IvyBridge",
                                                       "IvyBridge-IBRS",
+                                                      "KnightsMill",
                                                       "kvm32",
                                                       "kvm64",
                                                       "max",
@@ -10747,10 +11559,10 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "flags" : {
-                                                   "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl', 'ibpb', 'ssbd', 'virt-ssbd', 'amd-ssbd', 'amd-no-ssb', 'pdpe1gb', 'md-clear'.",
+                                                   "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: pcid, spec-ctrl, ibpb, ssbd, virt-ssbd, amd-ssbd, amd-no-ssb, pdpe1gb, md-clear, hv-tlbflush, hv-evmcs, aes.",
                                                    "format_description" : "+FLAG[;-FLAG...]",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear)))*)",
+                                                   "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear|hv-tlbflush|hv-evmcs|aes))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear|hv-tlbflush|hv-evmcs|aes)))*)",
                                                    "type" : "string"
                                                 },
                                                 "hidden" : {
@@ -11314,7 +12126,7 @@ var pveapi = [
                                              "description" : "Specifies the Qemu machine type.",
                                              "maxLength" : 40,
                                              "optional" : 1,
-                                             "pattern" : "(pc|pc(-i440fx)?-\\d+\\.\\d+(\\.pxe)?|q35|pc-q35-\\d+\\.\\d+(\\.pxe)?|virt(?:-\\d+\\.\\d+)?)",
+                                             "pattern" : "(pc|pc(-i440fx)?-\\d+(\\.\\d+)+(\\.pxe)?|q35|pc-q35-\\d+(\\.\\d+)+(\\.pxe)?|virt(?:-\\d+(\\.\\d+)+)?)",
                                              "type" : "string"
                                           },
                                           "memory" : {
@@ -12307,6 +13119,31 @@ var pveapi = [
                                              "type" : "integer",
                                              "typetext" : "<integer> (1 - N)"
                                           },
+                                          "spice_enhancements" : {
+                                             "description" : "Configure additional enhancements for SPICE.",
+                                             "format" : {
+                                                "foldersharing" : {
+                                                   "default" : "0",
+                                                   "description" : "Enable folder sharing via SPICE. Needs Spice-WebDAV daemon installed in the VM.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "videostreaming" : {
+                                                   "default" : "off",
+                                                   "description" : "Enable video streaming. Uses compression for detected video streams.",
+                                                   "enum" : [
+                                                      "off",
+                                                      "all",
+                                                      "filter"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "[foldersharing=<1|0>] [,videostreaming=<off|all|filter>]"
+                                          },
                                           "sshkeys" : {
                                              "description" : "cloud-init: Setup public SSH keys (one key per line, OpenSSH format).",
                                              "format" : "urlencoded",
@@ -12370,7 +13207,7 @@ var pveapi = [
                                                 },
                                                 "usb3" : {
                                                    "default" : 0,
-                                                   "description" : "Specifies whether if given host option is a USB3 device or port (this does currently not work reliably with spice redirection and is then ignored).",
+                                                   "description" : "Specifies whether if given host option is a USB3 device or port.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 }
@@ -12842,6 +13679,32 @@ var pveapi = [
                                              "typetext" : "<string>",
                                              "verbose_description" : "Arbitrary arguments passed to kvm, for example:\n\nargs: -no-reboot -no-hpet\n\nNOTE: this option is for experts only.\n"
                                           },
+                                          "audio0" : {
+                                             "description" : "Configure a audio device, useful in combination with QXL/Spice.",
+                                             "format" : {
+                                                "device" : {
+                                                   "description" : "Configure an audio device.",
+                                                   "enum" : [
+                                                      "ich9-intel-hda",
+                                                      "intel-hda",
+                                                      "AC97"
+                                                   ],
+                                                   "type" : "string"
+                                                },
+                                                "driver" : {
+                                                   "default" : "spice",
+                                                   "description" : "Driver backend for the audio device.",
+                                                   "enum" : [
+                                                      "spice"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "device=<ich9-intel-hda|intel-hda|AC97> [,driver=<spice>]"
+                                          },
                                           "autostart" : {
                                              "default" : 0,
                                              "description" : "Automatic restart after crash (currently ignored).",
@@ -12937,6 +13800,7 @@ var pveapi = [
                                                       "Broadwell-IBRS",
                                                       "Broadwell-noTSX",
                                                       "Broadwell-noTSX-IBRS",
+                                                      "Cascadelake-Server",
                                                       "Conroe",
                                                       "core2duo",
                                                       "coreduo",
@@ -12949,6 +13813,7 @@ var pveapi = [
                                                       "host",
                                                       "IvyBridge",
                                                       "IvyBridge-IBRS",
+                                                      "KnightsMill",
                                                       "kvm32",
                                                       "kvm64",
                                                       "max",
@@ -12978,10 +13843,10 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "flags" : {
-                                                   "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl', 'ibpb', 'ssbd', 'virt-ssbd', 'amd-ssbd', 'amd-no-ssb', 'pdpe1gb', 'md-clear'.",
+                                                   "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: pcid, spec-ctrl, ibpb, ssbd, virt-ssbd, amd-ssbd, amd-no-ssb, pdpe1gb, md-clear, hv-tlbflush, hv-evmcs, aes.",
                                                    "format_description" : "+FLAG[;-FLAG...]",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear)))*)",
+                                                   "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear|hv-tlbflush|hv-evmcs|aes))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear|hv-tlbflush|hv-evmcs|aes)))*)",
                                                    "type" : "string"
                                                 },
                                                 "hidden" : {
@@ -13545,7 +14410,7 @@ var pveapi = [
                                              "description" : "Specifies the Qemu machine type.",
                                              "maxLength" : 40,
                                              "optional" : 1,
-                                             "pattern" : "(pc|pc(-i440fx)?-\\d+\\.\\d+(\\.pxe)?|q35|pc-q35-\\d+\\.\\d+(\\.pxe)?|virt(?:-\\d+\\.\\d+)?)",
+                                             "pattern" : "(pc|pc(-i440fx)?-\\d+(\\.\\d+)+(\\.pxe)?|q35|pc-q35-\\d+(\\.\\d+)+(\\.pxe)?|virt(?:-\\d+(\\.\\d+)+)?)",
                                              "type" : "string"
                                           },
                                           "memory" : {
@@ -14538,6 +15403,31 @@ var pveapi = [
                                              "type" : "integer",
                                              "typetext" : "<integer> (1 - N)"
                                           },
+                                          "spice_enhancements" : {
+                                             "description" : "Configure additional enhancements for SPICE.",
+                                             "format" : {
+                                                "foldersharing" : {
+                                                   "default" : "0",
+                                                   "description" : "Enable folder sharing via SPICE. Needs Spice-WebDAV daemon installed in the VM.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "videostreaming" : {
+                                                   "default" : "off",
+                                                   "description" : "Enable video streaming. Uses compression for detected video streams.",
+                                                   "enum" : [
+                                                      "off",
+                                                      "all",
+                                                      "filter"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "[foldersharing=<1|0>] [,videostreaming=<off|all|filter>]"
+                                          },
                                           "sshkeys" : {
                                              "description" : "cloud-init: Setup public SSH keys (one key per line, OpenSSH format).",
                                              "format" : "urlencoded",
@@ -14601,7 +15491,7 @@ var pveapi = [
                                                 },
                                                 "usb3" : {
                                                    "default" : 0,
-                                                   "description" : "Specifies whether if given host option is a USB3 device or port (this does currently not work reliably with spice redirection and is then ignored).",
+                                                   "description" : "Specifies whether if given host option is a USB3 device or port.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 }
@@ -15548,7 +16438,7 @@ var pveapi = [
                                                    "description" : "Specifies the Qemu machine type.",
                                                    "maxLength" : 40,
                                                    "optional" : 1,
-                                                   "pattern" : "(pc|pc(-i440fx)?-\\d+\\.\\d+(\\.pxe)?|q35|pc-q35-\\d+\\.\\d+(\\.pxe)?|virt(?:-\\d+\\.\\d+)?)",
+                                                   "pattern" : "(pc|pc(-i440fx)?-\\d+(\\.\\d+)+(\\.pxe)?|q35|pc-q35-\\d+(\\.\\d+)+(\\.pxe)?|virt(?:-\\d+(\\.\\d+)+)?)",
                                                    "type" : "string"
                                                 },
                                                 "migratedfrom" : {
@@ -15819,6 +16709,57 @@ var pveapi = [
                                     "leaf" : 1,
                                     "path" : "/nodes/{node}/qemu/{vmid}/status/shutdown",
                                     "text" : "shutdown"
+                                 },
+                                 {
+                                    "info" : {
+                                       "POST" : {
+                                          "description" : "Reboot the VM by shutting it down, and starting it again. Applies pending changes.",
+                                          "method" : "POST",
+                                          "name" : "vm_reboot",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "timeout" : {
+                                                   "description" : "Wait maximal timeout seconds for the shutdown.",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (0 - N)"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.PowerMgmt"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "type" : "string"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/status/reboot",
+                                    "text" : "reboot"
                                  },
                                  {
                                     "info" : {
@@ -16512,7 +17453,7 @@ var pveapi = [
                                              "typetext" : "<string>"
                                           },
                                           "online" : {
-                                             "description" : "Use online/live migration.",
+                                             "description" : "Use online/live migration if VM is running. Ignored if VM is stopped.",
                                              "optional" : 1,
                                              "type" : "boolean",
                                              "typetext" : "<boolean>"
@@ -17294,6 +18235,12 @@ var pveapi = [
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
+                                    "purge" : {
+                                       "description" : "Remove vmid from backup cron jobs.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
                                     "skiplock" : {
                                        "description" : "Ignore locks - only root is allowed to use this option.",
                                        "optional" : 1,
@@ -17531,6 +18478,32 @@ var pveapi = [
                                  "typetext" : "<string>",
                                  "verbose_description" : "Arbitrary arguments passed to kvm, for example:\n\nargs: -no-reboot -no-hpet\n\nNOTE: this option is for experts only.\n"
                               },
+                              "audio0" : {
+                                 "description" : "Configure a audio device, useful in combination with QXL/Spice.",
+                                 "format" : {
+                                    "device" : {
+                                       "description" : "Configure an audio device.",
+                                       "enum" : [
+                                          "ich9-intel-hda",
+                                          "intel-hda",
+                                          "AC97"
+                                       ],
+                                       "type" : "string"
+                                    },
+                                    "driver" : {
+                                       "default" : "spice",
+                                       "description" : "Driver backend for the audio device.",
+                                       "enum" : [
+                                          "spice"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "device=<ich9-intel-hda|intel-hda|AC97> [,driver=<spice>]"
+                              },
                               "autostart" : {
                                  "default" : 0,
                                  "description" : "Automatic restart after crash (currently ignored).",
@@ -17634,6 +18607,7 @@ var pveapi = [
                                           "Broadwell-IBRS",
                                           "Broadwell-noTSX",
                                           "Broadwell-noTSX-IBRS",
+                                          "Cascadelake-Server",
                                           "Conroe",
                                           "core2duo",
                                           "coreduo",
@@ -17646,6 +18620,7 @@ var pveapi = [
                                           "host",
                                           "IvyBridge",
                                           "IvyBridge-IBRS",
+                                          "KnightsMill",
                                           "kvm32",
                                           "kvm64",
                                           "max",
@@ -17675,10 +18650,10 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "flags" : {
-                                       "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl', 'ibpb', 'ssbd', 'virt-ssbd', 'amd-ssbd', 'amd-no-ssb', 'pdpe1gb', 'md-clear'.",
+                                       "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: pcid, spec-ctrl, ibpb, ssbd, virt-ssbd, amd-ssbd, amd-no-ssb, pdpe1gb, md-clear, hv-tlbflush, hv-evmcs, aes.",
                                        "format_description" : "+FLAG[;-FLAG...]",
                                        "optional" : 1,
-                                       "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear)))*)",
+                                       "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear|hv-tlbflush|hv-evmcs|aes))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear|hv-tlbflush|hv-evmcs|aes)))*)",
                                        "type" : "string"
                                     },
                                     "hidden" : {
@@ -18228,7 +19203,7 @@ var pveapi = [
                                  "description" : "Specifies the Qemu machine type.",
                                  "maxLength" : 40,
                                  "optional" : 1,
-                                 "pattern" : "(pc|pc(-i440fx)?-\\d+\\.\\d+(\\.pxe)?|q35|pc-q35-\\d+\\.\\d+(\\.pxe)?|virt(?:-\\d+\\.\\d+)?)",
+                                 "pattern" : "(pc|pc(-i440fx)?-\\d+(\\.\\d+)+(\\.pxe)?|q35|pc-q35-\\d+(\\.\\d+)+(\\.pxe)?|virt(?:-\\d+(\\.\\d+)+)?)",
                                  "type" : "string"
                               },
                               "memory" : {
@@ -19215,6 +20190,31 @@ var pveapi = [
                                  "type" : "integer",
                                  "typetext" : "<integer> (1 - N)"
                               },
+                              "spice_enhancements" : {
+                                 "description" : "Configure additional enhancements for SPICE.",
+                                 "format" : {
+                                    "foldersharing" : {
+                                       "default" : "0",
+                                       "description" : "Enable folder sharing via SPICE. Needs Spice-WebDAV daemon installed in the VM.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "videostreaming" : {
+                                       "default" : "off",
+                                       "description" : "Enable video streaming. Uses compression for detected video streams.",
+                                       "enum" : [
+                                          "off",
+                                          "all",
+                                          "filter"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "[foldersharing=<1|0>] [,videostreaming=<off|all|filter>]"
+                              },
                               "sshkeys" : {
                                  "description" : "cloud-init: Setup public SSH keys (one key per line, OpenSSH format).",
                                  "format" : "urlencoded",
@@ -19299,7 +20299,7 @@ var pveapi = [
                                     },
                                     "usb3" : {
                                        "default" : 0,
-                                       "description" : "Specifies whether if given host option is a USB3 device or port (this does currently not work reliably with spice redirection and is then ignored).",
+                                       "description" : "Specifies whether if given host option is a USB3 device or port.",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     }
@@ -19725,6 +20725,13 @@ var pveapi = [
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
+                                          "current" : {
+                                             "default" : 0,
+                                             "description" : "Get current values (instead of pending values).",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
                                           "node" : {
                                              "description" : "The cluster node name.",
                                              "format" : "pve-node",
@@ -19871,6 +20878,7 @@ var pveapi = [
                                              "enum" : [
                                                 "backup",
                                                 "create",
+                                                "destroyed",
                                                 "disk",
                                                 "fstrim",
                                                 "migrate",
@@ -20340,6 +21348,7 @@ var pveapi = [
                                              "enum" : [
                                                 "backup",
                                                 "create",
+                                                "destroyed",
                                                 "disk",
                                                 "fstrim",
                                                 "migrate",
@@ -20567,6 +21576,13 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "boolean",
                                              "typetext" : "<boolean>"
+                                          },
+                                          "revert" : {
+                                             "description" : "Revert a pending change.",
+                                             "format" : "pve-configid-list",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
                                           },
                                           "rootfs" : {
                                              "description" : "Use volume as container root.",
@@ -24688,6 +25704,75 @@ var pveapi = [
                               "leaf" : 1,
                               "path" : "/nodes/{node}/lxc/{vmid}/move_volume",
                               "text" : "move_volume"
+                           },
+                           {
+                              "info" : {
+                                 "GET" : {
+                                    "description" : "Get container configuration, including pending changes.",
+                                    "method" : "GET",
+                                    "name" : "vm_pending",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "minimum" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - N)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/vms/{vmid}",
+                                          [
+                                             "VM.Audit"
+                                          ]
+                                       ]
+                                    },
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "items" : {
+                                          "properties" : {
+                                             "delete" : {
+                                                "description" : "Indicates a pending delete request if present and not 0.",
+                                                "maximum" : 2,
+                                                "minimum" : 0,
+                                                "optional" : 1,
+                                                "type" : "integer"
+                                             },
+                                             "key" : {
+                                                "description" : "Configuration option name.",
+                                                "type" : "string"
+                                             },
+                                             "pending" : {
+                                                "description" : "Pending value.",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "value" : {
+                                                "description" : "Current value.",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "type" : "array"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/lxc/{vmid}/pending",
+                              "text" : "pending"
                            }
                         ],
                         "info" : {
@@ -24703,6 +25788,12 @@ var pveapi = [
                                        "format" : "pve-node",
                                        "type" : "string",
                                        "typetext" : "<string>"
+                                    },
+                                    "purge" : {
+                                       "description" : "Remove vmid from backup cron jobs.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
                                     },
                                     "vmid" : {
                                        "description" : "The (unique) ID of the VM.",
@@ -25010,6 +26101,7 @@ var pveapi = [
                                  "enum" : [
                                     "backup",
                                     "create",
+                                    "destroyed",
                                     "disk",
                                     "fstrim",
                                     "migrate",
@@ -26950,20 +28042,19 @@ var pveapi = [
                                        "additionalProperties" : 0,
                                        "properties" : {
                                           "flag" : {
-                                             "description" : "The ceph flag to set/unset",
+                                             "description" : "The ceph flag to unset",
                                              "enum" : [
-                                                "full",
-                                                "pause",
-                                                "noup",
-                                                "nodown",
-                                                "noout",
-                                                "noin",
                                                 "nobackfill",
+                                                "nodeep-scrub",
+                                                "nodown",
+                                                "noin",
+                                                "noout",
                                                 "norebalance",
                                                 "norecover",
                                                 "noscrub",
-                                                "nodeep-scrub",
-                                                "notieragent"
+                                                "notieragent",
+                                                "noup",
+                                                "pause"
                                              ],
                                              "type" : "string"
                                           },
@@ -26991,27 +28082,26 @@ var pveapi = [
                                     }
                                  },
                                  "POST" : {
-                                    "description" : "Set a ceph flag",
+                                    "description" : "Set a specific ceph flag",
                                     "method" : "POST",
                                     "name" : "set_flag",
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
                                           "flag" : {
-                                             "description" : "The ceph flag to set/unset",
+                                             "description" : "The ceph flag to set",
                                              "enum" : [
-                                                "full",
-                                                "pause",
-                                                "noup",
-                                                "nodown",
-                                                "noout",
-                                                "noin",
                                                 "nobackfill",
+                                                "nodeep-scrub",
+                                                "nodown",
+                                                "noin",
+                                                "noout",
                                                 "norebalance",
                                                 "norecover",
                                                 "noscrub",
-                                                "nodeep-scrub",
-                                                "notieragent"
+                                                "notieragent",
+                                                "noup",
+                                                "pause"
                                              ],
                                              "type" : "string"
                                           },
@@ -29823,6 +30913,14 @@ var pveapi = [
                                           "parameters" : {
                                              "additionalProperties" : 0,
                                              "properties" : {
+                                                "delay" : {
+                                                   "description" : "Time to wait for the task to finish. We return 'null' if the task finish within that time.",
+                                                   "maximum" : 30,
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - 30)"
+                                                },
                                                 "node" : {
                                                    "description" : "The cluster node name.",
                                                    "format" : "pve-node",
@@ -29850,7 +30948,8 @@ var pveapi = [
                                           "protected" : 1,
                                           "proxyto" : "node",
                                           "returns" : {
-                                             "type" : "null"
+                                             "optional" : 1,
+                                             "type" : "string"
                                           }
                                        },
                                        "GET" : {
@@ -33018,6 +34117,16 @@ var pveapi = [
                                           "optional" : 1,
                                           "type" : "string"
                                        },
+                                       "public-key-bits" : {
+                                          "description" : "Certificate's public key size",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "public-key-type" : {
+                                          "description" : "Certificate's public key algorithm",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
                                        "san" : {
                                           "description" : "List of Certificate's SubjectAlternativeName entries.",
                                           "items" : {
@@ -33149,6 +34258,16 @@ var pveapi = [
                                     "pem" : {
                                        "description" : "Certificate in PEM format",
                                        "format" : "pem-certificate",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "public-key-bits" : {
+                                       "description" : "Certificate's public key size",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "public-key-type" : {
+                                       "description" : "Certificate's public key algorithm",
                                        "optional" : 1,
                                        "type" : "string"
                                     },
@@ -33328,6 +34447,162 @@ var pveapi = [
                   "leaf" : 1,
                   "path" : "/nodes/{node}/config",
                   "text" : "config"
+               },
+               {
+                  "children" : [
+                     {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "GET" : {
+                                    "description" : "List transportzone content.",
+                                    "method" : "GET",
+                                    "name" : "index",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "sdn" : {
+                                             "description" : "The SDN object identifier.",
+                                             "format" : "pve-sdn-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "items" : {
+                                          "properties" : {
+                                             "status" : {
+                                                "description" : "Status.",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "vnet" : {
+                                                "description" : "Vnet identifier.",
+                                                "type" : "string"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "links" : [
+                                          {
+                                             "href" : "{vnet}",
+                                             "rel" : "child"
+                                          }
+                                       ],
+                                       "type" : "array"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/sdn/{sdn}/content",
+                              "text" : "content"
+                           }
+                        ],
+                        "info" : {
+                           "GET" : {
+                              "description" : "",
+                              "method" : "GET",
+                              "name" : "diridx",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "sdn" : {
+                                       "description" : "The SDN object identifier.",
+                                       "format" : "pve-sdn-id",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "subdir" : {
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "links" : [
+                                    {
+                                       "href" : "{subdir}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
+                        "path" : "/nodes/{node}/sdn/{sdn}",
+                        "text" : "{sdn}"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "description" : "Get status for all transportzones.",
+                        "method" : "GET",
+                        "name" : "index",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "description" : "Only list entries where you have 'SDN.Audit'",
+                           "user" : "all"
+                        },
+                        "protected" : 1,
+                        "proxyto" : "node",
+                        "returns" : {
+                           "items" : {
+                              "properties" : {
+                                 "sdn" : {
+                                    "description" : "The SDN object identifier.",
+                                    "format" : "pve-sdn-id",
+                                    "type" : "string"
+                                 },
+                                 "status" : {
+                                    "description" : "Status of transportzone",
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{sdn}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/nodes/{node}/sdn",
+                  "text" : "sdn"
                },
                {
                   "info" : {
@@ -33861,9 +35136,9 @@ var pveapi = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
+                                    "login",
                                     "upgrade",
-                                    "ceph_install",
-                                    "login"
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -33955,9 +35230,9 @@ var pveapi = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
+                                    "login",
                                     "upgrade",
-                                    "ceph_install",
-                                    "login"
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -34078,9 +35353,9 @@ var pveapi = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
+                                    "login",
                                     "upgrade",
-                                    "ceph_install",
-                                    "login"
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -34467,14 +35742,15 @@ var pveapi = [
                {
                   "info" : {
                      "POST" : {
-                        "description" : "Start all VMs and containers (when onboot=1).",
+                        "description" : "Start all VMs and containers located on this node (by default only those with onboot=1).",
                         "method" : "POST",
                         "name" : "startall",
                         "parameters" : {
                            "additionalProperties" : 0,
                            "properties" : {
                               "force" : {
-                                 "description" : "force if onboot=0.",
+                                 "default" : "off",
+                                 "description" : "Issue start command even if virtual guest have 'onboot' not set or set to off.",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
@@ -34486,7 +35762,7 @@ var pveapi = [
                                  "typetext" : "<string>"
                               },
                               "vms" : {
-                                 "description" : "Only consider Guests with these IDs.",
+                                 "description" : "Only consider guests from this comma separated list of VMIDs.",
                                  "format" : "pve-vmid-list",
                                  "optional" : 1,
                                  "type" : "string",
@@ -34786,7 +36062,7 @@ var pveapi = [
                         "description" : "Used memory in bytes.",
                         "optional" : 1,
                         "renderer" : "bytes",
-                        "type" : "string"
+                        "type" : "integer"
                      },
                      "node" : {
                         "description" : "The cluster node name.",
@@ -36854,6 +38130,17 @@ var pveapi = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "sslversion" : {
+                                 "description" : "LDAPS TLS/SSL version. It's not recommended to use version older than 1.2!",
+                                 "enum" : [
+                                    "tlsv1",
+                                    "tlsv1_1",
+                                    "tlsv1_2",
+                                    "tlsv1_3"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
                               "tfa" : {
                                  "description" : "Use Two-factor authentication.",
                                  "format" : "pve-tfa-config",
@@ -37039,6 +38326,17 @@ var pveapi = [
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
+                        },
+                        "sslversion" : {
+                           "description" : "LDAPS TLS/SSL version. It's not recommended to use version older than 1.2!",
+                           "enum" : [
+                              "tlsv1",
+                              "tlsv1_1",
+                              "tlsv1_2",
+                              "tlsv1_3"
+                           ],
+                           "optional" : 1,
+                           "type" : "string"
                         },
                         "tfa" : {
                            "description" : "Use Two-factor authentication.",
@@ -37305,9 +38603,10 @@ var pveapi = [
                         },
                         "key" : {
                            "description" : "When adding TOTP, the shared secret value.",
+                           "format" : "pve-tfa-secret",
                            "optional" : 1,
-                           "pattern" : "(?^:[A-Z2-7=]{16}|[A-Fa-f0-9]{40})",
-                           "type" : "string"
+                           "type" : "string",
+                           "typetext" : "<string>"
                         },
                         "password" : {
                            "description" : "The current password.",

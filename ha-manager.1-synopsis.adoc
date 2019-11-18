@@ -40,6 +40,43 @@ List HA resources.
 
 Only list resources of specific type
 
+*ha-manager crm-command migrate* `<sid> <node>`
+
+Request resource migration (online) to another node.
+
+`<sid>`: `<type>:<name>` ::
+
+HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).
+
+`<node>`: `<string>` ::
+
+Target node.
+
+*ha-manager crm-command relocate* `<sid> <node>`
+
+Request resource relocatzion to another node. This stops the service on the
+old node, and restarts it on the target node.
+
+`<sid>`: `<type>:<name>` ::
+
+HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).
+
+`<node>`: `<string>` ::
+
+Target node.
+
+*ha-manager crm-command stop* `<sid> <timeout>`
+
+Request the service to be stopped.
+
+`<sid>`: `<type>:<name>` ::
+
+HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).
+
+`<timeout>`: `<integer> (0 - N)` ::
+
+Timeout in seconds. If set to 0 a hard stop will be performed.
+
 *ha-manager groupadd* `<group> --nodes <string>` `[OPTIONS]`
 
 Create a new HA group.
@@ -124,30 +161,13 @@ Shows help for a specific command
 
 Verbose output format.
 
-*ha-manager migrate* `<sid> <node>`
+*ha-manager migrate*
 
-Request resource migration (online) to another node.
+An alias for 'ha-manager crm-command migrate'.
 
-`<sid>`: `<type>:<name>` ::
+*ha-manager relocate*
 
-HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).
-
-`<node>`: `<string>` ::
-
-Target node.
-
-*ha-manager relocate* `<sid> <node>`
-
-Request resource relocatzion to another node. This stops the service on the
-old node, and restarts it on the target node.
-
-`<sid>`: `<type>:<name>` ::
-
-HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).
-
-`<node>`: `<string>` ::
-
-Target node.
+An alias for 'ha-manager crm-command relocate'.
 
 *ha-manager remove* `<sid>`
 

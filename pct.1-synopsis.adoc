@@ -52,6 +52,10 @@ Get container configuration.
 
 The (unique) ID of the VM.
 
+`--current` `<boolean>` ('default =' `0`)::
+
+Get current values (instead of pending values).
+
 `--snapshot` `<string>` ::
 
 Fetch config values from given snapshot.
@@ -140,7 +144,7 @@ Set a host name for the container.
 
 Ignore errors when extracting the template.
 
-`--lock` `<backup | create | disk | fstrim | migrate | mounted | rollback | snapshot | snapshot-delete>` ::
+`--lock` `<backup | create | destroyed | disk | fstrim | migrate | mounted | rollback | snapshot | snapshot-delete>` ::
 
 Lock/unlock the VM.
 
@@ -250,13 +254,17 @@ The name of the snapshot.
 
 For removal from config file, even if removing disk snapshots fails.
 
-*pct destroy* `<vmid>`
+*pct destroy* `<vmid>` `[OPTIONS]`
 
 Destroy the container (also delete all uses files).
 
 `<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
+
+`--purge` `<boolean>` ::
+
+Remove vmid from backup cron jobs.
 
 *pct df* `<vmid>`
 
@@ -403,6 +411,14 @@ Delete the original volume after successful copy. By default the original is kep
 `--digest` `<string>` ::
 
 Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
+
+*pct pending* `<vmid>`
+
+Get container configuration, including pending changes.
+
+`<vmid>`: `<integer> (1 - N)` ::
+
+The (unique) ID of the VM.
 
 *pct pull* `<vmid> <path> <destination>` `[OPTIONS]`
 
@@ -560,7 +576,7 @@ Set a host name for the container.
 
 Ignore errors when extracting the template.
 
-`--lock` `<backup | create | disk | fstrim | migrate | mounted | rollback | snapshot | snapshot-delete>` ::
+`--lock` `<backup | create | destroyed | disk | fstrim | migrate | mounted | rollback | snapshot | snapshot-delete>` ::
 
 Lock/unlock the VM.
 
@@ -730,7 +746,7 @@ Script that will be exectued during various steps in the containers lifetime.
 
 Set a host name for the container.
 
-`--lock` `<backup | create | disk | fstrim | migrate | mounted | rollback | snapshot | snapshot-delete>` ::
+`--lock` `<backup | create | destroyed | disk | fstrim | migrate | mounted | rollback | snapshot | snapshot-delete>` ::
 
 Lock/unlock the VM.
 
@@ -761,6 +777,10 @@ OS type. This is used to setup configuration inside the container, and correspon
 `--protection` `<boolean>` ('default =' `0`)::
 
 Sets the protection flag of the container. This will prevent the CT or CT's disk remove/update operation.
+
+`--revert` `<string>` ::
+
+Revert a pending change.
 
 `--rootfs` `[volume=]<volume> [,acl=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 

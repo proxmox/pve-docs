@@ -26,6 +26,18 @@ args: -no-reboot -no-hpet
 +
 NOTE: this option is for experts only.
 
+`audio0`: `device=<ich9-intel-hda|intel-hda|AC97> [,driver=<spice>]` ::
+
+Configure a audio device, useful in combination with QXL/Spice.
+
+`device`=`<AC97 | ich9-intel-hda | intel-hda>` ;;
+
+Configure an audio device.
+
+`driver`=`<spice>` ('default =' `spice`);;
+
+Driver backend for the audio device.
+
 `autostart`: `<boolean>` ('default =' `0`)::
 
 Automatic restart after crash (currently ignored).
@@ -86,13 +98,13 @@ The number of cores per socket.
 
 Emulated CPU type.
 
-`cputype`=`<486 | Broadwell | Broadwell-IBRS | Broadwell-noTSX | Broadwell-noTSX-IBRS | Conroe | EPYC | EPYC-IBPB | Haswell | Haswell-IBRS | Haswell-noTSX | Haswell-noTSX-IBRS | IvyBridge | IvyBridge-IBRS | Nehalem | Nehalem-IBRS | Opteron_G1 | Opteron_G2 | Opteron_G3 | Opteron_G4 | Opteron_G5 | Penryn | SandyBridge | SandyBridge-IBRS | Skylake-Client | Skylake-Client-IBRS | Skylake-Server | Skylake-Server-IBRS | Westmere | Westmere-IBRS | athlon | core2duo | coreduo | host | kvm32 | kvm64 | max | pentium | pentium2 | pentium3 | phenom | qemu32 | qemu64>` ('default =' `kvm64`);;
+`cputype`=`<486 | Broadwell | Broadwell-IBRS | Broadwell-noTSX | Broadwell-noTSX-IBRS | Cascadelake-Server | Conroe | EPYC | EPYC-IBPB | Haswell | Haswell-IBRS | Haswell-noTSX | Haswell-noTSX-IBRS | IvyBridge | IvyBridge-IBRS | KnightsMill | Nehalem | Nehalem-IBRS | Opteron_G1 | Opteron_G2 | Opteron_G3 | Opteron_G4 | Opteron_G5 | Penryn | SandyBridge | SandyBridge-IBRS | Skylake-Client | Skylake-Client-IBRS | Skylake-Server | Skylake-Server-IBRS | Westmere | Westmere-IBRS | athlon | core2duo | coreduo | host | kvm32 | kvm64 | max | pentium | pentium2 | pentium3 | phenom | qemu32 | qemu64>` ('default =' `kvm64`);;
 
 Emulated CPU type.
 
 `flags`=`<+FLAG[;-FLAG...]>` ;;
 
-List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: 'pcid', 'spec-ctrl', 'ibpb', 'ssbd', 'virt-ssbd', 'amd-ssbd', 'amd-no-ssb', 'pdpe1gb', 'md-clear'.
+List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: pcid, spec-ctrl, ibpb, ssbd, virt-ssbd, amd-ssbd, amd-no-ssb, pdpe1gb, md-clear, hv-tlbflush, hv-evmcs, aes.
 
 `hidden`=`<boolean>` ('default =' `0`);;
 
@@ -425,7 +437,7 @@ Set the real time clock to local time. This is enabled by default if ostype indi
 
 Lock/unlock the VM.
 
-`machine`: `(pc|pc(-i440fx)?-\d+\.\d+(\.pxe)?|q35|pc-q35-\d+\.\d+(\.pxe)?|virt(?:-\d+\.\d+)?)` ::
+`machine`: `(pc|pc(-i440fx)?-\d+(\.\d+)+(\.pxe)?|q35|pc-q35-\d+(\.\d+)+(\.pxe)?|virt(?:-\d+(\.\d+)+)?)` ::
 
 Specifies the Qemu machine type.
 
@@ -991,6 +1003,18 @@ The number of CPUs. Please use option -sockets instead.
 
 The number of CPU sockets.
 
+`spice_enhancements`: `[foldersharing=<1|0>] [,videostreaming=<off|all|filter>]` ::
+
+Configure additional enhancements for SPICE.
+
+`foldersharing`=`<boolean>` ('default =' `0`);;
+
+Enable folder sharing via SPICE. Needs Spice-WebDAV daemon installed in the VM.
+
+`videostreaming`=`<all | filter | off>` ('default =' `off`);;
+
+Enable video streaming. Uses compression for detected video streams.
+
 `sshkeys`: `<string>` ::
 
 cloud-init: Setup public SSH keys (one key per line, OpenSSH format).
@@ -1039,7 +1063,7 @@ The value 'spice' can be used to add a usb redirection devices for spice.
 
 `usb3`=`<boolean>` ('default =' `0`);;
 
-Specifies whether if given host option is a USB3 device or port (this does currently not work reliably with spice redirection and is then ignored).
+Specifies whether if given host option is a USB3 device or port.
 
 `vcpus`: `<integer> (1 - N)` ('default =' `0`)::
 

@@ -52,7 +52,7 @@ Specify external http proxy which is used for downloads (example: 'http://userna
 
 Default keybord layout for vnc server.
 
-`language`: `<ca | de | en | es | eu | fa | fr | it | ja | nb | nn | pl | pt_BR | ru | sl | sv | tr | zh_CN | zh_TW>` ::
+`language`: `<ca | da | de | en | es | eu | fa | fr | he | it | ja | nb | nn | pl | pt_BR | ru | sl | sv | tr | zh_CN | zh_TW>` ::
 
 Default GUI language.
 
