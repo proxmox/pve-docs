@@ -2,7 +2,7 @@
 
 Enable/disable ACPI.
 
-`agent`: `[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>]` ::
+`agent`: `[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
 
 Enable/disable Qemu GuestAgent and its properties.
 
@@ -13,6 +13,10 @@ Enable/disable Qemu GuestAgent.
 `fstrim_cloned_disks`=`<boolean>` ('default =' `0`);;
 
 Run fstrim after cloning/moving a disk.
+
+`type`=`<isa | virtio>` ('default =' `virtio`);;
+
+Select the agent type
 
 `arch`: `<aarch64 | x86_64>` ::
 
@@ -437,7 +441,7 @@ Set the real time clock to local time. This is enabled by default if ostype indi
 
 Lock/unlock the VM.
 
-`machine`: `(pc|pc(-i440fx)?-\d+(\.\d+)+(\.pxe)?|q35|pc-q35-\d+(\.\d+)+(\.pxe)?|virt(?:-\d+(\.\d+)+)?)` ::
+`machine`: `(pc|pc(-i440fx)?-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|q35|pc-q35-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|virt(?:-\d+(\.\d+)+)?(\+pve\d+)?)` ::
 
 Specifies the Qemu machine type.
 
@@ -556,7 +560,7 @@ win7;; Microsoft Windows 7
 win8;; Microsoft Windows 8/2012/2012r2
 win10;; Microsoft Windows 10/2016
 l24;; Linux 2.4 Kernel
-l26;; Linux 2.6/3.X Kernel
+l26;; Linux 2.6 - 5.X Kernel
 solaris;; Solaris/OpenSolaris/OpenIndiania kernel
 
 `parallel[n]`: `/dev/parport\d+|/dev/usb/lp\d+` ::
@@ -1030,6 +1034,10 @@ Startup and shutdown behavior. Order is a non-negative number defining the gener
 `tablet`: `<boolean>` ('default =' `1`)::
 
 Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (-vga=qxl).
+
+`tags`: `<string>` ::
+
+Tags of the VM. This is only meta information.
 
 `tdf`: `<boolean>` ('default =' `0`)::
 

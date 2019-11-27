@@ -236,6 +236,10 @@ Startup and shutdown behavior. Order is a non-negative number defining the gener
 
 Amount of SWAP for the VM in MB.
 
+`tags`: `<string>` ::
+
+Tags of the Container. This is only meta information.
+
 `template`: `<boolean>` ('default =' `0`)::
 
 Enable/disable Template.

@@ -14,25 +14,41 @@ Log level for outgoing traffic.
 
 Enable logging of conntrack information.
 
-`ndp`: `<boolean>` ::
+`ndp`: `<boolean>` ('default =' `0`)::
 
-Enable NDP.
+Enable NDP (Neighbor Discovery Protocol).
 
 `nf_conntrack_allow_invalid`: `<boolean>` ('default =' `0`)::
 
 Allow invalid packets on connection tracking.
 
-`nf_conntrack_max`: `<integer> (32768 - N)` ::
+`nf_conntrack_max`: `<integer> (32768 - N)` ('default =' `262144`)::
 
 Maximum number of tracked connections.
 
-`nf_conntrack_tcp_timeout_established`: `<integer> (7875 - N)` ::
+`nf_conntrack_tcp_timeout_established`: `<integer> (7875 - N)` ('default =' `432000`)::
 
 Conntrack established timeout.
+
+`nf_conntrack_tcp_timeout_syn_recv`: `<integer> (30 - 60)` ('default =' `60`)::
+
+Conntrack syn recv timeout.
 
 `nosmurfs`: `<boolean>` ::
 
 Enable SMURFS filter.
+
+`protection_synflood`: `<boolean>` ('default =' `0`)::
+
+Enable synflood protection
+
+`protection_synflood_burst`: `<integer>` ('default =' `1000`)::
+
+Synflood protection rate burst by ip src.
+
+`protection_synflood_rate`: `<integer>` ('default =' `200`)::
+
+Synflood protection rate syn/sec by ip src.
 
 `smurf_log_level`: `<alert | crit | debug | emerg | err | info | nolog | notice | warning>` ::
 
@@ -42,7 +58,7 @@ Log level for SMURFS filter.
 
 Log level for illegal tcp flags filter.
 
-`tcpflags`: `<boolean>` ::
+`tcpflags`: `<boolean>` ('default =' `0`)::
 
 Filter illegal combinations of TCP flags.
 

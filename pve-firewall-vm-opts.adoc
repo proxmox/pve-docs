@@ -1,8 +1,8 @@
-`dhcp`: `<boolean>` ::
+`dhcp`: `<boolean>` ('default =' `0`)::
 
 Enable DHCP.
 
-`enable`: `<boolean>` ::
+`enable`: `<boolean>` ('default =' `0`)::
 
 Enable/disable firewall rules.
 
@@ -18,13 +18,13 @@ Log level for incoming traffic.
 
 Log level for outgoing traffic.
 
-`macfilter`: `<boolean>` ::
+`macfilter`: `<boolean>` ('default =' `0`)::
 
 Enable/disable MAC address filter.
 
-`ndp`: `<boolean>` ::
+`ndp`: `<boolean>` ('default =' `0`)::
 
-Enable NDP.
+Enable NDP (Neighbor Discovery Protocol).
 
 `policy_in`: `<ACCEPT | DROP | REJECT>` ::
 

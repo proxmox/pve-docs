@@ -4400,6 +4400,7 @@ var pveapi = [
                         },
                         "returns" : {
                            "description" : "ACME TermsOfService URL.",
+                           "optional" : 1,
                            "type" : "string"
                         }
                      }
@@ -4810,493 +4811,6 @@ var pveapi = [
             "text" : "ceph"
          },
          {
-            "children" : [
-               {
-                  "info" : {
-                     "DELETE" : {
-                        "description" : "Delete sdn object configuration.",
-                        "method" : "DELETE",
-                        "name" : "delete",
-                        "parameters" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "sdn" : {
-                                 "description" : "The SDN object identifier.",
-                                 "format" : "pve-sdn-id",
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              }
-                           }
-                        },
-                        "protected" : 1,
-                        "returns" : {
-                           "type" : "null"
-                        }
-                     },
-                     "GET" : {
-                        "description" : "Read sdn configuration.",
-                        "method" : "GET",
-                        "name" : "read",
-                        "parameters" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "sdn" : {
-                                 "description" : "The SDN object identifier.",
-                                 "format" : "pve-sdn-id",
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              }
-                           }
-                        },
-                        "returns" : {
-                           "type" : "object"
-                        }
-                     },
-                     "PUT" : {
-                        "description" : "Update sdn object configuration.",
-                        "method" : "PUT",
-                        "name" : "update",
-                        "parameters" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "alias" : {
-                                 "description" : "alias name of the vnet",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "asn" : {
-                                 "description" : "autonomous system number",
-                                 "optional" : 1,
-                                 "type" : "integer",
-                                 "typetext" : "<integer>"
-                              },
-                              "controller" : {
-                                 "description" : "Frr router name",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "delete" : {
-                                 "description" : "A list of settings you want to delete.",
-                                 "format" : "pve-configid-list",
-                                 "maxLength" : 4096,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "digest" : {
-                                 "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                 "maxLength" : 40,
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "dp-id" : {
-                                 "description" : "Faucet dataplane id",
-                                 "optional" : 1,
-                                 "type" : "integer",
-                                 "typetext" : "<integer>"
-                              },
-                              "gateway-external-peers" : {
-                                 "description" : "upstream bgp peers address list.",
-                                 "format" : "ip-list",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "gateway-nodes" : {
-                                 "description" : "List of cluster node names.",
-                                 "format" : "pve-node-list",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "ipv4" : {
-                                 "description" : "Anycast router ipv4 address.",
-                                 "format" : "CIDRv4",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "ipv6" : {
-                                 "description" : "Anycast router ipv6 address.",
-                                 "format" : "CIDRv6",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "mac" : {
-                                 "description" : "Anycast router mac address",
-                                 "format" : "mac-addr",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "mtu" : {
-                                 "description" : "mtu",
-                                 "optional" : 1,
-                                 "type" : "integer",
-                                 "typetext" : "<integer>"
-                              },
-                              "multicast-address" : {
-                                 "description" : "Multicast address.",
-                                 "format" : "ipv4-multicast",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "peers" : {
-                                 "description" : "peers address list.",
-                                 "format" : "ip-list",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "sdn" : {
-                                 "description" : "The SDN object identifier.",
-                                 "format" : "pve-sdn-id",
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "tag" : {
-                                 "description" : "vlan or vxlan id",
-                                 "optional" : 1,
-                                 "type" : "integer",
-                                 "typetext" : "<integer>"
-                              },
-                              "transportzone" : {
-                                 "description" : "transportzone id",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "unicast-address" : {
-                                 "description" : "Unicast peers address ip list.",
-                                 "format" : "ip-list",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "uplink-id" : {
-                                 "description" : "Uplink interface",
-                                 "maximum" : 4096,
-                                 "minimum" : 1,
-                                 "optional" : 1,
-                                 "type" : "integer",
-                                 "typetext" : "<integer> (1 - 4096)"
-                              },
-                              "vlan-allowed" : {
-                                 "description" : "Allowed vlan range",
-                                 "format" : "pve-sdn-vlanrange",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "vlan-protocol" : {
-                                 "default" : "802.1q",
-                                 "description" : "vlan protocol",
-                                 "enum" : [
-                                    "802.1q",
-                                    "802.1ad"
-                                 ],
-                                 "optional" : 1,
-                                 "type" : "string"
-                              },
-                              "vrf" : {
-                                 "description" : "vrf name.",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "vrf-vxlan" : {
-                                 "description" : "l3vni.",
-                                 "optional" : 1,
-                                 "type" : "integer",
-                                 "typetext" : "<integer>"
-                              },
-                              "vxlan-allowed" : {
-                                 "description" : "Allowed vlan range",
-                                 "format" : "pve-sdn-vxlanrange",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              }
-                           },
-                           "type" : "object"
-                        },
-                        "protected" : 1,
-                        "returns" : {
-                           "type" : "null"
-                        }
-                     }
-                  },
-                  "leaf" : 1,
-                  "path" : "/cluster/sdn/{sdn}",
-                  "text" : "{sdn}"
-               }
-            ],
-            "info" : {
-               "DELETE" : {
-                  "description" : "Revert sdn changes.",
-                  "method" : "DELETE",
-                  "name" : "revert_configuration",
-                  "parameters" : {
-                     "additionalProperties" : 0
-                  },
-                  "protected" : 1,
-                  "returns" : {
-                     "type" : "null"
-                  }
-               },
-               "GET" : {
-                  "description" : "SDN index.",
-                  "method" : "GET",
-                  "name" : "index",
-                  "parameters" : {
-                     "additionalProperties" : 0,
-                     "properties" : {
-                        "type" : {
-                           "description" : "Only list sdn of specific type",
-                           "enum" : [
-                              "evpn",
-                              "evpncontroller",
-                              "faucet",
-                              "faucetcontroller",
-                              "qinq",
-                              "vlan",
-                              "vnet",
-                              "vxlan"
-                           ],
-                           "optional" : 1,
-                           "type" : "string"
-                        }
-                     }
-                  },
-                  "permissions" : {
-                     "description" : "Only list entries where you have 'SDN.Audit' or 'SDN.Allocate' permissions on '/cluster/sdn/<sdn>'",
-                     "user" : "all"
-                  },
-                  "returns" : {
-                     "items" : {
-                        "properties" : {
-                           "role" : {
-                              "type" : "string"
-                           },
-                           "sdn" : {
-                              "type" : "string"
-                           },
-                           "type" : {
-                              "type" : "string"
-                           }
-                        },
-                        "type" : "object"
-                     },
-                     "links" : [
-                        {
-                           "href" : "{sdn}",
-                           "rel" : "child"
-                        }
-                     ],
-                     "type" : "array"
-                  }
-               },
-               "POST" : {
-                  "description" : "Create a new sdn object.",
-                  "method" : "POST",
-                  "name" : "create",
-                  "parameters" : {
-                     "additionalProperties" : 0,
-                     "properties" : {
-                        "alias" : {
-                           "description" : "alias name of the vnet",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "asn" : {
-                           "description" : "autonomous system number",
-                           "optional" : 1,
-                           "type" : "integer",
-                           "typetext" : "<integer>"
-                        },
-                        "controller" : {
-                           "description" : "Frr router name",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "dp-id" : {
-                           "description" : "Faucet dataplane id",
-                           "optional" : 1,
-                           "type" : "integer",
-                           "typetext" : "<integer>"
-                        },
-                        "gateway-external-peers" : {
-                           "description" : "upstream bgp peers address list.",
-                           "format" : "ip-list",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "gateway-nodes" : {
-                           "description" : "List of cluster node names.",
-                           "format" : "pve-node-list",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "ipv4" : {
-                           "description" : "Anycast router ipv4 address.",
-                           "format" : "CIDRv4",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "ipv6" : {
-                           "description" : "Anycast router ipv6 address.",
-                           "format" : "CIDRv6",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "mac" : {
-                           "description" : "Anycast router mac address",
-                           "format" : "mac-addr",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "mtu" : {
-                           "description" : "mtu",
-                           "optional" : 1,
-                           "type" : "integer",
-                           "typetext" : "<integer>"
-                        },
-                        "multicast-address" : {
-                           "description" : "Multicast address.",
-                           "format" : "ipv4-multicast",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "peers" : {
-                           "description" : "peers address list.",
-                           "format" : "ip-list",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "sdn" : {
-                           "description" : "The SDN object identifier.",
-                           "format" : "pve-sdn-id",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "tag" : {
-                           "description" : "vlan or vxlan id",
-                           "optional" : 1,
-                           "type" : "integer",
-                           "typetext" : "<integer>"
-                        },
-                        "transportzone" : {
-                           "description" : "transportzone id",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "type" : {
-                           "description" : "Plugin type.",
-                           "enum" : [
-                              "evpn",
-                              "evpncontroller",
-                              "faucet",
-                              "faucetcontroller",
-                              "qinq",
-                              "vlan",
-                              "vnet",
-                              "vxlan"
-                           ],
-                           "format" : "pve-configid",
-                           "type" : "string"
-                        },
-                        "unicast-address" : {
-                           "description" : "Unicast peers address ip list.",
-                           "format" : "ip-list",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "uplink-id" : {
-                           "description" : "Uplink interface",
-                           "maximum" : 4096,
-                           "minimum" : 1,
-                           "optional" : 1,
-                           "type" : "integer",
-                           "typetext" : "<integer> (1 - 4096)"
-                        },
-                        "vlan-allowed" : {
-                           "description" : "Allowed vlan range",
-                           "format" : "pve-sdn-vlanrange",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "vlan-protocol" : {
-                           "default" : "802.1q",
-                           "description" : "vlan protocol",
-                           "enum" : [
-                              "802.1q",
-                              "802.1ad"
-                           ],
-                           "optional" : 1,
-                           "type" : "string"
-                        },
-                        "vrf" : {
-                           "description" : "vrf name.",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "vrf-vxlan" : {
-                           "description" : "l3vni.",
-                           "optional" : 1,
-                           "type" : "integer",
-                           "typetext" : "<integer>"
-                        },
-                        "vxlan-allowed" : {
-                           "description" : "Allowed vlan range",
-                           "format" : "pve-sdn-vxlanrange",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        }
-                     },
-                     "type" : "object"
-                  },
-                  "protected" : 1,
-                  "returns" : {
-                     "type" : "null"
-                  }
-               },
-               "PUT" : {
-                  "description" : "Apply sdn changes.",
-                  "method" : "PUT",
-                  "name" : "apply_configuration",
-                  "parameters" : {
-                     "additionalProperties" : 0
-                  },
-                  "protected" : 1,
-                  "returns" : {
-                     "type" : "null"
-                  }
-               }
-            },
-            "leaf" : 0,
-            "path" : "/cluster/sdn",
-            "text" : "sdn"
-         },
-         {
             "info" : {
                "GET" : {
                   "description" : "Read cluster log",
@@ -5599,19 +5113,20 @@ var pveapi = [
                            "format" : {
                               "shutdown_policy" : {
                                  "default" : "conditional",
-                                 "description" : "The policy for HA services on node shutdown. 'freeze' disables auto-recovery, 'failover' ensures recovery, 'conditional' recovers on poweroff and freezes on reboot. Running HA Services will always get stopped first on shutdown.",
+                                 "description" : "The policy for HA services on node shutdown. 'freeze' disables auto-recovery, 'failover' ensures recovery, 'conditional' recovers on poweroff and freezes on reboot. 'migrate' will migrate running services to other nodes, if possible. With 'freeze' or 'failover', HA Services will always get stopped first on shutdown.",
                                  "enum" : [
                                     "freeze",
                                     "failover",
-                                    "conditional"
+                                    "conditional",
+                                    "migrate"
                                  ],
                                  "type" : "string",
-                                 "verbose_description" : "Describes the policy for handling HA services on poweroff or reboot of a node. Freeze will always freeze services which are still located on the node on shutdown, those services won't be recovered by the HA manager. Failover will not mark the services as frozen and thus the services will get recovered to other nodes, if the shutdown node does not come up again quickly (< 1min). 'conditional' chooses automatically depending on the type of shutdown, i.e., on a reboot the service will be frozen but on a poweroff the service will stay as is, and thus get recovered after about 2 minutes."
+                                 "verbose_description" : "Describes the policy for handling HA services on poweroff or reboot of a node. Freeze will always freeze services which are still located on the node on shutdown, those services won't be recovered by the HA manager. Failover will not mark the services as frozen and thus the services will get recovered to other nodes, if the shutdown node does not come up again quickly (< 1min). 'conditional' chooses automatically depending on the type of shutdown, i.e., on a reboot the service will be frozen but on a poweroff the service will stay as is, and thus get recovered after about 2 minutes. Migrate will try to move all running services to another node on both, rebootand shutdown. The poweroff process will only continue once no running services are located on the node anymore. If the node comes up again, the service will be moved back to the previously powered-off node, at least if no other migration, reloaction or recovery took place."
                               }
                            },
                            "optional" : 1,
                            "type" : "string",
-                           "typetext" : "shutdown_policy=<freeze|failover|conditional>"
+                           "typetext" : "shutdown_policy=<enum>"
                         },
                         "http_proxy" : {
                            "description" : "Specify external http proxy which is used for downloads (example: 'http://username:password@host:port/')",
@@ -7237,11 +6752,13 @@ var pveapi = [
                                           "returns" : {
                                              "properties" : {
                                                 "dhcp" : {
+                                                   "default" : 0,
                                                    "description" : "Enable DHCP.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
                                                 "enable" : {
+                                                   "default" : 0,
                                                    "description" : "Enable/disable firewall rules.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
@@ -7284,12 +6801,14 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "macfilter" : {
+                                                   "default" : 0,
                                                    "description" : "Enable/disable MAC address filter.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
                                                 "ndp" : {
-                                                   "description" : "Enable NDP.",
+                                                   "default" : 0,
+                                                   "description" : "Enable NDP (Neighbor Discovery Protocol).",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -7337,6 +6856,7 @@ var pveapi = [
                                                    "typetext" : "<string>"
                                                 },
                                                 "dhcp" : {
+                                                   "default" : 0,
                                                    "description" : "Enable DHCP.",
                                                    "optional" : 1,
                                                    "type" : "boolean",
@@ -7350,6 +6870,7 @@ var pveapi = [
                                                    "typetext" : "<string>"
                                                 },
                                                 "enable" : {
+                                                   "default" : 0,
                                                    "description" : "Enable/disable firewall rules.",
                                                    "optional" : 1,
                                                    "type" : "boolean",
@@ -7394,13 +6915,15 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "macfilter" : {
+                                                   "default" : 0,
                                                    "description" : "Enable/disable MAC address filter.",
                                                    "optional" : 1,
                                                    "type" : "boolean",
                                                    "typetext" : "<boolean>"
                                                 },
                                                 "ndp" : {
-                                                   "description" : "Enable NDP.",
+                                                   "default" : 0,
+                                                   "description" : "Enable NDP (Neighbor Discovery Protocol).",
                                                    "optional" : 1,
                                                    "type" : "boolean",
                                                    "typetext" : "<boolean>"
@@ -9199,6 +8722,16 @@ var pveapi = [
                                                    "description" : "Run fstrim after cloning/moving a disk.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
+                                                },
+                                                "type" : {
+                                                   "default" : "virtio",
+                                                   "description" : "Select the agent type",
+                                                   "enum" : [
+                                                      "virtio",
+                                                      "isa"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
                                                 }
                                              },
                                              "optional" : 1,
@@ -9912,7 +9445,7 @@ var pveapi = [
                                              "description" : "Specifies the Qemu machine type.",
                                              "maxLength" : 40,
                                              "optional" : 1,
-                                             "pattern" : "(pc|pc(-i440fx)?-\\d+(\\.\\d+)+(\\.pxe)?|q35|pc-q35-\\d+(\\.\\d+)+(\\.pxe)?|virt(?:-\\d+(\\.\\d+)+)?)",
+                                             "pattern" : "(pc|pc(-i440fx)?-\\d+(\\.\\d+)+(\\+pve\\d+)?(\\.pxe)?|q35|pc-q35-\\d+(\\.\\d+)+(\\+pve\\d+)?(\\.pxe)?|virt(?:-\\d+(\\.\\d+)+)?(\\+pve\\d+)?)",
                                              "type" : "string"
                                           },
                                           "memory" : {
@@ -10143,7 +9676,7 @@ var pveapi = [
                                              ],
                                              "optional" : 1,
                                              "type" : "string",
-                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6/3.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
+                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6 - 5.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
                                           },
                                           "parallel[n]" : {
                                              "description" : "Map host parallel devices (n is 0 to 2).",
@@ -10920,6 +10453,12 @@ var pveapi = [
                                              "type" : "boolean",
                                              "verbose_description" : "Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (-vga=qxl)."
                                           },
+                                          "tags" : {
+                                             "description" : "Tags of the VM. This is only meta information.",
+                                             "format" : "pve-tag-list",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
                                           "tdf" : {
                                              "default" : 0,
                                              "description" : "Enable/disable time drift fix.",
@@ -11365,11 +10904,21 @@ var pveapi = [
                                                    "description" : "Run fstrim after cloning/moving a disk.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
+                                                },
+                                                "type" : {
+                                                   "default" : "virtio",
+                                                   "description" : "Select the agent type",
+                                                   "enum" : [
+                                                      "virtio",
+                                                      "isa"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
                                                 }
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>]"
+                                             "typetext" : "[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]"
                                           },
                                           "arch" : {
                                              "description" : "Virtual processor architecture. Defaults to the host.",
@@ -12126,7 +11675,7 @@ var pveapi = [
                                              "description" : "Specifies the Qemu machine type.",
                                              "maxLength" : 40,
                                              "optional" : 1,
-                                             "pattern" : "(pc|pc(-i440fx)?-\\d+(\\.\\d+)+(\\.pxe)?|q35|pc-q35-\\d+(\\.\\d+)+(\\.pxe)?|virt(?:-\\d+(\\.\\d+)+)?)",
+                                             "pattern" : "(pc|pc(-i440fx)?-\\d+(\\.\\d+)+(\\+pve\\d+)?(\\.pxe)?|q35|pc-q35-\\d+(\\.\\d+)+(\\+pve\\d+)?(\\.pxe)?|virt(?:-\\d+(\\.\\d+)+)?(\\+pve\\d+)?)",
                                              "type" : "string"
                                           },
                                           "memory" : {
@@ -12372,7 +11921,7 @@ var pveapi = [
                                              ],
                                              "optional" : 1,
                                              "type" : "string",
-                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6/3.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
+                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6 - 5.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
                                           },
                                           "parallel[n]" : {
                                              "description" : "Map host parallel devices (n is 0 to 2).",
@@ -13174,6 +12723,13 @@ var pveapi = [
                                              "typetext" : "<boolean>",
                                              "verbose_description" : "Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (-vga=qxl)."
                                           },
+                                          "tags" : {
+                                             "description" : "Tags of the VM. This is only meta information.",
+                                             "format" : "pve-tag-list",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
                                           "tdf" : {
                                              "default" : 0,
                                              "description" : "Enable/disable time drift fix.",
@@ -13657,11 +13213,21 @@ var pveapi = [
                                                    "description" : "Run fstrim after cloning/moving a disk.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
+                                                },
+                                                "type" : {
+                                                   "default" : "virtio",
+                                                   "description" : "Select the agent type",
+                                                   "enum" : [
+                                                      "virtio",
+                                                      "isa"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
                                                 }
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>]"
+                                             "typetext" : "[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]"
                                           },
                                           "arch" : {
                                              "description" : "Virtual processor architecture. Defaults to the host.",
@@ -14410,7 +13976,7 @@ var pveapi = [
                                              "description" : "Specifies the Qemu machine type.",
                                              "maxLength" : 40,
                                              "optional" : 1,
-                                             "pattern" : "(pc|pc(-i440fx)?-\\d+(\\.\\d+)+(\\.pxe)?|q35|pc-q35-\\d+(\\.\\d+)+(\\.pxe)?|virt(?:-\\d+(\\.\\d+)+)?)",
+                                             "pattern" : "(pc|pc(-i440fx)?-\\d+(\\.\\d+)+(\\+pve\\d+)?(\\.pxe)?|q35|pc-q35-\\d+(\\.\\d+)+(\\+pve\\d+)?(\\.pxe)?|virt(?:-\\d+(\\.\\d+)+)?(\\+pve\\d+)?)",
                                              "type" : "string"
                                           },
                                           "memory" : {
@@ -14656,7 +14222,7 @@ var pveapi = [
                                              ],
                                              "optional" : 1,
                                              "type" : "string",
-                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6/3.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
+                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6 - 5.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
                                           },
                                           "parallel[n]" : {
                                              "description" : "Map host parallel devices (n is 0 to 2).",
@@ -15457,6 +15023,13 @@ var pveapi = [
                                              "type" : "boolean",
                                              "typetext" : "<boolean>",
                                              "verbose_description" : "Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (-vga=qxl)."
+                                          },
+                                          "tags" : {
+                                             "description" : "Tags of the VM. This is only meta information.",
+                                             "format" : "pve-tag-list",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
                                           },
                                           "tdf" : {
                                              "default" : 0,
@@ -16404,6 +15977,11 @@ var pveapi = [
                                                    ],
                                                    "type" : "string"
                                                 },
+                                                "tags" : {
+                                                   "description" : "The current configured tags, if any",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
                                                 "uptime" : {
                                                    "description" : "Uptime.",
                                                    "optional" : 1,
@@ -16438,7 +16016,7 @@ var pveapi = [
                                                    "description" : "Specifies the Qemu machine type.",
                                                    "maxLength" : 40,
                                                    "optional" : 1,
-                                                   "pattern" : "(pc|pc(-i440fx)?-\\d+(\\.\\d+)+(\\.pxe)?|q35|pc-q35-\\d+(\\.\\d+)+(\\.pxe)?|virt(?:-\\d+(\\.\\d+)+)?)",
+                                                   "pattern" : "(pc|pc(-i440fx)?-\\d+(\\.\\d+)+(\\+pve\\d+)?(\\.pxe)?|q35|pc-q35-\\d+(\\.\\d+)+(\\+pve\\d+)?(\\.pxe)?|virt(?:-\\d+(\\.\\d+)+)?(\\+pve\\d+)?)",
                                                    "type" : "string"
                                                 },
                                                 "migratedfrom" : {
@@ -18397,6 +17975,11 @@ var pveapi = [
                                     ],
                                     "type" : "string"
                                  },
+                                 "tags" : {
+                                    "description" : "The current configured tags, if any",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
                                  "uptime" : {
                                     "description" : "Uptime.",
                                     "optional" : 1,
@@ -18449,11 +18032,21 @@ var pveapi = [
                                        "description" : "Run fstrim after cloning/moving a disk.",
                                        "optional" : 1,
                                        "type" : "boolean"
+                                    },
+                                    "type" : {
+                                       "default" : "virtio",
+                                       "description" : "Select the agent type",
+                                       "enum" : [
+                                          "virtio",
+                                          "isa"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
                                     }
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>]"
+                                 "typetext" : "[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]"
                               },
                               "arch" : {
                                  "description" : "Virtual processor architecture. Defaults to the host.",
@@ -19203,7 +18796,7 @@ var pveapi = [
                                  "description" : "Specifies the Qemu machine type.",
                                  "maxLength" : 40,
                                  "optional" : 1,
-                                 "pattern" : "(pc|pc(-i440fx)?-\\d+(\\.\\d+)+(\\.pxe)?|q35|pc-q35-\\d+(\\.\\d+)+(\\.pxe)?|virt(?:-\\d+(\\.\\d+)+)?)",
+                                 "pattern" : "(pc|pc(-i440fx)?-\\d+(\\.\\d+)+(\\+pve\\d+)?(\\.pxe)?|q35|pc-q35-\\d+(\\.\\d+)+(\\+pve\\d+)?(\\.pxe)?|virt(?:-\\d+(\\.\\d+)+)?(\\+pve\\d+)?)",
                                  "type" : "string"
                               },
                               "memory" : {
@@ -19449,7 +19042,7 @@ var pveapi = [
                                  ],
                                  "optional" : 1,
                                  "type" : "string",
-                                 "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6/3.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
+                                 "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6 - 5.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
                               },
                               "parallel[n]" : {
                                  "description" : "Map host parallel devices (n is 0 to 2).",
@@ -20258,6 +19851,13 @@ var pveapi = [
                                  "type" : "boolean",
                                  "typetext" : "<boolean>",
                                  "verbose_description" : "Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (-vga=qxl)."
+                              },
+                              "tags" : {
+                                 "description" : "Tags of the VM. This is only meta information.",
+                                 "format" : "pve-tag-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               },
                               "tdf" : {
                                  "default" : 0,
@@ -21182,6 +20782,12 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "integer"
                                           },
+                                          "tags" : {
+                                             "description" : "Tags of the Container. This is only meta information.",
+                                             "format" : "pve-tag-list",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
                                           "template" : {
                                              "default" : 0,
                                              "description" : "Enable/disable Template.",
@@ -21663,6 +21269,13 @@ var pveapi = [
                                              "type" : "integer",
                                              "typetext" : "<integer> (0 - N)"
                                           },
+                                          "tags" : {
+                                             "description" : "Tags of the Container. This is only meta information.",
+                                             "format" : "pve-tag-list",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
                                           "template" : {
                                              "default" : 0,
                                              "description" : "Enable/disable Template.",
@@ -21811,6 +21424,11 @@ var pveapi = [
                                                       "stopped",
                                                       "running"
                                                    ],
+                                                   "type" : "string"
+                                                },
+                                                "tags" : {
+                                                   "description" : "The current configured tags, if any.",
+                                                   "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "uptime" : {
@@ -22080,6 +21698,57 @@ var pveapi = [
                                     "leaf" : 1,
                                     "path" : "/nodes/{node}/lxc/{vmid}/status/resume",
                                     "text" : "resume"
+                                 },
+                                 {
+                                    "info" : {
+                                       "POST" : {
+                                          "description" : "Reboot the container by shutting it down, and starting it again. Applies pending changes.",
+                                          "method" : "POST",
+                                          "name" : "vm_reboot",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "timeout" : {
+                                                   "description" : "Wait maximal timeout seconds for the shutdown.",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (0 - N)"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.PowerMgmt"
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "type" : "string"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/lxc/{vmid}/status/reboot",
+                                    "text" : "reboot"
                                  }
                               ],
                               "info" : {
@@ -23888,11 +23557,13 @@ var pveapi = [
                                           "returns" : {
                                              "properties" : {
                                                 "dhcp" : {
+                                                   "default" : 0,
                                                    "description" : "Enable DHCP.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
                                                 "enable" : {
+                                                   "default" : 0,
                                                    "description" : "Enable/disable firewall rules.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
@@ -23935,12 +23606,14 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "macfilter" : {
+                                                   "default" : 0,
                                                    "description" : "Enable/disable MAC address filter.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
                                                 "ndp" : {
-                                                   "description" : "Enable NDP.",
+                                                   "default" : 0,
+                                                   "description" : "Enable NDP (Neighbor Discovery Protocol).",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -23988,6 +23661,7 @@ var pveapi = [
                                                    "typetext" : "<string>"
                                                 },
                                                 "dhcp" : {
+                                                   "default" : 0,
                                                    "description" : "Enable DHCP.",
                                                    "optional" : 1,
                                                    "type" : "boolean",
@@ -24001,6 +23675,7 @@ var pveapi = [
                                                    "typetext" : "<string>"
                                                 },
                                                 "enable" : {
+                                                   "default" : 0,
                                                    "description" : "Enable/disable firewall rules.",
                                                    "optional" : 1,
                                                    "type" : "boolean",
@@ -24045,13 +23720,15 @@ var pveapi = [
                                                    "type" : "string"
                                                 },
                                                 "macfilter" : {
+                                                   "default" : 0,
                                                    "description" : "Enable/disable MAC address filter.",
                                                    "optional" : 1,
                                                    "type" : "boolean",
                                                    "typetext" : "<boolean>"
                                                 },
                                                 "ndp" : {
-                                                   "description" : "Enable NDP.",
+                                                   "default" : 0,
+                                                   "description" : "Enable NDP (Neighbor Discovery Protocol).",
                                                    "optional" : 1,
                                                    "type" : "boolean",
                                                    "typetext" : "<boolean>"
@@ -25935,6 +25612,11 @@ var pveapi = [
                                     ],
                                     "type" : "string"
                                  },
+                                 "tags" : {
+                                    "description" : "The current configured tags, if any.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
                                  "uptime" : {
                                     "description" : "Uptime.",
                                     "optional" : 1,
@@ -26455,6 +26137,13 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "integer",
                                  "typetext" : "<integer> (0 - N)"
+                              },
+                              "tags" : {
+                                 "description" : "Tags of the Container. This is only meta information.",
+                                 "format" : "pve-tag-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               },
                               "template" : {
                                  "default" : 0,
@@ -33352,7 +33041,8 @@ var pveapi = [
                                        "type" : "boolean"
                                     },
                                     "ndp" : {
-                                       "description" : "Enable NDP.",
+                                       "default" : 0,
+                                       "description" : "Enable NDP (Neighbor Discovery Protocol).",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -33363,14 +33053,24 @@ var pveapi = [
                                        "type" : "boolean"
                                     },
                                     "nf_conntrack_max" : {
+                                       "default" : 262144,
                                        "description" : "Maximum number of tracked connections.",
                                        "minimum" : 32768,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
                                     "nf_conntrack_tcp_timeout_established" : {
+                                       "default" : 432000,
                                        "description" : "Conntrack established timeout.",
                                        "minimum" : 7875,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "nf_conntrack_tcp_timeout_syn_recv" : {
+                                       "default" : 60,
+                                       "description" : "Conntrack syn recv timeout.",
+                                       "maximum" : 60,
+                                       "minimum" : 30,
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -33378,6 +33078,24 @@ var pveapi = [
                                        "description" : "Enable SMURFS filter.",
                                        "optional" : 1,
                                        "type" : "boolean"
+                                    },
+                                    "protection_synflood" : {
+                                       "default" : 0,
+                                       "description" : "Enable synflood protection",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "protection_synflood_burst" : {
+                                       "default" : 1000,
+                                       "description" : "Synflood protection rate burst by ip src.",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "protection_synflood_rate" : {
+                                       "default" : 200,
+                                       "description" : "Synflood protection rate syn/sec by ip src.",
+                                       "optional" : 1,
+                                       "type" : "integer"
                                     },
                                     "smurf_log_level" : {
                                        "description" : "Log level for SMURFS filter.",
@@ -33412,6 +33130,7 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "tcpflags" : {
+                                       "default" : 0,
                                        "description" : "Filter illegal combinations of TCP flags.",
                                        "optional" : 1,
                                        "type" : "boolean"
@@ -33487,7 +33206,8 @@ var pveapi = [
                                        "typetext" : "<boolean>"
                                     },
                                     "ndp" : {
-                                       "description" : "Enable NDP.",
+                                       "default" : 0,
+                                       "description" : "Enable NDP (Neighbor Discovery Protocol).",
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
@@ -33500,6 +33220,7 @@ var pveapi = [
                                        "typetext" : "<boolean>"
                                     },
                                     "nf_conntrack_max" : {
+                                       "default" : 262144,
                                        "description" : "Maximum number of tracked connections.",
                                        "minimum" : 32768,
                                        "optional" : 1,
@@ -33507,11 +33228,21 @@ var pveapi = [
                                        "typetext" : "<integer> (32768 - N)"
                                     },
                                     "nf_conntrack_tcp_timeout_established" : {
+                                       "default" : 432000,
                                        "description" : "Conntrack established timeout.",
                                        "minimum" : 7875,
                                        "optional" : 1,
                                        "type" : "integer",
                                        "typetext" : "<integer> (7875 - N)"
+                                    },
+                                    "nf_conntrack_tcp_timeout_syn_recv" : {
+                                       "default" : 60,
+                                       "description" : "Conntrack syn recv timeout.",
+                                       "maximum" : 60,
+                                       "minimum" : 30,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (30 - 60)"
                                     },
                                     "node" : {
                                        "description" : "The cluster node name.",
@@ -33524,6 +33255,27 @@ var pveapi = [
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
+                                    },
+                                    "protection_synflood" : {
+                                       "default" : 0,
+                                       "description" : "Enable synflood protection",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "protection_synflood_burst" : {
+                                       "default" : 1000,
+                                       "description" : "Synflood protection rate burst by ip src.",
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer>"
+                                    },
+                                    "protection_synflood_rate" : {
+                                       "default" : 200,
+                                       "description" : "Synflood protection rate syn/sec by ip src.",
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer>"
                                     },
                                     "smurf_log_level" : {
                                        "description" : "Log level for SMURFS filter.",
@@ -33558,6 +33310,7 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "tcpflags" : {
+                                       "default" : 0,
                                        "description" : "Filter illegal combinations of TCP flags.",
                                        "optional" : 1,
                                        "type" : "boolean",
@@ -34347,6 +34100,18 @@ var pveapi = [
                                  "format" : "pve-node",
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "property" : {
+                                 "default" : "all",
+                                 "description" : "Return only a specific property from the node configuration.",
+                                 "enum" : [
+                                    "acme",
+                                    "description",
+                                    "startall-onboot-delay",
+                                    "wakeonlan"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
                               }
                            }
                         },
@@ -34419,6 +34184,15 @@ var pveapi = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "startall-onboot-delay" : {
+                                 "default" : 0,
+                                 "description" : "Initial delay in seconds, before starting all the Virtual Guests with on-boot enabled.",
+                                 "maximum" : 300,
+                                 "minimum" : 0,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (0 - 300)"
+                              },
                               "wakeonlan" : {
                                  "description" : "MAC address for wake on LAN",
                                  "format" : "mac-addr",
@@ -34447,162 +34221,6 @@ var pveapi = [
                   "leaf" : 1,
                   "path" : "/nodes/{node}/config",
                   "text" : "config"
-               },
-               {
-                  "children" : [
-                     {
-                        "children" : [
-                           {
-                              "info" : {
-                                 "GET" : {
-                                    "description" : "List transportzone content.",
-                                    "method" : "GET",
-                                    "name" : "index",
-                                    "parameters" : {
-                                       "additionalProperties" : 0,
-                                       "properties" : {
-                                          "node" : {
-                                             "description" : "The cluster node name.",
-                                             "format" : "pve-node",
-                                             "type" : "string",
-                                             "typetext" : "<string>"
-                                          },
-                                          "sdn" : {
-                                             "description" : "The SDN object identifier.",
-                                             "format" : "pve-sdn-id",
-                                             "type" : "string",
-                                             "typetext" : "<string>"
-                                          }
-                                       }
-                                    },
-                                    "protected" : 1,
-                                    "proxyto" : "node",
-                                    "returns" : {
-                                       "items" : {
-                                          "properties" : {
-                                             "status" : {
-                                                "description" : "Status.",
-                                                "optional" : 1,
-                                                "type" : "string"
-                                             },
-                                             "vnet" : {
-                                                "description" : "Vnet identifier.",
-                                                "type" : "string"
-                                             }
-                                          },
-                                          "type" : "object"
-                                       },
-                                       "links" : [
-                                          {
-                                             "href" : "{vnet}",
-                                             "rel" : "child"
-                                          }
-                                       ],
-                                       "type" : "array"
-                                    }
-                                 }
-                              },
-                              "leaf" : 1,
-                              "path" : "/nodes/{node}/sdn/{sdn}/content",
-                              "text" : "content"
-                           }
-                        ],
-                        "info" : {
-                           "GET" : {
-                              "description" : "",
-                              "method" : "GET",
-                              "name" : "diridx",
-                              "parameters" : {
-                                 "additionalProperties" : 0,
-                                 "properties" : {
-                                    "node" : {
-                                       "description" : "The cluster node name.",
-                                       "format" : "pve-node",
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    },
-                                    "sdn" : {
-                                       "description" : "The SDN object identifier.",
-                                       "format" : "pve-sdn-id",
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    }
-                                 }
-                              },
-                              "returns" : {
-                                 "items" : {
-                                    "properties" : {
-                                       "subdir" : {
-                                          "type" : "string"
-                                       }
-                                    },
-                                    "type" : "object"
-                                 },
-                                 "links" : [
-                                    {
-                                       "href" : "{subdir}",
-                                       "rel" : "child"
-                                    }
-                                 ],
-                                 "type" : "array"
-                              }
-                           }
-                        },
-                        "leaf" : 0,
-                        "path" : "/nodes/{node}/sdn/{sdn}",
-                        "text" : "{sdn}"
-                     }
-                  ],
-                  "info" : {
-                     "GET" : {
-                        "description" : "Get status for all transportzones.",
-                        "method" : "GET",
-                        "name" : "index",
-                        "parameters" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "node" : {
-                                 "description" : "The cluster node name.",
-                                 "format" : "pve-node",
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              }
-                           }
-                        },
-                        "permissions" : {
-                           "description" : "Only list entries where you have 'SDN.Audit'",
-                           "user" : "all"
-                        },
-                        "protected" : 1,
-                        "proxyto" : "node",
-                        "returns" : {
-                           "items" : {
-                              "properties" : {
-                                 "sdn" : {
-                                    "description" : "The SDN object identifier.",
-                                    "format" : "pve-sdn-id",
-                                    "type" : "string"
-                                 },
-                                 "status" : {
-                                    "description" : "Status of transportzone",
-                                    "type" : "string"
-                                 }
-                              },
-                              "type" : "object"
-                           },
-                           "links" : [
-                              {
-                                 "href" : "{sdn}",
-                                 "rel" : "child"
-                              }
-                           ],
-                           "type" : "array"
-                        }
-                     }
-                  },
-                  "leaf" : 0,
-                  "path" : "/nodes/{node}/sdn",
-                  "text" : "sdn"
                },
                {
                   "info" : {
@@ -35137,8 +34755,8 @@ var pveapi = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "login",
-                                    "upgrade",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -35231,8 +34849,8 @@ var pveapi = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "login",
-                                    "upgrade",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -35354,8 +34972,8 @@ var pveapi = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "login",
-                                    "upgrade",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -36323,6 +35941,13 @@ var pveapi = [
                            "type" : "string",
                            "typetext" : "<string>"
                         },
+                        "mountpoint" : {
+                           "description" : "mount point",
+                           "format" : "pve-storage-path",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
                         "nodes" : {
                            "description" : "List of cluster node names.",
                            "format" : "pve-node-list",
@@ -36687,6 +36312,13 @@ var pveapi = [
                   "monhost" : {
                      "description" : "IP addresses of monitors (for external clusters).",
                      "format" : "pve-storage-portal-dns-list",
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "mountpoint" : {
+                     "description" : "mount point",
+                     "format" : "pve-storage-path",
                      "optional" : 1,
                      "type" : "string",
                      "typetext" : "<string>"
@@ -37621,6 +37253,14 @@ var pveapi = [
                                  "type" : "boolean"
                               },
                               "Realm.AllocateUser" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "SDN.Allocate" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "SDN.Audit" : {
                                  "optional" : 1,
                                  "type" : "boolean"
                               },

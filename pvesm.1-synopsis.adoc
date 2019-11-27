@@ -90,6 +90,10 @@ Create the directory if it doesn't exist.
 
 IP addresses of monitors (for external clusters).
 
+`--mountpoint` `<string>` ::
+
+mount point
+
 `--nodes` `<string>` ::
 
 List of cluster node names.
@@ -499,6 +503,10 @@ Create the directory if it doesn't exist.
 `--monhost` `<string>` ::
 
 IP addresses of monitors (for external clusters).
+
+`--mountpoint` `<string>` ::
+
+mount point
 
 `--nodes` `<string>` ::
 

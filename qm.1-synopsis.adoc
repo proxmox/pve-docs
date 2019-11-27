@@ -110,7 +110,7 @@ The (unique) ID of the VM.
 
 Enable/disable ACPI.
 
-`--agent` `[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>]` ::
+`--agent` `[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
 
 Enable/disable Qemu GuestAgent and its properties.
 
@@ -259,7 +259,7 @@ Set the real time clock to local time. This is enabled by default if ostype indi
 
 Lock/unlock the VM.
 
-`--machine` `(pc|pc(-i440fx)?-\d+(\.\d+)+(\.pxe)?|q35|pc-q35-\d+(\.\d+)+(\.pxe)?|virt(?:-\d+(\.\d+)+)?)` ::
+`--machine` `(pc|pc(-i440fx)?-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|q35|pc-q35-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|virt(?:-\d+(\.\d+)+)?(\+pve\d+)?)` ::
 
 Specifies the Qemu machine type.
 
@@ -382,6 +382,10 @@ Default storage.
 `--tablet` `<boolean>` ('default =' `1`)::
 
 Enable/disable the USB tablet device.
+
+`--tags` `<string>` ::
+
+Tags of the VM. This is only meta information.
 
 `--tdf` `<boolean>` ('default =' `0`)::
 
@@ -813,7 +817,7 @@ The (unique) ID of the VM.
 
 Enable/disable ACPI.
 
-`--agent` `[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>]` ::
+`--agent` `[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
 
 Enable/disable Qemu GuestAgent and its properties.
 
@@ -962,7 +966,7 @@ Set the real time clock to local time. This is enabled by default if ostype indi
 
 Lock/unlock the VM.
 
-`--machine` `(pc|pc(-i440fx)?-\d+(\.\d+)+(\.pxe)?|q35|pc-q35-\d+(\.\d+)+(\.pxe)?|virt(?:-\d+(\.\d+)+)?)` ::
+`--machine` `(pc|pc(-i440fx)?-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|q35|pc-q35-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|virt(?:-\d+(\.\d+)+)?(\+pve\d+)?)` ::
 
 Specifies the Qemu machine type.
 
@@ -1082,6 +1086,10 @@ Startup and shutdown behavior. Order is a non-negative number defining the gener
 
 Enable/disable the USB tablet device.
 
+`--tags` `<string>` ::
+
+Tags of the VM. This is only meta information.
+
 `--tdf` `<boolean>` ('default =' `0`)::
 
 Enable/disable time drift fix.
@@ -1192,7 +1200,7 @@ Start virtual machine.
 
 The (unique) ID of the VM.
 
-`--machine` `(pc|pc(-i440fx)?-\d+(\.\d+)+(\.pxe)?|q35|pc-q35-\d+(\.\d+)+(\.pxe)?|virt(?:-\d+(\.\d+)+)?)` ::
+`--machine` `(pc|pc(-i440fx)?-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|q35|pc-q35-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|virt(?:-\d+(\.\d+)+)?(\+pve\d+)?)` ::
 
 Specifies the Qemu machine type.
 

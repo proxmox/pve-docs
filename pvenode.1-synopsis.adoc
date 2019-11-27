@@ -101,9 +101,13 @@ Overwrite existing custom or ACME certificate files.
 
 Restart pveproxy.
 
-*pvenode config get*
+*pvenode config get* `[OPTIONS]`
 
 Get node configuration options.
+
+`--property` `<acme | description | startall-onboot-delay | wakeonlan>` ('default =' `all`)::
+
+Return only a specific property from the node configuration.
 
 *pvenode config set* `[OPTIONS]`
 
@@ -124,6 +128,10 @@ Node description/comment.
 `--digest` `<string>` ::
 
 Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
+
+`--startall-onboot-delay` `<integer> (0 - 300)` ('default =' `0`)::
+
+Initial delay in seconds, before starting all the Virtual Guests with on-boot enabled.
 
 `--wakeonlan` `<string>` ::
 

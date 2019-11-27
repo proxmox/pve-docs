@@ -24,6 +24,10 @@ List of roles.
 
 List of users.
 
+*pveum acl list* `[FORMAT_OPTIONS]`
+
+Get Access Control List (ACLs).
+
 *pveum acl modify* `<path> --roles <string>` `[OPTIONS]`
 
 Update Access Control List (add or remove permissions).
@@ -75,6 +79,10 @@ Delete group.
 `<groupid>`: `<string>` ::
 
 no description available
+
+*pveum group list* `[FORMAT_OPTIONS]`
+
+Group index.
 
 *pveum group modify* `<groupid>` `[OPTIONS]`
 
@@ -139,6 +147,10 @@ Delete role.
 `<roleid>`: `<string>` ::
 
 no description available
+
+*pveum role list* `[FORMAT_OPTIONS]`
+
+Role index.
 
 *pveum role modify* `<roleid>` `[OPTIONS]`
 
@@ -249,6 +261,14 @@ Delete user.
 `<userid>`: `<string>` ::
 
 User ID
+
+*pveum user list* `[OPTIONS]` `[FORMAT_OPTIONS]`
+
+User index.
+
+`--enabled` `<boolean>` ::
+
+Optional filter for enable property.
 
 *pveum user modify* `<userid>` `[OPTIONS]`
 

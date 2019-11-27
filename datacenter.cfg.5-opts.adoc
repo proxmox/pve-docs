@@ -36,13 +36,13 @@ Set the fencing mode of the HA cluster. Hardware mode needs a valid configuratio
 +
 WARNING: 'hardware' and 'both' are EXPERIMENTAL & WIP
 
-`ha`: `shutdown_policy=<freeze|failover|conditional>` ::
+`ha`: `shutdown_policy=<enum>` ::
 
 Cluster wide HA settings.
 
-`shutdown_policy`=`<conditional | failover | freeze>` ('default =' `conditional`);;
+`shutdown_policy`=`<conditional | failover | freeze | migrate>` ('default =' `conditional`);;
 
-Describes the policy for handling HA services on poweroff or reboot of a node. Freeze will always freeze services which are still located on the node on shutdown, those services won't be recovered by the HA manager. Failover will not mark the services as frozen and thus the services will get recovered to other nodes, if the shutdown node does not come up again quickly (< 1min). 'conditional' chooses automatically depending on the type of shutdown, i.e., on a reboot the service will be frozen but on a poweroff the service will stay as is, and thus get recovered after about 2 minutes.
+Describes the policy for handling HA services on poweroff or reboot of a node. Freeze will always freeze services which are still located on the node on shutdown, those services won't be recovered by the HA manager. Failover will not mark the services as frozen and thus the services will get recovered to other nodes, if the shutdown node does not come up again quickly (< 1min). 'conditional' chooses automatically depending on the type of shutdown, i.e., on a reboot the service will be frozen but on a poweroff the service will stay as is, and thus get recovered after about 2 minutes. Migrate will try to move all running services to another node on both, rebootand shutdown. The poweroff process will only continue once no running services are located on the node anymore. If the node comes up again, the service will be moved back to the previously powered-off node, at least if no other migration, reloaction or recovery took place.
 
 `http_proxy`: `http://.*` ::
 

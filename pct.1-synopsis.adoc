@@ -216,6 +216,10 @@ Default Storage.
 
 Amount of SWAP for the VM in MB.
 
+`--tags` `<string>` ::
+
+Tags of the Container. This is only meta information.
+
 `--template` `<boolean>` ('default =' `0`)::
 
 Enable/disable Template.
@@ -476,6 +480,19 @@ File permissions to use (octal by default, prefix with '0x' for hexadecimal).
 
 Owner user name or id. When using a name it must exist inside the container.
 
+*pct reboot* `<vmid>` `[OPTIONS]`
+
+Reboot the container by shutting it down, and starting it again. Applies
+pending changes.
+
+`<vmid>`: `<integer> (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`--timeout` `<integer> (0 - N)` ::
+
+Wait maximal timeout seconds for the shutdown.
+
 *pct rescan* `[OPTIONS]`
 
 Rescan all storages and update disk sizes and unused disk images.
@@ -644,6 +661,10 @@ Default Storage.
 
 Amount of SWAP for the VM in MB.
 
+`--tags` `<string>` ::
+
+Tags of the Container. This is only meta information.
+
 `--template` `<boolean>` ('default =' `0`)::
 
 Enable/disable Template.
@@ -797,6 +818,10 @@ Startup and shutdown behavior. Order is a non-negative number defining the gener
 `--swap` `<integer> (0 - N)` ('default =' `512`)::
 
 Amount of SWAP for the VM in MB.
+
+`--tags` `<string>` ::
+
+Tags of the Container. This is only meta information.
 
 `--template` `<boolean>` ('default =' `0`)::
 
