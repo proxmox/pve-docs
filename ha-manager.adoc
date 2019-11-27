@@ -877,6 +877,9 @@ get recovered until the current node is online again.
 Conditional
 ^^^^^^^^^^^
 
+The 'Conditional' shutdown policy automatically detects if a shutdown or a
+reboot is requested, and changes behaviour accordingly.
+
 .Shutdown
 
 A shutdown ('poweroff') is usually done if the node is planned to stay down for
@@ -903,7 +906,7 @@ the reboot on the same node.
 
 
 Manual Resource Movement
-~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 Last but not least, you can also move resources manually to other nodes before
 you shutdown or restart a node. The advantage is that you have full control,
