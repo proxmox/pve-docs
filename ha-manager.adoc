@@ -828,50 +828,90 @@ case, may result in a reset triggered by the watchdog.
 Node Maintenance
 ----------------
 
-It is sometimes possible to shutdown or reboot a node to do
-maintenance tasks. Either to replace hardware, or simply to install a
-new kernel image.
+It is sometimes possible to shutdown or reboot a node to do maintenance tasks.
+Either to replace hardware, or simply to install a new kernel image.
+This is also true when using the HA stack. The behaviour of the HA stack during
+a shutdown can be configured.
+
+[[ha_manager_shutdown_policy]]
+Shutdown Policy
+~~~~~~~~~~~~~~~
+
+Below you will find a description of the different HA policies for a node
+shutdown. Currently 'Conditional' is the default due to backward compatibility.
+Some users may find that the 'Migrate' behaves more as expected.
+
+Migrate
+^^^^^^^
+
+Once the Local Resource manager (LRM) gets a shutdown request and this policy
+is enabled, it will mark it self as unavailable for the current HA manager.
+This triggers a migration of all HA Services currently located on this node.
+Until all running Services got moved away, the LRM will try to delay the
+shutdown process. But, this expects that the running services *can* be migrated
+to another node. In other words, the service must not be locally bound, for
+example by using hardware passthrough. As non-group member nodes are considered
+as runnable target if no group member is available, this policy can still be
+used when making use of group node restrictions.
+Once the shut down node comes back online again, the previously displaced
+services will be moved back, if they did not get migrated manually in-between.
+
+NOTE: The watchdog is still active during the migration process on shutdown.
+If the node loses quorum it will be fenced and the services will be recovered.
+
+Failover
+^^^^^^^^
+
+This mode ensures that all services get stopped, but that they will also be
+recovered, if the current node is not online soon. It can be useful when doing
+maintenance on a cluster scale, were live-migrating VMs may not be possible if
+to many nodes are powered-off at a time, but you still want to ensure HA
+services get recovered and started again as soon as possible.
+
+Freeze
+^^^^^^
+
+This mode ensures that all services get stopped and frozen, so that they won't
+get recovered until the current node is online again.
+
+Conditional
+^^^^^^^^^^^
+
+.Shutdown
+
+A shutdown ('poweroff') is usually done if the node is planned to stay down for
+some time. The LRM stops all managed services in that case. This means that
+other nodes will take over those service afterwards.
+
+NOTE: Recent hardware has large amounts of memory (RAM). So we stop all
+resources, then restart them to avoid online migration of all that RAM. If you
+want to use online migration, you need to invoke that manually before you
+shutdown the node.
 
 
-Shutdown
-~~~~~~~~
+.Reboot
 
-A shutdown ('poweroff') is usually done if the node is planned to stay
-down for some time. The LRM stops all managed services in that
-case. This means that other nodes will take over those service
-afterwards.
+Node reboots are initiated with the 'reboot' command. This is usually done
+after installing a new kernel. Please note that this is different from
+``shutdown'', because the node immediately starts again.
 
-NOTE: Recent hardware has large amounts of RAM. So we stop all
-resources, then restart them to avoid online migration of all that
-RAM. If you want to use online migration, you need to invoke that
-manually before you shutdown the node.
-
-
-Reboot
-~~~~~~
-
-Node reboots are initiated with the 'reboot' command. This is usually
-done after installing a new kernel. Please note that this is different
-from ``shutdown'', because the node immediately starts again.
-
-The LRM tells the CRM that it wants to restart, and waits until the
-CRM puts all resources into the `freeze` state (same mechanism is used
-for xref:ha_manager_package_updates[Package Updates]). This prevents
-that those resources are moved to other nodes. Instead, the CRM start
-the resources after the reboot on the same node.
+The LRM tells the CRM that it wants to restart, and waits until the CRM puts
+all resources into the `freeze` state (same mechanism is used for
+xref:ha_manager_package_updates[Package Updates]). This prevents that those
+resources are moved to other nodes. Instead, the CRM start the resources after
+the reboot on the same node.
 
 
 Manual Resource Movement
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Last but not least, you can also move resources manually to other
-nodes before you shutdown or restart a node. The advantage is that you
-have full control, and you can decide if you want to use online
-migration or not.
+Last but not least, you can also move resources manually to other nodes before
+you shutdown or restart a node. The advantage is that you have full control,
+and you can decide if you want to use online migration or not.
 
 NOTE: Please do not 'kill' services like `pve-ha-crm`, `pve-ha-lrm` or
-`watchdog-mux`. They manage and use the watchdog, so this can result
-in a node reboot.
+`watchdog-mux`. They manage and use the watchdog, so this can result in a
+immediate node reboot or even reset.
 
 
 ifdef::manvolnum[]
