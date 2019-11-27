@@ -149,7 +149,7 @@ PCI(e) card, for example a GPU or a network card.
 Host Configuration
 ^^^^^^^^^^^^^^^^^^
 
-In this case, the host cannot use the card. There are two methods to achieve
+In this case, the host must not use the card. There are two methods to achieve
 this:
 
 * pass the device IDs to the options of the 'vfio-pci' modules by adding
@@ -162,7 +162,7 @@ to a .conf file in */etc/modprobe.d/* where `1234:5678` and `4321:8765` are
 the vendor and device IDs obtained by:
 +
 ----
-# lcpci -nn
+# lspci -nn
 ----
 
 * blacklist the driver completely on the host, ensuring that it is free to bind
@@ -177,6 +177,23 @@ in a .conf file in */etc/modprobe.d/*.
 For both methods you need to
 xref:qm_pci_passthrough_update_initramfs[update the `initramfs`] again and
 reboot after that.
+
+.Verify Configuration
+
+To check if your changes were successful, you can use
+
+----
+# lspci -nnk
+----
+
+and check your device entry. If it says
+
+----
+Kernel driver in use: vfio-pci
+----
+
+or the 'in use' line is missing entirely, the device is ready to be used for
+passthrough.
 
 [[qm_pci_passthrough_vm_config]]
 VM Configuration
