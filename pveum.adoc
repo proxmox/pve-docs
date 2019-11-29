@@ -54,7 +54,7 @@ Each user entry in this file contains the following information:
 * An optional Expiration date
 * A comment or note about this user
 * Whether this user is enabled or disabled
-* Optional two factor authentication keys
+* Optional two-factor authentication keys
 
 
 System administrator
@@ -148,44 +148,44 @@ encryption can be configured.
 
 
 [[pveum_tfa_auth]]
-Two factor authentication
+Two-factor authentication
 -------------------------
 
-There are two ways to use two factor authentication:
+There are two ways to use two-factor authentication:
 
-It can be required by the authentication realm, either via 'TOTP' or
-'YubiKey OTP'. In this case a newly created user needs their keys added
-immediately as there is no way to log in without the second factor. In the case
-of 'TOTP' a user can also change the 'TOTP' later on provided they can log in
-first.
+It can be required by the authentication realm, either via 'TOTP'
+(Time-based One-Time Password) or 'YubiKey OTP'. In this case a newly
+created user needs their keys added immediately as there is no way to
+log in without the second factor. In the case of 'TOTP', users can
+also change the 'TOTP' later on, provided they can log in first.
 
-Alternatively a user can choose to opt into two factor authentication via 'TOTP'
-later on even if the realm does not enforce it. As another option, if the server
-has an 'AppId' configured, a user can opt into 'U2F' authentication, provided
-the realm does not enforce any other second factor.
+Alternatively, users can choose to opt in to two-factor authentication
+via 'TOTP' later on, even if the realm does not enforce it. As another
+option, if the server has an 'AppId' configured, a user can opt into
+'U2F' authentication, provided the realm does not enforce any other
+second factor.
 
-Realm enforced two factor authentication
+Realm enforced two-factor authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This can be done by selecting one of the available methods
-via the 'TFA' dropdown box when adding or editing an Authentication Realm.
-When a realm has TFA enabled it becomes a requirement and only users with
-configured TFA will be able to login.
+This can be done by selecting one of the available methods via the
+'TFA' dropdown box when adding or editing an Authentication Realm.
+When a realm has TFA enabled it becomes a requirement and only users
+with configured TFA will be able to login.
 
 Currently there are two methods available:
 
-Time based OATH (TOTP)::
-This uses the standard HMAC-SHA1 algorithm where the current time is hashed
-with the user's configured key. The time step and password length
-parameters are configured.
+Time-based OATH (TOTP):: This uses the standard HMAC-SHA1 algorithm
+where the current time is hashed with the user's configured key. The
+time step and password length parameters are configured.
 +
-A user can have multiple keys configured (separated by spaces), and the
-keys can be specified in Base32 (RFC3548) or hexadecimal notation.
+A user can have multiple keys configured (separated by spaces), and the keys
+can be specified in Base32 (RFC3548) or hexadecimal notation.
 +
-{pve} provides a key generation tool (`oathkeygen`) which prints out a
-random key in Base32 notation which can be used directly with various OTP
-tools, such as the `oathtool` command line tool, the Google authenticator
-or FreeOTP Android apps.
+{pve} provides a key generation tool (`oathkeygen`) which prints out a random
+key in Base32 notation which can be used directly with various OTP tools, such
+as the `oathtool` command line tool, or on Android Google Authenticator,
+FreeOTP, andOTP or similar applications.
 
 YubiKey OTP::
 For authenticating via a YubiKey a Yubico API ID, API KEY and validation
@@ -193,19 +193,20 @@ server URL must be configured, and users must have a YubiKey available. In
 order to get the key ID from a YubiKey, you can trigger the YubiKey once
 after connecting it to USB and copy the first 12 characters of the typed
 password into the user's 'Key IDs' field.
+
 +
-Please refer to the
-https://developers.yubico.com/OTP/[YubiKey OTP] documentation for how to use the
+Please refer to the https://developers.yubico.com/OTP/[YubiKey OTP]
+documentation for how to use the
 https://www.yubico.com/products/services-software/yubicloud/[YubiCloud] or
-https://developers.yubico.com/Software_Projects/YubiKey_OTP/YubiCloud_Validation_Servers/[
-host your own verification server].
+https://developers.yubico.com/Software_Projects/YubiKey_OTP/YubiCloud_Validation_Servers/[host
+your own verification server].
 
 [[pveum_user_configured_totp]]
 User configured TOTP authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A user can choose to use 'TOTP' as a second factor on login via the 'TFA' button
-in the user list, unless the realm enforces 'YubiKey OTP'.
+Users can choose to enable 'TOTP' as a second factor on login via the 'TFA'
+button in the user list (unless the realm enforces 'YubiKey OTP').
 
 [thumbnail="screenshot/gui-datacenter-users-tfa.png"]
 
