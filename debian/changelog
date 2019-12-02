@@ -1,3 +1,14 @@
+pve-docs (6.1-2) pve; urgency=medium
+
+  * add documentation about applying pending host network changes
+
+  * replication: improve explanation of interaction between replication and HA
+    manager
+
+  * fiy some typos
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 02 Dec 2019 09:33:42 +0100
+
 pve-docs (6.1-1) pve; urgency=medium
 
   * Add description for mountpoint property
