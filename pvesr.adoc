@@ -66,8 +66,9 @@ replicate this guest to the configured nodes.
 High-Availability is allowed in combination with storage replication, but it
 has the following implications:
 
-* redistributing services after a more preferred node comes online will lead
-  to errors.
+* as live-migrations are currently not possible, redistributing services after
+  a more preferred node comes online does not work. Keep that in mind when
+  configuring your HA groups and their priorities for replicated guests.
 
 * recovery works, but there may be some data loss between the last synced
   time and the time a node failed.
