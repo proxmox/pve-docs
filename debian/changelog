@@ -1,13 +1,15 @@
-pve-docs (6.1-2) pve; urgency=medium
+pve-docs (6.1-3) pve; urgency=medium
 
   * add documentation about applying pending host network changes
 
   * replication: improve explanation of interaction between replication and HA
     manager
 
+  * ha: add some information about edge-cases to migrate shutdownpolicy section
+
   * fiy some typos
 
- -- Proxmox Support Team <support@proxmox.com>  Mon, 02 Dec 2019 09:33:42 +0100
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 02 Dec 2019 11:02:29 +0100
 
 pve-docs (6.1-1) pve; urgency=medium
 
