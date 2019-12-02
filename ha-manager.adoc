@@ -852,12 +852,19 @@ shutdown process. But, this expects that the running services *can* be migrated
 to another node. In other words, the service must not be locally bound, for
 example by using hardware passthrough. As non-group member nodes are considered
 as runnable target if no group member is available, this policy can still be
-used when making use of group node restrictions.
-Once the shut down node comes back online again, the previously displaced
-services will be moved back, if they did not get migrated manually in-between.
+used when making use of HA groups with only some nodes selected. But, marking a
+group as 'restricted' tells the HA manager that the service cannot run outside
+of the chosen set of nodes, if all of those nodes are unavailable the shutdown
+will hang until you manually intervene. Once the shut down node comes back
+online again, the previously displaced services will be moved back, if they did
+not get migrated manually in-between.
 
 NOTE: The watchdog is still active during the migration process on shutdown.
 If the node loses quorum it will be fenced and the services will be recovered.
+
+If you start a (previously stopped) service on a node which is currently being
+maintained, the node needs to be fenced to ensure that the service can be moved
+and started on another, available, node.
 
 Failover
 ^^^^^^^^
