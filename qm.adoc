@@ -1193,6 +1193,28 @@ It will be called during various phases of the guests lifetime.
 For an example and documentation see the example script under
 `/usr/share/pve-docs/examples/guest-example-hookscript.pl`.
 
+[[qm_hibernate]]
+Hibernation
+-----------
+
+You can suspend a VM to disk with the GUI option `Hibernate` or with
+
+ qm suspend ID --todisk
+
+That means that the current content of the memory will be saved onto disk
+and the VM gets stopped. On the next start, the memory content will be
+loaded and the VM can continue where it was left off.
+
+[[qm_vmstatestorage]]
+.State storage selection
+If no target storage for the memory is given, it will be automatically
+chosen, the first of:
+
+1. The storage `vmstatestorage` from the VM config.
+2. The first shared storage from any VM disk.
+3. The first non-shared storage from any VM disk.
+4. The storage `local` as a fallback.
+
 Managing Virtual Machines with `qm`
 ------------------------------------
 
@@ -1302,6 +1324,10 @@ There are a few snapshot related properties like `parent` and
 relationship between snapshots. `snaptime` is the snapshot creation
 time stamp (Unix epoch).
 
+You can optionally save the memory of a running VM with the option `vmstate`.
+For details about how the target storage gets chosen for the VM state, see
+xref:qm_vmstatestorage[State storage selection] in the chapter
+xref:qm_hibernate[Hibernation].
 
 [[qm_options]]
 Options
