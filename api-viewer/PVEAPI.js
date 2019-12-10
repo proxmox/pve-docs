@@ -196,21 +196,109 @@ Ext.onReady(function() {
 		    if (!rtype)
 			rtype = 'object';
 
-			var returnhtml;
-			if (retinf.items) {
-			    returnhtml = '<pre>items: ' + Ext.htmlEncode(JSON.stringify(retinf.items, null, 4)) + '</pre>';
-			}
+		    var rpstore = Ext.create('Ext.data.Store', {
+			model: 'pve-param-schema',
+			proxy: {
+			    type: 'memory'
+			},
+			groupField: 'optional',
+			sorters: [
+			    {
+				property: 'name',
+				direction: 'ASC'
+			   }
+			]
+		    });
 
-			if (retinf.properties) {
-			    returnhtml = returnhtml || '';
-			    returnhtml += '<pre>properties:' + Ext.htmlEncode(JSON.stringify(retinf.properties, null, 4)) + '</pre>';
-			}
+		    var properties;
+		    if (rtype === 'array' && retinf.items.properties) {
+			properties = retinf.items.properties;
+		    }
 
-			sections.push({
-			title: 'Returns: ' + rtype,
+		    if (rtype === 'object' && retinf.properties) {
+			properties = retinf.properties;
+		    }
+
+		    Ext.Object.each(properties, function(name, pdef) {
+			pdef.name = name;
+			rpstore.add(pdef);
+		    });
+
+		    rpstore.sort();
+
+		    var groupingFeature = Ext.create('Ext.grid.feature.Grouping',{
+			enableGroupingMenu: false,
+			groupHeaderTpl: '<tpl if="groupValue">Optional</tpl><tpl if="!groupValue">Obligatory</tpl>'
+		    });
+		    var returnhtml;
+		    if (retinf.items) {
+			returnhtml = '<pre>items: ' + Ext.htmlEncode(JSON.stringify(retinf.items, null, 4)) + '</pre>';
+		    }
+
+		    if (retinf.properties) {
+			returnhtml = returnhtml || '';
+			returnhtml += '<pre>properties:' + Ext.htmlEncode(JSON.stringify(retinf.properties, null, 4)) + '</pre>';
+		    }
+
+		    var rawSection = Ext.create('Ext.panel.Panel', {
+			title: 'RAW ' + rtype,
 			bodyPadding: 10,
-			html: returnhtml
-			});
+			html: returnhtml,
+			hidden: true
+		    });
+
+		    sections.push({
+			xtype: 'gridpanel',
+			title: 'Returns: ' + rtype,
+			features: [groupingFeature],
+			store: rpstore,
+			viewConfig: {
+			    trackOver: false,
+			    stripeRows: true
+			},
+		    columns: [
+			{
+			    header: 'Name',
+			    dataIndex: 'name',
+			    flex: 1
+			},
+			{
+			    header: 'Type',
+			    dataIndex: 'type',
+			    renderer: render_type,
+			    flex: 1
+			},
+			{
+			    header: 'Default',
+			    dataIndex: 'default',
+			    flex: 1
+			},
+			{
+			    header: 'Format',
+			    dataIndex: 'type',
+			    renderer: render_format,
+			    flex: 2
+			},
+			{
+			    header: 'Description',
+			    dataIndex: 'description',
+			    renderer: render_description,
+			    flex: 6
+			}
+		    ],
+		    tbar: [
+			{
+			    xtype: 'button',
+			    text: 'Toggle RAW',
+			    handler: function() {
+				rawSection.setVisible(!rawSection.isVisible());
+			    }}
+		    ]
+		});
+
+		sections.push(rawSection);
+
+
 		}
 
 		var permhtml = '';
