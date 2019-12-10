@@ -1,8 +1,8 @@
 // avoid errors when running without development tools
-if (!Ext.isDefined(Ext.global.console)) {   
-    var console = { 
-        dir: function() {}, 
-        log: function() {} 
+if (!Ext.isDefined(Ext.global.console)) {
+    var console = {
+        dir: function() {},
+        log: function() {}
     };
 }
 
@@ -10,7 +10,7 @@ Ext.onReady(function() {
 
     Ext.define('pve-param-schema', {
         extend: 'Ext.data.Model',
-        fields:  [ 
+        fields:  [
 	    'name', 'type', 'typetext', 'description', 'verbose_description',
 	    'enum', 'minimum', 'maximum', 'minLength', 'maxLength',
 	    'pattern', 'title', 'requires', 'format', 'default',
@@ -25,7 +25,7 @@ Ext.onReady(function() {
     var store = Ext.create('Ext.data.TreeStore', {
 	model: Ext.define('pve-api-doc', {
             extend: 'Ext.data.Model',
-            fields:  [ 
+            fields:  [
 		'path', 'info', 'text',
 	    ]
 	}),
@@ -41,7 +41,7 @@ Ext.onReady(function() {
             direction: 'ASC'
         }]
     });
-    
+
     var render_description = function(value, metaData, record) {
 	var pdef = record.data;
 
@@ -71,10 +71,10 @@ Ext.onReady(function() {
 	if (pdef['enum'])
 	    return pdef['enum'].join(' | ');
 
-	if (pdef.format) 
+	if (pdef.format)
 	    return pdef.format;
 
-	if (pdef.pattern) 
+	if (pdef.pattern)
 	    return Ext.htmlEncode(pdef.pattern);
 
 	return '';
@@ -196,21 +196,21 @@ Ext.onReady(function() {
 		    if (!rtype)
 			rtype = 'object';
 
-		    var returnhtml;
-		    if (retinf.items) {
-			returnhtml = '<pre>items: ' + Ext.htmlEncode(JSON.stringify(retinf.items, null, 4)) + '</pre>';
-		    }
+			var returnhtml;
+			if (retinf.items) {
+			    returnhtml = '<pre>items: ' + Ext.htmlEncode(JSON.stringify(retinf.items, null, 4)) + '</pre>';
+			}
 
-		    if (retinf.properties) {
-			returnhtml = returnhtml || '';
-			returnhtml += '<pre>properties:' + Ext.htmlEncode(JSON.stringify(retinf.properties, null, 4)) + '</pre>';
-		    }
+			if (retinf.properties) {
+			    returnhtml = returnhtml || '';
+			    returnhtml += '<pre>properties:' + Ext.htmlEncode(JSON.stringify(retinf.properties, null, 4)) + '</pre>';
+			}
 
-		    sections.push({
+			sections.push({
 			title: 'Returns: ' + rtype,
 			bodyPadding: 10,
 			html: returnhtml
-		    });
+			});
 		}
 
 		var permhtml = '';
@@ -229,12 +229,12 @@ Ext.onReady(function() {
 			    } else if (info.permissions.user === 'all') {
 				permhtml += "Accessible by all authenticated users.";
 			    } else {
-				permhtml += 'Onyl accessible by user "' + 
+				permhtml += 'Onyl accessible by user "' +
 				    info.permissions.user + '"';
 			    }
 			}
 		    } else if (info.permissions.check) {
-			permhtml += "<pre>Check: " + 
+			permhtml += "<pre>Check: " +
 			    Ext.htmlEncode(Ext.JSON.encode(info.permissions.check))  + "</pre>";
 		    } else {
 			permhtml += "Unknown systax!";
@@ -246,8 +246,8 @@ Ext.onReady(function() {
 		    bodyPadding: 10,
 		    html: permhtml
 		});
-    
-  
+
+
 		items.push({
 		    title: method,
 		    autoScroll: true,
