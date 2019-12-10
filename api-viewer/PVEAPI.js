@@ -241,8 +241,7 @@ Ext.onReady(function() {
 		    }
 
 		    var rawSection = Ext.create('Ext.panel.Panel', {
-			title: 'RAW ' + rtype,
-			bodyPadding: 10,
+			bodyPadding: '0px 10px 10px 10px',
 			html: returnhtml,
 			hidden: true
 		    });
@@ -286,12 +285,13 @@ Ext.onReady(function() {
 			    flex: 6
 			}
 		    ],
-		    tbar: [
+		    bbar: [
 			{
 			    xtype: 'button',
-			    text: 'Toggle RAW',
-			    handler: function() {
+			    text: 'Show RAW',
+			    handler: function(btn) {
 				rawSection.setVisible(!rawSection.isVisible());
+				btn.setText(rawSection.isVisible() ? 'Hide RAW' : 'Show RAW');
 			    }}
 		    ]
 		});
