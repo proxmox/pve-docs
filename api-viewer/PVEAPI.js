@@ -383,7 +383,11 @@ Ext.onReady(function() {
     Ext.define('Ext.form.SearchField', {
 	extend: 'Ext.form.field.Text',
 	alias: 'widget.searchfield',
-	emptyText: 'Search',
+
+	emptyText: 'Search...',
+
+	flex: 1,
+
 	inputType: 'search',
 	listeners: {
 	    'change': function(){
