@@ -22,7 +22,8 @@ Ext.onReady(function() {
 	]
     });
 
-    var store = Ext.create('Ext.data.TreeStore', {
+    var store = Ext.define('pve-updated-treestore', {
+	extend: 'Ext.data.TreeStore',
 	model: Ext.define('pve-api-doc', {
             extend: 'Ext.data.Model',
             fields:  [
@@ -39,8 +40,33 @@ Ext.onReady(function() {
         }, {
             property: 'text',
             direction: 'ASC'
-        }]
-    });
+	}],
+	filterer: 'bottomup',
+	doFilter: function(node) {
+	    this.filterNodes(node, this.getFilters().getFilterFn(), true);
+	},
+
+	filterNodes: function(node, filterFn, parentVisible) {
+	    var me = this,
+		bottomUpFiltering = me.filterer === 'bottomup',
+		match = filterFn(node) && parentVisible || (node.isRoot() && !me.getRootVisible()),
+		childNodes = node.childNodes,
+		len = childNodes && childNodes.length, i, matchingChildren;
+
+	    if (len) {
+		for (i = 0; i < len; ++i) {
+		    matchingChildren = me.filterNodes(childNodes[i], filterFn, match || bottomUpFiltering) || matchingChildren;
+		}
+		if (bottomUpFiltering) {
+		    match = matchingChildren || match;
+		}
+	    }
+
+	    node.set("visible", match, me._silentOptions);
+	    return match;
+	},
+
+    }).create();
 
     var render_description = function(value, metaData, record) {
 	var pdef = record.data;
@@ -354,8 +380,49 @@ Ext.onReady(function() {
 	ct.setActiveTab(0);
     };
 
+    Ext.define('Ext.form.SearchField', {
+	extend: 'Ext.form.field.Text',
+	alias: 'widget.searchfield',
+	emptyText: 'Search',
+	inputType: 'search',
+	listeners: {
+	    'change': function(){
+
+		var value = this.getValue();
+		if (!Ext.isEmpty(value)) {
+		    store.filter({
+			property: 'path',
+			value: value,
+			anyMatch: true
+		    });
+		} else {
+		    store.clearFilter();
+		}
+	    }
+	}
+    });
+
     var tree = Ext.create('Ext.tree.Panel', {
-        title: 'Resource Tree',
+	title: 'Resource Tree',
+	tbar: [
+	    {
+		xtype: 'searchfield',
+	    }
+	],
+	tools: [
+	    {
+		type: 'expand',
+		handler: function() {
+		   tree.expandAll();
+		},
+	    },
+	    {
+		type: 'collapse',
+		handler: function() {
+		   tree.collapseAll();
+		}
+	    },
+	],
         store: store,
 	width: 200,
         region: 'west',
