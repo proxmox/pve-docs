@@ -628,13 +628,14 @@ corresponding link local addresses.  (See the
 Ports used by {pve}
 -------------------
 
-* Web interface: 8006
-* VNC Web console: 5900-5999
-* SPICE proxy: 3128
-* sshd (used for cluster actions): 22
-* rpcbind: 111
-* corosync multicast (if you run a cluster): 5404, 5405 UDP
-
+* Web interface: 8006 (TCP, HTTP/1.1 over TLS)
+* VNC Web console: 5900-5999 (TCP, WebSocket)
+* SPICE proxy: 3128 (TCP)
+* sshd (used for cluster actions): 22 (TCP)
+* rpcbind: 111 (UDP)
+* sendmail: 25 (TCP, outgoing)
+* corosync cluster traffic: 5404, 5405 UDP
+* live migration (VM memory and local-disk data): 60000-60050 (TCP)
 
 ifdef::manvolnum[]
 
