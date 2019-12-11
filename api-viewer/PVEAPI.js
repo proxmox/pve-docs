@@ -416,15 +416,15 @@ Ext.onReady(function() {
 	tools: [
 	    {
 		type: 'expand',
-		handler: function() {
-		   tree.expandAll();
-		},
+		tooltip: 'Expand all',
+		tooltipType: 'title',
+		callback: (tree) => tree.expandAll(),
 	    },
 	    {
 		type: 'collapse',
-		handler: function() {
-		   tree.collapseAll();
-		}
+		tooltip: 'Collapse all',
+		tooltipType: 'title',
+		callback: (tree) => tree.collapseAll(),
 	    },
 	],
         store: store,
