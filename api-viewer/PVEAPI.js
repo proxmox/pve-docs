@@ -458,7 +458,7 @@ Ext.onReady(function() {
     });
 
     var deepLink = function() {
-	var path = window.location.hash.substring(1);
+	var path = window.location.hash.substring(1).replace(/\/\s*$/, '')
 	var endpoint = store.findNode('path', path);
 
 	if (endpoint) {
