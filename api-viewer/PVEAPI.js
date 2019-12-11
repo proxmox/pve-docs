@@ -368,6 +368,7 @@ Ext.onReady(function() {
 		    return;
 		var rec = selections[0];
 		render_docu(rec.data);
+		location.hash = '#' + rec.data.path;
 	    }
 	}
     });
@@ -388,5 +389,19 @@ Ext.onReady(function() {
 	    }
 	]
     });
+
+    var deepLink = function() {
+	var path = window.location.hash.substring(1);
+	var endpoint = store.findNode('path', path);
+
+	if (endpoint) {
+	    tree.getSelectionModel().select(endpoint);
+	    tree.expandPath(endpoint.getPath());
+	    render_docu(endpoint.data);
+	}
+    }
+    window.onhashchange = deepLink;
+
+    deepLink();
 
 });
