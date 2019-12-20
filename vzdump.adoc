@@ -200,7 +200,7 @@ time, thus we implemented the possibility to set a default bandwidth limit
 per configured storage, this can be done with:
 
 ----
-# pvesm set STORAGEID --bwlimit KIBs
+# pvesm set STORAGEID --bwlimit restore=KIBs
 ----
 
 
