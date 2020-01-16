@@ -264,7 +264,7 @@ physical memory, so this is usually quite small. The rest of the SSD
 can be used as cache.
 
 ----
-# zpool add -f <pool> log <device-part1> cache <device-part2> 
+# zpool add -f <pool> log <device-part1> cache <device-part2>
 ----
 
 .Changing a failed device
