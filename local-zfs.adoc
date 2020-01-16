@@ -180,7 +180,7 @@ underlying disk.
 
  zpool create -f -o ashift=12 <pool> <device>
 
-To activate compression
+To activate compression (see section <<zfs_compression,Compression in ZFS>>):
 
  zfs set compression=lz4 <pool>
 
@@ -431,6 +431,35 @@ See the `encryptionroot`, `encryption`, `keylocation`, `keyformat` and
 `keystatus` properties, the `zfs load-key`, `zfs unload-key` and `zfs
 change-key` commands and the `Encryption` section from `man zfs` for more
 details and advanced usage.
+
+
+[[zfs_compression]]
+Compression in ZFS
+~~~~~~~~~~~~~~~~~~
+
+When compression is enabled on a dataset, ZFS tries to compress all *new*
+blocks before writing them and decompresses them on reading. Already
+existing data will not be compressed retroactively.
+
+You can enable compression with:
+
+----
+# zfs set compression=<algorithm> <dataset>
+----
+
+We recommend using the `lz4` algorithm, because it adds very little CPU
+overhead. Other algorithms like `lzjb` and `gzip-N`, where `N` is an
+integer from `1` (fastest) to `9` (best compression ratio), are also
+available. Depending on the algorithm and how compressible the data is,
+having compression enabled can even increase I/O performance.
+
+You can disable compression at any time with:
+
+----
+# zfs set compression=off <dataset>
+----
+
+Again, only new blocks will be affected by this change.
 
 
 ZFS Special Device
