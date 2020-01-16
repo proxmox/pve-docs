@@ -178,41 +178,55 @@ To create a new pool, at least one disk is needed. The `ashift` should
 have the same sector-size (2 power of `ashift`) or larger as the
 underlying disk.
 
- zpool create -f -o ashift=12 <pool> <device>
+----
+# zpool create -f -o ashift=12 <pool> <device>
+----
 
 To activate compression (see section <<zfs_compression,Compression in ZFS>>):
 
- zfs set compression=lz4 <pool>
+----
+# zfs set compression=lz4 <pool>
+----
 
 .Create a new pool with RAID-0
 
 Minimum 1 Disk
 
- zpool create -f -o ashift=12 <pool> <device1> <device2>
+----
+# zpool create -f -o ashift=12 <pool> <device1> <device2>
+----
 
 .Create a new pool with RAID-1
 
 Minimum 2 Disks
 
- zpool create -f -o ashift=12 <pool> mirror <device1> <device2>
+----
+# zpool create -f -o ashift=12 <pool> mirror <device1> <device2>
+----
 
 .Create a new pool with RAID-10
 
 Minimum 4 Disks
 
- zpool create -f -o ashift=12 <pool> mirror <device1> <device2> mirror <device3> <device4> 
+----
+# zpool create -f -o ashift=12 <pool> mirror <device1> <device2> mirror <device3> <device4>
+----
 
 .Create a new pool with RAIDZ-1
 
 Minimum 3 Disks
 
- zpool create -f -o ashift=12 <pool> raidz1 <device1> <device2> <device3>
+----
+# zpool create -f -o ashift=12 <pool> raidz1 <device1> <device2> <device3>
+----
 
 .Create a new pool with RAIDZ-2
 
 Minimum 4 Disks
 
- zpool create -f -o ashift=12 <pool> raidz2 <device1> <device2> <device3> <device4>
+----
+# zpool create -f -o ashift=12 <pool> raidz2 <device1> <device2> <device3> <device4>
+----
 
 .Create a new pool with cache (L2ARC)
 
@@ -222,7 +236,9 @@ the performance (use SSD).
 As `<device>` it is possible to use more devices, like it's shown in
 "Create a new pool with RAID*".
 
- zpool create -f -o ashift=12 <pool> <device> cache <cache_device>
+----
+# zpool create -f -o ashift=12 <pool> <device> cache <cache_device>
+----
 
 .Create a new pool with log (ZIL)
 
@@ -232,7 +248,9 @@ the performance(SSD).
 As `<device>` it is possible to use more devices, like it's shown in
 "Create a new pool with RAID*".
 
- zpool create -f -o ashift=12 <pool> <device> log <log_device>
+----
+# zpool create -f -o ashift=12 <pool> <device> log <log_device>
+----
 
 .Add cache and log to an existing pool
 
@@ -245,19 +263,25 @@ The maximum size of a log device should be about half the size of
 physical memory, so this is usually quite small. The rest of the SSD
 can be used as cache.
 
- zpool add -f <pool> log <device-part1> cache <device-part2> 
+----
+# zpool add -f <pool> log <device-part1> cache <device-part2> 
+----
 
 .Changing a failed device
 
- zpool replace -f <pool> <old device> <new device>
+----
+# zpool replace -f <pool> <old device> <new device>
+----
 
 .Changing a failed bootable device when using systemd-boot
 
- sgdisk <healthy bootable device> -R <new device>
- sgdisk -G <new device>
- zpool replace -f <pool> <old zfs partition> <new zfs partition>
- pve-efiboot-tool format <new disk's ESP>
- pve-efiboot-tool init <new disk's ESP>
+----
+# sgdisk <healthy bootable device> -R <new device>
+# sgdisk -G <new device>
+# zpool replace -f <pool> <old zfs partition> <new zfs partition>
+# pve-efiboot-tool format <new disk's ESP>
+# pve-efiboot-tool init <new disk's ESP>
+----
 
 NOTE: `ESP` stands for EFI System Partition, which is setup as partition #2 on
 bootable disks setup by the {pve} installer since version 5.4. For details, see
@@ -309,7 +333,9 @@ This example setting limits the usage to 8GB.
 If your root file system is ZFS you must update your initramfs every
 time this value changes:
 
- update-initramfs -u
+----
+# update-initramfs -u
+----
 ====
 
 
@@ -328,7 +354,9 @@ You can leave some space free for this purpose in the advanced options of the
 installer. Additionally, you can lower the
 ``swappiness'' value. A good value for servers is 10:
 
- sysctl -w vm.swappiness=10
+----
+# sysctl -w vm.swappiness=10
+----
 
 To make the swappiness persistent, open `/etc/sysctl.conf` with
 an editor of your choice and add the following line:
@@ -483,11 +511,15 @@ WARNING: Adding a `special` device to a pool cannot be undone!
 
 .Create a pool with `special` device and RAID-1:
 
- zpool create -f -o ashift=12 <pool> mirror <device1> <device2> special mirror <device3> <device4>
+----
+# zpool create -f -o ashift=12 <pool> mirror <device1> <device2> special mirror <device3> <device4>
+----
 
 .Add a `special` device to an existing pool with RAID-1:
 
- zpool add <pool> special mirror <device1> <device2>
+----
+# zpool add <pool> special mirror <device1> <device2>
+----
 
 ZFS datasets expose the `special_small_blocks=<size>` property. `size` can be
 `0` to disable storing small file blocks on the `special` device or a power of
@@ -504,12 +536,18 @@ in the pool will opt in for small file blocks).
 
 .Opt in for all file smaller than 4K-blocks pool-wide:
 
- zfs set special_small_blocks=4K <pool>
+----
+# zfs set special_small_blocks=4K <pool>
+----
 
 .Opt in for small file blocks for a single dataset:
 
- zfs set special_small_blocks=4K <pool>/<filesystem>
+----
+# zfs set special_small_blocks=4K <pool>/<filesystem>
+----
 
 .Opt out from small file blocks for a single dataset:
 
- zfs set special_small_blocks=0 <pool>/<filesystem>
+----
+# zfs set special_small_blocks=0 <pool>/<filesystem>
+----
