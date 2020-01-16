@@ -190,7 +190,7 @@ To activate compression (see section <<zfs_compression,Compression in ZFS>>):
 
 .Create a new pool with RAID-0
 
-Minimum 1 Disk
+Minimum 1 disk
 
 ----
 # zpool create -f -o ashift=12 <pool> <device1> <device2>
@@ -198,7 +198,7 @@ Minimum 1 Disk
 
 .Create a new pool with RAID-1
 
-Minimum 2 Disks
+Minimum 2 disks
 
 ----
 # zpool create -f -o ashift=12 <pool> mirror <device1> <device2>
@@ -206,7 +206,7 @@ Minimum 2 Disks
 
 .Create a new pool with RAID-10
 
-Minimum 4 Disks
+Minimum 4 disks
 
 ----
 # zpool create -f -o ashift=12 <pool> mirror <device1> <device2> mirror <device3> <device4>
@@ -214,7 +214,7 @@ Minimum 4 Disks
 
 .Create a new pool with RAIDZ-1
 
-Minimum 3 Disks
+Minimum 3 disks
 
 ----
 # zpool create -f -o ashift=12 <pool> raidz1 <device1> <device2> <device3>
@@ -222,7 +222,7 @@ Minimum 3 Disks
 
 .Create a new pool with RAIDZ-2
 
-Minimum 4 Disks
+Minimum 4 disks
 
 ----
 # zpool create -f -o ashift=12 <pool> raidz2 <device1> <device2> <device3> <device4>
