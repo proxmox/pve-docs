@@ -8,7 +8,7 @@ Proxmox VE Administration Guide
 endif::pvelogo[]
 :doctype:   book
 :title: Proxmox VE Administration Guide
-:toc:
+:toc2:
 :numbered:
 :data-uri:
 :icons:
