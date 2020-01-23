@@ -41,6 +41,8 @@ WARNING: Do not replace or manually modify the automatically generated node
 certificate files in `/etc/pve/local/pve-ssl.pem` and
 `/etc/pve/local/pve-ssl.key` or the cluster CA files in
 `/etc/pve/pve-root-ca.pem` and `/etc/pve/priv/pve-root-ca.key`.
+Also keep in mind that `/etc/pve/local` is a symlink to
+`/etc/pve/nodes/NODENAME`.
 
 Getting trusted certificates via ACME
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
