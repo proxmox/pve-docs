@@ -29,10 +29,14 @@ You have the following options for the certificate used by `pveproxy`:
 the cluster CA and therefore not trusted by browsers and operating systems by
 default.
 2. use an externally provided certificate (e.g. signed by a commercial CA).
-3. use ACME (e.g., Let's Encrypt) to get a trusted certificate with automatic renewal.
+3. use ACME (e.g., Let's Encrypt) to get a trusted certificate with automatic
+renewal, this is also integrated in the {pve} API and Webinterface.
 
 For options 2 and 3 the file `/etc/pve/local/pveproxy-ssl.pem` (and
 `/etc/pve/local/pveproxy-ssl.key`, which needs to be without password) is used.
+
+NOTE: Keep in mind that `/etc/pve/local` is a node specific symlink to
+`/etc/pve/nodes/NODENAME`.
 
 Certificates are managed with the {PVE} Node management command
 (see the `pvenode(1)` manpage).
@@ -41,8 +45,6 @@ WARNING: Do not replace or manually modify the automatically generated node
 certificate files in `/etc/pve/local/pve-ssl.pem` and
 `/etc/pve/local/pve-ssl.key` or the cluster CA files in
 `/etc/pve/pve-root-ca.pem` and `/etc/pve/priv/pve-root-ca.key`.
-Also keep in mind that `/etc/pve/local` is a symlink to
-`/etc/pve/nodes/NODENAME`.
 
 Getting trusted certificates via ACME
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -170,4 +172,4 @@ Automatic renewal of ACME certificates
 If a node has been successfully configured with an ACME-provided certificate
 (either via pvenode or via the GUI), the certificate will be automatically
 renewed by the pve-daily-update.service. Currently, renewal will be attempted
-if the certificate has expired or will expire in the next 30 days.
+if the certificate has expired already, or will expire in the next 30 days.
