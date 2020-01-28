@@ -41,6 +41,26 @@ HCI provides the following advantages:
 - Open Source: No vendor lock-in.
 
 
+Hyper-Converged Infrastructure: Storage
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+{pve} has tightly integrated support for deploying a hyper-converged storage
+infrastructure. You can, for example, deploy and manage the following two
+storage technologies by using the Webinterface only:
+
+- *ceph*: a both, self-healing and self-managing shared, reliable and highly
+  scalable storage system. Checkout
+  xref:chapter_pveceph[how to manage ceph services on {pve} nodes]
+
+- *ZFS*: a combined file system and logical volume manager with extensive
+  protection against data corruption, various RAID modes, fast and cheap
+  snapshots - among other features. Find out
+  xref:chapter_zfs[how to leverage the power of ZFS on {pve} nodes].
+
+Besides above, {pve} has support to integrate a wide range of
+additional storage technologies. You can find out about them in the
+xref:chapter_storage[Storage Manager chapter].
+
 ifdef::wiki[]
 
 See Also
