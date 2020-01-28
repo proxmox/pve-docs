@@ -273,8 +273,8 @@ ifdef::wiki[]
 link:/wiki/Install_from_USB_Stick[Install from USB Stick]
 ---------------------------------------------------------
 
-link:/wiki/Install_Proxmox_VE_on_Debian_Stretch[Install Proxmox VE on Debian Stretch]
--------------------------------------------------------------------------------------
+link:/wiki/Install_Proxmox_VE_on_Debian_Buster[Install Proxmox VE on Debian Buster]
+-----------------------------------------------------------------------------------
 
 endif::wiki[]
 
