@@ -327,7 +327,7 @@ sub compile_asciidoc {
 	$attributes->{manvolnum} = $mansection;
     } elsif ($env eq 'default') {
 	die "$infile: wrong doctype\n" if $doctype != 0;
-	$attributes->{toc} = undef;
+	$attributes->{toc2} = undef;
     }
 
     if (!defined($outfile)) {
