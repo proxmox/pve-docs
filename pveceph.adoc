@@ -18,8 +18,8 @@ DESCRIPTION
 -----------
 endif::manvolnum[]
 ifndef::manvolnum[]
-Deploy Ceph Cluster on {pve}
-===========================
+Deploy Hyper-Converged Ceph Cluster
+===================================
 :pve-toplevel:
 endif::manvolnum[]
 
