@@ -5,36 +5,35 @@ ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]
 
-{pve} is a virtualization platform that tightly integrates compute,
-storage and networking resources, manages highly available clusters,
-backup/restore as well as disaster recovery. All components are
-software-defined and compatible with one another.
+{pve} is a virtualization platform that tightly integrates compute, storage and
+networking resources, manages highly available clusters, backup/restore as well
+as disaster recovery. All components are software-defined and compatible with
+one another.
 
-Therefore it is possible to administrate them like a single system via
-the centralized web management interface. These capabilities make
-{pve} an ideal choice to deploy and manage an open source
+Therefore it is possible to administrate them like a single system via the
+centralized web management interface. These capabilities make {pve} an ideal
+choice to deploy and manage an open source
 https://en.wikipedia.org/wiki/Hyper-converged_infrastructure[hyper-converged infrastructure].
 
 Benefits of a Hyper-Converged Infrastructure (HCI) with {pve}
 -------------------------------------------------------------
 
-A hyper-converged infrastructure is especially useful for deployments
-in which a high infrastructure demand meets a low administration
-budget, for distributed setups such as remote and branch office
-environments or for virtual private and public clouds.
+A hyper-converged infrastructure (HCI) is especially useful for deployments in
+which a high infrastructure demand meets a low administration budget, for
+distributed setups such as remote and branch office environments or for virtual
+private and public clouds.
 
 HCI provides the following advantages:
 
-- Scalability: seamless expansion of compute, network and storage
-  devices (i.e. scale up servers and storage quickly and independently
-  from each other).
+- Scalability: seamless expansion of compute, network and storage devices (i.e.
+  scale up servers and storage quickly and independently from each other).
 
-- Low cost: {pve} is open source and integrates all components you
-  need such as compute, storage, networking, backup, and management
-  center. It can replace an expensive compute/storage infrastructure.
+- Low cost: {pve} is open source and integrates all components you need such as
+  compute, storage, networking, backup, and management center. It can replace
+  an expensive compute/storage infrastructure.
 
-- Data protection and efficiency: services such as backup and disaster
-  recovery are integrated.
+- Data protection and efficiency: services such as backup and disaster recovery
+  are integrated.
 
 - Simplicity: easy configuration and centralized administration.
 
