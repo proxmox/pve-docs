@@ -354,6 +354,9 @@ Ext.onReady(function() {
 			permhtml += "Unknown systax!";
 		    }
 		}
+		if (!info.allowtoken) {
+		    permhtml += "<br />This API endpoint is not available for API tokens."
+		}
 
 		sections.push({
 		    title: 'Required permissions',
