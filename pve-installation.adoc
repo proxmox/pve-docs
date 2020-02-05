@@ -1,5 +1,5 @@
-Installing Proxmox VE
-=====================
+Installing {pve}
+================
 ifndef::manvolnum[]
 :pve-toplevel:
 endif::manvolnum[]
@@ -7,19 +7,19 @@ ifdef::wiki[]
 :title: Installation
 endif::wiki[]
 
-{pve} is based on Debian, therefore the disk image (ISO file) provided
-by us includes a complete Debian system ("buster" for version 6.x) as
-well as all necessary {pve} packages.
+{pve} is based on Debian. This is why the install disk images (ISO files)
+provided by Proxmox include a complete Debian system (Debian 10 "buster" for
+{pve} version 6.x) as well as all necessary {pve} packages.
 
-Using the installer will guide you through the setup, allowing
-you to partition the local disk(s), apply basic system configurations
-(e.g. timezone, language, network) and install all required packages.
-Using the provided ISO will get you started in just a few minutes,
-that's why we recommend this method for new and existing users.
+The installer will guide through the setup, allowing you to partition the local
+disk(s), apply basic system configurations (e.g. timezone, language, network)
+and install all required packages. This process should not take more than a few
+minutes. Installing with the provided ISO is the recommended method for new and
+existing users.
 
-Alternatively, {pve} can be installed on top of an existing Debian
-system. This option is only recommended for advanced users since
-detailed knowledge about {pve} is necessary.
+Alternatively, {pve} can be installed on top of an existing Debian system. This
+option is only recommended for advanced users because detailed knowledge about
+{pve} is required.
 
 ifndef::wiki[]
 
@@ -31,103 +31,102 @@ endif::wiki[]
 Using the {pve} Installer
 -------------------------
 
-You can download the ISO from {website}en/downloads.
-It includes the following:
+Download the installer ISO at {website}en/downloads. It includes the following:
 
 * Complete operating system (Debian Linux, 64-bit)
 
 * The {pve} installer, which partitions the local disk(s) with ext4,
   ext3, xfs or ZFS and installs the operating system.
 
-* {pve} kernel (Linux) with LXC and KVM support
+* {pve} kernel (Linux) with KVM and LXC support
 
 * Complete toolset for administering virtual machines, containers and
   all necessary resources
 
-* Web based management interface for using the toolset
+* Web-based management interface
 
-NOTE: During the installation process, the complete server
-is used by default and all existing data is removed.
+NOTE: All existing data on the server will be removed during the installation
+process.
 
-Please insert the installation media (e.g. USB stick, CD-ROM) and boot
+Please insert the installation media (e.g. USB flash drive, CD-ROM) and boot
 from it.
 
 [thumbnail="screenshot/pve-grub-menu.png"]
 
-After choosing the correct entry (e.g. Boot from USB) the {pve} menu
-will be displayed, you can now select one of the following options:
+After choosing the correct entry (e.g. Boot from USB) the {pve} menu will be
+displayed and one of the following options can be selected:
 
-Install Proxmox VE::
+Install {pve}::
 
-Start normal installation.
+Starts the normal installation.
 
-TIP: It is possible to only use the keyboard to progress through the
-installation wizard. Buttons can be pressed by pressing down the `ALT`
-key, combined with the underlined character from the respective Button.
-For example, `ALT + N` to press a `Next` button.
+TIP: It's possible to use the installation wizard with a keyboard only. Buttons
+can be clicked by pressing the `ALT` key combined with the underlined character
+from the respective button. For example, `ALT + N` to press a `Next` button.
 
-Install Proxmox VE (Debug mode)::
+Install {pve} (Debug mode)::
 
-Start installation in debug mode. It opens a shell console at several
-installation steps, so that you can debug things if something goes
-wrong. Please press `CTRL-D` to exit those debug consoles and continue
-installation. This option is mostly for developers and not meant for
-general use.
+Starts the installation in debug mode. A console will be opened at several
+installation steps. This helps to debug the situation if something goes wrong.
+To exit a debug console, press `CTRL-D`. This options is primarily for
+developers and not intended for general use.
 
 Rescue Boot::
 
-This option allows you to boot an existing installation. It searches
-all attached hard disks and, if it finds an existing installation,
-boots directly into that disk using the existing Linux kernel. This
-can be useful if there are problems with the boot block (grub), or the
-BIOS is unable to read the boot block from the disk.
+With this option you can boot an existing installation. It searches all attached
+hard disks. If it finds an existing installation, it boots directly into that
+disk using the Linux kernel from the ISO. This can be useful if there are
+problems with the boot block (grub) or the BIOS is unable to read the boot block
+from the disk.
 
 Test Memory::
 
-Runs `memtest86+`. This is useful to check if your memory is
-functional and error free.
+Runs `memtest86+`. This is useful to check if the memory is functional and free
+of errors.
 
 [thumbnail="screenshot/pve-select-target-disk.png"]
 
-You normally select *Install Proxmox VE* to start the installation.
-After that you get prompted to select the target hard disk(s). The
-`Options` button lets you select the target file system, which
-defaults to `ext4`. The installer uses LVM if you select `ext3`,
-`ext4` or `xfs` as file system, and offers additional option to
-restrict LVM space (see <<advanced_lvm_options,below>>)
+After selecting *Install {pve}* and accepting the EULA, the prompt to select the
+target hard disk(s) will appear. The `Options` button opens the dialog to select
+the target file system.
 
-You can also use ZFS as file system. ZFS supports several software RAID
-levels, so this is specially useful if you do not have a hardware RAID
-controller. The `Options` button lets you select the ZFS RAID level, and
-you can choose disks there. Additionally you can set additional options (see
-<<advanced_zfs_options,below>>).
+The default file system is `ext4`. The Logical Volume Manager (LVM) is used when
+`ext3`, `ext4` or `xfs` ist selected. Additional options to restrict LVM space
+can be set (see <<advanced_lvm_options,below>>).
+
+{pve} can be installed on ZFS. As ZFS offers several software RAID levels, this
+is an option for systems that don't have a hardware RAID controller. The target
+disks must be selected in the `Options` dialog. More ZFS specific settings can
+be changed under `Advanced Options` (see <<advanced_zfs_options,below>>).
+
+WARNING: ZFS on top of any hardware RAID is not supported and can result in data
+loss.
 
 [thumbnail="screenshot/pve-select-location.png", float="left"]
 
-The next page just asks for basic configuration options like your
-location, the time zone and keyboard layout. The location is used to
-select a download server near you to speed up updates. The installer is
-usually able to auto detect those settings, so you only need to change
-them in rare situations when auto detection fails, or when you want to
-use some special keyboard layout not commonly used in your country.
+The next page asks for basic configuration options like the location, the time
+zone, and keyboard layout. The location is used to select a download server
+close by to speed up updates. The installer usually auto-detects these settings.
+They only need to be changed in the rare case that auto detection fails or a
+different keyboard layout should be used.
 
 [thumbnail="screenshot/pve-set-password.png"]
 
-You then need to specify an email address and the superuser (root)
-password. The password must have at least 5 characters, but we highly
-recommend to use stronger passwords - here are some guidelines:
+Next the password of the superuser (root) and an email address needs to be
+specified. The password must consist of at least 5 characters. It's highly
+recommended to use a stronger password. Some guidelines are:
 
 - Use a minimum password length of 12 to 14 characters.
 
-- Include lowercase and uppercase alphabetic characters, numbers and symbols.
+- Include lowercase and uppercase alphabetic characters, numbers, and symbols.
 
-- Avoid character repetition, keyboard patterns, dictionary words,
-  letter or number sequences, usernames, relative or pet names,
-  romantic links (current or past) and biographical information (e.g.,
-  ID numbers, ancestors' names or dates).
+- Avoid character repetition, keyboard patterns, common dictionary words,
+  letter or number sequences, usernames, relative or pet names, romantic links
+  (current or past), and biographical information (for example ID numbers,
+  ancestors' names or dates).
 
-It is sometimes necessary to send notifications to the system
-administrator, for example:
+The email address is used to send notifications to the system administrator.
+For example:
 
 - Information about available package updates.
 
@@ -135,51 +134,44 @@ administrator, for example:
 
 [thumbnail="screenshot/pve-setup-network.png"]
 
-All those notification mails will be sent to the specified email
-address.
-
-The last step is the network configuration. Please note that you can
-use either IPv4 or IPv6 here, but not both. If you want to configure a
-dual stack node, you can easily do that after installation.
+The last step is the network configuration. Please note that during installation
+you can either use an IPv4 or IPv6 address, but not both. To configure a dual
+stack node, add additional IP addresses after the installation.
 
 [thumbnail="screenshot/pve-installation.png", float="left"]
 
-If you press `Next` now, you will see an overview of your entered
-configuration. Please re-check every setting, you can still use the
-`Previous` button to go back and edit all settings here.
-
-If you press `Install` now, installation starts to format disks, and
-copies packages to the target. Please wait until that is finished,
-then remove the installation media and restart your system.
+The next step shows a summary of the previously selected options. Re-check every
+setting and use the `Previous` button if a setting needs to be changed. To
+accept, press `Install`. The installation starts to format disks and copies
+packages to the target. Please wait until this step has finished; then remove
+the installation medium and restart your system.
 
 [thumbnail="screenshot/pve-install-summary.png"]
 
 If the installation failed check out specific errors on the second TTY
-(`CTRL + ALT + F2'), ensure your systems mets the
+(`CTRL + ALT + F2'), ensure that the systems meets the
 xref:install_minimal_requirements[minimum requirements]. If the installation
-is still not working then look at our xref:getting_help[how to get help chapter].
+is still not working look at the xref:getting_help[how to get help chapter].
 
-Further configuration can be done via the Proxmox web interface. Just
-point your browser to the IP address given during installation
-(https://youripaddress:8006).
+Further configuration is done via the Proxmox web interface. Point your browser
+to the IP address given during installation (https://youripaddress:8006).
 
-NOTE: Default login is "root" (realm 'PAM') and the root password was
-defined during the installation process.
-
+NOTE: Default login is "root" (realm 'PAM') and the root password is defined
+during the installation process.
 
 [[advanced_lvm_options]]
 Advanced LVM Configuration Options
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The installer creates a Volume Group (VG) called `pve`, and additional
-Logical Volumes (LVs) called `root`, `data` and `swap`. The size of
-those volumes can be controlled with:
+The installer creates a Volume Group (VG) called `pve`, and additional Logical
+Volumes (LVs) called `root`, `data`, and `swap`. To control the size of these
+volumes use:
 
 `hdsize`::
 
-Defines the total HD size to be used. This way you can save free
-space on the HD for further partitioning (i.e. for an additional PV
-and VG on the same hard disk that can be used for LVM storage).
+Defines the total hard disk size to be used. This way you can reserve free space
+on the hard disk for further partitioning (for example for an additional PV and
+VG on the same hard disk that can be used for LVM storage).
 
 `swapsize`::
 
@@ -203,35 +195,34 @@ volume is:
 +
 Where `datasize` cannot be bigger than `maxvz`.
 +
-NOTE: In case of LVM thin, the `data` pool will only be created if `datasize`
-is bigger than 4GB.
+NOTE: In case of LVM thin, the `data` pool will only be created if `datasize` is
+bigger than 4GB.
 +
 NOTE: If set to `0`, no `data` volume will be created and the storage
 configuration will be adapted accordingly.
 
 `minfree`::
 
-Defines the amount of free space left in LVM volume group `pve`.
-With more than 128GB storage available the default is 16GB, else `hdsize/8`
-will be used.
+Defines the amount of free space left in the LVM volume group `pve`. With more
+than 128GB storage available the default is 16GB, else `hdsize/8` will be used.
 +
-NOTE: LVM requires free space in the VG for snapshot creation (not
-required for lvmthin snapshots).
+NOTE: LVM requires free space in the VG for snapshot creation (not required for
+lvmthin snapshots).
 
 [[advanced_zfs_options]]
 Advanced ZFS Configuration Options
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The installer creates a ZFS pool `rpool`. When selecting ZFS, no swap space is
-created by default. You can leave some unpartitioned space for swap or create
-a swap zvol after installation, though the latter can lead to problems
+The installer creates the ZFS pool `rpool`. No swap space is created but you can
+reserve some unpartitioned space on the install disks for swap. You can also
+create a swap zvol after the installation, altough this can lead to problems.
 (see <<zfs_swap,ZFS swap notes>>).
 
 `ashift`::
 
-Defines the `ashift` value for the created pool. The `ashift` needs
-to be set at least to the sector-size of the underlying disks (2 to
-the power of `ashift` is the sector-size), or any disk,
-which might be put in the pool (e.g. during replacing a defective disk).
+Defines the `ashift` value for the created pool. The `ashift` needs to be set at
+least to the sector-size of the underlying disks (2 to the power of `ashift` is
+the sector-size), or any disk which might be put in the pool (for example the
+replacement of a defective disk).
 
 `compress`::
 
@@ -248,25 +239,26 @@ semantics, and why this does not replace redundancy on disk-level.
 
 `hdsize`::
 
-Defines the total HD size to be used. This way you can save free
-space on the HD(s) for further partitioning (e.g. for creating a swap-partition).
-`hdsize` is only honored for bootable disks, i.e., only the first disk or
-mirror for RAID0, RAID1 or RAID10, and all disks in RAID-Z[123].
+Defines the total hard disk size to be used. This is useful to save free space
+on the hard disk(s) for further partitioning (for exmaple to create a
+swap-partition). `hdsize` is only honored for bootable disks, that is only the
+first disk or mirror for RAID0, RAID1 or RAID10, and all disks in RAID-Z[123].
 
 
 ZFS Performance Tips
 ~~~~~~~~~~~~~~~~~~~~
 
-ZFS uses a lot of memory, so it is best to add additional RAM if you
-want to use ZFS. A good calculation is 4GB plus 1GB RAM for each TB
+ZFS works best with a lot of memory. If you intend to use ZFS make sure to have
+enough RAM available for it. A good calculation is 4GB plus 1GB RAM for each TB
 RAW disk space.
 
-ZFS also provides the feature to use a fast SSD drive as write cache. The
-write cache is called the ZFS Intent Log (ZIL). You can add that after
-installation using the following command:
+ZFS can use a dedicated drive as write cache, called the ZFS Intent Log (ZIL).
+Use a fast drive (SSD) for it. It can be added after installation with the
+following command:
 
- zpool add <pool-name> log </dev/path_to_fast_ssd>
-
+----
+# zpool add <pool-name> log </dev/path_to_fast_ssd>
+----
 
 ifdef::wiki[]
 
@@ -285,26 +277,24 @@ include::pve-usbstick.adoc[]
 Install {pve} on Debian
 -----------------------
 
-{pve} ships as a set of Debian packages, so you can install it
-on top of a standard Debian installation.
-xref:sysadmin_package_repositories[After configuring the repositories], you
-need to run:
+{pve} ships as a set of Debian packages and can be installed on to of a standard
+Debian installation.
+xref:sysadmin_package_repositories[After configuring the repositories] you need
+to run the following commands:
 
-[source,bash]
 ----
-apt-get update
-apt-get install proxmox-ve
+# apt-get update
+# apt-get install proxmox-ve
 ----
 
-Installing on top of an existing Debian installation looks easy, but
-it presumes that you have correctly installed the base system, and you
-know how you want to configure and use the local storage. Network
-configuration is also completely up to you.
+Installing on top of an existing Debian installation looks easy, but it presumes
+that the base system has been installed correctly and that you know how you want
+to configure and use the local storage. You also need to configure the network
+manually.
 
-In general, this is not trivial, especially when you use LVM or
-ZFS.
+In general, this is not trivial, especially when LVM or ZFS is used.
 
-You can find a detailed step by step how-to guide on the
+A detailed step by step how-to can be found on the
 {webwiki-url}Install_Proxmox_VE_on_Debian_Stretch[wiki].
 
 
@@ -316,7 +306,7 @@ Video Tutorials
 ---------------
 
 * List of all official tutorials on our
-  http://www.youtube.com/proxmoxve[Proxmox VE YouTube Channel]
+  http://www.youtube.com/proxmoxve[{pve} YouTube Channel]
 
 * Tutorials in Spanish language on
   http://www.youtube.com/playlist?list=PLUULBIhA5QDBdNf1pcTZ5UXhek63Fij8z[ITexperts.es
