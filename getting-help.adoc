@@ -16,23 +16,22 @@ documentation with user contributed content.
 Community Support Forum
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-{pve} itself is fully open source, so we always encourage our users to
-discuss and share their knowledge using the {forum}. The forum is fully
-moderated by the Proxmox support team, and has a quite large user base
-around the whole world. Needless to say that such a large forum is a
+We always encourage our users to discuss and share their knowledge using the
+{forum}. The forum is moderated by the Proxmox support team. The large user base
+is spread out all over the world. Needless to say that such a large forum is a
 great place to get information.
 
 Mailing Lists
 ~~~~~~~~~~~~~
 
-This is a fast way to communicate via email with the Proxmox VE
-community
+This is a fast way to communicate with the {pve} community via email.
 
 * Mailing list for users:
   http://pve.proxmox.com/cgi-bin/mailman/listinfo/pve-user[PVE User
   List]
 
-The primary communication channel for developers is:
+{pve} is fully open source and contributions are welcome! The primary
+communication channel for developers is the:
 
 * Mailing list for developer:
   http://pve.proxmox.com/cgi-bin/mailman/listinfo/pve-devel[PVE
@@ -42,19 +41,22 @@ The primary communication channel for developers is:
 Commercial Support
 ~~~~~~~~~~~~~~~~~~
 
-{proxmoxGmbh} also offers commercial 
-https://www.proxmox.com/en/proxmox-ve/pricing[{pve} Subscription Service
-Plans]. System Administrators with a standard subscription plan can access a 
-dedicated support portal with guaranteed response time, where {pve}
-developers help them should an issue appear.
-Please contact the mailto:office@proxmox.com[Proxmox sales
-team] for more information or volume discounts.
+{proxmoxGmbh} also offers enterprise support available as
+https://www.proxmox.com/en/proxmox-ve/pricing[{pve} Subscription Service Plans].
+All users with a subscription get access to the {pve}
+<<sysadmin_enterprise_repo,Enterprise Repository>>, and--with a Basic, Standard
+or Premium subscription--also to the Proxmox Customer Portal. The customer
+portal provides help and support with guaranteed response times from the {pve}
+developers.
+
+For volume discounts, or more information in general, please contact
+mailto:office@proxmox.com[office@proxmox.com].
 
 
 Bug Tracker
 ~~~~~~~~~~~
 
-We also run a public bug tracker at
-https://bugzilla.proxmox.com. If you ever detect an issue, you can
-file a bug report there. This makes it easy to track its status, and
-you will get notified as soon as the problem is fixed.
+Proxmox runs a public bug tracker at https://bugzilla.proxmox.com. If an issue
+appears, file your report there. An issue can be a bug as well as a request for
+a new feature or enhancement. The bug tracker helps to keep track of the issue
+and will send a notification once it has been solved.
