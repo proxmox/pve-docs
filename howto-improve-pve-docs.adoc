@@ -5,31 +5,27 @@ ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]
 
-Depending on which issue you want to improve, you can use a variety of
-communication mediums to reach the developers.
+Contributions and improvements to the {pve} documentation are always welcome.
+There are several ways to contribute.
 
-If you notice an error in the current documentation, use the
-http://bugzilla.proxmox.com[Proxmox bug tracker] and propose an
-alternate text/wording.
+If you find errors or other room for improvement in this documentation, please
+file a bug at the https://bugzilla.proxmox.com/[Proxmox bug tracker] to propose
+a correction.
 
-If you want to propose new content, it depends on what you want to
-document:
+If you want to propose new content, choose one of the following options:
 
-* if the content is specific to your setup, a wiki article is the best
-option. For instance if you want to document specific options for guest
-systems, like which combination of Qemu drivers work best with a less popular
-OS, this is a perfect fit for a wiki article.
+* The wiki: For specific setups, how-to guides, or tutorials the wiki   is the
+right option to contribute.
 
-* if you think the content is generic enough to be of interest for all users,
-then you should try to get it into the reference documentation. The reference
-documentation is written in the easy to use 'asciidoc' document format.
-Editing the official documentation requires to clone the git repository at
-`git://git.proxmox.com/git/pve-docs.git` and then follow the
-https://git.proxmox.com/?p=pve-docs.git;a=blob_plain;f=README.adoc;hb=HEAD[README.adoc] document.
-
-Improving the documentation is just as easy as editing a Wikipedia
-article and is an interesting foray in the development of a large
-opensource project.
+* The reference documentation: For general content that will be   helpful to all
+  users please propose your contribution for the   reference documentation. This
+  includes all information about how to install, configure, use, and
+  troubleshoot {pve} features. The reference documentation is written in the
+  https://en.wikipedia.org/wiki/AsciiDoc[asciidoc format]. To edit the
+  documentation you need to clone the git repository at
+  `git://git.proxmox.com/git/pve-docs.git`; then follow the
+  https://git.proxmox.com/?p=pve-docs.git;a=blob_plain;f=README.adoc;hb=HEAD[README.adoc]
+  document.
 
 NOTE: If you are interested in working on the {pve} codebase, the
 {webwiki-url}Developer_Documentation[Developer Documentation] wiki
