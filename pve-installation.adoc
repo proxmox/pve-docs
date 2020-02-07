@@ -68,8 +68,10 @@ Install {pve} (Debug mode)::
 
 Starts the installation in debug mode. A console will be opened at several
 installation steps. This helps to debug the situation if something goes wrong.
-To exit a debug console, press `CTRL-D`. This options is primarily for
-developers and not intended for general use.
+To exit a debug console, press `CTRL-D`. This option can be used to boot a live
+system with all basic tools available. You can use it, for example, to
+xref:chapter_zfs[repair a degraded ZFS 'rpool'] or fix the
+xref:sysboot[bootloader] for an existing {pve} setup.
 
 Rescue Boot::
 
