@@ -8,7 +8,7 @@ ifdef::wiki[]
 endif::wiki[]
 
 {pve} is based on Debian. This is why the install disk images (ISO files)
-provided by Proxmox include a complete Debian system (Debian 10 "buster" for
+provided by Proxmox include a complete Debian system (Debian 10 Buster for
 {pve} version 6.x) as well as all necessary {pve} packages.
 
 The installer will guide through the setup, allowing you to partition the local
