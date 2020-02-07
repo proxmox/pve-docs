@@ -762,10 +762,10 @@ by setting 'knet_link_priority' in the corresponding interface section in
 your cluster with `pvecm`:
 
 ----
- # pvecm create CLUSTERNAME --link0 10.10.10.1,priority=20 --link1 10.20.20.1,priority=15
+ # pvecm create CLUSTERNAME --link0 10.10.10.1,priority=15 --link1 10.20.20.1,priority=20
 ----
 
-This would cause 'link1' to be used first, since it has the lower priority.
+This would cause 'link1' to be used first, since it has the higher priority.
 
 If no priorities are configured manually (or two links have the same priority),
 links will be used in order of their number, with the lower number having higher
