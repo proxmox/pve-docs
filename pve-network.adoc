@@ -243,10 +243,28 @@ iface vmbr0 inet static
         bridge_stp off
         bridge_fd 0
 
-        post-up echo 1 > /proc/sys/net/ipv4/ip_forward
+        post-up   echo 1 > /proc/sys/net/ipv4/ip_forward
         post-up   iptables -t nat -A POSTROUTING -s '10.10.10.0/24' -o eno1 -j MASQUERADE
         post-down iptables -t nat -D POSTROUTING -s '10.10.10.0/24' -o eno1 -j MASQUERADE
 ----
+
+NOTE: In some masquerade setups with firewall enabled, conntrack zones might be
+needed for outgoing connections. Otherwise the firewall could block outgoing
+connections since they will prefer the `POSTROUTING` of the VM bridge (and not
+`MASQUERADE`).
+
+Adding these lines in the `/etc/network/interfaces` can fix this problem:
+
+----
+post-up   iptables -t raw -I PREROUTING -i fwbr+ -j CT --zone 1
+post-down iptables -t raw -D PREROUTING -i fwbr+ -j CT --zone 1
+----
+
+For more information about this, refer to the following links:
+https://commons.wikimedia.org/wiki/File:Netfilter-packet-flow.svg[Netfilter Packet Flow]
+https://lwn.net/Articles/370152/[Patch on netdev-list introducing conntrack zones]
+https://blog.lobraun.de/2019/05/19/prox/[Blog post with a good explanation by using TRACE in the raw table]
+
 
 
 Linux Bond
