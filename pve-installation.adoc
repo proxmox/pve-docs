@@ -26,6 +26,8 @@ ifndef::wiki[]
 
 include::pve-system-requirements.adoc[]
 
+include::pve-installation-media.adoc[]
+
 endif::wiki[]
 
 
@@ -33,7 +35,7 @@ endif::wiki[]
 Using the {pve} Installer
 -------------------------
 
-Download the installer ISO at {website}en/downloads. It includes the following:
+The installer ISO image includes the following:
 
 * Complete operating system (Debian Linux, 64-bit)
 
@@ -50,8 +52,11 @@ Download the installer ISO at {website}en/downloads. It includes the following:
 NOTE: All existing data on the server will be removed during the installation
 process.
 
-Please insert the installation media (e.g. USB flash drive, CD-ROM) and boot
-from it.
+Please insert the xref:installation_prepare_media[prepared installation media]
+(for example, USB flash drive or CD-ROM) and boot from it.
+
+TIP: Make sure that booting from the installation medium (for example, USB) is
+enabled in your servers firmware settings.
 
 [thumbnail="screenshot/pve-grub-menu.png"]
 
@@ -275,8 +280,6 @@ link:/wiki/Install_Proxmox_VE_on_Debian_Buster[Install Proxmox VE on Debian Bust
 endif::wiki[]
 
 ifndef::wiki[]
-
-include::pve-usbstick.adoc[]
 
 Install {pve} on Debian
 -----------------------

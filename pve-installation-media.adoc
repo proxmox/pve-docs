@@ -1,8 +1,11 @@
-Install from a USB Flash Drive
-------------------------------
+[[installation_prepare_media]]
+Prepare Installation Media
+--------------------------
 ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]
+
+Download the installer ISO image from: {website}en/downloads/category/iso-images-pve
 
 The {pve} installation media is a hybrid ISO image. It works in two ways:
 
@@ -16,10 +19,7 @@ the faster option.
 Prepare a USB Flash Drive as Installation Medium
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Download the installer ISO image from:
-https://www.proxmox.com/en/downloads/category/iso-images-pve
-
-The flash drive needs to have at least 1GB of storage available.
+The flash drive needs to have at least 1 GB of storage available.
 
 NOTE: Do not use UNetbootin. It does not work with the {pve} installation image.
 
@@ -112,9 +112,12 @@ will show up. Click 'No'. In the next dialog select the 'DD' mode.
 An alternative to Rufus is Etcher. Download Etcher from https://etcher.io. It
 will guide you through the process of selecting the ISO and your USB Drive.
 
+ifdef::wiki[]
 Boot your Server from the USB Flash Drive
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Connect the USB flash drive to your server and make sure that booting from USB
 is enabled (check your servers firmware settings). Then follow the steps in the
 xref:chapter_installation[installation wizard].
+
+endif::wiki[]
