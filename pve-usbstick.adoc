@@ -1,4 +1,4 @@
-Install from a USB flash drive
+Install from a USB Flash Drive
 ------------------------------
 ifdef::wiki[]
 :pve-toplevel:
@@ -13,7 +13,7 @@ The {pve} installation media is a hybrid ISO image. It works in two ways:
 Using a USB flash drive to install {pve} is the recommended way because it is
 the faster option.
 
-Prepare a USB flash drive as installation medium
+Prepare a USB Flash Drive as Installation Medium
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Download the installer ISO image from:
@@ -43,7 +43,7 @@ NOTE: Be sure to replace /dev/XYZ with the correct device name.
 CAUTION: Be very careful, and do not overwrite the wrong disk!
 
 
-Find the correct USB device name
+Find the Correct USB Device Name
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 There are two ways to find out the name of the USB flash drive. The first one is
 to compare the last lines of the `dmesg` command output before and after
@@ -112,7 +112,7 @@ will show up. Click 'No'. In the next dialog select the 'DD' mode.
 An alternative to Rufus is Etcher. Download Etcher from https://etcher.io. It
 will guide you through the process of selecting the ISO and your USB Drive.
 
-Boot your server from the USB flash drive
+Boot your Server from the USB Flash Drive
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Connect the USB flash drive to your server and make sure that booting from USB

@@ -12,7 +12,7 @@ a cluster with highly available (HA) virtual machines and containers.
 RBD. For details see xref:chapter_storage[chapter storage].
 
 [[install_minimal_requirements]]
-Minimum requirements, for evaluation
+Minimum Requirements, for Evaluation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 These minimum requirements are for evaluation purposes only and should not be
@@ -30,7 +30,7 @@ used in production.
 
 
 [[install_recommended_requirements]]
-Recommended system requirements
+Recommended System Requirements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Intel EMT64 or AMD64 with Intel VT/AMD-V CPU flag.
@@ -56,7 +56,7 @@ Recommended system requirements
 * For PCI(e) passthrough the CPU needs to support the VT-d/AMD-d flag.
 
 
-Simple performance overview
+Simple Performance Overview
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To get an overview of the CPU and hard disk performance on an installed {pve}
@@ -65,7 +65,7 @@ system, run the included `pveperf` tool.
 NOTE: this is just a very quick and general benchmark. More detailed tests are
 recommended, especially regarding the I/O performance of your system.
 
-Supported web browsers for accessing the web interface
+Supported Web Browsers for Accessing the Web Interface
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To access the web-based user interface one of the following browsers is
