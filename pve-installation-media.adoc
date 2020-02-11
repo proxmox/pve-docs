@@ -35,10 +35,11 @@ USB flash drive. First find the correct device name of the USB flash drive (see
 below). Then run the `dd` command.
 
 ----
-# dd if=proxmox-ve_*.iso of=/dev/XYZ bs=1M
+# dd bs=1M conv=fdatasync if=./proxmox-ve_*.iso of=/dev/XYZ
 ----
 
-NOTE: Be sure to replace /dev/XYZ with the correct device name.
+NOTE: Be sure to replace /dev/XYZ with the correct device name and adapt the
+input filename ('if') path.
 
 CAUTION: Be very careful, and do not overwrite the wrong disk!
 
