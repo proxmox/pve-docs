@@ -5,31 +5,21 @@ ifndef::manvolnum[]
 :pve-toplevel:
 endif::manvolnum[]
 
-{pve} is based on the famous https://www.debian.org/[Debian] Linux
-distribution. That means that you have access to the whole world of
-Debian packages, and the base system is well documented. The
+The following sections will focus on common virtualization tasks and explain the
+{pve} specifics regarding the administration and management of the host machine.
+
+{pve} is based on https://www.debian.org/[Debian GNU/Linux] with additional
+repositories to provide the {pve} related packages. This means that the full
+range of Debian packages is available including security updates and bug fixes.
+{pve} provides it's own Linux kernel based on the Ubuntu kernel. It has all the
+necessary virtualization and container features enabled and includes
+https://zfsonlinux.org[ZFS] and several extra hardware drivers.
+
+For other topics not included in the following sections, please refer to the
+Debian documentation. The
 https://debian-handbook.info/download/stable/debian-handbook.pdf[Debian
-Administrator\'s Handbook] is available online, and provides a
-comprehensive introduction to the Debian operating system (see
-xref:Hertzog13[]).
-
-A standard {pve} installation uses the default repositories from
-Debian, so you get bug fixes and security updates through that
-channel. In addition, we provide our own package repository to roll
-out all {pve} related packages. This includes updates to some
-Debian packages when necessary.
-
-We also deliver a specially optimized Linux kernel, where we enable all
-required virtualization and container features. That kernel includes
-drivers for http://zfsonlinux.org/[ZFS], and several hardware drivers.
-For example, we ship Intel network card drivers to support their
-newest hardware.
-
-The following sections will concentrate on virtualization related
-topics. They either explain things which are different on {pve}, or
-tasks which are commonly used on {pve}. For other topics, please refer
-to the standard Debian documentation.
-
+Administrator\'s Handbook] is available online, and provides a comprehensive
+introduction to the Debian operating system (see xref:Hertzog13[]).
 
 ifdef::wiki[]
 
