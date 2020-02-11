@@ -28,5 +28,5 @@ right option to contribute.
   document.
 
 NOTE: If you are interested in working on the {pve} codebase, the
-{webwiki-url}Developer_Documentation[Developer Documentation] wiki
-article will show you where to start.
+{webwiki-url}Developer_Documentation[Developer Documentation] wiki article will
+show you where to start.

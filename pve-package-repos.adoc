@@ -32,10 +32,9 @@ deb http://security.debian.org/debian-security buster/updates main contrib
 {pve} Enterprise Repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This is the default, stable and recommended repository, available for
-all {pve} subscription users. It contains the most stable packages,
-and is suitable for production use. The `pve-enterprise` repository is
-enabled by default:
+This is the default, stable, and recommended repository, available for all {pve}
+subscription users. It contains the most stable packages and is suitable for
+production use. The `pve-enterprise` repository is enabled by default:
 
 .File `/etc/apt/sources.list.d/pve-enterprise.list`
 ----
@@ -277,8 +276,8 @@ deb http://security.debian.org/ squeeze/updates main contrib
 Outdated: {pve} VE 1.x Repositories
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-{pve} 1.x is based on Debian 5.0 (``lenny'') and very outdated. Please
-upgrade to latest version as soon as possible.
+{pve} 1.x is based on Debian 5.0 (``lenny'') and very outdated. Please upgrade
+to latest version as soon as possible.
 
 
 endif::wiki[]

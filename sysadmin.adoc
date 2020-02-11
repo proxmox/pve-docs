@@ -28,7 +28,7 @@ See Also
 
 * link:/wiki/Package_Repositories[Package Repositories]
 
-* link:/wiki/Network_Configuration[Network Configuration] 
+* link:/wiki/Network_Configuration[Network Configuration]
 
 * link:/wiki/System_Software_Updates[System Software Updates]
 

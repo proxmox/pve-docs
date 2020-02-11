@@ -62,8 +62,8 @@ Simple performance overview
 To get an overview of the CPU and hard disk performance on an installed {pve}
 system, run the included `pveperf` tool.
 
-NOTE: this is just a very quick and general benchmark. More detailed tests
-are recommended, especially regarding the I/O performance of your system.
+NOTE: this is just a very quick and general benchmark. More detailed tests are
+recommended, especially regarding the I/O performance of your system.
 
 Supported web browsers for accessing the web interface
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

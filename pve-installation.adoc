@@ -35,13 +35,13 @@ Download the installer ISO at {website}en/downloads. It includes the following:
 
 * Complete operating system (Debian Linux, 64-bit)
 
-* The {pve} installer, which partitions the local disk(s) with ext4,
-  ext3, xfs or ZFS and installs the operating system.
+* The {pve} installer, which partitions the local disk(s) with ext4, ext3, xfs
+  or ZFS and installs the operating system.
 
 * {pve} kernel (Linux) with KVM and LXC support
 
-* Complete toolset for administering virtual machines, containers and
-  all necessary resources
+* Complete toolset for administering virtual machines, containers, and all
+  necessary resources
 
 * Web-based management interface
 
@@ -177,9 +177,9 @@ VG on the same hard disk that can be used for LVM storage).
 
 `swapsize`::
 
-Defines the size of the `swap` volume. The default is the size of the
-installed memory, minimum 4 GB and maximum 8 GB. The resulting value cannot
-be greater than `hdsize/8`.
+Defines the size of the `swap` volume. The default is the size of the installed
+memory, minimum 4 GB and maximum 8 GB. The resulting value cannot be greater
+than `hdsize/8`.
 +
 NOTE: If set to `0`, no `swap` volume will be created.
 
