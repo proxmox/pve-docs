@@ -1,3 +1,4 @@
+[[chapter_installation]]
 Installing {pve}
 ================
 ifndef::manvolnum[]
@@ -12,10 +13,10 @@ provided by Proxmox include a complete Debian system (Debian 10 Buster for
 {pve} version 6.x) as well as all necessary {pve} packages.
 
 The installer will guide through the setup, allowing you to partition the local
-disk(s), apply basic system configurations (e.g. timezone, language, network)
-and install all required packages. This process should not take more than a few
-minutes. Installing with the provided ISO is the recommended method for new and
-existing users.
+disk(s), apply basic system configurations (for example, timezone, language,
+network) and install all required packages. This process should not take more
+than a few minutes. Installing with the provided ISO is the recommended method
+for new and existing users.
 
 Alternatively, {pve} can be installed on top of an existing Debian system. This
 option is only recommended for advanced users because detailed knowledge about
@@ -28,6 +29,7 @@ include::pve-system-requirements.adoc[]
 endif::wiki[]
 
 
+[[installation_installer]]
 Using the {pve} Installer
 -------------------------
 
@@ -38,10 +40,10 @@ Download the installer ISO at {website}en/downloads. It includes the following:
 * The {pve} installer, which partitions the local disk(s) with ext4, ext3, xfs
   or ZFS and installs the operating system.
 
-* {pve} kernel (Linux) with KVM and LXC support
+* {pve} Linux kernel with KVM and LXC support
 
-* Complete toolset for administering virtual machines, containers, and all
-  necessary resources
+* Complete toolset for administering virtual machines, containers, the host
+  system, clusters and all necessary resources
 
 * Web-based management interface
 

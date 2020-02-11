@@ -116,5 +116,5 @@ Boot your Server from the USB Flash Drive
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Connect the USB flash drive to your server and make sure that booting from USB
-is enabled (check your servers BIOS). Then follow the steps in the installation
-wizard.
+is enabled (check your servers firmware settings). Then follow the steps in the
+xref:chapter_installation[installation wizard].

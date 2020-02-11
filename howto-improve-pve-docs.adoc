@@ -1,6 +1,6 @@
 [[howto_improve_pve_docs]]
-Improving the Proxmox VE Documentation
---------------------------------------
+Improving the {pve} Documentation
+---------------------------------
 ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]
