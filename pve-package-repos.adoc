@@ -5,18 +5,16 @@ ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]
 
-All Debian based systems use
-http://en.wikipedia.org/wiki/Advanced_Packaging_Tool[APT] as package
-management tool. The list of repositories is defined in
-`/etc/apt/sources.list` and `.list` files found inside
-`/etc/apt/sources.d/`. Updates can be installed directly using
-`apt-get`, or via the GUI.
+{pve} uses http://en.wikipedia.org/wiki/Advanced_Packaging_Tool[APT] as its
+package management tool like any other Debian-based system. Repositories are
+defined in the file `/etc/apt/sources.list` and in `.list` files placed in
+`/etc/apt/sources.list.d/`.
 
-Apt `sources.list` files list one package repository per line, with
-the most preferred source listed first. Empty lines are ignored, and a
-`#` character anywhere on a line marks the remainder of that line as a
-comment. The information available from the configured sources is
-acquired by `apt-get update`.
+Each line defines a package repository. The preferred source must come first.
+Empty lines are ignored. A `#` character anywhere on a line marks the remainder
+of that line as a comment. The available packages from a repository are acquired
+by running `apt-get update`. Updates can be installed directly using `apt-get`,
+or via the GUI.
 
 .File `/etc/apt/sources.list`
 ----
@@ -28,7 +26,7 @@ deb http://security.debian.org/debian-security buster/updates main contrib
 ----
 // FIXME for 7.0: change security update suite to bullseye-security
 
-In addition, {pve} provides three different package repositories.
+{pve} additionally provides three different package repositories.
 
 [[sysadmin_enterprise_repo]]
 {pve} Enterprise Repository
@@ -44,29 +42,25 @@ enabled by default:
 deb https://enterprise.proxmox.com/debian/pve buster pve-enterprise
 ----
 
-As soon as updates are available, the `root@pam` user is notified via
-email about the available new packages. On the GUI, the change-log of
-each package can be viewed (if available), showing all details of the
-update. So you will never miss important security fixes.
+The `root@pam` user is notified via email about available updates. Click the
+'Changelog' button in the GUI to see more details about the selected update.
 
-Please note that you need a valid subscription key to access this
-repository. We offer different support levels, and you can find further
-details at https://www.proxmox.com/en/proxmox-ve/pricing.
+You need a valid subscription key to access the `pve-enterprise` repository.
+Different support levels are available. Further details can be found at
+https://www.proxmox.com/en/proxmox-ve/pricing.
 
-NOTE: You can disable this repository by commenting out the above line
-using a `#` (at the start of the line). This prevents error messages
-if you do not have a subscription key. Please configure the
-`pve-no-subscription` repository in that case.
-
+NOTE: You can disable this repository by commenting out the above line using a
+`#` (at the start of the line). This prevents error messages if you do not have
+a subscription key. Please configure the `pve-no-subscription` repository in
+that case.
 
 [[sysadmin_no_subscription_repo]]
 {pve} No-Subscription Repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-As the name suggests, you do not need a subscription key to access
-this repository. It can be used for testing and non-production
-use. Its not recommended to run on production servers, as these
-packages are not always heavily tested and validated.
+This is the recommended repository for testing and non-production use. Its
+packages are not as heavily tested and validated. You don't need a subscription key
+to access the `pve-no-subscription` repository.
 
 We recommend to configure this repository in `/etc/apt/sources.list`.
 
@@ -88,26 +82,25 @@ deb http://security.debian.org/debian-security buster/updates main contrib
 {pve} Test Repository
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Finally, there is a repository called `pvetest`. This one contains the
-latest packages and is heavily used by developers to test new
-features. As usual, you can configure this using
-`/etc/apt/sources.list` by adding the following line:
+This repository contains the latest packages and is primarily used by developers
+to test new features. To configure it, add the following line to
+`etc/apt/sources.list`:
 
 .sources.list entry for `pvetest`
 ----
 deb http://download.proxmox.com/debian/pve buster pvetest
 ----
 
-WARNING: the `pvetest` repository should (as the name implies) only be used
-for testing new features or bug fixes.
+WARNING: The `pvetest` repository should (as the name implies) only be used for
+testing new features or bug fixes.
 
 [[sysadmin_package_repositories_ceph]]
 {pve} Ceph Repository
 ~~~~~~~~~~~~~~~~~~~~~
 
-This is {pve}'s main Ceph repository and holds the Ceph packages for
-production use. You can also use this repository to update only the Ceph
-client.
+This repository holds the main {pve} Ceph packages. They are suitable for
+production. Use this repository if you run the Ceph client or a full Ceph
+cluster on {pve}.
 
 .File `/etc/apt/sources.list.d/ceph.list`
 ----
@@ -118,8 +111,8 @@ deb http://download.proxmox.com/debian/ceph-nautilus buster main
 {pve} Ceph Testing Repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This Ceph repository contains the Ceph packages before they are moved into the
-main repository and is used to test new Ceph release on {pve}.
+This Ceph repository contains the Ceph packages before they are moved to the
+main repository. It is used to test new Ceph releases on {pve}.
 
 .File `/etc/apt/sources.list.d/ceph.list`
 ----
@@ -129,9 +122,12 @@ deb http://download.proxmox.com/debian/ceph-nautilus buster test
 {pve} Ceph Luminous Repository For Upgrade
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This is a build of tje Ceph Luminous release for {pve} 6.0, this can be used to
-upgrade a {pve} cluster with Ceph Luminous deployed first to our 6.0 release,
-based on Debian Buster, and only afterwards upgrade the Ceph on it's own.
+If Ceph is deployed this repository is needed for the upgrade from {pve} 5.x to
+{pve} 6.0. It provides packages for the older Ceph Luminous release for {pve}
+6.0.
+
+The https://pve.proxmox.com/wiki/Upgrade_from_5.x_to_6.0[Upgrade 5.x to 6.0]
+document explains how to use this repository in detail.
 
 .File `/etc/apt/sources.list.d/ceph.list`
 ----
@@ -141,27 +137,39 @@ deb http://download.proxmox.com/debian/ceph-luminous buster main
 SecureApt
 ~~~~~~~~~
 
-We use GnuPG to sign the `Release` files inside those repositories,
-and APT uses that signatures to verify that all packages are from a
-trusted source.
+The 'Release' files in the repositories are signed with GnuPG. APT is using
+these signatures to verify that all packages are from a trusted source.
 
-The key used for verification is already installed if you install from
-our installation CD. If you install by other means, you can manually
-download the key with:
+If you install {pve} from an official ISO image, the key for verification is
+already installed.
 
+If you install {pve} on top of Debian, download and install
+the key with the following commands:
+
+----
  # wget http://download.proxmox.com/debian/proxmox-ve-release-6.x.gpg -O /etc/apt/trusted.gpg.d/proxmox-ve-release-6.x.gpg
+----
 
-Please verify the checksum afterwards:
+Verify the checksum afterwards with:
 
 ----
 # sha512sum /etc/apt/trusted.gpg.d/proxmox-ve-release-6.x.gpg
+----
+
+The output should be:
+
+----
 acca6f416917e8e11490a08a1e2842d500b3a5d9f322c6319db0927b2901c3eae23cfb5cd5df6facf2b57399d3cfa52ad7769ebdd75d9b204549ca147da52626 /etc/apt/trusted.gpg.d/proxmox-ve-release-6.x.gpg
 ----
 
-or
+or:
 
 ----
 # md5sum /etc/apt/trusted.gpg.d/proxmox-ve-release-6.x.gpg
+----
+The output should be:
+
+----
 f3f6c5a3a67baf38ad178e5ff1ee270c /etc/apt/trusted.gpg.d/proxmox-ve-release-6.x.gpg
 ----
 
@@ -174,10 +182,9 @@ ifdef::wiki[]
 {pve} 5.x Repositories
 ~~~~~~~~~~~~~~~~~~~~~~
 
-{pve} 5.x is based on Debian 9.x (``stretch''). Please note that this release
-is out of date, and you should update your installation.
-Nevertheless, we still provide access to those repositories at our download
-servers.
+{pve} 5.x is based on Debian 9.x (``stretch''). Please note that this release is
+out of date. Existing installations should be updated. Nevertheless access to
+these repositories is still provided.
 
 [width="100%",cols="<d,3m",options="header"]
 |===========================================================
@@ -194,10 +201,9 @@ deb http://download.proxmox.com/debian stretch pvetest
 {pve} 4.x Repositories
 ~~~~~~~~~~~~~~~~~~~~~~
 
-{pve} 4.x is based on Debian 8.x (``jessie''). Please note that this
-release is out of date, and you should update your
-installation. Nevertheless, we still provide access to those
-repositories at our download servers.
+{pve} 4.x is based on Debian 8.x (``jessie''). Please note that this release is
+out of date. Existing installations should be updated. Nevertheless access to
+these repositories is still provided.
 
 [width="100%",cols="<d,3m",options="header"]
 |===========================================================
@@ -214,10 +220,9 @@ deb http://download.proxmox.com/debian jessie pvetest
 {pve} 3.x Repositories
 ~~~~~~~~~~~~~~~~~~~~~~
 
-{pve} 3.x is based on Debian 7.x (``wheezy''). Please note that this
-release is out of date, and you should update your
-installation. Nevertheless, we still provide access to those
-repositories at our download servers.
+{pve} 3.x is based on Debian 7.x (``wheezy''). Please note that this release is
+out of date. Existing installations should be updated. Nevertheless access to
+these repositories is still provided.
 
 [width="100%",cols="<d,3m",options="header"]
 |===========================================================
@@ -234,9 +239,9 @@ deb http://download.proxmox.com/debian wheezy pvetest
 Outdated: `stable` Repository `pve`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This repository is a leftover to easy the update to 3.1. It will not
-get any updates after the release of 3.1. Therefore you need to remove
-this repository after you upgraded to 3.1.
+This repository is a leftover to ease the update to 3.1. It will not get any
+updates after the release of 3.1. Therefore the repository needs to be removed
+after the upgrade to 3.1.
 
 .File `/etc/apt/sources.list`
 ----
@@ -253,9 +258,9 @@ deb http://security.debian.org/ wheezy/updates main contrib
 Outdated: {pve} 2.x Repositories
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-{pve} 2.x is based on Debian 6.0 (``squeeze'') and outdated. Please
-upgrade to latest version as soon as possible. In order to use the
-stable `pve` 2.x repository, check your sources.list:
+{pve} 2.x is based on Debian 6.0 (``squeeze'') and outdated. Please upgrade to
+the latest version as soon as possible. In order to use the stable `pve` 2.x
+repository, check your sources.list:
 
 .File `/etc/apt/sources.list`
 ----
