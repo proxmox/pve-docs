@@ -126,7 +126,7 @@ qm set 123 --ipconfig0 ip=10.0.10.123/24,gw=10.0.10.1
 ----
 
 You can also configure all the Cloud-Init options using a single command
-only. We have simply splitted the above example to separate the
+only. We have simply split the above example to separate the
 commands for reducing the line length. Also make sure to adopt the IP
 setup for your specific environment.
 

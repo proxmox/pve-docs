@@ -465,7 +465,7 @@ VM/CT incoming/outgoing DROP/REJECT
 This drops or rejects all the traffic to the VMs, with some exceptions for
 DHCP, NDP, Router Advertisement, MAC and IP filtering depending on the set
 configuration.  The same rules for dropping/rejecting packets are inherited
-from the datacenter, while the exceptions for accepted incomming/outgoing
+from the datacenter, while the exceptions for accepted incoming/outgoing
 traffic of the host do not apply.
 
 Again, you can use xref:pve_firewall_iptables_inspect[iptables-save (see above)]

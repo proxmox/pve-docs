@@ -144,7 +144,7 @@ hardware layout of the VM's virtual motherboard. You can choose between the
 default https://en.wikipedia.org/wiki/Intel_440FX[Intel 440FX] or the
 https://ark.intel.com/content/www/us/en/ark/products/31918/intel-82q35-graphics-and-memory-controller.html[Q35]
 chipset, which also provides a virtual PCIe bus, and thus may be desired if
-one want's to pass through PCIe hardware.
+one wants to pass through PCIe hardware.
 
 [[qm_hard_disk]]
 Hard Disk

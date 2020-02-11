@@ -101,7 +101,7 @@ services on the same network and may even break the {pve} cluster stack.
 
 Further, estimate your bandwidth needs. While one HDD might not saturate a 1 Gb
 link, multiple HDD OSDs per node can, and modern NVMe SSDs will even saturate
-10 Gbps of bandwidth quickly. Deploying a network capable of even more bandwith
+10 Gbps of bandwidth quickly. Deploying a network capable of even more bandwidth
 will ensure that it isn't your bottleneck and won't be anytime soon, 25, 40 or
 even 100 GBps are possible.
 
@@ -378,7 +378,7 @@ pveceph osd create /dev/sd[X] -db_dev /dev/sd[Y] -wal_dev /dev/sd[Z]
 ----
 
 You can directly choose the size for those with the '-db_size' and '-wal_size'
-paremeters respectively. If they are not given the following values (in order)
+parameters respectively. If they are not given the following values (in order)
 will be used:
 
 * bluestore_block_{db,wal}_size from ceph configuration...

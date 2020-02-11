@@ -224,7 +224,7 @@ Advanced ZFS Configuration Options
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The installer creates the ZFS pool `rpool`. No swap space is created but you can
 reserve some unpartitioned space on the install disks for swap. You can also
-create a swap zvol after the installation, altough this can lead to problems.
+create a swap zvol after the installation, although this can lead to problems.
 (see <<zfs_swap,ZFS swap notes>>).
 
 `ashift`::
@@ -250,7 +250,7 @@ semantics, and why this does not replace redundancy on disk-level.
 `hdsize`::
 
 Defines the total hard disk size to be used. This is useful to save free space
-on the hard disk(s) for further partitioning (for exmaple to create a
+on the hard disk(s) for further partitioning (for example to create a
 swap-partition). `hdsize` is only honored for bootable disks, that is only the
 first disk or mirror for RAID0, RAID1 or RAID10, and all disks in RAID-Z[123].
 

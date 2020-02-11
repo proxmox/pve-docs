@@ -13,7 +13,7 @@ to draw nice borders around tables. It additionally transforms some
 values into human-readable text, for example:
 
 - Unix epoch is displayed as ISO 8601 date string.
-- Durations are displayed as week/day/hour/miniute/secound count, i.e `1d 5h`.
+- Durations are displayed as week/day/hour/minute/second count, i.e `1d 5h`.
 - Byte sizes value include units (`B`, `KiB`, `MiB`, `GiB`, `TiB`, `PiB`).
 - Fractions are display as percentage, i.e. 1.0 is displayed as 100%.
 

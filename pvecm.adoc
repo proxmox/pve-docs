@@ -730,7 +730,7 @@ resolve to can be changed without touching corosync or the node it runs on -
 which may lead to a situation where an address is changed without thinking
 about implications for corosync.
 
-A seperate, static hostname specifically for corosync is recommended, if
+A separate, static hostname specifically for corosync is recommended, if
 hostnames are preferred. Also, make sure that every node in the cluster can
 resolve all hostnames correctly.
 
@@ -739,7 +739,7 @@ entry. Only the resolved IP is then saved to the configuration.
 
 Nodes that joined the cluster on earlier versions likely still use their
 unresolved hostname in `corosync.conf`. It might be a good idea to replace
-them with IPs or a seperate hostname, as mentioned above.
+them with IPs or a separate hostname, as mentioned above.
 
 
 [[pvecm_redundancy]]
@@ -758,7 +758,7 @@ physical network connection.
 
 Links are used according to a priority setting. You can configure this priority
 by setting 'knet_link_priority' in the corresponding interface section in
-`corosync.conf`, or, preferrably, using the 'priority' parameter when creating
+`corosync.conf`, or, preferably, using the 'priority' parameter when creating
 your cluster with `pvecm`:
 
 ----
@@ -888,7 +888,7 @@ example 2+1 nodes).
 QDevice Technical Overview
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The Corosync Quroum Device (QDevice) is a daemon which runs on each cluster
+The Corosync Quorum Device (QDevice) is a daemon which runs on each cluster
 node. It provides a configured number of votes to the clusters quorum
 subsystem based on an external running third-party arbitrator's decision.
 Its primary use is to allow a cluster to sustain more node failures than
