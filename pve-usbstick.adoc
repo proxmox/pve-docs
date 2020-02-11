@@ -1,121 +1,120 @@
-Install from USB Stick
-----------------------
+Install from a USB flash drive
+------------------------------
 ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]
 
-The {pve} installation media is a hybrid ISO image, working in two ways:
+The {pve} installation media is a hybrid ISO image. It works in two ways:
 
-* An ISO image file ready to burn on CD
+* An ISO image file ready to burn to a CD or DVD.
 
-* A raw sector (IMG) image file ready to directly copy to flash media
-  (USB Stick)
+* A raw sector (IMG) image file ready to copy to a USB flash drive (USB stick).
 
-Using USB sticks is faster and more environmental friendly and
-therefore the recommended way to install {pve}.
+Using a USB flash drive to install {pve} is the recommended way because it is
+the faster option.
 
+Prepare a USB flash drive as installation medium
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Prepare a USB flash drive as install medium
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-In order to boot the installation media, copy the ISO image to a USB
-media.
-
-First download the ISO image from
+Download the installer ISO image from:
 https://www.proxmox.com/en/downloads/category/iso-images-pve
 
-You need at least a 1 GB USB media.
+The flash drive needs to have at least 1GB of storage available.
 
-NOTE: Using UNetbootin or Rufus does not work.
+NOTE: Do not use UNetbootin. It does not work with the {pve} installation image.
 
-IMPORTANT: Make sure that the USB media is not mounted and does not
+IMPORTANT: Make sure that the USB flash drive is not mounted and does not
 contain any important data.
 
 
 Instructions for GNU/Linux
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can simply use `dd` on UNIX like systems. First download the ISO
-image, then plug in the USB stick. You need to find out what device
-name gets assigned to the USB stick (see below). Then run:
+On Unix-like operating system use the `dd` command to copy the ISO image to the
+USB flash drive. First find the correct device name of the USB flash drive (see
+below). Then run the `dd` command.
 
 ----
-dd if=proxmox-ve_*.iso of=/dev/XYZ bs=1M
+# dd if=proxmox-ve_*.iso of=/dev/XYZ bs=1M
 ----
 
 NOTE: Be sure to replace /dev/XYZ with the correct device name.
 
-CAUTION: Be very careful, and do not overwrite the hard disk!
+CAUTION: Be very careful, and do not overwrite the wrong disk!
 
 
-Find Correct USB Device Name
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-You can compare the last lines of 'dmesg' command before and after the
-insertion, or use the 'lsblk' command. Open a terminal and run:
-
-----
- lsblk
-----
-
-Then plug in your USB media and run the command again:
+Find the correct USB device name
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+There are two ways to find out the name of the USB flash drive. The first one is
+to compare the last lines of the `dmesg` command output before and after
+plugging in the flash drive. The second way is to compare the output of the
+`lsblk` command. Open a terminal and run:
 
 ----
- lsblk
+# lsblk
 ----
 
-A new device will appear, and this is the USB device you want to use.
+Then plug in your USB flash drive and run the command again:
+
+----
+# lsblk
+----
+
+A new device will appear. This is the one you want to use. To be on the extra
+safe side check if the reported size matches your USB flash drive.
 
 
-Instructions for OSX
-~~~~~~~~~~~~~~~~~~~~
+Instructions for macOS
+~~~~~~~~~~~~~~~~~~~~~~
 
 Open the terminal (query Terminal in Spotlight).
 
-Convert the .iso file to .img using the convert option of hdiutil for example.
+Convert the .iso file to .img using the convert option of `hdiutil` for example.
 
 ----
-hdiutil convert -format UDRW -o proxmox-ve_*.dmg proxmox-ve_*.iso
+# hdiutil convert -format UDRW -o proxmox-ve_*.dmg proxmox-ve_*.iso
 ----
 
-TIP: OS X tends to put the .dmg ending on the output file automatically.
+TIP: macOS tends to automatically add '.dmg' to the output file name.
 
-To get the current list of devices run the command again:
-
-----
-diskutil list
-----
-
-Now insert your USB flash media and run this command again to
-determine the device node assigned to your flash media
-(e.g. /dev/diskX).
+To get the current list of devices run the command:
 
 ----
-diskutil list
+# diskutil list
+----
 
-diskutil unmountDisk /dev/diskX
+Now insert the USB flash drive and run this command again to determine which
+device node has been assigned to it. (e.g., /dev/diskX).
+
+----
+# diskutil list
+# diskutil unmountDisk /dev/diskX
 ----
 
 NOTE: replace X with the disk number from the last command.
 
 ----
-sudo dd if=proxmox-ve_*.dmg of=/dev/rdiskX bs=1m
+# sudo dd if=proxmox-ve_*.dmg of=/dev/rdiskX bs=1m
 ----
 
-NOTE: 'rdiskX', instead of 'diskX', in the last command is intended,
-this will increase write speed
+NOTE: 'rdiskX', instead of 'diskX', in the last command is intended. It will
+increase the write speed.
 
 Instructions for Windows
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Download Etcher from https://etcher.io , select the ISO and your USB Drive.
+Download Rufus from https://rufus.ie/. Either install it or use the portable
+version. Select the destination drive and the {pve} ISO file.
 
-If this doesn't work, alternatively use the OSForensics USB
-installer from http://www.osforensics.com/portability.html
+Once you click 'Start' a dialog asking to download a different version of GRUB
+will show up. Click 'No'. In the next dialog select the 'DD' mode.
 
+An alternative to Rufus is Etcher. Download Etcher from https://etcher.io. It
+will guide you through the process of selecting the ISO and your USB Drive.
 
-Boot your server from USB media
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Boot your server from the USB flash drive
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Connect your USB media to your server and make sure that the server
-boots from USB (see server BIOS). Then follow the installation wizard.
+Connect the USB flash drive to your server and make sure that booting from USB
+is enabled (check your servers BIOS). Then follow the steps in the installation
+wizard.
