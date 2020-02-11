@@ -4,21 +4,16 @@ ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]
 
-We provide regular package updates on all repositories. You can
-install those update using the GUI, or you can directly run the CLI
-command `apt-get`:
+Proxmox provides updates on a regular basis for all repositories. To install
+updates use the web-based GUI or the following CLI commands:
 
- apt-get update
- apt-get dist-upgrade
+----
+# apt-get update
+# apt-get dist-upgrade
+----
 
-NOTE: The `apt` package management system is extremely flexible and
-provides countless of feature - see `man apt-get` or <<Hertzog13>> for
-additional information.
+NOTE: The APT package management system is very flexible and provides many
+features, see `man apt-get`, or <<Hertzog13>> for additional information.
 
-You should do such updates at regular intervals, or when we release
-versions with security related fixes. Major system upgrades are
-announced at the {forum}. Those announcement also contain detailed
-upgrade instructions.
-
-TIP: We recommend to run regular upgrades, because it is important to
-get the latest security updates.
+TIP: Regular updates are essential to get the latest patches and security
+related fixes. Major system upgrades are announced in the {forum}.
