@@ -4,22 +4,23 @@ ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]
 
-For production servers, high quality server equipment is needed. Keep
-in mind, if you run 10 Virtual Servers on one machine and you then
-experience a hardware failure, 10 services are lost. {pve}
-supports clustering, this means that multiple {pve} installations
-can be centrally managed thanks to the included cluster functionality.
+We recommend to use high quality server hardware when running {pve} in
+production. To further decrease the impact of a failed host you can run {pve} in
+a cluster with highly available (HA) virtual machines and containers.
 
-{pve} can use local storage (DAS), SAN, NAS and also distributed
-storage (Ceph RBD). For details see xref:chapter_storage[chapter storage].
+{pve} can use local storage (DAS), SAN, NAS, and distributed storage like Ceph
+RBD. For details see xref:chapter_storage[chapter storage].
 
 [[install_minimal_requirements]]
-Minimum Requirements, for Evaluation
+Minimum requirements, for evaluation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+These minimum requirements are for evaluation purposes only and should not be
+used in production.
 
 * CPU: 64bit (Intel EMT64 or AMD64)
 
-* Intel VT/AMD-V capable CPU/Mainboard for KVM Full Virtualization support
+* Intel VT/AMD-V capable CPU/Mainboard for KVM full virtualization support
 
 * RAM: 1 GB RAM, plus additional RAM used for guests
 
@@ -29,49 +30,51 @@ Minimum Requirements, for Evaluation
 
 
 [[install_recommended_requirements]]
-Recommended System Requirements
+Recommended system requirements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Intel EMT64 or AMD64 with Intel VT/AMD-V CPU flag.
 
-* Memory, minimum 2 GB for OS and Proxmox VE services. Plus designated memory
-  for guests. For Ceph or ZFS additional memory is required, approximately 1 GB
-  memory for every TB used storage.
+* Memory, minimum 2 GB for the OS and {pve} services. Plus designated memory for
+  guests. For Ceph and ZFS additional memory is required; approximately 1GB of
+  memory for every TB of used storage.
 
-* Fast and redundant storage, best results with SSD disks.
+* Fast and redundant storage, best results are achieved with SSDs.
 
-* OS storage: Hardware RAID with batteries protected write cache (``BBU'') or
-  non-RAID with ZFS and SSD cache.
+* OS storage: Use a hardware RAID with battery protected write cache (``BBU'')
+  or non-RAID with ZFS (optional SSD for ZIL).
 
-* VM storage: For local storage use a hardware RAID with battery backed
-  write cache (BBU) or non-RAID for ZFS. Neither ZFS nor Ceph are compatible
-  with a hardware RAID controller. Shared and distributed storage is also
-  possible.
+* VM storage:
+** For local storage use either a hardware RAID with battery backed write cache
+  (BBU) or non-RAID for ZFS and Ceph. Neither ZFS nor Ceph are compatible with a
+  hardware RAID controller.
+** Shared and distributed storage is possible.
 
-* Redundant Gbit NICs, additional NICs depending on the preferred storage
-  technology and cluster setup – 10 Gbit and higher is also supported.
+* Redundant (Multi-)Gbit NICs with additional NICs depending on the preferred
+  storage technology and cluster setup.
 
-* For PCI passthrough a CPU with VT-d/AMD-d CPU flag is needed.
+* For PCI(e) passthrough the CPU needs to support the VT-d/AMD-d flag.
 
 
-Simple Performance Overview
+Simple performance overview
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-On an installed {pve} system, you can run the included `pveperf` script
-to obtain an overview of the CPU and hard disk performance.
+To get an overview of the CPU and hard disk performance on an installed {pve}
+system, run the included `pveperf` tool.
 
 NOTE: this is just a very quick and general benchmark. More detailed tests
 are recommended, especially regarding the I/O performance of your system.
 
 Supported web browsers for accessing the web interface
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-To use the web interface you need a modern browser, this includes:
 
-* Firefox, a release from the current year, or the latest Extended
-Support Release
-* Chrome, a release from the current year
-* Microsofts currently supported version of Edge
-* Safari, a release from the current year
+To access the web-based user interface one of the following browsers is
+recommended:
 
-If {pve} detects you're connecting from a mobile device, you will be
-redirected to a lightweight touch-based UI.
+* Firefox, a release of the current year, or the latest Extended Support Release
+* Chrome, a release of the current year
+* Microsoft's currently supported version of Edge
+* Safari, a release of the current year
+
+When used on a mobile device, {pve} will show a lightweight touch-based
+interface.
