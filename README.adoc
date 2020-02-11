@@ -150,14 +150,14 @@ can do this with the '+' symbol:
 . First level
 .. Second level
 +
-Anothe Sentence (or Block) on the continued second level.
+Another Sentence (or Block) on the continued second level.
 . First level again
 ----
 
 . First level
 .. Second level
 +
-Anothe Sentence (or Block) on the continued second level.
+Another Sentence (or Block) on the continued second level.
 
 . First level again
 
