@@ -49,8 +49,9 @@ The installer ISO image includes the following:
 
 * Web-based management interface
 
-NOTE: All existing data on the server will be removed during the installation
-process.
+NOTE: All existing data on the for installation selected drives will be removed
+during the installation process. The installer does not add boot menu entries
+for other operating systems.
 
 Please insert the xref:installation_prepare_media[prepared installation media]
 (for example, USB flash drive or CD-ROM) and boot from it.
