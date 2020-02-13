@@ -75,6 +75,30 @@ way to organize access permissions. You should always grant permission
 to groups instead of using individual users. That way you will get a
 much shorter access control list which is easier to handle.
 
+[[pveum_tokens]]
+API Tokens
+~~~~~~~~~~
+
+API tokens allow stateless access to most parts of the REST API by 
+another system, software or API client. Tokens can be generated for 
+individual users and can be given separate permissions and expiration 
+dates to limit the scope and duration of the access. Should the API 
+token get compromised it can be revoked without disabling the user itself.
+
+API tokens come in two basic types:
+
+* separated privileges: the token needs to be given explicit access with ACLs,
+  its effective permissions are calculated by intersecting user and token
+  permissions.
+* full privileges: the token permissions are identical to that of the
+  associated user.
+
+WARNING: The token value is only displayed/returned once when the token is
+generated. It cannot be retrieved over the API at a later time!
+
+To use an API token, set the HTTP header 'Authorization' to the displayed value
+of the form `PVEAPIToken=USER@REALM!TOKENID=UUID` when making API requests, or
+refer to your API client documentation.
 
 [[pveum_authentication_realms]]
 Authentication Realms
@@ -283,11 +307,11 @@ deleting a parts of a VM configuration), the user needs to have the
 appropriate permissions.
 
 {pve} uses a role and path based permission management system. An entry in
-the permissions table allows a user or group to take on a specific role
+the permissions table allows a user, group or token to take on a specific role
 when accessing an 'object' or 'path'. This means an such an access rule can
-be represented as a triple of '(path, user, role)' or '(path, group,
-role)', with the role containing a set of allowed actions, and the path
-representing the target of these actions.
+be represented as a triple of '(path, user, role)', '(path, group,
+role)' or '(path, token, role)', with the role containing a set of allowed
+actions, and the path representing the target of these actions.
 
 
 [[pveum_roles]]
@@ -419,6 +443,8 @@ by default). We use the following inheritance rules:
 * Permissions for groups apply when the user is member of that group.
 * Permissions replace the ones inherited from an upper level.
 
+Additionally, privilege separated tokens can never have a permission on any
+given path that their associated user does not have.
 
 [[pveum_pools]]
 Pools
@@ -597,6 +623,26 @@ are members of group `customers`:
 NOTE: The user is able to add other users, but only if they are
 members of group `customers` and within realm `pve`.
 
+Limited API token for monitoring
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Given a user `joe@pve` with the PVEVMAdmin role on all VMs:
+
+[source,bash]
+ pveum aclmod /vms -user joe@pve -role PVEVMAdmin
+
+Add a new API token with separate privileges, which is only allowed to view VM
+information (e.g., for monitoring purposes):
+
+[source,bash]
+ pveum user token add joe@pve monitoring -privsep 1
+ pveum aclmod /vms -token 'joe@pve!monitoring' -role PVEAuditor
+
+Verify the permissions of the user and token:
+
+[source,bash]
+ pveum user permissions joe@pve
+ pveum user token permissions joe@pve monitoring
 
 Pools
 ~~~~~
