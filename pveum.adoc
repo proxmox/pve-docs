@@ -68,7 +68,7 @@ assigned to this user.
 
 [[pveum_groups]]
 Groups
-~~~~~~
+------
 
 Each user can be member of several groups. Groups are the preferred
 way to organize access permissions. You should always grant permission
@@ -77,7 +77,7 @@ much shorter access control list which is easier to handle.
 
 [[pveum_tokens]]
 API Tokens
-~~~~~~~~~~
+----------
 
 API tokens allow stateless access to most parts of the REST API by another
 system, software or API client. Tokens can be generated for individual users
