@@ -28,41 +28,35 @@ ifdef::wiki[]
 :title: Linux Container
 endif::wiki[]
 
-Containers are a lightweight alternative to fully virtualized
-VMs. Instead of emulating a complete Operating System (OS), containers
-simply use the OS of the host they run on. This implies that all
-containers use the same kernel, and that they can access resources
-from the host directly.
+Containers are a lightweight alternative to fully virtualized machines (VMs).
+They use the kernel of the host system that they run on, instead of emulating a
+full operating system (OS). This means that containers can access resources on
+the host system directly.
 
-This is great because containers do not waste CPU power nor memory due
-to kernel emulation. Container run-time costs are close to zero and
-usually negligible. But there are also some drawbacks you need to
-consider:
+The runtime costs for containers is low, usually negligible. However, there
+are some drawbacks that need be considered:
 
-* You can only run Linux based OS inside containers, i.e. it is not
-  possible to run FreeBSD or MS Windows inside.
+* Only Linux distributions can be run in containers. (It is not
+  possible to run FreeBSD or MS Windows inside a container.)
 
-* For security reasons, access to host resources needs to be
-  restricted. This is done with AppArmor, SecComp filters and other
-  kernel features. Be prepared that some syscalls are not allowed
-  inside containers.
+* For security reasons, access to host resources needs to be restricted. Containers
+  run in their own separate namespaces. Additionally some syscalls are not
+  allowed within containers.
 
 {pve} uses https://linuxcontainers.org/[LXC] as underlying container
-technology. We consider LXC as low-level library, which provides
-countless options. It would be too difficult to use those tools
-directly. Instead, we provide a small wrapper called `pct`, the
-"Proxmox Container Toolkit".
+technology. The ``Proxmox Container Toolkit'' (`pct`) simplifies the usage of LXC
+containers.
 
-The toolkit is tightly coupled with {pve}. That means that it is aware
-of the cluster setup, and it can use the same network and storage
-resources as fully virtualized VMs. You can even use the {pve}
-firewall, or manage containers using the HA framework.
+Containers are tightly integrated with {pve}. This means that they are aware of
+the cluster setup, and they can use the same network and storage resources as
+virtual machines. You can also use the {pve} firewall, or manage containers
+using the HA framework.
 
 Our primary goal is to offer an environment as one would get from a
 VM, but without the additional overhead. We call this "System
 Containers".
 
-NOTE: If you want to run micro-containers (with docker, rkt, ...), it
+NOTE: If you want to run micro-containers (with docker, rkt, etc.) it
 is best to run them inside a VM.
 
 
@@ -79,38 +73,43 @@ Technology Overview
 
 * lxcfs to provide containerized /proc file system
 
+* CGroups (control groups) for resource allocation
+
 * AppArmor/Seccomp to improve security
 
-* CRIU: for live migration (planned)
-
-* Runs on modern Linux kernels
+* Modern Linux kernels
 
 * Image based deployment (templates)
 
-* Use {pve} storage library
+* Uses {pve} storage library
 
-* Container setup from host (network, DNS, storage, ...)
-
+* Container setup from host (network, DNS, storage, etc.)
 
 Security Considerations
 -----------------------
 
-Containers use the same kernel as the host, so there is a big attack
-surface for malicious users. You should consider this fact if you
-provide containers to totally untrusted people. In general, fully
-virtualized VMs provide better isolation.
+Containers use the kernel of the host system. This creates a big attack
+surface for malicious users. This should be considered if containers
+are provided to untrustworthy people. In general, full
+virtual machines provide better isolation.
 
-The good news is that LXC uses many kernel security features like
-AppArmor, CGroups and PID and user namespaces, which makes containers
-usage quite secure.
+However, LXC uses many security features like AppArmor, CGroups and kernel
+namespaces to reduce the attack surface.
+
+AppArmor profiles are used to restrict access to possibly dangerous actions.
+Some system calls, i.e. `mount`, are prohibited from execution.
+
+To trace AppArmor activity, use:
+
+----
+# dmesg | grep apparmor
+----
 
 Guest Operating System Configuration
 ------------------------------------
 
-We normally try to detect the operating system type inside the
-container, and then modify some files inside the container to make
-them work as expected. Here is a short list of things we do at
-container startup:
+{pve} tries to detect the Linux distribution in the container, and modifies some
+files. Here is a short list of things done at container startup:
 
 set /etc/hostname:: to set the container name
 
@@ -145,7 +144,9 @@ file for it.  For instance, if the file `/etc/.pve-ignore.hosts`
 exists then the `/etc/hosts` file will not be touched. This can be a
 simple empty file created via:
 
- # touch /etc/.pve-ignore.hosts
+----
+# touch /etc/.pve-ignore.hosts
+----
 
 Most modifications are OS dependent, so they differ between different
 distributions and versions. You can completely disable modifications
@@ -178,27 +179,29 @@ Container Images
 
 Container images, sometimes also referred to as ``templates'' or
 ``appliances'', are `tar` archives which contain everything to run a
-container. You can think of it as a tidy container backup. Like most
-modern container toolkits, `pct` uses those images when you create a
-new container, for example:
+container. `pct` uses them to create a new container, for example:
 
- pct create 999 local:vztmpl/debian-8.0-standard_8.0-1_amd64.tar.gz
+----
+# pct create 999 local:vztmpl/debian-10.0-standard_10.0-1_amd64.tar.gz
+----
 
-{pve} itself ships a set of basic templates for most common
-operating systems, and you can download them using the `pveam` (short
-for {pve} Appliance Manager) command line utility. You can also
-download https://www.turnkeylinux.org/[TurnKey Linux] containers using
-that tool (or the graphical user interface).
+{pve} itself provides a variety of basic templates for the most common
+Linux distributions. They can be downloaded using the GUI or the
+`pveam` (short for {pve} Appliance Manager) command line utility.
+Additionally, https://www.turnkeylinux.org/[TurnKey Linux]
+container templates are also available to download.
 
-Our image repositories contain a list of available images, and there
-is a cron job run each day to download that list. You can trigger that
-update manually with:
+The list of available templates is updated daily via cron. To trigger it manually:
 
- pveam update
+----
+# pveam update
+----
 
-After that you can view the list of available images using:
+To view the list of available images run:
 
- pveam available
+----
+# pveam available
+----
 
 You can restrict this large list by specifying the `section` you are
 interested in, for example basic `system` images:
@@ -206,15 +209,24 @@ interested in, for example basic `system` images:
 .List available system images
 ----
 # pveam available --section system
-system          archlinux-base_2015-24-29-1_x86_64.tar.gz
-system          centos-7-default_20160205_amd64.tar.xz
-system          debian-6.0-standard_6.0-7_amd64.tar.gz
-system          debian-7.0-standard_7.0-3_amd64.tar.gz
-system          debian-8.0-standard_8.0-1_amd64.tar.gz
-system          ubuntu-12.04-standard_12.04-1_amd64.tar.gz
-system          ubuntu-14.04-standard_14.04-1_amd64.tar.gz
-system          ubuntu-15.04-standard_15.04-1_amd64.tar.gz
-system          ubuntu-15.10-standard_15.10-1_amd64.tar.gz
+system          alpine-3.10-default_20190626_amd64.tar.xz
+system          alpine-3.9-default_20190224_amd64.tar.xz
+system          archlinux-base_20190924-1_amd64.tar.gz
+system          centos-6-default_20191016_amd64.tar.xz
+system          centos-7-default_20190926_amd64.tar.xz
+system          centos-8-default_20191016_amd64.tar.xz
+system          debian-10.0-standard_10.0-1_amd64.tar.gz
+system          debian-8.0-standard_8.11-1_amd64.tar.gz
+system          debian-9.0-standard_9.7-1_amd64.tar.gz
+system          fedora-30-default_20190718_amd64.tar.xz
+system          fedora-31-default_20191029_amd64.tar.xz
+system          gentoo-current-default_20190718_amd64.tar.xz
+system          opensuse-15.0-default_20180907_amd64.tar.xz
+system          opensuse-15.1-default_20190719_amd64.tar.xz
+system          ubuntu-16.04-standard_16.04.5-1_amd64.tar.gz
+system          ubuntu-18.04-standard_18.04.1-1_amd64.tar.gz
+system          ubuntu-19.04-standard_19.04-1_amd64.tar.gz
+system          ubuntu-19.10-standard_19.10-1_amd64.tar.gz
 ----
 
 Before you can use such a template, you need to download them into one
@@ -222,54 +234,49 @@ of your storages. You can simply use storage `local` for that
 purpose. For clustered installations, it is preferred to use a shared
 storage so that all nodes can access those images.
 
- pveam download local debian-8.0-standard_8.0-1_amd64.tar.gz
+----
+# pveam download local debian-10.0-standard_10.0-1_amd64.tar.gz
+----
 
 You are now ready to create containers using that image, and you can
 list all downloaded images on storage `local` with:
 
 ----
 # pveam list local
-local:vztmpl/debian-8.0-standard_8.0-1_amd64.tar.gz  190.20MB
+local:vztmpl/debian-10.0-standard_10.0-1_amd64.tar.gz  219.95MB
 ----
 
 The above command shows you the full {pve} volume identifiers. They include
 the storage name, and most other {pve} commands can use them. For
 example you can delete that image later with:
 
- pveam remove local:vztmpl/debian-8.0-standard_8.0-1_amd64.tar.gz
-
+----
+# pveam remove local:vztmpl/debian-10.0-standard_10.0-1_amd64.tar.gz
+----
 
 [[pct_container_storage]]
 Container Storage
 -----------------
 
-Traditional containers use a very simple storage model, only allowing
-a single mount point, the root file system. This was further
-restricted to specific file system types like `ext4` and `nfs`.
-Additional mounts are often done by user provided scripts. This turned
-out to be complex and error prone, so we try to avoid that now.
+The {pve} LXC container storage model is more flexible than traditional
+container storage models. A container can have multiple mount points. This makes
+it possible to use the best suited storage for each application.
 
-Our new LXC based container model is more flexible regarding
-storage. First, you can have more than a single mount point. This
-allows you to choose a suitable storage for each application. For
-example, you can use a relatively slow (and thus cheap) storage for
-the container root file system. Then you can use a second mount point
-to mount a very fast, distributed storage for your database
-application. See section <<pct_mount_points,Mount Points>> for further
-details.
+For example the root file system of the container can be on slow and cheap
+storage while the database can be on fast and distributed storage via a second
+mount point. See section <<pct_mount_points, Mount Points>> for further details.
 
-The second big improvement is that you can use any storage type
-supported by the {pve} storage library. That means that you can store
-your containers on local `lvmthin` or `zfs`, shared `iSCSI` storage,
-or even on distributed storage systems like `ceph`. It also enables us
-to use advanced storage features like snapshots and clones. `vzdump`
-can also use the snapshot feature to provide consistent container
-backups.
+Any storage type supported by the {pve} storage library can be used. This means
+that containers can be stored on local (for example `lvm`, `zfs` or directory),
+shared external (like `iSCSI`, `NFS`) or even distributed storage systems like
+Ceph. Advanced storage features like snapshots or clones can be used if the
+underlying storage supports them. The `vzdump` backup tool can use snapshots to
+provide consistent container backups.
 
-Last but not least, you can also mount local devices directly, or
-mount local directories using bind mounts. That way you can access
-local storage inside containers with zero overhead. Such bind mounts
-also provide an easy way to share data between different containers.
+Furthermore, local devices or local directories can be mounted directly using
+'bind mounts'. This gives access to local resources inside a container with
+practically zero overhead. Bind mounts can be used as an easy way to share data
+between containers.
 
 
 FUSE Mounts
@@ -289,20 +296,21 @@ Using Quotas Inside Containers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Quotas allow to set limits inside a container for the amount of disk
-space that each user can use.  This only works on ext4 image based
-storage types and currently does not work with unprivileged
-containers.
+space that each user can use.
+
+NOTE: This only works on ext4 image based storage types and currently only works
+with privileged containers.
 
 Activating the `quota` option causes the following mount options to be
 used for a mount point:
 `usrjquota=aquota.user,grpjquota=aquota.group,jqfmt=vfsv0`
 
-This allows quotas to be used like you would on any other system. You
+This allows quotas to be used like on any other system. You
 can initialize the `/aquota.user` and `/aquota.group` files by running
 
 ----
-quotacheck -cmug /
-quotaon /
+# quotacheck -cmug /
+# quotaon /
 ----
 
 and edit the quotas via the `edquota` command. Refer to the documentation
@@ -315,30 +323,42 @@ the mount point's path instead of just `/`.
 Using ACLs Inside Containers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The standard Posix **A**ccess **C**ontrol **L**ists are also available inside containers.
-ACLs allow you to set more detailed file ownership than the traditional user/
-group/others model.
+The standard Posix **A**ccess **C**ontrol **L**ists are also available inside
+containers. ACLs allow you to set more detailed file ownership than the
+traditional user/group/others model.
 
 
-Backup of Containers mount points
+Backup of Container mount points
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-By default additional mount points besides the Root Disk mount point are not
-included in backups. You can reverse this default behavior by setting the
-*Backup* option on a mount point.
-// see PVE::VZDump::LXC::prepare()
+To include a mount point in backups, enable the `backup` option for it in the
+container configuration. For an existing mount point `mp0`
+
+----
+mp0: guests:subvol-100-disk-1,mp=/root/files,size=8G
+----
+
+add `backup=1` to enable it.
+
+----
+mp0: guests:subvol-100-disk-1,mp=/root/files,size=8G,backup=1
+----
+
+NOTE: When creating a new mount point in the GUI, this option is enabled by
+default.
+
+To disable backups for a mount point, add `backup=0` in the way described above,
+or uncheck the *Backup* checkbox on the GUI.
 
 Replication of Containers mount points
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-By default additional mount points are replicated when the Root Disk
-is replicated. If you want the {pve} storage replication mechanism to skip a
- mount point when starting  a replication job, you can set the
-*Skip replication* option on that mount point. +
-As of {pve} 5.0, replication requires a storage of type `zfspool`, so adding a
- mount point to a different type of storage when the container has replication
- configured requires to *Skip replication* for that mount point.
-
+By default, additional mount points are replicated when the Root Disk is
+replicated. If you want the {pve} storage replication mechanism to skip a mount
+point, you can set the *Skip replication* option for that mount point. +
+As of {pve} 5.0, replication requires a storage of type `zfspool`. Adding a
+mount point to a different type of storage when the container has replication
+configured requires to have *Skip replication* enabled for that mount point.
 
 [[pct_settings]]
 Container Settings
@@ -361,33 +381,47 @@ General settings of a container include
 * *Unprivileged container*: this option allows to choose at creation time
 if you want to create a privileged or unprivileged container.
 
+Unprivileged Containers
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Unprivileged containers use a new kernel feature called user namespaces. The
+root UID 0 inside the container is mapped to an unprivileged user outside the
+container. This means that most security issues (container escape, resource
+abuse, etc.) in these containers will affect a random unprivileged user, and
+would be a generic kernel security bug rather than an LXC issue. The LXC team
+thinks unprivileged containers are safe by design.
+
+This is the default option when creating a new container.
+
+NOTE: If the container uses systemd as an init system, please be
+aware the systemd version running inside the container should be equal to
+or greater than 220.
+
 
 Privileged Containers
 ^^^^^^^^^^^^^^^^^^^^^
 
-Security is done by dropping capabilities, using mandatory access
-control (AppArmor), SecComp filters and namespaces. The LXC team
-considers this kind of container as unsafe, and they will not consider
-new container escape exploits to be security issues worthy of a CVE
-and quick fix. So you should use this kind of containers only inside a
-trusted environment, or when no untrusted task is running as root in
-the container.
+Security in containers is achieved by using mandatory access control
+(AppArmor), SecComp filters and namespaces. The LXC team considers this kind of
+container as unsafe, and they will not consider new container escape exploits
+to be security issues worthy of a CVE and quick fix.  That's why privileged
+containers should only be used in trusted environments.
+
+WARNING: Although it is not recommended, AppArmor can be disabled for a
+container. This brings security risks with it. Some syscalls can lead to
+privilege escalation when executed within a container if the system is
+misconfigured or if a LXC or Linux Kernel vulnerability exists.
+
+To disable AppArmor for a container, add the following line to the container
+configuration file located at `/etc/pve/lxc/CTID.conf`:
+
+----
+lxc.apparmor_profile = unconfined
+----
+
+Please note that this is not recommended for production use.
 
 
-Unprivileged Containers
-^^^^^^^^^^^^^^^^^^^^^^^
-
-This kind of containers use a new kernel feature called user
-namespaces. The root UID 0 inside the container is mapped to an
-unprivileged user outside the container. This means that most security
-issues (container escape, resource abuse, ...) in those containers
-will affect a random unprivileged user, and so would be a generic
-kernel security bug rather than an LXC issue. The LXC team thinks
-unprivileged containers are safe by design.
-
-NOTE: If the container uses systemd as an init system, please be
-aware the systemd version running inside the container should be equal
-or greater than 220.
 
 [[pct_cpu]]
 CPU
@@ -395,11 +429,11 @@ CPU
 
 [thumbnail="screenshot/gui-create-ct-cpu.png"]
 
-You can restrict the number of visible CPUs inside the container using
-the `cores` option. This is implemented using the Linux 'cpuset'
-cgroup (**c**ontrol *group*). A special task inside `pvestatd` tries
-to distribute running containers among available CPUs. You can view
-the assigned CPUs using the following command:
+You can restrict the number of visible CPUs inside the container using the
+`cores` option. This is implemented using the Linux 'cpuset' cgroup
+(**c**ontrol *group*). A special task inside `pvestatd` tries to distribute
+running containers among available CPUs. To view the assigned CPUs run
+the following command:
 
 ----
 # pct cpusets
@@ -410,10 +444,10 @@ the assigned CPUs using the following command:
  ---------------------
 ----
 
-Containers use the host kernel directly, so all task inside a
-container are handled by the host CPU scheduler. {pve} uses the Linux
-'CFS' (**C**ompletely **F**air **S**cheduler) scheduler by default,
-which has additional bandwidth control options.
+Containers use the host kernel directly. All tasks inside a container are
+handled by the host CPU scheduler. {pve} uses the Linux 'CFS' (**C**ompletely
+**F**air **S**cheduler) scheduler by default, which has additional bandwidth
+control options.
 
 [horizontal]
 
@@ -459,14 +493,14 @@ Mount Points
 
 [thumbnail="screenshot/gui-create-ct-root-disk.png"]
 
-The root mount point is configured with the `rootfs` property, and you can
-configure up to 10 additional mount points. The corresponding options
-are called `mp0` to `mp9`, and they can contain the following setting:
+The root mount point is configured with the `rootfs` property. You can
+configure up to 256 additional mount points. The corresponding options
+are called `mp0` to `mp255`. They can contain the following settings:
 
 include::pct-mountpoint-opts.adoc[]
 
-Currently there are basically three types of mount points: storage backed
-mount points, bind mounts and device mounts.
+Currently there are three types of mount points: storage backed
+mount points, bind mounts, and device mounts.
 
 .Typical container `rootfs` configuration
 ----
@@ -558,26 +592,27 @@ include::pct-network-opts.adoc[]
 Automatic Start and Shutdown of Containers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-After creating your containers, you probably want them to start automatically
-when the host system boots. For this you need to select the option 'Start at
-boot' from the 'Options' Tab of your container in the web interface, or set it with
-the following command:
+To automatically start a container when the host system boots, select the
+option 'Start at boot' in the 'Options' panel of the container in the web
+interface or run the following command:
 
- pct set <ctid> -onboot 1
+----
+# pct set CTID -onboot 1
+----
 
 .Start and Shutdown Order
 // use the screenshot from qemu - its the same
 [thumbnail="screenshot/gui-qemu-edit-start-order.png"]
 
 If you want to fine tune the boot order of your containers, you can use the following
-parameters :
+parameters:
 
-* *Start/Shutdown order*: Defines the start order priority. E.g. set it to 1 if
+* *Start/Shutdown order*: Defines the start order priority. For example, set it to 1 if
 you want the CT to be the first to be started. (We use the reverse startup
 order for shutdown, so a container with a start order of 1 would be the last to
 be shut down)
 * *Startup delay*: Defines the interval between this container start and subsequent
-containers starts . E.g. set it to 240 if you want to wait 240 seconds before starting
+containers starts. For example, set it to 240 if you want to wait 240 seconds before starting
 other containers.
 * *Shutdown timeout*: Defines the duration in seconds {pve} should wait
 for the container to be offline after issuing a shutdown command.
@@ -595,7 +630,9 @@ Hookscripts
 
 You can add a hook script to CTs with the config property `hookscript`.
 
- pct set 100 -hookscript local:snippets/hookscript.pl
+----
+# pct set 100 -hookscript local:snippets/hookscript.pl
+----
 
 It will be called during various phases of the guests lifetime.
 For an example and documentation see the example script under
@@ -672,11 +709,11 @@ individually
 Managing Containers with `pct`
 ------------------------------
 
-`pct` is the tool to manage Linux Containers on {pve}. You can create
-and destroy containers, and control execution (start, stop, migrate,
-...). You can use pct to set parameters in the associated config file,
-like network configuration or memory limits.
-
+The "Proxmox Container Toolkit" (`pct`) is the command line tool to manage {pve}
+containers. It enables you to create or destroy containers, as well as control the
+container execution (start, stop, reboot, migrate, etc.). It can be used to set
+parameters in the config file of a container, for example the network
+configuration or memory limits.
 
 CLI Usage Examples
 ~~~~~~~~~~~~~~~~~~
@@ -684,32 +721,46 @@ CLI Usage Examples
 Create a container based on a Debian template (provided you have
 already downloaded the template via the web interface)
 
- pct create 100 /var/lib/vz/template/cache/debian-8.0-standard_8.0-1_amd64.tar.gz
+----
+# pct create 100 /var/lib/vz/template/cache/debian-10.0-standard_10.0-1_amd64.tar.gz
+----
 
 Start container 100
 
- pct start 100
+----
+# pct start 100
+----
 
 Start a login session via getty
 
- pct console 100
+----
+# pct console 100
+----
 
 Enter the LXC namespace and run a shell as root user
 
- pct enter 100
+----
+# pct enter 100
+----
 
 Display the configuration
 
- pct config 100
+----
+# pct config 100
+----
 
 Add a network interface called `eth0`, bridged to the host bridge `vmbr0`,
 set the address and gateway, while it's running
 
- pct set 100 -net0 name=eth0,bridge=vmbr0,ip=192.168.15.147/24,gw=192.168.15.1
+----
+# pct set 100 -net0 name=eth0,bridge=vmbr0,ip=192.168.15.147/24,gw=192.168.15.1
+----
 
 Reduce the memory of the container to 512MB
 
- pct set 100 -memory 512
+----
+# pct set 100 -memory 512
+----
 
 
 Obtaining Debugging Logs
@@ -719,9 +770,13 @@ In case `pct start` is unable to start a specific container, it might be
 helpful to collect debugging output by running `lxc-start` (replace `ID` with
 the container's ID):
 
- lxc-start -n ID -F -l DEBUG -o /tmp/lxc-ID.log
+----
+# lxc-start -n ID -F -l DEBUG -o /tmp/lxc-ID.log
+----
 
-This command will attempt to start the container in foreground mode, to stop the container run `pct shutdown ID` or `pct stop ID` in a second terminal.
+This command will attempt to start the container in foreground mode,
+to stop the container run `pct shutdown ID` or `pct stop ID` in a
+second terminal.
 
 The collected debug log is written to `/tmp/lxc-ID.log`.
 
@@ -735,10 +790,12 @@ Migration
 
 If you have a cluster, you can migrate your Containers with
 
- pct migrate <vmid> <target>
+----
+# pct migrate <ctid> <target>
+----
 
 This works as long as your Container is offline. If it has local volumes or
-mountpoints defined, the migration will copy the content over the network to
+mount points defined, the migration will copy the content over the network to
 the target host if the same storage is defined there.
 
 If you want to migrate online Containers, the only way is to use
@@ -773,8 +830,8 @@ net0: bridge=vmbr0,hwaddr=66:64:66:64:64:36,ip=dhcp,name=eth0,type=veth
 rootfs: local:107/vm-107-disk-1.raw,size=7G
 ----
 
-Those configuration files are simple text files, and you can edit them
-using a normal text editor (`vi`, `nano`, ...). This is sometimes
+The configuration files are simple text files. You can edit them
+using a normal text editor (`vi`, `nano`, etc). This is sometimes
 useful to do small corrections, but keep in mind that you need to
 restart the container to apply such changes.
 
@@ -784,12 +841,16 @@ Our toolkit is smart enough to instantaneously apply most changes to
 running containers. This feature is called "hot plug", and there is no
 need to restart the container in that case.
 
+In cases where a change cannot be hot plugged, it will be registered
+as a pending change (shown in red color in the GUI). They will only
+be applied after rebooting the container.
+
 
 File Format
 ~~~~~~~~~~~
 
-Container configuration files use a simple colon separated key/value
-format. Each line has the following format:
+The container configuration file uses a simple colon separated
+key/value format. Each line has the following format:
 
 -----
 # this is a comment
@@ -802,13 +863,17 @@ character are treated as comments and are also ignored.
 It is possible to add low-level, LXC style configuration directly, for
 example:
 
- lxc.init_cmd: /sbin/my_own_init
+----
+lxc.init_cmd: /sbin/my_own_init
+----
 
 or
 
- lxc.init_cmd = /sbin/my_own_init
+----
+lxc.init_cmd = /sbin/my_own_init
+----
 
-Those settings are directly passed to the LXC low-level tools.
+The settings are passed directly to the LXC low-level tools.
 
 
 [[pct_snapshots]]
@@ -854,9 +919,11 @@ Container migrations, snapshots and backups (`vzdump`) set a lock to
 prevent incompatible concurrent actions on the affected container. Sometimes
 you need to remove such a lock manually (e.g., after a power failure).
 
- pct unlock <CTID>
+----
+# pct unlock <CTID>
+----
 
-CAUTION: Only do that if you are sure the action which set the lock is
+CAUTION: Only do this if you are sure the action which set the lock is
 no longer running.
 
 
