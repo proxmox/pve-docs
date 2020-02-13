@@ -20,6 +20,10 @@ Allow to propagate (inherit) permissions.
 
 List of roles.
 
+`--tokens` `<string>` ::
+
+List of API tokens.
+
 `--users` `<string>` ::
 
 List of users.
@@ -47,6 +51,10 @@ Allow to propagate (inherit) permissions.
 `--roles` `<string>` ::
 
 List of roles.
+
+`--tokens` `<string>` ::
+
+List of API tokens.
 
 `--users` `<string>` ::
 
@@ -270,6 +278,10 @@ User index.
 
 Optional filter for enable property.
 
+`--full` `<boolean>` ('default =' `0`)::
+
+Include group and token information.
+
 *pveum user modify* `<userid>` `[OPTIONS]`
 
 Update user configuration.
@@ -315,6 +327,103 @@ Keys for two factor auth (yubico).
 `--lastname` `<string>` ::
 
 no description available
+
+*pveum user permissions* `[<userid>]` `[OPTIONS]` `[FORMAT_OPTIONS]`
+
+Retrieve effective permissions of given user/token.
+
+`<userid>`: `(?^:^(?^:[^\s:/]+)\@(?^:[A-Za-z][A-Za-z0-9\.\-_]+)(?:!(?^:[A-Za-z][A-Za-z0-9\.\-_]+))?$)` ::
+
+User ID or full API token ID
+
+`--path` `<string>` ::
+
+Only dump this specific path, not the whole tree.
+
+*pveum user token add* `<userid> <tokenid>` `[OPTIONS]` `[FORMAT_OPTIONS]`
+
+Generate a new API token for a specific user. NOTE: returns API token
+value, which needs to be stored as it cannot be retrieved afterwards!
+
+`<userid>`: `<string>` ::
+
+User ID
+
+`<tokenid>`: `(?^:[A-Za-z][A-Za-z0-9\.\-_]+)` ::
+
+User-specific token identifier.
+
+`--comment` `<string>` ::
+
+no description available
+
+`--expire` `<integer> (0 - N)` ('default =' `same as user`)::
+
+API token expiration date (seconds since epoch). '0' means no expiration date.
+
+`--privsep` `<boolean>` ('default =' `1`)::
+
+Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.
+
+*pveum user token list* `<userid>` `[FORMAT_OPTIONS]`
+
+Get user API tokens.
+
+`<userid>`: `<string>` ::
+
+User ID
+
+*pveum user token modify* `<userid> <tokenid>` `[OPTIONS]` `[FORMAT_OPTIONS]`
+
+Update API token for a specific user.
+
+`<userid>`: `<string>` ::
+
+User ID
+
+`<tokenid>`: `(?^:[A-Za-z][A-Za-z0-9\.\-_]+)` ::
+
+User-specific token identifier.
+
+`--comment` `<string>` ::
+
+no description available
+
+`--expire` `<integer> (0 - N)` ('default =' `same as user`)::
+
+API token expiration date (seconds since epoch). '0' means no expiration date.
+
+`--privsep` `<boolean>` ('default =' `1`)::
+
+Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.
+
+*pveum user token permissions* `<userid> <tokenid>` `[OPTIONS]` `[FORMAT_OPTIONS]`
+
+Retrieve effective permissions of given token.
+
+`<userid>`: `<string>` ::
+
+User ID
+
+`<tokenid>`: `(?^:[A-Za-z][A-Za-z0-9\.\-_]+)` ::
+
+User-specific token identifier.
+
+`--path` `<string>` ::
+
+Only dump this specific path, not the whole tree.
+
+*pveum user token remove* `<userid> <tokenid>` `[FORMAT_OPTIONS]`
+
+Remove API token for a specific user.
+
+`<userid>`: `<string>` ::
+
+User ID
+
+`<tokenid>`: `(?^:[A-Za-z][A-Za-z0-9\.\-_]+)` ::
+
+User-specific token identifier.
 
 *pveum useradd*
 

@@ -56,7 +56,7 @@
 |===========================================================
 
 [horizontal]
-'Ceph':: Ceph Storage Cluster traffic (Ceph Monitors, OSD & MDS Daemons)
+'Ceph':: Ceph Storage Cluster traffic (Ceph Monitors, OSD & MDS Deamons)
 
 [width="100%",options="header"]
 |===========================================================
@@ -450,6 +450,15 @@
 |Action|proto|dport|sport
 |PARAM|udp|5632|
 |PARAM|tcp|5631|
+|===========================================================
+
+[horizontal]
+'PMG':: Proxmox Mail Gateway web interface
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|8006|
 |===========================================================
 
 [horizontal]

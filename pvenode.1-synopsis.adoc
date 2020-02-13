@@ -165,6 +165,10 @@ Maximal number of parallel migration job. If not set use 'max_workers' from data
 
 Only consider Guests with these IDs.
 
+`--with-local-disks` `<boolean>` ::
+
+Enable live storage migration for local disk
+
 *pvenode startall* `[OPTIONS]`
 
 Start all VMs and containers located on this node (by default only those

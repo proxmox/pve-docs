@@ -6,6 +6,7 @@ var pveapi = [
                {
                   "info" : {
                      "DELETE" : {
+                        "allowtoken" : 1,
                         "description" : "Mark replication job for removal.",
                         "method" : "DELETE",
                         "name" : "delete",
@@ -49,6 +50,7 @@ var pveapi = [
                         }
                      },
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Read replication job configuration.",
                         "method" : "GET",
                         "name" : "read",
@@ -72,6 +74,7 @@ var pveapi = [
                         }
                      },
                      "PUT" : {
+                        "allowtoken" : 1,
                         "description" : "Update replication job configuration.",
                         "method" : "PUT",
                         "name" : "update",
@@ -169,6 +172,7 @@ var pveapi = [
             ],
             "info" : {
                "GET" : {
+                  "allowtoken" : 1,
                   "description" : "List replication jobs.",
                   "method" : "GET",
                   "name" : "index",
@@ -194,6 +198,7 @@ var pveapi = [
                   }
                },
                "POST" : {
+                  "allowtoken" : 1,
                   "description" : "Create a new replication job",
                   "method" : "POST",
                   "name" : "create",
@@ -294,6 +299,7 @@ var pveapi = [
                      {
                         "info" : {
                            "DELETE" : {
+                              "allowtoken" : 1,
                               "description" : "Removes a node from the cluster configuration.",
                               "method" : "DELETE",
                               "name" : "delnode",
@@ -314,6 +320,7 @@ var pveapi = [
                               }
                            },
                            "POST" : {
+                              "allowtoken" : 1,
                               "description" : "Adds a node to the cluster configuration. This call is for internal use.",
                               "method" : "POST",
                               "name" : "addnode",
@@ -392,6 +399,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Corosync node list.",
                         "method" : "GET",
                         "name" : "nodes",
@@ -433,6 +441,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Get information needed to join this cluster over the connected node.",
                         "method" : "GET",
                         "name" : "join_info",
@@ -532,6 +541,7 @@ var pveapi = [
                         }
                      },
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Joins this node into an existing cluster.",
                         "method" : "POST",
                         "name" : "join",
@@ -613,6 +623,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Get corosync totem protocol settings.",
                         "method" : "GET",
                         "name" : "totem",
@@ -640,6 +651,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Get QDevice status",
                         "method" : "GET",
                         "name" : "status",
@@ -667,6 +679,7 @@ var pveapi = [
             ],
             "info" : {
                "GET" : {
+                  "allowtoken" : 1,
                   "description" : "Directory index.",
                   "method" : "GET",
                   "name" : "index",
@@ -697,6 +710,7 @@ var pveapi = [
                   }
                },
                "POST" : {
+                  "allowtoken" : 1,
                   "description" : "Generate new cluster configuration.",
                   "method" : "POST",
                   "name" : "create",
@@ -768,6 +782,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "DELETE" : {
+                                    "allowtoken" : 1,
                                     "description" : "Delete rule.",
                                     "method" : "DELETE",
                                     "name" : "delete_rule",
@@ -813,6 +828,7 @@ var pveapi = [
                                     }
                                  },
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Get single rule data.",
                                     "method" : "GET",
                                     "name" : "get_rule",
@@ -917,6 +933,7 @@ var pveapi = [
                                     }
                                  },
                                  "PUT" : {
+                                    "allowtoken" : 1,
                                     "description" : "Modify rule data.",
                                     "method" : "PUT",
                                     "name" : "update_rule",
@@ -1081,6 +1098,7 @@ var pveapi = [
                         ],
                         "info" : {
                            "DELETE" : {
+                              "allowtoken" : 1,
                               "description" : "Delete security group.",
                               "method" : "DELETE",
                               "name" : "delete_security_group",
@@ -1111,6 +1129,7 @@ var pveapi = [
                               }
                            },
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "List rules.",
                               "method" : "GET",
                               "name" : "get_rules",
@@ -1155,6 +1174,7 @@ var pveapi = [
                               }
                            },
                            "POST" : {
+                              "allowtoken" : 1,
                               "description" : "Create new rule.",
                               "method" : "POST",
                               "name" : "create_rule",
@@ -1305,6 +1325,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "List security groups.",
                         "method" : "GET",
                         "name" : "list_security_groups",
@@ -1347,6 +1368,7 @@ var pveapi = [
                         }
                      },
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Create new security group.",
                         "method" : "POST",
                         "name" : "create_security_group",
@@ -1406,6 +1428,7 @@ var pveapi = [
                      {
                         "info" : {
                            "DELETE" : {
+                              "allowtoken" : 1,
                               "description" : "Delete rule.",
                               "method" : "DELETE",
                               "name" : "delete_rule",
@@ -1444,6 +1467,7 @@ var pveapi = [
                               }
                            },
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Get single rule data.",
                               "method" : "GET",
                               "name" : "get_rule",
@@ -1541,6 +1565,7 @@ var pveapi = [
                               }
                            },
                            "PUT" : {
+                              "allowtoken" : 1,
                               "description" : "Modify rule data.",
                               "method" : "PUT",
                               "name" : "update_rule",
@@ -1698,6 +1723,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "List rules.",
                         "method" : "GET",
                         "name" : "get_rules",
@@ -1733,6 +1759,7 @@ var pveapi = [
                         }
                      },
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Create new rule.",
                         "method" : "POST",
                         "name" : "create_rule",
@@ -1880,6 +1907,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "DELETE" : {
+                                    "allowtoken" : 1,
                                     "description" : "Remove IP or Network from IPSet.",
                                     "method" : "DELETE",
                                     "name" : "remove_ip",
@@ -1923,6 +1951,7 @@ var pveapi = [
                                     }
                                  },
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Read IP or Network settings from IPSet.",
                                     "method" : "GET",
                                     "name" : "read_ip",
@@ -1959,6 +1988,7 @@ var pveapi = [
                                     }
                                  },
                                  "PUT" : {
+                                    "allowtoken" : 1,
                                     "description" : "Update IP or Network settings",
                                     "method" : "PUT",
                                     "name" : "update_ip",
@@ -2019,6 +2049,7 @@ var pveapi = [
                         ],
                         "info" : {
                            "DELETE" : {
+                              "allowtoken" : 1,
                               "description" : "Delete IPSet",
                               "method" : "DELETE",
                               "name" : "delete_ipset",
@@ -2049,6 +2080,7 @@ var pveapi = [
                               }
                            },
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "List IPSet content",
                               "method" : "GET",
                               "name" : "get_ipset",
@@ -2106,6 +2138,7 @@ var pveapi = [
                               }
                            },
                            "POST" : {
+                              "allowtoken" : 1,
                               "description" : "Add IP or Network to IPSet.",
                               "method" : "POST",
                               "name" : "create_ip",
@@ -2159,6 +2192,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "List IPSets",
                         "method" : "GET",
                         "name" : "ipset_index",
@@ -2207,6 +2241,7 @@ var pveapi = [
                         }
                      },
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Create new IPSet",
                         "method" : "POST",
                         "name" : "create_ipset",
@@ -2266,6 +2301,7 @@ var pveapi = [
                      {
                         "info" : {
                            "DELETE" : {
+                              "allowtoken" : 1,
                               "description" : "Remove IP or Network alias.",
                               "method" : "DELETE",
                               "name" : "remove_alias",
@@ -2303,6 +2339,7 @@ var pveapi = [
                               }
                            },
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Read alias.",
                               "method" : "GET",
                               "name" : "read_alias",
@@ -2332,6 +2369,7 @@ var pveapi = [
                               }
                            },
                            "PUT" : {
+                              "allowtoken" : 1,
                               "description" : "Update IP or Network alias.",
                               "method" : "PUT",
                               "name" : "update_alias",
@@ -2395,6 +2433,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "List aliases",
                         "method" : "GET",
                         "name" : "get_aliases",
@@ -2442,6 +2481,7 @@ var pveapi = [
                         }
                      },
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Create IP or Network Alias.",
                         "method" : "POST",
                         "name" : "create_alias",
@@ -2490,6 +2530,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Get Firewall options.",
                         "method" : "GET",
                         "name" : "get_options",
@@ -2572,6 +2613,7 @@ var pveapi = [
                         }
                      },
                      "PUT" : {
+                        "allowtoken" : 1,
                         "description" : "Set Firewall options.",
                         "method" : "PUT",
                         "name" : "set_options",
@@ -2679,6 +2721,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "List available macros",
                         "method" : "GET",
                         "name" : "get_macros",
@@ -2713,6 +2756,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Lists possible IPSet/Alias reference which are allowed in source/dest properties.",
                         "method" : "GET",
                         "name" : "refs",
@@ -2773,6 +2817,7 @@ var pveapi = [
             ],
             "info" : {
                "GET" : {
+                  "allowtoken" : 1,
                   "description" : "Directory index.",
                   "method" : "GET",
                   "name" : "index",
@@ -2806,6 +2851,7 @@ var pveapi = [
                {
                   "info" : {
                      "DELETE" : {
+                        "allowtoken" : 1,
                         "description" : "Delete vzdump backup job definition.",
                         "method" : "DELETE",
                         "name" : "delete_job",
@@ -2835,6 +2881,7 @@ var pveapi = [
                         }
                      },
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Read vzdump backup job definition.",
                         "method" : "GET",
                         "name" : "read_job",
@@ -2863,6 +2910,7 @@ var pveapi = [
                         }
                      },
                      "PUT" : {
+                        "allowtoken" : 1,
                         "description" : "Update vzdump backup job definition.",
                         "method" : "PUT",
                         "name" : "update_job",
@@ -3116,6 +3164,7 @@ var pveapi = [
             ],
             "info" : {
                "GET" : {
+                  "allowtoken" : 1,
                   "description" : "List vzdump backup schedule.",
                   "method" : "GET",
                   "name" : "index",
@@ -3152,6 +3201,7 @@ var pveapi = [
                   }
                },
                "POST" : {
+                  "allowtoken" : 1,
                   "description" : "Create new vzdump backup job.",
                   "method" : "POST",
                   "name" : "create_job",
@@ -3400,6 +3450,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Request resource migration (online) to another node.",
                                     "method" : "POST",
                                     "name" : "migrate",
@@ -3442,6 +3493,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Request resource relocatzion to another node. This stops the service on the old node, and restarts it on the target node.",
                                     "method" : "POST",
                                     "name" : "relocate",
@@ -3484,6 +3536,7 @@ var pveapi = [
                         ],
                         "info" : {
                            "DELETE" : {
+                              "allowtoken" : 1,
                               "description" : "Delete resource configuration.",
                               "method" : "DELETE",
                               "name" : "delete",
@@ -3513,6 +3566,7 @@ var pveapi = [
                               }
                            },
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Read resource configuration.",
                               "method" : "GET",
                               "name" : "read",
@@ -3590,6 +3644,7 @@ var pveapi = [
                               }
                            },
                            "PUT" : {
+                              "allowtoken" : 1,
                               "description" : "Update resource configuration.",
                               "method" : "PUT",
                               "name" : "update",
@@ -3686,6 +3741,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "List HA resources.",
                         "method" : "GET",
                         "name" : "index",
@@ -3731,6 +3787,7 @@ var pveapi = [
                         }
                      },
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Create a new HA resource.",
                         "method" : "POST",
                         "name" : "create",
@@ -3823,6 +3880,7 @@ var pveapi = [
                      {
                         "info" : {
                            "DELETE" : {
+                              "allowtoken" : 1,
                               "description" : "Delete ha group configuration.",
                               "method" : "DELETE",
                               "name" : "delete",
@@ -3852,6 +3910,7 @@ var pveapi = [
                               }
                            },
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Read ha group configuration.",
                               "method" : "GET",
                               "name" : "read",
@@ -3878,6 +3937,7 @@ var pveapi = [
                               "returns" : {}
                            },
                            "PUT" : {
+                              "allowtoken" : 1,
                               "description" : "Update ha group configuration.",
                               "method" : "PUT",
                               "name" : "update",
@@ -3960,6 +4020,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Get HA groups.",
                         "method" : "GET",
                         "name" : "index",
@@ -3994,6 +4055,7 @@ var pveapi = [
                         }
                      },
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Create a new HA group.",
                         "method" : "POST",
                         "name" : "create",
@@ -4071,6 +4133,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Get HA manger status.",
                               "method" : "GET",
                               "name" : "status",
@@ -4098,6 +4161,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Get full HA manger status, including LRM status.",
                               "method" : "GET",
                               "name" : "manager_status",
@@ -4125,6 +4189,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Directory index.",
                         "method" : "GET",
                         "name" : "index",
@@ -4156,6 +4221,7 @@ var pveapi = [
             ],
             "info" : {
                "GET" : {
+                  "allowtoken" : 1,
                   "description" : "Directory index.",
                   "method" : "GET",
                   "name" : "index",
@@ -4201,6 +4267,7 @@ var pveapi = [
                      {
                         "info" : {
                            "DELETE" : {
+                              "allowtoken" : 1,
                               "description" : "Deactivate existing ACME account at CA.",
                               "method" : "DELETE",
                               "name" : "deactivate_account",
@@ -4224,6 +4291,7 @@ var pveapi = [
                               }
                            },
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Return existing ACME account information.",
                               "method" : "GET",
                               "name" : "get_account",
@@ -4269,6 +4337,7 @@ var pveapi = [
                               }
                            },
                            "PUT" : {
+                              "allowtoken" : 1,
                               "description" : "Update existing ACME account information with CA. Note: not specifying any new account information triggers a refresh.",
                               "method" : "PUT",
                               "name" : "update_account",
@@ -4306,6 +4375,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "ACMEAccount index.",
                         "method" : "GET",
                         "name" : "account_index",
@@ -4331,6 +4401,7 @@ var pveapi = [
                         }
                      },
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Register a new ACME account with CA.",
                         "method" : "POST",
                         "name" : "register_account",
@@ -4380,6 +4451,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Retrieve ACME TermsOfService URL from CA.",
                         "method" : "GET",
                         "name" : "get_tos",
@@ -4412,6 +4484,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Get named known ACME directory endpoints.",
                         "method" : "GET",
                         "name" : "get_directories",
@@ -4447,6 +4520,7 @@ var pveapi = [
             ],
             "info" : {
                "GET" : {
+                  "allowtoken" : 1,
                   "description" : "ACMEAccount index.",
                   "method" : "GET",
                   "name" : "index",
@@ -4480,6 +4554,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Get ceph metadata.",
                         "method" : "GET",
                         "name" : "metadata",
@@ -4511,6 +4586,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Get ceph status.",
                         "method" : "GET",
                         "name" : "status",
@@ -4544,6 +4620,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Get the status of a specific ceph flag.",
                               "method" : "GET",
                               "name" : "get_flag",
@@ -4584,6 +4661,7 @@ var pveapi = [
                               }
                            },
                            "PUT" : {
+                              "allowtoken" : 1,
                               "description" : "Set or clear (unset) a specific ceph flag",
                               "method" : "PUT",
                               "name" : "update_flag",
@@ -4636,6 +4714,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "get the status of all ceph flags",
                         "method" : "GET",
                         "name" : "get_all_flags",
@@ -4686,6 +4765,7 @@ var pveapi = [
                         }
                      },
                      "PUT" : {
+                        "allowtoken" : 1,
                         "description" : "Set/Unset multiple ceph flags at once.",
                         "method" : "PUT",
                         "name" : "set_flags",
@@ -4782,6 +4862,7 @@ var pveapi = [
             ],
             "info" : {
                "GET" : {
+                  "allowtoken" : 1,
                   "description" : "Cluster ceph index.",
                   "method" : "GET",
                   "name" : "cephindex",
@@ -4813,6 +4894,7 @@ var pveapi = [
          {
             "info" : {
                "GET" : {
+                  "allowtoken" : 1,
                   "description" : "Read cluster log",
                   "method" : "GET",
                   "name" : "log",
@@ -4847,6 +4929,7 @@ var pveapi = [
          {
             "info" : {
                "GET" : {
+                  "allowtoken" : 1,
                   "description" : "Resources index (cluster wide).",
                   "method" : "GET",
                   "name" : "resources",
@@ -4974,6 +5057,7 @@ var pveapi = [
          {
             "info" : {
                "GET" : {
+                  "allowtoken" : 1,
                   "description" : "List recent tasks (cluster wide).",
                   "method" : "GET",
                   "name" : "tasks",
@@ -5003,6 +5087,7 @@ var pveapi = [
          {
             "info" : {
                "GET" : {
+                  "allowtoken" : 1,
                   "description" : "Get datacenter options.",
                   "method" : "GET",
                   "name" : "get_options",
@@ -5023,6 +5108,7 @@ var pveapi = [
                   }
                },
                "PUT" : {
+                  "allowtoken" : 1,
                   "description" : "Set datacenter options.",
                   "method" : "PUT",
                   "name" : "set_options",
@@ -5121,7 +5207,7 @@ var pveapi = [
                                     "migrate"
                                  ],
                                  "type" : "string",
-                                 "verbose_description" : "Describes the policy for handling HA services on poweroff or reboot of a node. Freeze will always freeze services which are still located on the node on shutdown, those services won't be recovered by the HA manager. Failover will not mark the services as frozen and thus the services will get recovered to other nodes, if the shutdown node does not come up again quickly (< 1min). 'conditional' chooses automatically depending on the type of shutdown, i.e., on a reboot the service will be frozen but on a poweroff the service will stay as is, and thus get recovered after about 2 minutes. Migrate will try to move all running services to another node on both, rebootand shutdown. The poweroff process will only continue once no running services are located on the node anymore. If the node comes up again, the service will be moved back to the previously powered-off node, at least if no other migration, reloaction or recovery took place."
+                                 "verbose_description" : "Describes the policy for handling HA services on poweroff or reboot of a node. Freeze will always freeze services which are still located on the node on shutdown, those services won't be recovered by the HA manager. Failover will not mark the services as frozen and thus the services will get recovered to other nodes, if the shutdown node does not come up again quickly (< 1min). 'conditional' chooses automatically depending on the type of shutdown, i.e., on a reboot the service will be frozen but on a poweroff the service will stay as is, and thus get recovered after about 2 minutes. Migrate will try to move all running services to another node when a reboot or shutdown was triggered. The poweroff process will only continue once no running services are located on the node anymore. If the node comes up again, the service will be moved back to the previously powered-off node, at least if no other migration, reloaction or recovery took place."
                               }
                            },
                            "optional" : 1,
@@ -5283,6 +5369,7 @@ var pveapi = [
          {
             "info" : {
                "GET" : {
+                  "allowtoken" : 1,
                   "description" : "Get cluster status information.",
                   "method" : "GET",
                   "name" : "get_status",
@@ -5302,8 +5389,59 @@ var pveapi = [
                   "returns" : {
                      "items" : {
                         "properties" : {
-                           "type" : {
+                           "id" : {
                               "type" : "string"
+                           },
+                           "ip" : {
+                              "description" : "[node] IP of the resolved nodename.",
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "level" : {
+                              "description" : "[node] Proxmox VE Subscription level, indicates if eligible for enterprise support as well as access to the stable Proxmox VE Enterprise Repository.",
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "local" : {
+                              "description" : "[node] Indicates if this is the responding node.",
+                              "optional" : 1,
+                              "type" : "boolean"
+                           },
+                           "name" : {
+                              "type" : "string"
+                           },
+                           "nodeid" : {
+                              "description" : "[node] ID of the node from the corosync configuration.",
+                              "optional" : 1,
+                              "type" : "integer"
+                           },
+                           "nodes" : {
+                              "description" : "[cluster] Nodes count, including offline nodes.",
+                              "optional" : 1,
+                              "type" : "integer"
+                           },
+                           "online" : {
+                              "description" : "[node] Indicates if the node is online or offline.",
+                              "optional" : 1,
+                              "type" : "boolean"
+                           },
+                           "quorate" : {
+                              "description" : "[cluster] Indicates if there is a majority of nodes online to make decisions",
+                              "optional" : 1,
+                              "type" : "boolean"
+                           },
+                           "type" : {
+                              "description" : "Indicates the type, either cluster or node. The type defines the object properties e.g. quorate available for type cluster.",
+                              "enum" : [
+                                 "cluster",
+                                 "node"
+                              ],
+                              "type" : "string"
+                           },
+                           "version" : {
+                              "description" : "[cluster] Current version of the corosync configuration file.",
+                              "optional" : 1,
+                              "type" : "integer"
                            }
                         },
                         "type" : "object"
@@ -5319,6 +5457,7 @@ var pveapi = [
          {
             "info" : {
                "GET" : {
+                  "allowtoken" : 1,
                   "description" : "Get next free VMID. If you pass an VMID it will raise an error if the ID is already used.",
                   "method" : "GET",
                   "name" : "nextid",
@@ -5351,6 +5490,7 @@ var pveapi = [
       ],
       "info" : {
          "GET" : {
+            "allowtoken" : 1,
             "description" : "Cluster index.",
             "method" : "GET",
             "name" : "index",
@@ -5394,6 +5534,7 @@ var pveapi = [
                                        {
                                           "info" : {
                                              "DELETE" : {
+                                                "allowtoken" : 1,
                                                 "description" : "Delete rule.",
                                                 "method" : "DELETE",
                                                 "name" : "delete_rule",
@@ -5445,6 +5586,7 @@ var pveapi = [
                                                 }
                                              },
                                              "GET" : {
+                                                "allowtoken" : 1,
                                                 "description" : "Get single rule data.",
                                                 "method" : "GET",
                                                 "name" : "get_rule",
@@ -5555,6 +5697,7 @@ var pveapi = [
                                                 }
                                              },
                                              "PUT" : {
+                                                "allowtoken" : 1,
                                                 "description" : "Modify rule data.",
                                                 "method" : "PUT",
                                                 "name" : "update_rule",
@@ -5725,6 +5868,7 @@ var pveapi = [
                                     ],
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "List rules.",
                                           "method" : "GET",
                                           "name" : "get_rules",
@@ -5775,6 +5919,7 @@ var pveapi = [
                                           }
                                        },
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Create new rule.",
                                           "method" : "POST",
                                           "name" : "create_rule",
@@ -5933,6 +6078,7 @@ var pveapi = [
                                        {
                                           "info" : {
                                              "DELETE" : {
+                                                "allowtoken" : 1,
                                                 "description" : "Remove IP or Network alias.",
                                                 "method" : "DELETE",
                                                 "name" : "remove_alias",
@@ -5983,6 +6129,7 @@ var pveapi = [
                                                 }
                                              },
                                              "GET" : {
+                                                "allowtoken" : 1,
                                                 "description" : "Read alias.",
                                                 "method" : "GET",
                                                 "name" : "read_alias",
@@ -6025,6 +6172,7 @@ var pveapi = [
                                                 }
                                              },
                                              "PUT" : {
+                                                "allowtoken" : 1,
                                                 "description" : "Update IP or Network alias.",
                                                 "method" : "PUT",
                                                 "name" : "update_alias",
@@ -6101,6 +6249,7 @@ var pveapi = [
                                     ],
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "List aliases",
                                           "method" : "GET",
                                           "name" : "get_aliases",
@@ -6163,6 +6312,7 @@ var pveapi = [
                                           }
                                        },
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Create IP or Network Alias.",
                                           "method" : "POST",
                                           "name" : "create_alias",
@@ -6228,6 +6378,7 @@ var pveapi = [
                                              {
                                                 "info" : {
                                                    "DELETE" : {
+                                                      "allowtoken" : 1,
                                                       "description" : "Remove IP or Network from IPSet.",
                                                       "method" : "DELETE",
                                                       "name" : "remove_ip",
@@ -6284,6 +6435,7 @@ var pveapi = [
                                                       }
                                                    },
                                                    "GET" : {
+                                                      "allowtoken" : 1,
                                                       "description" : "Read IP or Network settings from IPSet.",
                                                       "method" : "GET",
                                                       "name" : "read_ip",
@@ -6333,6 +6485,7 @@ var pveapi = [
                                                       }
                                                    },
                                                    "PUT" : {
+                                                      "allowtoken" : 1,
                                                       "description" : "Update IP or Network settings",
                                                       "method" : "PUT",
                                                       "name" : "update_ip",
@@ -6406,6 +6559,7 @@ var pveapi = [
                                           ],
                                           "info" : {
                                              "DELETE" : {
+                                                "allowtoken" : 1,
                                                 "description" : "Delete IPSet",
                                                 "method" : "DELETE",
                                                 "name" : "delete_ipset",
@@ -6449,6 +6603,7 @@ var pveapi = [
                                                 }
                                              },
                                              "GET" : {
+                                                "allowtoken" : 1,
                                                 "description" : "List IPSet content",
                                                 "method" : "GET",
                                                 "name" : "get_ipset",
@@ -6519,6 +6674,7 @@ var pveapi = [
                                                 }
                                              },
                                              "POST" : {
+                                                "allowtoken" : 1,
                                                 "description" : "Add IP or Network to IPSet.",
                                                 "method" : "POST",
                                                 "name" : "create_ip",
@@ -6585,6 +6741,7 @@ var pveapi = [
                                     ],
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "List IPSets",
                                           "method" : "GET",
                                           "name" : "ipset_index",
@@ -6648,6 +6805,7 @@ var pveapi = [
                                           }
                                        },
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Create new IPSet",
                                           "method" : "POST",
                                           "name" : "create_ipset",
@@ -6718,6 +6876,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Get VM firewall options.",
                                           "method" : "GET",
                                           "name" : "get_options",
@@ -6842,6 +7001,7 @@ var pveapi = [
                                           }
                                        },
                                        "PUT" : {
+                                          "allowtoken" : 1,
                                           "description" : "Set Firewall options.",
                                           "method" : "PUT",
                                           "name" : "set_options",
@@ -6992,6 +7152,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Read firewall log",
                                           "method" : "GET",
                                           "name" : "log",
@@ -7061,6 +7222,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Lists possible IPSet/Alias reference which are allowed in source/dest properties.",
                                           "method" : "GET",
                                           "name" : "refs",
@@ -7131,6 +7293,7 @@ var pveapi = [
                               ],
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Directory index.",
                                     "method" : "GET",
                                     "name" : "index",
@@ -7179,6 +7342,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Execute fsfreeze-freeze.",
                                           "method" : "POST",
                                           "name" : "fsfreeze-freeze",
@@ -7224,6 +7388,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Execute fsfreeze-status.",
                                           "method" : "POST",
                                           "name" : "fsfreeze-status",
@@ -7269,6 +7434,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Execute fsfreeze-thaw.",
                                           "method" : "POST",
                                           "name" : "fsfreeze-thaw",
@@ -7314,6 +7480,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Execute fstrim.",
                                           "method" : "POST",
                                           "name" : "fstrim",
@@ -7359,6 +7526,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Execute get-fsinfo.",
                                           "method" : "GET",
                                           "name" : "get-fsinfo",
@@ -7404,6 +7572,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Execute get-host-name.",
                                           "method" : "GET",
                                           "name" : "get-host-name",
@@ -7449,6 +7618,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Execute get-memory-block-info.",
                                           "method" : "GET",
                                           "name" : "get-memory-block-info",
@@ -7494,6 +7664,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Execute get-memory-blocks.",
                                           "method" : "GET",
                                           "name" : "get-memory-blocks",
@@ -7539,6 +7710,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Execute get-osinfo.",
                                           "method" : "GET",
                                           "name" : "get-osinfo",
@@ -7584,6 +7756,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Execute get-time.",
                                           "method" : "GET",
                                           "name" : "get-time",
@@ -7629,6 +7802,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Execute get-timezone.",
                                           "method" : "GET",
                                           "name" : "get-timezone",
@@ -7674,6 +7848,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Execute get-users.",
                                           "method" : "GET",
                                           "name" : "get-users",
@@ -7719,6 +7894,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Execute get-vcpus.",
                                           "method" : "GET",
                                           "name" : "get-vcpus",
@@ -7764,6 +7940,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Execute info.",
                                           "method" : "GET",
                                           "name" : "info",
@@ -7809,6 +7986,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Execute network-get-interfaces.",
                                           "method" : "GET",
                                           "name" : "network-get-interfaces",
@@ -7854,6 +8032,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Execute ping.",
                                           "method" : "POST",
                                           "name" : "ping",
@@ -7899,6 +8078,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Execute shutdown.",
                                           "method" : "POST",
                                           "name" : "shutdown",
@@ -7944,6 +8124,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Execute suspend-disk.",
                                           "method" : "POST",
                                           "name" : "suspend-disk",
@@ -7989,6 +8170,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Execute suspend-hybrid.",
                                           "method" : "POST",
                                           "name" : "suspend-hybrid",
@@ -8034,6 +8216,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Execute suspend-ram.",
                                           "method" : "POST",
                                           "name" : "suspend-ram",
@@ -8079,6 +8262,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Sets the password for the given user to the given password",
                                           "method" : "POST",
                                           "name" : "set-user-password",
@@ -8143,6 +8327,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Executes the given command in the vm via the guest-agent and returns an object with the pid.",
                                           "method" : "POST",
                                           "name" : "exec",
@@ -8199,6 +8384,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Gets the status of the given pid started by the guest-agent",
                                           "method" : "GET",
                                           "name" : "exec-status",
@@ -8284,6 +8470,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Reads the given file via guest agent. Is limited to 16777216 bytes.",
                                           "method" : "GET",
                                           "name" : "file-read",
@@ -8345,6 +8532,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Writes the given file via guest agent.",
                                           "method" : "POST",
                                           "name" : "file-write",
@@ -8400,6 +8588,7 @@ var pveapi = [
                               ],
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Qemu Agent command index.",
                                     "method" : "GET",
                                     "name" : "index",
@@ -8441,6 +8630,7 @@ var pveapi = [
                                     }
                                  },
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Execute Qemu Guest Agent commands.",
                                     "method" : "POST",
                                     "name" : "agent",
@@ -8512,6 +8702,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Read VM RRD statistics (returns PNG)",
                                     "method" : "GET",
                                     "name" : "rrd",
@@ -8586,6 +8777,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Read VM RRD statistics",
                                     "method" : "GET",
                                     "name" : "rrddata",
@@ -8653,7 +8845,8 @@ var pveapi = [
                            {
                               "info" : {
                                  "GET" : {
-                                    "description" : "Get current virtual machine configuration. This does not include pending configuration changes (see 'pending' API).",
+                                    "allowtoken" : 1,
+                                    "description" : "Get the virtual machine configuration with pending configuration changes applied. Set the 'current' parameter to get the current configuration instead.",
                                     "method" : "GET",
                                     "name" : "vm_config",
                                     "parameters" : {
@@ -8700,7 +8893,7 @@ var pveapi = [
                                     },
                                     "proxyto" : "node",
                                     "returns" : {
-                                       "description" : "The current VM configuration.",
+                                       "description" : "The VM configuration.",
                                        "properties" : {
                                           "acpi" : {
                                              "default" : 1,
@@ -10014,7 +10207,7 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "scsi[n]" : {
-                                             "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).",
+                                             "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 30).",
                                              "format" : {
                                                 "aio" : {
                                                    "description" : "AIO type to use.",
@@ -10877,6 +11070,7 @@ var pveapi = [
                                     }
                                  },
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Set virtual machine options (asynchrounous API).",
                                     "method" : "POST",
                                     "name" : "update_vm_async",
@@ -12269,7 +12463,7 @@ var pveapi = [
                                              "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "scsi[n]" : {
-                                             "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).",
+                                             "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 30).",
                                              "format" : {
                                                 "aio" : {
                                                    "description" : "AIO type to use.",
@@ -13186,6 +13380,7 @@ var pveapi = [
                                     }
                                  },
                                  "PUT" : {
+                                    "allowtoken" : 1,
                                     "description" : "Set virtual machine options (synchrounous API) - You should consider using the POST method instead for any actions involving hotplug or storage allocation.",
                                     "method" : "PUT",
                                     "name" : "update_vm",
@@ -14570,7 +14765,7 @@ var pveapi = [
                                              "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "scsi[n]" : {
-                                             "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).",
+                                             "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 30).",
                                              "format" : {
                                                 "aio" : {
                                                    "description" : "AIO type to use.",
@@ -15493,7 +15688,8 @@ var pveapi = [
                            {
                               "info" : {
                                  "GET" : {
-                                    "description" : "Get virtual machine configuration, including pending changes.",
+                                    "allowtoken" : 1,
+                                    "description" : "Get the virtual machine configuration with both current and pending values.",
                                     "method" : "GET",
                                     "name" : "vm_pending",
                                     "parameters" : {
@@ -15562,6 +15758,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "PUT" : {
+                                    "allowtoken" : 1,
                                     "description" : "Unlink/delete disk images.",
                                     "method" : "PUT",
                                     "name" : "unlink",
@@ -15618,6 +15815,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Creates a TCP VNC proxy connections.",
                                     "method" : "POST",
                                     "name" : "vncproxy",
@@ -15684,6 +15882,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Creates a TCP proxy connections.",
                                     "method" : "POST",
                                     "name" : "termproxy",
@@ -15752,6 +15951,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Opens a weksocket for VNC traffic.",
                                     "method" : "GET",
                                     "name" : "vncwebsocket",
@@ -15813,6 +16013,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Returns a SPICE configuration to connect to the VM.",
                                     "method" : "POST",
                                     "name" : "spiceproxy",
@@ -15884,6 +16085,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Get virtual machine status.",
                                           "method" : "GET",
                                           "name" : "vm_status",
@@ -16006,6 +16208,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Start virtual machine.",
                                           "method" : "POST",
                                           "name" : "vm_start",
@@ -16067,6 +16270,14 @@ var pveapi = [
                                                    "type" : "string",
                                                    "typetext" : "<string>"
                                                 },
+                                                "timeout" : {
+                                                   "default" : "max(30, vm memory in GiB)",
+                                                   "description" : "Wait maximal timeout seconds.",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (0 - N)"
+                                                },
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
@@ -16099,6 +16310,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Stop virtual machine. The qemu process will exit immediately. Thisis akin to pulling the power plug of a running computer and may damage the VM data",
                                           "method" : "POST",
                                           "name" : "vm_stop",
@@ -16170,6 +16382,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Reset virtual machine.",
                                           "method" : "POST",
                                           "name" : "vm_reset",
@@ -16220,6 +16433,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Shutdown virtual machine. This is similar to pressing the power button on a physical machine.This will send an ACPI event for the guest OS, which should then proceed to a clean shutdown.",
                                           "method" : "POST",
                                           "name" : "vm_shutdown",
@@ -16291,6 +16505,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Reboot the VM by shutting it down, and starting it again. Applies pending changes.",
                                           "method" : "POST",
                                           "name" : "vm_reboot",
@@ -16342,6 +16557,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Suspend virtual machine.",
                                           "method" : "POST",
                                           "name" : "vm_suspend",
@@ -16391,7 +16607,8 @@ var pveapi = [
                                                 [
                                                    "VM.PowerMgmt"
                                                 ]
-                                             ]
+                                             ],
+                                             "description" : "You need 'VM.PowerMgmt' on /vms/{vmid}, and if you have set 'todisk', you need also 'VM.Config.Disk' on /vms/{vmid} and 'Datastore.AllocateSpace' on the storage for the vmstate."
                                           },
                                           "protected" : 1,
                                           "proxyto" : "node",
@@ -16407,6 +16624,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Resume virtual machine.",
                                           "method" : "POST",
                                           "name" : "vm_resume",
@@ -16462,6 +16680,7 @@ var pveapi = [
                               ],
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Directory index",
                                     "method" : "GET",
                                     "name" : "vmcmdidx",
@@ -16513,6 +16732,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "PUT" : {
+                                    "allowtoken" : 1,
                                     "description" : "Send key event to virtual machine.",
                                     "method" : "PUT",
                                     "name" : "vm_sendkey",
@@ -16568,6 +16788,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Check if feature for virtual machine is available.",
                                     "method" : "GET",
                                     "name" : "vm_feature",
@@ -16640,6 +16861,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Create a copy of virtual machine/template.",
                                     "method" : "POST",
                                     "name" : "clone_vm",
@@ -16780,6 +17002,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Move volume to different storage.",
                                     "method" : "POST",
                                     "name" : "move_vm_disk",
@@ -16829,6 +17052,23 @@ var pveapi = [
                                                 "scsi11",
                                                 "scsi12",
                                                 "scsi13",
+                                                "scsi14",
+                                                "scsi15",
+                                                "scsi16",
+                                                "scsi17",
+                                                "scsi18",
+                                                "scsi19",
+                                                "scsi20",
+                                                "scsi21",
+                                                "scsi22",
+                                                "scsi23",
+                                                "scsi24",
+                                                "scsi25",
+                                                "scsi26",
+                                                "scsi27",
+                                                "scsi28",
+                                                "scsi29",
+                                                "scsi30",
                                                 "virtio0",
                                                 "virtio1",
                                                 "virtio2",
@@ -16921,6 +17161,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Get preconditions for migration.",
                                     "method" : "GET",
                                     "name" : "migrate_vm_precondition",
@@ -16988,6 +17229,7 @@ var pveapi = [
                                     }
                                  },
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Migrate virtual machine. Creates a new migration task.",
                                     "method" : "POST",
                                     "name" : "migrate_vm",
@@ -17088,6 +17330,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Execute Qemu monitor commands.",
                                     "method" : "POST",
                                     "name" : "monitor",
@@ -17138,6 +17381,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "PUT" : {
+                                    "allowtoken" : 1,
                                     "description" : "Extend volume size.",
                                     "method" : "PUT",
                                     "name" : "resize_vm",
@@ -17172,6 +17416,23 @@ var pveapi = [
                                                 "scsi11",
                                                 "scsi12",
                                                 "scsi13",
+                                                "scsi14",
+                                                "scsi15",
+                                                "scsi16",
+                                                "scsi17",
+                                                "scsi18",
+                                                "scsi19",
+                                                "scsi20",
+                                                "scsi21",
+                                                "scsi22",
+                                                "scsi23",
+                                                "scsi24",
+                                                "scsi25",
+                                                "scsi26",
+                                                "scsi27",
+                                                "scsi28",
+                                                "scsi29",
+                                                "scsi30",
                                                 "virtio0",
                                                 "virtio1",
                                                 "virtio2",
@@ -17251,6 +17512,7 @@ var pveapi = [
                                        {
                                           "info" : {
                                              "GET" : {
+                                                "allowtoken" : 1,
                                                 "description" : "Get snapshot configuration",
                                                 "method" : "GET",
                                                 "name" : "get_snapshot_config",
@@ -17285,7 +17547,8 @@ var pveapi = [
                                                       "/vms/{vmid}",
                                                       [
                                                          "VM.Snapshot",
-                                                         "VM.Snapshot.Rollback"
+                                                         "VM.Snapshot.Rollback",
+                                                         "VM.Audit"
                                                       ],
                                                       "any",
                                                       1
@@ -17297,6 +17560,7 @@ var pveapi = [
                                                 }
                                              },
                                              "PUT" : {
+                                                "allowtoken" : 1,
                                                 "description" : "Update snapshot metadata.",
                                                 "method" : "PUT",
                                                 "name" : "update_snapshot_config",
@@ -17354,6 +17618,7 @@ var pveapi = [
                                        {
                                           "info" : {
                                              "POST" : {
+                                                "allowtoken" : 1,
                                                 "description" : "Rollback VM state to specified snapshot.",
                                                 "method" : "POST",
                                                 "name" : "rollback",
@@ -17409,6 +17674,7 @@ var pveapi = [
                                     ],
                                     "info" : {
                                        "DELETE" : {
+                                          "allowtoken" : 1,
                                           "description" : "Delete a VM snapshot.",
                                           "method" : "DELETE",
                                           "name" : "delsnapshot",
@@ -17460,6 +17726,7 @@ var pveapi = [
                                           }
                                        },
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "",
                                           "method" : "GET",
                                           "name" : "snapshot_cmd_idx",
@@ -17513,6 +17780,7 @@ var pveapi = [
                               ],
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "List all snapshots.",
                                     "method" : "GET",
                                     "name" : "snapshot_list",
@@ -17585,6 +17853,7 @@ var pveapi = [
                                     }
                                  },
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Snapshot a VM.",
                                     "method" : "POST",
                                     "name" : "snapshot",
@@ -17649,6 +17918,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Create a Template.",
                                     "method" : "POST",
                                     "name" : "template",
@@ -17676,6 +17946,23 @@ var pveapi = [
                                                 "scsi11",
                                                 "scsi12",
                                                 "scsi13",
+                                                "scsi14",
+                                                "scsi15",
+                                                "scsi16",
+                                                "scsi17",
+                                                "scsi18",
+                                                "scsi19",
+                                                "scsi20",
+                                                "scsi21",
+                                                "scsi22",
+                                                "scsi23",
+                                                "scsi24",
+                                                "scsi25",
+                                                "scsi26",
+                                                "scsi27",
+                                                "scsi28",
+                                                "scsi29",
+                                                "scsi30",
                                                 "virtio0",
                                                 "virtio1",
                                                 "virtio2",
@@ -17744,6 +18031,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Get automatically generated cloudinit config.",
                                           "method" : "GET",
                                           "name" : "cloudinit_generated_config_dump",
@@ -17801,6 +18089,7 @@ var pveapi = [
                         ],
                         "info" : {
                            "DELETE" : {
+                              "allowtoken" : 1,
                               "description" : "Destroy the vm (also delete all used/owned volumes).",
                               "method" : "DELETE",
                               "name" : "destroy_vm",
@@ -17850,6 +18139,7 @@ var pveapi = [
                               }
                            },
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Directory index",
                               "method" : "GET",
                               "name" : "vmdiridx",
@@ -17901,6 +18191,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Virtual machine index (per node).",
                         "method" : "GET",
                         "name" : "vmlist",
@@ -18005,6 +18296,7 @@ var pveapi = [
                         }
                      },
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Create or restore a virtual machine.",
                         "method" : "POST",
                         "name" : "create_vm",
@@ -19390,7 +19682,7 @@ var pveapi = [
                                  "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                               },
                               "scsi[n]" : {
-                                 "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 13).",
+                                 "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 30).",
                                  "format" : {
                                     "aio" : {
                                        "description" : "AIO type to use.",
@@ -20319,6 +20611,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Get container configuration.",
                                     "method" : "GET",
                                     "name" : "vm_config",
@@ -20819,6 +21112,7 @@ var pveapi = [
                                     }
                                  },
                                  "PUT" : {
+                                    "allowtoken" : 1,
                                     "description" : "Set container options.",
                                     "method" : "PUT",
                                     "name" : "update_vm",
@@ -21347,6 +21641,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Get virtual machine status.",
                                           "method" : "GET",
                                           "name" : "vm_status",
@@ -21455,6 +21750,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Start the container.",
                                           "method" : "POST",
                                           "name" : "vm_start",
@@ -21505,6 +21801,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Stop the container. This will abruptly stop all processes running in the container.",
                                           "method" : "POST",
                                           "name" : "vm_stop",
@@ -21555,6 +21852,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Shutdown the container. This will trigger a clean shutdown of the container, see lxc-stop(1) for details.",
                                           "method" : "POST",
                                           "name" : "vm_shutdown",
@@ -21614,6 +21912,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Suspend the container.",
                                           "method" : "POST",
                                           "name" : "vm_suspend",
@@ -21658,6 +21957,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Resume the container.",
                                           "method" : "POST",
                                           "name" : "vm_resume",
@@ -21702,6 +22002,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Reboot the container by shutting it down, and starting it again. Applies pending changes.",
                                           "method" : "POST",
                                           "name" : "vm_reboot",
@@ -21753,6 +22054,7 @@ var pveapi = [
                               ],
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Directory index",
                                     "method" : "GET",
                                     "name" : "vmcmdidx",
@@ -21808,6 +22110,7 @@ var pveapi = [
                                        {
                                           "info" : {
                                              "POST" : {
+                                                "allowtoken" : 1,
                                                 "description" : "Rollback LXC state to specified snapshot.",
                                                 "method" : "POST",
                                                 "name" : "rollback",
@@ -21863,6 +22166,7 @@ var pveapi = [
                                        {
                                           "info" : {
                                              "GET" : {
+                                                "allowtoken" : 1,
                                                 "description" : "Get snapshot configuration",
                                                 "method" : "GET",
                                                 "name" : "get_snapshot_config",
@@ -21909,6 +22213,7 @@ var pveapi = [
                                                 }
                                              },
                                              "PUT" : {
+                                                "allowtoken" : 1,
                                                 "description" : "Update snapshot metadata.",
                                                 "method" : "PUT",
                                                 "name" : "update_snapshot_config",
@@ -21966,6 +22271,7 @@ var pveapi = [
                                     ],
                                     "info" : {
                                        "DELETE" : {
+                                          "allowtoken" : 1,
                                           "description" : "Delete a LXC snapshot.",
                                           "method" : "DELETE",
                                           "name" : "delsnapshot",
@@ -22017,6 +22323,7 @@ var pveapi = [
                                           }
                                        },
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "",
                                           "method" : "GET",
                                           "name" : "snapshot_cmd_idx",
@@ -22070,6 +22377,7 @@ var pveapi = [
                               ],
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "List all snapshots.",
                                     "method" : "GET",
                                     "name" : "list",
@@ -22137,6 +22445,7 @@ var pveapi = [
                                     }
                                  },
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Snapshot a container.",
                                     "method" : "POST",
                                     "name" : "snapshot",
@@ -22199,6 +22508,7 @@ var pveapi = [
                                        {
                                           "info" : {
                                              "DELETE" : {
+                                                "allowtoken" : 1,
                                                 "description" : "Delete rule.",
                                                 "method" : "DELETE",
                                                 "name" : "delete_rule",
@@ -22250,6 +22560,7 @@ var pveapi = [
                                                 }
                                              },
                                              "GET" : {
+                                                "allowtoken" : 1,
                                                 "description" : "Get single rule data.",
                                                 "method" : "GET",
                                                 "name" : "get_rule",
@@ -22360,6 +22671,7 @@ var pveapi = [
                                                 }
                                              },
                                              "PUT" : {
+                                                "allowtoken" : 1,
                                                 "description" : "Modify rule data.",
                                                 "method" : "PUT",
                                                 "name" : "update_rule",
@@ -22530,6 +22842,7 @@ var pveapi = [
                                     ],
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "List rules.",
                                           "method" : "GET",
                                           "name" : "get_rules",
@@ -22580,6 +22893,7 @@ var pveapi = [
                                           }
                                        },
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Create new rule.",
                                           "method" : "POST",
                                           "name" : "create_rule",
@@ -22738,6 +23052,7 @@ var pveapi = [
                                        {
                                           "info" : {
                                              "DELETE" : {
+                                                "allowtoken" : 1,
                                                 "description" : "Remove IP or Network alias.",
                                                 "method" : "DELETE",
                                                 "name" : "remove_alias",
@@ -22788,6 +23103,7 @@ var pveapi = [
                                                 }
                                              },
                                              "GET" : {
+                                                "allowtoken" : 1,
                                                 "description" : "Read alias.",
                                                 "method" : "GET",
                                                 "name" : "read_alias",
@@ -22830,6 +23146,7 @@ var pveapi = [
                                                 }
                                              },
                                              "PUT" : {
+                                                "allowtoken" : 1,
                                                 "description" : "Update IP or Network alias.",
                                                 "method" : "PUT",
                                                 "name" : "update_alias",
@@ -22906,6 +23223,7 @@ var pveapi = [
                                     ],
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "List aliases",
                                           "method" : "GET",
                                           "name" : "get_aliases",
@@ -22968,6 +23286,7 @@ var pveapi = [
                                           }
                                        },
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Create IP or Network Alias.",
                                           "method" : "POST",
                                           "name" : "create_alias",
@@ -23033,6 +23352,7 @@ var pveapi = [
                                              {
                                                 "info" : {
                                                    "DELETE" : {
+                                                      "allowtoken" : 1,
                                                       "description" : "Remove IP or Network from IPSet.",
                                                       "method" : "DELETE",
                                                       "name" : "remove_ip",
@@ -23089,6 +23409,7 @@ var pveapi = [
                                                       }
                                                    },
                                                    "GET" : {
+                                                      "allowtoken" : 1,
                                                       "description" : "Read IP or Network settings from IPSet.",
                                                       "method" : "GET",
                                                       "name" : "read_ip",
@@ -23138,6 +23459,7 @@ var pveapi = [
                                                       }
                                                    },
                                                    "PUT" : {
+                                                      "allowtoken" : 1,
                                                       "description" : "Update IP or Network settings",
                                                       "method" : "PUT",
                                                       "name" : "update_ip",
@@ -23211,6 +23533,7 @@ var pveapi = [
                                           ],
                                           "info" : {
                                              "DELETE" : {
+                                                "allowtoken" : 1,
                                                 "description" : "Delete IPSet",
                                                 "method" : "DELETE",
                                                 "name" : "delete_ipset",
@@ -23254,6 +23577,7 @@ var pveapi = [
                                                 }
                                              },
                                              "GET" : {
+                                                "allowtoken" : 1,
                                                 "description" : "List IPSet content",
                                                 "method" : "GET",
                                                 "name" : "get_ipset",
@@ -23324,6 +23648,7 @@ var pveapi = [
                                                 }
                                              },
                                              "POST" : {
+                                                "allowtoken" : 1,
                                                 "description" : "Add IP or Network to IPSet.",
                                                 "method" : "POST",
                                                 "name" : "create_ip",
@@ -23390,6 +23715,7 @@ var pveapi = [
                                     ],
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "List IPSets",
                                           "method" : "GET",
                                           "name" : "ipset_index",
@@ -23453,6 +23779,7 @@ var pveapi = [
                                           }
                                        },
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Create new IPSet",
                                           "method" : "POST",
                                           "name" : "create_ipset",
@@ -23523,6 +23850,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Get VM firewall options.",
                                           "method" : "GET",
                                           "name" : "get_options",
@@ -23647,6 +23975,7 @@ var pveapi = [
                                           }
                                        },
                                        "PUT" : {
+                                          "allowtoken" : 1,
                                           "description" : "Set Firewall options.",
                                           "method" : "PUT",
                                           "name" : "set_options",
@@ -23797,6 +24126,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Read firewall log",
                                           "method" : "GET",
                                           "name" : "log",
@@ -23866,6 +24196,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Lists possible IPSet/Alias reference which are allowed in source/dest properties.",
                                           "method" : "GET",
                                           "name" : "refs",
@@ -23936,6 +24267,7 @@ var pveapi = [
                               ],
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Directory index.",
                                     "method" : "GET",
                                     "name" : "index",
@@ -23982,6 +24314,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Read VM RRD statistics (returns PNG)",
                                     "method" : "GET",
                                     "name" : "rrd",
@@ -24056,6 +24389,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Read VM RRD statistics",
                                     "method" : "GET",
                                     "name" : "rrddata",
@@ -24123,6 +24457,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Creates a TCP VNC proxy connections.",
                                     "method" : "POST",
                                     "name" : "vncproxy",
@@ -24205,6 +24540,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Creates a TCP proxy connection.",
                                     "method" : "POST",
                                     "name" : "termproxy",
@@ -24262,6 +24598,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Opens a weksocket for VNC traffic.",
                                     "method" : "GET",
                                     "name" : "vncwebsocket",
@@ -24323,6 +24660,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Returns a SPICE configuration to connect to the CT.",
                                     "method" : "POST",
                                     "name" : "spiceproxy",
@@ -24392,6 +24730,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Migrate the container to another node. Creates a new migration task.",
                                     "method" : "POST",
                                     "name" : "migrate_vm",
@@ -24476,6 +24815,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Check if feature for virtual machine is available.",
                                     "method" : "GET",
                                     "name" : "vm_feature",
@@ -24542,6 +24882,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Create a Template.",
                                     "method" : "POST",
                                     "name" : "template",
@@ -24587,6 +24928,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Create a container clone/copy",
                                     "method" : "POST",
                                     "name" : "clone_vm",
@@ -24717,6 +25059,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "PUT" : {
+                                    "allowtoken" : 1,
                                     "description" : "Resize a container mount point.",
                                     "method" : "PUT",
                                     "name" : "resize_vm",
@@ -25039,6 +25382,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Move a rootfs-/mp-volume to a different storage",
                                     "method" : "POST",
                                     "name" : "move_volume",
@@ -25385,6 +25729,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Get container configuration, including pending changes.",
                                     "method" : "GET",
                                     "name" : "vm_pending",
@@ -25454,6 +25799,7 @@ var pveapi = [
                         ],
                         "info" : {
                            "DELETE" : {
+                              "allowtoken" : 1,
                               "description" : "Destroy the container (also delete all uses files).",
                               "method" : "DELETE",
                               "name" : "destroy_vm",
@@ -25497,6 +25843,7 @@ var pveapi = [
                               }
                            },
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Directory index",
                               "method" : "GET",
                               "name" : "vmdiridx",
@@ -25548,6 +25895,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "LXC container index (per node).",
                         "method" : "GET",
                         "name" : "vmlist",
@@ -25642,6 +25990,7 @@ var pveapi = [
                         }
                      },
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Create or restore a container.",
                         "method" : "POST",
                         "name" : "create_vm",
@@ -26215,6 +26564,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "ceph osd in",
                                           "method" : "POST",
                                           "name" : "in",
@@ -26257,6 +26607,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "ceph osd out",
                                           "method" : "POST",
                                           "name" : "out",
@@ -26299,6 +26650,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Instruct the OSD to scrub.",
                                           "method" : "POST",
                                           "name" : "scrub",
@@ -26348,6 +26700,7 @@ var pveapi = [
                               ],
                               "info" : {
                                  "DELETE" : {
+                                    "allowtoken" : 1,
                                     "description" : "Destroy OSD",
                                     "method" : "DELETE",
                                     "name" : "destroyosd",
@@ -26388,6 +26741,7 @@ var pveapi = [
                         ],
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Get Ceph osd list/tree.",
                               "method" : "GET",
                               "name" : "index",
@@ -26421,6 +26775,7 @@ var pveapi = [
                               }
                            },
                            "POST" : {
+                              "allowtoken" : 1,
                               "description" : "Create OSD",
                               "method" : "POST",
                               "name" : "createosd",
@@ -26495,6 +26850,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "DELETE" : {
+                                    "allowtoken" : 1,
                                     "description" : "Destroy Ceph Metadata Server",
                                     "method" : "DELETE",
                                     "name" : "destroymds",
@@ -26530,6 +26886,7 @@ var pveapi = [
                                     }
                                  },
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Create Ceph Metadata Server (MDS)",
                                     "method" : "POST",
                                     "name" : "createmds",
@@ -26581,6 +26938,7 @@ var pveapi = [
                         ],
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "MDS directory index.",
                               "method" : "GET",
                               "name" : "index",
@@ -26658,6 +27016,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "DELETE" : {
+                                    "allowtoken" : 1,
                                     "description" : "Destroy Ceph Manager.",
                                     "method" : "DELETE",
                                     "name" : "destroymgr",
@@ -26693,6 +27052,7 @@ var pveapi = [
                                     }
                                  },
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Create Ceph Manager",
                                     "method" : "POST",
                                     "name" : "createmgr",
@@ -26736,6 +27096,7 @@ var pveapi = [
                         ],
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "MGR directory index.",
                               "method" : "GET",
                               "name" : "index",
@@ -26804,6 +27165,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "DELETE" : {
+                                    "allowtoken" : 1,
                                     "description" : "Destroy Ceph Monitor and Manager.",
                                     "method" : "DELETE",
                                     "name" : "destroymon",
@@ -26839,6 +27201,7 @@ var pveapi = [
                                     }
                                  },
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Create Ceph Monitor and Manager",
                                     "method" : "POST",
                                     "name" : "createmon",
@@ -26889,6 +27252,7 @@ var pveapi = [
                         ],
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Get Ceph monitor list.",
                               "method" : "GET",
                               "name" : "listmon",
@@ -26953,6 +27317,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Create a Ceph filesystem",
                                     "method" : "POST",
                                     "name" : "createfs",
@@ -27013,6 +27378,7 @@ var pveapi = [
                         ],
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Directory index.",
                               "method" : "GET",
                               "name" : "index",
@@ -27076,6 +27442,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "List local disks.",
                               "method" : "GET",
                               "name" : "disks",
@@ -27158,6 +27525,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Get Ceph configuration.",
                               "method" : "GET",
                               "name" : "config",
@@ -27197,6 +27565,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Get Ceph configuration database.",
                               "method" : "GET",
                               "name" : "configdb",
@@ -27260,6 +27629,7 @@ var pveapi = [
                      {
                         "info" : {
                            "POST" : {
+                              "allowtoken" : 1,
                               "description" : "Create initial ceph default configuration and setup symlinks.",
                               "method" : "POST",
                               "name" : "init",
@@ -27348,6 +27718,7 @@ var pveapi = [
                      {
                         "info" : {
                            "POST" : {
+                              "allowtoken" : 1,
                               "description" : "Stop ceph services.",
                               "method" : "POST",
                               "name" : "stop",
@@ -27392,6 +27763,7 @@ var pveapi = [
                      {
                         "info" : {
                            "POST" : {
+                              "allowtoken" : 1,
                               "description" : "Start ceph services.",
                               "method" : "POST",
                               "name" : "start",
@@ -27436,6 +27808,7 @@ var pveapi = [
                      {
                         "info" : {
                            "POST" : {
+                              "allowtoken" : 1,
                               "description" : "Restart ceph services.",
                               "method" : "POST",
                               "name" : "restart",
@@ -27480,6 +27853,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Get ceph status.",
                               "method" : "GET",
                               "name" : "status",
@@ -27522,6 +27896,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "DELETE" : {
+                                    "allowtoken" : 1,
                                     "description" : "Destroy pool",
                                     "method" : "DELETE",
                                     "name" : "destroypool",
@@ -27578,6 +27953,7 @@ var pveapi = [
                         ],
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "List all pools.",
                               "method" : "GET",
                               "name" : "lspools",
@@ -27631,6 +28007,7 @@ var pveapi = [
                               }
                            },
                            "POST" : {
+                              "allowtoken" : 1,
                               "description" : "Create POOL",
                               "method" : "POST",
                               "name" : "createpool",
@@ -27724,6 +28101,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "DELETE" : {
+                                    "allowtoken" : 1,
                                     "description" : "Unset a ceph flag",
                                     "method" : "DELETE",
                                     "name" : "unset_flag",
@@ -27771,6 +28149,7 @@ var pveapi = [
                                     }
                                  },
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Set a specific ceph flag",
                                     "method" : "POST",
                                     "name" : "set_flag",
@@ -27825,6 +28204,7 @@ var pveapi = [
                         ],
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "get all set ceph flags",
                               "method" : "GET",
                               "name" : "get_flags",
@@ -27862,6 +28242,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Get OSD crush map",
                               "method" : "GET",
                               "name" : "crush",
@@ -27902,6 +28283,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Read ceph log",
                               "method" : "GET",
                               "name" : "log",
@@ -27964,6 +28346,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "List ceph rules.",
                               "method" : "GET",
                               "name" : "rules",
@@ -28014,6 +28397,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Directory index.",
                         "method" : "GET",
                         "name" : "index",
@@ -28064,6 +28448,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Extract configuration from vzdump backup archive.",
                               "method" : "GET",
                               "name" : "extractconfig",
@@ -28101,6 +28486,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Create backup.",
                         "method" : "POST",
                         "name" : "vzdump",
@@ -28327,6 +28713,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Read service properties",
                                     "method" : "GET",
                                     "name" : "service_state",
@@ -28386,6 +28773,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Start service.",
                                     "method" : "POST",
                                     "name" : "service_start",
@@ -28445,6 +28833,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Stop service.",
                                     "method" : "POST",
                                     "name" : "service_stop",
@@ -28504,6 +28893,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Restart service.",
                                     "method" : "POST",
                                     "name" : "service_restart",
@@ -28563,6 +28953,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Reload service.",
                                     "method" : "POST",
                                     "name" : "service_reload",
@@ -28622,6 +29013,7 @@ var pveapi = [
                         ],
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Directory index",
                               "method" : "GET",
                               "name" : "srvcmdidx",
@@ -28693,6 +29085,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Service list.",
                         "method" : "GET",
                         "name" : "index",
@@ -28740,6 +29133,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Read subscription info.",
                         "method" : "GET",
                         "name" : "get",
@@ -28763,6 +29157,7 @@ var pveapi = [
                         }
                      },
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Update subscription info.",
                         "method" : "POST",
                         "name" : "update",
@@ -28800,6 +29195,7 @@ var pveapi = [
                         }
                      },
                      "PUT" : {
+                        "allowtoken" : 1,
                         "description" : "Set subscription key.",
                         "method" : "PUT",
                         "name" : "set",
@@ -28845,6 +29241,7 @@ var pveapi = [
                      {
                         "info" : {
                            "DELETE" : {
+                              "allowtoken" : 1,
                               "description" : "Delete network device configuration",
                               "method" : "DELETE",
                               "name" : "delete_network",
@@ -28883,6 +29280,7 @@ var pveapi = [
                               }
                            },
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Read network device configuration",
                               "method" : "GET",
                               "name" : "network_config",
@@ -28928,6 +29326,7 @@ var pveapi = [
                               }
                            },
                            "PUT" : {
+                              "allowtoken" : 1,
                               "description" : "Update network device configuration",
                               "method" : "PUT",
                               "name" : "update_network",
@@ -28955,6 +29354,13 @@ var pveapi = [
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
+                                    },
+                                    "bond-primary" : {
+                                       "description" : "Specify the primary interface for active-backup bond.",
+                                       "format" : "pve-iface",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
                                     },
                                     "bond_mode" : {
                                        "description" : "Bonding mode.",
@@ -29051,6 +29457,14 @@ var pveapi = [
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
+                                    "mtu" : {
+                                       "description" : "MTU.",
+                                       "maximum" : 65520,
+                                       "minimum" : 1280,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (1280 - 65520)"
+                                    },
                                     "netmask" : {
                                        "description" : "Network mask.",
                                        "format" : "ipv4mask",
@@ -29132,6 +29546,21 @@ var pveapi = [
                                           "unknown"
                                        ],
                                        "type" : "string"
+                                    },
+                                    "vlan-id" : {
+                                       "description" : "vlan-id for a custom named vlan interface (ifupdown2 only).",
+                                       "maximum" : 4094,
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (1 - 4094)"
+                                    },
+                                    "vlan-raw-device" : {
+                                       "description" : "Specify the raw interface for the vlan interface.",
+                                       "format" : "pve-iface",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
                                     }
                                  }
                               },
@@ -29158,6 +29587,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "DELETE" : {
+                        "allowtoken" : 1,
                         "description" : "Revert network configuration changes.",
                         "method" : "DELETE",
                         "name" : "revert_network_changes",
@@ -29188,6 +29618,7 @@ var pveapi = [
                         }
                      },
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "List available networks",
                         "method" : "GET",
                         "name" : "index",
@@ -29238,6 +29669,7 @@ var pveapi = [
                         }
                      },
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Create network device configuration",
                         "method" : "POST",
                         "name" : "create_network",
@@ -29265,6 +29697,13 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
+                              },
+                              "bond-primary" : {
+                                 "description" : "Specify the primary interface for active-backup bond.",
+                                 "format" : "pve-iface",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               },
                               "bond_mode" : {
                                  "description" : "Bonding mode.",
@@ -29354,6 +29793,14 @@ var pveapi = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "mtu" : {
+                                 "description" : "MTU.",
+                                 "maximum" : 65520,
+                                 "minimum" : 1280,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (1280 - 65520)"
+                              },
                               "netmask" : {
                                  "description" : "Network mask.",
                                  "format" : "ipv4mask",
@@ -29435,6 +29882,21 @@ var pveapi = [
                                     "unknown"
                                  ],
                                  "type" : "string"
+                              },
+                              "vlan-id" : {
+                                 "description" : "vlan-id for a custom named vlan interface (ifupdown2 only).",
+                                 "maximum" : 4094,
+                                 "minimum" : 1,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (1 - 4094)"
+                              },
+                              "vlan-raw-device" : {
+                                 "description" : "Specify the raw interface for the vlan interface.",
+                                 "format" : "pve-iface",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               }
                            }
                         },
@@ -29454,6 +29916,7 @@ var pveapi = [
                         }
                      },
                      "PUT" : {
+                        "allowtoken" : 1,
                         "description" : "Reload network configuration",
                         "method" : "PUT",
                         "name" : "reload_network_config",
@@ -29495,6 +29958,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Read task log.",
                                     "method" : "GET",
                                     "name" : "read_task_log",
@@ -29558,6 +30022,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Read task status.",
                                     "method" : "GET",
                                     "name" : "read_task_status",
@@ -29606,6 +30071,7 @@ var pveapi = [
                         ],
                         "info" : {
                            "DELETE" : {
+                              "allowtoken" : 1,
                               "description" : "Stop a task.",
                               "method" : "DELETE",
                               "name" : "stop_task",
@@ -29635,6 +30101,7 @@ var pveapi = [
                               }
                            },
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "",
                               "method" : "GET",
                               "name" : "upid_index",
@@ -29678,6 +30145,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Read task list for one node (finished tasks).",
                         "method" : "GET",
                         "name" : "node_tasks",
@@ -29816,6 +30284,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Scan zfs pool list on local node.",
                               "method" : "GET",
                               "name" : "zfsscan",
@@ -29862,6 +30331,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Scan remote NFS server.",
                               "method" : "GET",
                               "name" : "nfsscan",
@@ -29918,6 +30388,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Scan remote CIFS server.",
                               "method" : "GET",
                               "name" : "cifsscan",
@@ -29992,6 +30463,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Scan remote GlusterFS server.",
                               "method" : "GET",
                               "name" : "glusterfsscan",
@@ -30044,6 +30516,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Scan remote iSCSI server.",
                               "method" : "GET",
                               "name" : "iscsiscan",
@@ -30100,6 +30573,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "List local LVM volume groups.",
                               "method" : "GET",
                               "name" : "lvmscan",
@@ -30146,6 +30620,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "List local LVM Thin Pools.",
                               "method" : "GET",
                               "name" : "lvmthinscan",
@@ -30197,6 +30672,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "List local USB devices.",
                               "method" : "GET",
                               "name" : "usbscan",
@@ -30279,6 +30755,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Index of available scan methods",
                         "method" : "GET",
                         "name" : "index",
@@ -30328,6 +30805,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "List mediated device types for given PCI device.",
                                           "method" : "GET",
                                           "name" : "mdevscan",
@@ -30386,6 +30864,7 @@ var pveapi = [
                               ],
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Index of available pci methods",
                                     "method" : "GET",
                                     "name" : "pciindex",
@@ -30433,6 +30912,7 @@ var pveapi = [
                         ],
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "List local PCI devices.",
                               "method" : "GET",
                               "name" : "pciscan",
@@ -30547,6 +31027,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Index of hardware types",
                         "method" : "GET",
                         "name" : "index",
@@ -30596,6 +31077,7 @@ var pveapi = [
                                  {
                                     "info" : {
                                        "DELETE" : {
+                                          "allowtoken" : 1,
                                           "description" : "Delete volume",
                                           "method" : "DELETE",
                                           "name" : "delete",
@@ -30642,6 +31124,7 @@ var pveapi = [
                                           }
                                        },
                                        "GET" : {
+                                          "allowtoken" : 1,
                                           "description" : "Get volume attributes",
                                           "method" : "GET",
                                           "name" : "info",
@@ -30679,6 +31162,7 @@ var pveapi = [
                                           }
                                        },
                                        "POST" : {
+                                          "allowtoken" : 1,
                                           "description" : "Copy a volume. This is experimental code - do not use.",
                                           "method" : "POST",
                                           "name" : "copy",
@@ -30731,6 +31215,7 @@ var pveapi = [
                               ],
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "List storage content.",
                                     "method" : "GET",
                                     "name" : "index",
@@ -30825,6 +31310,7 @@ var pveapi = [
                                     }
                                  },
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Allocate disk images.",
                                     "method" : "POST",
                                     "name" : "create",
@@ -30896,6 +31382,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Read storage status.",
                                     "method" : "GET",
                                     "name" : "read_status",
@@ -30942,6 +31429,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Read storage RRD statistics (returns PNG).",
                                     "method" : "GET",
                                     "name" : "rrd",
@@ -31019,6 +31507,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Read storage RRD statistics.",
                                     "method" : "GET",
                                     "name" : "rrddata",
@@ -31089,6 +31578,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Upload templates and ISO images.",
                                     "method" : "POST",
                                     "name" : "upload",
@@ -31148,6 +31638,7 @@ var pveapi = [
                         ],
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "",
                               "method" : "GET",
                               "name" : "diridx",
@@ -31206,6 +31697,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Get status for all datastores.",
                         "method" : "GET",
                         "name" : "index",
@@ -31339,6 +31831,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "List LVM Volume Groups",
                               "method" : "GET",
                               "name" : "index",
@@ -31425,6 +31918,7 @@ var pveapi = [
                               }
                            },
                            "POST" : {
+                              "allowtoken" : 1,
                               "description" : "Create an LVM Volume Group",
                               "method" : "POST",
                               "name" : "create",
@@ -31481,6 +31975,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "List LVM thinpools",
                               "method" : "GET",
                               "name" : "index",
@@ -31539,6 +32034,7 @@ var pveapi = [
                               }
                            },
                            "POST" : {
+                              "allowtoken" : 1,
                               "description" : "Create an LVM thinpool",
                               "method" : "POST",
                               "name" : "create",
@@ -31595,6 +32091,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "PVE Managed Directory storages.",
                               "method" : "GET",
                               "name" : "index",
@@ -31653,6 +32150,7 @@ var pveapi = [
                               }
                            },
                            "POST" : {
+                              "allowtoken" : 1,
                               "description" : "Create a Filesystem on an unused disk. Will be mounted under '/mnt/pve/NAME'.",
                               "method" : "POST",
                               "name" : "create",
@@ -31721,6 +32219,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Get details about a zpool.",
                                     "method" : "GET",
                                     "name" : "detail",
@@ -31829,6 +32328,7 @@ var pveapi = [
                         ],
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "List Zpools.",
                               "method" : "GET",
                               "name" : "index",
@@ -31901,6 +32401,7 @@ var pveapi = [
                               }
                            },
                            "POST" : {
+                              "allowtoken" : 1,
                               "description" : "Create a ZFS pool.",
                               "method" : "POST",
                               "name" : "create",
@@ -31993,6 +32494,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "List local disks.",
                               "method" : "GET",
                               "name" : "list",
@@ -32091,6 +32593,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Get SMART Health of a disk.",
                               "method" : "GET",
                               "name" : "smart",
@@ -32159,6 +32662,7 @@ var pveapi = [
                      {
                         "info" : {
                            "POST" : {
+                              "allowtoken" : 1,
                               "description" : "Initialize Disk with GPT",
                               "method" : "POST",
                               "name" : "initgpt",
@@ -32208,6 +32712,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Node index.",
                         "method" : "GET",
                         "name" : "index",
@@ -32250,6 +32755,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "List available updates.",
                               "method" : "GET",
                               "name" : "list_updates",
@@ -32284,6 +32790,7 @@ var pveapi = [
                               }
                            },
                            "POST" : {
+                              "allowtoken" : 1,
                               "description" : "This is used to resynchronize the package index files from their sources (apt-get update).",
                               "method" : "POST",
                               "name" : "update_database",
@@ -32335,6 +32842,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Get package changelogs.",
                               "method" : "GET",
                               "name" : "changelog",
@@ -32382,6 +32890,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Get package information for important Proxmox packages.",
                               "method" : "GET",
                               "name" : "versions",
@@ -32422,6 +32931,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Directory index for apt (Advanced Package Tool).",
                         "method" : "GET",
                         "name" : "index",
@@ -32469,6 +32979,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "DELETE" : {
+                                    "allowtoken" : 1,
                                     "description" : "Delete rule.",
                                     "method" : "DELETE",
                                     "name" : "delete_rule",
@@ -32513,6 +33024,7 @@ var pveapi = [
                                     }
                                  },
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Get single rule data.",
                                     "method" : "GET",
                                     "name" : "get_rule",
@@ -32616,6 +33128,7 @@ var pveapi = [
                                     }
                                  },
                                  "PUT" : {
+                                    "allowtoken" : 1,
                                     "description" : "Modify rule data.",
                                     "method" : "PUT",
                                     "name" : "update_rule",
@@ -32779,6 +33292,7 @@ var pveapi = [
                         ],
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "List rules.",
                               "method" : "GET",
                               "name" : "get_rules",
@@ -32822,6 +33336,7 @@ var pveapi = [
                               }
                            },
                            "POST" : {
+                              "allowtoken" : 1,
                               "description" : "Create new rule.",
                               "method" : "POST",
                               "name" : "create_rule",
@@ -32971,6 +33486,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Get host firewall options.",
                               "method" : "GET",
                               "name" : "get_options",
@@ -33140,6 +33656,7 @@ var pveapi = [
                               }
                            },
                            "PUT" : {
+                              "allowtoken" : 1,
                               "description" : "Set Firewall options.",
                               "method" : "PUT",
                               "name" : "set_options",
@@ -33341,6 +33858,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Read firewall log",
                               "method" : "GET",
                               "name" : "log",
@@ -33403,6 +33921,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Directory index.",
                         "method" : "GET",
                         "name" : "index",
@@ -33446,6 +33965,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Get replication job status.",
                                     "method" : "GET",
                                     "name" : "job_status",
@@ -33484,6 +34004,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Read replication job log.",
                                     "method" : "GET",
                                     "name" : "read_job_log",
@@ -33547,6 +34068,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Schedule replication job to start as soon as possible.",
                                     "method" : "POST",
                                     "name" : "schedule_now",
@@ -33590,6 +34112,7 @@ var pveapi = [
                         ],
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Directory index.",
                               "method" : "GET",
                               "name" : "index",
@@ -33635,6 +34158,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "List status of all replication jobs on this node.",
                         "method" : "GET",
                         "name" : "status",
@@ -33693,6 +34217,7 @@ var pveapi = [
                            {
                               "info" : {
                                  "DELETE" : {
+                                    "allowtoken" : 1,
                                     "description" : "Revoke existing certificate from CA.",
                                     "method" : "DELETE",
                                     "name" : "revoke_certificate",
@@ -33714,6 +34239,7 @@ var pveapi = [
                                     }
                                  },
                                  "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Order a new certificate from ACME-compatible CA.",
                                     "method" : "POST",
                                     "name" : "new_certificate",
@@ -33742,6 +34268,7 @@ var pveapi = [
                                     }
                                  },
                                  "PUT" : {
+                                    "allowtoken" : 1,
                                     "description" : "Renew existing certificate from CA.",
                                     "method" : "PUT",
                                     "name" : "renew_certificate",
@@ -33777,6 +34304,7 @@ var pveapi = [
                         ],
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "ACME index.",
                               "method" : "GET",
                               "name" : "index",
@@ -33816,6 +34344,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Get information about node's certificates.",
                               "method" : "GET",
                               "name" : "info",
@@ -33908,6 +34437,7 @@ var pveapi = [
                      {
                         "info" : {
                            "DELETE" : {
+                              "allowtoken" : 1,
                               "description" : "DELETE custom certificate chain and key.",
                               "method" : "DELETE",
                               "name" : "remove_custom_cert",
@@ -33936,6 +34466,7 @@ var pveapi = [
                               }
                            },
                            "POST" : {
+                              "allowtoken" : 1,
                               "description" : "Upload or update custom certificate chain and key.",
                               "method" : "POST",
                               "name" : "upload_custom_cert",
@@ -34050,6 +34581,7 @@ var pveapi = [
                   ],
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Node index.",
                         "method" : "GET",
                         "name" : "index",
@@ -34089,6 +34621,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Get node configuration options.",
                         "method" : "GET",
                         "name" : "get_config",
@@ -34130,6 +34663,7 @@ var pveapi = [
                         }
                      },
                      "PUT" : {
+                        "allowtoken" : 1,
                         "description" : "Set node configuration options.",
                         "method" : "PUT",
                         "name" : "set_options",
@@ -34225,6 +34759,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "API version details",
                         "method" : "GET",
                         "name" : "version",
@@ -34269,6 +34804,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Read node status",
                         "method" : "GET",
                         "name" : "status",
@@ -34298,6 +34834,7 @@ var pveapi = [
                         }
                      },
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Reboot or shutdown a node.",
                         "method" : "POST",
                         "name" : "node_cmd",
@@ -34343,6 +34880,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Read tap/vm network device interface counters",
                         "method" : "GET",
                         "name" : "netstat",
@@ -34383,6 +34921,7 @@ var pveapi = [
                {
                   "info" : {
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Execute multiple commands in order.",
                         "method" : "POST",
                         "name" : "execute",
@@ -34425,6 +34964,7 @@ var pveapi = [
                {
                   "info" : {
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Try to wake a node via 'wake on LAN' network packet.",
                         "method" : "POST",
                         "name" : "wakeonlan",
@@ -34463,6 +35003,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Read node RRD statistics (returns PNG)",
                         "method" : "GET",
                         "name" : "rrd",
@@ -34530,6 +35071,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Read node RRD statistics",
                         "method" : "GET",
                         "name" : "rrddata",
@@ -34590,6 +35132,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Read system log",
                         "method" : "GET",
                         "name" : "syslog",
@@ -34671,6 +35214,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Read Journal",
                         "method" : "GET",
                         "name" : "journal",
@@ -34744,6 +35288,7 @@ var pveapi = [
                {
                   "info" : {
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Creates a VNC Shell proxy.",
                         "method" : "POST",
                         "name" : "vncshell",
@@ -34754,9 +35299,9 @@ var pveapi = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
+                                    "upgrade",
                                     "login",
-                                    "ceph_install",
-                                    "upgrade"
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -34838,6 +35383,7 @@ var pveapi = [
                {
                   "info" : {
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Creates a VNC Shell proxy.",
                         "method" : "POST",
                         "name" : "termproxy",
@@ -34848,9 +35394,9 @@ var pveapi = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
+                                    "upgrade",
                                     "login",
-                                    "ceph_install",
-                                    "upgrade"
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -34907,6 +35453,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Opens a weksocket for VNC traffic.",
                         "method" : "GET",
                         "name" : "vncwebsocket",
@@ -34961,6 +35508,7 @@ var pveapi = [
                {
                   "info" : {
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Creates a SPICE shell.",
                         "method" : "POST",
                         "name" : "spiceshell",
@@ -34971,9 +35519,9 @@ var pveapi = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
+                                    "upgrade",
                                     "login",
-                                    "ceph_install",
-                                    "upgrade"
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -35042,6 +35590,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Read DNS settings.",
                         "method" : "GET",
                         "name" : "dns",
@@ -35094,6 +35643,7 @@ var pveapi = [
                         }
                      },
                      "PUT" : {
+                        "allowtoken" : 1,
                         "description" : "Write DNS settings.",
                         "method" : "PUT",
                         "name" : "update_dns",
@@ -35157,6 +35707,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Read server time and time zone settings.",
                         "method" : "GET",
                         "name" : "time",
@@ -35205,6 +35756,7 @@ var pveapi = [
                         }
                      },
                      "PUT" : {
+                        "allowtoken" : 1,
                         "description" : "Set time zone.",
                         "method" : "PUT",
                         "name" : "set_timezone",
@@ -35247,6 +35799,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Get list of appliances.",
                         "method" : "GET",
                         "name" : "aplinfo",
@@ -35274,6 +35827,7 @@ var pveapi = [
                         }
                      },
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Download appliance templates.",
                         "method" : "POST",
                         "name" : "apl_download",
@@ -35323,6 +35877,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Gather various systems information about a node",
                         "method" : "GET",
                         "name" : "report",
@@ -35360,6 +35915,7 @@ var pveapi = [
                {
                   "info" : {
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Start all VMs and containers located on this node (by default only those with onboot=1).",
                         "method" : "POST",
                         "name" : "startall",
@@ -35411,6 +35967,7 @@ var pveapi = [
                {
                   "info" : {
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Stop all VMs and Containers.",
                         "method" : "POST",
                         "name" : "stopall",
@@ -35455,6 +36012,7 @@ var pveapi = [
                {
                   "info" : {
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Migrate all VMs and Containers.",
                         "method" : "POST",
                         "name" : "migrateall",
@@ -35486,6 +36044,12 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "with-local-disks" : {
+                                 "description" : "Enable live storage migration for local disk",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
                               }
                            }
                         },
@@ -35512,6 +36076,7 @@ var pveapi = [
                {
                   "info" : {
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Get the content of /etc/hosts.",
                         "method" : "GET",
                         "name" : "get_etc_hosts",
@@ -35554,6 +36119,7 @@ var pveapi = [
                         }
                      },
                      "POST" : {
+                        "allowtoken" : 1,
                         "description" : "Write /etc/hosts.",
                         "method" : "POST",
                         "name" : "write_etc_hosts",
@@ -35603,6 +36169,7 @@ var pveapi = [
             ],
             "info" : {
                "GET" : {
+                  "allowtoken" : 1,
                   "description" : "Node index.",
                   "method" : "GET",
                   "name" : "index",
@@ -35642,6 +36209,7 @@ var pveapi = [
       ],
       "info" : {
          "GET" : {
+            "allowtoken" : 1,
             "description" : "Cluster node index.",
             "method" : "GET",
             "name" : "index",
@@ -35729,6 +36297,7 @@ var pveapi = [
          {
             "info" : {
                "DELETE" : {
+                  "allowtoken" : 1,
                   "description" : "Delete storage configuration.",
                   "method" : "DELETE",
                   "name" : "delete",
@@ -35758,6 +36327,7 @@ var pveapi = [
                   }
                },
                "GET" : {
+                  "allowtoken" : 1,
                   "description" : "Read storage configuration.",
                   "method" : "GET",
                   "name" : "read",
@@ -35786,6 +36356,7 @@ var pveapi = [
                   }
                },
                "PUT" : {
+                  "allowtoken" : 1,
                   "description" : "Update storage configuration.",
                   "method" : "PUT",
                   "name" : "update",
@@ -36099,6 +36670,7 @@ var pveapi = [
       ],
       "info" : {
          "GET" : {
+            "allowtoken" : 1,
             "description" : "Storage index.",
             "method" : "GET",
             "name" : "index",
@@ -36150,6 +36722,7 @@ var pveapi = [
             }
          },
          "POST" : {
+            "allowtoken" : 1,
             "description" : "Create a new storage.",
             "method" : "POST",
             "name" : "create",
@@ -36545,6 +37118,7 @@ var pveapi = [
                      {
                         "info" : {
                            "GET" : {
+                              "allowtoken" : 1,
                               "description" : "Get user TFA types (Personal and Realm).",
                               "method" : "GET",
                               "name" : "read_user_tfa_type",
@@ -36606,10 +37180,376 @@ var pveapi = [
                         "leaf" : 1,
                         "path" : "/access/users/{userid}/tfa",
                         "text" : "tfa"
+                     },
+                     {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "DELETE" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Remove API token for a specific user.",
+                                    "method" : "DELETE",
+                                    "name" : "remove_token",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "tokenid" : {
+                                             "description" : "User-specific token identifier.",
+                                             "pattern" : "(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)",
+                                             "type" : "string"
+                                          },
+                                          "userid" : {
+                                             "description" : "User ID",
+                                             "format" : "pve-userid",
+                                             "maxLength" : 64,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "or",
+                                          [
+                                             "userid-param",
+                                             "self"
+                                          ],
+                                          [
+                                             "perm",
+                                             "/access/users/{userid}",
+                                             [
+                                                "User.Modify"
+                                             ]
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "type" : "null"
+                                    }
+                                 },
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Get specific API token information.",
+                                    "method" : "GET",
+                                    "name" : "read_token",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "tokenid" : {
+                                             "description" : "User-specific token identifier.",
+                                             "pattern" : "(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)",
+                                             "type" : "string"
+                                          },
+                                          "userid" : {
+                                             "description" : "User ID",
+                                             "format" : "pve-userid",
+                                             "maxLength" : 64,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "or",
+                                          [
+                                             "userid-param",
+                                             "self"
+                                          ],
+                                          [
+                                             "perm",
+                                             "/access/users/{userid}",
+                                             [
+                                                "User.Modify"
+                                             ]
+                                          ]
+                                       ]
+                                    },
+                                    "returns" : {
+                                       "properties" : {
+                                          "comment" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "expire" : {
+                                             "default" : "same as user",
+                                             "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
+                                             "minimum" : 0,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "privsep" : {
+                                             "default" : 1,
+                                             "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 },
+                                 "POST" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Generate a new API token for a specific user. NOTE: returns API token value, which needs to be stored as it cannot be retrieved afterwards!",
+                                    "method" : "POST",
+                                    "name" : "generate_token",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "comment" : {
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "expire" : {
+                                             "default" : "same as user",
+                                             "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
+                                             "minimum" : 0,
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (0 - N)"
+                                          },
+                                          "privsep" : {
+                                             "default" : 1,
+                                             "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "tokenid" : {
+                                             "description" : "User-specific token identifier.",
+                                             "pattern" : "(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)",
+                                             "type" : "string"
+                                          },
+                                          "userid" : {
+                                             "description" : "User ID",
+                                             "format" : "pve-userid",
+                                             "maxLength" : 64,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "or",
+                                          [
+                                             "userid-param",
+                                             "self"
+                                          ],
+                                          [
+                                             "perm",
+                                             "/access/users/{userid}",
+                                             [
+                                                "User.Modify"
+                                             ]
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "info" : {
+                                             "properties" : {
+                                                "comment" : {
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "expire" : {
+                                                   "default" : "same as user",
+                                                   "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "privsep" : {
+                                                   "default" : 1,
+                                                   "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          },
+                                          "value" : {
+                                             "description" : "API token value used for authentication.",
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 },
+                                 "PUT" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Update API token for a specific user.",
+                                    "method" : "PUT",
+                                    "name" : "update_token_info",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "comment" : {
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "expire" : {
+                                             "default" : "same as user",
+                                             "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
+                                             "minimum" : 0,
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (0 - N)"
+                                          },
+                                          "privsep" : {
+                                             "default" : 1,
+                                             "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "tokenid" : {
+                                             "description" : "User-specific token identifier.",
+                                             "pattern" : "(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)",
+                                             "type" : "string"
+                                          },
+                                          "userid" : {
+                                             "description" : "User ID",
+                                             "format" : "pve-userid",
+                                             "maxLength" : 64,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "or",
+                                          [
+                                             "userid-param",
+                                             "self"
+                                          ],
+                                          [
+                                             "perm",
+                                             "/access/users/{userid}",
+                                             [
+                                                "User.Modify"
+                                             ]
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "description" : "Updated token information.",
+                                       "properties" : {
+                                          "comment" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "expire" : {
+                                             "default" : "same as user",
+                                             "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
+                                             "minimum" : 0,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "privsep" : {
+                                             "default" : 1,
+                                             "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/access/users/{userid}/token/{tokenid}",
+                              "text" : "{tokenid}"
+                           }
+                        ],
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Get user API tokens.",
+                              "method" : "GET",
+                              "name" : "token_index",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "userid" : {
+                                       "description" : "User ID",
+                                       "format" : "pve-userid",
+                                       "maxLength" : 64,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "or",
+                                    [
+                                       "userid-param",
+                                       "self"
+                                    ],
+                                    [
+                                       "perm",
+                                       "/access/users/{userid}",
+                                       [
+                                          "User.Modify"
+                                       ]
+                                    ]
+                                 ]
+                              },
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "comment" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "expire" : {
+                                          "default" : "same as user",
+                                          "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
+                                          "minimum" : 0,
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "privsep" : {
+                                          "default" : 1,
+                                          "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       },
+                                       "tokenid" : {
+                                          "description" : "User-specific token identifier.",
+                                          "pattern" : "(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)",
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "links" : [
+                                    {
+                                       "href" : "{tokenid}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
+                        "path" : "/access/users/{userid}/token",
+                        "text" : "token"
                      }
                   ],
                   "info" : {
                      "DELETE" : {
+                        "allowtoken" : 1,
                         "description" : "Delete user.",
                         "method" : "DELETE",
                         "name" : "delete_user",
@@ -36646,6 +37586,7 @@ var pveapi = [
                         }
                      },
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Get user configuration.",
                         "method" : "GET",
                         "name" : "read_user",
@@ -36699,6 +37640,11 @@ var pveapi = [
                                  "type" : "string"
                               },
                               "groups" : {
+                                 "items" : {
+                                    "format" : "pve-groupid",
+                                    "type" : "string"
+                                 },
+                                 "optional" : 1,
                                  "type" : "array"
                               },
                               "keys" : {
@@ -36709,12 +37655,17 @@ var pveapi = [
                               "lastname" : {
                                  "optional" : 1,
                                  "type" : "string"
+                              },
+                              "tokens" : {
+                                 "optional" : 1,
+                                 "type" : "object"
                               }
                            },
                            "type" : "object"
                         }
                      },
                      "PUT" : {
+                        "allowtoken" : 1,
                         "description" : "Update user configuration.",
                         "method" : "PUT",
                         "name" : "update_user",
@@ -36806,6 +37757,7 @@ var pveapi = [
             ],
             "info" : {
                "GET" : {
+                  "allowtoken" : 1,
                   "description" : "User index.",
                   "method" : "GET",
                   "name" : "index",
@@ -36814,6 +37766,13 @@ var pveapi = [
                      "properties" : {
                         "enabled" : {
                            "description" : "Optional filter for enable property.",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "full" : {
+                           "default" : 0,
+                           "description" : "Include group and token information.",
                            "optional" : 1,
                            "type" : "boolean",
                            "typetext" : "<boolean>"
@@ -36852,6 +37811,11 @@ var pveapi = [
                               "optional" : 1,
                               "type" : "string"
                            },
+                           "groups" : {
+                              "format" : "pve-groupid-list",
+                              "optional" : 1,
+                              "type" : "string"
+                           },
                            "keys" : {
                               "description" : "Keys for two factor auth (yubico).",
                               "optional" : 1,
@@ -36860,6 +37824,37 @@ var pveapi = [
                            "lastname" : {
                               "optional" : 1,
                               "type" : "string"
+                           },
+                           "tokens" : {
+                              "items" : {
+                                 "properties" : {
+                                    "comment" : {
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "expire" : {
+                                       "default" : "same as user",
+                                       "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
+                                       "minimum" : 0,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "privsep" : {
+                                       "default" : 1,
+                                       "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "tokenid" : {
+                                       "description" : "User-specific token identifier.",
+                                       "pattern" : "(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)",
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
+                              "optional" : 1,
+                              "type" : "array"
                            },
                            "userid" : {
                               "description" : "User ID",
@@ -36880,6 +37875,7 @@ var pveapi = [
                   }
                },
                "POST" : {
+                  "allowtoken" : 1,
                   "description" : "Create new user.",
                   "method" : "POST",
                   "name" : "create_user",
@@ -36983,6 +37979,7 @@ var pveapi = [
                {
                   "info" : {
                      "DELETE" : {
+                        "allowtoken" : 1,
                         "description" : "Delete group.",
                         "method" : "DELETE",
                         "name" : "delete_group",
@@ -37011,6 +38008,7 @@ var pveapi = [
                         }
                      },
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Get group configuration.",
                         "method" : "GET",
                         "name" : "read_group",
@@ -37057,6 +38055,7 @@ var pveapi = [
                         }
                      },
                      "PUT" : {
+                        "allowtoken" : 1,
                         "description" : "Update group data.",
                         "method" : "PUT",
                         "name" : "update_group",
@@ -37097,6 +38096,7 @@ var pveapi = [
             ],
             "info" : {
                "GET" : {
+                  "allowtoken" : 1,
                   "description" : "Group index.",
                   "method" : "GET",
                   "name" : "index",
@@ -37117,6 +38117,12 @@ var pveapi = [
                            "groupid" : {
                               "format" : "pve-groupid",
                               "type" : "string"
+                           },
+                           "users" : {
+                              "description" : "list of users which form this group",
+                              "format" : "pve-userid-list",
+                              "optional" : 1,
+                              "type" : "string"
                            }
                         },
                         "type" : "object"
@@ -37131,6 +38137,7 @@ var pveapi = [
                   }
                },
                "POST" : {
+                  "allowtoken" : 1,
                   "description" : "Create new group.",
                   "method" : "POST",
                   "name" : "create_group",
@@ -37173,6 +38180,7 @@ var pveapi = [
                {
                   "info" : {
                      "DELETE" : {
+                        "allowtoken" : 1,
                         "description" : "Delete role.",
                         "method" : "DELETE",
                         "name" : "delete_role",
@@ -37201,6 +38209,7 @@ var pveapi = [
                         }
                      },
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Get role configuration.",
                         "method" : "GET",
                         "name" : "read_role",
@@ -37361,6 +38370,7 @@ var pveapi = [
                         }
                      },
                      "PUT" : {
+                        "allowtoken" : 1,
                         "description" : "Update an existing role.",
                         "method" : "PUT",
                         "name" : "update_role",
@@ -37408,6 +38418,7 @@ var pveapi = [
             ],
             "info" : {
                "GET" : {
+                  "allowtoken" : 1,
                   "description" : "Role index.",
                   "method" : "GET",
                   "name" : "index",
@@ -37447,6 +38458,7 @@ var pveapi = [
                   }
                },
                "POST" : {
+                  "allowtoken" : 1,
                   "description" : "Create new role.",
                   "method" : "POST",
                   "name" : "create_role",
@@ -37488,6 +38500,7 @@ var pveapi = [
          {
             "info" : {
                "GET" : {
+                  "allowtoken" : 1,
                   "description" : "Get Access Control List (ACLs).",
                   "method" : "GET",
                   "name" : "read_acl",
@@ -37518,7 +38531,8 @@ var pveapi = [
                            "type" : {
                               "enum" : [
                                  "user",
-                                 "group"
+                                 "group",
+                                 "token"
                               ],
                               "type" : "string"
                            },
@@ -37532,6 +38546,7 @@ var pveapi = [
                   }
                },
                "PUT" : {
+                  "allowtoken" : 1,
                   "description" : "Update Access Control List (add or remove permissions).",
                   "method" : "PUT",
                   "name" : "update_acl",
@@ -37569,6 +38584,13 @@ var pveapi = [
                            "type" : "string",
                            "typetext" : "<string>"
                         },
+                        "tokens" : {
+                           "description" : "List of API tokens.",
+                           "format" : "pve-tokenid-list",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
                         "users" : {
                            "description" : "List of users.",
                            "format" : "pve-userid-list",
@@ -37599,6 +38621,7 @@ var pveapi = [
                {
                   "info" : {
                      "DELETE" : {
+                        "allowtoken" : 1,
                         "description" : "Delete an authentication server.",
                         "method" : "DELETE",
                         "name" : "delete",
@@ -37629,6 +38652,7 @@ var pveapi = [
                         }
                      },
                      "GET" : {
+                        "allowtoken" : 1,
                         "description" : "Get auth server configuration.",
                         "method" : "GET",
                         "name" : "read",
@@ -37659,6 +38683,7 @@ var pveapi = [
                         "returns" : {}
                      },
                      "PUT" : {
+                        "allowtoken" : 1,
                         "description" : "Update authentication server settings.",
                         "method" : "PUT",
                         "name" : "update",
@@ -37828,6 +38853,7 @@ var pveapi = [
             ],
             "info" : {
                "GET" : {
+                  "allowtoken" : 1,
                   "description" : "Authentication domain index.",
                   "method" : "GET",
                   "name" : "index",
@@ -37871,6 +38897,7 @@ var pveapi = [
                   }
                },
                "POST" : {
+                  "allowtoken" : 1,
                   "description" : "Add an authentication server.",
                   "method" : "POST",
                   "name" : "create",
@@ -38035,6 +39062,7 @@ var pveapi = [
          {
             "info" : {
                "GET" : {
+                  "allowtoken" : 1,
                   "description" : "Dummy. Useful for formatters which want to provide a login page.",
                   "method" : "GET",
                   "name" : "get_ticket",
@@ -38049,6 +39077,7 @@ var pveapi = [
                   }
                },
                "POST" : {
+                  "allowtoken" : 0,
                   "description" : "Create or verify authentication ticket.",
                   "method" : "POST",
                   "name" : "create_ticket",
@@ -38133,6 +39162,7 @@ var pveapi = [
          {
             "info" : {
                "PUT" : {
+                  "allowtoken" : 0,
                   "description" : "Change user password.",
                   "method" : "PUT",
                   "name" : "change_password",
@@ -38191,6 +39221,7 @@ var pveapi = [
          {
             "info" : {
                "POST" : {
+                  "allowtoken" : 0,
                   "description" : "Finish a u2f challenge.",
                   "method" : "POST",
                   "name" : "verify_tfa",
@@ -38218,6 +39249,7 @@ var pveapi = [
                   }
                },
                "PUT" : {
+                  "allowtoken" : 0,
                   "description" : "Change user u2f authentication.",
                   "method" : "PUT",
                   "name" : "change_tfa",
@@ -38303,10 +39335,49 @@ var pveapi = [
             "leaf" : 1,
             "path" : "/access/tfa",
             "text" : "tfa"
+         },
+         {
+            "info" : {
+               "GET" : {
+                  "allowtoken" : 1,
+                  "description" : "Retrieve effective permissions of given user/token.",
+                  "method" : "GET",
+                  "name" : "permissions",
+                  "parameters" : {
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "path" : {
+                           "description" : "Only dump this specific path, not the whole tree.",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "userid" : {
+                           "description" : "User ID or full API token ID",
+                           "optional" : 1,
+                           "pattern" : "(?^:^(?^:[^\\s:/]+)\\@(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+)(?:!(?^:[A-Za-z][A-Za-z0-9\\.\\-_]+))?$)",
+                           "type" : "string"
+                        }
+                     }
+                  },
+                  "permissions" : {
+                     "description" : "Each user/token is allowed to dump their own permissions. A user can dump the permissions of another user if they have 'Sys.Audit' permission on /access.",
+                     "user" : "all"
+                  },
+                  "returns" : {
+                     "description" : "Map of \"path\" => (Map of \"privilege\" => \"propagate boolean\").",
+                     "type" : "object"
+                  }
+               }
+            },
+            "leaf" : 1,
+            "path" : "/access/permissions",
+            "text" : "permissions"
          }
       ],
       "info" : {
          "GET" : {
+            "allowtoken" : 1,
             "description" : "Directory index.",
             "method" : "GET",
             "name" : "index",
@@ -38344,6 +39415,7 @@ var pveapi = [
          {
             "info" : {
                "DELETE" : {
+                  "allowtoken" : 1,
                   "description" : "Delete pool.",
                   "method" : "DELETE",
                   "name" : "delete_pool",
@@ -38373,6 +39445,7 @@ var pveapi = [
                   }
                },
                "GET" : {
+                  "allowtoken" : 1,
                   "description" : "Get pool configuration.",
                   "method" : "GET",
                   "name" : "read_pool",
@@ -38439,6 +39512,7 @@ var pveapi = [
                   }
                },
                "PUT" : {
+                  "allowtoken" : 1,
                   "description" : "Update pool data.",
                   "method" : "PUT",
                   "name" : "update_pool",
@@ -38500,6 +39574,7 @@ var pveapi = [
       ],
       "info" : {
          "GET" : {
+            "allowtoken" : 1,
             "description" : "Pool index.",
             "method" : "GET",
             "name" : "index",
@@ -38529,6 +39604,7 @@ var pveapi = [
             }
          },
          "POST" : {
+            "allowtoken" : 1,
             "description" : "Create new pool.",
             "method" : "POST",
             "name" : "create_pool",
@@ -38569,6 +39645,7 @@ var pveapi = [
    {
       "info" : {
          "GET" : {
+            "allowtoken" : 1,
             "description" : "API version details. The result also includes the global datacenter confguration.",
             "method" : "GET",
             "name" : "version",
