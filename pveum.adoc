@@ -93,8 +93,8 @@ API tokens come in two basic types:
 * full privileges: the token permissions are identical to that of the
   associated user.
 
-WARNING: The token value is only displayed/returned once when the token is
-generated. It cannot be retrieved over the API at a later time!
+CAUTION: The token value is only displayed/returned once when the token is
+generated. It cannot be retrieved again over the API at a later time!
 
 To use an API token, set the HTTP header 'Authorization' to the displayed value
 of the form `PVEAPIToken=USER@REALM!TOKENID=UUID` when making API requests, or
