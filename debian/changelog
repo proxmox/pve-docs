@@ -1,3 +1,21 @@
+pve-docs (6.1-5) pve; urgency=medium
+
+  * html: avoid horizontal overflows, break-word and limit inline image width
+    to text-width
+
+  * pvecm: fix corosync link priority description
+
+  * general grammar and typography fixes and improvements
+
+  * rename "usbstick" to "installation media" and move before installation
+    wizard section
+
+  * document API tokens
+
+  * firewall: update and expand used ports
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 13 Feb 2020 12:07:39 +0100
+
 pve-docs (6.1-4) pve; urgency=medium
 
   * apiviewer: format return values as grid with optionial toggle raw
