@@ -79,11 +79,11 @@ much shorter access control list which is easier to handle.
 API Tokens
 ~~~~~~~~~~
 
-API tokens allow stateless access to most parts of the REST API by 
-another system, software or API client. Tokens can be generated for 
-individual users and can be given separate permissions and expiration 
-dates to limit the scope and duration of the access. Should the API 
-token get compromised it can be revoked without disabling the user itself.
+API tokens allow stateless access to most parts of the REST API by another
+system, software or API client. Tokens can be generated for individual users
+and can be given separate permissions and expiration dates to limit the scope
+and duration of the access. Should the API token get compromised it can be
+revoked without disabling the user itself.
 
 API tokens come in two basic types:
 
