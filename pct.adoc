@@ -316,25 +316,11 @@ systemd version running inside the container should be equal to or greater than
 Privileged Containers
 ^^^^^^^^^^^^^^^^^^^^^
 
-Security in containers is achieved by using mandatory access control
-('AppArmor'), 'seccomp' filters and namespaces. The LXC team considers this
-kind of container as unsafe, and they will not consider new container escape
-exploits to be security issues worthy of a CVE and quick fix.  That's why
-privileged containers should only be used in trusted environments.
-
-Although it is not recommended, AppArmor can be disabled for a container. This
-brings security risks with it. Some syscalls can lead to privilege escalation
-when executed within a container if the system is misconfigured or if a LXC or
-Linux Kernel vulnerability exists.
-
-To disable AppArmor for a container, add the following line to the container
-configuration file located at `/etc/pve/lxc/CTID.conf`:
-
-----
-lxc.apparmor_profile = unconfined
-----
-
-WARNING: Please note that this is not recommended for production use.
+Security in containers is achieved by using mandatory access control 'AppArmor'
+restrictions, 'seccomp' filters and Linux kernel namespaces. The LXC team
+considers this kind of container as unsafe, and they will not consider new
+container escape exploits to be security issues worthy of a CVE and quick fix.
+That's why privileged containers should only be used in trusted environments.
 
 
 [[pct_cpu]]
@@ -567,6 +553,9 @@ untrusted people.
 To reduce the attack surface, LXC uses many security features like AppArmor,
 CGroups and kernel namespaces.
 
+AppArmor
+~~~~~~~~
+
 AppArmor profiles are used to restrict access to possibly dangerous actions.
 Some system calls, i.e. `mount`, are prohibited from execution.
 
@@ -575,6 +564,25 @@ To trace AppArmor activity, use:
 ----
 # dmesg | grep apparmor
 ----
+
+Although it is not recommended, AppArmor can be disabled for a container. This
+brings security risks with it. Some syscalls can lead to privilege escalation
+when executed within a container if the system is misconfigured or if a LXC or
+Linux Kernel vulnerability exists.
+
+To disable AppArmor for a container, add the following line to the container
+configuration file located at `/etc/pve/lxc/CTID.conf`:
+
+----
+lxc.apparmor_profile = unconfined
+----
+
+WARNING: Please note that this is not recommended for production use.
+
+
+// TODO: describe cgroups + seccomp a bit more.
+// TODO: pve-lxc-syscalld
+
 
 Guest Operating System Configuration
 ------------------------------------
