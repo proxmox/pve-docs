@@ -86,26 +86,6 @@ Technology Overview
 * Container setup from host (network, DNS, storage, etc.)
 
 
-Security Considerations
------------------------
-
-Containers use the kernel of the host system. This creates a big attack surface
-for malicious users. This should be considered if containers are provided to
-untrustworthy people. In general, full virtual machines provide better
-isolation.
-
-However, LXC uses many security features like AppArmor, CGroups and kernel
-namespaces to reduce the attack surface.
-
-AppArmor profiles are used to restrict access to possibly dangerous actions.
-Some system calls, i.e. `mount`, are prohibited from execution.
-
-To trace AppArmor activity, use:
-
-----
-# dmesg | grep apparmor
-----
-
 [[pct_container_images]]
 Container Images
 ----------------
@@ -575,6 +555,26 @@ You can add a hook script to CTs with the config property `hookscript`.
 It will be called during various phases of the guests lifetime.  For an example
 and documentation see the example script under
 `/usr/share/pve-docs/examples/guest-example-hookscript.pl`.
+
+Security Considerations
+-----------------------
+
+Containers use the kernel of the host system. This exposes an attack surface
+for malicious users. In general, full virtual machines provide better
+isolation. This should be considered if containers are provided to unkown or
+untrusted people.
+
+To reduce the attack surface, LXC uses many security features like AppArmor,
+CGroups and kernel namespaces.
+
+AppArmor profiles are used to restrict access to possibly dangerous actions.
+Some system calls, i.e. `mount`, are prohibited from execution.
+
+To trace AppArmor activity, use:
+
+----
+# dmesg | grep apparmor
+----
 
 Guest Operating System Configuration
 ------------------------------------
