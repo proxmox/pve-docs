@@ -802,9 +802,13 @@ This works as long as your Container is offline. If it has local volumes or
 mount points defined, the migration will copy the content over the network to
 the target host if the same storage is defined there.
 
-If you want to migrate online Containers, the only way is to use restart
-migration. This can be initiated with the -restart flag and the optional
--timeout parameter.
+Running containers cannot live-migrated due to techincal limitations. You can
+do a restart migration, which shuts down, moves and then starts a container
+again on the target node. As containers are very lightweight, this results
+normally only in a downtime of some hundreds of milliseconds.
+
+A restart migration can be done through the web interface or by using the
+`--restart` flag with the `pct migrate` command.
 
 A restart migration will shut down the Container and kill it after the
 specified timeout (the default is 180 seconds). Then it will migrate the
