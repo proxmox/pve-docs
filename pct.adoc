@@ -622,7 +622,12 @@ distributions and versions. You can completely disable modifications by
 manually setting the `ostype` to `unmanaged`.
 
 OS type detection is done by testing for certain files inside the
-container:
+container. {pve} first checks the `/etc/os-release` file
+footnote:[/etc/os-release replaces the multitude of per-distribution
+release files https://manpages.debian.org/stable/systemd/os-release.5.en.html].
+If that file is not present, or it does not contain a clearly recognizable
+distribution identifier the following distribution specific release files are
+checked.
 
 Ubuntu:: inspect /etc/lsb-release (`DISTRIB_ID=Ubuntu`)
 
