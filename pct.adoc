@@ -839,17 +839,17 @@ rootfs: local:107/vm-107-disk-1.raw,size=7G
 ----
 
 The configuration files are simple text files. You can edit them using a normal
-text editor (`vi`, `nano`, etc).
+text editor, for example, `vi` or `nano`.
 This is sometimes useful to do small corrections, but keep in mind that you
 need to restart the container to apply such changes.
 
 For that reason, it is usually better to use the `pct` command to generate and
 modify those files, or do the whole thing using the GUI.
 Our toolkit is smart enough to instantaneously apply most changes to running
-containers. This feature is called "hot plug", and there is no need to restart
+containers. This feature is called ``hot plug'', and there is no need to restart
 the container in that case.
 
-In cases where a change cannot be hot plugged, it will be registered as a
+In cases where a change cannot be hot-plugged, it will be registered as a
 pending change (shown in red color in the GUI).
 They will only be applied after rebooting the container.
 
