@@ -33,30 +33,30 @@ They use the kernel of the host system that they run on, instead of emulating a
 full operating system (OS). This means that containers can access resources on
 the host system directly.
 
-The runtime costs for containers is low, usually negligible. However, there
-are some drawbacks that need be considered:
+The runtime costs for containers is low, usually negligible. However, there are
+some drawbacks that need be considered:
 
-* Only Linux distributions can be run in containers. (It is not
-  possible to run FreeBSD or MS Windows inside a container.)
+* Only Linux distributions can be run in containers.It is not possible to run
+  other Operating Systems like, for example, FreeBSD or Microsoft Windows
+  inside a container.
 
-* For security reasons, access to host resources needs to be restricted. Containers
-  run in their own separate namespaces. Additionally some syscalls are not
-  allowed within containers.
+* For security reasons, access to host resources needs to be restricted.
+  Containers run in their own separate namespaces. Additionally some syscalls
+  are not allowed within containers.
 
-{pve} uses https://linuxcontainers.org/[LXC] as underlying container
-technology. The ``Proxmox Container Toolkit'' (`pct`) simplifies the usage of LXC
-containers.
+{pve} uses https://linuxcontainers.org/[Linux Containers (LXC)] as underlying
+container technology. The ``Proxmox Container Toolkit'' (`pct`) simplifies the
+usage and management of LXC containers.
 
 Containers are tightly integrated with {pve}. This means that they are aware of
 the cluster setup, and they can use the same network and storage resources as
 virtual machines. You can also use the {pve} firewall, or manage containers
 using the HA framework.
 
-Our primary goal is to offer an environment as one would get from a
-VM, but without the additional overhead. We call this "System
-Containers".
+Our primary goal is to offer an environment as one would get from a VM, but
+without the additional overhead. We call this ``System Containers''.
 
-NOTE: If you want to run micro-containers (with docker, rkt, etc.) it
+NOTE: If you want to run micro-containers, for example, 'Docker' or 'rkt', it
 is best to run them inside a VM.
 
 
@@ -65,23 +65,23 @@ Technology Overview
 
 * LXC (https://linuxcontainers.org/)
 
-* Integrated into {pve} graphical user interface (GUI)
+* Integrated into {pve} graphical web user interface (GUI)
 
 * Easy to use command line tool `pct`
 
 * Access via {pve} REST API
 
-* lxcfs to provide containerized /proc file system
+* 'lxcfs' to provide containerized /proc file system
 
-* CGroups (control groups) for resource allocation
+* Control groups ('cgroups') for resource isolation and limitation
 
-* AppArmor/Seccomp to improve security
+* 'AppArmor' and 'seccomp' to improve security
 
 * Modern Linux kernels
 
 * Image based deployment (templates)
 
-* Uses {pve} storage library
+* Uses {pve} xref:chapter_storage[storage library]
 
 * Container setup from host (network, DNS, storage, etc.)
 
@@ -709,11 +709,11 @@ individually
 Managing Containers with `pct`
 ------------------------------
 
-The "Proxmox Container Toolkit" (`pct`) is the command line tool to manage {pve}
-containers. It enables you to create or destroy containers, as well as control the
-container execution (start, stop, reboot, migrate, etc.). It can be used to set
-parameters in the config file of a container, for example the network
-configuration or memory limits.
+The ``Proxmox Container Toolkit'' (`pct`) is the command line tool to manage
+{pve} containers. It enables you to create or destroy containers, as well as
+control the container execution (start, stop, reboot, migrate, etc.). It can be
+used to set parameters in the config file of a container, for example the
+network configuration or memory limits.
 
 CLI Usage Examples
 ~~~~~~~~~~~~~~~~~~
