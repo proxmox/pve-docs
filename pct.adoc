@@ -92,11 +92,6 @@ Container Images
 
 Container images, sometimes also referred to as ``templates'' or
 ``appliances'', are `tar` archives which contain everything to run a container.
-`pct` uses them to create a new container, for example:
-
-----
-# pct create 999 local:vztmpl/debian-10.0-standard_10.0-1_amd64.tar.gz
-----
 
 {pve} itself provides a variety of basic templates for the most common Linux
 distributions. They can be downloaded using the GUI or the `pveam` (short for
@@ -104,8 +99,8 @@ distributions. They can be downloaded using the GUI or the `pveam` (short for
 Additionally, https://www.turnkeylinux.org/[TurnKey Linux] container templates
 are also available to download.
 
-The list of available templates is updated daily via cron. To trigger it
-manually:
+The list of available templates is updated daily through the 'pve-daily-update'
+timer. You can also trigger an update manually by executing:
 
 ----
 # pveam update
@@ -144,9 +139,9 @@ system          ubuntu-19.10-standard_19.10-1_amd64.tar.gz
 ----
 
 Before you can use such a template, you need to download them into one of your
-storages. You can simply use storage `local` for that purpose. For clustered
-installations, it is preferred to use a shared storage so that all nodes can
-access those images.
+storages. If you're unsure to which one, you can simply use the `local` named
+storage for that purpose. For clustered installations, it is preferred to use a
+shared storage so that all nodes can access those images.
 
 ----
 # pveam download local debian-10.0-standard_10.0-1_amd64.tar.gz
@@ -158,6 +153,15 @@ downloaded images on storage `local` with:
 ----
 # pveam list local
 local:vztmpl/debian-10.0-standard_10.0-1_amd64.tar.gz  219.95MB
+----
+
+TIP: You can also use the {pve} web interface GUI to download, list and delete
+container templates.
+
+`pct` uses them to create a new container, for example:
+
+----
+# pct create 999 local:vztmpl/debian-10.0-standard_10.0-1_amd64.tar.gz
 ----
 
 The above command shows you the full {pve} volume identifiers. They include the
