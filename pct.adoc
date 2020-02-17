@@ -446,7 +446,7 @@ Security Considerations
 
 Containers use the kernel of the host system. This exposes an attack surface
 for malicious users. In general, full virtual machines provide better
-isolation. This should be considered if containers are provided to unkown or
+isolation. This should be considered if containers are provided to unknown or
 untrusted people.
 
 To reduce the attack surface, LXC uses many security features like AppArmor,
@@ -821,7 +821,7 @@ This works as long as your Container is offline. If it has local volumes or
 mount points defined, the migration will copy the content over the network to
 the target host if the same storage is defined there.
 
-Running containers cannot live-migrated due to techincal limitations. You can
+Running containers cannot live-migrated due to technical limitations. You can
 do a restart migration, which shuts down, moves and then starts a container
 again on the target node. As containers are very lightweight, this results
 normally only in a downtime of some hundreds of milliseconds.
