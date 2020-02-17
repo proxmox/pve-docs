@@ -86,9 +86,16 @@ provide enough resources for stable and durable Ceph performance.
 .Memory
 Especially in a hyper-converged setup, the memory consumption needs to be
 carefully monitored. In addition to the intended workload from virtual machines
-and container, Ceph needs enough memory available to provide good and stable
-performance. As a rule of thumb, for roughly 1 TiB of data, 1 GiB of memory
-will be used by an OSD. OSD caching will use additional memory.
+and containers, Ceph needs enough memory available to provide excellent and
+stable performance.
+
+As a rule of thumb, for roughly **1 TiB of data, 1 GiB of memory** will be used
+by an OSD. Especially during recovery, rebalancing or backfilling.
+
+The daemon itself will use additional memory. The Bluestore backend of the
+daemon requires by default **3-5 GiB of memory** (adjustable). In contrast, the
+legacy Filestore backend uses the OS page cache and the memory consumption is
+generally related to PGs of an OSD daemon.
 
 .Network
 We recommend a network bandwidth of at least 10 GbE or more, which is used
