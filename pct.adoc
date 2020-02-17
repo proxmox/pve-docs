@@ -36,7 +36,7 @@ the host system directly.
 The runtime costs for containers is low, usually negligible. However, there are
 some drawbacks that need be considered:
 
-* Only Linux distributions can be run in containers.It is not possible to run
+* Only Linux distributions can be run in containers. It is not possible to run
   other Operating Systems like, for example, FreeBSD or Microsoft Windows
   inside a container.
 
