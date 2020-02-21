@@ -272,7 +272,7 @@ following command:
 
 ifdef::wiki[]
 
-link:/wiki/Install_from_USB_Stick[Install from USB Stick]
+link:/wiki/Prepare_Installation_Media[Prepare Installation Media]
 ---------------------------------------------------------
 
 link:/wiki/Install_Proxmox_VE_on_Debian_Buster[Install Proxmox VE on Debian Buster]
