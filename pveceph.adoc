@@ -462,8 +462,9 @@ NOTE: The default number of PGs works for 2-5 disks. Ceph throws a
 
 It is advised to calculate the PG number depending on your setup, you can find
 the formula and the PG calculator footnote:[PG calculator
-https://ceph.com/pgcalc/] online. While PGs can be increased later on, they can
-never be decreased.
+https://ceph.com/pgcalc/] online. From Ceph Nautilus onwards it is possible to
+increase and decrease the number of PGs later on footnote:[Placement Groups
+https://docs.ceph.com/docs/{ceph_codename}/rados/operations/placement-groups/].
 
 
 You can create pools through command line or on the GUI on each PVE host under
