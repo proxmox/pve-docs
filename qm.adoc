@@ -791,6 +791,44 @@ device of the host use device passthrough (see
 xref:qm_pci_passthrough[PCI Passthrough] and
 xref:qm_usb_passthrough[USB Passthrough]).
 
+[[qm_virtio_rng]]
+VirtIO RNG
+~~~~~~~~~~
+
+A RNG (Random Number Generator) is a device providing entropy ('randomness') to
+a system. A virtual hardware-RNG can be used to provide such entropy from the
+host system to a guest VM. This helps to avoid entropy starvation problems in
+the guest (a situation where not enough entropy is available and the system may
+slow down or run into problems), especially during the guests boot process.
+
+To add a VirtIO-based emulated RNG, run the following command:
+
+----
+qm set <vmid> -rng0 source=<source>[,max_bytes=X,period=Y]
+----
+
+`source` specifies where entropy is read from on the host and has to be one of
+the following:
+
+* `/dev/urandom`: Non-blocking kernel entropy pool (preferred)
+* `/dev/random`: Blocking kernel pool (not recommended, can lead to entropy
+  starvation on the host system)
+* `/dev/hwrng`: To pass through a hardware RNG attached to the host (if multiple
+  are available, the one selected in
+  `/sys/devices/virtual/misc/hw_random/rng_current` will be used)
+
+A limit can be specified via the `max_bytes` and `period` parameters, they are
+read as `max_bytes` per `period` in milliseconds. However, it does not represent
+a linear relationship: 1024B/1000ms would mean that up to 1 KiB of data becomes
+available on a 1 second timer, not that 1 KiB is streamed to the guest over the
+course of one second. Reducing the `period` can thus be used to inject entropy
+into the guest at a faster rate.
+
+By default, the limit is set to 1024 bytes per 1000 ms (1 KiB/s). It is
+recommended to always use a limiter to avoid guests using too many host
+resources. If desired, a value of '0' for `max_bytes` can be used to disable
+all limits.
+
 [[qm_startup_and_shutdown]]
 Automatic Start and Shutdown of Virtual Machines
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
