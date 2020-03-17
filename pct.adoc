@@ -473,7 +473,7 @@ To disable AppArmor for a container, add the following line to the container
 configuration file located at `/etc/pve/lxc/CTID.conf`:
 
 ----
-lxc.apparmor_profile = unconfined
+lxc.apparmor.profile = unconfined
 ----
 
 WARNING: Please note that this is not recommended for production use.
