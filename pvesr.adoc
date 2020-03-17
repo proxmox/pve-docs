@@ -31,34 +31,34 @@ local storage and reduces migration time.
 It replicates guest volumes to another node so that all data is available
 without using shared storage. Replication uses snapshots to minimize traffic
 sent over the network. Therefore, new data is sent only incrementally after
-an initial full sync. In the case of a node failure, your guest data is
+the initial full sync. In the case of a node failure, your guest data is
 still available on the replicated node.
 
-The replication will be done automatically in configurable intervals.
-The minimum replication interval is one minute and the maximal interval is
+The replication is done automatically in configurable intervals.
+The minimum replication interval is one minute, and the maximal interval
 once a week. The format used to specify those intervals is a subset of
 `systemd` calendar events, see
 xref:pvesr_schedule_time_format[Schedule Format] section:
 
-Every guest can be replicated to multiple target nodes, but a guest cannot
-get replicated twice to the same target node.
+It is possible to replicate a guest to multiple target nodes,
+but not twice to the same target node.
 
 Each replications bandwidth can be limited, to avoid overloading a storage
 or server.
 
-Virtual guest with active replication cannot currently use online migration.
-Offline migration is supported in general. If you migrate to a node where
-the guests data is already replicated only the changes since the last
-synchronisation (so called `delta`) must be sent, this reduces the required
-time significantly. In this case the replication direction will also switch
-nodes automatically after the migration finished.
+Guests with replication enabled can currently only be migrated offline.
+Only changes since the last replication (so-called `deltas`) need to be
+transferred if the guest is migrated to a node to which it already is
+replicated. This reduces the time needed significantly. The replication
+direction automatically switches if you migrate a guest to the replication
+target node.
 
 For example: VM100 is currently on `nodeA` and gets replicated to `nodeB`.
 You migrate it to `nodeB`, so now it gets automatically replicated back from
 `nodeB` to `nodeA`.
 
 If you migrate to a node where the guest is not replicated, the whole disk
-data must send over. After the migration the replication job continues to
+data must send over. After the migration, the replication job continues to
 replicate this guest to the configured nodes.
 
 [IMPORTANT]
@@ -99,24 +99,24 @@ Such a calendar event uses the following format:
 [day(s)] [[start-time(s)][/repetition-time(s)]]
 ----
 
-This allows you to configure a set of days on which the job should run.
-You can also set one or more start times, it tells the replication scheduler
+This format allows you to configure a set of days on which the job should run.
+You can also set one or more start times. It tells the replication scheduler
 the moments in time when a job should start.
-With this information we could create a job which runs every workday at 10
+With this information we, can create a job which runs every workday at 10
 PM: `'mon,tue,wed,thu,fri 22'` which could be abbreviated to: `'mon..fri
 22'`, most reasonable schedules can be written quite intuitive this way.
 
-NOTE: Hours are set in 24h format.
+NOTE: Hours are formatted in 24-hour format.
 
-To allow easier and shorter configuration one or more repetition times can
-be set. They indicate that on the start-time(s) itself and the start-time(s)
-plus all multiples of the repetition value replications will be done.  If
+To allow a convenient and shorter configuration, one or more repeat times per
+guest can be set. They indicate that replications are done on the start-time(s)
+itself and the start-time(s) plus all multiples of the repetition value. If
 you want to start replication at 8 AM and repeat it every 15 minutes until
 9 AM you would use: `'8:00/15'`
 
-Here you see also that if no hour separation (`:`) is used the value gets
-interpreted as minute. If such a separation is used the value on the left
-denotes the hour(s) and the value on the right denotes the minute(s).
+Here you see that if no hour separation (`:`), is used the value gets
+interpreted as minute. If such a separation is used, the value on the left
+denotes the hour(s), and the value on the right denotes the minute(s).
 Further, you can use `*` to match all possible values.
 
 To get additional ideas look at
@@ -128,13 +128,13 @@ Detailed Specification
 days:: Days are specified with an abbreviated English version: `sun, mon,
 tue, wed, thu, fri and sat`. You may use multiple days as a comma-separated
 list. A range of days can also be set by specifying the start and end day
-separated by ``..'', for example `mon..fri`. Those formats can be also
-mixed. If omitted `'*'` is assumed.
+separated by ``..'', for example `mon..fri`. These formats can be mixed.
+If omitted `'*'` is assumed.
 
 time-format:: A time format consists of hours and minutes interval lists.
-Hours and minutes are separated by `':'`. Both, hour and minute, can be list
+Hours and minutes are separated by `':'`. Both hour and minute can be list
 and ranges of values, using the same format as days.
-First come hours then minutes, hours can be omitted if not needed, in this
+First are hours, then minutes. Hours can be omitted if not needed. In this
 case `'*'` is assumed for the value of hours.
 The valid range for values is `0-23` for hours and `0-59` for minutes.
 
@@ -161,38 +161,38 @@ Examples:
 Error Handling
 --------------
 
-If a replication job encounters problems it will be placed in error state.
-In this state the configured replication intervals get suspended
-temporarily. Then we retry the failed replication in a 30 minute interval,
-once this succeeds the original schedule gets activated again.
+If a replication job encounters problems, it is placed in an error state.
+In this state, the configured replication intervals get suspended
+temporarily. The failed replication is repeatedly tried again in a
+30 minute interval.
+Once this succeeds, the original schedule gets activated again.
 
 Possible issues
 ~~~~~~~~~~~~~~~
 
-This represents only the most common issues possible, depending on your
-setup there may be also another cause.
+Some of the most common issues are in the following list. Depending on your
+setup there may be another cause.
 
 * Network is not working.
 
 * No free space left on the replication target storage.
 
-* Storage with same storage ID available on target node
+* Storage with same storage ID available on the target node
 
-NOTE: You can always use the replication log to get hints about a problems
-cause.
+NOTE: You can always use the replication log to find out what is causing the problem.
 
 Migrating a guest in case of Error
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // FIXME: move this to better fitting chapter (sysadmin ?) and only link to
 // it here
 
-In the case of a grave error a virtual guest may get stuck on a failed
+In the case of a grave error, a virtual guest may get stuck on a failed
 node. You then need to move it manually to a working node again.
 
 Example
 ~~~~~~~
 
-Lets assume that you have two guests (VM 100 and CT 200) running on node A
+Let's assume that you have two guests (VM 100 and CT 200) running on node A
 and replicate to node B.
 Node A failed and can not get back online. Now you have to migrate the guest
 to Node B manually.
@@ -205,16 +205,16 @@ to Node B manually.
 # pvecm status
 ----
 
-- If you have no quorum we strongly advise to fix this first and make the
-  node operable again. Only if this is not possible at the moment you may
+- If you have no quorum, we strongly advise to fix this first and make the
+  node operable again. Only if this is not possible at the moment, you may
   use the following command to enforce quorum on the current node:
 +
 ----
 # pvecm expected 1
 ----
 
-WARNING: If expected votes are set avoid changes which affect the cluster
-(for example adding/removing nodes, storages, virtual guests)  at all costs.
+WARNING: Avoid changes which affect the cluster if `expected votes` are set
+(for example adding/removing nodes, storages, virtual guests) at all costs.
 Only use it to get vital guests up and running again or to resolve the quorum
 issue itself.
 
@@ -239,48 +239,48 @@ Managing Jobs
 
 [thumbnail="screenshot/gui-qemu-add-replication-job.png"]
 
-You can use the web GUI to create, modify and remove replication jobs
-easily. Additionally the command line interface (CLI) tool `pvesr` can be
+You can use the web GUI to create, modify, and remove replication jobs
+easily. Additionally, the command line interface (CLI) tool `pvesr` can be
 used to do this.
 
 You can find the replication panel on all levels (datacenter, node, virtual
-guest) in the web GUI. They differ in what jobs get shown: all, only node
-specific or only guest specific jobs.
+guest) in the web GUI. They differ in which jobs get shown:
+all, node- or guest-specific jobs.
 
-Once adding a new job you need to specify the virtual guest (if not already
-selected) and the target node. The replication
+When adding a new job, you need to specify the guest if not already selected
+as well as the target node. The replication
 xref:pvesr_schedule_time_format[schedule] can be set if the default of `all
-15 minutes` is not desired. You may also impose rate limiting on a
-replication job, this can help to keep the storage load acceptable.
+15 minutes` is not desired. You may impose a rate-limit on a replication
+job. The rate limit can help to keep the load on the storage acceptable.
 
-A replication job is identified by an cluster-wide unique ID. This ID is
-composed of the VMID in addition to an job number.
+A replication job is identified by a cluster-wide unique ID. This ID is
+composed of the VMID in addition to a job number.
 This ID must only be specified manually if the CLI tool is used.
 
 
 Command Line Interface Examples
 -------------------------------
 
-Create a replication job which will run every 5 minutes with limited bandwidth of
-10 mbps (megabytes per second) for the guest with guest ID 100.
+Create a replication job which runs every 5 minutes with a limited bandwidth
+of 10 Mbps (megabytes per second) for the guest with ID 100.
 
 ----
 # pvesr create-local-job 100-0 pve1 --schedule "*/5" --rate 10
 ----
 
-Disable an active job with ID `100-0`
+Disable an active job with ID `100-0`.
 
 ----
 # pvesr disable 100-0
 ----
 
-Enable a deactivated job with ID `100-0`
+Enable a deactivated job with ID `100-0`.
 
 ----
 # pvesr enable 100-0
 ----
 
-Change the schedule interval of the job with ID `100-0` to once a hour
+Change the schedule interval of the job with ID `100-0` to once per hour.
 
 ----
 # pvesr update 100-0 --schedule '*/00'
