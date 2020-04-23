@@ -33,7 +33,7 @@ complex, and pricey management server.
 
 Proxmox Cluster File System (pmxcfs)::
 
-Proxmox VE uses the unique Proxmox Cluster file system (pmxcfs), a
+{pve} uses the unique Proxmox Cluster file system (pmxcfs), a
 database-driven file system for storing configuration files. This
 enables you to store the configuration of thousands of virtual
 machines. By using corosync, these files are replicated in real time
@@ -42,12 +42,12 @@ persistent database on disk, nonetheless, a copy of the data resides
 in RAM which provides a maximum storage size of 30MB - more than
 enough for thousands of VMs.
 +
-Proxmox VE is the only virtualization platform using this unique
+{pve} is the only virtualization platform using this unique
 cluster file system.
 
 Web-based Management Interface::
 
-Proxmox VE is simple to use. Management tasks can be done via the
+{pve} is simple to use. Management tasks can be done via the
 included web based management interface - there is no need to install a
 separate management tool or any additional management node with huge
 databases. The multi-master tool allows you to manage your whole
@@ -60,14 +60,14 @@ restore jobs, live-migration or HA triggered activities.
 Command Line::
 
 For advanced users who are used to the comfort of the Unix shell or
-Windows Powershell, Proxmox VE provides a command line interface to
+Windows Powershell, {pve} provides a command line interface to
 manage all the components of your virtual environment. This command
 line interface has intelligent tab completion and full documentation
 in the form of UNIX man pages.
 
 REST API::
 
-Proxmox VE uses a RESTful API. We choose JSON as primary data format,
+{pve} uses a RESTful API. We choose JSON as primary data format,
 and the whole API is formally defined using JSON Schema. This enables
 fast and easy integration for third party management tools like custom
 hosting environments.
@@ -83,15 +83,15 @@ and a role (set of privileges) on a specific path.
 
 Authentication Realms::
 
-Proxmox VE supports multiple authentication sources like Microsoft
+{pve} supports multiple authentication sources like Microsoft
 Active Directory, LDAP, Linux PAM standard authentication or the
-built-in Proxmox VE authentication server.
+built-in {pve} authentication server.
 
 
 Flexible Storage
 ----------------
 
-The Proxmox VE storage model is very flexible. Virtual machine images
+The {pve} storage model is very flexible. Virtual machine images
 can either be stored on one or several local storages or on shared
 storage like NFS and on SAN. There are no limits, you may configure as
 many storage definitions as you like. You can use all storage
@@ -133,8 +133,8 @@ VM backups fast and effective (sparse files, out of order data, minimized I/O).
 High Availability Cluster
 -------------------------
 
-A multi-node Proxmox VE HA Cluster enables the definition of highly
-available virtual servers. The Proxmox VE HA Cluster is based on
+A multi-node {pve} HA Cluster enables the definition of highly
+available virtual servers. The {pve} HA Cluster is based on
 proven Linux HA technologies, providing stable and reliable HA
 services.
 
@@ -142,7 +142,7 @@ services.
 Flexible Networking
 -------------------
 
-Proxmox VE uses a bridged networking model. All VMs can share one
+{pve} uses a bridged networking model. All VMs can share one
 bridge as if virtual network cables from each guest were all plugged
 into the same switch. For connecting VMs to the outside world, bridges
 are attached to physical network cards and assigned a TCP/IP
@@ -150,7 +150,7 @@ configuration.
 
 For further flexibility, VLANs (IEEE 802.1q) and network
 bonding/aggregation are possible. In this way it is possible to build
-complex, flexible virtual networks for the Proxmox VE hosts,
+complex, flexible virtual networks for the {pve} hosts,
 leveraging the full power of the Linux network stack.
 
 
@@ -167,8 +167,8 @@ include::hyper-converged-infrastructure.adoc[]
 Why Open Source
 ---------------
 
-Proxmox VE uses a Linux kernel and is based on the Debian GNU/Linux
-Distribution. The source code of Proxmox VE is released under the
+{pve} uses a Linux kernel and is based on the Debian GNU/Linux
+Distribution. The source code of {pve} is released under the
 http://www.gnu.org/licenses/agpl-3.0.html[GNU Affero General Public
 License, version 3]. This means that you are free to inspect the
 source code at any time or contribute to the project yourself.
