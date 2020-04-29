@@ -84,8 +84,8 @@ data to different nodes.
 
 ^1^: On file based storages, snapshots are possible with the 'qcow2' format.
 
-^2^: It is possible to use LVM on top of an iSCSI storage. That way
-you get a `shared` LVM storage.
+^2^: It is possible to use LVM on top of an iSCSI or FC-based storage.
+That way you get a `shared` LVM storage.
 
 
 Thin Provisioning
