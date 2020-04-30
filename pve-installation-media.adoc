@@ -104,14 +104,21 @@ increase the write speed.
 Instructions for Windows
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Download Rufus from https://rufus.ie/. Either install it or use the portable
-version. Select the destination drive and the {pve} ISO file.
+Using Etcher
+^^^^^^^^^^^^
 
-Once you click 'Start' a dialog asking to download a different version of GRUB
-will show up. Click 'No'. In the next dialog select the 'DD' mode.
+Etcher works out of the box. Download Etcher from https://etcher.io. It will
+guide you through the process of selecting the ISO and your USB Drive.
 
-An alternative to Rufus is Etcher. Download Etcher from https://etcher.io. It
-will guide you through the process of selecting the ISO and your USB Drive.
+Using Rufus
+^^^^^^^^^^^
+
+Rufus is a more lightweight alternative. Download it from https://rufus.ie/.
+Either install Rufus or use the portable version. Select the destination drive
+and the {pve} ISO file.
+
+IMPORTANT:  Once you click 'Start' a dialog asking to download a different version of
+GRUB will show up. Click 'No'. In the next dialog select the 'DD' mode.
 
 ifdef::wiki[]
 Boot your Server from the USB Flash Drive
