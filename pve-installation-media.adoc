@@ -113,12 +113,12 @@ guide you through the process of selecting the ISO and your USB Drive.
 Using Rufus
 ^^^^^^^^^^^
 
-Rufus is a more lightweight alternative. Download it from https://rufus.ie/.
-Either install Rufus or use the portable version. Select the destination drive
-and the {pve} ISO file.
+Rufus is a more lightweight alternative, but you need to use the *DD mode* to
+make it work. Download Rufus from https://rufus.ie/. Either install it or use
+the portable version. Select the destination drive and the {pve} ISO file.
 
-IMPORTANT:  Once you click 'Start' a dialog asking to download a different version of
-GRUB will show up. Click 'No'. In the next dialog select the 'DD' mode.
+IMPORTANT: Once you 'Start' you have to click 'No' on the dialog asking to
+download a different version of GRUB. In the next dialog select the 'DD' mode.
 
 ifdef::wiki[]
 Boot your Server from the USB Flash Drive
