@@ -33,7 +33,7 @@ ifdef::manvolnum[]
 include::output-format.adoc[]
 endif::manvolnum[]
 
-EXAMPLES
+Examples
 --------
 `pvenode cert set certificate.crt certificate.key -force`
 

@@ -178,8 +178,8 @@ Most hosting providers do not support the above setup. For security
 reasons, they disable networking as soon as they detect multiple MAC
 addresses on a single interface.
 
-TIP: Some providers allows you to register additional MACs on their
-management interface. This avoids the problem, but is clumsy to
+TIP: Some providers allow you to register additional MACs through their
+management interface. This avoids the problem, but can be clumsy to
 configure because you need to register a MAC for each of your VMs.
 
 You can avoid the problem by ``routing'' all traffic via a single
