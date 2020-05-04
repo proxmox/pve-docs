@@ -170,6 +170,54 @@ A server and authentication domain need to be specified. Like with
 ldap an optional fallback server, optional port, and SSL
 encryption can be configured.
 
+[[pveum_ldap_sync]]
+Syncing LDAP-based realms
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It is possible to sync users and groups for LDAP based realms using
+  pveum sync <realm>
+or in the `Authentication` panel of the GUI. Users and groups are synced
+to `/etc/pve/user.cfg`.
+
+Requirements and limitations
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The `bind_dn` is used to query the users and groups. This account
+needs access to all desired entries.
+
+The fields which represent the names of the users and groups can be configured
+via the `user_attr` and `group_name_attr` respectively. Only entries which
+adhere to the usual character limitations of the user.cfg are synced.
+
+Groups are synced with `-$realm` attached to the name, to avoid naming
+conflicts. Please make sure that a sync does not overwrite manually created
+groups.
+
+Options
+^^^^^^^
+
+The main options for syncing are:
+
+* `dry-run`: No data is written to the config. This is useful if you want to
+  see which users and groups would get synced to the user.cfg. This is set
+  when you click `Preview` in the GUI.
+
+* `enable-new`: If set, the newly synced users are enabled and can login.
+  The default is `true`.
+
+* `full`: If set, the sync uses the LDAP Directory as a source of truth,
+  overwriting information set manually in the user.cfg and deletes users
+  and groups which are not present in the LDAP directory. If not set,
+  only new data is written to the config, and no stale users are deleted.
+
+* `purge`: If set, sync removes all corresponding ACLs when removing users
+  and groups. This is only useful with the option `full`.
+
+* `scope`: The scope of what to sync. It can be either `users`, `groups` or
+  `both`.
+
+These options are either set as parameters or as defaults, via the
+realm option `sync-defaults-options`.
 
 [[pveum_tfa_auth]]
 Two-factor authentication
