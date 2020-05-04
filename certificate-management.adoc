@@ -215,8 +215,14 @@ challenges for `domain1.example`.
 
 .Example: Setting up the OVH API for validating a domain
 
-Note:: the account registration steps are the same no matter which plugins are used, and are not repeated here.
-Note:: `OVH_AK` and `OVH_AS` need to be obtained from OVH according to the OVH API documentation
+NOTE: the account registration steps are the same no matter which plugins are
+used, and are not repeated here.
+
+NOTE: `OVH_AK` and `OVH_AS` need to be obtained from OVH according to the OVH
+API documentation
+
+
+First you need to get all information so you and {pve} can access the API.
 
 ----
 root@proxmox:~# cat /path/to/api-token
@@ -241,6 +247,11 @@ https://eu.api.ovh.com/1.0/auth/credential  -d '{
 (open validation URL and follow instructions to link Application Key with account/Consumer Key)
 
 root@proxmox:~# echo "OVH_CK=ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ" >> /path/to/api-token
+----
+
+Now you can setup the the ACME plugin:
+
+----
 root@proxmox:~# pvenode acme plugin add dns example_plugin --api ovh --data /path/to/api_token
 root@proxmox:~# pvenode acme plugin config example_plugin
 ┌────────┬──────────────────────────────────────────┐
@@ -258,6 +269,12 @@ root@proxmox:~# pvenode acme plugin config example_plugin
 ├────────┼──────────────────────────────────────────┤
 │ type   │ dns                                      │
 └────────┴──────────────────────────────────────────┘
+----
+
+At last you can configure the domain you want to get certitficates for and
+place the certificate order for it:
+
+----
 root@proxmox:~# pvenode config set -acmedomain0 example.proxmox.com,plugin=example_plugin
 root@proxmox:~# pvenode acme cert order
 Loading ACME account details
