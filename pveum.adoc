@@ -174,16 +174,20 @@ encryption can be configured.
 Syncing LDAP-based realms
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-It is possible to sync users and groups for LDAP based realms using
+It is possible to sync users and groups for LDAP based realms. You can use the
+CLI command
+
+----
   pveum sync <realm>
-or in the `Authentication` panel of the GUI. Users and groups are synced
-to `/etc/pve/user.cfg`.
+----
+or in the `Authentication` panel of the GUI. Users and groups are synced to the
+cluster-wide user configuration file `/etc/pve/user.cfg`.
 
 Requirements and limitations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The `bind_dn` is used to query the users and groups. This account
-needs access to all desired entries.
+The `bind_dn` is used to query the users and groups. This account needs access
+to all desired entries.
 
 The fields which represent the names of the users and groups can be configured
 via the `user_attr` and `group_name_attr` respectively. Only entries which
@@ -193,6 +197,7 @@ Groups are synced with `-$realm` attached to the name, to avoid naming
 conflicts. Please make sure that a sync does not overwrite manually created
 groups.
 
+[[pveum_ldap_sync_options]]
 Options
 ^^^^^^^
 
