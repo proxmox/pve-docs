@@ -1,3 +1,23 @@
+pve-docs (6.2-1) pve; urgency=medium
+
+  * pveceph: Reducing number of PGs is possible
+
+  * Add documentation for virtio-rng
+
+  * improve storage replication chapter
+
+  * Also mentioning FC-based storage
+
+  * certs: extend ACME section with DNS/plugin info and CLI example
+
+  * add documenation for ldap syncing
+
+  * html TOC: add "back to index" link
+
+  * update static data and schema definitions
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 06 May 2020 20:23:22 +0200
+
 pve-docs (6.1-6) pve; urgency=medium
 
   * installation: update wiki link to Buster
