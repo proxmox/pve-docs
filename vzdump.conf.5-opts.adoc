@@ -2,7 +2,7 @@
 
 Limit I/O bandwidth (KBytes per second).
 
-`compress`: `<0 | 1 | gzip | lzo>` ('default =' `0`)::
+`compress`: `<0 | 1 | gzip | lzo | zstd>` ('default =' `0`)::
 
 Compress dump file.
 
@@ -69,4 +69,8 @@ Store resulting file to this storage.
 `tmpdir`: `<string>` ::
 
 Store temporary files to specified directory.
+
+`zstd`: `<integer>` ('default =' `1`)::
+
+Zstd threads. N=0 uses half of the available cores, N>0 uses N as thread count.
 

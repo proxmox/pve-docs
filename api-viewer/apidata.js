@@ -133,7 +133,7 @@ var pveapi = [
                               },
                               "schedule" : {
                                  "default" : "*/15",
-                                 "description" : "Storage replication schedule. The format is a subset of `systemd` calender events.",
+                                 "description" : "Storage replication schedule. The format is a subset of `systemd` calendar events.",
                                  "format" : "pve-calendar-event",
                                  "maxLength" : 128,
                                  "optional" : 1,
@@ -242,7 +242,7 @@ var pveapi = [
                         },
                         "schedule" : {
                            "default" : "*/15",
-                           "description" : "Storage replication schedule. The format is a subset of `systemd` calender events.",
+                           "description" : "Storage replication schedule. The format is a subset of `systemd` calendar events.",
                            "format" : "pve-calendar-event",
                            "maxLength" : 128,
                            "optional" : 1,
@@ -295,6 +295,36 @@ var pveapi = [
          {
             "children" : [
                {
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Return the version of the cluster join API available on this node.",
+                        "method" : "GET",
+                        "name" : "join_api_version",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Audit"
+                              ]
+                           ]
+                        },
+                        "returns" : {
+                           "description" : "Cluster Join API version, currently 1",
+                           "minimum" : 0,
+                           "type" : "integer"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/config/apiversion",
+                  "text" : "apiversion"
+               },
+               {
                   "children" : [
                      {
                         "info" : {
@@ -327,6 +357,12 @@ var pveapi = [
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
+                                    "apiversion" : {
+                                       "description" : "The JOIN_API_VERSION of the new node.",
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer>"
+                                    },
                                     "force" : {
                                        "description" : "Do not throw error if node already exists.",
                                        "optional" : 1,
@@ -334,7 +370,7 @@ var pveapi = [
                                        "typetext" : "<boolean>"
                                     },
                                     "link[n]" : {
-                                       "description" : "Address and priority information of a single corosync link.",
+                                       "description" : "Address and priority information of a single corosync link. (up to 8 links supported; link0..link7)",
                                        "format" : {
                                           "address" : {
                                              "default_key" : 1,
@@ -345,7 +381,7 @@ var pveapi = [
                                           },
                                           "priority" : {
                                              "default" : 0,
-                                             "description" : "The priority for the link when knet is used in 'passive' mode. Lower value means higher priority.",
+                                             "description" : "The priority for the link when knet is used in 'passive' mode (default). Lower value means higher priority. Only valid for cluster create, ignored on node add.",
                                              "maximum" : 255,
                                              "minimum" : 0,
                                              "optional" : 1,
@@ -355,6 +391,13 @@ var pveapi = [
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "[address=]<IP> [,priority=<integer>]"
+                                    },
+                                    "new_node_ip" : {
+                                       "description" : "IP Address of node to add. Used as fallback if no links are given.",
+                                       "format" : "ip",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
                                     },
                                     "node" : {
                                        "description" : "The cluster node name.",
@@ -386,6 +429,12 @@ var pveapi = [
                                     },
                                     "corosync_conf" : {
                                        "type" : "string"
+                                    },
+                                    "warnings" : {
+                                       "items" : {
+                                          "type" : "string"
+                                       },
+                                       "type" : "array"
                                     }
                                  },
                                  "type" : "object"
@@ -502,7 +551,7 @@ var pveapi = [
                                           "type" : "integer"
                                        },
                                        "ring0_addr" : {
-                                          "description" : "Address and priority information of a single corosync link.",
+                                          "description" : "Address and priority information of a single corosync link. (up to 8 links supported; link0..link7)",
                                           "format" : {
                                              "address" : {
                                                 "default_key" : 1,
@@ -513,7 +562,7 @@ var pveapi = [
                                              },
                                              "priority" : {
                                                 "default" : 0,
-                                                "description" : "The priority for the link when knet is used in 'passive' mode. Lower value means higher priority.",
+                                                "description" : "The priority for the link when knet is used in 'passive' mode (default). Lower value means higher priority. Only valid for cluster create, ignored on node add.",
                                                 "maximum" : 255,
                                                 "minimum" : 0,
                                                 "optional" : 1,
@@ -542,7 +591,7 @@ var pveapi = [
                      },
                      "POST" : {
                         "allowtoken" : 1,
-                        "description" : "Joins this node into an existing cluster.",
+                        "description" : "Joins this node into an existing cluster. If no links are given, default to IP resolved by node's hostname on single link (fallback fails for clusters with multiple links).",
                         "method" : "POST",
                         "name" : "join",
                         "parameters" : {
@@ -565,8 +614,7 @@ var pveapi = [
                                  "typetext" : "<string>"
                               },
                               "link[n]" : {
-                                 "default" : "IP resolved by node's hostname",
-                                 "description" : "Address and priority information of a single corosync link.",
+                                 "description" : "Address and priority information of a single corosync link. (up to 8 links supported; link0..link7)",
                                  "format" : {
                                     "address" : {
                                        "default_key" : 1,
@@ -577,7 +625,7 @@ var pveapi = [
                                     },
                                     "priority" : {
                                        "default" : 0,
-                                       "description" : "The priority for the link when knet is used in 'passive' mode. Lower value means higher priority.",
+                                       "description" : "The priority for the link when knet is used in 'passive' mode (default). Lower value means higher priority. Only valid for cluster create, ignored on node add.",
                                        "maximum" : 255,
                                        "minimum" : 0,
                                        "optional" : 1,
@@ -711,7 +759,7 @@ var pveapi = [
                },
                "POST" : {
                   "allowtoken" : 1,
-                  "description" : "Generate new cluster configuration.",
+                  "description" : "Generate new cluster configuration. If no links given, default to local IP address as link0.",
                   "method" : "POST",
                   "name" : "create",
                   "parameters" : {
@@ -725,7 +773,7 @@ var pveapi = [
                            "typetext" : "<string>"
                         },
                         "link[n]" : {
-                           "description" : "Address and priority information of a single corosync link.",
+                           "description" : "Address and priority information of a single corosync link. (up to 8 links supported; link0..link7)",
                            "format" : {
                               "address" : {
                                  "default_key" : 1,
@@ -736,7 +784,7 @@ var pveapi = [
                               },
                               "priority" : {
                                  "default" : 0,
-                                 "description" : "The priority for the link when knet is used in 'passive' mode. Lower value means higher priority.",
+                                 "description" : "The priority for the link when knet is used in 'passive' mode (default). Lower value means higher priority. Only valid for cluster create, ignored on node add.",
                                  "maximum" : 255,
                                  "minimum" : 0,
                                  "optional" : 1,
@@ -2939,7 +2987,8 @@ var pveapi = [
                                     "0",
                                     "1",
                                     "gzip",
-                                    "lzo"
+                                    "lzo",
+                                    "zstd"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -3139,6 +3188,13 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "zstd" : {
+                                 "default" : 1,
+                                 "description" : "Zstd threads. N=0 uses half of the available cores, N>0 uses N as thread count.",
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer>"
                               }
                            }
                         },
@@ -3230,7 +3286,8 @@ var pveapi = [
                               "0",
                               "1",
                               "gzip",
-                              "lzo"
+                              "lzo",
+                              "zstd"
                            ],
                            "optional" : 1,
                            "type" : "string"
@@ -3418,6 +3475,13 @@ var pveapi = [
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
+                        },
+                        "zstd" : {
+                           "default" : 1,
+                           "description" : "Zstd threads. N=0 uses half of the available cores, N>0 uses N as thread count.",
+                           "optional" : 1,
+                           "type" : "integer",
+                           "typetext" : "<integer>"
                         }
                      }
                   },
@@ -4268,6 +4332,484 @@ var pveapi = [
                         "info" : {
                            "DELETE" : {
                               "allowtoken" : 1,
+                              "description" : "Delete ACME plugin configuration.",
+                              "method" : "DELETE",
+                              "name" : "delete_plugin",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "id" : {
+                                       "description" : "Unique identifier for ACME plugin instance.",
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           },
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Get ACME plugin configuration.",
+                              "method" : "GET",
+                              "name" : "get_plugin_config",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "id" : {
+                                       "description" : "Unique identifier for ACME plugin instance.",
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "object"
+                              }
+                           },
+                           "PUT" : {
+                              "allowtoken" : 1,
+                              "description" : "Update ACME plugin configuration.",
+                              "method" : "PUT",
+                              "name" : "update_plugin",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "api" : {
+                                       "description" : "API plugin name",
+                                       "enum" : [
+                                          "acmedns",
+                                          "acmeproxy",
+                                          "active24",
+                                          "ad",
+                                          "ali",
+                                          "autodns",
+                                          "aws",
+                                          "azure",
+                                          "cf",
+                                          "clouddns",
+                                          "cloudns",
+                                          "cn",
+                                          "conoha",
+                                          "constellix",
+                                          "cx",
+                                          "cyon",
+                                          "da",
+                                          "ddnss",
+                                          "desec",
+                                          "dgon",
+                                          "dnsimple",
+                                          "do",
+                                          "doapi",
+                                          "domeneshop",
+                                          "dp",
+                                          "dpi",
+                                          "dreamhost",
+                                          "duckdns",
+                                          "durabledns",
+                                          "dyn",
+                                          "dynu",
+                                          "dynv6",
+                                          "easydns",
+                                          "euserv",
+                                          "exoscale",
+                                          "freedns",
+                                          "gandi_livedns",
+                                          "gcloud",
+                                          "gd",
+                                          "gdnsdk",
+                                          "he",
+                                          "hexonet",
+                                          "hostingde",
+                                          "infoblox",
+                                          "internetbs",
+                                          "inwx",
+                                          "ispconfig",
+                                          "jd",
+                                          "kas",
+                                          "kinghost",
+                                          "knot",
+                                          "leaseweb",
+                                          "lexicon",
+                                          "linode",
+                                          "linode_v4",
+                                          "loopia",
+                                          "lua",
+                                          "maradns",
+                                          "me",
+                                          "miab",
+                                          "misaka",
+                                          "myapi",
+                                          "mydevil",
+                                          "mydnsjp",
+                                          "namecheap",
+                                          "namecom",
+                                          "namesilo",
+                                          "nederhost",
+                                          "neodigit",
+                                          "netcup",
+                                          "nic",
+                                          "nsd",
+                                          "nsone",
+                                          "nsupdate",
+                                          "nw",
+                                          "one",
+                                          "online",
+                                          "openprovider",
+                                          "opnsense",
+                                          "ovh",
+                                          "pdns",
+                                          "pleskxml",
+                                          "pointhq",
+                                          "rackspace",
+                                          "rcode0",
+                                          "regru",
+                                          "schlundtech",
+                                          "selectel",
+                                          "servercow",
+                                          "tele3",
+                                          "ultra",
+                                          "unoeuro",
+                                          "variomedia",
+                                          "vscale",
+                                          "vultr",
+                                          "yandex",
+                                          "zilore",
+                                          "zone",
+                                          "zonomi"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "data" : {
+                                       "description" : "DNS plugin data. (base64 encoded)",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "delete" : {
+                                       "description" : "A list of settings you want to delete.",
+                                       "format" : "pve-configid-list",
+                                       "maxLength" : 4096,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "digest" : {
+                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 40,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "disable" : {
+                                       "description" : "Flag to disable the config.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "id" : {
+                                       "description" : "ACME Plugin ID name",
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "nodes" : {
+                                       "description" : "List of cluster node names.",
+                                       "format" : "pve-node-list",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "validation-delay" : {
+                                       "default" : 30,
+                                       "description" : "Extra delay in seconds to wait before requesting validation. Allows to cope with a long TTL of DNS records.",
+                                       "maximum" : 172800,
+                                       "minimum" : 0,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (0 - 172800)"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/cluster/acme/plugins/{id}",
+                        "text" : "{id}"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "ACME plugin index.",
+                        "method" : "GET",
+                        "name" : "index",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "type" : {
+                                 "description" : "Only list ACME plugins of a specific type",
+                                 "enum" : [
+                                    "dns",
+                                    "standalone"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Modify"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "items" : {
+                              "properties" : {
+                                 "plugin" : {
+                                    "description" : "Unique identifier for ACME plugin instance.",
+                                    "format" : "pve-configid",
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{plugin}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     },
+                     "POST" : {
+                        "allowtoken" : 1,
+                        "description" : "Add ACME plugin configuration.",
+                        "method" : "POST",
+                        "name" : "add_plugin",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "api" : {
+                                 "description" : "API plugin name",
+                                 "enum" : [
+                                    "acmedns",
+                                    "acmeproxy",
+                                    "active24",
+                                    "ad",
+                                    "ali",
+                                    "autodns",
+                                    "aws",
+                                    "azure",
+                                    "cf",
+                                    "clouddns",
+                                    "cloudns",
+                                    "cn",
+                                    "conoha",
+                                    "constellix",
+                                    "cx",
+                                    "cyon",
+                                    "da",
+                                    "ddnss",
+                                    "desec",
+                                    "dgon",
+                                    "dnsimple",
+                                    "do",
+                                    "doapi",
+                                    "domeneshop",
+                                    "dp",
+                                    "dpi",
+                                    "dreamhost",
+                                    "duckdns",
+                                    "durabledns",
+                                    "dyn",
+                                    "dynu",
+                                    "dynv6",
+                                    "easydns",
+                                    "euserv",
+                                    "exoscale",
+                                    "freedns",
+                                    "gandi_livedns",
+                                    "gcloud",
+                                    "gd",
+                                    "gdnsdk",
+                                    "he",
+                                    "hexonet",
+                                    "hostingde",
+                                    "infoblox",
+                                    "internetbs",
+                                    "inwx",
+                                    "ispconfig",
+                                    "jd",
+                                    "kas",
+                                    "kinghost",
+                                    "knot",
+                                    "leaseweb",
+                                    "lexicon",
+                                    "linode",
+                                    "linode_v4",
+                                    "loopia",
+                                    "lua",
+                                    "maradns",
+                                    "me",
+                                    "miab",
+                                    "misaka",
+                                    "myapi",
+                                    "mydevil",
+                                    "mydnsjp",
+                                    "namecheap",
+                                    "namecom",
+                                    "namesilo",
+                                    "nederhost",
+                                    "neodigit",
+                                    "netcup",
+                                    "nic",
+                                    "nsd",
+                                    "nsone",
+                                    "nsupdate",
+                                    "nw",
+                                    "one",
+                                    "online",
+                                    "openprovider",
+                                    "opnsense",
+                                    "ovh",
+                                    "pdns",
+                                    "pleskxml",
+                                    "pointhq",
+                                    "rackspace",
+                                    "rcode0",
+                                    "regru",
+                                    "schlundtech",
+                                    "selectel",
+                                    "servercow",
+                                    "tele3",
+                                    "ultra",
+                                    "unoeuro",
+                                    "variomedia",
+                                    "vscale",
+                                    "vultr",
+                                    "yandex",
+                                    "zilore",
+                                    "zone",
+                                    "zonomi"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "data" : {
+                                 "description" : "DNS plugin data. (base64 encoded)",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "disable" : {
+                                 "description" : "Flag to disable the config.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "id" : {
+                                 "description" : "ACME Plugin ID name",
+                                 "format" : "pve-configid",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "nodes" : {
+                                 "description" : "List of cluster node names.",
+                                 "format" : "pve-node-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "type" : {
+                                 "description" : "ACME challenge type.",
+                                 "enum" : [
+                                    "dns",
+                                    "standalone"
+                                 ],
+                                 "type" : "string"
+                              },
+                              "validation-delay" : {
+                                 "default" : 30,
+                                 "description" : "Extra delay in seconds to wait before requesting validation. Allows to cope with a long TTL of DNS records.",
+                                 "maximum" : 172800,
+                                 "minimum" : 0,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (0 - 172800)"
+                              }
+                           },
+                           "type" : "object"
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Modify"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/cluster/acme/plugins",
+                  "text" : "plugins"
+               },
+               {
+                  "children" : [
+                     {
+                        "info" : {
+                           "DELETE" : {
+                              "allowtoken" : 1,
                               "description" : "Deactivate existing ACME account at CA.",
                               "method" : "DELETE",
                               "name" : "deactivate_account",
@@ -4559,7 +5101,18 @@ var pveapi = [
                         "method" : "GET",
                         "name" : "metadata",
                         "parameters" : {
-                           "additionalProperties" : 0
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "scope" : {
+                                 "default" : "all",
+                                 "enum" : [
+                                    "all",
+                                    "versions"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              }
+                           }
                         },
                         "permissions" : {
                            "check" : [
@@ -4890,6 +5443,904 @@ var pveapi = [
             "leaf" : 0,
             "path" : "/cluster/ceph",
             "text" : "ceph"
+         },
+         {
+            "children" : [
+               {
+                  "children" : [
+                     {
+                        "info" : {
+                           "DELETE" : {
+                              "allowtoken" : 1,
+                              "description" : "Delete sdn vnet object configuration.",
+                              "method" : "DELETE",
+                              "name" : "delete",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "vnet" : {
+                                       "description" : "The SDN vnet object identifier.",
+                                       "format" : "pve-sdn-vnet-id",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/sdn/vnets",
+                                    [
+                                       "SDN.Allocate"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           },
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Read sdn vnet configuration.",
+                              "method" : "GET",
+                              "name" : "read",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "vnet" : {
+                                       "description" : "The SDN vnet object identifier.",
+                                       "format" : "pve-sdn-vnet-id",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/sdn/vnets/{vnet}",
+                                    [
+                                       "SDN.Allocate"
+                                    ]
+                                 ]
+                              },
+                              "returns" : {
+                                 "type" : "object"
+                              }
+                           },
+                           "PUT" : {
+                              "allowtoken" : 1,
+                              "description" : "Update sdn vnet object configuration.",
+                              "method" : "PUT",
+                              "name" : "update",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "alias" : {
+                                       "description" : "alias name of the vnet",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "delete" : {
+                                       "description" : "A list of settings you want to delete.",
+                                       "format" : "pve-configid-list",
+                                       "maxLength" : 4096,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "digest" : {
+                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 40,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "ipv4" : {
+                                       "description" : "Anycast router ipv4 address.",
+                                       "format" : "CIDRv4",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "ipv6" : {
+                                       "description" : "Anycast router ipv6 address.",
+                                       "format" : "CIDRv6",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "mac" : {
+                                       "description" : "Anycast router mac address",
+                                       "format" : "mac-addr",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "tag" : {
+                                       "description" : "vlan or vxlan id",
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer>"
+                                    },
+                                    "vnet" : {
+                                       "description" : "The SDN vnet object identifier.",
+                                       "format" : "pve-sdn-vnet-id",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "zone" : {
+                                       "description" : "zone id",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/sdn/vnets",
+                                    [
+                                       "SDN.Allocate"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/cluster/sdn/vnets/{vnet}",
+                        "text" : "{vnet}"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "SDN vnets index.",
+                        "method" : "GET",
+                        "name" : "index",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "description" : "Only list entries where you have 'SDN.Audit' or 'SDN.Allocate' permissions on '/sdn/vnets/<vnet>'",
+                           "user" : "all"
+                        },
+                        "returns" : {
+                           "items" : {
+                              "properties" : {},
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{vnet}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     },
+                     "POST" : {
+                        "allowtoken" : 1,
+                        "description" : "Create a new sdn vnet object.",
+                        "method" : "POST",
+                        "name" : "create",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "alias" : {
+                                 "description" : "alias name of the vnet",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "ipv4" : {
+                                 "description" : "Anycast router ipv4 address.",
+                                 "format" : "CIDRv4",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "ipv6" : {
+                                 "description" : "Anycast router ipv6 address.",
+                                 "format" : "CIDRv6",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "mac" : {
+                                 "description" : "Anycast router mac address",
+                                 "format" : "mac-addr",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "tag" : {
+                                 "description" : "vlan or vxlan id",
+                                 "optional" : 0,
+                                 "type" : "integer",
+                                 "typetext" : "<integer>"
+                              },
+                              "type" : {
+                                 "description" : "Type",
+                                 "enum" : [
+                                    "vnet"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "vnet" : {
+                                 "description" : "The SDN vnet object identifier.",
+                                 "format" : "pve-sdn-vnet-id",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "zone" : {
+                                 "description" : "zone id",
+                                 "optional" : 0,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           },
+                           "type" : "object"
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/sdn/vnets",
+                              [
+                                 "SDN.Allocate"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/cluster/sdn/vnets",
+                  "text" : "vnets"
+               },
+               {
+                  "children" : [
+                     {
+                        "info" : {
+                           "DELETE" : {
+                              "allowtoken" : 1,
+                              "description" : "Delete sdn zone object configuration.",
+                              "method" : "DELETE",
+                              "name" : "delete",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "zone" : {
+                                       "description" : "The SDN zone object identifier.",
+                                       "format" : "pve-sdn-zone-id",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/sdn/zones",
+                                    [
+                                       "SDN.Allocate"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           },
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Read sdn zone configuration.",
+                              "method" : "GET",
+                              "name" : "read",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "zone" : {
+                                       "description" : "The SDN zone object identifier.",
+                                       "format" : "pve-sdn-zone-id",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/sdn/zones/{zone}",
+                                    [
+                                       "SDN.Allocate"
+                                    ]
+                                 ]
+                              },
+                              "returns" : {
+                                 "type" : "object"
+                              }
+                           },
+                           "PUT" : {
+                              "allowtoken" : 1,
+                              "description" : "Update sdn zone object configuration.",
+                              "method" : "PUT",
+                              "name" : "update",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "bridge" : {
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "controller" : {
+                                       "description" : "Frr router name",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "delete" : {
+                                       "description" : "A list of settings you want to delete.",
+                                       "format" : "pve-configid-list",
+                                       "maxLength" : 4096,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "digest" : {
+                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 40,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "dp-id" : {
+                                       "description" : "Faucet dataplane id",
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer>"
+                                    },
+                                    "mtu" : {
+                                       "description" : "mtu",
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer>"
+                                    },
+                                    "nodes" : {
+                                       "description" : "List of cluster node names.",
+                                       "format" : "pve-node-list",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "peers" : {
+                                       "description" : "peers address list.",
+                                       "format" : "ip-list",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "tag" : {
+                                       "description" : "vlan tag",
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer>"
+                                    },
+                                    "vrf-vxlan" : {
+                                       "description" : "l3vni.",
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer>"
+                                    },
+                                    "zone" : {
+                                       "description" : "The SDN zone object identifier.",
+                                       "format" : "pve-sdn-zone-id",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/sdn/zones",
+                                    [
+                                       "SDN.Allocate"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/cluster/sdn/zones/{zone}",
+                        "text" : "{zone}"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "SDN zones index.",
+                        "method" : "GET",
+                        "name" : "index",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "type" : {
+                                 "description" : "Only list sdn zones of specific type",
+                                 "enum" : [
+                                    "evpn",
+                                    "faucet",
+                                    "qinq",
+                                    "vlan",
+                                    "vxlan"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "description" : "Only list entries where you have 'SDN.Audit' or 'SDN.Allocate' permissions on '/sdn/zones/<zone>'",
+                           "user" : "all"
+                        },
+                        "returns" : {
+                           "items" : {
+                              "properties" : {
+                                 "type" : {
+                                    "type" : "string"
+                                 },
+                                 "zone" : {
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{zone}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     },
+                     "POST" : {
+                        "allowtoken" : 1,
+                        "description" : "Create a new sdn zone object.",
+                        "method" : "POST",
+                        "name" : "create",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "bridge" : {
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "controller" : {
+                                 "description" : "Frr router name",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "dp-id" : {
+                                 "description" : "Faucet dataplane id",
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer>"
+                              },
+                              "mtu" : {
+                                 "description" : "mtu",
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer>"
+                              },
+                              "nodes" : {
+                                 "description" : "List of cluster node names.",
+                                 "format" : "pve-node-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "peers" : {
+                                 "description" : "peers address list.",
+                                 "format" : "ip-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "tag" : {
+                                 "description" : "vlan tag",
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer>"
+                              },
+                              "type" : {
+                                 "description" : "Plugin type.",
+                                 "enum" : [
+                                    "evpn",
+                                    "faucet",
+                                    "qinq",
+                                    "vlan",
+                                    "vxlan"
+                                 ],
+                                 "format" : "pve-configid",
+                                 "type" : "string"
+                              },
+                              "vrf-vxlan" : {
+                                 "description" : "l3vni.",
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer>"
+                              },
+                              "zone" : {
+                                 "description" : "The SDN zone object identifier.",
+                                 "format" : "pve-sdn-zone-id",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           },
+                           "type" : "object"
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/sdn/zones",
+                              [
+                                 "SDN.Allocate"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/cluster/sdn/zones",
+                  "text" : "zones"
+               },
+               {
+                  "children" : [
+                     {
+                        "info" : {
+                           "DELETE" : {
+                              "allowtoken" : 1,
+                              "description" : "Delete sdn controller object configuration.",
+                              "method" : "DELETE",
+                              "name" : "delete",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "controller" : {
+                                       "description" : "The SDN controller object identifier.",
+                                       "format" : "pve-sdn-controller-id",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/sdn/controllers",
+                                    [
+                                       "SDN.Allocate"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           },
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Read sdn controller configuration.",
+                              "method" : "GET",
+                              "name" : "read",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "controller" : {
+                                       "description" : "The SDN controller object identifier.",
+                                       "format" : "pve-sdn-controller-id",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/sdn/controllers/{controller}",
+                                    [
+                                       "SDN.Allocate"
+                                    ]
+                                 ]
+                              },
+                              "returns" : {
+                                 "type" : "object"
+                              }
+                           },
+                           "PUT" : {
+                              "allowtoken" : 1,
+                              "description" : "Update sdn controller object configuration.",
+                              "method" : "PUT",
+                              "name" : "update",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "asn" : {
+                                       "description" : "autonomous system number",
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer>"
+                                    },
+                                    "controller" : {
+                                       "description" : "The SDN controller object identifier.",
+                                       "format" : "pve-sdn-controller-id",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "delete" : {
+                                       "description" : "A list of settings you want to delete.",
+                                       "format" : "pve-configid-list",
+                                       "maxLength" : 4096,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "digest" : {
+                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 40,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "gateway-external-peers" : {
+                                       "description" : "upstream bgp peers address list.",
+                                       "format" : "ip-list",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "gateway-nodes" : {
+                                       "description" : "List of cluster node names.",
+                                       "format" : "pve-node-list",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "peers" : {
+                                       "description" : "peers address list.",
+                                       "format" : "ip-list",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/sdn/controllers",
+                                    [
+                                       "SDN.Allocate"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/cluster/sdn/controllers/{controller}",
+                        "text" : "{controller}"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "SDN controllers index.",
+                        "method" : "GET",
+                        "name" : "index",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "type" : {
+                                 "description" : "Only list sdn controllers of specific type",
+                                 "enum" : [
+                                    "evpn",
+                                    "faucet"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "description" : "Only list entries where you have 'SDN.Audit' or 'SDN.Allocate' permissions on '/sdn/controllers/<controller>'",
+                           "user" : "all"
+                        },
+                        "returns" : {
+                           "items" : {
+                              "properties" : {
+                                 "controller" : {
+                                    "type" : "string"
+                                 },
+                                 "type" : {
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{controller}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     },
+                     "POST" : {
+                        "allowtoken" : 1,
+                        "description" : "Create a new sdn controller object.",
+                        "method" : "POST",
+                        "name" : "create",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "asn" : {
+                                 "description" : "autonomous system number",
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer>"
+                              },
+                              "controller" : {
+                                 "description" : "The SDN controller object identifier.",
+                                 "format" : "pve-sdn-controller-id",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "gateway-external-peers" : {
+                                 "description" : "upstream bgp peers address list.",
+                                 "format" : "ip-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "gateway-nodes" : {
+                                 "description" : "List of cluster node names.",
+                                 "format" : "pve-node-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "peers" : {
+                                 "description" : "peers address list.",
+                                 "format" : "ip-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "type" : {
+                                 "description" : "Plugin type.",
+                                 "enum" : [
+                                    "evpn",
+                                    "faucet"
+                                 ],
+                                 "format" : "pve-configid",
+                                 "type" : "string"
+                              }
+                           },
+                           "type" : "object"
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/sdn/controllers",
+                              [
+                                 "SDN.Allocate"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/cluster/sdn/controllers",
+                  "text" : "controllers"
+               }
+            ],
+            "info" : {
+               "GET" : {
+                  "allowtoken" : 1,
+                  "description" : "Directory index.",
+                  "method" : "GET",
+                  "name" : "index",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "permissions" : {
+                     "check" : [
+                        "perm",
+                        "/",
+                        [
+                           "SDN.Audit"
+                        ]
+                     ]
+                  },
+                  "returns" : {
+                     "items" : {
+                        "properties" : {
+                           "id" : {
+                              "type" : "string"
+                           }
+                        },
+                        "type" : "object"
+                     },
+                     "links" : [
+                        {
+                           "href" : "{id}",
+                           "rel" : "child"
+                        }
+                     ],
+                     "type" : "array"
+                  }
+               },
+               "PUT" : {
+                  "allowtoken" : 1,
+                  "description" : "Apply sdn controller changes && reload.",
+                  "method" : "PUT",
+                  "name" : "reload",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "permissions" : {
+                     "check" : [
+                        "perm",
+                        "/sdn",
+                        [
+                           "SDN.Allocate"
+                        ]
+                     ]
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "type" : "string"
+                  }
+               }
+            },
+            "leaf" : 0,
+            "path" : "/cluster/sdn",
+            "text" : "sdn"
          },
          {
             "info" : {
@@ -8337,6 +9788,14 @@ var pveapi = [
                                                 "command" : {
                                                    "description" : "The command as a list of program + arguments",
                                                    "format" : "string-alist",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "input-data" : {
+                                                   "description" : "Data to pass as 'input-data' to the guest. Usually treated as STDIN to 'command'.",
+                                                   "maxLength" : 65536,
+                                                   "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
                                                 },
@@ -9047,81 +10506,7 @@ var pveapi = [
                                           },
                                           "cpu" : {
                                              "description" : "Emulated CPU type.",
-                                             "format" : {
-                                                "cputype" : {
-                                                   "default" : "kvm64",
-                                                   "default_key" : 1,
-                                                   "description" : "Emulated CPU type.",
-                                                   "enum" : [
-                                                      "486",
-                                                      "athlon",
-                                                      "Broadwell",
-                                                      "Broadwell-IBRS",
-                                                      "Broadwell-noTSX",
-                                                      "Broadwell-noTSX-IBRS",
-                                                      "Cascadelake-Server",
-                                                      "Conroe",
-                                                      "core2duo",
-                                                      "coreduo",
-                                                      "EPYC",
-                                                      "EPYC-IBPB",
-                                                      "Haswell",
-                                                      "Haswell-IBRS",
-                                                      "Haswell-noTSX",
-                                                      "Haswell-noTSX-IBRS",
-                                                      "host",
-                                                      "IvyBridge",
-                                                      "IvyBridge-IBRS",
-                                                      "KnightsMill",
-                                                      "kvm32",
-                                                      "kvm64",
-                                                      "max",
-                                                      "Nehalem",
-                                                      "Nehalem-IBRS",
-                                                      "Opteron_G1",
-                                                      "Opteron_G2",
-                                                      "Opteron_G3",
-                                                      "Opteron_G4",
-                                                      "Opteron_G5",
-                                                      "Penryn",
-                                                      "pentium",
-                                                      "pentium2",
-                                                      "pentium3",
-                                                      "phenom",
-                                                      "qemu32",
-                                                      "qemu64",
-                                                      "SandyBridge",
-                                                      "SandyBridge-IBRS",
-                                                      "Skylake-Client",
-                                                      "Skylake-Client-IBRS",
-                                                      "Skylake-Server",
-                                                      "Skylake-Server-IBRS",
-                                                      "Westmere",
-                                                      "Westmere-IBRS"
-                                                   ],
-                                                   "type" : "string"
-                                                },
-                                                "flags" : {
-                                                   "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: pcid, spec-ctrl, ibpb, ssbd, virt-ssbd, amd-ssbd, amd-no-ssb, pdpe1gb, md-clear, hv-tlbflush, hv-evmcs, aes.",
-                                                   "format_description" : "+FLAG[;-FLAG...]",
-                                                   "optional" : 1,
-                                                   "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear|hv-tlbflush|hv-evmcs|aes))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear|hv-tlbflush|hv-evmcs|aes)))*)",
-                                                   "type" : "string"
-                                                },
-                                                "hidden" : {
-                                                   "default" : 0,
-                                                   "description" : "Do not identify as a KVM virtual machine.",
-                                                   "optional" : 1,
-                                                   "type" : "boolean"
-                                                },
-                                                "hv-vendor-id" : {
-                                                   "description" : "The Hyper-V vendor ID. Some drivers or programs inside Windows guests need a specific ID.",
-                                                   "format_description" : "vendor-id",
-                                                   "optional" : 1,
-                                                   "pattern" : "(?^:[a-zA-Z0-9]{1,12})",
-                                                   "type" : "string"
-                                                }
-                                             },
+                                             "format" : "pve-vm-cpu-conf",
                                              "optional" : 1,
                                              "type" : "string"
                                           },
@@ -9681,6 +11066,7 @@ var pveapi = [
                                                    "description" : "Bridge to attach the network device to. The Proxmox VE standard bridge\nis called 'vmbr0'.\n\nIf you do not specify a bridge, we create a kvm user (NATed) network\ndevice, which provides DHCP and DNS services. The following addresses\nare used:\n\n 10.0.2.2   Gateway\n 10.0.2.3   DNS Server\n 10.0.2.4   SMB Server\n\nThe DHCP server assign addresses to the guest starting from 10.0.2.15.\n",
                                                    "format_description" : "bridge",
                                                    "optional" : 1,
+                                                   "pattern" : "[-_.\\w\\d]+",
                                                    "type" : "string"
                                                 },
                                                 "e1000" : {
@@ -9889,6 +11275,35 @@ var pveapi = [
                                              "description" : "Allow reboot. If set to '0' the VM exit on reboot.",
                                              "optional" : 1,
                                              "type" : "boolean"
+                                          },
+                                          "rng0" : {
+                                             "description" : "Configure a VirtIO-based Random Number Generator.",
+                                             "format" : {
+                                                "max_bytes" : {
+                                                   "default" : 1024,
+                                                   "description" : "Maximum bytes of entropy injected into the guest every 'period' milliseconds. Prefer a lower value when using /dev/random as source. Use 0 to disable limiting (potentially dangerous!).",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "period" : {
+                                                   "default" : 1000,
+                                                   "description" : "Every 'period' milliseconds the entropy-injection quota is reset, allowing the guest to retrieve another 'max_bytes' of entropy.",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "source" : {
+                                                   "default_key" : 1,
+                                                   "description" : "The file on the host to gather entropy from. In most cases /dev/urandom should be preferred over /dev/random to avoid entropy-starvation issues on the host. Using urandom does *not* decrease security in any meaningful way, as it's still seeded from real entropy, and the bytes provided will most likely be mixed with real entropy on the guest as well. /dev/hwrng can be used to pass through a hardware RNG from the host.",
+                                                   "enum" : [
+                                                      "/dev/urandom",
+                                                      "/dev/random",
+                                                      "/dev/hwrng"
+                                                   ],
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string"
                                           },
                                           "sata[n]" : {
                                              "description" : "Use volume as SATA hard disk or CD-ROM (n is 0 to 5).",
@@ -10666,7 +12081,18 @@ var pveapi = [
                                           },
                                           "unused[n]" : {
                                              "description" : "Reference to unused volumes. This is used internally, and should not be modified manually.",
-                                             "format" : "pve-volume-id",
+                                             "format" : {
+                                                "file" : {
+                                                   "default_key" : 1,
+                                                   "description" : "The drive's backing volume.",
+                                                   "format" : "pve-volume-id",
+                                                   "format_description" : "volume",
+                                                   "type" : "string"
+                                                },
+                                                "volume" : {
+                                                   "alias" : "file"
+                                                }
+                                             },
                                              "optional" : 1,
                                              "type" : "string"
                                           },
@@ -11247,84 +12673,10 @@ var pveapi = [
                                           },
                                           "cpu" : {
                                              "description" : "Emulated CPU type.",
-                                             "format" : {
-                                                "cputype" : {
-                                                   "default" : "kvm64",
-                                                   "default_key" : 1,
-                                                   "description" : "Emulated CPU type.",
-                                                   "enum" : [
-                                                      "486",
-                                                      "athlon",
-                                                      "Broadwell",
-                                                      "Broadwell-IBRS",
-                                                      "Broadwell-noTSX",
-                                                      "Broadwell-noTSX-IBRS",
-                                                      "Cascadelake-Server",
-                                                      "Conroe",
-                                                      "core2duo",
-                                                      "coreduo",
-                                                      "EPYC",
-                                                      "EPYC-IBPB",
-                                                      "Haswell",
-                                                      "Haswell-IBRS",
-                                                      "Haswell-noTSX",
-                                                      "Haswell-noTSX-IBRS",
-                                                      "host",
-                                                      "IvyBridge",
-                                                      "IvyBridge-IBRS",
-                                                      "KnightsMill",
-                                                      "kvm32",
-                                                      "kvm64",
-                                                      "max",
-                                                      "Nehalem",
-                                                      "Nehalem-IBRS",
-                                                      "Opteron_G1",
-                                                      "Opteron_G2",
-                                                      "Opteron_G3",
-                                                      "Opteron_G4",
-                                                      "Opteron_G5",
-                                                      "Penryn",
-                                                      "pentium",
-                                                      "pentium2",
-                                                      "pentium3",
-                                                      "phenom",
-                                                      "qemu32",
-                                                      "qemu64",
-                                                      "SandyBridge",
-                                                      "SandyBridge-IBRS",
-                                                      "Skylake-Client",
-                                                      "Skylake-Client-IBRS",
-                                                      "Skylake-Server",
-                                                      "Skylake-Server-IBRS",
-                                                      "Westmere",
-                                                      "Westmere-IBRS"
-                                                   ],
-                                                   "type" : "string"
-                                                },
-                                                "flags" : {
-                                                   "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: pcid, spec-ctrl, ibpb, ssbd, virt-ssbd, amd-ssbd, amd-no-ssb, pdpe1gb, md-clear, hv-tlbflush, hv-evmcs, aes.",
-                                                   "format_description" : "+FLAG[;-FLAG...]",
-                                                   "optional" : 1,
-                                                   "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear|hv-tlbflush|hv-evmcs|aes))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear|hv-tlbflush|hv-evmcs|aes)))*)",
-                                                   "type" : "string"
-                                                },
-                                                "hidden" : {
-                                                   "default" : 0,
-                                                   "description" : "Do not identify as a KVM virtual machine.",
-                                                   "optional" : 1,
-                                                   "type" : "boolean"
-                                                },
-                                                "hv-vendor-id" : {
-                                                   "description" : "The Hyper-V vendor ID. Some drivers or programs inside Windows guests need a specific ID.",
-                                                   "format_description" : "vendor-id",
-                                                   "optional" : 1,
-                                                   "pattern" : "(?^:[a-zA-Z0-9]{1,12})",
-                                                   "type" : "string"
-                                                }
-                                             },
+                                             "format" : "pve-vm-cpu-conf",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[cputype=]<enum> [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>]"
+                                             "typetext" : "<string>"
                                           },
                                           "cpulimit" : {
                                              "default" : 0,
@@ -11917,6 +13269,7 @@ var pveapi = [
                                                    "description" : "Bridge to attach the network device to. The Proxmox VE standard bridge\nis called 'vmbr0'.\n\nIf you do not specify a bridge, we create a kvm user (NATed) network\ndevice, which provides DHCP and DNS services. The following addresses\nare used:\n\n 10.0.2.2   Gateway\n 10.0.2.3   DNS Server\n 10.0.2.4   SMB Server\n\nThe DHCP server assign addresses to the guest starting from 10.0.2.15.\n",
                                                    "format_description" : "bridge",
                                                    "optional" : 1,
+                                                   "pattern" : "[-_.\\w\\d]+",
                                                    "type" : "string"
                                                 },
                                                 "e1000" : {
@@ -12144,6 +13497,36 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
+                                          },
+                                          "rng0" : {
+                                             "description" : "Configure a VirtIO-based Random Number Generator.",
+                                             "format" : {
+                                                "max_bytes" : {
+                                                   "default" : 1024,
+                                                   "description" : "Maximum bytes of entropy injected into the guest every 'period' milliseconds. Prefer a lower value when using /dev/random as source. Use 0 to disable limiting (potentially dangerous!).",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "period" : {
+                                                   "default" : 1000,
+                                                   "description" : "Every 'period' milliseconds the entropy-injection quota is reset, allowing the guest to retrieve another 'max_bytes' of entropy.",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "source" : {
+                                                   "default_key" : 1,
+                                                   "description" : "The file on the host to gather entropy from. In most cases /dev/urandom should be preferred over /dev/random to avoid entropy-starvation issues on the host. Using urandom does *not* decrease security in any meaningful way, as it's still seeded from real entropy, and the bytes provided will most likely be mixed with real entropy on the guest as well. /dev/hwrng can be used to pass through a hardware RNG from the host.",
+                                                   "enum" : [
+                                                      "/dev/urandom",
+                                                      "/dev/random",
+                                                      "/dev/hwrng"
+                                                   ],
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "[source=]</dev/urandom|/dev/random|/dev/hwrng> [,max_bytes=<integer>] [,period=<integer>]"
                                           },
                                           "sata[n]" : {
                                              "description" : "Use volume as SATA hard disk or CD-ROM (n is 0 to 5).",
@@ -12940,10 +14323,21 @@ var pveapi = [
                                           },
                                           "unused[n]" : {
                                              "description" : "Reference to unused volumes. This is used internally, and should not be modified manually.",
-                                             "format" : "pve-volume-id",
+                                             "format" : {
+                                                "file" : {
+                                                   "default_key" : 1,
+                                                   "description" : "The drive's backing volume.",
+                                                   "format" : "pve-volume-id",
+                                                   "format_description" : "volume",
+                                                   "type" : "string"
+                                                },
+                                                "volume" : {
+                                                   "alias" : "file"
+                                                }
+                                             },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "<string>"
+                                             "typetext" : "[file=]<volume>"
                                           },
                                           "usb[n]" : {
                                              "description" : "Configure an USB device (n is 0 to 4).",
@@ -13549,84 +14943,10 @@ var pveapi = [
                                           },
                                           "cpu" : {
                                              "description" : "Emulated CPU type.",
-                                             "format" : {
-                                                "cputype" : {
-                                                   "default" : "kvm64",
-                                                   "default_key" : 1,
-                                                   "description" : "Emulated CPU type.",
-                                                   "enum" : [
-                                                      "486",
-                                                      "athlon",
-                                                      "Broadwell",
-                                                      "Broadwell-IBRS",
-                                                      "Broadwell-noTSX",
-                                                      "Broadwell-noTSX-IBRS",
-                                                      "Cascadelake-Server",
-                                                      "Conroe",
-                                                      "core2duo",
-                                                      "coreduo",
-                                                      "EPYC",
-                                                      "EPYC-IBPB",
-                                                      "Haswell",
-                                                      "Haswell-IBRS",
-                                                      "Haswell-noTSX",
-                                                      "Haswell-noTSX-IBRS",
-                                                      "host",
-                                                      "IvyBridge",
-                                                      "IvyBridge-IBRS",
-                                                      "KnightsMill",
-                                                      "kvm32",
-                                                      "kvm64",
-                                                      "max",
-                                                      "Nehalem",
-                                                      "Nehalem-IBRS",
-                                                      "Opteron_G1",
-                                                      "Opteron_G2",
-                                                      "Opteron_G3",
-                                                      "Opteron_G4",
-                                                      "Opteron_G5",
-                                                      "Penryn",
-                                                      "pentium",
-                                                      "pentium2",
-                                                      "pentium3",
-                                                      "phenom",
-                                                      "qemu32",
-                                                      "qemu64",
-                                                      "SandyBridge",
-                                                      "SandyBridge-IBRS",
-                                                      "Skylake-Client",
-                                                      "Skylake-Client-IBRS",
-                                                      "Skylake-Server",
-                                                      "Skylake-Server-IBRS",
-                                                      "Westmere",
-                                                      "Westmere-IBRS"
-                                                   ],
-                                                   "type" : "string"
-                                                },
-                                                "flags" : {
-                                                   "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: pcid, spec-ctrl, ibpb, ssbd, virt-ssbd, amd-ssbd, amd-no-ssb, pdpe1gb, md-clear, hv-tlbflush, hv-evmcs, aes.",
-                                                   "format_description" : "+FLAG[;-FLAG...]",
-                                                   "optional" : 1,
-                                                   "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear|hv-tlbflush|hv-evmcs|aes))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear|hv-tlbflush|hv-evmcs|aes)))*)",
-                                                   "type" : "string"
-                                                },
-                                                "hidden" : {
-                                                   "default" : 0,
-                                                   "description" : "Do not identify as a KVM virtual machine.",
-                                                   "optional" : 1,
-                                                   "type" : "boolean"
-                                                },
-                                                "hv-vendor-id" : {
-                                                   "description" : "The Hyper-V vendor ID. Some drivers or programs inside Windows guests need a specific ID.",
-                                                   "format_description" : "vendor-id",
-                                                   "optional" : 1,
-                                                   "pattern" : "(?^:[a-zA-Z0-9]{1,12})",
-                                                   "type" : "string"
-                                                }
-                                             },
+                                             "format" : "pve-vm-cpu-conf",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[cputype=]<enum> [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>]"
+                                             "typetext" : "<string>"
                                           },
                                           "cpulimit" : {
                                              "default" : 0,
@@ -14219,6 +15539,7 @@ var pveapi = [
                                                    "description" : "Bridge to attach the network device to. The Proxmox VE standard bridge\nis called 'vmbr0'.\n\nIf you do not specify a bridge, we create a kvm user (NATed) network\ndevice, which provides DHCP and DNS services. The following addresses\nare used:\n\n 10.0.2.2   Gateway\n 10.0.2.3   DNS Server\n 10.0.2.4   SMB Server\n\nThe DHCP server assign addresses to the guest starting from 10.0.2.15.\n",
                                                    "format_description" : "bridge",
                                                    "optional" : 1,
+                                                   "pattern" : "[-_.\\w\\d]+",
                                                    "type" : "string"
                                                 },
                                                 "e1000" : {
@@ -14446,6 +15767,36 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
+                                          },
+                                          "rng0" : {
+                                             "description" : "Configure a VirtIO-based Random Number Generator.",
+                                             "format" : {
+                                                "max_bytes" : {
+                                                   "default" : 1024,
+                                                   "description" : "Maximum bytes of entropy injected into the guest every 'period' milliseconds. Prefer a lower value when using /dev/random as source. Use 0 to disable limiting (potentially dangerous!).",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "period" : {
+                                                   "default" : 1000,
+                                                   "description" : "Every 'period' milliseconds the entropy-injection quota is reset, allowing the guest to retrieve another 'max_bytes' of entropy.",
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "source" : {
+                                                   "default_key" : 1,
+                                                   "description" : "The file on the host to gather entropy from. In most cases /dev/urandom should be preferred over /dev/random to avoid entropy-starvation issues on the host. Using urandom does *not* decrease security in any meaningful way, as it's still seeded from real entropy, and the bytes provided will most likely be mixed with real entropy on the guest as well. /dev/hwrng can be used to pass through a hardware RNG from the host.",
+                                                   "enum" : [
+                                                      "/dev/urandom",
+                                                      "/dev/random",
+                                                      "/dev/hwrng"
+                                                   ],
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "[source=]</dev/urandom|/dev/random|/dev/hwrng> [,max_bytes=<integer>] [,period=<integer>]"
                                           },
                                           "sata[n]" : {
                                              "description" : "Use volume as SATA hard disk or CD-ROM (n is 0 to 5).",
@@ -15242,10 +16593,21 @@ var pveapi = [
                                           },
                                           "unused[n]" : {
                                              "description" : "Reference to unused volumes. This is used internally, and should not be modified manually.",
-                                             "format" : "pve-volume-id",
+                                             "format" : {
+                                                "file" : {
+                                                   "default_key" : 1,
+                                                   "description" : "The drive's backing volume.",
+                                                   "format" : "pve-volume-id",
+                                                   "format_description" : "volume",
+                                                   "type" : "string"
+                                                },
+                                                "volume" : {
+                                                   "alias" : "file"
+                                                }
+                                             },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "<string>"
+                                             "typetext" : "[file=]<volume>"
                                           },
                                           "usb[n]" : {
                                              "description" : "Configure an USB device (n is 0 to 4).",
@@ -16215,6 +17577,12 @@ var pveapi = [
                                           "parameters" : {
                                              "additionalProperties" : 0,
                                              "properties" : {
+                                                "force-cpu" : {
+                                                   "description" : "Override QEMU's -cpu argument with the given string.",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
                                                 "machine" : {
                                                    "description" : "Specifies the Qemu machine type.",
                                                    "maxLength" : 40,
@@ -16265,7 +17633,8 @@ var pveapi = [
                                                    "typetext" : "<string>"
                                                 },
                                                 "targetstorage" : {
-                                                   "description" : "Target storage for the migration. (Can be '1' to use the same storage id as on the source node.)",
+                                                   "description" : "Mapping from source to target storages. Providing only a single storage ID maps all source storages to that storage. Providing the special value '1' will map each source storage to itself.",
+                                                   "format" : "storagepair-list",
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -17285,8 +18654,8 @@ var pveapi = [
                                              "typetext" : "<string>"
                                           },
                                           "targetstorage" : {
-                                             "description" : "Default target storage.",
-                                             "format" : "pve-storage-id",
+                                             "description" : "Mapping from source to target storages. Providing only a single storage ID maps all source storages to that storage. Providing the special value '1' will map each source storage to itself.",
+                                             "format" : "storagepair-list",
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -18350,7 +19719,7 @@ var pveapi = [
                                  "type" : "string"
                               },
                               "archive" : {
-                                 "description" : "The backup file.",
+                                 "description" : "The backup archive. Either the file system path to a .tar or .vma file (use '-' to pipe data from stdin) or a proxmox storage backup volume identifier.",
                                  "maxLength" : 255,
                                  "optional" : 1,
                                  "type" : "string",
@@ -18480,84 +19849,10 @@ var pveapi = [
                               },
                               "cpu" : {
                                  "description" : "Emulated CPU type.",
-                                 "format" : {
-                                    "cputype" : {
-                                       "default" : "kvm64",
-                                       "default_key" : 1,
-                                       "description" : "Emulated CPU type.",
-                                       "enum" : [
-                                          "486",
-                                          "athlon",
-                                          "Broadwell",
-                                          "Broadwell-IBRS",
-                                          "Broadwell-noTSX",
-                                          "Broadwell-noTSX-IBRS",
-                                          "Cascadelake-Server",
-                                          "Conroe",
-                                          "core2duo",
-                                          "coreduo",
-                                          "EPYC",
-                                          "EPYC-IBPB",
-                                          "Haswell",
-                                          "Haswell-IBRS",
-                                          "Haswell-noTSX",
-                                          "Haswell-noTSX-IBRS",
-                                          "host",
-                                          "IvyBridge",
-                                          "IvyBridge-IBRS",
-                                          "KnightsMill",
-                                          "kvm32",
-                                          "kvm64",
-                                          "max",
-                                          "Nehalem",
-                                          "Nehalem-IBRS",
-                                          "Opteron_G1",
-                                          "Opteron_G2",
-                                          "Opteron_G3",
-                                          "Opteron_G4",
-                                          "Opteron_G5",
-                                          "Penryn",
-                                          "pentium",
-                                          "pentium2",
-                                          "pentium3",
-                                          "phenom",
-                                          "qemu32",
-                                          "qemu64",
-                                          "SandyBridge",
-                                          "SandyBridge-IBRS",
-                                          "Skylake-Client",
-                                          "Skylake-Client-IBRS",
-                                          "Skylake-Server",
-                                          "Skylake-Server-IBRS",
-                                          "Westmere",
-                                          "Westmere-IBRS"
-                                       ],
-                                       "type" : "string"
-                                    },
-                                    "flags" : {
-                                       "description" : "List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: pcid, spec-ctrl, ibpb, ssbd, virt-ssbd, amd-ssbd, amd-no-ssb, pdpe1gb, md-clear, hv-tlbflush, hv-evmcs, aes.",
-                                       "format_description" : "+FLAG[;-FLAG...]",
-                                       "optional" : 1,
-                                       "pattern" : "(?^:(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear|hv-tlbflush|hv-evmcs|aes))(;(?^:[+-](pcid|spec-ctrl|ibpb|ssbd|virt-ssbd|amd-ssbd|amd-no-ssb|pdpe1gb|md-clear|hv-tlbflush|hv-evmcs|aes)))*)",
-                                       "type" : "string"
-                                    },
-                                    "hidden" : {
-                                       "default" : 0,
-                                       "description" : "Do not identify as a KVM virtual machine.",
-                                       "optional" : 1,
-                                       "type" : "boolean"
-                                    },
-                                    "hv-vendor-id" : {
-                                       "description" : "The Hyper-V vendor ID. Some drivers or programs inside Windows guests need a specific ID.",
-                                       "format_description" : "vendor-id",
-                                       "optional" : 1,
-                                       "pattern" : "(?^:[a-zA-Z0-9]{1,12})",
-                                       "type" : "string"
-                                    }
-                                 },
+                                 "format" : "pve-vm-cpu-conf",
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[cputype=]<enum> [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>]"
+                                 "typetext" : "<string>"
                               },
                               "cpulimit" : {
                                  "default" : 0,
@@ -19136,6 +20431,7 @@ var pveapi = [
                                        "description" : "Bridge to attach the network device to. The Proxmox VE standard bridge\nis called 'vmbr0'.\n\nIf you do not specify a bridge, we create a kvm user (NATed) network\ndevice, which provides DHCP and DNS services. The following addresses\nare used:\n\n 10.0.2.2   Gateway\n 10.0.2.3   DNS Server\n 10.0.2.4   SMB Server\n\nThe DHCP server assign addresses to the guest starting from 10.0.2.15.\n",
                                        "format_description" : "bridge",
                                        "optional" : 1,
+                                       "pattern" : "[-_.\\w\\d]+",
                                        "type" : "string"
                                     },
                                     "e1000" : {
@@ -19363,6 +20659,36 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
+                              },
+                              "rng0" : {
+                                 "description" : "Configure a VirtIO-based Random Number Generator.",
+                                 "format" : {
+                                    "max_bytes" : {
+                                       "default" : 1024,
+                                       "description" : "Maximum bytes of entropy injected into the guest every 'period' milliseconds. Prefer a lower value when using /dev/random as source. Use 0 to disable limiting (potentially dangerous!).",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "period" : {
+                                       "default" : 1000,
+                                       "description" : "Every 'period' milliseconds the entropy-injection quota is reset, allowing the guest to retrieve another 'max_bytes' of entropy.",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "source" : {
+                                       "default_key" : 1,
+                                       "description" : "The file on the host to gather entropy from. In most cases /dev/urandom should be preferred over /dev/random to avoid entropy-starvation issues on the host. Using urandom does *not* decrease security in any meaningful way, as it's still seeded from real entropy, and the bytes provided will most likely be mixed with real entropy on the guest as well. /dev/hwrng can be used to pass through a hardware RNG from the host.",
+                                       "enum" : [
+                                          "/dev/urandom",
+                                          "/dev/random",
+                                          "/dev/hwrng"
+                                       ],
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "[source=]</dev/urandom|/dev/random|/dev/hwrng> [,max_bytes=<integer>] [,period=<integer>]"
                               },
                               "sata[n]" : {
                                  "description" : "Use volume as SATA hard disk or CD-ROM (n is 0 to 5).",
@@ -20174,10 +21500,21 @@ var pveapi = [
                               },
                               "unused[n]" : {
                                  "description" : "Reference to unused volumes. This is used internally, and should not be modified manually.",
-                                 "format" : "pve-volume-id",
+                                 "format" : {
+                                    "file" : {
+                                       "default_key" : 1,
+                                       "description" : "The drive's backing volume.",
+                                       "format" : "pve-volume-id",
+                                       "format_description" : "volume",
+                                       "type" : "string"
+                                    },
+                                    "volume" : {
+                                       "alias" : "file"
+                                    }
+                                 },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "<string>"
+                                 "typetext" : "[file=]<volume>"
                               },
                               "usb[n]" : {
                                  "description" : "Configure an USB device (n is 0 to 4).",
@@ -20724,6 +22061,12 @@ var pveapi = [
                                           "features" : {
                                              "description" : "Allow containers access to advanced features.",
                                              "format" : {
+                                                "force_rw_sys" : {
+                                                   "default" : 0,
+                                                   "description" : "Mount /sys in unprivileged containers as `rw` instead of `mixed`. This can break networking under newer (>= v245) systemd-network use.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "fuse" : {
                                                    "default" : 0,
                                                    "description" : "Allow using 'fuse' file systems in a container. Note that interactions between fuse and the freezer cgroup can potentially cause I/O deadlocks.",
@@ -20733,6 +22076,12 @@ var pveapi = [
                                                 "keyctl" : {
                                                    "default" : 0,
                                                    "description" : "For unprivileged containers only: Allow the use of the keyctl() system call. This is required to use docker inside a container. By default unprivileged containers will see this system call as non-existent. This is mostly a workaround for systemd-networkd, as it will treat it as a fatal error when some keyctl() operations are denied by the kernel due to lacking permissions. Essentially, you can choose between running systemd-networkd or docker.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "mknod" : {
+                                                   "default" : 0,
+                                                   "description" : "Allow unprivileged containers to use mknod() to add certain device nodes. This requires a kernel with seccomp trap to user space support (5.3 or newer). This is experimental.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -21103,7 +22452,15 @@ var pveapi = [
                                           },
                                           "unused[n]" : {
                                              "description" : "Reference to unused volumes. This is used internally, and should not be modified manually.",
-                                             "format" : "pve-volume-id",
+                                             "format" : {
+                                                "volume" : {
+                                                   "default_key" : 1,
+                                                   "description" : "The volume that is not used currently.",
+                                                   "format" : "pve-volume-id",
+                                                   "format_description" : "volume",
+                                                   "type" : "string"
+                                                }
+                                             },
                                              "optional" : 1,
                                              "type" : "string"
                                           }
@@ -21198,6 +22555,12 @@ var pveapi = [
                                           "features" : {
                                              "description" : "Allow containers access to advanced features.",
                                              "format" : {
+                                                "force_rw_sys" : {
+                                                   "default" : 0,
+                                                   "description" : "Mount /sys in unprivileged containers as `rw` instead of `mixed`. This can break networking under newer (>= v245) systemd-network use.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "fuse" : {
                                                    "default" : 0,
                                                    "description" : "Allow using 'fuse' file systems in a container. Note that interactions between fuse and the freezer cgroup can potentially cause I/O deadlocks.",
@@ -21207,6 +22570,12 @@ var pveapi = [
                                                 "keyctl" : {
                                                    "default" : 0,
                                                    "description" : "For unprivileged containers only: Allow the use of the keyctl() system call. This is required to use docker inside a container. By default unprivileged containers will see this system call as non-existent. This is mostly a workaround for systemd-networkd, as it will treat it as a fatal error when some keyctl() operations are denied by the kernel due to lacking permissions. Essentially, you can choose between running systemd-networkd or docker.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "mknod" : {
+                                                   "default" : 0,
+                                                   "description" : "Allow unprivileged containers to use mknod() to add certain device nodes. This requires a kernel with seccomp trap to user space support (5.3 or newer). This is experimental.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -21226,7 +22595,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[fuse=<1|0>] [,keyctl=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]"
+                                             "typetext" : "[force_rw_sys=<1|0>] [,fuse=<1|0>] [,keyctl=<1|0>] [,mknod=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]"
                                           },
                                           "hookscript" : {
                                              "description" : "Script that will be exectued during various steps in the containers lifetime.",
@@ -21595,10 +22964,18 @@ var pveapi = [
                                           },
                                           "unused[n]" : {
                                              "description" : "Reference to unused volumes. This is used internally, and should not be modified manually.",
-                                             "format" : "pve-volume-id",
+                                             "format" : {
+                                                "volume" : {
+                                                   "default_key" : 1,
+                                                   "description" : "The volume that is not used currently.",
+                                                   "format" : "pve-volume-id",
+                                                   "format_description" : "volume",
+                                                   "type" : "string"
+                                                }
+                                             },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "<string>"
+                                             "typetext" : "[volume=]<volume>"
                                           },
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
@@ -22201,7 +23578,8 @@ var pveapi = [
                                                       "/vms/{vmid}",
                                                       [
                                                          "VM.Snapshot",
-                                                         "VM.Snapshot.Rollback"
+                                                         "VM.Snapshot.Rollback",
+                                                         "VM.Audit"
                                                       ],
                                                       "any",
                                                       1
@@ -25806,6 +27184,13 @@ var pveapi = [
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
+                                    "force" : {
+                                       "default" : 0,
+                                       "description" : "Force destroy, even if running.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
                                     "node" : {
                                        "description" : "The cluster node name.",
                                        "format" : "pve-node",
@@ -25813,7 +27198,8 @@ var pveapi = [
                                        "typetext" : "<string>"
                                     },
                                     "purge" : {
-                                       "description" : "Remove vmid from backup cron jobs.",
+                                       "default" : 0,
+                                       "description" : "Remove container from all related configurations. For example, backup jobs, replication jobs or HA. Related ACLs and Firewall entries will *always* be removed.",
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
@@ -26070,6 +27456,12 @@ var pveapi = [
                               "features" : {
                                  "description" : "Allow containers access to advanced features.",
                                  "format" : {
+                                    "force_rw_sys" : {
+                                       "default" : 0,
+                                       "description" : "Mount /sys in unprivileged containers as `rw` instead of `mixed`. This can break networking under newer (>= v245) systemd-network use.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
                                     "fuse" : {
                                        "default" : 0,
                                        "description" : "Allow using 'fuse' file systems in a container. Note that interactions between fuse and the freezer cgroup can potentially cause I/O deadlocks.",
@@ -26079,6 +27471,12 @@ var pveapi = [
                                     "keyctl" : {
                                        "default" : 0,
                                        "description" : "For unprivileged containers only: Allow the use of the keyctl() system call. This is required to use docker inside a container. By default unprivileged containers will see this system call as non-existent. This is mostly a workaround for systemd-networkd, as it will treat it as a fatal error when some keyctl() operations are denied by the kernel due to lacking permissions. Essentially, you can choose between running systemd-networkd or docker.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "mknod" : {
+                                       "default" : 0,
+                                       "description" : "Allow unprivileged containers to use mknod() to add certain device nodes. This requires a kernel with seccomp trap to user space support (5.3 or newer). This is experimental.",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -26098,7 +27496,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[fuse=<1|0>] [,keyctl=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]"
+                                 "typetext" : "[force_rw_sys=<1|0>] [,fuse=<1|0>] [,keyctl=<1|0>] [,mknod=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]"
                               },
                               "force" : {
                                  "description" : "Allow to overwrite existing container.",
@@ -26526,10 +27924,18 @@ var pveapi = [
                               },
                               "unused[n]" : {
                                  "description" : "Reference to unused volumes. This is used internally, and should not be modified manually.",
-                                 "format" : "pve-volume-id",
+                                 "format" : {
+                                    "volume" : {
+                                       "default_key" : 1,
+                                       "description" : "The volume that is not used currently.",
+                                       "format" : "pve-volume-id",
+                                       "format_description" : "volume",
+                                       "type" : "string"
+                                    }
+                                 },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "<string>"
+                                 "typetext" : "[volume=]<volume>"
                               },
                               "vmid" : {
                                  "description" : "The (unique) ID of the VM.",
@@ -26903,6 +28309,7 @@ var pveapi = [
                                           "name" : {
                                              "default" : "nodename",
                                              "description" : "The ID for the mds, when omitted the same as the nodename",
+                                             "maxLength" : 200,
                                              "optional" : 1,
                                              "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
                                              "type" : "string"
@@ -27061,6 +28468,7 @@ var pveapi = [
                                        "properties" : {
                                           "id" : {
                                              "description" : "The ID for the manager, when omitted the same as the nodename",
+                                             "maxLength" : 200,
                                              "optional" : 1,
                                              "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
                                              "type" : "string"
@@ -27217,6 +28625,7 @@ var pveapi = [
                                           },
                                           "monid" : {
                                              "description" : "The ID for the monitor, when omitted the same as the nodename",
+                                             "maxLength" : 200,
                                              "optional" : 1,
                                              "pattern" : "[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?",
                                              "type" : "string"
@@ -27735,7 +29144,7 @@ var pveapi = [
                                        "default" : "ceph.target",
                                        "description" : "Ceph service name.",
                                        "optional" : 1,
-                                       "pattern" : "(ceph|mon|mds|osd|mgr)\\.[A-Za-z0-9\\-]{1,32}",
+                                       "pattern" : "(ceph|mon|mds|osd|mgr)(\\.[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?)?",
                                        "type" : "string"
                                     }
                                  }
@@ -27780,7 +29189,7 @@ var pveapi = [
                                        "default" : "ceph.target",
                                        "description" : "Ceph service name.",
                                        "optional" : 1,
-                                       "pattern" : "(ceph|mon|mds|osd|mgr)\\.[A-Za-z0-9\\-]{1,32}",
+                                       "pattern" : "(ceph|mon|mds|osd|mgr)(\\.[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?)?",
                                        "type" : "string"
                                     }
                                  }
@@ -27825,7 +29234,7 @@ var pveapi = [
                                        "default" : "ceph.target",
                                        "description" : "Ceph service name.",
                                        "optional" : 1,
-                                       "pattern" : "(mon|mds|osd|mgr)\\.[A-Za-z0-9\\-]{1,32}",
+                                       "pattern" : "(mon|mds|osd|mgr)(\\.[a-zA-Z0-9]([a-zA-Z0-9\\-]*[a-zA-Z0-9])?)?",
                                        "type" : "string"
                                     }
                                  }
@@ -28515,7 +29924,8 @@ var pveapi = [
                                     "0",
                                     "1",
                                     "gzip",
-                                    "lzo"
+                                    "lzo",
+                                    "zstd"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -28688,6 +30098,13 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "zstd" : {
+                                 "default" : 1,
+                                 "description" : "Zstd threads. N=0 uses half of the available cores, N>0 uses N as thread count.",
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer>"
                               }
                            }
                         },
@@ -31268,6 +32685,12 @@ var pveapi = [
                                     "returns" : {
                                        "items" : {
                                           "properties" : {
+                                             "ctime" : {
+                                                "description" : "Creation time (seconds since the UNIX Epoch).",
+                                                "minimum" : 0,
+                                                "optional" : 1,
+                                                "type" : "integer"
+                                             },
                                              "format" : {
                                                 "description" : "Format identifier ('raw', 'qcow2', 'subvol', 'iso', 'tgz' ...)",
                                                 "type" : "string"
@@ -31283,7 +32706,7 @@ var pveapi = [
                                                 "type" : "integer"
                                              },
                                              "used" : {
-                                                "description" : "Used space. Please note that most storage plugins does not report anything useful here.",
+                                                "description" : "Used space. Please note that most storage plugins do not report anything useful here.",
                                                 "optional" : 1,
                                                 "renderer" : "bytes",
                                                 "type" : "integer"
@@ -34639,6 +36062,12 @@ var pveapi = [
                                  "description" : "Return only a specific property from the node configuration.",
                                  "enum" : [
                                     "acme",
+                                    "acmedomain0",
+                                    "acmedomain1",
+                                    "acmedomain2",
+                                    "acmedomain3",
+                                    "acmedomain4",
+                                    "acmedomain5",
                                     "description",
                                     "startall-onboot-delay",
                                     "wakeonlan"
@@ -34685,12 +36114,43 @@ var pveapi = [
                                        "description" : "List of domains for this node's ACME certificate",
                                        "format" : "pve-acme-domain-list",
                                        "format_description" : "domain[;domain;...]",
+                                       "optional" : 1,
                                        "type" : "string"
                                     }
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "domains=<domain[;domain;...]> [,account=<name>]"
+                                 "typetext" : "[account=<name>] [,domains=<domain[;domain;...]>]"
+                              },
+                              "acmedomain[n]" : {
+                                 "description" : "ACME domain and validation plugin",
+                                 "format" : {
+                                    "alias" : {
+                                       "description" : "Alias for the Domain to verify ACME Challenge over DNS",
+                                       "format" : "pve-acme-domain",
+                                       "format_description" : "domain",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "domain" : {
+                                       "default_key" : 1,
+                                       "description" : "domain for this node's ACME certificate",
+                                       "format" : "pve-acme-domain",
+                                       "format_description" : "domain",
+                                       "type" : "string"
+                                    },
+                                    "plugin" : {
+                                       "default" : "standalone",
+                                       "description" : "The ACME plugin ID",
+                                       "format" : "pve-configid",
+                                       "format_description" : "name of the plugin configuration",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "[domain=]<domain> [,alias=<domain>] [,plugin=<name of the plugin configuration>]"
                               },
                               "delete" : {
                                  "description" : "A list of settings you want to delete.",
@@ -34755,6 +36215,234 @@ var pveapi = [
                   "leaf" : 1,
                   "path" : "/nodes/{node}/config",
                   "text" : "config"
+               },
+               {
+                  "children" : [
+                     {
+                        "children" : [
+                           {
+                              "children" : [
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "allowtoken" : 1,
+                                          "description" : "List zone content.",
+                                          "method" : "GET",
+                                          "name" : "index",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "zone" : {
+                                                   "description" : "The SDN zone object identifier.",
+                                                   "format" : "pve-sdn-zone-id",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/sdn/zones/{zone}",
+                                                [
+                                                   "SDN.Audit"
+                                                ],
+                                                "any",
+                                                1
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "items" : {
+                                                "properties" : {
+                                                   "status" : {
+                                                      "description" : "Status.",
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   },
+                                                   "statusmsg" : {
+                                                      "description" : "Status details",
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   },
+                                                   "vnet" : {
+                                                      "description" : "Vnet identifier.",
+                                                      "type" : "string"
+                                                   }
+                                                },
+                                                "type" : "object"
+                                             },
+                                             "links" : [
+                                                {
+                                                   "href" : "{vnet}",
+                                                   "rel" : "child"
+                                                }
+                                             ],
+                                             "type" : "array"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/sdn/zones/{zone}/content",
+                                    "text" : "content"
+                                 }
+                              ],
+                              "info" : {
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "",
+                                    "method" : "GET",
+                                    "name" : "diridx",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "zone" : {
+                                             "description" : "The SDN zone object identifier.",
+                                             "format" : "pve-sdn-zone-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/sdn/zones/{zone}",
+                                          [
+                                             "SDN.Audit"
+                                          ],
+                                          "any",
+                                          1
+                                       ]
+                                    },
+                                    "returns" : {
+                                       "items" : {
+                                          "properties" : {
+                                             "subdir" : {
+                                                "type" : "string"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "links" : [
+                                          {
+                                             "href" : "{subdir}",
+                                             "rel" : "child"
+                                          }
+                                       ],
+                                       "type" : "array"
+                                    }
+                                 }
+                              },
+                              "leaf" : 0,
+                              "path" : "/nodes/{node}/sdn/zones/{zone}",
+                              "text" : "{zone}"
+                           }
+                        ],
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Get status for all zones.",
+                              "method" : "GET",
+                              "name" : "index",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "description" : "Only list entries where you have 'SDN.Audit'",
+                                 "user" : "all"
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "status" : {
+                                          "description" : "Status of zone",
+                                          "type" : "string"
+                                       },
+                                       "zone" : {
+                                          "description" : "The SDN zone object identifier.",
+                                          "format" : "pve-sdn-zone-id",
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "links" : [
+                                    {
+                                       "href" : "{zone}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
+                        "path" : "/nodes/{node}/sdn/zones",
+                        "text" : "zones"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "SDN index.",
+                        "method" : "GET",
+                        "name" : "sdnindex",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "user" : "all"
+                        },
+                        "returns" : {
+                           "items" : {
+                              "properties" : {},
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{name}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/nodes/{node}/sdn",
+                  "text" : "sdn"
                },
                {
                   "info" : {
@@ -35300,8 +36988,8 @@ var pveapi = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "upgrade",
-                                    "login",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -35395,8 +37083,8 @@ var pveapi = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "upgrade",
-                                    "login",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -35520,8 +37208,8 @@ var pveapi = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "upgrade",
-                                    "login",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -36459,6 +38147,12 @@ var pveapi = [
                            "type" : "string",
                            "typetext" : "<string>"
                         },
+                        "fingerprint" : {
+                           "description" : "Certificate SHA 256 fingerprint.",
+                           "optional" : 1,
+                           "pattern" : "([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}",
+                           "type" : "string"
+                        },
                         "format" : {
                            "description" : "Default image format.",
                            "format" : "pve-storage-format",
@@ -36690,6 +38384,7 @@ var pveapi = [
                         "lvm",
                         "lvmthin",
                         "nfs",
+                        "pbs",
                         "rbd",
                         "zfs",
                         "zfspool"
@@ -36810,6 +38505,12 @@ var pveapi = [
                      "type" : "string",
                      "typetext" : "<string>"
                   },
+                  "datastore" : {
+                     "description" : "Proxmox backup server datastore name.",
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
                   "disable" : {
                      "description" : "Flag to disable the storage.",
                      "optional" : 1,
@@ -36829,6 +38530,12 @@ var pveapi = [
                      "optional" : 1,
                      "type" : "string",
                      "typetext" : "<string>"
+                  },
+                  "fingerprint" : {
+                     "description" : "Certificate SHA 256 fingerprint.",
+                     "optional" : 1,
+                     "pattern" : "([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}",
+                     "type" : "string"
                   },
                   "format" : {
                      "description" : "Default image format.",
@@ -37062,6 +38769,7 @@ var pveapi = [
                         "lvm",
                         "lvmthin",
                         "nfs",
+                        "pbs",
                         "rbd",
                         "zfs",
                         "zfspool"
@@ -37351,6 +39059,11 @@ var pveapi = [
                                     "returns" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
+                                          "full-tokenid" : {
+                                             "description" : "The full token id.",
+                                             "format_description" : "<userid>!<tokenid>",
+                                             "type" : "string"
+                                          },
                                           "info" : {
                                              "properties" : {
                                                 "comment" : {
@@ -38619,6 +40332,90 @@ var pveapi = [
          {
             "children" : [
                {
+                  "children" : [
+                     {
+                        "info" : {
+                           "POST" : {
+                              "allowtoken" : 1,
+                              "description" : "Syncs users and/or groups from the configured LDAP to user.cfg. NOTE: Synced groups will have the name 'name-$realm', so make sure those groups do not exist to prevent overwriting.",
+                              "method" : "POST",
+                              "name" : "sync",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "dry-run" : {
+                                       "default" : 0,
+                                       "description" : "If set, does not write anything.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "enable-new" : {
+                                       "default" : "1",
+                                       "description" : "Enable newly synced users immediately.",
+                                       "optional" : "1",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "full" : {
+                                       "description" : "If set, uses the LDAP Directory as source of truth, deleting users or groups not returned from the sync. Otherwise only syncs information which is not already present, and does not deletes or modifies anything else.",
+                                       "optional" : "1",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "purge" : {
+                                       "description" : "Remove ACLs for users or groups which were removed from the config during a sync.",
+                                       "optional" : "1",
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "realm" : {
+                                       "description" : "Authentication domain ID",
+                                       "format" : "pve-realm",
+                                       "maxLength" : 32,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "scope" : {
+                                       "description" : "Select what to sync.",
+                                       "enum" : [
+                                          "users",
+                                          "groups",
+                                          "both"
+                                       ],
+                                       "optional" : "1",
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "and",
+                                    [
+                                       "userid-param",
+                                       "Realm.AllocateUser"
+                                    ],
+                                    [
+                                       "userid-group",
+                                       [
+                                          "User.Modify"
+                                       ]
+                                    ]
+                                 ],
+                                 "description" : "'Realm.AllocateUser' on '/access/realm/<realm>' and  'User.Modify' permissions to '/access/groups/'."
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "description" : "Worker Task-UPID",
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/access/domains/{realm}/sync",
+                        "text" : "sync"
+                     }
+                  ],
                   "info" : {
                      "DELETE" : {
                         "allowtoken" : 1,
@@ -38758,6 +40555,60 @@ var pveapi = [
                                  "pattern" : "\\S+",
                                  "type" : "string"
                               },
+                              "filter" : {
+                                 "description" : "LDAP filter for user sync.",
+                                 "maxLength" : 2048,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "group_classes" : {
+                                 "default" : "groupOfNames, group, univentionGroup, ipausergroup",
+                                 "description" : "The objectclasses for groups.",
+                                 "format" : "ldap-simple-attr-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "group_dn" : {
+                                 "description" : "LDAP base domain name for group sync. If not set, the base_dn will be used.",
+                                 "maxLength" : 256,
+                                 "optional" : 1,
+                                 "pattern" : "\\w+=[^,]+(,\\s*\\w+=[^,]+)*",
+                                 "type" : "string"
+                              },
+                              "group_filter" : {
+                                 "description" : "LDAP filter for group sync.",
+                                 "maxLength" : 2048,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "group_name_attr" : {
+                                 "description" : "LDAP attribute representing a groups name. If not set or found, the first value of the DN will be used as name.",
+                                 "format" : "ldap-simple-attr",
+                                 "maxLength" : 256,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "mode" : {
+                                 "default" : "ldap",
+                                 "description" : "LDAP protocol mode.",
+                                 "enum" : [
+                                    "ldap",
+                                    "ldaps",
+                                    "ldap+starttls"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "password" : {
+                                 "description" : "LDAP bind password. Will be stored in '/etc/pve/priv/realm/<REALM>.pw'.",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "port" : {
                                  "description" : "Server port.",
                                  "maximum" : 65535,
@@ -38774,7 +40625,7 @@ var pveapi = [
                                  "typetext" : "<string>"
                               },
                               "secure" : {
-                                 "description" : "Use secure LDAPS protocol.",
+                                 "description" : "Use secure LDAPS protocol. DEPRECATED: use 'mode' instead.",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
@@ -38806,6 +40657,19 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "string"
                               },
+                              "sync-defaults-options" : {
+                                 "description" : "The default options for behavior of synchronizations.",
+                                 "format" : "realm-sync-options",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,scope=<users|groups|both>]"
+                              },
+                              "sync_attributes" : {
+                                 "description" : "Comma separated list of key=value pairs for specifying which LDAP attributes map to which PVE user field. For example, to map the LDAP attribute 'mail' to PVEs 'email', write  'email=mail'. By default, each PVE user field is represented  by an LDAP attribute of the same name.",
+                                 "optional" : 1,
+                                 "pattern" : "\\w+=[^,]+(,\\s*\\w+=[^,]+)*",
+                                 "type" : "string"
+                              },
                               "tfa" : {
                                  "description" : "Use Two-factor authentication.",
                                  "format" : "pve-tfa-config",
@@ -38820,6 +40684,14 @@ var pveapi = [
                                  "optional" : 1,
                                  "pattern" : "\\S{2,}",
                                  "type" : "string"
+                              },
+                              "user_classes" : {
+                                 "default" : "inetorgperson, posixaccount, person, user",
+                                 "description" : "The objectclasses for users.",
+                                 "format" : "ldap-simple-attr-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               },
                               "verify" : {
                                  "default" : 0,
@@ -38846,7 +40718,7 @@ var pveapi = [
                         }
                      }
                   },
-                  "leaf" : 1,
+                  "leaf" : 0,
                   "path" : "/access/domains/{realm}",
                   "text" : "{realm}"
                }
@@ -38882,6 +40754,9 @@ var pveapi = [
                                  "oath"
                               ],
                               "optional" : 1,
+                              "type" : "string"
+                           },
+                           "type" : {
                               "type" : "string"
                            }
                         },
@@ -38957,6 +40832,60 @@ var pveapi = [
                            "pattern" : "\\S+",
                            "type" : "string"
                         },
+                        "filter" : {
+                           "description" : "LDAP filter for user sync.",
+                           "maxLength" : 2048,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "group_classes" : {
+                           "default" : "groupOfNames, group, univentionGroup, ipausergroup",
+                           "description" : "The objectclasses for groups.",
+                           "format" : "ldap-simple-attr-list",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "group_dn" : {
+                           "description" : "LDAP base domain name for group sync. If not set, the base_dn will be used.",
+                           "maxLength" : 256,
+                           "optional" : 1,
+                           "pattern" : "\\w+=[^,]+(,\\s*\\w+=[^,]+)*",
+                           "type" : "string"
+                        },
+                        "group_filter" : {
+                           "description" : "LDAP filter for group sync.",
+                           "maxLength" : 2048,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "group_name_attr" : {
+                           "description" : "LDAP attribute representing a groups name. If not set or found, the first value of the DN will be used as name.",
+                           "format" : "ldap-simple-attr",
+                           "maxLength" : 256,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "mode" : {
+                           "default" : "ldap",
+                           "description" : "LDAP protocol mode.",
+                           "enum" : [
+                              "ldap",
+                              "ldaps",
+                              "ldap+starttls"
+                           ],
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "password" : {
+                           "description" : "LDAP bind password. Will be stored in '/etc/pve/priv/realm/<REALM>.pw'.",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
                         "port" : {
                            "description" : "Server port.",
                            "maximum" : 65535,
@@ -38973,7 +40902,7 @@ var pveapi = [
                            "typetext" : "<string>"
                         },
                         "secure" : {
-                           "description" : "Use secure LDAPS protocol.",
+                           "description" : "Use secure LDAPS protocol. DEPRECATED: use 'mode' instead.",
                            "optional" : 1,
                            "type" : "boolean",
                            "typetext" : "<boolean>"
@@ -39005,6 +40934,19 @@ var pveapi = [
                            "optional" : 1,
                            "type" : "string"
                         },
+                        "sync-defaults-options" : {
+                           "description" : "The default options for behavior of synchronizations.",
+                           "format" : "realm-sync-options",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,scope=<users|groups|both>]"
+                        },
+                        "sync_attributes" : {
+                           "description" : "Comma separated list of key=value pairs for specifying which LDAP attributes map to which PVE user field. For example, to map the LDAP attribute 'mail' to PVEs 'email', write  'email=mail'. By default, each PVE user field is represented  by an LDAP attribute of the same name.",
+                           "optional" : 1,
+                           "pattern" : "\\w+=[^,]+(,\\s*\\w+=[^,]+)*",
+                           "type" : "string"
+                        },
                         "tfa" : {
                            "description" : "Use Two-factor authentication.",
                            "format" : "pve-tfa-config",
@@ -39029,6 +40971,14 @@ var pveapi = [
                            "optional" : 1,
                            "pattern" : "\\S{2,}",
                            "type" : "string"
+                        },
+                        "user_classes" : {
+                           "default" : "inetorgperson, posixaccount, person, user",
+                           "description" : "The objectclasses for users.",
+                           "format" : "ldap-simple-attr-list",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
                         },
                         "verify" : {
                            "default" : 0,

@@ -98,25 +98,9 @@ cloud-init: User name to change ssh keys and password for instead of the image's
 
 The number of cores per socket.
 
-`cpu`: `[cputype=]<enum> [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>]` ::
+`cpu`: `<string>` ::
 
 Emulated CPU type.
-
-`cputype`=`<486 | Broadwell | Broadwell-IBRS | Broadwell-noTSX | Broadwell-noTSX-IBRS | Cascadelake-Server | Conroe | EPYC | EPYC-IBPB | Haswell | Haswell-IBRS | Haswell-noTSX | Haswell-noTSX-IBRS | IvyBridge | IvyBridge-IBRS | KnightsMill | Nehalem | Nehalem-IBRS | Opteron_G1 | Opteron_G2 | Opteron_G3 | Opteron_G4 | Opteron_G5 | Penryn | SandyBridge | SandyBridge-IBRS | Skylake-Client | Skylake-Client-IBRS | Skylake-Server | Skylake-Server-IBRS | Westmere | Westmere-IBRS | athlon | core2duo | coreduo | host | kvm32 | kvm64 | max | pentium | pentium2 | pentium3 | phenom | qemu32 | qemu64>` ('default =' `kvm64`);;
-
-Emulated CPU type.
-
-`flags`=`<+FLAG[;-FLAG...]>` ;;
-
-List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Currently supported flags: pcid, spec-ctrl, ibpb, ssbd, virt-ssbd, amd-ssbd, amd-no-ssb, pdpe1gb, md-clear, hv-tlbflush, hv-evmcs, aes.
-
-`hidden`=`<boolean>` ('default =' `0`);;
-
-Do not identify as a KVM virtual machine.
-
-`hv-vendor-id`=`<vendor-id>` ;;
-
-The Hyper-V vendor ID. Some drivers or programs inside Windows guests need a specific ID.
 
 `cpulimit`: `<number> (0 - 128)` ('default =' `0`)::
 
@@ -578,6 +562,22 @@ Sets the protection flag of the VM. This will disable the remove VM and remove d
 `reboot`: `<boolean>` ('default =' `1`)::
 
 Allow reboot. If set to '0' the VM exit on reboot.
+
+`rng0`: `[source=]</dev/urandom|/dev/random|/dev/hwrng> [,max_bytes=<integer>] [,period=<integer>]` ::
+
+Configure a VirtIO-based Random Number Generator.
+
+`max_bytes`=`<integer>` ('default =' `1024`);;
+
+Maximum bytes of entropy injected into the guest every 'period' milliseconds. Prefer a lower value when using /dev/random as source. Use 0 to disable limiting (potentially dangerous!).
+
+`period`=`<integer>` ('default =' `1000`);;
+
+Every 'period' milliseconds the entropy-injection quota is reset, allowing the guest to retrieve another 'max_bytes' of entropy.
+
+`source`=`</dev/hwrng | /dev/random | /dev/urandom>` ;;
+
+The file on the host to gather entropy from. In most cases /dev/urandom should be preferred over /dev/random to avoid entropy-starvation issues on the host. Using urandom does *not* decrease security in any meaningful way, as it's still seeded from real entropy, and the bytes provided will most likely be mixed with real entropy on the guest as well. /dev/hwrng can be used to pass through a hardware RNG from the host.
 
 `sata[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]` ::
 
@@ -1047,9 +1047,13 @@ Enable/disable time drift fix.
 
 Enable/disable Template.
 
-`unused[n]`: `<string>` ::
+`unused[n]`: `[file=]<volume>` ::
 
 Reference to unused volumes. This is used internally, and should not be modified manually.
+
+`file`=`<volume>` ;;
+
+The drive's backing volume.
 
 `usb[n]`: `[host=]<HOSTUSBDEVICE|spice> [,usb3=<1|0>]` ::
 

@@ -136,6 +136,284 @@ Change user password.
 
 User ID
 
+*pveum realm add* `<realm> --type <string>` `[OPTIONS]`
+
+Add an authentication server.
+
+`<realm>`: `<string>` ::
+
+Authentication domain ID
+
+`--base_dn` `\w+=[^,]+(,\s*\w+=[^,]+)*` ::
+
+LDAP base domain name
+
+`--bind_dn` `\w+=[^,]+(,\s*\w+=[^,]+)*` ::
+
+LDAP bind domain name
+
+`--capath` `<string>` ('default =' `/etc/ssl/certs`)::
+
+Path to the CA certificate store
+
+`--cert` `<string>` ::
+
+Path to the client certificate
+
+`--certkey` `<string>` ::
+
+Path to the client certificate key
+
+`--comment` `<string>` ::
+
+Description.
+
+`--default` `<boolean>` ::
+
+Use this as default realm
+
+`--domain` `\S+` ::
+
+AD domain name
+
+`--filter` `<string>` ::
+
+LDAP filter for user sync.
+
+`--group_classes` `<string>` ('default =' `groupOfNames, group, univentionGroup, ipausergroup`)::
+
+The objectclasses for groups.
+
+`--group_dn` `\w+=[^,]+(,\s*\w+=[^,]+)*` ::
+
+LDAP base domain name for group sync. If not set, the base_dn will be used.
+
+`--group_filter` `<string>` ::
+
+LDAP filter for group sync.
+
+`--group_name_attr` `<string>` ::
+
+LDAP attribute representing a groups name. If not set or found, the first value of the DN will be used as name.
+
+`--mode` `<ldap | ldap+starttls | ldaps>` ('default =' `ldap`)::
+
+LDAP protocol mode.
+
+`--password` `<string>` ::
+
+LDAP bind password. Will be stored in '/etc/pve/priv/realm/<REALM>.pw'.
+
+`--port` `<integer> (1 - 65535)` ::
+
+Server port.
+
+`--secure` `<boolean>` ::
+
+Use secure LDAPS protocol. DEPRECATED: use 'mode' instead.
+
+`--server1` `<string>` ::
+
+Server IP address (or DNS name)
+
+`--server2` `<string>` ::
+
+Fallback Server IP address (or DNS name)
+
+`--sslversion` `<tlsv1 | tlsv1_1 | tlsv1_2 | tlsv1_3>` ::
+
+LDAPS TLS/SSL version. It's not recommended to use version older than 1.2!
+
+`--sync-defaults-options` `[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,scope=<users|groups|both>]` ::
+
+The default options for behavior of synchronizations.
+
+`--sync_attributes` `\w+=[^,]+(,\s*\w+=[^,]+)*` ::
+
+Comma separated list of key=value pairs for specifying which LDAP attributes map to which PVE user field. For example, to map the LDAP attribute 'mail' to PVEs 'email', write  'email=mail'. By default, each PVE user field is represented  by an LDAP attribute of the same name.
+
+`--tfa` `type=<TFATYPE> [,digits=<COUNT>] [,id=<ID>] [,key=<KEY>] [,step=<SECONDS>] [,url=<URL>]` ::
+
+Use Two-factor authentication.
+
+`--type` `<ad | ldap | pam | pve>` ::
+
+Realm type.
+
+`--user_attr` `\S{2,}` ::
+
+LDAP user attribute name
+
+`--user_classes` `<string>` ('default =' `inetorgperson, posixaccount, person, user`)::
+
+The objectclasses for users.
+
+`--verify` `<boolean>` ('default =' `0`)::
+
+Verify the server's SSL certificate
+
+*pveum realm delete* `<realm>`
+
+Delete an authentication server.
+
+`<realm>`: `<string>` ::
+
+Authentication domain ID
+
+*pveum realm list* `[FORMAT_OPTIONS]`
+
+Authentication domain index.
+
+*pveum realm modify* `<realm>` `[OPTIONS]`
+
+Update authentication server settings.
+
+`<realm>`: `<string>` ::
+
+Authentication domain ID
+
+`--base_dn` `\w+=[^,]+(,\s*\w+=[^,]+)*` ::
+
+LDAP base domain name
+
+`--bind_dn` `\w+=[^,]+(,\s*\w+=[^,]+)*` ::
+
+LDAP bind domain name
+
+`--capath` `<string>` ('default =' `/etc/ssl/certs`)::
+
+Path to the CA certificate store
+
+`--cert` `<string>` ::
+
+Path to the client certificate
+
+`--certkey` `<string>` ::
+
+Path to the client certificate key
+
+`--comment` `<string>` ::
+
+Description.
+
+`--default` `<boolean>` ::
+
+Use this as default realm
+
+`--delete` `<string>` ::
+
+A list of settings you want to delete.
+
+`--digest` `<string>` ::
+
+Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
+
+`--domain` `\S+` ::
+
+AD domain name
+
+`--filter` `<string>` ::
+
+LDAP filter for user sync.
+
+`--group_classes` `<string>` ('default =' `groupOfNames, group, univentionGroup, ipausergroup`)::
+
+The objectclasses for groups.
+
+`--group_dn` `\w+=[^,]+(,\s*\w+=[^,]+)*` ::
+
+LDAP base domain name for group sync. If not set, the base_dn will be used.
+
+`--group_filter` `<string>` ::
+
+LDAP filter for group sync.
+
+`--group_name_attr` `<string>` ::
+
+LDAP attribute representing a groups name. If not set or found, the first value of the DN will be used as name.
+
+`--mode` `<ldap | ldap+starttls | ldaps>` ('default =' `ldap`)::
+
+LDAP protocol mode.
+
+`--password` `<string>` ::
+
+LDAP bind password. Will be stored in '/etc/pve/priv/realm/<REALM>.pw'.
+
+`--port` `<integer> (1 - 65535)` ::
+
+Server port.
+
+`--secure` `<boolean>` ::
+
+Use secure LDAPS protocol. DEPRECATED: use 'mode' instead.
+
+`--server1` `<string>` ::
+
+Server IP address (or DNS name)
+
+`--server2` `<string>` ::
+
+Fallback Server IP address (or DNS name)
+
+`--sslversion` `<tlsv1 | tlsv1_1 | tlsv1_2 | tlsv1_3>` ::
+
+LDAPS TLS/SSL version. It's not recommended to use version older than 1.2!
+
+`--sync-defaults-options` `[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,scope=<users|groups|both>]` ::
+
+The default options for behavior of synchronizations.
+
+`--sync_attributes` `\w+=[^,]+(,\s*\w+=[^,]+)*` ::
+
+Comma separated list of key=value pairs for specifying which LDAP attributes map to which PVE user field. For example, to map the LDAP attribute 'mail' to PVEs 'email', write  'email=mail'. By default, each PVE user field is represented  by an LDAP attribute of the same name.
+
+`--tfa` `type=<TFATYPE> [,digits=<COUNT>] [,id=<ID>] [,key=<KEY>] [,step=<SECONDS>] [,url=<URL>]` ::
+
+Use Two-factor authentication.
+
+`--user_attr` `\S{2,}` ::
+
+LDAP user attribute name
+
+`--user_classes` `<string>` ('default =' `inetorgperson, posixaccount, person, user`)::
+
+The objectclasses for users.
+
+`--verify` `<boolean>` ('default =' `0`)::
+
+Verify the server's SSL certificate
+
+*pveum realm sync* `<realm>` `[OPTIONS]`
+
+Syncs users and/or groups from the configured LDAP to user.cfg. NOTE:
+Synced groups will have the name 'name-$realm', so make sure those groups
+do not exist to prevent overwriting.
+
+`<realm>`: `<string>` ::
+
+Authentication domain ID
+
+`--dry-run` `<boolean>` ('default =' `0`)::
+
+If set, does not write anything.
+
+`--enable-new` `<boolean>` ('default =' `1`)::
+
+Enable newly synced users immediately.
+
+`--full` `<boolean>` ::
+
+If set, uses the LDAP Directory as source of truth, deleting users or groups not returned from the sync. Otherwise only syncs information which is not already present, and does not deletes or modifies anything else.
+
+`--purge` `<boolean>` ::
+
+Remove ACLs for users or groups which were removed from the config during a sync.
+
+`--scope` `<both | groups | users>` ::
+
+Select what to sync.
+
 *pveum role add* `<roleid>` `[OPTIONS]`
 
 Create new role.

@@ -69,6 +69,98 @@ Force renewal even if expiry is more than 30 days away.
 
 Revoke existing certificate from CA.
 
+*pvenode acme plugin add* `<type> <id>` `[OPTIONS]`
+
+Add ACME plugin configuration.
+
+`<type>`: `<dns | standalone>` ::
+
+ACME challenge type.
+
+`<id>`: `<string>` ::
+
+ACME Plugin ID name
+
+`--api` `<acmedns | acmeproxy | active24 | ad | ali | autodns | aws | azure | cf | clouddns | cloudns | cn | conoha | constellix | cx | cyon | da | ddnss | desec | dgon | dnsimple | do | doapi | domeneshop | dp | dpi | dreamhost | duckdns | durabledns | dyn | dynu | dynv6 | easydns | euserv | exoscale | freedns | gandi_livedns | gcloud | gd | gdnsdk | he | hexonet | hostingde | infoblox | internetbs | inwx | ispconfig | jd | kas | kinghost | knot | leaseweb | lexicon | linode | linode_v4 | loopia | lua | maradns | me | miab | misaka | myapi | mydevil | mydnsjp | namecheap | namecom | namesilo | nederhost | neodigit | netcup | nic | nsd | nsone | nsupdate | nw | one | online | openprovider | opnsense | ovh | pdns | pleskxml | pointhq | rackspace | rcode0 | regru | schlundtech | selectel | servercow | tele3 | ultra | unoeuro | variomedia | vscale | vultr | yandex | zilore | zone | zonomi>` ::
+
+API plugin name
+
+`--data` `File with one key-value pair per line, will be base64url encode for storage in plugin config.` ::
+
+DNS plugin data. (base64 encoded)
+
+`--disable` `<boolean>` ::
+
+Flag to disable the config.
+
+`--nodes` `<string>` ::
+
+List of cluster node names.
+
+`--validation-delay` `<integer> (0 - 172800)` ('default =' `30`)::
+
+Extra delay in seconds to wait before requesting validation. Allows to cope with a long TTL of DNS records.
+
+*pvenode acme plugin config* `<id>` `[FORMAT_OPTIONS]`
+
+Get ACME plugin configuration.
+
+`<id>`: `<string>` ::
+
+Unique identifier for ACME plugin instance.
+
+*pvenode acme plugin list* `[OPTIONS]` `[FORMAT_OPTIONS]`
+
+ACME plugin index.
+
+`--type` `<dns | standalone>` ::
+
+Only list ACME plugins of a specific type
+
+*pvenode acme plugin remove* `<id>`
+
+Delete ACME plugin configuration.
+
+`<id>`: `<string>` ::
+
+Unique identifier for ACME plugin instance.
+
+*pvenode acme plugin set* `<id>` `[OPTIONS]`
+
+Update ACME plugin configuration.
+
+`<id>`: `<string>` ::
+
+ACME Plugin ID name
+
+`--api` `<acmedns | acmeproxy | active24 | ad | ali | autodns | aws | azure | cf | clouddns | cloudns | cn | conoha | constellix | cx | cyon | da | ddnss | desec | dgon | dnsimple | do | doapi | domeneshop | dp | dpi | dreamhost | duckdns | durabledns | dyn | dynu | dynv6 | easydns | euserv | exoscale | freedns | gandi_livedns | gcloud | gd | gdnsdk | he | hexonet | hostingde | infoblox | internetbs | inwx | ispconfig | jd | kas | kinghost | knot | leaseweb | lexicon | linode | linode_v4 | loopia | lua | maradns | me | miab | misaka | myapi | mydevil | mydnsjp | namecheap | namecom | namesilo | nederhost | neodigit | netcup | nic | nsd | nsone | nsupdate | nw | one | online | openprovider | opnsense | ovh | pdns | pleskxml | pointhq | rackspace | rcode0 | regru | schlundtech | selectel | servercow | tele3 | ultra | unoeuro | variomedia | vscale | vultr | yandex | zilore | zone | zonomi>` ::
+
+API plugin name
+
+`--data` `File with one key-value pair per line, will be base64url encode for storage in plugin config.` ::
+
+DNS plugin data. (base64 encoded)
+
+`--delete` `<string>` ::
+
+A list of settings you want to delete.
+
+`--digest` `<string>` ::
+
+Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
+
+`--disable` `<boolean>` ::
+
+Flag to disable the config.
+
+`--nodes` `<string>` ::
+
+List of cluster node names.
+
+`--validation-delay` `<integer> (0 - 172800)` ('default =' `30`)::
+
+Extra delay in seconds to wait before requesting validation. Allows to cope with a long TTL of DNS records.
+
 *pvenode cert delete* `[<restart>]`
 
 DELETE custom certificate chain and key.
@@ -105,7 +197,7 @@ Restart pveproxy.
 
 Get node configuration options.
 
-`--property` `<acme | description | startall-onboot-delay | wakeonlan>` ('default =' `all`)::
+`--property` `<acme | acmedomain0 | acmedomain1 | acmedomain2 | acmedomain3 | acmedomain4 | acmedomain5 | description | startall-onboot-delay | wakeonlan>` ('default =' `all`)::
 
 Return only a specific property from the node configuration.
 
@@ -113,9 +205,13 @@ Return only a specific property from the node configuration.
 
 Set node configuration options.
 
-`--acme` `domains=<domain[;domain;...]> [,account=<name>]` ::
+`--acme` `[account=<name>] [,domains=<domain[;domain;...]>]` ::
 
 Node specific ACME settings.
+
+`--acmedomain[n]` `[domain=]<domain> [,alias=<domain>] [,plugin=<name of the plugin configuration>]` ::
+
+ACME domain and validation plugin
 
 `--delete` `<string>` ::
 

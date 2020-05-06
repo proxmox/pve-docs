@@ -4,7 +4,7 @@
 
 Create a new storage.
 
-`<type>`: `<cephfs | cifs | dir | drbd | glusterfs | iscsi | iscsidirect | lvm | lvmthin | nfs | rbd | zfs | zfspool>` ::
+`<type>`: `<cephfs | cifs | dir | drbd | glusterfs | iscsi | iscsidirect | lvm | lvmthin | nfs | pbs | rbd | zfs | zfspool>` ::
 
 Storage type.
 
@@ -42,6 +42,10 @@ Allowed content types.
 +
 NOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs.
 
+`--datastore` `<string>` ::
+
+Proxmox backup server datastore name.
+
 `--disable` `<boolean>` ::
 
 Flag to disable the storage.
@@ -53,6 +57,10 @@ CIFS domain.
 `--export` `<string>` ::
 
 NFS export path.
+
+`--fingerprint` `([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}` ::
+
+Certificate SHA 256 fingerprint.
 
 `--format` `<string>` ::
 
@@ -218,6 +226,10 @@ no description available
 +
 NOTE: Requires option(s): `size`
 
+*pvesm apiinfo*
+
+Returns APIVER and APIAGE.
+
 *pvesm cifsscan*
 
 An alias for 'pvesm scan cifs'.
@@ -305,6 +317,10 @@ Import stream format
 `<filename>`: `<string>` ::
 
 Source file name. For '-' stdin is used, the tcp://<IP-or-CIDR> format allows to use a TCP connection as input. Else, the file is treated as common file.
+
+`--allow-rename` `<boolean>` ('default =' `0`)::
+
+Choose a new volume ID if the requested volume ID already exists, instead of throwing an error.
 
 `--base` `(?^:[a-z0-9_\-]{1,40})` ::
 
@@ -471,6 +487,10 @@ Flag to disable the storage.
 `--domain` `<string>` ::
 
 CIFS domain.
+
+`--fingerprint` `([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}` ::
+
+Certificate SHA 256 fingerprint.
 
 `--format` `<string>` ::
 

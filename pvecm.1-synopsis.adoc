@@ -18,7 +18,7 @@ Do not throw error if node already exists.
 
 `--link[n]` `[address=]<IP> [,priority=<integer>]` ::
 
-Address and priority information of a single corosync link.
+Address and priority information of a single corosync link. (up to 8 links supported; link0..link7)
 
 `--nodeid` `<integer> (1 - N)` ::
 
@@ -40,13 +40,21 @@ Adds a node to the cluster configuration. This call is for internal use.
 
 The cluster node name.
 
+`--apiversion` `<integer>` ::
+
+The JOIN_API_VERSION of the new node.
+
 `--force` `<boolean>` ::
 
 Do not throw error if node already exists.
 
 `--link[n]` `[address=]<IP> [,priority=<integer>]` ::
 
-Address and priority information of a single corosync link.
+Address and priority information of a single corosync link. (up to 8 links supported; link0..link7)
+
+`--new_node_ip` `<string>` ::
+
+IP Address of node to add. Used as fallback if no links are given.
 
 `--nodeid` `<integer> (1 - N)` ::
 
@@ -56,9 +64,14 @@ Node id for this node.
 
 Number of votes for this node
 
+*pvecm apiver*
+
+Return the version of the cluster join API available on this node.
+
 *pvecm create* `<clustername>` `[OPTIONS]`
 
-Generate new cluster configuration.
+Generate new cluster configuration. If no links given, default to local IP
+address as link0.
 
 `<clustername>`: `<string>` ::
 
@@ -66,7 +79,7 @@ The name of the cluster.
 
 `--link[n]` `[address=]<IP> [,priority=<integer>]` ::
 
-Address and priority information of a single corosync link.
+Address and priority information of a single corosync link. (up to 8 links supported; link0..link7)
 
 `--nodeid` `<integer> (1 - N)` ::
 

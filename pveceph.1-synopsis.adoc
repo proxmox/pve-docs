@@ -262,11 +262,11 @@ List all pools.
 
 Destroy ceph related data and configuration files.
 
-*pveceph start* `[<service>]`
+*pveceph start* `[OPTIONS]`
 
 Start ceph services.
 
-`<service>`: `(ceph|mon|mds|osd|mgr)\.[A-Za-z0-9\-]{1,32}` ('default =' `ceph.target`)::
+`--service` `(ceph|mon|mds|osd|mgr)(\.[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?)?` ('default =' `ceph.target`)::
 
 Ceph service name.
 
@@ -274,11 +274,11 @@ Ceph service name.
 
 Get ceph status.
 
-*pveceph stop* `[<service>]`
+*pveceph stop* `[OPTIONS]`
 
 Stop ceph services.
 
-`<service>`: `(ceph|mon|mds|osd|mgr)\.[A-Za-z0-9\-]{1,32}` ('default =' `ceph.target`)::
+`--service` `(ceph|mon|mds|osd|mgr)(\.[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?)?` ('default =' `ceph.target`)::
 
 Ceph service name.
 

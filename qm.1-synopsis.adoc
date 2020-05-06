@@ -121,7 +121,7 @@ Virtual processor architecture. Defaults to the host.
 
 `--archive` `<string>` ::
 
-The backup file.
+The backup archive. Either the file system path to a .tar or .vma file (use '-' to pipe data from stdin) or a proxmox storage backup volume identifier.
 
 `--args` `<string>` ::
 
@@ -179,7 +179,7 @@ cloud-init: User name to change ssh keys and password for instead of the image's
 
 The number of cores per socket.
 
-`--cpu` `[cputype=]<enum> [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>]` ::
+`--cpu` `<string>` ::
 
 Emulated CPU type.
 
@@ -320,6 +320,10 @@ Sets the protection flag of the VM. This will disable the remove VM and remove d
 
 Allow reboot. If set to '0' the VM exit on reboot.
 
+`--rng0` `[source=]</dev/urandom|/dev/random|/dev/hwrng> [,max_bytes=<integer>] [,period=<integer>]` ::
+
+Configure a VirtIO-based Random Number Generator.
+
 `--sata[n]` `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]` ::
 
 Use volume as SATA hard disk or CD-ROM (n is 0 to 5).
@@ -402,7 +406,7 @@ Assign a unique random ethernet address.
 +
 NOTE: Requires option(s): `archive`
 
-`--unused[n]` `<string>` ::
+`--unused[n]` `[file=]<volume>` ::
 
 Reference to unused volumes. This is used internally, and should not be modified manually.
 
@@ -489,6 +493,10 @@ The (unique) ID of the VM.
 `<extra-args>`: `<array>` ::
 
 Extra arguments as array
+
+`--pass-stdin` `<boolean>` ('default =' `0`)::
+
+When set, read STDIN until EOF and forward to guest agent via 'input-data' (usually treated as STDIN to process launched by guest agent). Allows maximal 1 MiB.
 
 `--synchronous` `<boolean>` ('default =' `1`)::
 
@@ -633,7 +641,7 @@ Use online/live migration if VM is running. Ignored if VM is stopped.
 
 `--targetstorage` `<string>` ::
 
-Default target storage.
+Mapping from source to target storages. Providing only a single storage ID maps all source storages to that storage. Providing the special value '1' will map each source storage to itself.
 
 `--with-local-disks` `<boolean>` ::
 
@@ -878,7 +886,7 @@ cloud-init: User name to change ssh keys and password for instead of the image's
 
 The number of cores per socket.
 
-`--cpu` `[cputype=]<enum> [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>]` ::
+`--cpu` `<string>` ::
 
 Emulated CPU type.
 
@@ -1027,6 +1035,10 @@ Allow reboot. If set to '0' the VM exit on reboot.
 
 Revert a pending change.
 
+`--rng0` `[source=]</dev/urandom|/dev/random|/dev/hwrng> [,max_bytes=<integer>] [,period=<integer>]` ::
+
+Configure a VirtIO-based Random Number Generator.
+
 `--sata[n]` `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]` ::
 
 Use volume as SATA hard disk or CD-ROM (n is 0 to 5).
@@ -1099,7 +1111,7 @@ Enable/disable time drift fix.
 
 Enable/disable Template.
 
-`--unused[n]` `<string>` ::
+`--unused[n]` `[file=]<volume>` ::
 
 Reference to unused volumes. This is used internally, and should not be modified manually.
 
@@ -1201,6 +1213,10 @@ Start virtual machine.
 
 The (unique) ID of the VM.
 
+`--force-cpu` `<string>` ::
+
+Override QEMU's -cpu argument with the given string.
+
 `--machine` `(pc|pc(-i440fx)?-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|q35|pc-q35-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|virt(?:-\d+(\.\d+)+)?(\+pve\d+)?)` ::
 
 Specifies the Qemu machine type.
@@ -1227,7 +1243,7 @@ Some command save/restore state from this location.
 
 `--targetstorage` `<string>` ::
 
-Target storage for the migration. (Can be '1' to use the same storage id as on the source node.)
+Mapping from source to target storages. Providing only a single storage ID maps all source storages to that storage. Providing the special value '1' will map each source storage to itself.
 
 `--timeout` `<integer> (0 - N)` ('default =' `max(30, vm memory in GiB)`)::
 

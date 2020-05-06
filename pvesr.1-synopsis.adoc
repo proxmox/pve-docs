@@ -30,7 +30,7 @@ Mark the replication job for removal. The job will remove all local replication 
 
 `--schedule` `<string>` ('default =' `*/15`)::
 
-Storage replication schedule. The format is a subset of `systemd` calender events.
+Storage replication schedule. The format is a subset of `systemd` calendar events.
 
 `--source` `<string>` ::
 
@@ -224,7 +224,7 @@ Mark the replication job for removal. The job will remove all local replication 
 
 `--schedule` `<string>` ('default =' `*/15`)::
 
-Storage replication schedule. The format is a subset of `systemd` calender events.
+Storage replication schedule. The format is a subset of `systemd` calendar events.
 
 `--source` `<string>` ::
 
