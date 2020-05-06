@@ -16,11 +16,12 @@ include::pvenode.1-synopsis.adoc[]
 DESCRIPTION
 -----------
 endif::manvolnum[]
-
 ifndef::manvolnum[]
 Proxmox Node Management
-=======================
+-----------------------
+ifdef::wiki[]
 :pve-toplevel:
+endif::wiki[]
 endif::manvolnum[]
 
 The {PVE} node management tool (`pvenode`) allows to control node specific
@@ -31,15 +32,18 @@ the node's SSL certificates used for the API and the web GUI through `pveproxy`.
 
 ifdef::manvolnum[]
 include::output-format.adoc[]
-endif::manvolnum[]
 
 Examples
---------
+~~~~~~~~
+
+.Install an externally provided certificate
+
 `pvenode cert set certificate.crt certificate.key -force`
 
-Install an externally provided certificate. Both files need to be PEM encoded.
-`certificate.key` contains the private key and `certificate.crt` contains the
-whole certificate chain.
+Both files need to be PEM encoded. `certificate.key` contains the private key
+and `certificate.crt` contains the whole certificate chain.
+
+.Setup ACME account and order a certificate for local node.
 
 -----
 pvenode acme account register default mail@example.invalid
@@ -48,10 +52,10 @@ pvenode acme cert order
 systemctl restart pveproxy
 -----
 
-Setup ACME account and order a certificate for local node.
+endif::manvolnum[]
 
 Wake-on-LAN
------------
+~~~~~~~~~~~
 Wake-on-LAN (WoL) allows to switch on a sleeping computer in the network by
 sending a magic packet. At least one NIC must support this feature and the
 respective option needs to be enabled in the computers firmware (BIOS/UEFI)
