@@ -16,6 +16,7 @@ CA. These certificates are used for encrypted communication with the cluster's
 
 The CA certificate and key are stored in the xref:chapter_pmxcfs[Proxmox Cluster File System (pmxcfs)].
 
+
 Certificates for API and web GUI
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -26,10 +27,10 @@ You have the following options for the certificate used by `pveproxy`:
 
 1. By default the node-specific certificate in
 `/etc/pve/nodes/NODENAME/pve-ssl.pem` is used. This certificate is signed by
-the cluster CA and therefore not trusted by browsers and operating systems by
-default.
+the cluster CA and therefore not automatically trusted by browsers and
+operating systems.
 2. use an externally provided certificate (e.g. signed by a commercial CA).
-3. use ACME (e.g., Let's Encrypt) to get a trusted certificate with automatic
+3. use ACME (Let's Encrypt) to get a trusted certificate with automatic
 renewal, this is also integrated in the {pve} API and Webinterface.
 
 For options 2 and 3 the file `/etc/pve/local/pveproxy-ssl.pem` (and
@@ -46,8 +47,10 @@ certificate files in `/etc/pve/local/pve-ssl.pem` and
 `/etc/pve/local/pve-ssl.key` or the cluster CA files in
 `/etc/pve/pve-root-ca.pem` and `/etc/pve/priv/pve-root-ca.key`.
 
+
 Getting trusted certificates via ACME
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 {PVE} includes an implementation of the **A**utomatic **C**ertificate
 **M**anagement **E**nvironment **ACME** protocol, allowing {pve} admins to
 interface with Let's Encrypt for easy setup of trusted TLS certificates which
@@ -187,8 +190,8 @@ If a node has been successfully configured with an ACME-provided certificate
 renewed by the pve-daily-update.service. Currently, renewal will be attempted
 if the certificate has expired already, or will expire in the next 30 days.
 
-Configuring DNS APIs for validation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Configuring ACME DNS APIs for validation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 On systems where external access for validation via the `http-01` method is
 not possible or desired, it is possible to use the `dns-01` validation method.
