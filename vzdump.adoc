@@ -147,6 +147,39 @@ That way it is possible to store several backup in the same
 directory. The parameter `maxfiles` can be used to specify the
 maximum number of backups to keep.
 
+Backup File Compression
+-----------------------
+
+The backup file can be compressed with one of the following algorithms: `lzo`
+footnote:[Lempel–Ziv–Oberhumer a lossless data compression algorithm
+https://en.wikipedia.org/wiki/Lempel-Ziv-Oberhumer], `gzip` footnote:[gzip -
+based on the DEFLATE algorithm https://en.wikipedia.org/wiki/Gzip] or `zstd`
+footnote:[Zstandard a lossless data compression algorithm
+https://en.wikipedia.org/wiki/Zstandard].
+
+Currently, Zstandard (zstd) is the fastest of these three algorithms.
+Multi-threading is another advantage of zstd over lzo and gzip. Lzo and gzip
+are more widely used and often installed by default.
+
+You can install pigz footnote:[pigz - parallel implementation of gzip
+https://zlib.net/pigz/] as a drop-in replacement for gzip to provide better
+performance due to multi-threading. For pigz & zstd, the amount of
+threads/cores can be adjusted. See the
+xref:vzdump_configuration[configuration options] below.
+
+The extension of the backup file name can usually be used to determine which
+compression algorithm has been used to create the backup.
+
+|===
+|.zst | Zstandard (zstd) compression
+|.gz or .tgz | gzip compression
+|.lzo | lzo compression
+|===
+
+If the backup file name doesn't end with one of the above file extensions, then
+it was not compressed by vzdump.
+
+
 [[vzdump_restore]]
 Restore
 -------
@@ -203,7 +236,7 @@ per configured storage, this can be done with:
 # pvesm set STORAGEID --bwlimit restore=KIBs
 ----
 
-
+[[vzdump_configuration]]
 Configuration
 -------------
 
