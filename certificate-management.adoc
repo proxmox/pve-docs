@@ -6,18 +6,20 @@ ifdef::wiki[]
 endif::wiki[]
 
 
-Certificates for communication within the cluster
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Certificates for Intra-Cluster Communication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Each {PVE} cluster creates its own (self-signed) Certificate Authority (CA) and
-generates a certificate for each node which gets signed by the aforementioned
-CA. These certificates are used for encrypted communication with the cluster's
-`pveproxy` service and the Shell/Console feature if SPICE is used.
+Each {PVE} cluster creates by default its own (self-signed) Certificate
+Authority (CA) and generates a certificate for each node which gets signed by
+the aforementioned CA. These certificates are used for encrypted communication
+with the cluster's `pveproxy` service and the Shell/Console feature if SPICE is
+used.
 
 The CA certificate and key are stored in the xref:chapter_pmxcfs[Proxmox Cluster File System (pmxcfs)].
 
 
-Certificates for API and web GUI
+[[sysadmin_certs_api_gui]]
+Certificates for API and Web GUI
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The REST API and web GUI are provided by the `pveproxy` service, which runs on
@@ -48,165 +50,116 @@ certificate files in `/etc/pve/local/pve-ssl.pem` and
 `/etc/pve/pve-root-ca.pem` and `/etc/pve/priv/pve-root-ca.key`.
 
 
-Getting trusted certificates via ACME
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[[sysadmin_certs_get_trusted_acme_cert]]
+Trusted certificates via Let's Encrypt (ACME)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 {PVE} includes an implementation of the **A**utomatic **C**ertificate
 **M**anagement **E**nvironment **ACME** protocol, allowing {pve} admins to
 interface with Let's Encrypt for easy setup of trusted TLS certificates which
 are accepted out of the box on most modern operating systems and browsers.
 
-Currently the two ACME endpoints implemented are Let's Encrypt (LE) and its
-staging environment (see https://letsencrypt.org). Our ACME client supports
-validation of `http-01` challenges using a built-in webserver and validation of
-`dns-01` challenges using a DNS plugin.
+Currently the two ACME endpoints implemented are the
+https://letsencrypt.org[Let's Encrypt (LE)] production and its staging
+environment. Our ACME client supports validation of `http-01` challenges using
+a built-in webserver and validation of `dns-01` challenges using a DNS plugin
+supporting all the DNS API endpoints https://acme.sh[acme.sh] does.
 
-Because of https://letsencrypt.org/docs/rate-limits/[rate-limits] you should use
-LE `staging` for experiments.
+[[sysadmin_certs_acme_account]]
+ACME Account
+^^^^^^^^^^^^
+You need to register an ACME account per cluster with the endpoint you want to
+use. The email address used for that account will server as contact point for
+renewal-due or similar notifications from the ACME endpoint.
 
-ACME Plugin configuration is stored in `/etc/pve/priv/acme/plugins.cfg`. There
-is always an implicitly configured `standalone` plugin for validating `http-01`
-challenges via the built-in webserver spawned on port 80.
+// TODO: screenshot of account register here
 
-There are a few prerequisites to use Let's Encrypt:
+You can register and deactivate ACME accounts over the web interface
+`Datacenter -> ACME` or using the `pvenode` command line tool.
+----
+ pvenode acme account register account-name mail@example.com
+----
+
+TIP: Because of https://letsencrypt.org/docs/rate-limits/[rate-limits] you
+should use LE `staging` for experiments or if you use ACME for the first time.
+
+[[sysadmin_certs_acme_plugins]]
+ACME Plugins
+^^^^^^^^^^^^
+
+The ACME plugins task is to provide automatic verification that you, and thus
+the {pve} cluster under your operation, are the real owner of a domain. This is
+the basis building block for automatic certificate management.
+
+The ACME protocol specifies different types of challenges, for example the
+`http-01` where a webserver provides a file with a certain value to proof that
+it controls a domain. Sometimes this isn't possible, either because of
+technical limitations or if the address a domain points to is not reachable
+from the public internet. For such cases one could use the `dns-01` challenge.
+That challenge provides also a certain value, but not over a text file, but
+through a DNS record on the authority name server of the domain.
+
+{pve} supports both of those challenge types out of the box, you can configure
+plugins either over the web interface under `Datacenter -> ACME`, or using the
+`pvenode acme plugin add` command.
+
+ACME Plugin configurations are stored in `/etc/pve/priv/acme/plugins.cfg`.
+
+[[sysadmin_certs_acme_http_challenge]]
+ACME HTTP Challenge Plugin
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There is always an implicitly configured `standalone` plugin for validating
+`http-01` challenges via the built-in webserver spawned on port 80.
+
+NOTE: The name `standalone` means that it can provide the validation on it's
+own, without any third party service. So, this plugin works also for cluster
+nodes.
+
+There are a few prerequisites to use it for certificate management with Let's
+Encrypts ACME.
 
 * You have to accept the ToS of Let's Encrypt to register an account.
-
-For `http-01` challenges:
-
 * **Port 80** of the node needs to be reachable from the internet.
 * There **must** be no other listener on port 80.
 * The requested (sub)domain needs to resolve to a public IP of the Node.
 
-For `dns-01` challenges:
 
-* DNS needs to be handled by a server that allows automatic provisioning of
-TXT records
-
-At the moment the GUI uses only the default ACME account.
-
-.Example: Sample `pvenode` invocation for using Let's Encrypt certificates
-
-----
-root@proxmox:~# pvenode acme account register default mail@example.invalid
-Directory endpoints:
-0) Let's Encrypt V2 (https://acme-v02.api.letsencrypt.org/directory)
-1) Let's Encrypt V2 Staging (https://acme-staging-v02.api.letsencrypt.org/directory)
-2) Custom
-Enter selection:
-1
-
-Attempting to fetch Terms of Service from 'https://acme-staging-v02.api.letsencrypt.org/directory'..
-Terms of Service: https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf
-Do you agree to the above terms? [y|N]y
-
-Attempting to register account with 'https://acme-staging-v02.api.letsencrypt.org/directory'..
-Generating ACME account key..
-Registering ACME account..
-Registration successful, account URL: 'https://acme-staging-v02.api.letsencrypt.org/acme/acct/xxxxxxx'
-Task OK
-root@proxmox:~# pvenode acme account list
-default
-root@proxmox:~# pvenode config set --acme domains=example.invalid
-root@proxmox:~# pvenode acme cert order
-Loading ACME account details
-Placing ACME order
-Order URL: https://acme-staging-v02.api.letsencrypt.org/acme/order/xxxxxxxxxxxxxx
-
-Getting authorization details from
-'https://acme-staging-v02.api.letsencrypt.org/acme/authz/xxxxxxxxxxxxxxxxxxxxx-xxxxxxxxxxxxx-xxxxxxx'
-... pending!
-Setting up webserver
-Triggering validation
-Sleeping for 5 seconds
-Status is 'valid'!
-
-All domains validated!
-
-Creating CSR
-Finalizing order
-Checking order status
-valid!
-
-Downloading certificate
-Setting pveproxy certificate and key
-Restarting pveproxy
-Task OK
-----
-
-Switching from the `staging` to the regular ACME directory
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Changing the ACME directory for an account is unsupported. If you want to switch
-an account from the `staging` ACME directory to the regular, trusted, one you
-need to deactivate it and recreate it.
-
-This procedure is also needed to change the default ACME account used in the GUI.
-
-.Example: Changing the `default` ACME account from the `staging` to the regular directory
-
-----
-root@proxmox:~# pvenode acme account info default
-Directory URL: https://acme-staging-v02.api.letsencrypt.org/directory
-Account URL: https://acme-staging-v02.api.letsencrypt.org/acme/acct/6332194
-Terms Of Service: https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf
-
-Account information:
-ID: xxxxxxx
-Contact:
-        - mailto:example@proxmox.com
-Creation date: 2018-07-31T08:41:44.54196435Z
-Initial IP: 192.0.2.1
-Status: valid
-
-root@proxmox:~# pvenode acme account deactivate default
-Renaming account file from '/etc/pve/priv/acme/default' to '/etc/pve/priv/acme/_deactivated_default_4'
-Task OK
-
-root@proxmox:~# pvenode acme account register default example@proxmox.com
-Directory endpoints:
-0) Let's Encrypt V2 (https://acme-v02.api.letsencrypt.org/directory)
-1) Let's Encrypt V2 Staging (https://acme-staging-v02.api.letsencrypt.org/directory)
-2) Custom
-Enter selection:
-0
-
-Attempting to fetch Terms of Service from 'https://acme-v02.api.letsencrypt.org/directory'..
-Terms of Service: https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf
-Do you agree to the above terms? [y|N]y
-
-Attempting to register account with 'https://acme-v02.api.letsencrypt.org/directory'..
-Generating ACME account key..
-Registering ACME account..
-Registration successful, account URL: 'https://acme-v02.api.letsencrypt.org/acme/acct/39335247'
-Task OK
-----
-
-Automatic renewal of ACME certificates
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-If a node has been successfully configured with an ACME-provided certificate
-(either via pvenode or via the GUI), the certificate will be automatically
-renewed by the pve-daily-update.service. Currently, renewal will be attempted
-if the certificate has expired already, or will expire in the next 30 days.
-
-Configuring ACME DNS APIs for validation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[[sysadmin_certs_acme_dns_challenge]]
+ACME DNS API Challenge Plugin
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 On systems where external access for validation via the `http-01` method is
 not possible or desired, it is possible to use the `dns-01` validation method.
 This validation method requires a DNS server that allows provisioning of `TXT`
 records via an API.
 
+[[sysadmin_certs_acme_dns_api_config]]
+Configuring ACME DNS APIs for validation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 {PVE} re-uses the DNS plugins developed for the `acme.sh`
 footnote:[acme.sh https://github.com/acmesh-official/acme.sh]
 project, please refer to its documentation for details on configuration of
 specific APIs.
 
-Combining `http-01` and `dns-01` validation is possible in case your node is
-reachable via multiple domains with different requirements / DNS provisioning
-capabilities. Mixing DNS APIs from multiple providers or instances is also
-possible by specifying different plugin instances per domain.
+The easiest way to configure a new plugin with the DNS API is using the web
+interface (`Datacenter -> ACME`).
+
+Choose `DNS` as challenge type. Then you can select your API provider, enter
+the credential data to access your account over their API.
+
+TIP: See the acme.sh
+https://github.com/acmesh-official/acme.sh/wiki/dnsapi#how-to-use-dns-api[How to use DNS API]
+wiki for more detailed information about getting API credentials for your
+provider.
+
+As there are so many API endpoints {pve} autogenerates the formular for the
+credentials, but not all providers are annotated yet. For those you will see a
+bigger text area, simply copy all the credentials `KEY`=`VALUE` pairs in there.
+
+DNS Validation through CNAME Alias
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A special `alias` mode can be used to handle the validation on a different
 domain/DNS server, in case your primary/real DNS does not support provisioning
@@ -216,7 +169,63 @@ and set the `alias` property in the {PVE} node configuration file to
 `domain2.example` to allow the DNS server of `domain2.example` to validate all
 challenges for `domain1.example`.
 
-.Example: Setting up the OVH API for validating a domain
+
+Combination of Plugins
+^^^^^^^^^^^^^^^^^^^^^^
+
+Combining `http-01` and `dns-01` validation is possible in case your node is
+reachable via multiple domains with different requirements / DNS provisioning
+capabilities. Mixing DNS APIs from multiple providers or instances is also
+possible by specifying different plugin instances per domain.
+
+TIP: Accessing the same service over multiple domains increases complexity and
+should be avoided if possible.
+
+[[sysadmin_certs_acme_automatic_renewal]]
+Automatic renewal of ACME certificates
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If a node has been successfully configured with an ACME-provided certificate
+(either via pvenode or via the GUI), the certificate will be automatically
+renewed by the pve-daily-update.service. Currently, renewal will be attempted
+if the certificate has expired already, or will expire in the next 30 days.
+
+
+ACME Examples with `pvenode`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Example: Sample `pvenode` invocation for using Let's Encrypt certificates
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+----
+root@proxmox:~# pvenode acme account register default mail@example.invalid
+Directory endpoints:
+0) Let's Encrypt V2 (https://acme-v02.api.letsencrypt.org/directory)
+1) Let's Encrypt V2 Staging (https://acme-staging-v02.api.letsencrypt.org/directory)
+2) Custom
+Enter selection: 1
+
+Terms of Service: https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf
+Do you agree to the above terms? [y|N]y
+...
+Task OK
+root@proxmox:~# pvenode config set --acme domains=example.invalid
+root@proxmox:~# pvenode acme cert order
+Loading ACME account details
+Placing ACME order
+...
+Status is 'valid'!
+
+All domains validated!
+...
+Downloading certificate
+Setting pveproxy certificate and key
+Restarting pveproxy
+Task OK
+----
+
+Example: Setting up the OVH API for validating a domain
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 NOTE: the account registration steps are the same no matter which plugins are
 used, and are not repeated here.
@@ -310,5 +319,35 @@ valid!
 Downloading certificate
 Setting pveproxy certificate and key
 Restarting pveproxy
+Task OK
+----
+
+[[sysadmin_certs_acme_switch_from_staging]]
+Example: Switching from the `staging` to the regular ACME directory
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Changing the ACME directory for an account is unsupported, but as {pve}
+supports more than one account you can just create a new one with the
+production (trusted) ACME directory as endpoint.  You can also deactivate the
+staging account and recreate it.
+
+// TODO: add example with account screenshot here
+
+.Example: Changing the `default` ACME account from `staging` to directory using `pvenode`
+----
+root@proxmox:~# pvenode acme account deactivate default
+Renaming account file from '/etc/pve/priv/acme/default' to '/etc/pve/priv/acme/_deactivated_default_4'
+Task OK
+
+root@proxmox:~# pvenode acme account register default example@proxmox.com
+Directory endpoints:
+0) Let's Encrypt V2 (https://acme-v02.api.letsencrypt.org/directory)
+1) Let's Encrypt V2 Staging (https://acme-staging-v02.api.letsencrypt.org/directory)
+2) Custom
+Enter selection: 0
+
+Terms of Service: https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf
+Do you agree to the above terms? [y|N]y
+...
 Task OK
 ----
