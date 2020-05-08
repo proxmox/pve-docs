@@ -178,7 +178,7 @@ It is possible to sync users and groups for LDAP based realms. You can use the
 CLI command
 
 ----
-  pveum sync <realm>
+  pveum realm sync <realm>
 ----
 or in the `Authentication` panel of the GUI. Users and groups are synced to the
 cluster-wide user configuration file `/etc/pve/user.cfg`.
