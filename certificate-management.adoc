@@ -185,7 +185,7 @@ https://github.com/acmesh-official/acme.sh/wiki/dnsapi#how-to-use-dns-api[How to
 wiki for more detailed information about getting API credentials for your
 provider.
 
-As there are so many API endpoints {pve} autogenerates the formular for the
+As there are so many API endpoints {pve} autogenerates the form for the
 credentials, but not all providers are annotated yet. For those you will see a
 bigger text area, simply copy all the credentials `KEY`=`VALUE` pairs in there.
 
