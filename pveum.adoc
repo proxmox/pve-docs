@@ -174,6 +174,8 @@ encryption can be configured.
 Syncing LDAP-based realms
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
+[thumbnail="screenshot/gui-datacenter-realm-add-ldap.png"]
+
 It is possible to sync users and groups for LDAP based realms. You can use the
 CLI command
 
@@ -200,6 +202,8 @@ groups.
 [[pveum_ldap_sync_options]]
 Options
 ^^^^^^^
+
+[thumbnail="screenshot/gui-datacenter-realm-add-ldap-sync-options.png"]
 
 The main options for syncing are:
 
