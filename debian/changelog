@@ -1,3 +1,11 @@
+pve-docs (6.2-3) pve; urgency=medium
+
+  * add screenshots for LDAP/AD sync edit window
+
+  * small typo fixes
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 08 May 2020 18:39:55 +0200
+
 pve-docs (6.2-2) pve; urgency=medium
 
   * re-order certificate management, add content and screenshots
