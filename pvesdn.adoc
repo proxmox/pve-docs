@@ -13,6 +13,7 @@ Documentation for it is also still under development, ask on our
 xref:getting_help[mailing lists or in the forum] for questions and feedback.
 
 
+[[pvesdn_installation]]
 Installation
 ------------
 
@@ -62,6 +63,7 @@ On the web-interface  SDN feature have 4 main sections for the configuration
 * Controller: 
 
 
+[[pvesdn_config_main_sdn]]
 SDN
 ~~~
 
@@ -72,6 +74,7 @@ There is an 'Apply' button, to push and reload local configuration on all
 cluster nodes nodes.
 
 
+[[pvesdn_config_zone]]
 Zones
 ~~~~~
 
@@ -92,6 +95,7 @@ You can restrict a zone to specific nodes.
 It's also possible to add permissions on a zone, to restrict user to use only a
 specific zone and only the VNets in that zone
 
+[[pvesdn_config_vnet]]
 VNets
 ~~~~~
 
@@ -115,23 +119,25 @@ VNet properties are:
   on each node part of the Zone. It's only useful for `bgp-evpn` routing.
 
 
+[[pvesdn_config_controllers]]
 Controllers
 ~~~~~~~~~~~
 
-Some zone types (currently only the `bgp-evpn` plugin) need an external
-controller to manage the VNet control-plane.
+Some zone types need an external controller to manage the VNet control-plane.
+Currently this is only required for the `bgp-evpn` zone plugin.
 
 
+[[pvesdn_zone_plugins]]
 Zones Plugins
 -------------
 
 Common options
 ~~~~~~~~~~~~~~
 
-nodes:: deploy and allow to use a VNets configured for this Zone only on
-these nodes.
+nodes:: Deploy and allow to use a VNets configured for this Zone only on these
+nodes.
 
-
+[[pvesdn_zone_plugin_vlan]]
 VLAN Zones
 ~~~~~~~~~~
 
@@ -145,6 +151,7 @@ Specific `VLAN` configuration options:
 bridge:: Reuse this local VLAN-aware bridge, or OVS interface, already
 configured on *each* local node.
 
+[[pvesdn_zone_plugin_qinq]]
 QinQ Zones
 ~~~~~~~~~~
 
@@ -155,12 +162,15 @@ NOTE: Your physical network switchs must support stacked VLANs!
 
 Specific QinQ configuration options:
 
-bridge:: a local VLAN-aware bridge already configured on each local node
-service vlan:: he main VLAN tag of this zone
+bridge:: A local VLAN-aware bridge already configured on each local node
+
+service vlan:: The main VLAN tag of this zone
+
 mtu:: Due to the double stacking of tags you need 4 more bytes for QinQ VLANs.
 For example, you reduce the MTU to `1496` if you physical interface MTU is
 `1500`.
 
+[[pvesdn_zone_plugin_vxlan]]
 VXLAN Zones
 ~~~~~~~~~~~
 
@@ -175,9 +185,13 @@ Each VNet will have use specific VXLAN id from the range (1 - 16777215).
 
 Specific EVPN configuration options:
 
-peers address list:: a list of IPs from all nodes where you want to communicate (can also be external nodes)
-mtu:: because VXLAN encapsulation use 50bytes, the MTU need to be 50 bytes lower than the outgoing physical interface.
+peers address list:: A list of IPs from all nodes through which you want to
+communicate. Can also be external nodes.
 
+mtu:: Because VXLAN encapsulation use 50bytes, the MTU need to be 50 bytes
+lower than the outgoing physical interface.
+
+[[pvesdn_zone_plugin_evpn]]
 EVPN Zones
 ~~~~~~~~~~
 
@@ -202,9 +216,11 @@ mtu:: because VXLAN encapsulation use 50bytes, the MTU need to be 50 bytes
 lower than the outgoing physical interface.
 
 
+[[pvesdn_controller_plugins]]
 Controllers Plugins
 -------------------
 
+[[pvesdn_controller_plugin_evpn]]
 EVPN Controller
 ~~~~~~~~~~~~~~~
 
@@ -218,11 +234,11 @@ apt install frr
 
 Configuration options:
 
-asn:: a unique BGP ASN number. It's highly recommended to use private ASN
+asn:: A unique BGP ASN number. It's highly recommended to use private ASN
 number (64512 – 65534, 4200000000 – 4294967294), as else you could end up
 breaking, or get broken, by global routing by mistake.
 
-peers:: an ip list of all nodes where you want to communicate (could be also
+peers:: An ip list of all nodes where you want to communicate (could be also
 external nodes or route reflectors servers)
 
 Additionally, if you want to route traffic from a SDN BGP-EVPN network to
@@ -231,12 +247,13 @@ external world:
 gateway-nodes:: The proxmox nodes from where the bgp-evpn traffic will exit to
 external through the nodes default gateway
 
-If you want that gateway nodes don't use the default gateway, but, for example,
-sent traffic to external BGP routers
+gateway-external-peers::  If you want that gateway nodes don't use the default
+gateway, but, for example, sent traffic to external BGP routers, which handle
+(reverse) routing then dynamically you can use. For example
+`192.168.0.253,192.168.0.254'
 
-gateway-external-peers:: 192.168.0.253,192.168.0.254
 
-
+[[pvesdn_local_deployment_monitoring]]
 Local Deployment Monitoring
 ---------------------------
 
@@ -247,6 +264,7 @@ the local network configuration is generated locally on each node in
 You can monitor the status of local zones and vnets through the main tree.
 
 
+[[pvesdn_setup_example_vlan]]
 VLAN Setup Example
 ------------------
 
@@ -334,7 +352,8 @@ iface eth0 inet static
 Then, you should be able to ping between both VMs over that network.
 
 
-QinQ setup example
+[[pvesdn_setup_example_qinq]]
+QinQ Setup Example
 ------------------
 
 TIP: While we show plain configuration content here, almost everything should
@@ -463,8 +482,12 @@ between 'vm3' and 'vm4'. But, none of VMs 'vm1' or 'vm2' can ping the VMs 'vm3'
 or 'vm4', as they are on a different zone with different service-vlan.
 
 
+[[pvesdn_setup_example_vxlan]]
 VXLAN Setup Example
 -------------------
+
+TIP: While we show plain configuration content here, almost everything should
+be configurable using the web-interface only.
 
 node1: /etc/network/interfaces
 
@@ -559,8 +582,8 @@ iface eth0 inet static
 Then, you should be able to ping between between 'vm1' and 'vm2'.
 
 
-
-EVPN setup example
+[[pvesdn_setup_example_evpn]]
+EVPN Setup Example
 ------------------
 
 node1: /etc/network/interfaces
