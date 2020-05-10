@@ -37,12 +37,14 @@ Basic Overview
 The {pve} SDN allows separation and fine grained control of Virtual Guests
 networks, using flexible software controlled configurations.
 
-Separation consists of zones, a zone is it's own virtual separated area.
-A Zone can be used by one or more 'VNets'. A 'VNet' is virtual network in a
-zone. Normally it shows up as a common Linux bridge with either a VLAN or
-'VXLAN' tag, or using layer 3 routing for control.
-The 'VNets' are deployed locally on each node, after configuration was commited
-from the cluster wide datacenter level.
+Separation consists of zones, a zone is it's own virtual separated network area.
+A 'VNet' is a type of a virtual network connected to a zone. Depending on which
+type or plugin the zone uses it can behave differently and offer different
+features, advantages or disadvantages.
+Normally a 'VNet' shows up as a common Linux bridge with either a VLAN or
+'VXLAN' tag, but some can also use layer 3 routing for control.
+The 'VNets' are deployed locally on each node, after configuration was committed
+from the cluster wide datacenter SDN administration interface.
 
 
 Main configuration
@@ -60,7 +62,7 @@ On the web-interface  SDN feature have 4 main sections for the configuration
 
 * VNets: The per-node building block to provide a Zone for VMs
 
-* Controller: 
+* Controller: For complex setups to control Layer 3 routing
 
 
 [[pvesdn_config_main_sdn]]
@@ -158,7 +160,7 @@ QinQ Zones
 QinQ is stacked VLAN. The first VLAN tag defined for the zone
 (so called 'service-vlan'), and the second VLAN tag defined for the vnets
 
-NOTE: Your physical network switchs must support stacked VLANs!
+NOTE: Your physical network switches must support stacked VLANs!
 
 Specific QinQ configuration options:
 
@@ -219,6 +221,8 @@ lower than the outgoing physical interface.
 [[pvesdn_controller_plugins]]
 Controllers Plugins
 -------------------
+
+For complex zones requiring a control plane.
 
 [[pvesdn_controller_plugin_evpn]]
 EVPN Controller
@@ -659,7 +663,7 @@ id: myvnet1
 zone: myevpnzone
 tag: 11000
 ipv4: 10.0.1.1/24
-mac address: 8C:73:B2:7B:F9:60 #random generate mac addres
+mac address: 8C:73:B2:7B:F9:60 #random generate mac address
 ----
 
 Create the second VNet named `myvnet2' using the same EVPN zone `myevpnzone', a
