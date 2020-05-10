@@ -5,244 +5,262 @@ ifndef::manvolnum[]
 :pve-toplevel:
 endif::manvolnum[]
 
-The SDN feature allow to create virtual networks (vnets)
-at datacenter level.
+The **S**oftware **D**efined **N**etwork (SDN) feature allows one to create
+virtual networks (vnets) at datacenter level.
 
-To enable SDN feature, you need to install "libpve-network-perl" package
+WARNING: SDN is currently an **experimental feature** in {pve}. This
+Documentation for it is also still under development, ask on our
+xref:getting_help[mailing lists or in the forum] for questions and feedback.
+
+
+Installation
+------------
+
+To enable the experimental SDN integration, you need to install
+"libpve-network-perl" package
 
 ----
 apt install libpve-network-perl
 ----
 
-A vnet is a bridge with a vlan or vxlan tag.
-
-The vnets are deployed locally on each node after configuration
-commit at datacenter level.
-
-You need to have "ifupdown2" package installed on each node to manage local
-configuration reloading.
+You need to have `ifupdown2` package installed on each node to manage local
+configuration reloading without reboot:
 
 ----
 apt install ifupdown2
 ----
 
+Basic Overview
+--------------
+
+The {pve} SDN allows separation and fine grained control of Virtual Guests
+networks, using flexible software controlled configurations.
+
+Separation consists of zones, a zone is it's own virtual separated area.
+A Zone can be used by one or more 'VNets'. A 'VNet' is virtual network in a
+zone. Normally it shows up as a common Linux bridge with either a VLAN or
+'VXLAN' tag, or using layer 3 routing for control.
+The 'VNets' are deployed locally on each node, after configuration was commited
+from the cluster wide datacenter level.
+
+
 Main configuration
 ------------------
 
-The configuration is done at datacenter level.
+The configuration is done at datacenter (cluster-wide) level, it will be saved
+in configuration files located in the shared configuration file system:
+`/etc/pve/sdn`
 
-The sdn feature have 4 main sections for the configuration
+On the web-interface  SDN feature have 4 main sections for the configuration
 
-* SDN 
+* SDN: a overview of the SDN state
 
-* Zones
+* Zones: Create and manage the virtual separated network Zones
 
-* Vnets
+* VNets: The per-node building block to provide a Zone for VMs
 
-* Controller
+* Controller: 
 
 
 SDN
 ~~~
 
-[thumbnail="screenshot/gui-sdn-status.png"]
+This is the main status panel. Here you can see deployment status of zones on
+different nodes.
 
-This is the Main panel, where you can see deployment of zones on differents nodes.
-
-They are an "apply" button, to push && reload local configuration on differents nodes.
+There is an 'Apply' button, to push and reload local configuration on all
+cluster nodes nodes.
 
 
 Zones
 ~~~~~
 
-[thumbnail="screenshot/gui-sdn-zone.png"]
+A zone will define a virtually separated network.
 
-A zone will defined the kind of virtual network you want to defined.
+It can use different technologies for separation:
 
-it can be
+* VLAN: Virtual LANs are the classic method to sub-divide a LAN
 
-* vlan
+* QinQ: stacked VLAN (formally known as `IEEE 802.1ad`)
 
-* QinQ (stacked vlan)
+* VXLAN: (layer2 vxlan)
 
-* vxlan (layer2 vxlan)
-
-* bgp-evpn  (vxlan with layer3 routing)
+* bgp-evpn: vxlan using layer3 border gateway protocol routing
 
 You can restrict a zone to specific nodes.
 
-It's also possible to add permissions on a zone, to restrict user
-to use only a specific zone and the vnets in this zone
+It's also possible to add permissions on a zone, to restrict user to use only a
+specific zone and only the VNets in that zone
 
-Vnets
+VNets
 ~~~~~
 
-[thumbnail="screenshot/gui-sdn-vnet-evpn.png"]
+A `VNet` is in its basic form just a Linux bridge that will be deployed locally
+on the node and used for Virtual Machine communication.
 
-A vnet is a bridge that will be deployed locally on the node,
-for vm communication. (Like a classic vmbrX).
+VNet properties are:
 
-Vnet properties are:
+* ID: a 8 characters ID to name and identify a VNet
 
-* ID: a 8 characters ID
+* Alias: Optional longer name, if the ID isn't enough
 
-* Alias: Optionnal bigger name
+* Zone: The associated zone for this VNet
 
-* Zone: The associated zone of the vnet
+* Tag: The unique VLAN or VXLAN id
 
-* Tag: unique vlan or vxlan id
+* IPv4: an anycast IPv4 address, it will be configured on the underlying bridge
+  on each node part of the Zone. It's only useful for `bgp-evpn` routing.
 
-* ipv4: an anycast ipv4 address (same bridge ip deployed on each node), for bgp-evpn routing only 
-
-* ipv6: an anycast ipv6 address (same bridge ip deployed on each node), for bgp-evpn routing only
+* IPv6: an anycast IPv6 address, it will be configured on the underlying bridge
+  on each node part of the Zone. It's only useful for `bgp-evpn` routing.
 
 
 Controllers
 ~~~~~~~~~~~
 
-[thumbnail="screenshot/gui-sdn-controller.png"]
-
-Some zone plugins (Currently : bgp-evpn only),
-need an external controller to manage the vnets control-plane.
-
+Some zone types (currently only the `bgp-evpn` plugin) need an external
+controller to manage the VNet control-plane.
 
 
 Zones Plugins
 -------------
-common zone options:
 
-* nodes: restrict deploy of the vnets of theses nodes only
+Common options
+~~~~~~~~~~~~~~
 
-
-Vlan
-~~~~~
-
-[thumbnail="screenshot/gui-sdn-zone-vlan.png"]
-
-This is the most simple plugin, it'll reuse an existing local bridge or ovs,
-and manage vlan on it.
-The benefit of using sdn module, is that you can create different zones with specific
-vnets vlan tag, and restrict your customers on their zones.
-
-specific qinq configuration options:
-
-* bridge: a local vlan-aware bridge or ovs switch already configured on each local node
-
-QinQ
-~~~~~
-
-[thumbnail="screenshot/gui-sdn-zone-qinq.png"]
-
-QinQ is stacked vlan.
-you have the first vlan tag defined on the zone (service-vlan), and
-the second vlan tag defined on the vnets
-
-Your physical network switchs need to support stacked vlans !
-
-specific qinq configuration options:
-
-* bridge: a local vlan-aware bridge already configured on each local node
-* service vlan: The main vlan tag of this zone
-* mtu: you need 4 more bytes for the double tag vlan. 
-       You can reduce the mtu to 1496 if you physical interface mtu is 1500.
-
-Vxlan
-~~~~~
-
-[thumbnail="screenshot/gui-sdn-zone-vxlan.png"]
-
-The vxlan plugin will established vxlan tunnel (overlay) on top of an existing network (underlay).
-you can for example, create a private ipv4 vxlan network on top of public internet network nodes.
-This is a layer2 tunnel only, no routing between different vnets is possible.
-
-Each vnet will have a specific vxlan id ( 1 - 16777215 )
+nodes:: deploy and allow to use a VNets configured for this Zone only on
+these nodes.
 
 
-Specific evpn configuration options:
+VLAN Zones
+~~~~~~~~~~
 
-* peers address list: an ip list of all nodes where you want to communicate (could be also external nodes)
+This is the simplest plugin, it will reuse an existing local Linux or OVS
+bridge, and manage VLANs on it.
+The benefit of using SDN module, is that you can create different zones with
+specific VNets VLAN tag, and restrict Virtual Machines to separated zones.
 
-* mtu: because vxlan encapsulation use 50bytes, the mtu need to be 50 bytes lower
-       than the outgoing physical interface.
+Specific `VLAN` configuration options:
 
-evpn
-~~~~
+bridge:: Reuse this local VLAN-aware bridge, or OVS interface, already
+configured on *each* local node.
 
-[thumbnail="screenshot/gui-sdn-zone-evpn.png"]
+QinQ Zones
+~~~~~~~~~~
 
-This is the most complex plugin.
+QinQ is stacked VLAN. The first VLAN tag defined for the zone
+(so called 'service-vlan'), and the second VLAN tag defined for the vnets
 
-BGP-evpn allow to create routable layer3 network.
-The vnet of evpn can have an anycast ip address/mac address.
-The bridge ip is the same on each node, then vm can use
-as gateway.
-The routing is working only across vnets of a specific zone through a vrf.
+NOTE: Your physical network switchs must support stacked VLANs!
 
-Specific evpn configuration options:
+Specific QinQ configuration options:
 
-* vrf vxlan tag: This is a vxlan-id used for routing interconnect between vnets,
-                 it must be different than vxlan-id of vnets
+bridge:: a local VLAN-aware bridge already configured on each local node
+service vlan:: he main VLAN tag of this zone
+mtu:: Due to the double stacking of tags you need 4 more bytes for QinQ VLANs.
+For example, you reduce the MTU to `1496` if you physical interface MTU is
+`1500`.
 
-* controller: an evpn need to be defined first (see controller plugins section)
+VXLAN Zones
+~~~~~~~~~~~
 
-* mtu: because vxlan encapsulation use 50bytes, the mtu need to be 50 bytes lower
-       than the outgoing physical interface.
+The VXLAN plugin will establish a tunnel (named overlay) on top of an existing
+network (named underlay). It encapsulate layer 2 Ethernet frames within layer
+4 UDP datagrams, using `4789` as the default destination port. You can, for
+example, create a private IPv4 VXLAN network on top of public internet network
+nodes.
+This is a layer2 tunnel only, no routing between different VNets is possible.
+
+Each VNet will have use specific VXLAN id from the range (1 - 16777215).
+
+Specific EVPN configuration options:
+
+peers address list:: a list of IPs from all nodes where you want to communicate (can also be external nodes)
+mtu:: because VXLAN encapsulation use 50bytes, the MTU need to be 50 bytes lower than the outgoing physical interface.
+
+EVPN Zones
+~~~~~~~~~~
+
+This is the most complex of all supported plugins.
+
+BGP-EVPN allows one to create routable layer3 network. The VNet of EVPN can
+have an anycast IP-address and or MAC-address. The bridge IP is the same on each
+node, with this a virtual guest can use that address as gateway.
+
+Routing can work across VNets from different zones through a VRF (Virtual
+Routing and Forwarding) interface.
+
+Specific EVPN configuration options:
+
+VRF VXLAN Tag:: This is a vxlan-id used for routing interconnect between vnets,
+it must be different than VXLAN-id of VNets
+
+controller:: an EVPN-controller need to be defined first (see controller
+plugins section)
+
+mtu:: because VXLAN encapsulation use 50bytes, the MTU need to be 50 bytes
+lower than the outgoing physical interface.
 
 
 Controllers Plugins
 -------------------
 
-evpn
-~~~~
+EVPN Controller
+~~~~~~~~~~~~~~~
 
-[thumbnail="screenshot/gui-sdn-controller-evpn.png"]
-
-For bgp-evpn, we need a controller to manage the control plane.
-The software controller is "frr" router.
-You need to install it on each node where you want to deploy the evpn zone.
+For `BGP-EVPN`, we need a controller to manage the control plane.
+The currently supported software controller is the "frr" router.
+You may need to install it on each node where you want to deploy EVPN zones.
 
 ----
 apt install frr
 ----
 
-configuration options:
+Configuration options:
 
-*asn: a unique bgp asn number. 
-      It's recommended to use private asn number (64512 – 65534, 4200000000 – 4294967294)
+asn:: a unique BGP ASN number. It's highly recommended to use private ASN
+number (64512 – 65534, 4200000000 – 4294967294), as else you could end up
+breaking, or get broken, by global routing by mistake.
 
-*peers: an ip list of all nodes where you want to communicate (could be also external nodes or route reflectors servers)
+peers:: an ip list of all nodes where you want to communicate (could be also
+external nodes or route reflectors servers)
 
-If you want to route traffic from the sdn bgp-evpn network to external world:
+Additionally, if you want to route traffic from a SDN BGP-EVPN network to
+external world:
 
-* gateway-nodes: The proxmox nodes from where the bgp-evpn traffic will exit to external through the nodes default gateway
+gateway-nodes:: The proxmox nodes from where the bgp-evpn traffic will exit to
+external through the nodes default gateway
 
-If you want that gateway nodes don't use the default gateway, but for example, sent traffic to external bgp routers
+If you want that gateway nodes don't use the default gateway, but, for example,
+sent traffic to external BGP routers
 
-* gateway-external-peers: 192.168.0.253,192.168.0.254
+gateway-external-peers:: 192.168.0.253,192.168.0.254
 
 
-Local deployment Monitoring
+Local Deployment Monitoring
 ---------------------------
 
-[thumbnail="screenshot/gui-sdn-local-status.png"]
+After applying the configuration through the main SDN web-interface panel,
+the local network configuration is generated locally on each node in
+`/etc/network/interfaces.d/sdn`, and with ifupdown2 reloaded.
 
-After apply configuration on the main sdn section,
-the local configuration is generated locally on each node,
-in /etc/network/interfaces.d/sdn, and reloaded.
-
-You can monitor the status of local zones && vnets through the main tree.
+You can monitor the status of local zones and vnets through the main tree.
 
 
-
-Vlan setup example
+VLAN Setup Example
 ------------------
-node1: /etc/network/interfaces
+
+TIP: While we show plain configuration content here, almost everything should
+be configurable using the web-interface only.
+
+Node1: /etc/network/interfaces
+
 ----
 auto vmbr0
 iface vmbr0 inet manual
-        bridge-ports eno1
-        bridge-stp off
-        bridge-fd 0
+	bridge-ports eno1
+	bridge-stp off
+	bridge-fd 0
 	bridge-vlan-aware yes
 	bridge-vids 2-4094
 
@@ -252,17 +270,16 @@ iface vmbr0.100 inet static
 	address 192.168.0.1/24
 
 source /etc/network/interfaces.d/*
-
 ----
 
-node2: /etc/network/interfaces
+Node2: /etc/network/interfaces
 
 ----
 auto vmbr0
 iface vmbr0 inet manual
-        bridge-ports eno1
-        bridge-stp off
-        bridge-fd 0
+	bridge-ports eno1
+	bridge-stp off
+	bridge-fd 0
 	bridge-vlan-aware yes
 	bridge-vids 2-4094
 
@@ -274,14 +291,15 @@ iface vmbr0.100 inet static
 source /etc/network/interfaces.d/*
 ----
 
-create an vlan zone
+Create a VLAN zone named `myvlanzone':
 
 ----
-id: mylanzone
+id: myvlanzone
 bridge: vmbr0
 ----
 
-create a vnet1 with vlan-id 10
+Create a VNet named `myvnet1' with `vlan-id` `10' and the previously created
+`myvlanzone' as it's zone.
 
 ----
 id: myvnet1
@@ -289,37 +307,47 @@ zone: myvlanzone
 tag: 10
 ----
 
-Apply the configuration on the main sdn section, to create vnets locally on each nodes,
-and generate frr config.
+Apply the configuration through the main SDN panel, to create VNets locally on
+each nodes.
 
+Create a Debian-based Virtual Machine (vm1) on node1, with a vNIC on `myvnet1'.
 
-create a vm1, with 1 nic on vnet1 on node1
+Use the following network configuration for this VM:
 
 ----
 auto eth0
 iface eth0 inet static
-        address 10.0.3.100/24
+	address 10.0.3.100/24
 ----
 
-create a vm2, with 1 nic on vnet1 on node2
+Create a second Virtual Machine (vm2) on node2, with a vNIC on the same VNet
+`myvnet1' as vm1.
+
+Use the following network configuration for this VM:
+
 ----
 auto eth0
 iface eth0 inet static
-        address 10.0.3.101/24
+	address 10.0.3.101/24
 ----
 
-Then, you should be able to ping between between vm1 && vm2
+Then, you should be able to ping between both VMs over that network.
 
 
 QinQ setup example
 ------------------
-node1: /etc/network/interfaces
+
+TIP: While we show plain configuration content here, almost everything should
+be configurable using the web-interface only.
+
+Node1: /etc/network/interfaces
+
 ----
 auto vmbr0
 iface vmbr0 inet manual
-        bridge-ports eno1
-        bridge-stp off
-        bridge-fd 0
+	bridge-ports eno1
+	bridge-stp off
+	bridge-fd 0
 	bridge-vlan-aware yes
 	bridge-vids 2-4094
 
@@ -331,14 +359,14 @@ iface vmbr0.100 inet static
 source /etc/network/interfaces.d/*
 ----
 
-node2: /etc/network/interfaces
+Node2: /etc/network/interfaces
 
 ----
 auto vmbr0
 iface vmbr0 inet manual
-        bridge-ports eno1
-        bridge-stp off
-        bridge-fd 0
+	bridge-ports eno1
+	bridge-stp off
+	bridge-fd 0
 	bridge-vlan-aware yes
 	bridge-vids 2-4094
 
@@ -350,7 +378,7 @@ iface vmbr0.100 inet static
 source /etc/network/interfaces.d/*
 ----
 
-create an qinq zone1 with service vlan 20
+Create an QinQ zone named `qinqzone1' with service VLAN 20
 
 ----
 id: qinqzone1
@@ -358,7 +386,7 @@ bridge: vmbr0
 service vlan: 20
 ----
 
-create an qinq zone2 with service vlan 30
+Create another QinQ zone named `qinqzone2' with service VLAN 30
 
 ----
 id: qinqzone2
@@ -366,7 +394,8 @@ bridge: vmbr0
 service vlan: 30
 ----
 
-create a vnet1 with customer vlan-id 100 on qinqzone1
+Create a VNet named `myvnet1' with customer vlan-id 100 on the previously
+created `qinqzone1' zone.
 
 ----
 id: myvnet1
@@ -374,7 +403,8 @@ zone: qinqzone1
 tag: 100
 ----
 
-create a vnet2 with customer vlan-id 100 on qinqzone2
+Create a `myvnet2' with customer VLAN-id 100 on the previously created
+`qinqzone2' zone.
 
 ----
 id: myvnet2
@@ -382,11 +412,12 @@ zone: qinqzone1
 tag: 100
 ----
 
-Apply the configuration on the main sdn section, to create vnets locally on each nodes,
-and generate frr config.
+Apply the configuration on the main SDN web-interface panel to create VNets
+locally on each nodes.
 
+Create a Debian-based Virtual Machine (vm1) on node1, with a vNIC on `myvnet1'.
 
-create a vm1, with 1 nic on vnet1 on node1
+Use the following network configuration for this VM:
 
 ----
 auto eth0
@@ -394,14 +425,21 @@ iface eth0 inet static
         address 10.0.3.100/24
 ----
 
-create a vm2, with 1 nic on vnet1 on node2
+Create a second Virtual Machine (vm2) on node2, with a vNIC on the same VNet
+`myvnet1' as vm1.
+
+Use the following network configuration for this VM:
+
 ----
 auto eth0
 iface eth0 inet static
         address 10.0.3.101/24
 ----
 
-create a vm3, with 1 nic on vnet2 on node1
+Create a third Virtual Machine (vm3) on node1, with a vNIC on the other VNet
+`myvnet2'.
+
+Use the following network configuration for this VM:
 
 ----
 auto eth0
@@ -409,31 +447,35 @@ iface eth0 inet static
         address 10.0.3.102/24
 ----
 
-create a vm4, with 1 nic on vnet2 on node2
+Create another Virtual Machine (vm4) on node2, with a vNIC on the same VNet
+`myvnet2' as vm3.
+
+Use the following network configuration for this VM:
+
 ----
 auto eth0
 iface eth0 inet static
         address 10.0.3.103/24
 ----
 
-Then, you should be able to ping between between vm1 && vm2
-vm3 && vm4 could ping together
-
-but vm1 && vm2  couldn't ping vm3 && vm4,
-as it's a different zone, with different service vlan
+Then, you should be able to ping between the VMs 'vm1' and 'vm2', also
+between 'vm3' and 'vm4'. But, none of VMs 'vm1' or 'vm2' can ping the VMs 'vm3'
+or 'vm4', as they are on a different zone with different service-vlan.
 
 
-Vxlan setup example
+VXLAN Setup Example
 -------------------
+
 node1: /etc/network/interfaces
+
 ----
 auto vmbr0
 iface vmbr0 inet static
 	address 192.168.0.1/24
 	gateway 192.168.0.254
-        bridge-ports eno1
-        bridge-stp off
-        bridge-fd 0
+	bridge-ports eno1
+	bridge-stp off
+	bridge-fd 0
 	mtu 1500
 
 source /etc/network/interfaces.d/*
@@ -446,9 +488,9 @@ auto vmbr0
 iface vmbr0 inet static
 	address 192.168.0.2/24
 	gateway 192.168.0.254
-        bridge-ports eno1
-        bridge-stp off
-        bridge-fd 0
+	bridge-ports eno1
+	bridge-stp off
+	bridge-fd 0
 	mtu 1500
 
 source /etc/network/interfaces.d/*
@@ -461,15 +503,17 @@ auto vmbr0
 iface vmbr0 inet static
 	address 192.168.0.3/24
 	gateway 192.168.0.254
-        bridge-ports eno1
-        bridge-stp off
-        bridge-fd 0
+	bridge-ports eno1
+	bridge-stp off
+	bridge-fd 0
 	mtu 1500
 
 source /etc/network/interfaces.d/*
 ----
 
-create an vxlan zone
+Create an VXLAN zone named `myvxlanzone', use the lower MTU to ensure the extra
+50 bytes of the VXLAN header can fit. Add all previously configured IPs from
+the nodes as peer address list.
 
 ----
 id: myvxlanzone
@@ -477,7 +521,8 @@ peers address list: 192.168.0.1,192.168.0.2,192.168.0.3
 mtu: 1450
 ----
 
-create first vnet
+Create a VNet named `myvnet1' using the VXLAN zone `myvxlanzone' created
+previously.
 
 ----
 id: myvnet1
@@ -485,11 +530,12 @@ zone: myvxlanzone
 tag: 100000
 ----
 
-Apply the configuration on the main sdn section, to create vnets locally on each nodes,
-and generate frr config.
+Apply the configuration on the main SDN web-interface panel to create VNets
+locally on each nodes.
 
+Create a Debian-based Virtual Machine (vm1) on node1, with a vNIC on `myvnet1'.
 
-create a vm1, with 1 nic on vnet1 on node2
+Use the following network configuration for this VM, note the lower MTU here.
 
 ----
 auto eth0
@@ -498,7 +544,11 @@ iface eth0 inet static
         mtu 1450
 ----
 
-create a vm2, with 1 nic on vnet1 on node3
+Create a second Virtual Machine (vm2) on node3, with a vNIC on the same VNet
+`myvnet1' as vm1.
+
+Use the following network configuration for this VM:
+
 ----
 auto eth0
 iface eth0 inet static
@@ -506,12 +556,13 @@ iface eth0 inet static
         mtu 1450
 ----
 
-Then, you should be able to ping between between vm1 && vm2
+Then, you should be able to ping between between 'vm1' and 'vm2'.
 
 
 
 EVPN setup example
 ------------------
+
 node1: /etc/network/interfaces
 
 ----
@@ -557,7 +608,8 @@ iface vmbr0 inet static
 source /etc/network/interfaces.d/*
 ----
 
-create a evpn controller
+Create a EVPN controller, using a private ASN number and above node addreesses
+as peers. Define 'node1' and 'node2' as gateway nodes.
 
 ----
 id: myevpnctl
@@ -566,7 +618,8 @@ peers: 192.168.0.1,192.168.0.2,192.168.0.3
 gateway nodes: node1,node2
 ----
 
-create an evpn zone
+Create an EVPN zone named `myevpnzone' using the previously created
+EVPN-controller.
 
 ----
 id: myevpnzone
@@ -575,7 +628,8 @@ controller: myevpnctl
 mtu: 1450
 ----
 
-create first vnet
+Create the first VNet named `myvnet1' using the EVPN zone `myevpnzone', a IPv4
+CIDR network and a random MAC address.
 
 ----
 id: myvnet1
@@ -585,7 +639,8 @@ ipv4: 10.0.1.1/24
 mac address: 8C:73:B2:7B:F9:60 #random generate mac addres
 ----
 
-create second vnet
+Create the second VNet named `myvnet2' using the same EVPN zone `myevpnzone', a
+different IPv4 CIDR network and a different random MAC address than  `myvnet1'.
 
 ----
 id: myvnet2
@@ -595,12 +650,13 @@ ipv4: 10.0.2.1/24
 mac address: 8C:73:B2:7B:F9:61  #random mac, need to be different on each vnet
 ----
 
-Apply the configuration on the main sdn section, to create vnets locally on each nodes,
-and generate frr config.
+Apply the configuration on the main SDN web-interface panel to create VNets
+locally on each nodes and generate the FRR config.
 
 
+Create a Debian-based Virtual Machine (vm1) on node1, with a vNIC on `myvnet1'.
 
-create a vm1, with 1 nic on vnet1 on node2
+Use the following network configuration for this VM:
 
 ----
 auto eth0
@@ -610,7 +666,11 @@ iface eth0 inet static
         mtu 1450
 ----
 
-create a vm2, with 1 nic on vnet2 on node3
+Create a second Virtual Machine (vm2) on node2, with a vNIC on the other VNet
+`myvnet2'.
+
+Use the following network configuration for this VM:
+
 ----
 auto eth0
 iface eth0 inet static
@@ -622,12 +682,14 @@ iface eth0 inet static
 
 Then, you should be able to ping vm2 from vm1, and vm1 from vm2.
 
-from vm2 on node3, if you ping an external ip, the packet will go 
-to the vnet2 gateway, then will be routed to gateway nodes (node1 or node2)
-then the packet will be routed to the node1 or node2 default gw.
+If you ping an external IP from 'vm2' on the non-gateway 'node3', the packet
+will go to the configured 'myvnet2' gateway, then will be routed to gateway
+nodes ('node1' or 'node2') and from there it will leave those nodes over the
+default gateway configured on node1 or node2.
 
-Of course you need to add reverse routes to 10.0.1.0/24 && 10.0.2.0/24 to node1,node2 on your external gateway.
+NOTE: Of course you need to add reverse routes for the '10.0.1.0/24' and
+'10.0.2.0/24' network to node1, node2 on your external gateway, so that the
+public network can reply back.
 
-If you have configured an external bgp router, the bgp-evpn routes (10.0.1.0/24 && 10.0.2.0/24),
-will be announced dynamically.
-
+If you have configured an external BGP router, the BGP-EVPN routes (10.0.1.0/24
+and 10.0.2.0/24 in this example), will be announced dynamically.
