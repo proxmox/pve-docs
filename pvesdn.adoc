@@ -150,7 +150,7 @@ specific VNets VLAN tag, and restrict Virtual Machines to separated zones.
 
 Specific `VLAN` configuration options:
 
-bridge:: Reuse this local VLAN-aware bridge, or OVS interface, already
+bridge:: Reuse this local bridge or OVS switch, already
 configured on *each* local node.
 
 [[pvesdn_zone_plugin_qinq]]
