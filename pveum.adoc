@@ -279,7 +279,7 @@ password into the user's 'Key IDs' field.
 Please refer to the https://developers.yubico.com/OTP/[YubiKey OTP]
 documentation for how to use the
 https://www.yubico.com/products/services-software/yubicloud/[YubiCloud] or
-https://developers.yubico.com/Software_Projects/YubiKey_OTP/YubiCloud_Validation_Servers/[host
+https://developers.yubico.com/Software_Projects/Yubico_OTP/YubiCloud_Validation_Servers/[host
 your own verification server].
 
 [[pveum_user_configured_totp]]
