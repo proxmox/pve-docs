@@ -161,9 +161,9 @@ iface vmbr0 inet static
         address 192.168.10.2
         netmask 255.255.255.0
         gateway 192.168.10.1
-        bridge_ports eno1
-        bridge_stp off
-        bridge_fd 0
+        bridge-ports eno1
+        bridge-stp off
+        bridge-fd 0
 ----
 
 Virtual machines behave as if they were directly connected to the
@@ -209,9 +209,9 @@ auto vmbr0
 iface vmbr0 inet static
         address  203.0.113.17
         netmask  255.255.255.248
-        bridge_ports none
-        bridge_stp off
-        bridge_fd 0
+        bridge-ports none
+        bridge-stp off
+        bridge-fd 0
 ----
 
 
@@ -239,9 +239,9 @@ auto vmbr0
 iface vmbr0 inet static
         address  10.10.10.1
         netmask  255.255.255.0
-        bridge_ports none
-        bridge_stp off
-        bridge_fd 0
+        bridge-ports none
+        bridge-stp off
+        bridge-fd 0
 
         post-up   echo 1 > /proc/sys/net/ipv4/ip_forward
         post-up   iptables -t nat -A POSTROUTING -s '10.10.10.0/24' -o eno1 -j MASQUERADE
@@ -357,18 +357,18 @@ iface bond0 inet static
       slaves eno1 eno2
       address  192.168.1.2
       netmask  255.255.255.0
-      bond_miimon 100
-      bond_mode 802.3ad
-      bond_xmit_hash_policy layer2+3
+      bond-miimon 100
+      bond-mode 802.3ad
+      bond-xmit-hash-policy layer2+3
 
 auto vmbr0
 iface vmbr0 inet static
         address  10.10.10.2
         netmask  255.255.255.0
         gateway  10.10.10.1
-        bridge_ports eno1
-        bridge_stp off
-        bridge_fd 0
+        bridge-ports eno1
+        bridge-stp off
+        bridge-fd 0
 
 ----
 
@@ -389,18 +389,18 @@ iface eno2 inet manual
 auto bond0
 iface bond0 inet manual
       slaves eno1 eno2
-      bond_miimon 100
-      bond_mode 802.3ad
-      bond_xmit_hash_policy layer2+3
+      bond-miimon 100
+      bond-mode 802.3ad
+      bond-xmit-hash-policy layer2+3
 
 auto vmbr0
 iface vmbr0 inet static
         address  10.10.10.2
         netmask  255.255.255.0
         gateway  10.10.10.1
-        bridge_ports bond0
-        bridge_stp off
-        bridge_fd 0
+        bridge-ports bond0
+        bridge-stp off
+        bridge-fd 0
 
 ----
 
@@ -474,15 +474,15 @@ iface vmbr0v5 inet static
         address  10.10.10.2
         netmask  255.255.255.0
         gateway  10.10.10.1
-        bridge_ports eno1.5
-        bridge_stp off
-        bridge_fd 0
+        bridge-ports eno1.5
+        bridge-stp off
+        bridge-fd 0
 
 auto vmbr0
 iface vmbr0 inet manual
-        bridge_ports eno1
-        bridge_stp off
-        bridge_fd 0
+        bridge-ports eno1
+        bridge-stp off
+        bridge-fd 0
 
 ----
 
@@ -502,10 +502,10 @@ iface vmbr0.5 inet static
 
 auto vmbr0
 iface vmbr0 inet manual
-        bridge_ports eno1
-        bridge_stp off
-        bridge_fd 0
-        bridge_vlan_aware yes
+        bridge-ports eno1
+        bridge-stp off
+        bridge-fd 0
+        bridge-vlan-aware yes
 ----
 
 The next example is the same setup but a bond is used to
@@ -523,9 +523,9 @@ iface eno2 inet manual
 auto bond0
 iface bond0 inet manual
       slaves eno1 eno2
-      bond_miimon 100
-      bond_mode 802.3ad
-      bond_xmit_hash_policy layer2+3
+      bond-miimon 100
+      bond-mode 802.3ad
+      bond-xmit-hash-policy layer2+3
 
 iface bond0.5 inet manual
 
@@ -534,15 +534,15 @@ iface vmbr0v5 inet static
         address  10.10.10.2
         netmask  255.255.255.0
         gateway  10.10.10.1
-        bridge_ports bond0.5
-        bridge_stp off
-        bridge_fd 0
+        bridge-ports bond0.5
+        bridge-stp off
+        bridge-fd 0
 
 auto vmbr0
 iface vmbr0 inet manual
-        bridge_ports bond0
-        bridge_stp off
-        bridge_fd 0
+        bridge-ports bond0
+        bridge-stp off
+        bridge-fd 0
 
 ----
 

@@ -1267,9 +1267,9 @@ iface vmbr0 inet static
     address 192.X.Y.57
     netmask 255.255.250.0
     gateway 192.X.Y.1
-    bridge_ports eno1
-    bridge_stp off
-    bridge_fd 0
+    bridge-ports eno1
+    bridge-stp off
+    bridge-fd 0
 
 # cluster network
 auto eno2
