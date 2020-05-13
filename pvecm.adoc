@@ -61,7 +61,7 @@ Requirements
 
 * Date and time have to be synchronized.
 
-* SSH tunnel on TCP port 22 between nodes is used. 
+* SSH tunnel on TCP port 22 between nodes is used.
 
 * If you are interested in High Availability, you need to have at
   least three nodes for reliable quorum. All nodes should have the
