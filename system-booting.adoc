@@ -12,6 +12,45 @@ For EFI Systems installed with ZFS as the root filesystem `systemd-boot` is
 used. All other deployments use the standard `grub` bootloader (this usually
 also applies to systems which are installed on top of Debian).
 
+[[sysboot_determine_bootloader_used]]
+Determine which bootloader is used
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[thumbnail="screenshot/boot-grub.png", float="left"]
+
+The simplest and most reliable way to determine which bootloader is used, is to
+watch the boot process of the {pve} node.
+
+You will either see the blue box of `grub` or the simple black on white
+`systemd-boot`.
+
+[thumbnail="screenshot/boot-systemdboot.png"]
+
+Determining the bootloader from a running system might not be 100% accurate. The
+safest way is to run the following command:
+
+
+----
+# efibootmgr -v
+----
+
+If it returns a message that EFI variables are not supported, `grub` is used in
+BIOS/Legacy mode.
+
+If the output contains a line that looks similar to the following, `grub` is
+used in UEFI mode.
+
+----
+Boot0005* proxmox	[...] File(\EFI\proxmox\grubx64.efi)
+----
+
+If the output contains a line similar to the following, `systemd-bood` is used.
+
+----
+Boot0006* Linux Boot Manager	[...] File(\EFI\systemd\systemd-bootx64.efi)
+----
+
+
 [[sysboot_installer_part_scheme]]
 Partitioning scheme used by the installer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
