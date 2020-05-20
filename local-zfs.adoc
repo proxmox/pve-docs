@@ -273,12 +273,27 @@ can be used as cache.
 # zpool replace -f <pool> <old device> <new device>
 ----
 
-.Changing a failed bootable device when using systemd-boot
+.Changing a failed bootable device
+
+Depending on how {pve} was installed it is either using `grub` or `systemd-boot`
+as bootloader (see xref:sysboot[Host Bootloader]).
+
+The first steps of copying the partition table, reissuing GUIDs and replacing
+the ZFS partition are the same. To make the system bootable from the new disk,
+different steps are needed which depend on the bootloader in use.
 
 ----
 # sgdisk <healthy bootable device> -R <new device>
 # sgdisk -G <new device>
 # zpool replace -f <pool> <old zfs partition> <new zfs partition>
+----
+
+NOTE: Use the `zpool status -v` command to monitor how far the resivlering
+process of the new disk has progressed.
+
+With `systemd-boot`:
+
+----
 # pve-efiboot-tool format <new disk's ESP>
 # pve-efiboot-tool init <new disk's ESP>
 ----
@@ -287,6 +302,11 @@ NOTE: `ESP` stands for EFI System Partition, which is setup as partition #2 on
 bootable disks setup by the {pve} installer since version 5.4. For details, see
 xref:sysboot_systemd_boot_setup[Setting up a new partition for use as synced ESP].
 
+With `grub`:
+
+----
+# grub-install <new disk>
+----
 
 Activate E-Mail Notification
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
