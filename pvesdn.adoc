@@ -265,6 +265,12 @@ After applying the configuration through the main SDN web-interface panel,
 the local network configuration is generated locally on each node in
 `/etc/network/interfaces.d/sdn`, and with ifupdown2 reloaded.
 
+You need to add
+----
+source /etc/network/interfaces.d/*
+----
+at the end of /etc/network/interfaces to have the sdn config included
+
 You can monitor the status of local zones and vnets through the main tree.
 
 
