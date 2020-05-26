@@ -114,6 +114,9 @@ VNet properties are:
 
 * Tag: The unique VLAN or VXLAN id
 
+* Vlan Aware: Allow to add an extra Vlan tag in vm|ct nic configuration or allow
+              vlans tag coming from the vm|ct guest os.
+  
 * IPv4: an anycast IPv4 address, it will be configured on the underlying bridge
   on each node part of the Zone. It's only useful for `bgp-evpn` routing.
 
