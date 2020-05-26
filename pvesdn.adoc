@@ -440,7 +440,7 @@ Create a `myvnet2' with customer VLAN-id 100 on the previously created
 
 ----
 id: myvnet2
-zone: qinqzone1
+zone: qinqzone2
 tag: 100
 ----
 
