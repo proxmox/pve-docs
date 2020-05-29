@@ -8,7 +8,10 @@ Restrict TCP/UDP destination port. You can use service names or simple numbers (
 
 `--icmp-type` `<string>` ::
 
-Specify icmp-type. Only valid if proto equals 'icmp'.
+Restrict ICMP packets to specific types. You can either use the names as
+ip[6]tables ('ip[6]tables -p icmp[v6] -h') provides them, or use the
+Type[/Code] value, for example 'network-unreachable' which corresponds to
+'3/0'.
 
 `--iface` `<string>` ::
 
