@@ -357,6 +357,14 @@ Show file system path for a volume
 
  pvesm path <VOLUME_ID>
 
+Exporting the volume `local:103/vm-103-disk-0.qcow2` to the file `target`.
+This is mostly used internally with `pvesm import`.
+The stream format qcow2+size is different to the qcow2 format.
+Consequently, the exported file cannot simply be attached to a VM.
+This also holds for the other formats.
+
+ pvesm export local:103/vm-103-disk-0.qcow2 qcow2+size target --with-snapshots 1
+
 ifdef::wiki[]
 
 See Also
