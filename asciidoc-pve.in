@@ -579,7 +579,7 @@ if ($clicmd eq 'compile-wiki') {
     my $data_str =  to_json($res_data, { pretty => 1,  canonical => 1 });
     chomp $data_str;
 
-    print "var pveOnlineHelpInfo = ${data_str};\n";
+    print "const pveOnlineHelpInfo = ${data_str};\n";
 
 } elsif ($clicmd eq 'chapter-table') {
 
