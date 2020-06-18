@@ -12,8 +12,36 @@ For EFI Systems installed with ZFS as the root filesystem `systemd-boot` is
 used. All other deployments use the standard `grub` bootloader (this usually
 also applies to systems which are installed on top of Debian).
 
+
+[[sysboot_installer_part_scheme]]
+Partitioning Scheme Used by the Installer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The {pve} installer creates 3 partitions on the bootable disks selected for
+installation. The bootable disks are:
+
+* For Installations with `ext4` or `xfs` the selected disk
+
+* For ZFS installations all disks belonging to the first `vdev`:
+** The first disk for RAID0
+** All disks for RAID1, RAIDZ1, RAIDZ2, RAIDZ3
+** The first two disks for RAID10
+
+The created partitions are:
+
+* a 1 MB BIOS Boot Partition (gdisk type EF02)
+
+* a 512 MB EFI System Partition (ESP, gdisk type EF00)
+
+* a third partition spanning the set `hdsize` parameter or the remaining space
+    used for the chosen storage type
+
+`grub` in BIOS mode (`--target i386-pc`) is installed onto the BIOS Boot
+Partition of all bootable disks for supporting older systems.
+
+
 [[sysboot_determine_bootloader_used]]
-Determine which bootloader is used
+Determine which Bootloader is Used
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 [thumbnail="screenshot/boot-grub.png", float="left"]
@@ -49,33 +77,6 @@ If the output contains a line similar to the following, `systemd-bood` is used.
 ----
 Boot0006* Linux Boot Manager	[...] File(\EFI\systemd\systemd-bootx64.efi)
 ----
-
-
-[[sysboot_installer_part_scheme]]
-Partitioning scheme used by the installer
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The {pve} installer creates 3 partitions on the bootable disks selected for
-installation. The bootable disks are:
-
-* For Installations with `ext4` or `xfs` the selected disk
-
-* For ZFS installations all disks belonging to the first `vdev`:
-** The first disk for RAID0
-** All disks for RAID1, RAIDZ1, RAIDZ2, RAIDZ3
-** The first two disks for RAID10
-
-The created partitions are:
-
-* a 1 MB BIOS Boot Partition (gdisk type EF02)
-
-* a 512 MB EFI System Partition (ESP, gdisk type EF00)
-
-* a third partition spanning the set `hdsize` parameter or the remaining space
-    used for the chosen storage type
-
-`grub` in BIOS mode (`--target i386-pc`) is installed onto the BIOS Boot
-Partition of all bootable disks for supporting older systems.
 
 
 [[sysboot_grub]]
@@ -235,8 +236,9 @@ sync all kernels and initrds.
 NOTE: Both `update-initramfs` and `apt` (when necessary) will automatically
 trigger a refresh.
 
+
 [[sysboot_edit_kernel_cmdline]]
-Editing the kernel commandline
+Editing the Kernel Commandline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can modify the kernel commandline in the following places, depending on the
