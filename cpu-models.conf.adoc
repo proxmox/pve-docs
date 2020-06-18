@@ -1,0 +1,82 @@
+ifdef::manvolnum[]
+cpu-models.conf(5)
+==================
+:pve-toplevel:
+
+NAME
+----
+
+cpu-models.conf - Custom CPU model configuration file
+
+
+SYNOPSIS
+--------
+
+'/etc/pve/virtual-guest/cpu-models.conf'
+
+
+DESCRIPTION
+-----------
+endif::manvolnum[]
+
+ifndef::manvolnum[]
+Custom CPU Model Configuration
+==============================
+endif::manvolnum[]
+ifdef::wiki[]
+:pve-toplevel:
+:title: Manual: cpu-models.conf
+endif::wiki[]
+
+The `/etc/pve/virtual-guest/cpu-models.conf` file stores custom CPU
+models, which can be used by VMs to get access to advanced CPU
+features (for example custom CPU flags).
+
+
+File Format
+-----------
+
+CPU models each have their own section in the file, beginning with
+the header:
+
+ cpu-model: <name>
+
+Note that <name> does not include the 'custom-' prefix, which is
+required in VM configs to denote custom CPU models.
+
+For example, if the <name> is 'foobar', the CPU for a VM would need to be
+configured as 'custom-foobar'.
+
+Each section can specify several options. They are indented by either one TAB
+character or multiple spaces. Every option and its value is separated by one
+space, for example:
+
+ reported-model qemu64
+
+See below for all available options.
+
+Blank lines and those starting with a `#` are ignored.
+
+
+Options
+-------
+
+include::cpu-models.conf.5-opts.adoc[]
+
+
+Example File
+------------
+
+----
+cpu-model: avx
+    flags +avx;+avx2
+    phys-bits host
+    hidden 0
+    hv-vendor-id proxmox
+    reported-model kvm64
+----
+
+
+ifdef::manvolnum[]
+include::pve-copyright.adoc[]
+endif::manvolnum[]
