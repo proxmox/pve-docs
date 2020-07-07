@@ -4420,6 +4420,7 @@ var pveapi = [
                                           "da",
                                           "ddnss",
                                           "desec",
+                                          "df",
                                           "dgon",
                                           "dnsimple",
                                           "do",
@@ -4656,6 +4657,7 @@ var pveapi = [
                                     "da",
                                     "ddnss",
                                     "desec",
+                                    "df",
                                     "dgon",
                                     "dnsimple",
                                     "do",
@@ -5058,6 +5060,47 @@ var pveapi = [
                   "leaf" : 1,
                   "path" : "/cluster/acme/directories",
                   "text" : "directories"
+               },
+               {
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Get schema of ACME challenge types.",
+                        "method" : "GET",
+                        "name" : "challengeschema",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "user" : "all"
+                        },
+                        "returns" : {
+                           "items" : {
+                              "additionalProperties" : 0,
+                              "properties" : {
+                                 "id" : {
+                                    "type" : "string"
+                                 },
+                                 "name" : {
+                                    "description" : "Human readable name, falls back to id",
+                                    "type" : "string"
+                                 },
+                                 "schema" : {
+                                    "type" : "object"
+                                 },
+                                 "type" : {
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/acme/challenge-schema",
+                  "text" : "challenge-schema"
                }
             ],
             "info" : {
@@ -5565,6 +5608,12 @@ var pveapi = [
                                        "type" : "integer",
                                        "typetext" : "<integer>"
                                     },
+                                    "vlanaware" : {
+                                       "description" : "Allow vm VLANs to pass through this vnet.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
                                     "vnet" : {
                                        "description" : "The SDN vnet object identifier.",
                                        "format" : "pve-sdn-vnet-id",
@@ -5664,7 +5713,7 @@ var pveapi = [
                               },
                               "tag" : {
                                  "description" : "vlan or vxlan id",
-                                 "optional" : 0,
+                                 "optional" : 1,
                                  "type" : "integer",
                                  "typetext" : "<integer>"
                               },
@@ -5675,6 +5724,12 @@ var pveapi = [
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
+                              },
+                              "vlanaware" : {
+                                 "description" : "Allow vm VLANs to pass through this vnet.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
                               },
                               "vnet" : {
                                  "description" : "The SDN vnet object identifier.",
@@ -5814,7 +5869,7 @@ var pveapi = [
                                        "typetext" : "<integer>"
                                     },
                                     "mtu" : {
-                                       "description" : "mtu",
+                                       "description" : "MTU",
                                        "optional" : 1,
                                        "type" : "integer",
                                        "typetext" : "<integer>"
@@ -5834,10 +5889,20 @@ var pveapi = [
                                        "typetext" : "<string>"
                                     },
                                     "tag" : {
-                                       "description" : "vlan tag",
+                                       "description" : "Service-VLAN Tag",
+                                       "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "<integer>"
+                                       "typetext" : "<integer> (0 - N)"
+                                    },
+                                    "vlan-protocol" : {
+                                       "default" : "802.1q",
+                                       "enum" : [
+                                          "802.1q",
+                                          "802.1ad"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
                                     },
                                     "vrf-vxlan" : {
                                        "description" : "l3vni.",
@@ -5889,6 +5954,7 @@ var pveapi = [
                                     "evpn",
                                     "faucet",
                                     "qinq",
+                                    "simple",
                                     "vlan",
                                     "vxlan"
                                  ],
@@ -5948,7 +6014,7 @@ var pveapi = [
                                  "typetext" : "<integer>"
                               },
                               "mtu" : {
-                                 "description" : "mtu",
+                                 "description" : "MTU",
                                  "optional" : 1,
                                  "type" : "integer",
                                  "typetext" : "<integer>"
@@ -5968,10 +6034,11 @@ var pveapi = [
                                  "typetext" : "<string>"
                               },
                               "tag" : {
-                                 "description" : "vlan tag",
+                                 "description" : "Service-VLAN Tag",
+                                 "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "<integer>"
+                                 "typetext" : "<integer> (0 - N)"
                               },
                               "type" : {
                                  "description" : "Plugin type.",
@@ -5979,10 +6046,20 @@ var pveapi = [
                                     "evpn",
                                     "faucet",
                                     "qinq",
+                                    "simple",
                                     "vlan",
                                     "vxlan"
                                  ],
                                  "format" : "pve-configid",
+                                 "type" : "string"
+                              },
+                              "vlan-protocol" : {
+                                 "default" : "802.1q",
+                                 "enum" : [
+                                    "802.1q",
+                                    "802.1ad"
+                                 ],
+                                 "optional" : 1,
                                  "type" : "string"
                               },
                               "vrf-vxlan" : {
@@ -11135,6 +11212,13 @@ var pveapi = [
                                                    ],
                                                    "type" : "string"
                                                 },
+                                                "mtu" : {
+                                                   "description" : "Force MTU, for VirtIO only. Set to '1' to use the bridge MTU",
+                                                   "maximum" : 65520,
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "ne2k_isa" : {
                                                    "alias" : "macaddr",
                                                    "keyAlias" : "model"
@@ -12782,7 +12866,7 @@ var pveapi = [
                                              "format" : "pve-qm-hostpci",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]",
+                                             "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,legacy-igd=<1|0>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]",
                                              "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer\npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "hotplug" : {
@@ -13338,6 +13422,13 @@ var pveapi = [
                                                    ],
                                                    "type" : "string"
                                                 },
+                                                "mtu" : {
+                                                   "description" : "Force MTU, for VirtIO only. Set to '1' to use the bridge MTU",
+                                                   "maximum" : 65520,
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "ne2k_isa" : {
                                                    "alias" : "macaddr",
                                                    "keyAlias" : "model"
@@ -13392,7 +13483,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]"
+                                             "typetext" : "[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]"
                                           },
                                           "node" : {
                                              "description" : "The cluster node name.",
@@ -14760,7 +14851,8 @@ var pveapi = [
                                              "VM.Config.Memory",
                                              "VM.Config.Network",
                                              "VM.Config.HWType",
-                                             "VM.Config.Options"
+                                             "VM.Config.Options",
+                                             "VM.Config.Cloudinit"
                                           ],
                                           "any",
                                           1
@@ -15052,7 +15144,7 @@ var pveapi = [
                                              "format" : "pve-qm-hostpci",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]",
+                                             "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,legacy-igd=<1|0>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]",
                                              "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer\npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "hotplug" : {
@@ -15608,6 +15700,13 @@ var pveapi = [
                                                    ],
                                                    "type" : "string"
                                                 },
+                                                "mtu" : {
+                                                   "description" : "Force MTU, for VirtIO only. Set to '1' to use the bridge MTU",
+                                                   "maximum" : 65520,
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
                                                 "ne2k_isa" : {
                                                    "alias" : "macaddr",
                                                    "keyAlias" : "model"
@@ -15662,7 +15761,7 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]"
+                                             "typetext" : "[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]"
                                           },
                                           "node" : {
                                              "description" : "The cluster node name.",
@@ -17030,7 +17129,8 @@ var pveapi = [
                                              "VM.Config.Memory",
                                              "VM.Config.Network",
                                              "VM.Config.HWType",
-                                             "VM.Config.Options"
+                                             "VM.Config.Options",
+                                             "VM.Config.Cloudinit"
                                           ],
                                           "any",
                                           1
@@ -17184,6 +17284,13 @@ var pveapi = [
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
+                                          "generate-password" : {
+                                             "default" : 0,
+                                             "description" : "Generates a random password to be used as ticket instead of the API ticket.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
                                           "node" : {
                                              "description" : "The cluster node name.",
                                              "format" : "pve-node",
@@ -17219,6 +17326,11 @@ var pveapi = [
                                        "additionalProperties" : 0,
                                        "properties" : {
                                           "cert" : {
+                                             "type" : "string"
+                                          },
+                                          "password" : {
+                                             "description" : "Returned if requested with 'generate-password' param. Consists of printable ASCII characters ('!' .. '~').",
+                                             "optional" : 1,
                                              "type" : "string"
                                           },
                                           "port" : {
@@ -19944,7 +20056,7 @@ var pveapi = [
                                  "format" : "pve-qm-hostpci",
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]",
+                                 "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,legacy-igd=<1|0>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]",
                                  "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer\npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                               },
                               "hotplug" : {
@@ -20500,6 +20612,13 @@ var pveapi = [
                                        ],
                                        "type" : "string"
                                     },
+                                    "mtu" : {
+                                       "description" : "Force MTU, for VirtIO only. Set to '1' to use the bridge MTU",
+                                       "maximum" : 65520,
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
                                     "ne2k_isa" : {
                                        "alias" : "macaddr",
                                        "keyAlias" : "model"
@@ -20554,7 +20673,7 @@ var pveapi = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]"
+                                 "typetext" : "[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]"
                               },
                               "node" : {
                                  "description" : "The cluster node name.",
@@ -21940,6 +22059,60 @@ var pveapi = [
                   "leaf" : 0,
                   "path" : "/nodes/{node}/qemu",
                   "text" : "qemu"
+               },
+               {
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "List all custom and default CPU models.",
+                        "method" : "GET",
+                        "name" : "index",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "description" : "Only returns custom models when the current user has Sys.Audit on /nodes.",
+                           "user" : "all"
+                        },
+                        "returns" : {
+                           "items" : {
+                              "properties" : {
+                                 "custom" : {
+                                    "description" : "True if this is a custom CPU model.",
+                                    "type" : "boolean"
+                                 },
+                                 "name" : {
+                                    "description" : "Name of the CPU model. Identifies it for subsequent API calls. Prefixed with 'custom-' for custom models.",
+                                    "type" : "string"
+                                 },
+                                 "vendor" : {
+                                    "description" : "CPU vendor visible to the guest when this model is selected. Vendor of 'reported-model' in case of custom models.",
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{name}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/nodes/{node}/cpu",
+                  "text" : "cpu"
                },
                {
                   "children" : [
@@ -29394,13 +29567,45 @@ var pveapi = [
                               "returns" : {
                                  "items" : {
                                     "properties" : {
+                                       "bytes_used" : {
+                                          "title" : "Used",
+                                          "type" : "integer"
+                                       },
+                                       "crush_rule" : {
+                                          "title" : "Crush Rule",
+                                          "type" : "integer"
+                                       },
+                                       "crush_rule_name" : {
+                                          "title" : "Crush Rule Name",
+                                          "type" : "string"
+                                       },
+                                       "min_size" : {
+                                          "title" : "Min Size",
+                                          "type" : "integer"
+                                       },
+                                       "percent_used" : {
+                                          "title" : "%-Used",
+                                          "type" : "number"
+                                       },
+                                       "pg_autoscale_mode" : {
+                                          "optional" : 1,
+                                          "title" : "PG Autoscale Mode",
+                                          "type" : "string"
+                                       },
+                                       "pg_num" : {
+                                          "title" : "PG Num",
+                                          "type" : "integer"
+                                       },
                                        "pool" : {
+                                          "title" : "ID",
                                           "type" : "integer"
                                        },
                                        "pool_name" : {
+                                          "title" : "Name",
                                           "type" : "string"
                                        },
                                        "size" : {
+                                          "title" : "Size",
                                           "type" : "integer"
                                        }
                                     },
@@ -30549,6 +30754,37 @@ var pveapi = [
                },
                {
                   "info" : {
+                     "DELETE" : {
+                        "allowtoken" : 1,
+                        "description" : "Delete subscription key of this node.",
+                        "method" : "DELETE",
+                        "name" : "delete",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/nodes/{node}",
+                              [
+                                 "Sys.Modify"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "proxyto" : "node",
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     },
                      "GET" : {
                         "allowtoken" : 1,
                         "description" : "Read subscription info.",
@@ -35655,6 +35891,15 @@ var pveapi = [
                                           }
                                        }
                                     },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/nodes/{node}",
+                                          [
+                                             "Sys.Modify"
+                                          ]
+                                       ]
+                                    },
                                     "protected" : 1,
                                     "proxyto" : "node",
                                     "returns" : {
@@ -35684,6 +35929,15 @@ var pveapi = [
                                           }
                                        }
                                     },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/nodes/{node}",
+                                          [
+                                             "Sys.Modify"
+                                          ]
+                                       ]
+                                    },
                                     "protected" : 1,
                                     "proxyto" : "node",
                                     "returns" : {
@@ -35712,6 +35966,15 @@ var pveapi = [
                                              "typetext" : "<string>"
                                           }
                                        }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/nodes/{node}",
+                                          [
+                                             "Sys.Modify"
+                                          ]
+                                       ]
                                     },
                                     "protected" : 1,
                                     "proxyto" : "node",
@@ -35882,6 +36145,15 @@ var pveapi = [
                                     }
                                  }
                               },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/nodes/{node}",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
                               "protected" : 1,
                               "proxyto" : "node",
                               "returns" : {
@@ -35930,6 +36202,15 @@ var pveapi = [
                                        "typetext" : "<boolean>"
                                     }
                                  }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/nodes/{node}",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
                               },
                               "protected" : 1,
                               "proxyto" : "node",
@@ -36127,7 +36408,7 @@ var pveapi = [
                                  "format" : {
                                     "alias" : {
                                        "description" : "Alias for the Domain to verify ACME Challenge over DNS",
-                                       "format" : "pve-acme-domain",
+                                       "format" : "pve-acme-alias",
                                        "format_description" : "domain",
                                        "optional" : 1,
                                        "type" : "string"
@@ -36380,6 +36661,11 @@ var pveapi = [
                                     "properties" : {
                                        "status" : {
                                           "description" : "Status of zone",
+                                          "enum" : [
+                                             "available",
+                                             "pending",
+                                             "error"
+                                          ],
                                           "type" : "string"
                                        },
                                        "zone" : {
@@ -36987,9 +37273,9 @@ var pveapi = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "upgrade",
+                                    "login",
                                     "ceph_install",
-                                    "login"
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -37082,9 +37368,9 @@ var pveapi = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "upgrade",
+                                    "login",
                                     "ceph_install",
-                                    "login"
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -37207,9 +37493,9 @@ var pveapi = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "upgrade",
+                                    "login",
                                     "ceph_install",
-                                    "login"
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -40031,6 +40317,10 @@ var pveapi = [
                                  "type" : "boolean"
                               },
                               "VM.Config.CPU" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Config.Cloudinit" : {
                                  "optional" : 1,
                                  "type" : "boolean"
                               },

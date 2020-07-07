@@ -140,7 +140,7 @@ Freeze CPU at startup (use 'c' monitor command to start execution).
 
 Script that will be executed during various steps in the vms lifetime.
 
-`hostpci[n]`: `[host=]<HOSTPCIID[;HOSTPCIID2...]> [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]` ::
+`hostpci[n]`: `[host=]<HOSTPCIID[;HOSTPCIID2...]> [,legacy-igd=<1|0>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]` ::
 
 Map host PCI devices into guest.
 +
@@ -157,6 +157,10 @@ of PCI virtual functions of the host. HOSTPCIID syntax is:
 'bus:dev.func' (hexadecimal numbers)
 +
 You can us the 'lspci' command to list existing PCI devices.
+
+`legacy-igd`=`<boolean>` ('default =' `0`);;
+
+Pass this device in legacy IGD mode, making it the primary and exclusive graphics device in the VM. Requires 'pc-i440fx' machine type and VGA set to 'none'.
 
 `mdev`=`<string>` ;;
 
@@ -449,7 +453,7 @@ Set a name for the VM. Only used on the configuration web interface.
 
 cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.
 
-`net[n]`: `[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
+`net[n]`: `[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
 
 Specify network devices.
 
@@ -483,6 +487,10 @@ A common MAC address with the I/G (Individual/Group) bit not set.
 `model`=`<e1000 | e1000-82540em | e1000-82544gc | e1000-82545em | i82551 | i82557b | i82559er | ne2k_isa | ne2k_pci | pcnet | rtl8139 | virtio | vmxnet3>` ;;
 
 Network Card Model. The 'virtio' model provides the best performance with very low CPU overhead. If your guest does not support this driver, it is usually best to use 'e1000'.
+
+`mtu`=`<integer> (1 - 65520)` ;;
+
+Force MTU, for VirtIO only. Set to '1' to use the bridge MTU
 
 `queues`=`<integer> (0 - 16)` ;;
 

@@ -98,7 +98,11 @@ Targeted number of replicas per object
 
 Install ceph related packages.
 
-`--version` `<luminous | nautilus>` ('default =' `nautilus`)::
+`--allow-experimental` `<boolean>` ('default =' `0`)::
+
+Allow experimental versions. Use with care!
+
+`--version` `<luminous | nautilus | octopus>` ('default =' `nautilus`)::
 
 Ceph version to install.
 
@@ -254,13 +258,21 @@ If true, destroys pool even if in use
 
 Remove all pveceph-managed storages configured for this pool
 
-*pveceph pool ls*
+*pveceph pool ls* `[FORMAT_OPTIONS]`
 
 List all pools.
 
-*pveceph purge*
+*pveceph purge* `[OPTIONS]`
 
 Destroy ceph related data and configuration files.
+
+`--crash` `<boolean>` ::
+
+Additionally purge Ceph crash logs, /var/lib/ceph/crash.
+
+`--logs` `<boolean>` ::
+
+Additionally purge Ceph logs, /var/log/ceph.
 
 *pveceph start* `[OPTIONS]`
 

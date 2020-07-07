@@ -213,7 +213,7 @@ Freeze CPU at startup (use 'c' monitor command to start execution).
 
 Script that will be executed during various steps in the vms lifetime.
 
-`--hostpci[n]` `[host=]<HOSTPCIID[;HOSTPCIID2...]> [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]` ::
+`--hostpci[n]` `[host=]<HOSTPCIID[;HOSTPCIID2...]> [,legacy-igd=<1|0>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]` ::
 
 Map host PCI devices into guest.
 
@@ -284,7 +284,7 @@ Set a name for the VM. Only used on the configuration web interface.
 
 cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.
 
-`--net[n]` `[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
+`--net[n]` `[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
 
 Specify network devices.
 
@@ -928,7 +928,7 @@ Freeze CPU at startup (use 'c' monitor command to start execution).
 
 Script that will be executed during various steps in the vms lifetime.
 
-`--hostpci[n]` `[host=]<HOSTPCIID[;HOSTPCIID2...]> [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]` ::
+`--hostpci[n]` `[host=]<HOSTPCIID[;HOSTPCIID2...]> [,legacy-igd=<1|0>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]` ::
 
 Map host PCI devices into guest.
 
@@ -999,7 +999,7 @@ Set a name for the VM. Only used on the configuration web interface.
 
 cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.
 
-`--net[n]` `[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
+`--net[n]` `[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
 
 Specify network devices.
 

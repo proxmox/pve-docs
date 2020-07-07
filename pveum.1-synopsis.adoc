@@ -618,6 +618,30 @@ User ID or full API token ID
 
 Only dump this specific path, not the whole tree.
 
+*pveum user tfa delete* `<userid>` `[OPTIONS]`
+
+Change user u2f authentication.
+
+`<userid>`: `<string>` ::
+
+User ID
+
+`--config` `type=<TFATYPE> [,digits=<COUNT>] [,id=<ID>] [,key=<KEY>] [,step=<SECONDS>] [,url=<URL>]` ::
+
+A TFA configuration. This must currently be of type TOTP of not set at all.
+
+`--key` `<string>` ::
+
+When adding TOTP, the shared secret value.
+
+`--password` `<string>` ::
+
+The current password.
+
+`--response` `<string>` ::
+
+Either the the response to the current u2f registration challenge, or, when adding TOTP, the currently valid TOTP value.
+
 *pveum user token add* `<userid> <tokenid>` `[OPTIONS]` `[FORMAT_OPTIONS]`
 
 Generate a new API token for a specific user. NOTE: returns API token

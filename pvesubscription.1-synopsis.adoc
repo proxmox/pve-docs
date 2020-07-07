@@ -1,5 +1,9 @@
 *pvesubscription* `<COMMAND> [ARGS] [OPTIONS]`
 
+*pvesubscription delete*
+
+Delete subscription key of this node.
+
 *pvesubscription get*
 
 Read subscription info.
