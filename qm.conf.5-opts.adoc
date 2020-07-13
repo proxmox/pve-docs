@@ -98,9 +98,33 @@ cloud-init: User name to change ssh keys and password for instead of the image's
 
 The number of cores per socket.
 
-`cpu`: `<string>` ::
+`cpu`: `[[cputype=]<string>] [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>] [,phys-bits=<8-64|host>] [,reported-model=<enum>]` ::
 
 Emulated CPU type.
+
+`cputype`=`<string>` ('default =' `kvm64`);;
+
+Emulated CPU type. Can be default or custom name (custom model names must be prefixed with 'custom-').
+
+`flags`=`<+FLAG[;-FLAG...]>` ;;
+
+List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Custom CPU models can specify any flag supported by QEMU/KVM, VM-specific flags must be from the following set for security reasons: pcid, spec-ctrl, ibpb, ssbd, virt-ssbd, amd-ssbd, amd-no-ssb, pdpe1gb, md-clear, hv-tlbflush, hv-evmcs, aes.
+
+`hidden`=`<boolean>` ('default =' `0`);;
+
+Do not identify as a KVM virtual machine.
+
+`hv-vendor-id`=`<vendor-id>` ;;
+
+The Hyper-V vendor ID. Some drivers or programs inside Windows guests need a specific ID.
+
+`phys-bits`=`<8-64|host>` ;;
+
+The physical memory address bits that are reported to the guest OS. Should be smaller or equal to the host's. Set to 'host' to use value from host CPU, but note that doing so will break live migration to CPUs with other values.
+
+`reported-model`=`<486 | Broadwell | Broadwell-IBRS | Broadwell-noTSX | Broadwell-noTSX-IBRS | Cascadelake-Server | Cascadelake-Server-noTSX | Conroe | EPYC | EPYC-IBPB | EPYC-Rome | Haswell | Haswell-IBRS | Haswell-noTSX | Haswell-noTSX-IBRS | Icelake-Client | Icelake-Client-noTSX | Icelake-Server | Icelake-Server-noTSX | IvyBridge | IvyBridge-IBRS | KnightsMill | Nehalem | Nehalem-IBRS | Opteron_G1 | Opteron_G2 | Opteron_G3 | Opteron_G4 | Opteron_G5 | Penryn | SandyBridge | SandyBridge-IBRS | Skylake-Client | Skylake-Client-IBRS | Skylake-Client-noTSX-IBRS | Skylake-Server | Skylake-Server-IBRS | Skylake-Server-noTSX-IBRS | Westmere | Westmere-IBRS | athlon | core2duo | coreduo | host | kvm32 | kvm64 | max | pentium | pentium2 | pentium3 | phenom | qemu32 | qemu64>` ('default =' `kvm64`);;
+
+CPU model and vendor to report to the guest. Must be a QEMU/KVM supported model. Only valid for custom CPU model definitions, default models will always report themselves to the guest OS.
 
 `cpulimit`: `<number> (0 - 128)` ('default =' `0`)::
 

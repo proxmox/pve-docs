@@ -2897,6 +2897,100 @@ var pveapi = [
          {
             "children" : [
                {
+                  "children" : [
+                     {
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Returns included guests and the backup status of their disks. Optimized to be used in ExtJS tree views.",
+                              "method" : "GET",
+                              "name" : "get_volume_backup_included",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "id" : {
+                                       "description" : "The job ID.",
+                                       "maxLength" : 50,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Audit"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "description" : "Root node of the tree object. Children represent guests, grandchildren represent volumes of that guest.",
+                                 "properties" : {
+                                    "children" : {
+                                       "items" : {
+                                          "properties" : {
+                                             "children" : {
+                                                "description" : "The volumes of the guest with the information if they will be included in backups.",
+                                                "items" : {
+                                                   "properties" : {
+                                                      "id" : {
+                                                         "description" : "Configuration key of the volume.",
+                                                         "type" : "string"
+                                                      },
+                                                      "included" : {
+                                                         "description" : "Whether the volume is included in the backup or not.",
+                                                         "type" : "boolean"
+                                                      },
+                                                      "name" : {
+                                                         "description" : "Name of the volume.",
+                                                         "type" : "string"
+                                                      },
+                                                      "reason" : {
+                                                         "description" : "The reason why the volume is included (or excluded).",
+                                                         "type" : "string"
+                                                      }
+                                                   },
+                                                   "type" : "object"
+                                                },
+                                                "optional" : 1,
+                                                "type" : "array"
+                                             },
+                                             "id" : {
+                                                "description" : "VMID of the guest.",
+                                                "type" : "integer"
+                                             },
+                                             "name" : {
+                                                "description" : "Name of the guest",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "type" : {
+                                                "description" : "Type of the guest, VM, CT or unknown for removed but not purged guests.",
+                                                "enum" : [
+                                                   "qemu",
+                                                   "lxc",
+                                                   "unknown"
+                                                ],
+                                                "type" : "string"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "type" : "array"
+                                    }
+                                 },
+                                 "type" : "object"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/cluster/backup/{id}/included_volumes",
+                        "text" : "included_volumes"
+                     }
+                  ],
                   "info" : {
                      "DELETE" : {
                         "allowtoken" : 1,
@@ -3205,7 +3299,8 @@ var pveapi = [
                               [
                                  "Sys.Modify"
                               ]
-                           ]
+                           ],
+                           "description" : "The 'tmpdir', 'dumpdir' and 'script' parameters are additionally restricted to the 'root@pam' user."
                         },
                         "protected" : 1,
                         "returns" : {
@@ -3213,7 +3308,7 @@ var pveapi = [
                         }
                      }
                   },
-                  "leaf" : 1,
+                  "leaf" : 0,
                   "path" : "/cluster/backup/{id}",
                   "text" : "{id}"
                }
@@ -3504,6 +3599,81 @@ var pveapi = [
             "leaf" : 0,
             "path" : "/cluster/backup",
             "text" : "backup"
+         },
+         {
+            "children" : [
+               {
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Shows all guests which are not covered by any backup job.",
+                        "method" : "GET",
+                        "name" : "get_guests_not_in_backup",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Audit"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "description" : "Contains the guest objects.",
+                           "items" : {
+                              "properties" : {
+                                 "name" : {
+                                    "description" : "Name of the guest",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "type" : {
+                                    "description" : "Type of the guest.",
+                                    "enum" : [
+                                       "qemu",
+                                       "lxc"
+                                    ],
+                                    "type" : "string"
+                                 },
+                                 "vmid" : {
+                                    "description" : "VMID of the guest.",
+                                    "type" : "integer"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/backupinfo/not_backed_up",
+                  "text" : "not_backed_up"
+               }
+            ],
+            "info" : {
+               "GET" : {
+                  "allowtoken" : 1,
+                  "description" : "Stub, waits for future use.",
+                  "method" : "GET",
+                  "name" : "get_backupinfo",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "description" : "Shows stub message",
+                     "type" : "string"
+                  }
+               }
+            },
+            "leaf" : 0,
+            "path" : "/cluster/backupinfo",
+            "text" : "backupinfo"
          },
          {
             "children" : [
@@ -12760,7 +12930,7 @@ var pveapi = [
                                              "format" : "pve-vm-cpu-conf",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "<string>"
+                                             "typetext" : "[[cputype=]<string>] [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>] [,phys-bits=<8-64|host>] [,reported-model=<enum>]"
                                           },
                                           "cpulimit" : {
                                              "default" : 0,
@@ -15038,7 +15208,7 @@ var pveapi = [
                                              "format" : "pve-vm-cpu-conf",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "<string>"
+                                             "typetext" : "[[cputype=]<string>] [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>] [,phys-bits=<8-64|host>] [,reported-model=<enum>]"
                                           },
                                           "cpulimit" : {
                                              "default" : 0,
@@ -19964,7 +20134,7 @@ var pveapi = [
                                  "format" : "pve-vm-cpu-conf",
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "<string>"
+                                 "typetext" : "[[cputype=]<string>] [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>] [,phys-bits=<8-64|host>] [,reported-model=<enum>]"
                               },
                               "cpulimit" : {
                                  "default" : 0,
@@ -22609,6 +22779,12 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "boolean"
                                           },
+                                          "timezone" : {
+                                             "description" : "Time zone to use in the container. If option isn't set, then nothing will be done. Can be set to 'host' to match the host time zone, or an arbitrary time zone option from /usr/share/zoneinfo/zone.tab",
+                                             "format" : "pve-ct-timezone",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
                                           "tty" : {
                                              "default" : 2,
                                              "description" : "Specify the number of tty available to the container",
@@ -23118,6 +23294,13 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "boolean",
                                              "typetext" : "<boolean>"
+                                          },
+                                          "timezone" : {
+                                             "description" : "Time zone to use in the container. If option isn't set, then nothing will be done. Can be set to 'host' to match the host time zone, or an arbitrary time zone option from /usr/share/zoneinfo/zone.tab",
+                                             "format" : "pve-ct-timezone",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
                                           },
                                           "tty" : {
                                              "default" : 2,
@@ -28071,6 +28254,13 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
+                              },
+                              "timezone" : {
+                                 "description" : "Time zone to use in the container. If option isn't set, then nothing will be done. Can be set to 'host' to match the host time zone, or an arbitrary time zone option from /usr/share/zoneinfo/zone.tab",
+                                 "format" : "pve-ct-timezone",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               },
                               "tty" : {
                                  "default" : 2,
@@ -38433,6 +38623,12 @@ var pveapi = [
                            "type" : "string",
                            "typetext" : "<string>"
                         },
+                        "encryption-key" : {
+                           "description" : "Encryption key. Use 'autogen' to generate one automatically without passphrase.",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
                         "fingerprint" : {
                            "description" : "Certificate SHA 256 fingerprint.",
                            "optional" : 1,
@@ -38520,7 +38716,7 @@ var pveapi = [
                            "typetext" : "<string>"
                         },
                         "password" : {
-                           "description" : "Password for CIFS share.",
+                           "description" : "Password for accessing the share/datastore.",
                            "maxLength" : 256,
                            "optional" : 1,
                            "type" : "string",
@@ -38810,6 +39006,12 @@ var pveapi = [
                      "type" : "string",
                      "typetext" : "<string>"
                   },
+                  "encryption-key" : {
+                     "description" : "Encryption key. Use 'autogen' to generate one automatically without passphrase.",
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
                   "export" : {
                      "description" : "NFS export path.",
                      "format" : "pve-storage-path",
@@ -38910,7 +39112,7 @@ var pveapi = [
                      "typetext" : "<string>"
                   },
                   "password" : {
-                     "description" : "Password for CIFS share.",
+                     "description" : "Password for accessing the share/datastore.",
                      "maxLength" : 256,
                      "optional" : 1,
                      "type" : "string",

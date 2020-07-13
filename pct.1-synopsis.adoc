@@ -224,6 +224,10 @@ Tags of the Container. This is only meta information.
 
 Enable/disable Template.
 
+`--timezone` `<string>` ::
+
+Time zone to use in the container. If option isn't set, then nothing will be done. Can be set to 'host' to match the host time zone, or an arbitrary time zone option from /usr/share/zoneinfo/zone.tab
+
 `--tty` `<integer> (0 - 6)` ('default =' `2`)::
 
 Specify the number of tty available to the container
@@ -673,6 +677,10 @@ Tags of the Container. This is only meta information.
 
 Enable/disable Template.
 
+`--timezone` `<string>` ::
+
+Time zone to use in the container. If option isn't set, then nothing will be done. Can be set to 'host' to match the host time zone, or an arbitrary time zone option from /usr/share/zoneinfo/zone.tab
+
 `--tty` `<integer> (0 - 6)` ('default =' `2`)::
 
 Specify the number of tty available to the container
@@ -830,6 +838,10 @@ Tags of the Container. This is only meta information.
 `--template` `<boolean>` ('default =' `0`)::
 
 Enable/disable Template.
+
+`--timezone` `<string>` ::
+
+Time zone to use in the container. If option isn't set, then nothing will be done. Can be set to 'host' to match the host time zone, or an arbitrary time zone option from /usr/share/zoneinfo/zone.tab
 
 `--tty` `<integer> (0 - 6)` ('default =' `2`)::
 

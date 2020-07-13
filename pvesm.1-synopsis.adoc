@@ -54,6 +54,10 @@ Flag to disable the storage.
 
 CIFS domain.
 
+`--encryption-key` `<filepath>` ::
+
+Encryption key. Use 'autogen' to generate one automatically without passphrase.
+
 `--export` `<string>` ::
 
 NFS export path.
@@ -116,7 +120,7 @@ NFS mount options (see 'man nfs')
 
 `--password` `<password>` ::
 
-Password for CIFS share.
+Password for accessing the share/datastore.
 
 `--path` `<string>` ::
 
@@ -236,7 +240,7 @@ An alias for 'pvesm scan cifs'.
 
 *pvesm export* `<volume> <format> <filename>` `[OPTIONS]`
 
-Export a volume.
+Used internally to export a volume.
 
 `<volume>`: `<string>` ::
 
@@ -304,7 +308,7 @@ Verbose output format.
 
 *pvesm import* `<volume> <format> <filename>` `[OPTIONS]`
 
-Import a volume.
+Used internally to import a volume.
 
 `<volume>`: `<string>` ::
 
@@ -488,6 +492,10 @@ Flag to disable the storage.
 
 CIFS domain.
 
+`--encryption-key` `<filepath>` ::
+
+Encryption key. Use 'autogen' to generate one automatically without passphrase.
+
 `--fingerprint` `([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}` ::
 
 Certificate SHA 256 fingerprint.
@@ -540,9 +548,9 @@ disable write caching on the target
 
 NFS mount options (see 'man nfs')
 
-`--password` `<string>` ::
+`--password` `<password>` ::
 
-Password for CIFS share.
+Password for accessing the share/datastore.
 
 `--pool` `<string>` ::
 
