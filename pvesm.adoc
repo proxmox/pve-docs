@@ -72,6 +72,7 @@ data to different nodes.
 |Directory      |dir         |file  |no    |no^1^    |yes
 |NFS            |nfs         |file  |yes   |no^1^    |yes
 |CIFS           |cifs        |file  |yes   |no^1^    |yes
+|Proxmox Backup |pbs         |both  |yes   |n/a      |beta
 |GlusterFS      |glusterfs   |file  |yes   |no^1^    |yes
 |CephFS         |cephfs      |file  |yes   |yes      |yes
 |LVM            |lvm         |block |no^2^ |no       |yes
@@ -80,7 +81,7 @@ data to different nodes.
 |iSCSI/libiscsi |iscsidirect |block |yes   |no       |yes
 |Ceph/RBD       |rbd         |block |yes   |yes      |yes
 |ZFS over iSCSI |zfs         |block |yes   |yes      |yes
-|=========================================================
+|===========================================================
 
 ^1^: On file based storages, snapshots are possible with the 'qcow2' format.
 
@@ -386,6 +387,8 @@ See Also
 
 * link:/wiki/Storage:_CIFS[Storage: CIFS]
 
+* link:/wiki/Storage:_CIFS[Storage: Proxmox Backup Server]
+
 * link:/wiki/Storage:_RBD[Storage: RBD]
 
 * link:/wiki/Storage:_CephFS[Storage: CephFS]
@@ -405,6 +408,8 @@ include::pve-storage-dir.adoc[]
 include::pve-storage-nfs.adoc[]
 
 include::pve-storage-cifs.adoc[]
+
+include::pve-storage-pbs.adoc[]
 
 include::pve-storage-glusterfs.adoc[]
 

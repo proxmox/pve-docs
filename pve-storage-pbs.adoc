@@ -1,0 +1,108 @@
+[[storage_pbs]]
+Proxmox Backup Server
+---------------------
+ifdef::wiki[]
+:pve-toplevel:
+:title: Storage: Proxmox Backup Server
+endif::wiki[]
+
+Storage pool type: `pbs`
+
+This backend allows direct integration of a Proxmox Backup Server into {pve}
+like any other storage.
+A Proxmox Backup storage can be added directly through the {pve} API, CLI or
+the webinterface.
+
+Configuration
+~~~~~~~~~~~~~
+
+The backend supports all common storage properties, except the shared flag,
+which is always set. Additionally, the following special properties to Proxmox
+Backup Server are available:
+
+server::
+
+Server IP or DNS name. Required.
+
+username::
+
+The username for the Proxmox Backup Server storage. Required.
+
+TIP: Do not forget to add the realm to the username. For example, `root@pam` or
+`archiver@pbs`.
+
+password::
+
+The user password. The value will be saved in a file under
+`/etc/pve/priv/<STORAGE-ID>.pw` with access restricted to the root user.
+Required.
+
+datastore::
+
+The ID of the Proxmox Backup Server datastore to use. Required.
+
+fingerprint::
+
+The fingerprint of the Proxmox Backup Server API TLS certificate. You can get
+it in the Servers Dashboard or using the `proxmox-backup-manager cert info`
+command. Required for self-signed certificates or any other one where the host
+does not trusts the servers CA.
+
+encryption-key::
+
+A key to encrypt the backup data from the client side. Currently only
+non-password protected (no key derive function (kdf)) are supported. Will be
+saved in a file under `/etc/pve/priv/<STORAGE-ID>.enc` with access restricted
+to the root user.  Use the magic value `autogen` to automatically generate a
+new one using `proxmox-backup-client key create --kdf none <path>`. Optional.
+
+.Configuration Example (`/etc/pve/storage.cfg`)
+----
+pbs: backup
+        datastore main
+        server enya.proxmox.com
+        content backup
+        fingerprint 09:54:ef:..snip..:88:af:47:fe:4c:3b:cf:8b:26:88:0b:4e:3c:b2
+        maxfiles 0
+        username archiver@pbs
+----
+
+Storage Features
+~~~~~~~~~~~~~~~~
+
+Proxmox Backup Server only supports backups, they can be block-level or
+file-level based. {pve} uses block-level for virtual machines and file-level for
+container.
+
+.Storage features for backend `cifs`
+[width="100%",cols="m,4*d",options="header"]
+|===============================================================
+|Content types |Image formats |Shared |Snapshots |Clones
+|backup        |n/a           |yes    |n/a       |n/a
+|===============================================================
+
+Examples
+~~~~~~~~
+
+// TODO: FIXME: add once available
+//You can get a list of exported CIFS shares with:
+//
+//----
+//# pvesm scan pbs <server> [--username <username>] [--password]
+//----
+
+Then you could add this share as a storage to the whole {pve} cluster
+with:
+
+----
+# pvesm add pbs <id> --server <server> --datastore <datastore> --username <username> --fingerprint 00:B4:... --password
+----
+
+ifdef::wiki[]
+
+See Also
+~~~~~~~~
+
+* link:/wiki/Storage[Storage]
+
+endif::wiki[]
