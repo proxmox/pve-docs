@@ -31,8 +31,8 @@ server, or list the server in the local `/etc/hosts` file.
 
 share::
 
-CIFS share to use (get available ones with `pvesm cifsscan` or the WebUI).
-Required.
+CIFS share to use (get available ones with `pvesm scan cifs <address>` or the
+WebUI). Required.
 
 username::
 
@@ -42,7 +42,7 @@ password::
 
 The user password. Optional.
 It will be saved in a file only readable by root
-(`/etc/pve/priv/<STORAGE_ID>.cred`).
+(`/etc/pve/priv/storage/<STORAGE-ID>.pw`).
 
 domain::
 
@@ -89,7 +89,7 @@ Examples
 You can get a list of exported CIFS shares with:
 
 ----
-# pvesm cifsscan <server> [--username <username>] [--password]
+# pvesm scan cifs <server> [--username <username>] [--password]
 ----
 
 Then you could add this share as a storage to the whole {pve} cluster
