@@ -65,7 +65,7 @@ data to different nodes.
 
 
 .Available storage types
-[width="100%",cols="<d,1*m,4*d",options="header"]
+[width="100%",cols="<2d,1*m,4*d",options="header"]
 |===========================================================
 |Description    |PVE type    |Level |Shared|Snapshots|Stable
 |ZFS (local)    |zfspool     |file  |no    |yes      |yes
