@@ -1,3 +1,23 @@
+pve-docs (6.2-5) pve; urgency=medium
+
+  * update link for YubiKey documentation
+
+  * sdn: various improvements and addition
+
+  * pvesm: Add an example and clarification for the export command
+
+  * fix #2704: zfs-local: add disk replacement steps for grub
+
+  * sysboot: add a section on how to determine the used bootloader
+
+  * storage: add initial Proxmox Backup Server docs
+
+  * VMs: add man-page and notes about custom CPU models
+
+  * update static data and schema definitions
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 13 Jul 2020 12:09:21 +0200
+
 pve-docs (6.2-4) pve; urgency=medium
 
   * add documentation for new experimental SDN (Software Defined Network)
