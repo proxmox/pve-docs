@@ -387,7 +387,7 @@ See Also
 
 * link:/wiki/Storage:_CIFS[Storage: CIFS]
 
-* link:/wiki/Storage:_CIFS[Storage: Proxmox Backup Server]
+* link:/wiki/Storage:_Proxmox_Backup_Server[Storage: Proxmox Backup Server]
 
 * link:/wiki/Storage:_RBD[Storage: RBD]
 
