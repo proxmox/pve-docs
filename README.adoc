@@ -143,7 +143,7 @@ Bulleted lists should be created using the '*' symbol:
 * First level again
 
 
-If you need to have other elements on the same level than a list element you
+If you need to have other elements on the same level as a list element you
 can do this with the '+' symbol:
 
 ----
