@@ -104,12 +104,12 @@ the {pve} cluster under your operation, are the real owner of a domain. This is
 the basis building block for automatic certificate management.
 
 The ACME protocol specifies different types of challenges, for example the
-`http-01` where a webserver provides a file with a certain value to proof that
+`http-01` where a webserver provides a file with a certain value to prove that
 it controls a domain. Sometimes this isn't possible, either because of
 technical limitations or if the address a domain points to is not reachable
-from the public internet. For such cases one could use the `dns-01` challenge.
-That challenge provides also a certain value, but not over a text file, but
-through a DNS record on the authority name server of the domain.
+from the public internet. For such cases, one could use the `dns-01` challenge.
+This challenge also provides a certain value, but through a DNS record on the
+authority name server of the domain, rather than over a text file.
 
 [thumbnail="screenshot/gui-datacenter-acme-overview.png"]
 
