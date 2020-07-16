@@ -29,9 +29,9 @@ because people can access the network any time from anywhere. If you
 provide such services, it is very important that they are available
 most of the time.
 
-We can mathematically define the availability as the ratio of (A) the
+We can mathematically define the availability as the ratio of (A), the
 total time a service is capable of being used during a given interval
-to (B) the length of the interval. It is normally expressed as a
+to (B), the length of the interval. It is normally expressed as a
 percentage of uptime in a given year.
 
 .Availability - Downtime per Year
@@ -48,16 +48,15 @@ percentage of uptime in a given year.
 
 There are several ways to increase availability. The most elegant
 solution is to rewrite your software, so that you can run it on
-several host at the same time. The software itself need to have a way
-to detect errors and do failover. This is relatively easy if you just
-want to serve read-only web pages. But in general this is complex, and
-sometimes impossible because you cannot modify the software
-yourself. The following solutions works without modifying the
-software:
+several hosts at the same time. The software itself needs to have a way
+to detect errors and do failover. If you only want to serve read-only
+web pages, then this is relatively simple. However, this is generally complex
+and sometimes impossible, because you cannot modify the software yourself. The
+following solutions works without modifying the software:
 
 * Use reliable ``server'' components
 +
-NOTE: Computer components with same functionality can have varying
+NOTE: Computer components with the same functionality can have varying
 reliability numbers, depending on the component quality. Most vendors
 sell components with higher reliability as ``server'' components -
 usually at higher price.
@@ -78,23 +77,23 @@ usually at higher price.
 
 Virtualization environments like {pve} make it much easier to reach
 high availability because they remove the ``hardware'' dependency. They
-also support to setup and use redundant storage and network
-devices. So if one host fail, you can simply start those services on
+also support the setup and use of redundant storage and network
+devices, so if one host fails, you can simply start those services on
 another host within your cluster.
 
-Even better, {pve} provides a software stack called `ha-manager`,
+Better still, {pve} provides a software stack called `ha-manager`,
 which can do that automatically for you. It is able to automatically
 detect errors and do automatic failover.
 
 {pve} `ha-manager` works like an ``automated'' administrator. First, you
 configure what resources (VMs, containers, ...) it should
-manage. `ha-manager` then observes correct functionality, and handles
+manage. Then, `ha-manager` observes the correct functionality, and handles
 service failover to another node in case of errors. `ha-manager` can
 also handle normal user requests which may start, stop, relocate and
 migrate a service.
 
 But high availability comes at a price. High quality components are
-more expensive, and making them redundant duplicates the costs at
+more expensive, and making them redundant doubles the costs at
 least. Additional spare parts increase costs further. So you should
 carefully calculate the benefits, and compare with those additional
 costs.
@@ -132,13 +131,13 @@ Resources
 We call the primary management unit handled by `ha-manager` a
 resource. A resource (also called ``service'') is uniquely
 identified by a service ID (SID), which consists of the resource type
-and an type specific ID, e.g.: `vm:100`. That example would be a
+and a type specific ID, for example `vm:100`. That example would be a
 resource of type `vm` (virtual machine) with the ID 100.
 
 For now we have two important resources types - virtual machines and
 containers. One basic idea here is that we can bundle related software
 into such a VM or container, so there is no need to compose one big
-service from other services, like it was done with `rgmanager`. In
+service from other services, as was done with `rgmanager`. In
 general, a HA managed resource should not depend on other resources.
 
 
@@ -154,7 +153,7 @@ GUI, or simply use the command line tool, for example:
 # ha-manager add vm:100
 ----
 
-The HA stack now tries to start the resources and keeps it
+The HA stack now tries to start the resources and keep them
 running. Please note that you can configure the ``requested''
 resources state. For example you may want the HA stack to stop the
 resource:
@@ -176,11 +175,11 @@ automatically forward the commands to the HA stack, so
 # qm start 100
 ----
 
-simply sets the requested state to `started`. Same applied to `qm
+simply sets the requested state to `started`. The same applies to `qm
 stop`, which sets the requested state to `stopped`.
 
 NOTE: The HA stack works fully asynchronous and needs to communicate
-with other cluster members. So it takes some seconds until you see
+with other cluster members. Therefore, it takes some seconds until you see
 the result of such actions.
 
 To view the current HA resource configuration use:
@@ -209,7 +208,7 @@ You can also initiate resource migration to other nodes:
 
 This uses online migration and tries to keep the VM running. Online
 migration needs to transfer all used memory over the network, so it is
-sometimes faster to stop VM, then restart it on the new node. This can be
+sometimes faster to stop the VM, then restart it on the new node. This can be
 done using the `relocate` command:
 
 ----
@@ -255,17 +254,17 @@ handles node fencing.
 Locks are provided by our distributed configuration file system (pmxcfs).
 They are used to guarantee that each LRM is active once and working. As an
 LRM only executes actions when it holds its lock, we can mark a failed node
-as fenced if we can acquire its lock. This lets us then recover any failed
+as fenced if we can acquire its lock. This then lets us recover any failed
 HA services securely without any interference from the now unknown failed node.
-This all gets supervised by the CRM which holds currently the manager master
+This all gets supervised by the CRM which currently holds the manager master
 lock.
 
 
 Service States
 ~~~~~~~~~~~~~~
 
-The CRM use a service state enumeration to record the current service
-state. We display this state on the GUI and you can query it using
+The CRM uses a service state enumeration to record the current service
+state. This state is displayed on the GUI and can be queried using
 the `ha-manager` command line tool:
 
 ----
@@ -309,7 +308,7 @@ LRM that the service is running.
 fence::
 
 Wait for node fencing (service node is not inside quorate cluster
-partition).  As soon as node gets fenced successfully the service will
+partition). As soon as node gets fenced successfully the service will
 be recovered to another node, if possible
 (see xref:ha_manager_fencing[Fencing]).
 
@@ -378,24 +377,25 @@ the CRM.
 .Maximum Concurrent Worker Adjustment Tips
 [NOTE]
 The default value of at most 4 concurrent workers may be unsuited for
-a specific setup. For example may 4 live migrations happen at the same
+a specific setup. For example, 4 live migrations may occur at the same
 time, which can lead to network congestions with slower networks and/or
-big (memory wise) services. Ensure that also in the worst case no congestion
-happens and lower the `max_worker` value if needed. On the contrary, if you
-have a particularly powerful high end setup you may also want to increase it.
+big (memory wise) services. Also, ensure that in the worst case, congestion is
+at a minimum, even if this means lowering the `max_worker` value. On the
+contrary, if you have a particularly powerful, high-end setup you may also want
+to increase it.
 
-Each command requested by the CRM is uniquely identifiable by a UID, when
-the worker finishes its result will be processed and written in the LRM
+Each command requested by the CRM is uniquely identifiable by a UID. When
+the worker finishes, its result will be processed and written in the LRM
 status file `/etc/pve/nodes/<nodename>/lrm_status`. There the CRM may collect
-it and let its state machine - respective the commands output - act on it.
+it and let its state machine - respective to the commands output - act on it.
 
 The actions on each service between CRM and LRM are normally always synced.
 This means that the CRM requests a state uniquely marked by a UID, the LRM
-then executes this action *one time* and writes back the result, also
+then executes this action *one time* and writes back the result, which is also
 identifiable by the same UID. This is needed so that the LRM does not
 execute an outdated command.
-With the exception of the `stop` and the `error` command,
-those two do not depend on the result produced and are executed
+The only exceptions to this behaviour are the `stop` and `error` commands;
+these two do not depend on the result produced and are executed
 always in the case of the stopped state and once in the case of
 the error state.
 
@@ -436,14 +436,14 @@ service with the requested state 'started' will be started if its not
 already running. If it crashes it will be automatically started again.
 Thus the CRM dictates the actions the LRM needs to execute.
 
-When an node leaves the cluster quorum, its state changes to unknown.
-If the current CRM then can secure the failed nodes lock, the services
+When a node leaves the cluster quorum, its state changes to unknown.
+If the current CRM can then secure the failed node's lock, the services
 will be 'stolen' and restarted on another node.
 
 When a cluster member determines that it is no longer in the cluster
 quorum, the LRM waits for a new quorum to form. As long as there is no
 quorum the node cannot reset the watchdog. This will trigger a reboot
-after the watchdog then times out, this happens after 60 seconds.
+after the watchdog times out (this happens after 60 seconds).
 
 
 HA Simulator
@@ -467,14 +467,14 @@ Install with apt:
 apt install pve-ha-simulator
 ----
 
-You can even install the package on any Debian based system without any
+You can even install the package on any Debian-based system without any
 other Proxmox VE packages.  For that you will need to download the package and
 copy it to the system you want to run it on for installation.  When you install
 the package with apt from the local file system it will also resolve the
 required dependencies for you.
 
 
-To start the simulator on a remote machine you must have a X11 redirection to
+To start the simulator on a remote machine you must have an X11 redirection to
 your current system.
 
 If you are on a Linux machine you can use:
@@ -483,20 +483,20 @@ If you are on a Linux machine you can use:
 ssh root@<IPofPVE> -Y
 ----
 
-On Windows it is working with https://mobaxterm.mobatek.net/[mobaxterm].
+On Windows it works with https://mobaxterm.mobatek.net/[mobaxterm].
 
-After either connecting to a existing {pve} with the simulator installed, or
-installing it on your local Debian based system manually you can try it out as
+After connecting to an existing {pve} with the simulator installed or
+installing it on your local Debian-based system manually, you can try it out as
 follows.
 
-First you need to create a working directory where the simulator saves it's
-current state and writes its the default config:
+First you need to create a working directory where the simulator saves its
+current state and writes its default config:
 
 ----
 mkdir working
 ----
 
-Then, simply pass the created directory as parameter to 'pve-ha-simulator':
+Then, simply pass the created directory as a parameter to 'pve-ha-simulator':
 
 ----
 pve-ha-simulator working/
@@ -559,7 +559,7 @@ ct: 102
 
 [thumbnail="screenshot/gui-ha-manager-add-resource.png"]
 
-Above config was generated using the `ha-manager` command line tool:
+The above config was generated using the `ha-manager` command line tool:
 
 ----
 # ha-manager add vm:501 --state started --max_relocate 2
@@ -600,7 +600,7 @@ an unrestricted group with a single member:
 For bigger clusters, it makes sense to define a more detailed failover
 behavior. For example, you may want to run a set of services on
 `node1` if possible. If `node1` is not available, you want to run them
-equally split on `node2` and `node3`. If those nodes also fail the
+equally split on `node2` and `node3`. If those nodes also fail, the
 services should run on `node4`. To achieve this you could set the node
 list to:
 
@@ -617,7 +617,7 @@ restricted group with said nodes:
 # ha-manager groupadd mygroup2 -nodes "node1,node2" -restricted
 ----
 
-Above commands created the following group configuration fils:
+The above commands created the following group configuration file:
 
 .Configuration Example (`/etc/pve/ha/groups.cfg`)
 ----
@@ -635,15 +635,15 @@ group: mygroup2
 
 The `nofailback` options is mostly useful to avoid unwanted resource
 movements during administration tasks. For example, if you need to
-migrate a service to a node which hasn't the highest priority in the
-group, you need to tell the HA manager to not move this service
-instantly back by setting the `nofailback` option.
+migrate a service to a node which doesn't have the highest priority in the
+group, you need to tell the HA manager not to instantly move this service
+back by setting the `nofailback` option.
 
 Another scenario is when a service was fenced and it got recovered to
 another node. The admin tries to repair the fenced node and brings it
-up online again to investigate the failure cause and check if it runs
-stable again. Setting the `nofailback` flag prevents that the
-recovered services move straight back to the fenced node.
+up online again to investigate the cause of failure and check if it runs
+stably again. Setting the `nofailback` flag prevents the recovered services from
+moving straight back to the fenced node.
 
 
 [[ha_manager_fencing]]
@@ -653,19 +653,19 @@ Fencing
 On node failures, fencing ensures that the erroneous node is
 guaranteed to be offline. This is required to make sure that no
 resource runs twice when it gets recovered on another node. This is a
-really important task, because without, it would not be possible to
+really important task, because without this, it would not be possible to
 recover a resource on another node.
 
 If a node did not get fenced, it would be in an unknown state where
 it may have still access to shared resources. This is really
-dangerous!  Imagine that every network but the storage one broke. Now,
+dangerous! Imagine that every network but the storage one broke. Now,
 while not reachable from the public network, the VM still runs and
 writes to the shared storage.
 
 If we then simply start up this VM on another node, we would get a
-dangerous race conditions because we write from both nodes. Such
-condition can destroy all VM data and the whole VM could be rendered
-unusable. The recovery could also fail if the storage protects from
+dangerous race condition, because we write from both nodes. Such
+conditions can destroy all VM data and the whole VM could be rendered
+unusable. The recovery could also fail if the storage protects against
 multiple mounts.
 
 
@@ -687,15 +687,14 @@ watchdog timers.
 - isolate nodes by disabling complete network traffic on the switch
 - self fencing using watchdog timers
 
-Watchdog timers are widely used in critical and dependable systems
-since the beginning of micro controllers. They are often independent
-and simple integrated circuits which are used to detect and recover
-from computer malfunctions.
+Watchdog timers have been widely used in critical and dependable systems
+since the beginning of microcontrollers. They are often simple, independent
+integrated circuits which are used to detect and recover from computer malfunctions.
 
 During normal operation, `ha-manager` regularly resets the watchdog
 timer to prevent it from elapsing. If, due to a hardware fault or
 program error, the computer fails to reset the watchdog, the timer
-will elapse and triggers a reset of the whole server (reboot).
+will elapse and trigger a reset of the whole server (reboot).
 
 Recent server motherboards often include such hardware watchdogs, but
 these need to be configured. If no watchdog is available or
@@ -717,7 +716,7 @@ enable a hardware watchdog, you need to specify the module to load in
 WATCHDOG_MODULE=iTCO_wdt
 ----
 
-This configuration is read by the 'watchdog-mux' service, which load
+This configuration is read by the 'watchdog-mux' service, which loads
 the specified module at startup.
 
 
@@ -738,7 +737,7 @@ with the lowest active service count. This minimizes the possibility
 of an overloaded node.
 
 CAUTION: On node failure, the CRM distributes services to the
-remaining nodes. This increase the service count on those nodes, and
+remaining nodes. This increases the service count on those nodes, and
 can lead to high load, especially on small clusters. Please design
 your cluster so that it can handle such worst case scenarios.
 
@@ -747,26 +746,27 @@ your cluster so that it can handle such worst case scenarios.
 Start Failure Policy
 ---------------------
 
-The start failure policy comes in effect if a service failed to start on a
+The start failure policy comes into effect if a service failed to start on a
 node one or more times. It can be used to configure how often a restart
 should be triggered on the same node and how often a service should be
-relocated so that it gets a try to be started on another node.
+relocated, so that it has an attempt to be started on another node.
 The aim of this policy is to circumvent temporary unavailability of shared
 resources on a specific node. For example, if a shared storage isn't available
-on a quorate node anymore, e.g. network problems, but still on other nodes,
-the relocate policy allows then that the service gets started nonetheless.
+on a quorate node anymore, for instance due to network problems, but is still
+available on other nodes, the relocate policy allows the service to start
+nonetheless.
 
 There are two service start recover policy settings which can be configured
 specific for each resource.
 
 max_restart::
 
-Maximum number of tries to restart a failed service on the actual
+Maximum number of attempts to restart a failed service on the actual
 node.  The default is set to one.
 
 max_relocate::
 
-Maximum number of tries to relocate the service to a different node.
+Maximum number of attempts to relocate the service to a different node.
 A relocate only happens after the max_restart value is exceeded on the
 actual node. The default is set to one.
 
@@ -780,8 +780,8 @@ repeated.
 Error Recovery
 --------------
 
-If after all tries the service state could not be recovered it gets
-placed in an error state. In this state the service won't get touched
+If, after all attempts, the service state could not be recovered, it gets
+placed in an error state. In this state, the service won't get touched
 by the HA stack anymore. The only way out is disabling a service:
 
 ----
@@ -806,9 +806,9 @@ kill its process if the service could not be stopped)
 Package Updates
 ---------------
 
-When updating the ha-manager you should do one node after the other, never
+When updating the ha-manager, you should do one node after the other, never
 all at once for various reasons. First, while we test our software
-thoughtfully, a bug affecting your specific setup cannot totally be ruled out.
+thoroughly, a bug affecting your specific setup cannot totally be ruled out.
 Updating one node after the other and checking the functionality of each node
 after finishing the update helps to recover from eventual problems, while
 updating all at once could result in a broken cluster and is generally not
@@ -817,8 +817,8 @@ good practice.
 Also, the {pve} HA stack uses a request acknowledge protocol to perform
 actions between the cluster and the local resource manager. For restarting,
 the LRM makes a request to the CRM to freeze all its services. This prevents
-that they get touched by the Cluster during the short time the LRM is restarting.
-After that the LRM may safely close the watchdog during a restart.
+them from getting touched by the Cluster during the short time the LRM is restarting.
+After that, the LRM may safely close the watchdog during a restart.
 Such a restart happens normally during a package update and, as already stated,
 an active master CRM is needed to acknowledge the requests from the LRM. If
 this is not the case the update process can take too long which, in the worst
@@ -828,10 +828,10 @@ case, may result in a reset triggered by the watchdog.
 Node Maintenance
 ----------------
 
-It is sometimes possible to shutdown or reboot a node to do maintenance tasks.
-Either to replace hardware, or simply to install a new kernel image.
-This is also true when using the HA stack. The behaviour of the HA stack during
-a shutdown can be configured.
+It is sometimes necessary to shutdown or reboot a node to do maintenance tasks,
+such as to replace hardware, or simply to install a new kernel image. This is
+also true when using the HA stack. The behaviour of the HA stack during a
+shutdown can be configured.
 
 [[ha_manager_shutdown_policy]]
 Shutdown Policy
@@ -839,40 +839,40 @@ Shutdown Policy
 
 Below you will find a description of the different HA policies for a node
 shutdown. Currently 'Conditional' is the default due to backward compatibility.
-Some users may find that the 'Migrate' behaves more as expected.
+Some users may find that 'Migrate' behaves more as expected.
 
 Migrate
 ^^^^^^^
 
 Once the Local Resource manager (LRM) gets a shutdown request and this policy
-is enabled, it will mark it self as unavailable for the current HA manager.
+is enabled, it will mark itself as unavailable for the current HA manager.
 This triggers a migration of all HA Services currently located on this node.
-Until all running Services got moved away, the LRM will try to delay the
-shutdown process. But, this expects that the running services *can* be migrated
-to another node. In other words, the service must not be locally bound, for
-example by using hardware passthrough. As non-group member nodes are considered
-as runnable target if no group member is available, this policy can still be
-used when making use of HA groups with only some nodes selected. But, marking a
-group as 'restricted' tells the HA manager that the service cannot run outside
-of the chosen set of nodes, if all of those nodes are unavailable the shutdown
-will hang until you manually intervene. Once the shut down node comes back
-online again, the previously displaced services will be moved back, if they did
-not get migrated manually in-between.
+The LRM will try to delay the shutdown process, until all running services get
+moved away. But, this expects that the running services *can* be migrated to
+another node. In other words, the service must not be locally bound, for example
+by using hardware passthrough. As non-group member nodes are considered as
+runnable target if no group member is available, this policy can still be used
+when making use of HA groups with only some nodes selected. But, marking a group
+as 'restricted' tells the HA manager that the service cannot run outside of the
+chosen set of nodes. If all of those nodes are unavailable, the shutdown will
+hang until you manually intervene. Once the shut down node comes back online
+again, the previously displaced services will be moved back, if they were not
+already manually migrated in-between.
 
 NOTE: The watchdog is still active during the migration process on shutdown.
 If the node loses quorum it will be fenced and the services will be recovered.
 
 If you start a (previously stopped) service on a node which is currently being
 maintained, the node needs to be fenced to ensure that the service can be moved
-and started on another, available, node.
+and started on another available node.
 
 Failover
 ^^^^^^^^
 
 This mode ensures that all services get stopped, but that they will also be
 recovered, if the current node is not online soon. It can be useful when doing
-maintenance on a cluster scale, were live-migrating VMs may not be possible if
-to many nodes are powered-off at a time, but you still want to ensure HA
+maintenance on a cluster scale, where live-migrating VMs may not be possible if
+too many nodes are powered off at a time, but you still want to ensure HA
 services get recovered and started again as soon as possible.
 
 Freeze
@@ -889,9 +889,9 @@ reboot is requested, and changes behaviour accordingly.
 
 .Shutdown
 
-A shutdown ('poweroff') is usually done if the node is planned to stay down for
-some time. The LRM stops all managed services in that case. This means that
-other nodes will take over those service afterwards.
+A shutdown ('poweroff') is usually done if it is planned for the node to stay
+down for some time. The LRM stops all managed services in this case. This means
+that other nodes will take over those services afterwards.
 
 NOTE: Recent hardware has large amounts of memory (RAM). So we stop all
 resources, then restart them to avoid online migration of all that RAM. If you
@@ -907,20 +907,20 @@ after installing a new kernel. Please note that this is different from
 
 The LRM tells the CRM that it wants to restart, and waits until the CRM puts
 all resources into the `freeze` state (same mechanism is used for
-xref:ha_manager_package_updates[Package Updates]). This prevents that those
-resources are moved to other nodes. Instead, the CRM start the resources after
-the reboot on the same node.
+xref:ha_manager_package_updates[Package Updates]). This prevents those resources
+from being moved to other nodes. Instead, the CRM starts the resources after the
+reboot on the same node.
 
 
 Manual Resource Movement
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-Last but not least, you can also move resources manually to other nodes before
+Last but not least, you can also manually move resources to other nodes, before
 you shutdown or restart a node. The advantage is that you have full control,
 and you can decide if you want to use online migration or not.
 
 NOTE: Please do not 'kill' services like `pve-ha-crm`, `pve-ha-lrm` or
-`watchdog-mux`. They manage and use the watchdog, so this can result in a
+`watchdog-mux`. They manage and use the watchdog, so this can result in an
 immediate node reboot or even reset.
 
 
