@@ -151,6 +151,101 @@ rpool/swap        4.25G  7.69T    64K  -
 ----
 
 
+[[sysadmin_zfs_raid_considerations]]
+ZFS RAID Level Considerations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There are a few factors to take into consideration when choosing the layout of
+a ZFS pool. The basic building block of a ZFS pool is the virtual device, or
+`vdev`. All vdevs in a pool are used equally and the data is striped among them
+(RAID0). Check the `zpool(8)` manpage for more details on vdevs.
+
+[[sysadmin_zfs_raid_performance]]
+Performance
+^^^^^^^^^^^
+
+Each `vdev` type has different performance behaviors. The two
+parameters of interest are the IOPS (Input/Output Operations per Second) and
+the bandwidth with which data can be written or read.
+
+A 'mirror' vdev (RAID1) will approximately behave like a single disk in regards
+to both parameters when writing data. When reading data if will behave like the
+number of disks in the mirror.
+
+A common situation is to have 4 disks. When setting it up as 2 mirror vdevs
+(RAID10) the pool will have the write characteristics as two single disks in
+regard of IOPS and bandwidth. For read operations it will resemble 4 single
+disks.
+
+A 'RAIDZ' of any redundancy level will approximately behave like a single disk
+in regard of IOPS with a lot of bandwidth. How much bandwidth depends on the
+size of the RAIDZ vdev and the redundancy level.
+
+For running VMs, IOPS is the more important metric in most situations.
+
+
+[[sysadmin_zfs_raid_size_space_usage_redundancy]]
+Size, Space usage and Redundancy
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+While a pool made of 'mirror' vdevs will have the best performance
+characteristics, the usable space will be 50% of the disks available. Less if a
+mirror vdev consists of more than 2 disks, for example in a 3-way mirror. At
+least one healthy disk per mirror is needed for the pool to stay functional.
+
+The usable space of a 'RAIDZ' type vdev of N disks is roughly N-P, with P being
+the RAIDZ-level. The RAIDZ-level indicates how many arbitrary disks can fail
+without losing data. A special case is a 4 disk pool with RAIDZ2. In this
+situation it is usually better to use 2 mirror vdevs for the better performance
+as the usable space will be the same.
+
+Another important factor when using any RAIDZ level is how ZVOL datasets, which
+are used for VM disks, behave. For each data block the pool needs parity data
+which is at least the size of the minimum block size defined by the `ashift`
+value of the pool. With an ashift of 12 the block size of the pool is 4k.  The
+default block size for a ZVOL is 8k. Therefore, in a RAIDZ2 each 8k block
+written will cause two additional 4k parity blocks to be written,
+8k + 4k + 4k = 16k.  This is of course a simplified approach and the real
+situation will be slightly different with metadata, compression and such not
+being accounted for in this example.
+
+This behavior can be observed when checking the following properties of the
+ZVOL:
+
+ * `volsize`
+ * `refreservation` (if the pool is not thin provisioned)
+ * `used` (if the pool is thin provisioned and without snapshots present)
+
+----
+# zfs get volsize,refreservation,used <pool>/vm-<vmid>-disk-X
+----
+
+`volsize` is the size of the disk as it is presented to the VM, while
+`refreservation` shows the reserved space on the pool which includes the
+expected space needed for the parity data. If the pool is thin provisioned, the
+`refreservation` will be set to 0. Another way to observe the behavior is to
+compare the used disk space within the VM and the `used` property. Be aware
+that snapshots will skew the value.
+
+There are a few options to counter the increased use of space:
+
+* Increase the `volblocksize` to improve the data to parity ratio
+* Use 'mirror' vdevs instead of 'RAIDZ'
+* Use `ashift=9` (block size of 512 bytes)
+
+The `volblocksize` property can only be set when creating a ZVOL. The default
+value can be changed in the storage configuration. When doing this, the guest
+needs to be tuned accordingly and depending on the use case, the problem of
+write amplification if just moved from the ZFS layer up to the guest.
+
+Using `ashift=9` when creating the pool can lead to bad
+performance, depending on the disks underneath, and cannot be changed later on.
+
+Mirror vdevs (RAID1, RAID10) have favorable behavior for VM workloads. Use
+them, unless your environmanet has specific needs and charactersitics where
+RAIDZ performance characteristics are acceptable.
+
+
 Bootloader
 ~~~~~~~~~~
 
