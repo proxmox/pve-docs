@@ -327,11 +327,11 @@ After powering off the node hp4, we can safely remove it from the cluster.
 
 ----
  hp1# pvecm delnode hp4
+ Killing node 4
 ----
 
-If the operation succeeds no output is returned, just check the node
-list again with `pvecm nodes` or `pvecm status`. You should see
-something like:
+Use `pvecm nodes` or `pvecm status` to check the node list again. It should
+look something like:
 
 ----
 hp1# pvecm status
