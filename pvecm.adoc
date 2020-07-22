@@ -414,7 +414,7 @@ Delete the corosync configuration files:
 [source,bash]
 ----
 rm /etc/pve/corosync.conf
-rm /etc/corosync/*
+rm -r /etc/corosync/*
 ----
 
 You can now start the filesystem again as normal service:
