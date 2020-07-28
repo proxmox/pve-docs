@@ -402,7 +402,7 @@ different steps are needed which depend on the bootloader in use.
 # zpool replace -f <pool> <old zfs partition> <new zfs partition>
 ----
 
-NOTE: Use the `zpool status -v` command to monitor how far the resivlering
+NOTE: Use the `zpool status -v` command to monitor how far the resilvering
 process of the new disk has progressed.
 
 .With `systemd-boot`:
