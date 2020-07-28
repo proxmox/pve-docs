@@ -969,8 +969,10 @@ of the {pve} nodes:
 pve# pvecm qdevice setup <QDEVICE-IP>
 ----
 
-The SSH key from the cluster will be automatically copied to the QDevice. You
-might need to enter an SSH password during this step.
+The SSH key from the cluster will be automatically copied to the QDevice.
+
+NOTE: Make sure that the SSH configuration on your external server allows root
+login via password, if you are asked for a password during this step.
 
 After you enter the password and all the steps are successfully completed, you
 will see "Done". You can check the status now:
