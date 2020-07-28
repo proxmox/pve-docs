@@ -952,7 +952,7 @@ QDevice-Net Setup
 ~~~~~~~~~~~~~~~~~
 
 We recommend to run any daemon which provides votes to corosync-qdevice as an
-unprivileged user. {pve} and Debian provides a package which is already
+unprivileged user. {pve} and Debian provide a package which is already
 configured to do so.
 The traffic between the daemon and the cluster must be encrypted to ensure a
 safe and secure QDevice integration in {pve}.
