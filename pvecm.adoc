@@ -957,8 +957,17 @@ configured to do so.
 The traffic between the daemon and the cluster must be encrypted to ensure a
 safe and secure QDevice integration in {pve}.
 
-First, install the 'corosync-qnetd' package on your external server and
-the 'corosync-qdevice' package on all cluster nodes.
+First, install the 'corosync-qnetd' package on your external server
+
+----
+external# apt install corosync-qnetd
+----
+
+and the 'corosync-qdevice' package on all cluster nodes
+
+----
+pve# apt install corosync-qdevice
+----
 
 After that, ensure that all your nodes on the cluster are online.
 
