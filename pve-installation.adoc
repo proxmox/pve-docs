@@ -270,16 +270,6 @@ following command:
 # zpool add <pool-name> log </dev/path_to_fast_ssd>
 ----
 
-ifdef::wiki[]
-
-link:/wiki/Prepare_Installation_Media[Prepare Installation Media]
----------------------------------------------------------
-
-link:/wiki/Install_Proxmox_VE_on_Debian_Buster[Install Proxmox VE on Debian Buster]
------------------------------------------------------------------------------------
-
-endif::wiki[]
-
 ifndef::wiki[]
 
 Install {pve} on Debian
@@ -323,6 +313,10 @@ Video Tutorials
 
 See Also
 --------
+
+* link:/wiki/Prepare_Installation_Media[Prepare Installation Media]
+
+* link:/wiki/Install_Proxmox_VE_on_Debian_Buster[Install Proxmox VE on Debian Buster]
 
 * link:/wiki/System_Requirements[System Requirements]
 
