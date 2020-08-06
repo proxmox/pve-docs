@@ -564,10 +564,10 @@ All guest volumes/disks create on this storage will be encrypted with the
 shared key material of the parent dataset.
 
 To actually use the storage, the associated key material needs to be loaded
-with `zfs load-key`:
+and the dataset needs to be mounted. This can be done in one step with:
 
 ----
-# zfs load-key tank/encrypted_data
+# zfs mount -l tank/encrypted_data
 Enter passphrase for 'tank/encrypted_data':
 ----
 
