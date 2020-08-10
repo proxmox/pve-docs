@@ -20,7 +20,7 @@ Graphite server configuration
 The definition of a server is:
 
 ----
- graphite: your-id
+graphite: your-id
     server your-server
     port your-port
     path your-path
@@ -37,7 +37,7 @@ Influxdb plugin configuration
 The definition is:
 
 ----
- influxdb: your-id
+influxdb: your-id
     server your-server
     port your-port
 ----
@@ -48,7 +48,7 @@ for this.
 Here is an example configuration for influxdb (on your influxdb server):
 
 ----
- [[udp]]
+[[udp]]
    enabled = true
    bind-address = "0.0.0.0:8089"
    database = "proxmox"
@@ -68,14 +68,14 @@ type, then the ids must be defined and different from each other.
 Here is an example of a finished status.cfg
 
 ----
- graphite:
+graphite:
     server 10.0.0.5
 
- influxdb: influx1
+influxdb: influx1
     server 10.0.0.6
     port 8089
 
- influxdb: influx2
+influxdb: influx2
     server 10.0.0.7
     port 8090
 ----
