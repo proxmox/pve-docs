@@ -48,7 +48,7 @@ for this.
 Here is an example configuration for influxdb (on your influxdb server):
 
 ----
-[[udp]]
+​[[udp]]
    enabled = true
    bind-address = "0.0.0.0:8089"
    database = "proxmox"
