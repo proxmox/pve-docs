@@ -29,7 +29,7 @@ Will {pve} run on a 32bit processor?::
 {pve} works only on 64-bit CPUs (AMD or Intel). There is no plan
 for 32-bit for the platform.
 +
-NOTE: VMs and Containers can be both 32-bit and/or 64-bit.
+NOTE: VMs and Containers can be both 32-bit and 64-bit.
 
 Does my CPU support virtualization?::
 
@@ -52,13 +52,15 @@ Supported AMD CPUs::
 http://en.wikipedia.org/wiki/Virtualization_Technology#AMD_virtualization_.28AMD-V.29[AMD
 Virtualization Technology (AMD-V)] support.
 
-What is a container, CT, VE, Virtual Private Server, VPS?::
+What is a container/virtual environment (VE)/virtual private server (VPS)?::
 
-Operating-system-level virtualization is a server-virtualization
-method where the kernel of an operating system allows for multiple
-isolated user-space instances, instead of just one. We call such
-instances containers. As containers use the host's kernel they are
-limited to Linux guests.
+In the context of containers, these terms all refer to the concept of
+operating-system-level virtualization. Operating-system-level virtualization is
+a method of virtualization, in which the kernel of an operating system
+allows for multiple isolated instances, that all share the kernel. When
+referring to LXC, we call such instances containers. Because containers use the
+host's kernel rather than emulating a full operating system, they require less
+overhead, but are limited to Linux guests.
 
 What is a QEMU/KVM guest (or VM)?::
 
@@ -128,30 +130,31 @@ LXC vs LXD vs Proxmox Containers vs Docker::
 LXC is a userspace interface for the Linux kernel containment
 features. Through a powerful API and simple tools, it lets Linux users
 easily create and manage system containers. LXC, as well as the former
-OpenVZ, aims at *system virtualization*, i.e. allows you to run a
-complete OS inside a container, where you log in as ssh, add users,
+OpenVZ, aims at *system virtualization*. Thus, it allows you to run a
+complete OS inside a container, where you log in using ssh, add users,
 run apache, etc...
 +
-LXD is building on top of LXC to provide a new, better user
+LXD is built on top of LXC to provide a new, better user
 experience. Under the hood, LXD uses LXC through `liblxc` and its Go
 binding to create and manage the containers. It's basically an
 alternative to LXC's tools and distribution template system with the
 added features that come from being controllable over the network.
 +
-Proxmox Containers also aims at *system virtualization*, and thus uses
-LXC as the basis of its own container offer. The Proxmox Container
-Toolkit is called `pct`, and is tightly coupled with {pve}. That means
-that it is aware of the cluster setup, and it can use the same network
-and storage resources as fully virtualized VMs. You can even use the
+Proxmox Containers are how we refer to containers that are created and managed
+using the Proxmox Container Toolkit (`pct`). They also target *system
+virtualization* and use LXC as the basis of the container offering. The
+Proxmox Container Toolkit (`pct`) is tightly coupled with {pve}. This means
+that it is aware of cluster setups, and it can use the same network
+and storage resources as QEMU virtual machines (VMs). You can even use the
 {pve} firewall, create and restore backups, or manage containers using
 the HA framework. Everything can be controlled over the network using
 the {pve} API.
 +
-Docker aims at running a *single* application running in a contained
-environment. Hence you're managing a docker instance from the host with the
-docker toolkit. It is not recommended to run docker directly on your
-{pve} host.
+Docker aims at running a *single* application in an isolated, self-contained
+environment. These are generally referred to as ``Application Containers'', rather
+than ``System Containers''. You manage a Docker instance from the host, using the
+Docker Engine command line interface. It is not recommended to run docker
+directly on your {pve} host.
 +
-NOTE: You can however perfectly install and use docker inside a Proxmox Qemu
-VM, and thus getting the benefit of software containerization with the very
-strong isolation that VMs provide.
+NOTE: If you want to run application containers, for example, 'Docker' images, it
+is best to run them inside a Proxmox Qemu VM.

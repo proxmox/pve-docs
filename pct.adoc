@@ -36,28 +36,33 @@ the host system directly.
 The runtime costs for containers is low, usually negligible. However, there are
 some drawbacks that need be considered:
 
-* Only Linux distributions can be run in containers. It is not possible to run
-  other Operating Systems like, for example, FreeBSD or Microsoft Windows
+* Only Linux distributions can be run in Proxmox Containers. It is not possible to run
+  other operating systems like, for example, FreeBSD or Microsoft Windows
   inside a container.
 
 * For security reasons, access to host resources needs to be restricted.
-  Containers run in their own separate namespaces. Additionally some syscalls
-  are not allowed within containers.
+  Therefore, containers run in their own separate namespaces. Additionally some
+  syscalls (user space requests to the Linux kernel) are not allowed within containers.
 
-{pve} uses https://linuxcontainers.org/[Linux Containers (LXC)] as underlying
+{pve} uses https://linuxcontainers.org/lxc/introduction/[Linux Containers (LXC)] as its underlying
 container technology. The ``Proxmox Container Toolkit'' (`pct`) simplifies the
-usage and management of LXC containers.
+usage and management of LXC, by providing an interface that abstracts
+complex tasks.
 
 Containers are tightly integrated with {pve}. This means that they are aware of
 the cluster setup, and they can use the same network and storage resources as
 virtual machines. You can also use the {pve} firewall, or manage containers
 using the HA framework.
 
-Our primary goal is to offer an environment as one would get from a VM, but
-without the additional overhead. We call this ``System Containers''.
+Our primary goal is to offer an environment that provides the benefits of using a
+VM, but without the additional overhead. This means that Proxmox Containers can
+be categorized as ``System Containers'', rather than ``Application Containers''.
 
-NOTE: If you want to run micro-containers, for example, 'Docker' or 'rkt', it
-is best to run them inside a VM.
+NOTE: If you want to run application containers, for example, 'Docker' images, it
+is recommended that you run them inside a Proxmox Qemu VM. This will give you
+all the advantages of application containerization, while also providing the
+benefits that VMs offer, such as strong isolation from the host and the ability
+to live-migrate, which otherwise isn't possible with containers. 
 
 
 Technology Overview
