@@ -261,8 +261,11 @@ post-down iptables -t raw -D PREROUTING -i fwbr+ -j CT --zone 1
 ----
 
 For more information about this, refer to the following links:
+
 https://commons.wikimedia.org/wiki/File:Netfilter-packet-flow.svg[Netfilter Packet Flow]
+
 https://lwn.net/Articles/370152/[Patch on netdev-list introducing conntrack zones]
+
 https://blog.lobraun.de/2019/05/19/prox/[Blog post with a good explanation by using TRACE in the raw table]
 
 
