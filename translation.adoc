@@ -6,25 +6,76 @@ ifdef::wiki[]
 endif::wiki[]
 
 
-The {pve} user interface is in English by default. Thanks to contributions by
-the community, translations to other languages are available. We welcome help to
-add new languages, translate the newest features, and improve incomplete or
-inconsistent translations.
+
+The {pve} user interface is in English by default. However, thanks to the
+contributions of the community, translations to other languages are also available.
+We welcome any support in adding new languages, translating the latest features, and
+improving incomplete or inconsistent translations.
+
+We use https://www.gnu.org/software/gettext/[gettext] for the management of the
+translation files. Tools like https://poedit.net/[Poedit] offer a nice user
+interface to edit the translation files, but you can use whatever editor you're
+comfortable with. No programming knowledge is required for translating.
+
+Translating with git
+~~~~~~~~~~~~~~~~~~~~
 
 The language files are available as a
 https://git.proxmox.com/?p=proxmox-i18n.git[git repository]. If you are familiar
 with git, please contribute according to our
 {webwiki-url}Developer_Documentation[Developer Documentation].
 
-Even if you are not familiar with git, you can help with translating {pve}.
-Download the language files
-https://git.proxmox.com/?p=proxmox-i18n.git;a=tree[here]. Then choose the
-language you want to improve. Right click on the "raw" link of this language
-file, and select 'Save Link As...'. Make your changes to the file, and then
-send your final translation directly to office(at)proxmox.com together with a
+You can create a new translation by doing the following (replace <LANG> with the
+language ID):
+
+ # git clone git://git.proxmox.com/git/proxmox-i18n.git
+ # cd proxmox-i18n
+ # make init-<LANG>.po
+
+Or you can edit an existing translation, using the editor of your choice:
+
+ # poedit <LANG>.po
+
+
+Translating without git
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Even if you are not familiar with git, you can help translate {pve}.
+To start, you can download the language files
+https://git.proxmox.com/?p=proxmox-i18n.git;a=tree[here]. Find the
+language you want to improve, then right click on the "raw" link of this language
+file and select 'Save Link As...'. Make your changes to the file, and then
+send your final translation directly to office(at)proxmox.com, together with a
 signed
 {webwiki-url}Developer_Documentation#Software_License_and_Copyright[contributor license agreement].
 
-We use https://www.gnu.org/software/gettext/[gettext] for the management of the
-translation files. Tools like https://poedit.net/[Poedit] offer a nice user
-interface to edit the translation files.
+
+Testing the Translation
+~~~~~~~~~~~~~~~~~~~~~~~
+
+In order for the translation to be used in {pve}, you must first translate
+the `.po` file into a `.js` file. You can do this by invoking the following script,
+which is located in the same repository:
+
+ # ./po2js.pl -t pve xx.po >pve-lang-xx.js
+
+The resulting file `pve-lang-xx.js` can then be copied to the directory
+`/usr/share/pve-i18n`, on your proxmox server, in order to test it out.
+
+Alternatively, you can build a deb package by running the following command from
+the root of the repository:
+
+ # make deb
+
+IMPORTANT: For either of these methods to work, you need to have the following
+perl packages installed on your system. For Debian/Ubuntu:
+
+   # apt-get install perl liblocale-po-perl libjson-perl
+
+
+Sending the Translation
+~~~~~~~~~~~~~~~~~~~~~~~
+You can send the finished translation (`.po` file) to the Proxmox team at the address
+office(at)proxmox.com, along with a signed contributor licence agreement.
+Alternatively, if you have some developer experience, you can send it as a
+patch to the {pve} development mailing list. See [[Developer Documentation]]
