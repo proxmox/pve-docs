@@ -78,4 +78,4 @@ Sending the Translation
 You can send the finished translation (`.po` file) to the Proxmox team at the address
 office(at)proxmox.com, along with a signed contributor licence agreement.
 Alternatively, if you have some developer experience, you can send it as a
-patch to the {pve} development mailing list. See [[Developer Documentation]]
+patch to the {pve} development mailing list. See [Developer Documentation]
