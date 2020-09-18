@@ -46,6 +46,34 @@ Use pigz instead of gzip when N>0. N=1 uses half of cores, N>1 uses N as thread 
 
 Backup all known guest systems included in the specified pool.
 
+`prune-backups`: `[keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]` ::
+
+Use these retention options instead of those from the storage configuration.
+
+`keep-daily`=`<N>` ;;
+
+Keep backups for the last <N> different days. If there is morethan one backup for a single day, only the latest one is kept.
+
+`keep-hourly`=`<N>` ;;
+
+Keep backups for the last <N> different hours. If there is morethan one backup for a single hour, only the latest one is kept.
+
+`keep-last`=`<N>` ;;
+
+Keep the last <N> backups.
+
+`keep-monthly`=`<N>` ;;
+
+Keep backups for the last <N> different months. If there is morethan one backup for a single month, only the latest one is kept.
+
+`keep-weekly`=`<N>` ;;
+
+Keep backups for the last <N> different weeks. If there is morethan one backup for a single week, only the latest one is kept.
+
+`keep-yearly`=`<N>` ;;
+
+Keep backups for the last <N> different years. If there is morethan one backup for a single year, only the latest one is kept.
+
 `remove`: `<boolean>` ('default =' `1`)::
 
 Remove old backup files if there are more than 'maxfiles' backup files.

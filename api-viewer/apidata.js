@@ -3207,6 +3207,13 @@ var pveapi = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "prune-backups" : {
+                                 "description" : "Use these retention options instead of those from the storage configuration.",
+                                 "format" : "prune-backups",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "[keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                              },
                               "quiet" : {
                                  "default" : 0,
                                  "description" : "Be quiet.",
@@ -3494,6 +3501,13 @@ var pveapi = [
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
+                        },
+                        "prune-backups" : {
+                           "description" : "Use these retention options instead of those from the storage configuration.",
+                           "format" : "prune-backups",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "[keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
                         },
                         "quiet" : {
                            "default" : 0,
@@ -22392,6 +22406,12 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "integer"
                                           },
+                                          "debug" : {
+                                             "default" : 0,
+                                             "description" : "Try to be more verbose. For now this only enables debug log-level on start.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
                                           "description" : {
                                              "description" : "Container description. Only used on the configuration web interface.",
                                              "optional" : 1,
@@ -22880,6 +22900,13 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "integer",
                                              "typetext" : "<integer> (0 - 500000)"
+                                          },
+                                          "debug" : {
+                                             "default" : 0,
+                                             "description" : "Try to be more verbose. For now this only enables debug log-level on start.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
                                           },
                                           "delete" : {
                                              "description" : "A list of settings you want to delete.",
@@ -23490,6 +23517,13 @@ var pveapi = [
                                           "parameters" : {
                                              "additionalProperties" : 0,
                                              "properties" : {
+                                                "debug" : {
+                                                   "default" : 0,
+                                                   "description" : "If set, enables very verbose debug log-level on start.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "typetext" : "<boolean>"
+                                                },
                                                 "node" : {
                                                    "description" : "The cluster node name.",
                                                    "format" : "pve-node",
@@ -27803,6 +27837,13 @@ var pveapi = [
                                  "type" : "integer",
                                  "typetext" : "<integer> (0 - 500000)"
                               },
+                              "debug" : {
+                                 "default" : 0,
+                                 "description" : "Try to be more verbose. For now this only enables debug log-level on start.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
                               "description" : {
                                  "description" : "Container description. Only used on the configuration web interface.",
                                  "optional" : 1,
@@ -28551,6 +28592,12 @@ var pveapi = [
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
+                                    "crush-device-class" : {
+                                       "description" : "Set the device class of the OSD in crush.",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
                                     "db_dev" : {
                                        "description" : "Block device name for block.db.",
                                        "optional" : 1,
@@ -30418,6 +30465,13 @@ var pveapi = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "prune-backups" : {
+                                 "description" : "Use these retention options instead of those from the storage configuration.",
+                                 "format" : "prune-backups",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "[keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                              },
                               "quiet" : {
                                  "default" : 0,
                                  "description" : "Be quiet.",
@@ -30706,7 +30760,7 @@ var pveapi = [
                               "info" : {
                                  "POST" : {
                                     "allowtoken" : 1,
-                                    "description" : "Restart service.",
+                                    "description" : "Hard restart service. Use reload if you want to reduce interruptions.",
                                     "method" : "POST",
                                     "name" : "service_restart",
                                     "parameters" : {
@@ -30766,7 +30820,7 @@ var pveapi = [
                               "info" : {
                                  "POST" : {
                                     "allowtoken" : 1,
-                                    "description" : "Reload service.",
+                                    "description" : "Reload service. Falls back to restart if service cannot be reloaded.",
                                     "method" : "POST",
                                     "name" : "service_reload",
                                     "parameters" : {
@@ -32915,6 +32969,159 @@ var pveapi = [
                   "children" : [
                      {
                         "children" : [
+                           {
+                              "info" : {
+                                 "DELETE" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Prune backups. Only those using the standard naming scheme are considered.",
+                                    "method" : "DELETE",
+                                    "name" : "delete",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "prune-backups" : {
+                                             "description" : "Use these retention options instead of those from the storage configuration.",
+                                             "format" : "prune-backups",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "[keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                                          },
+                                          "storage" : {
+                                             "description" : "The storage identifier.",
+                                             "format" : "pve-storage-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "type" : {
+                                             "description" : "Either 'qemu' or 'lxc'. Only consider backups for guests of this type.",
+                                             "enum" : [
+                                                "qemu",
+                                                "lxc"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "vmid" : {
+                                             "description" : "Only prune backups for this VM.",
+                                             "format" : "pve-vmid",
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - N)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "description" : "You need the 'Datastore.Allocate' privilege on the storage (or if a VM ID is specified, 'Datastore.AllocateSpace' and 'VM.Backup' for the VM).",
+                                       "user" : "all"
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Get prune information for backups. NOTE: this is only a preview and might not be exactly what a subsequent prune call does, if the hour changes or if backups are removed/added in the meantime.",
+                                    "method" : "GET",
+                                    "name" : "dryrun",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "prune-backups" : {
+                                             "description" : "Use these retention options instead of those from the storage configuration.",
+                                             "format" : "prune-backups",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "[keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                                          },
+                                          "storage" : {
+                                             "description" : "The storage identifier.",
+                                             "format" : "pve-storage-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "type" : {
+                                             "description" : "Either 'qemu' or 'lxc'. Only consider backups for guests of this type.",
+                                             "enum" : [
+                                                "qemu",
+                                                "lxc"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "vmid" : {
+                                             "description" : "Only consider backups for this guest.",
+                                             "format" : "pve-vmid",
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - N)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/storage/{storage}",
+                                          [
+                                             "Datastore.Audit",
+                                             "Datastore.AllocateSpace"
+                                          ],
+                                          "any",
+                                          1
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "items" : {
+                                          "properties" : {
+                                             "ctime" : {
+                                                "description" : "Creation time of the backup (seconds since the UNIX epoch).",
+                                                "type" : "integer"
+                                             },
+                                             "mark" : {
+                                                "description" : "Whether the backup would be kept or removed. For backups that don't use the standard naming scheme, it's 'protected'.",
+                                                "type" : "string"
+                                             },
+                                             "type" : {
+                                                "description" : "One of 'qemu', 'lxc', 'openvz' or 'unknown'.",
+                                                "type" : "string"
+                                             },
+                                             "vmid" : {
+                                                "description" : "The VM the backup belongs to.",
+                                                "optional" : 1,
+                                                "type" : "integer"
+                                             },
+                                             "volid" : {
+                                                "description" : "Backup volume ID.",
+                                                "type" : "string"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "type" : "array"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/storage/{storage}/prunebackups",
+                              "text" : "prunebackups"
+                           },
                            {
                               "children" : [
                                  {
@@ -38728,6 +38935,13 @@ var pveapi = [
                            "type" : "string",
                            "typetext" : "<string>"
                         },
+                        "prune-backups" : {
+                           "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
+                           "format" : "prune-backups",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "[keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                        },
                         "redundancy" : {
                            "default" : 2,
                            "description" : "The redundancy count specifies the number of nodes to which the resource should be deployed. It must be at least 1 and at most the number of nodes in the cluster.",
@@ -39137,6 +39351,13 @@ var pveapi = [
                      "optional" : 1,
                      "type" : "string",
                      "typetext" : "<string>"
+                  },
+                  "prune-backups" : {
+                     "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
+                     "format" : "prune-backups",
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "[keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
                   },
                   "redundancy" : {
                      "default" : 2,

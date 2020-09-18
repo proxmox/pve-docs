@@ -54,7 +54,7 @@ Flag to disable the storage.
 
 CIFS domain.
 
-`--encryption-key` `<filepath>` ::
+`--encryption-key` `a file containing an encryption key, or the special value "autogen"` ::
 
 Encryption key. Use 'autogen' to generate one automatically without passphrase.
 
@@ -133,6 +133,10 @@ Pool.
 `--portal` `<string>` ::
 
 iSCSI portal (IP or DNS name with optional port).
+
+`--prune-backups` `[keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]` ::
+
+The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.
 
 `--redundancy` `<integer> (1 - 16)` ('default =' `2`)::
 
@@ -378,6 +382,30 @@ Get filesystem path for specified volume
 
 Volume identifier
 
+*pvesm prune-backups* `<storage>` `[OPTIONS]`
+
+Prune backups. This is only a wrapper for the proper API endpoints.
+
+`<storage>`: `<string>` ::
+
+The storage identifier.
+
+`--dry-run` `<boolean>` ::
+
+Only show what would be pruned, don't delete anything.
+
+`--prune-backups` `[keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]` ::
+
+Use these retention options instead of those from the storage configuration.
+
+`--type` `<lxc | qemu>` ::
+
+Either 'qemu' or 'lxc'. Only consider backups for guests of this type.
+
+`--vmid` `<integer> (1 - N)` ::
+
+Only consider backups for this guest.
+
 *pvesm remove* `<storage>`
 
 Delete storage configuration.
@@ -492,7 +520,7 @@ Flag to disable the storage.
 
 CIFS domain.
 
-`--encryption-key` `<filepath>` ::
+`--encryption-key` `a file containing an encryption key, or the special value "autogen"` ::
 
 Encryption key. Use 'autogen' to generate one automatically without passphrase.
 
@@ -555,6 +583,10 @@ Password for accessing the share/datastore.
 `--pool` `<string>` ::
 
 Pool.
+
+`--prune-backups` `[keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]` ::
+
+The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.
 
 `--redundancy` `<integer> (1 - 16)` ('default =' `2`)::
 

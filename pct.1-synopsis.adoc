@@ -120,6 +120,10 @@ CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger t
 +
 NOTE: You can disable fair-scheduler configuration by setting this to 0.
 
+`--debug` `<boolean>` ('default =' `0`)::
+
+Try to be more verbose. For now this only enables debug log-level on start.
+
 `--description` `<string>` ::
 
 Container description. Only used on the configuration web interface.
@@ -577,6 +581,10 @@ CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger t
 +
 NOTE: You can disable fair-scheduler configuration by setting this to 0.
 
+`--debug` `<boolean>` ('default =' `0`)::
+
+Try to be more verbose. For now this only enables debug log-level on start.
+
 `--description` `<string>` ::
 
 Container description. Only used on the configuration web interface.
@@ -755,6 +763,10 @@ CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger t
 +
 NOTE: You can disable fair-scheduler configuration by setting this to 0.
 
+`--debug` `<boolean>` ('default =' `0`)::
+
+Try to be more verbose. For now this only enables debug log-level on start.
+
 `--delete` `<string>` ::
 
 A list of settings you want to delete.
@@ -895,6 +907,10 @@ Start the container.
 `<vmid>`: `<integer> (1 - N)` ::
 
 The (unique) ID of the VM.
+
+`--debug` `<boolean>` ('default =' `0`)::
+
+If set, enables very verbose debug log-level on start.
 
 `--skiplock` `<boolean>` ::
 

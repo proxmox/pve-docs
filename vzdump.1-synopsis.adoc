@@ -68,6 +68,10 @@ Use pigz instead of gzip when N>0. N=1 uses half of cores, N>1 uses N as thread 
 
 Backup all known guest systems included in the specified pool.
 
+`--prune-backups` `[keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]` ::
+
+Use these retention options instead of those from the storage configuration.
+
 `--quiet` `<boolean>` ('default =' `0`)::
 
 Be quiet.
