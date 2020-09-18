@@ -242,7 +242,7 @@ Using `ashift=9` when creating the pool can lead to bad
 performance, depending on the disks underneath, and cannot be changed later on.
 
 Mirror vdevs (RAID1, RAID10) have favorable behavior for VM workloads. Use
-them, unless your environmanet has specific needs and charactersitics where
+them, unless your environment has specific needs and characteristics where
 RAIDZ performance characteristics are acceptable.
 
 
