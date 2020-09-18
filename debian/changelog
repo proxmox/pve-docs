@@ -1,3 +1,19 @@
+pve-docs (6.2-6) pve; urgency=medium
+
+  * Add section with more information about ZFS RAID levels
+
+  * ha-manager: fix typos and grammatical errors; improve wording
+
+  * fix #2526: network configuration: change underscore to dash
+
+  * network: nat: add extra newlines between links for readability
+
+  * translation: combine old wiki entry with respective documentation section
+
+  * various typography and grammar fixes
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 18 Sep 2020 16:54:38 +0200
+
 pve-docs (6.2-5) pve; urgency=medium
 
   * update link for YubiKey documentation
