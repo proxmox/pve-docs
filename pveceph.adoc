@@ -58,12 +58,14 @@ and VMs on the same node is possible.
 To simplify management, we provide 'pveceph' - a tool to install and
 manage {ceph} services on {pve} nodes.
 
-.Ceph consists of a couple of Daemons footnote:[Ceph intro https://docs.ceph.com/docs/{ceph_codename}/start/intro/], for use as a RBD storage:
+.Ceph consists of a couple of Daemons, for use as a RBD storage:
 - Ceph Monitor (ceph-mon)
 - Ceph Manager (ceph-mgr)
 - Ceph OSD (ceph-osd; Object Storage Daemon)
 
-TIP: We highly recommend to get familiar with Ceph's architecture
+TIP: We highly recommend to get familiar with Ceph
+footnote:[Ceph intro https://docs.ceph.com/docs/{ceph_codename}/start/intro/],
+its architecture
 footnote:[Ceph architecture https://docs.ceph.com/docs/{ceph_codename}/architecture/]
 and vocabulary
 footnote:[Ceph glossary https://docs.ceph.com/docs/{ceph_codename}/glossary].
