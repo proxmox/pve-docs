@@ -64,11 +64,11 @@ manage {ceph} services on {pve} nodes.
 - Ceph OSD (ceph-osd; Object Storage Daemon)
 
 TIP: We highly recommend to get familiar with Ceph
-footnote:[Ceph intro https://docs.ceph.com/docs/{ceph_codename}/start/intro/],
+footnote:[Ceph intro {cephdocs-url}/start/intro/],
 its architecture
-footnote:[Ceph architecture https://docs.ceph.com/docs/{ceph_codename}/architecture/]
+footnote:[Ceph architecture {cephdocs-url}/architecture/]
 and vocabulary
-footnote:[Ceph glossary https://docs.ceph.com/docs/{ceph_codename}/glossary].
+footnote:[Ceph glossary {cephdocs-url}/glossary].
 
 
 Precondition
@@ -78,7 +78,7 @@ To build a hyper-converged Proxmox + Ceph Cluster there should be at least
 three (preferably) identical servers for the setup.
 
 Check also the recommendations from
-https://docs.ceph.com/docs/{ceph_codename}/start/hardware-recommendations/[Ceph's website].
+{cephdocs-url}/start/hardware-recommendations/[Ceph's website].
 
 .CPU
 Higher CPU core frequency reduce latency and should be preferred. As a simple
@@ -246,7 +246,7 @@ configuration file.
 Ceph Monitor
 -----------
 The Ceph Monitor (MON)
-footnote:[Ceph Monitor https://docs.ceph.com/docs/{ceph_codename}/start/intro/]
+footnote:[Ceph Monitor {cephdocs-url}/start/intro/]
 maintains a master copy of the cluster map. For high availability you need to
 have at least 3 monitors. One monitor will already be installed if you
 used the installation wizard. You won't need more than 3 monitors as long
@@ -292,7 +292,7 @@ Ceph Manager
 ------------
 The Manager daemon runs alongside the monitors. It provides an interface to
 monitor the cluster. Since the Ceph luminous release at least one ceph-mgr
-footnote:[Ceph Manager https://docs.ceph.com/docs/{ceph_codename}/mgr/] daemon is
+footnote:[Ceph Manager {cephdocs-url}/mgr/] daemon is
 required.
 
 [[pveceph_create_mgr]]
@@ -466,7 +466,7 @@ It is advised to calculate the PG number depending on your setup, you can find
 the formula and the PG calculator footnote:[PG calculator
 https://ceph.com/pgcalc/] online. From Ceph Nautilus onwards it is possible to
 increase and decrease the number of PGs later on footnote:[Placement Groups
-https://docs.ceph.com/docs/{ceph_codename}/rados/operations/placement-groups/].
+{cephdocs-url}/rados/operations/placement-groups/].
 
 
 You can create pools through command line or on the GUI on each PVE host under
@@ -483,7 +483,7 @@ mark the checkbox "Add storages" in the GUI or use the command line option
 
 Further information on Ceph pool handling can be found in the Ceph pool
 operation footnote:[Ceph pool operation
-https://docs.ceph.com/docs/{ceph_codename}/rados/operations/pools/]
+{cephdocs-url}/rados/operations/pools/]
 manual.
 
 
@@ -516,7 +516,7 @@ advantage that no central index service is needed. CRUSH works with a map of
 OSDs, buckets (device locations) and rulesets (data replication) for pools.
 
 NOTE: Further information can be found in the Ceph documentation, under the
-section CRUSH map footnote:[CRUSH map https://docs.ceph.com/docs/{ceph_codename}/rados/operations/crush-map/].
+section CRUSH map footnote:[CRUSH map {cephdocs-url}/rados/operations/crush-map/].
 
 This map can be altered to reflect different replication hierarchies. The object
 replicas can be separated (eg. failure domains), while maintaining the desired
@@ -662,7 +662,7 @@ Since Luminous (12.2.x) you can also have multiple active metadata servers
 running, but this is normally only useful for a high count on parallel clients,
 as else the `MDS` seldom is the bottleneck. If you want to set this up please
 refer to the ceph documentation. footnote:[Configuring multiple active MDS
-daemons https://docs.ceph.com/docs/{ceph_codename}/cephfs/multimds/]
+daemons {cephdocs-url}/cephfs/multimds/]
 
 [[pveceph_fs_create]]
 Create CephFS
@@ -694,7 +694,7 @@ This creates a CephFS named `'cephfs'' using a pool for its data named
 Check the xref:pve_ceph_pools[{pve} managed Ceph pool chapter] or visit the
 Ceph documentation for more information regarding a fitting placement group
 number (`pg_num`) for your setup footnote:[Ceph Placement Groups
-https://docs.ceph.com/docs/{ceph_codename}/rados/operations/placement-groups/].
+{cephdocs-url}/rados/operations/placement-groups/].
 Additionally, the `'--add-storage'' parameter will add the CephFS to the {pve}
 storage configuration after it was created successfully.
 
@@ -784,7 +784,7 @@ object in a PG for its health. There are two forms of Scrubbing, daily
 cheap metadata checks and weekly deep data checks. The weekly deep scrub reads
 the objects and uses checksums to ensure data integrity. If a running scrub
 interferes with business (performance) needs, you can adjust the time when
-scrubs footnote:[Ceph scrubbing https://docs.ceph.com/docs/{ceph_codename}/rados/configuration/osd-config-ref/#scrubbing]
+scrubs footnote:[Ceph scrubbing {cephdocs-url}/rados/configuration/osd-config-ref/#scrubbing]
 are executed.
 
 
@@ -808,10 +808,10 @@ pve# ceph -w
 
 To get a more detailed view, every ceph service has a log file under
 `/var/log/ceph/` and if there is not enough detail, the log level can be
-adjusted footnote:[Ceph log and debugging https://docs.ceph.com/docs/{ceph_codename}/rados/troubleshooting/log-and-debug/].
+adjusted footnote:[Ceph log and debugging {cephdocs-url}/rados/troubleshooting/log-and-debug/].
 
 You can find more information about troubleshooting
-footnote:[Ceph troubleshooting https://docs.ceph.com/docs/{ceph_codename}/rados/troubleshooting/]
+footnote:[Ceph troubleshooting {cephdocs-url}/rados/troubleshooting/]
 a Ceph cluster on the official website.
 
 
