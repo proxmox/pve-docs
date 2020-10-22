@@ -164,10 +164,11 @@ password then has to be stored in `/etc/pve/priv/ldap/<realmname>.pw`
 (e.g. `/etc/pve/priv/ldap/my-ldap.pw`). This file should contain a
 single line containing the raw password.
 +
-To verify certificates, it is necessary to set `capath`, either directly to the 
-CA certificate of your LDAP server, or to the system path containing all 
-trusted CA certificates (`/etc/ssl/certs`).
-Additionally, the `verify` option has to be set.
+To verify certificates, you need to to set `capath`. You can set it either
+directly to the CA certificate of your LDAP server, or to the system path
+containing all trusted CA certificates (`/etc/ssl/certs`).
+Additionally, you need to set the `verify` option, which can also be doen over
+the web interface.
 
 Microsoft Active Directory::
 
