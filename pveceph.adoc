@@ -462,6 +462,10 @@ state.
 NOTE: The default number of PGs works for 2-5 disks. Ceph throws a
 'HEALTH_WARNING' if you have too few or too many PGs in your cluster.
 
+WARNING: **Do not set a min_size of 1**. A replicated pool with min_size of 1
+allows I/O on an object when it has only 1 replica which could lead to data
+loss, incomplete PGs or unfound objects.
+
 It is advised to calculate the PG number depending on your setup, you can find
 the formula and the PG calculator footnote:[PG calculator
 https://ceph.com/pgcalc/] online. From Ceph Nautilus onwards it is possible to
