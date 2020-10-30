@@ -355,6 +355,8 @@ iface eno1 inet manual
 
 iface eno2 inet manual
 
+iface eno3 inet manual
+
 auto bond0
 iface bond0 inet static
       slaves eno1 eno2
@@ -369,7 +371,7 @@ iface vmbr0 inet static
         address  10.10.10.2
         netmask  255.255.255.0
         gateway  10.10.10.1
-        bridge-ports eno1
+        bridge-ports eno3
         bridge-stp off
         bridge-fd 0
 
