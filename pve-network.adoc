@@ -359,7 +359,7 @@ iface eno3 inet manual
 
 auto bond0
 iface bond0 inet static
-      slaves eno1 eno2
+      bond-slaves eno1 eno2
       address  192.168.1.2
       netmask  255.255.255.0
       bond-miimon 100
@@ -393,7 +393,7 @@ iface eno2 inet manual
 
 auto bond0
 iface bond0 inet manual
-      slaves eno1 eno2
+      bond-slaves eno1 eno2
       bond-miimon 100
       bond-mode 802.3ad
       bond-xmit-hash-policy layer2+3
@@ -527,7 +527,7 @@ iface eno2 inet manual
 
 auto bond0
 iface bond0 inet manual
-      slaves eno1 eno2
+      bond-slaves eno1 eno2
       bond-miimon 100
       bond-mode 802.3ad
       bond-xmit-hash-policy layer2+3
