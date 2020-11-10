@@ -39,7 +39,7 @@ The installer ISO image includes the following:
 
 * Complete operating system (Debian Linux, 64-bit)
 
-* The {pve} installer, which partitions the local disk(s) with ext4, ext3, xfs
+* The {pve} installer, which partitions the local disk(s) with ext4, xfs
   or ZFS and installs the operating system.
 
 * {pve} Linux kernel with KVM and LXC support
@@ -101,7 +101,7 @@ target hard disk(s) will appear. The `Options` button opens the dialog to select
 the target file system.
 
 The default file system is `ext4`. The Logical Volume Manager (LVM) is used when
-`ext3`, `ext4` or `xfs` ist selected. Additional options to restrict LVM space
+`ext4` or `xfs` ist selected. Additional options to restrict LVM space
 can be set (see <<advanced_lvm_options,below>>).
 
 {pve} can be installed on ZFS. As ZFS offers several software RAID levels, this
