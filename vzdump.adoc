@@ -384,7 +384,16 @@ You can also manually specify (additional) exclude paths, for example:
 
  # vzdump 777 --exclude-path /tmp/ --exclude-path '/var/foo*'
 
-(only excludes tmp directories)
+excludes the directory `/tmp/` and any file or directory named `/var/foo`,
+`/var/foobar`, and so on.
+
+Paths that do not start with a `/` are not anchored to the container's root,
+but will match relative to any subdirectory. For example:
+
+ # vzdump 777 --exclude-path bar
+
+excludes any file or directoy named `/bar`, `/var/bar`, `/var/foo/bar`, and
+so on, but not `/bar2`.
 
 Configuration files are also stored inside the backup archive
 (in `./etc/vzdump/`) and will be correctly restored.
