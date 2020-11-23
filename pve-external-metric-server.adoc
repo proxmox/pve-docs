@@ -1,10 +1,13 @@
+[[external_metric_server]]
 External Metric Server
 ----------------------
 ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]
 
-Starting with {pve} 4.0, you can define external metric servers, which will
+[thumbnail="screenshot/gui-datacenter-metric-server-list.png"]
+
+In {pve}, you can define external metric servers, which will
 be sent various stats about your hosts, virtual machines and storages.
 
 Currently supported are:
@@ -12,38 +15,33 @@ Currently supported are:
  * Graphite (see http://graphiteapp.org )
  * InfluxDB (see https://www.influxdata.com/time-series-platform/influxdb/ )
 
-The server definitions are saved in '/etc/pve/status.cfg'
+The server definitions are saved in '/etc/pve/status.cfg', and can be edited
+through the GUI.
 
+[[metric_server_graphite]]
 Graphite server configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The definition of a server is:
+[thumbnail="screenshot/gui-datacenter-metric-server-graphite.png"]
 
-----
-graphite: your-id
-    server your-server
-    port your-port
-    path your-path
-----
-
-where your-port defaults to *2003* and your-path defaults to *proxmox*
+The default port is set to *2003* and the default path is *proxmox*.
 
 {pve} sends the data over UDP, so the graphite server has to be configured
-for this.
+for this. Here the MTU can be configured for environments which require
+a different mtu than the standard *1500*.
 
+Alternatively, the plugin can be configured to use TCP instead with
+a timeout. Here the timeout is important, as to not block the stat generating
+process forever.
+
+[[metric_server_influxdb]]
 Influxdb plugin configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The definition is:
-
-----
-influxdb: your-id
-    server your-server
-    port your-port
-----
+[thumbnail="screenshot/gui-datacenter-metric-server-influxdb.png"]
 
 {pve} sends the data over UDP, so the influxdb server has to be configured
-for this.
+for this. The MTU can also be configured here, if necessary.
 
 Here is an example configuration for influxdb (on your influxdb server):
 
@@ -59,23 +57,3 @@ Here is an example configuration for influxdb (on your influxdb server):
 With this configuration, your server listens on all IP addresses on
 port 8089, and writes the data in the *proxmox* database
 
-Multiple Definitions and Example
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The *id* is optional, but if you want to have multiple definitions of a single
-type, then the ids must be defined and different from each other.
-
-Here is an example of a finished status.cfg
-
-----
-graphite:
-    server 10.0.0.5
-
-influxdb: influx1
-    server 10.0.0.6
-    port 8089
-
-influxdb: influx2
-    server 10.0.0.7
-    port 8090
-----
