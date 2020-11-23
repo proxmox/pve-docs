@@ -7,16 +7,16 @@ endif::wiki[]
 
 [thumbnail="screenshot/gui-datacenter-metric-server-list.png"]
 
-In {pve}, you can define external metric servers, which will
-be sent various stats about your hosts, virtual machines and storages.
+In {pve}, you can define external metric servers, which will periodically
+receive various stats about your hosts, virtual guests and storages.
 
 Currently supported are:
 
  * Graphite (see http://graphiteapp.org )
  * InfluxDB (see https://www.influxdata.com/time-series-platform/influxdb/ )
 
-The server definitions are saved in '/etc/pve/status.cfg', and can be edited
-through the GUI.
+The external metric server definitions are saved in '/etc/pve/status.cfg', and
+can be edited through the web interface.
 
 [[metric_server_graphite]]
 Graphite server configuration
@@ -24,15 +24,15 @@ Graphite server configuration
 
 [thumbnail="screenshot/gui-datacenter-metric-server-graphite.png"]
 
-The default port is set to *2003* and the default path is *proxmox*.
+The default port is set to *2003* and the default graphite path is *proxmox*.
 
-{pve} sends the data over UDP, so the graphite server has to be configured
-for this. Here the MTU can be configured for environments which require
-a different mtu than the standard *1500*.
+By default, {pve} sends the data over UDP, so the graphite server has to be
+configured to accept this. Here the maximum transmission unit (MTU) can be
+configured for environments not using the standard *1500* MTU.
 
-Alternatively, the plugin can be configured to use TCP instead with
-a timeout. Here the timeout is important, as to not block the stat generating
-process forever.
+You can also configure the plugin to use TCP. In order not to block the
+important `pvestatd` statistic collection daemon, a timeout is required to cope
+with network problems.
 
 [[metric_server_influxdb]]
 Influxdb plugin configuration
@@ -40,13 +40,13 @@ Influxdb plugin configuration
 
 [thumbnail="screenshot/gui-datacenter-metric-server-influxdb.png"]
 
-{pve} sends the data over UDP, so the influxdb server has to be configured
-for this. The MTU can also be configured here, if necessary.
+{pve} sends the data over UDP, so the influxdb server has to be configured for
+this. The MTU can also be configured here, if necessary.
 
 Here is an example configuration for influxdb (on your influxdb server):
 
 ----
-​[[udp]]
+[[udp]]
    enabled = true
    bind-address = "0.0.0.0:8089"
    database = "proxmox"
@@ -54,6 +54,5 @@ Here is an example configuration for influxdb (on your influxdb server):
    batch-timeout = "1s"
 ----
 
-With this configuration, your server listens on all IP addresses on
-port 8089, and writes the data in the *proxmox* database
-
+With this configuration, your server listens on all IP addresses on port 8089,
+and writes the data in the *proxmox* database
