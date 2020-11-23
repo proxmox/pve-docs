@@ -794,7 +794,7 @@ are executed.
 
 Ceph monitoring and troubleshooting
 -----------------------------------
-A good start is to continuosly monitor the ceph health from the start of
+A good start is to continuously monitor the ceph health from the start of
 initial deployment. Either through the ceph tools itself, but also by accessing
 the status through the {pve} link:api-viewer/index.html[API].
 
