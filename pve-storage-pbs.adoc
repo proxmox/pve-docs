@@ -34,8 +34,8 @@ TIP: Do not forget to add the realm to the username. For example, `root@pam` or
 password::
 
 The user password. The value will be saved in a file under
-`/etc/pve/priv/<STORAGE-ID>.pw` with access restricted to the root user.
-Required.
+`/etc/pve/priv/storage/<STORAGE-ID>.pw` with access restricted to the root
+user. Required.
 
 datastore::
 
@@ -52,9 +52,10 @@ encryption-key::
 
 A key to encrypt the backup data from the client side. Currently only
 non-password protected (no key derive function (kdf)) are supported. Will be
-saved in a file under `/etc/pve/priv/<STORAGE-ID>.enc` with access restricted
-to the root user.  Use the magic value `autogen` to automatically generate a
-new one using `proxmox-backup-client key create --kdf none <path>`. Optional.
+saved in a file under `/etc/pve/priv/storage/<STORAGE-ID>.enc` with access
+restricted to the root user.  Use the magic value `autogen` to automatically
+generate a new one using `proxmox-backup-client key create --kdf none <path>`.
+Optional.
 
 .Configuration Example (`/etc/pve/storage.cfg`)
 ----
