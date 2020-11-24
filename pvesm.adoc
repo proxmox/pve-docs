@@ -226,7 +226,13 @@ You can use this flag to disable the storage completely.
 
 maxfiles::
 
-Maximum number of backup files per VM. Use `0` for unlimited.
+Deprecated, please use `prune-backups` instead. Maximum number of backup files
+per VM. Use `0` for unlimited.
+
+prune-backups::
+
+Retention options for backups. For details, see
+xref:vzdump_retention[Backup Retention].
 
 format::
 
