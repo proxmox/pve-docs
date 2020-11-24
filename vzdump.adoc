@@ -233,6 +233,14 @@ NOTE: The old `maxfiles` option is deprecated and should be replaced either by
 `keep-last` or, in case `maxfiles` was `0` for unlimited retention, by
 `keep-all`.
 
+
+Prune Simulator
+~~~~~~~~~~~~~~~
+
+You can use the  https://pbs.proxmox.com/docs/prune-simulator[prune simulator
+of the Proxmox Backup Server documentation] to explore the effect of different
+retention options with various backup schedules.
+
 Retention Settings Example
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
