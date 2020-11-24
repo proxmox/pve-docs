@@ -840,6 +840,39 @@ recommended to always use a limiter to avoid guests using too many host
 resources. If desired, a value of '0' for `max_bytes` can be used to disable
 all limits.
 
+[[qm_bootorder]]
+Guest Boot Order
+~~~~~~~~~~~~~~~~
+
+QEMU can tell the guest which devices it should boot from, and in which order.
+This can be specified in the config via the `boot` property, e.g.:
+
+----
+boot: order=scsi0;net0;hostpci0
+----
+
+[thumbnail="screenshot/gui-qemu-edit-bootorder.png"]
+
+This way, the guest would first attempt to boot from the disk `scsi0`, if that
+fails, it would go on to attempt network boot from `net0`, and in case that
+fails too, finally attempt to boot from a passed through PCIe device (seen as
+disk in case of NVMe, otherwise tries to launch into an option ROM).
+
+On the GUI you can use a drag-and-drop editor to specify the boot order, and use
+the checkbox to enable or disable certain devices for booting altogether.
+
+NOTE: If your guest uses multiple disks to boot the OS or load the bootloader,
+all of them must be marked as 'bootable' (that is, they must have the checkbox
+enabled or appear in the list in the config) for the guest to be able to boot.
+This is because recent SeaBIOS and OVMF versions only initialize disks if they
+are marked 'bootable'.
+
+In any case, even devices not appearing in the list or having the checkmark
+disabled will still be available to the guest, once it's operating system has
+booted and initialized them. The 'bootable' flag only affects the guest BIOS and
+bootloader.
+
+
 [[qm_startup_and_shutdown]]
 Automatic Start and Shutdown of Virtual Machines
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1308,12 +1341,12 @@ unique cluster wide.
 
 .Example VM Configuration
 ----
+boot: order=virtio0;net0
 cores: 1
 sockets: 1
 memory: 512
 name: webmail
 ostype: l26
-bootdisk: virtio0
 net0: e1000=EE:D2:28:5F:B6:3E,bridge=vmbr0
 virtio0: local:vm-100-disk-1,size=32G
 ----
