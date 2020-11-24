@@ -869,6 +869,44 @@ pvecm status
 If you see a healthy cluster state, it means that your new link is being used.
 
 
+Role of SSH in {PVE} Clustering
+-------------------------------
+
+{PVE} utilizes SSH tunnels for various operations:
+
+* Proxying terminal sessions on the GUI
+
+* VM/CT Migrations (if not configured 'insecure' mode)
+
+* Storage replications
+
+For example when you connect another nodes shell through the interface, a
+non-interactive SSH tunnel is started in order to forward the necessary ports
+for the VNC connection.
+
+Similarly during a VM migration an SSH tunnel is established between the target
+and source nodes. This way the local `qemu` socket can be used for the migration.
+
+IMPORTANT: In case you have a custom `.bashrc` or similar file that gets
+executed on login, `ssh` will automatically run it once the session is
+established. This can cause some unexpected behavior (as commands may be
+executed as a side-effect).
+
+In order to avoid such complications, it's recommended to add a check in
+`/root/.bashrc` to make sure the session is interactive, and only then run
+`.bashrc` commands.
+
+You can add this snippet at the beginning of your `.bashrc` file:
+
+----
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+----
+
+
 Corosync External Vote Support
 ------------------------------
 
