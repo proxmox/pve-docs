@@ -869,28 +869,31 @@ pvecm status
 If you see a healthy cluster state, it means that your new link is being used.
 
 
-Role of SSH in {PVE} Clustering
--------------------------------
+Role of SSH in {PVE} Clusters
+-----------------------------
 
-{PVE} utilizes SSH tunnels for various operations:
+{PVE} utilizes SSH tunnels for various operations.
 
-* Proxying terminal sessions on the GUI
-
-* VM/CT Migrations (if not configured 'insecure' mode)
-
-* Storage replications
-
-For example when you connect another nodes shell through the interface, a
+* Proxying terminal sessions of node and containers between nodes
++
+When you connect another nodes shell through the web interface, for example, a
 non-interactive SSH tunnel is started in order to forward the necessary ports
 for the VNC connection.
 
-Similarly during a VM migration an SSH tunnel is established between the target
-and source nodes. This way the local `qemu` socket can be used for the migration.
+* VM and CT memory and local-storage migration, if the cluster wide migration
+  settings are not configured 'insecure' mode. During a VM migration an SSH
+  tunnel is established between the target and source nodes.
 
-IMPORTANT: In case you have a custom `.bashrc` or similar file that gets
-executed on login, `ssh` will automatically run it once the session is
-established. This can cause some unexpected behavior (as commands may be
-executed as a side-effect).
+* Storage replication
+
+.Pitfalls due to automatic execution of `.bashrc` and siblings
+[IMPORTANT]
+====
+In case you have a custom `.bashrc`, or similar files that get executed on
+login by the configured shell, `ssh` will automatically run it once the session
+is established successfully. This can cause some unexpected behavior, as those
+commands may be executed with root permissions on any above described
+operation. That can cause possible problematic side-effects!
 
 In order to avoid such complications, it's recommended to add a check in
 `/root/.bashrc` to make sure the session is interactive, and only then run
@@ -899,12 +902,13 @@ In order to avoid such complications, it's recommended to add a check in
 You can add this snippet at the beginning of your `.bashrc` file:
 
 ----
-# If not running interactively, don't do anything
+# Early exit if not running interactively to avoid side-effects!
 case $- in
     *i*) ;;
       *) return;;
 esac
 ----
+====
 
 
 Corosync External Vote Support
