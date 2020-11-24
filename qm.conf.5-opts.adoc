@@ -54,13 +54,31 @@ Amount of target RAM for the VM in MB. Using zero disables the ballon driver.
 
 Select BIOS implementation.
 
-`boot`: `[acdn]{1,4}` ('default =' `cdn`)::
+`boot`: `[[legacy=]<[acdn]{1,4}>] [,order=<device[;device...]>]` ::
 
-Boot on floppy (a), hard disk (c), CD-ROM (d), or network (n).
+Specify guest boot order. Use with 'order=', usage with no key or 'legacy=' is deprecated.
+
+`legacy`=`<[acdn]{1,4}>` ('default =' `cdn`);;
+
+Boot on floppy (a), hard disk (c), CD-ROM (d), or network (n). Deprecated, use 'order=' instead.
+
+`order`=`<device[;device...]>` ;;
+
+The guest will attempt to boot from devices in the order they appear here.
++
+Disks, optical drives and passed-through storage USB devices will be directly
+booted from, NICs will load PXE, and PCIe devices will either behave like disks
+(e.g. NVMe) or load an option ROM (e.g. RAID controller, hardware NIC).
++
+Note that only devices in this list will be marked as bootable and thus loaded
+by the guest firmware (BIOS/UEFI). If you require multiple disks for booting
+(e.g. software-raid), you need to specify all of them here.
++
+Overrides the deprecated 'legacy=[acdn]*' value when given.
 
 `bootdisk`: `(ide|sata|scsi|virtio)\d+` ::
 
-Enable booting from specified disk.
+Enable booting from specified disk. Deprecated: Use 'boot: order=foo;bar' instead.
 
 `cdrom`: `<volume>` ::
 
@@ -72,7 +90,8 @@ cloud-init: Specify custom files to replace the automatically generated ones at 
 
 `meta`=`<volume>` ;;
 
-Specify a custom file containing all meta data passed to the VM via cloud-init. This is provider specific meaning configdrive2 and nocloud differ.
+Specify a custom file containing all meta data passed to the VM via"
+	    ." cloud-init. This is provider specific meaning configdrive2 and nocloud differ.
 
 `network`=`<volume>` ;;
 
@@ -400,10 +419,12 @@ cloud-init: Specify IP addresses and gateways for the corresponding interface.
 +
 IP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.
 +
-The special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit gateway should be provided.
+The special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit
+gateway should be provided.
 For IPv6 the special string 'auto' can be used to use stateless autoconfiguration.
 +
-If cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using dhcp on IPv4.
+If cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using
+dhcp on IPv4.
 
 `gw`=`<GatewayIPv4>` ;;
 
@@ -436,6 +457,10 @@ The name of the file. Will be prefixed with 'pve-shm-'. Default is the VMID. Wil
 `size`=`<integer> (1 - N)` ;;
 
 The size of the file in MB.
+
+`keephugepages`: `<boolean>` ('default =' `0`)::
+
+Use together with hugepages. If enabled, hugepages will not not be deleted after VM shutdown and can be used for subsequent starts.
 
 `keyboard`: `<da | de | de-ch | en-gb | en-us | es | fi | fr | fr-be | fr-ca | fr-ch | hu | is | it | ja | lt | mk | nl | no | pl | pt | pt-br | sl | sv | tr>` ::
 
@@ -475,7 +500,9 @@ Set a name for the VM. Only used on the configuration web interface.
 
 `nameserver`: `<string>` ::
 
-cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.
+cloud-init: Sets DNS server IP address for a container. Create will'
+	    .' automatically use the setting from the host if neither searchdomain nor nameserver'
+	    .' are set.
 
 `net[n]`: `[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
 
@@ -583,7 +610,8 @@ solaris;; Solaris/OpenSolaris/OpenIndiania kernel
 
 Map host parallel devices (n is 0 to 2).
 +
-NOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.
+NOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such
+machines - use with special care.
 +
 CAUTION: Experimental! User reported problems with this option.
 
@@ -979,7 +1007,9 @@ SCSI controller model
 
 `searchdomain`: `<string>` ::
 
-cloud-init: Sets DNS search domains for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.
+cloud-init: Sets DNS search domains for a container. Create will'
+	    .' automatically use the setting from the host if neither searchdomain nor nameserver'
+	    .' are set.
 
 `serial[n]`: `(/dev/.+|socket)` ::
 
@@ -987,7 +1017,8 @@ Create a serial device inside the VM (n is 0 to 3), and pass through a
 host serial device (i.e. /dev/ttyS0), or create a unix socket on the
 host side (use 'qm terminal' to open a terminal connection).
 +
-NOTE: If you pass through a host serial device, it is no longer possible to migrate such machines - use with special care.
+NOTE: If you pass through a host serial device, it is no longer possible to migrate such machines -
+use with special care.
 +
 CAUTION: Experimental! User reported problems with this option.
 
@@ -1057,7 +1088,7 @@ cloud-init: Setup public SSH keys (one key per line, OpenSSH format).
 
 `startdate`: `(now | YYYY-MM-DD | YYYY-MM-DDTHH:MM:SS)` ('default =' `now`)::
 
-Set the initial date of the real time clock. Valid format for date are: 'now' or '2006-06-17T16:01:21' or '2006-06-17'.
+Set the initial date of the real time clock. Valid format for date are:'now' or '2006-06-17T16:01:21' or '2006-06-17'.
 
 `startup`: `[[order=]\d+] [,up=\d+] [,down=\d+] ` ::
 
@@ -1065,7 +1096,7 @@ Startup and shutdown behavior. Order is a non-negative number defining the gener
 
 `tablet`: `<boolean>` ('default =' `1`)::
 
-Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (-vga=qxl).
+Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (`qm set <vmid> --vga qxl`).
 
 `tags`: `<string>` ::
 
@@ -1101,7 +1132,8 @@ The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:
 +
 You can use the 'lsusb -t' command to list existing usb devices.
 +
-NOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.
+NOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such
+machines - use with special care.
 +
 The value 'spice' can be used to add a usb redirection devices for spice.
 
@@ -1299,7 +1331,7 @@ Write error action.
 `vmgenid`: `<UUID>` ('default =' `1 (autogenerated)`)::
 
 The VM generation ID (vmgenid) device exposes a 128-bit integer value identifier to the guest OS. This allows to notify the guest operating system when the virtual machine is executed with a different configuration (e.g. snapshot execution or creation from a template). The guest operating system notices the change, and is then able to react as appropriate by marking its copies of distributed databases as dirty, re-initializing its random number generator, etc.
-Note that auto-creation only works when done throug API/CLI create or update methods, but not when manually editing the config file.
+Note that auto-creation only works when done through API/CLI create or update methods, but not when manually editing the config file.
 
 `vmstatestorage`: `<string>` ::
 

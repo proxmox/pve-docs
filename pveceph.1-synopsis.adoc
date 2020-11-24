@@ -226,9 +226,9 @@ The name of the pool. It must be unique.
 
 Configure VM and CT storage using the new pool.
 
-`--application` `<cephfs | rbd | rgw>` ::
+`--application` `<cephfs | rbd | rgw>` ('default =' `rbd`)::
 
-The application of the pool, 'rbd' by default.
+The application of the pool.
 
 `--crush_rule` `<string>` ::
 
@@ -237,6 +237,10 @@ The rule to use for mapping object placement in the cluster.
 `--min_size` `<integer> (1 - 7)` ('default =' `2`)::
 
 Minimum number of replicas per object
+
+`--pg_autoscale_mode` `<off | on | warn>` ('default =' `warn`)::
+
+The automatic PG scaling mode of the pool.
 
 `--pg_num` `<integer> (8 - 32768)` ('default =' `128`)::
 
@@ -265,6 +269,38 @@ Remove all pveceph-managed storages configured for this pool
 *pveceph pool ls* `[FORMAT_OPTIONS]`
 
 List all pools.
+
+*pveceph pool set* `<name>` `[OPTIONS]`
+
+Change POOL settings
+
+`<name>`: `<string>` ::
+
+The name of the pool. It must be unique.
+
+`--application` `<cephfs | rbd | rgw>` ::
+
+The application of the pool.
+
+`--crush_rule` `<string>` ::
+
+The rule to use for mapping object placement in the cluster.
+
+`--min_size` `<integer> (1 - 7)` ::
+
+Minimum number of replicas per object
+
+`--pg_autoscale_mode` `<off | on | warn>` ::
+
+The automatic PG scaling mode of the pool.
+
+`--pg_num` `<integer> (8 - 32768)` ::
+
+Number of placement groups.
+
+`--size` `<integer> (1 - 7)` ::
+
+Number of replicas per object
 
 *pveceph purge* `[OPTIONS]`
 

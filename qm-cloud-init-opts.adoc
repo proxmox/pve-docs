@@ -4,7 +4,8 @@ Specify custom files to replace the automatically generated ones at start.
 
 `meta`=`<volume>` ;;
 
-Specify a custom file containing all meta data passed to the VM via cloud-init. This is provider specific meaning configdrive2 and nocloud differ.
+Specify a custom file containing all meta data passed to the VM via"
+	    ." cloud-init. This is provider specific meaning configdrive2 and nocloud differ.
 
 `network`=`<volume>` ;;
 
@@ -32,10 +33,12 @@ Specify IP addresses and gateways for the corresponding interface.
 +
 IP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.
 +
-The special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit gateway should be provided.
+The special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit
+gateway should be provided.
 For IPv6 the special string 'auto' can be used to use stateless autoconfiguration.
 +
-If cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using dhcp on IPv4.
+If cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using
+dhcp on IPv4.
 
 `gw`=`<GatewayIPv4>` ;;
 
@@ -59,11 +62,15 @@ IPv6 address in CIDR format.
 
 `nameserver`: `<string>` ::
 
-Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.
+Sets DNS server IP address for a container. Create will'
+	    .' automatically use the setting from the host if neither searchdomain nor nameserver'
+	    .' are set.
 
 `searchdomain`: `<string>` ::
 
-Sets DNS search domains for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.
+Sets DNS search domains for a container. Create will'
+	    .' automatically use the setting from the host if neither searchdomain nor nameserver'
+	    .' are set.
 
 `sshkeys`: `<string>` ::
 

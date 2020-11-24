@@ -44,7 +44,7 @@ NOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs.
 
 `--datastore` `<string>` ::
 
-Proxmox backup server datastore name.
+Proxmox Backup Server datastore name.
 
 `--disable` `<boolean>` ::
 
@@ -130,11 +130,15 @@ File system path.
 
 Pool.
 
+`--port` `<integer> (1 - 65535)` ('default =' `8007`)::
+
+For non default port.
+
 `--portal` `<string>` ::
 
 iSCSI portal (IP or DNS name with optional port).
 
-`--prune-backups` `[keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]` ::
+`--prune-backups` `[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]` ::
 
 The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.
 
@@ -384,7 +388,9 @@ Volume identifier
 
 *pvesm prune-backups* `<storage>` `[OPTIONS]`
 
-Prune backups. This is only a wrapper for the proper API endpoints.
+Prune backups. Only those using the standard naming scheme are considered.
+If no keep options are specified, those from the storage configuration are
+used.
 
 `<storage>`: `<string>` ::
 
@@ -394,9 +400,33 @@ The storage identifier.
 
 Only show what would be pruned, don't delete anything.
 
-`--prune-backups` `[keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]` ::
+`--keep-all` `<boolean>` ::
 
-Use these retention options instead of those from the storage configuration.
+Keep all backups. Conflicts with the other options when true.
+
+`--keep-daily` `<N>` ::
+
+Keep backups for the last <N> different days. If there is morethan one backup for a single day, only the latest one is kept.
+
+`--keep-hourly` `<N>` ::
+
+Keep backups for the last <N> different hours. If there is morethan one backup for a single hour, only the latest one is kept.
+
+`--keep-last` `<N>` ::
+
+Keep the last <N> backups.
+
+`--keep-monthly` `<N>` ::
+
+Keep backups for the last <N> different months. If there is morethan one backup for a single month, only the latest one is kept.
+
+`--keep-weekly` `<N>` ::
+
+Keep backups for the last <N> different weeks. If there is morethan one backup for a single week, only the latest one is kept.
+
+`--keep-yearly` `<N>` ::
+
+Keep backups for the last <N> different years. If there is morethan one backup for a single year, only the latest one is kept.
 
 `--type` `<lxc | qemu>` ::
 
@@ -584,7 +614,11 @@ Password for accessing the share/datastore.
 
 Pool.
 
-`--prune-backups` `[keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]` ::
+`--port` `<integer> (1 - 65535)` ('default =' `8007`)::
+
+For non default port.
+
+`--prune-backups` `[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]` ::
 
 The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.
 

@@ -12,7 +12,7 @@ Log ratelimiting settings
 
 `burst`=`<integer> (0 - N)` ('default =' `5`);;
 
-Inital burst of packages which will get logged
+Initial burst of packages which will always get logged before the rate is applied
 
 `enable`=`<boolean>` ('default =' `1`);;
 

@@ -295,6 +295,351 @@ var pveapi = [
          {
             "children" : [
                {
+                  "children" : [
+                     {
+                        "info" : {
+                           "DELETE" : {
+                              "allowtoken" : 1,
+                              "description" : "Remove Metric server.",
+                              "method" : "DELETE",
+                              "name" : "delete",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "id" : {
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           },
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Read metric server configuration.",
+                              "method" : "GET",
+                              "name" : "read",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "id" : {
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Audit"
+                                    ]
+                                 ]
+                              },
+                              "returns" : {
+                                 "type" : "object"
+                              }
+                           },
+                           "POST" : {
+                              "allowtoken" : 1,
+                              "description" : "Create a new external metric server config",
+                              "method" : "POST",
+                              "name" : "create",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "disable" : {
+                                       "description" : "Flag to disable the plugin.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "id" : {
+                                       "description" : "The ID of the entry.",
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "mtu" : {
+                                       "default" : 1500,
+                                       "description" : "MTU for metrics transmission over UDP",
+                                       "maximum" : 65536,
+                                       "minimum" : 512,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (512 - 65536)"
+                                    },
+                                    "path" : {
+                                       "description" : "root graphite path (ex: proxmox.mycluster.mykey)",
+                                       "format" : "graphite-path",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "port" : {
+                                       "description" : "server network port",
+                                       "type" : "integer",
+                                       "typetext" : "<integer>"
+                                    },
+                                    "proto" : {
+                                       "description" : "Protocol to send graphite data. TCP or UDP (default)",
+                                       "enum" : [
+                                          "udp",
+                                          "tcp"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "server" : {
+                                       "description" : "server dns name or IP address",
+                                       "format" : "address",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "timeout" : {
+                                       "default" : 1,
+                                       "description" : "graphite TCP socket timeout (default=1)",
+                                       "minimum" : 0,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (0 - N)"
+                                    },
+                                    "type" : {
+                                       "description" : "Plugin type.",
+                                       "enum" : [
+                                          "graphite",
+                                          "influxdb"
+                                       ],
+                                       "format" : "pve-configid",
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           },
+                           "PUT" : {
+                              "allowtoken" : 1,
+                              "description" : "Update metric server configuration.",
+                              "method" : "PUT",
+                              "name" : "update",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "delete" : {
+                                       "description" : "A list of settings you want to delete.",
+                                       "format" : "pve-configid-list",
+                                       "maxLength" : 4096,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "digest" : {
+                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 40,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "disable" : {
+                                       "description" : "Flag to disable the plugin.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "id" : {
+                                       "description" : "The ID of the entry.",
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "mtu" : {
+                                       "default" : 1500,
+                                       "description" : "MTU for metrics transmission over UDP",
+                                       "maximum" : 65536,
+                                       "minimum" : 512,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (512 - 65536)"
+                                    },
+                                    "path" : {
+                                       "description" : "root graphite path (ex: proxmox.mycluster.mykey)",
+                                       "format" : "graphite-path",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "port" : {
+                                       "description" : "server network port",
+                                       "type" : "integer",
+                                       "typetext" : "<integer>"
+                                    },
+                                    "proto" : {
+                                       "description" : "Protocol to send graphite data. TCP or UDP (default)",
+                                       "enum" : [
+                                          "udp",
+                                          "tcp"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "server" : {
+                                       "description" : "server dns name or IP address",
+                                       "format" : "address",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "timeout" : {
+                                       "default" : 1,
+                                       "description" : "graphite TCP socket timeout (default=1)",
+                                       "minimum" : 0,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (0 - N)"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/cluster/metrics/server/{id}",
+                        "text" : "{id}"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "List configured metric servers.",
+                        "method" : "GET",
+                        "name" : "server_index",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Audit"
+                              ]
+                           ]
+                        },
+                        "returns" : {
+                           "items" : {
+                              "properties" : {
+                                 "disable" : {
+                                    "description" : "Flag to disable the plugin.",
+                                    "type" : "boolean"
+                                 },
+                                 "id" : {
+                                    "description" : "The ID of the entry.",
+                                    "type" : "string"
+                                 },
+                                 "port" : {
+                                    "description" : "Server network port",
+                                    "type" : "integer"
+                                 },
+                                 "server" : {
+                                    "description" : "Server dns name or IP address",
+                                    "type" : "string"
+                                 },
+                                 "type" : {
+                                    "description" : "Plugin type.",
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{id}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/cluster/metrics/server",
+                  "text" : "server"
+               }
+            ],
+            "info" : {
+               "GET" : {
+                  "allowtoken" : 1,
+                  "description" : "Metrics index.",
+                  "method" : "GET",
+                  "name" : "index",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "permissions" : {
+                     "user" : "all"
+                  },
+                  "returns" : {
+                     "items" : {
+                        "properties" : {},
+                        "type" : "object"
+                     },
+                     "links" : [
+                        {
+                           "href" : "{name}",
+                           "rel" : "child"
+                        }
+                     ],
+                     "type" : "array"
+                  }
+               }
+            },
+            "leaf" : 0,
+            "path" : "/cluster/metrics",
+            "text" : "metrics"
+         },
+         {
+            "children" : [
+               {
                   "info" : {
                      "GET" : {
                         "allowtoken" : 1,
@@ -930,6 +1275,10 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "integer"
                                           },
+                                          "icmp-type" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
                                           "iface" : {
                                              "optional" : 1,
                                              "type" : "string"
@@ -1043,6 +1392,13 @@ var pveapi = [
                                              "minLength" : 2,
                                              "pattern" : "[A-Za-z][A-Za-z0-9\\-\\_]+",
                                              "type" : "string"
+                                          },
+                                          "icmp-type" : {
+                                             "description" : "Specify icmp-type. Only valid if proto equals 'icmp'.",
+                                             "format" : "pve-fw-icmp-type-spec",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
                                           },
                                           "iface" : {
                                              "description" : "Network interface name. You have to use network configuration key names for VMs and containers ('net\\d+'). Host related rules can use arbitrary strings.",
@@ -1277,6 +1633,13 @@ var pveapi = [
                                        "minLength" : 2,
                                        "pattern" : "[A-Za-z][A-Za-z0-9\\-\\_]+",
                                        "type" : "string"
+                                    },
+                                    "icmp-type" : {
+                                       "description" : "Specify icmp-type. Only valid if proto equals 'icmp'.",
+                                       "format" : "pve-fw-icmp-type-spec",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
                                     },
                                     "iface" : {
                                        "description" : "Network interface name. You have to use network configuration key names for VMs and containers ('net\\d+'). Host related rules can use arbitrary strings.",
@@ -1562,6 +1925,10 @@ var pveapi = [
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
+                                    "icmp-type" : {
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
                                     "iface" : {
                                        "optional" : 1,
                                        "type" : "string"
@@ -1668,6 +2035,13 @@ var pveapi = [
                                        "optional" : 1,
                                        "type" : "integer",
                                        "typetext" : "<integer> (0 - N)"
+                                    },
+                                    "icmp-type" : {
+                                       "description" : "Specify icmp-type. Only valid if proto equals 'icmp'.",
+                                       "format" : "pve-fw-icmp-type-spec",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
                                     },
                                     "iface" : {
                                        "description" : "Network interface name. You have to use network configuration key names for VMs and containers ('net\\d+'). Host related rules can use arbitrary strings.",
@@ -1855,6 +2229,13 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "integer",
                                  "typetext" : "<integer> (0 - N)"
+                              },
+                              "icmp-type" : {
+                                 "description" : "Specify icmp-type. Only valid if proto equals 'icmp'.",
+                                 "format" : "pve-fw-icmp-type-spec",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               },
                               "iface" : {
                                  "description" : "Network interface name. You have to use network configuration key names for VMs and containers ('net\\d+'). Host related rules can use arbitrary strings.",
@@ -2613,7 +2994,7 @@ var pveapi = [
                                  "format" : {
                                     "burst" : {
                                        "default" : 5,
-                                       "description" : "Inital burst of packages which will get logged",
+                                       "description" : "Initial burst of packages which will always get logged before the rate is applied",
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer"
@@ -2701,7 +3082,7 @@ var pveapi = [
                                  "format" : {
                                     "burst" : {
                                        "default" : 5,
-                                       "description" : "Inital burst of packages which will get logged",
+                                       "description" : "Initial burst of packages which will always get logged before the rate is applied",
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer"
@@ -3212,7 +3593,7 @@ var pveapi = [
                                  "format" : "prune-backups",
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                                 "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
                               },
                               "quiet" : {
                                  "default" : 0,
@@ -3507,7 +3888,7 @@ var pveapi = [
                            "format" : "prune-backups",
                            "optional" : 1,
                            "type" : "string",
-                           "typetext" : "[keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                           "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
                         },
                         "quiet" : {
                            "default" : 0,
@@ -6666,6 +7047,12 @@ var pveapi = [
                   "returns" : {
                      "items" : {
                         "properties" : {
+                           "content" : {
+                              "description" : "Allowed storage content types (when type == storage).",
+                              "format" : "pve-storage-content-list",
+                              "optional" : 1,
+                              "type" : "string"
+                           },
                            "cpu" : {
                               "description" : "CPU utilization (when type in node,qemu,lxc).",
                               "optional" : 1,
@@ -7358,6 +7745,10 @@ var pveapi = [
                                                          "optional" : 1,
                                                          "type" : "integer"
                                                       },
+                                                      "icmp-type" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
                                                       "iface" : {
                                                          "optional" : 1,
                                                          "type" : "string"
@@ -7464,6 +7855,13 @@ var pveapi = [
                                                          "optional" : 1,
                                                          "type" : "integer",
                                                          "typetext" : "<integer> (0 - N)"
+                                                      },
+                                                      "icmp-type" : {
+                                                         "description" : "Specify icmp-type. Only valid if proto equals 'icmp'.",
+                                                         "format" : "pve-fw-icmp-type-spec",
+                                                         "optional" : 1,
+                                                         "type" : "string",
+                                                         "typetext" : "<string>"
                                                       },
                                                       "iface" : {
                                                          "description" : "Network interface name. You have to use network configuration key names for VMs and containers ('net\\d+'). Host related rules can use arbitrary strings.",
@@ -7679,6 +8077,13 @@ var pveapi = [
                                                    "optional" : 1,
                                                    "type" : "integer",
                                                    "typetext" : "<integer> (0 - N)"
+                                                },
+                                                "icmp-type" : {
+                                                   "description" : "Specify icmp-type. Only valid if proto equals 'icmp'.",
+                                                   "format" : "pve-fw-icmp-type-spec",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
                                                 },
                                                 "iface" : {
                                                    "description" : "Network interface name. You have to use network configuration key names for VMs and containers ('net\\d+'). Host related rules can use arbitrary strings.",
@@ -10713,14 +11118,13 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "boot" : {
-                                             "default" : "cdn",
-                                             "description" : "Boot on floppy (a), hard disk (c), CD-ROM (d), or network (n).",
+                                             "description" : "Specify guest boot order. Use with 'order=', usage with no key or 'legacy=' is deprecated.",
+                                             "format" : "pve-qm-boot",
                                              "optional" : 1,
-                                             "pattern" : "[acdn]{1,4}",
                                              "type" : "string"
                                           },
                                           "bootdisk" : {
-                                             "description" : "Enable booting from specified disk.",
+                                             "description" : "Enable booting from specified disk. Deprecated: Use 'boot: order=foo;bar' instead.",
                                              "format" : "pve-qm-bootdisk",
                                              "optional" : 1,
                                              "pattern" : "(ide|sata|scsi|virtio)\\d+",
@@ -11196,7 +11600,7 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "ipconfig[n]" : {
-                                             "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit gateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using dhcp on IPv4.\n",
+                                             "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit\ngateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using\ndhcp on IPv4.\n",
                                              "format" : "pve-qm-ipconfig",
                                              "optional" : 1,
                                              "type" : "string"
@@ -11219,6 +11623,12 @@ var pveapi = [
                                              },
                                              "optional" : 1,
                                              "type" : "string"
+                                          },
+                                          "keephugepages" : {
+                                             "default" : 0,
+                                             "description" : "Use together with hugepages. If enabled, hugepages will not not be deleted after VM shutdown and can be used for subsequent starts.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
                                           },
                                           "keyboard" : {
                                              "default" : null,
@@ -11315,7 +11725,7 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "nameserver" : {
-                                             "description" : "cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
+                                             "description" : "cloud-init: Sets DNS server IP address for a container. Create will'\n\t    .' automatically use the setting from the host if neither searchdomain nor nameserver'\n\t    .' are set.",
                                              "format" : "address-list",
                                              "optional" : 1,
                                              "type" : "string"
@@ -11530,7 +11940,7 @@ var pveapi = [
                                              "optional" : 1,
                                              "pattern" : "/dev/parport\\d+|/dev/usb/lp\\d+",
                                              "type" : "string",
-                                             "verbose_description" : "Map host parallel devices (n is 0 to 2).\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
+                                             "verbose_description" : "Map host parallel devices (n is 0 to 2).\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "protection" : {
                                              "default" : 0,
@@ -12237,7 +12647,7 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "searchdomain" : {
-                                             "description" : "cloud-init: Sets DNS search domains for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
+                                             "description" : "cloud-init: Sets DNS search domains for a container. Create will'\n\t    .' automatically use the setting from the host if neither searchdomain nor nameserver'\n\t    .' are set.",
                                              "optional" : 1,
                                              "type" : "string"
                                           },
@@ -12246,7 +12656,7 @@ var pveapi = [
                                              "optional" : 1,
                                              "pattern" : "(/dev/.+|socket)",
                                              "type" : "string",
-                                             "verbose_description" : "Create a serial device inside the VM (n is 0 to 3), and pass through a\nhost serial device (i.e. /dev/ttyS0), or create a unix socket on the\nhost side (use 'qm terminal' to open a terminal connection).\n\nNOTE: If you pass through a host serial device, it is no longer possible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
+                                             "verbose_description" : "Create a serial device inside the VM (n is 0 to 3), and pass through a\nhost serial device (i.e. /dev/ttyS0), or create a unix socket on the\nhost side (use 'qm terminal' to open a terminal connection).\n\nNOTE: If you pass through a host serial device, it is no longer possible to migrate such machines -\nuse with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "shares" : {
                                              "default" : 1000,
@@ -12309,7 +12719,7 @@ var pveapi = [
                                           },
                                           "startdate" : {
                                              "default" : "now",
-                                             "description" : "Set the initial date of the real time clock. Valid format for date are: 'now' or '2006-06-17T16:01:21' or '2006-06-17'.",
+                                             "description" : "Set the initial date of the real time clock. Valid format for date are:'now' or '2006-06-17T16:01:21' or '2006-06-17'.",
                                              "optional" : 1,
                                              "pattern" : "(now|\\d{4}-\\d{1,2}-\\d{1,2}(T\\d{1,2}:\\d{1,2}:\\d{1,2})?)",
                                              "type" : "string",
@@ -12327,7 +12737,7 @@ var pveapi = [
                                              "description" : "Enable/disable the USB tablet device.",
                                              "optional" : 1,
                                              "type" : "boolean",
-                                             "verbose_description" : "Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (-vga=qxl)."
+                                             "verbose_description" : "Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (`qm set <vmid> --vga qxl`)."
                                           },
                                           "tags" : {
                                              "description" : "Tags of the VM. This is only meta information.",
@@ -12369,7 +12779,7 @@ var pveapi = [
                                              "format" : {
                                                 "host" : {
                                                    "default_key" : 1,
-                                                   "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n",
+                                                   "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n",
                                                    "format" : "pve-qm-usb-device",
                                                    "format_description" : "HOSTUSBDEVICE|spice",
                                                    "type" : "string"
@@ -12744,7 +13154,7 @@ var pveapi = [
                                              "optional" : 1,
                                              "pattern" : "(?:[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}|[01])",
                                              "type" : "string",
-                                             "verbose_description" : "The VM generation ID (vmgenid) device exposes a 128-bit integer value identifier to the guest OS. This allows to notify the guest operating system when the virtual machine is executed with a different configuration (e.g. snapshot execution or creation from a template). The guest operating system notices the change, and is then able to react as appropriate by marking its copies of distributed databases as dirty, re-initializing its random number generator, etc.\nNote that auto-creation only works when done throug API/CLI create or update methods, but not when manually editing the config file."
+                                             "verbose_description" : "The VM generation ID (vmgenid) device exposes a 128-bit integer value identifier to the guest OS. This allows to notify the guest operating system when the virtual machine is executed with a different configuration (e.g. snapshot execution or creation from a template). The guest operating system notices the change, and is then able to react as appropriate by marking its copies of distributed databases as dirty, re-initializing its random number generator, etc.\nNote that auto-creation only works when done through API/CLI create or update methods, but not when manually editing the config file."
                                           },
                                           "vmstatestorage" : {
                                              "description" : "Default storage for VM state volumes/files.",
@@ -12883,14 +13293,14 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "boot" : {
-                                             "default" : "cdn",
-                                             "description" : "Boot on floppy (a), hard disk (c), CD-ROM (d), or network (n).",
+                                             "description" : "Specify guest boot order. Use with 'order=', usage with no key or 'legacy=' is deprecated.",
+                                             "format" : "pve-qm-boot",
                                              "optional" : 1,
-                                             "pattern" : "[acdn]{1,4}",
-                                             "type" : "string"
+                                             "type" : "string",
+                                             "typetext" : "[[legacy=]<[acdn]{1,4}>] [,order=<device[;device...]>]"
                                           },
                                           "bootdisk" : {
-                                             "description" : "Enable booting from specified disk.",
+                                             "description" : "Enable booting from specified disk. Deprecated: Use 'boot: order=foo;bar' instead.",
                                              "format" : "pve-qm-bootdisk",
                                              "optional" : 1,
                                              "pattern" : "(ide|sata|scsi|virtio)\\d+",
@@ -13397,7 +13807,7 @@ var pveapi = [
                                              "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "ipconfig[n]" : {
-                                             "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit gateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using dhcp on IPv4.\n",
+                                             "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit\ngateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using\ndhcp on IPv4.\n",
                                              "format" : "pve-qm-ipconfig",
                                              "optional" : 1,
                                              "type" : "string",
@@ -13422,6 +13832,13 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "size=<integer> [,name=<string>]"
+                                          },
+                                          "keephugepages" : {
+                                             "default" : 0,
+                                             "description" : "Use together with hugepages. If enabled, hugepages will not not be deleted after VM shutdown and can be used for subsequent starts.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
                                           },
                                           "keyboard" : {
                                              "default" : null,
@@ -13524,7 +13941,7 @@ var pveapi = [
                                              "typetext" : "<string>"
                                           },
                                           "nameserver" : {
-                                             "description" : "cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
+                                             "description" : "cloud-init: Sets DNS server IP address for a container. Create will'\n\t    .' automatically use the setting from the host if neither searchdomain nor nameserver'\n\t    .' are set.",
                                              "format" : "address-list",
                                              "optional" : 1,
                                              "type" : "string",
@@ -13750,7 +14167,7 @@ var pveapi = [
                                              "optional" : 1,
                                              "pattern" : "/dev/parport\\d+|/dev/usb/lp\\d+",
                                              "type" : "string",
-                                             "verbose_description" : "Map host parallel devices (n is 0 to 2).\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
+                                             "verbose_description" : "Map host parallel devices (n is 0 to 2).\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "protection" : {
                                              "default" : 0,
@@ -14469,7 +14886,7 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "searchdomain" : {
-                                             "description" : "cloud-init: Sets DNS search domains for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
+                                             "description" : "cloud-init: Sets DNS search domains for a container. Create will'\n\t    .' automatically use the setting from the host if neither searchdomain nor nameserver'\n\t    .' are set.",
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -14479,7 +14896,7 @@ var pveapi = [
                                              "optional" : 1,
                                              "pattern" : "(/dev/.+|socket)",
                                              "type" : "string",
-                                             "verbose_description" : "Create a serial device inside the VM (n is 0 to 3), and pass through a\nhost serial device (i.e. /dev/ttyS0), or create a unix socket on the\nhost side (use 'qm terminal' to open a terminal connection).\n\nNOTE: If you pass through a host serial device, it is no longer possible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
+                                             "verbose_description" : "Create a serial device inside the VM (n is 0 to 3), and pass through a\nhost serial device (i.e. /dev/ttyS0), or create a unix socket on the\nhost side (use 'qm terminal' to open a terminal connection).\n\nNOTE: If you pass through a host serial device, it is no longer possible to migrate such machines -\nuse with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "shares" : {
                                              "default" : 1000,
@@ -14554,7 +14971,7 @@ var pveapi = [
                                           },
                                           "startdate" : {
                                              "default" : "now",
-                                             "description" : "Set the initial date of the real time clock. Valid format for date are: 'now' or '2006-06-17T16:01:21' or '2006-06-17'.",
+                                             "description" : "Set the initial date of the real time clock. Valid format for date are:'now' or '2006-06-17T16:01:21' or '2006-06-17'.",
                                              "optional" : 1,
                                              "pattern" : "(now|\\d{4}-\\d{1,2}-\\d{1,2}(T\\d{1,2}:\\d{1,2}:\\d{1,2})?)",
                                              "type" : "string",
@@ -14573,7 +14990,7 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "boolean",
                                              "typetext" : "<boolean>",
-                                             "verbose_description" : "Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (-vga=qxl)."
+                                             "verbose_description" : "Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (`qm set <vmid> --vga qxl`)."
                                           },
                                           "tags" : {
                                              "description" : "Tags of the VM. This is only meta information.",
@@ -14619,7 +15036,7 @@ var pveapi = [
                                              "format" : {
                                                 "host" : {
                                                    "default_key" : 1,
-                                                   "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n",
+                                                   "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n",
                                                    "format" : "pve-qm-usb-device",
                                                    "format_description" : "HOSTUSBDEVICE|spice",
                                                    "type" : "string"
@@ -14998,7 +15415,7 @@ var pveapi = [
                                              "optional" : 1,
                                              "pattern" : "(?:[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}|[01])",
                                              "type" : "string",
-                                             "verbose_description" : "The VM generation ID (vmgenid) device exposes a 128-bit integer value identifier to the guest OS. This allows to notify the guest operating system when the virtual machine is executed with a different configuration (e.g. snapshot execution or creation from a template). The guest operating system notices the change, and is then able to react as appropriate by marking its copies of distributed databases as dirty, re-initializing its random number generator, etc.\nNote that auto-creation only works when done throug API/CLI create or update methods, but not when manually editing the config file."
+                                             "verbose_description" : "The VM generation ID (vmgenid) device exposes a 128-bit integer value identifier to the guest OS. This allows to notify the guest operating system when the virtual machine is executed with a different configuration (e.g. snapshot execution or creation from a template). The guest operating system notices the change, and is then able to react as appropriate by marking its copies of distributed databases as dirty, re-initializing its random number generator, etc.\nNote that auto-creation only works when done through API/CLI create or update methods, but not when manually editing the config file."
                                           },
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
@@ -15161,14 +15578,14 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "boot" : {
-                                             "default" : "cdn",
-                                             "description" : "Boot on floppy (a), hard disk (c), CD-ROM (d), or network (n).",
+                                             "description" : "Specify guest boot order. Use with 'order=', usage with no key or 'legacy=' is deprecated.",
+                                             "format" : "pve-qm-boot",
                                              "optional" : 1,
-                                             "pattern" : "[acdn]{1,4}",
-                                             "type" : "string"
+                                             "type" : "string",
+                                             "typetext" : "[[legacy=]<[acdn]{1,4}>] [,order=<device[;device...]>]"
                                           },
                                           "bootdisk" : {
-                                             "description" : "Enable booting from specified disk.",
+                                             "description" : "Enable booting from specified disk. Deprecated: Use 'boot: order=foo;bar' instead.",
                                              "format" : "pve-qm-bootdisk",
                                              "optional" : 1,
                                              "pattern" : "(ide|sata|scsi|virtio)\\d+",
@@ -15675,7 +16092,7 @@ var pveapi = [
                                              "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "ipconfig[n]" : {
-                                             "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit gateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using dhcp on IPv4.\n",
+                                             "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit\ngateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using\ndhcp on IPv4.\n",
                                              "format" : "pve-qm-ipconfig",
                                              "optional" : 1,
                                              "type" : "string",
@@ -15700,6 +16117,13 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "size=<integer> [,name=<string>]"
+                                          },
+                                          "keephugepages" : {
+                                             "default" : 0,
+                                             "description" : "Use together with hugepages. If enabled, hugepages will not not be deleted after VM shutdown and can be used for subsequent starts.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
                                           },
                                           "keyboard" : {
                                              "default" : null,
@@ -15802,7 +16226,7 @@ var pveapi = [
                                              "typetext" : "<string>"
                                           },
                                           "nameserver" : {
-                                             "description" : "cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
+                                             "description" : "cloud-init: Sets DNS server IP address for a container. Create will'\n\t    .' automatically use the setting from the host if neither searchdomain nor nameserver'\n\t    .' are set.",
                                              "format" : "address-list",
                                              "optional" : 1,
                                              "type" : "string",
@@ -16028,7 +16452,7 @@ var pveapi = [
                                              "optional" : 1,
                                              "pattern" : "/dev/parport\\d+|/dev/usb/lp\\d+",
                                              "type" : "string",
-                                             "verbose_description" : "Map host parallel devices (n is 0 to 2).\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
+                                             "verbose_description" : "Map host parallel devices (n is 0 to 2).\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "protection" : {
                                              "default" : 0,
@@ -16747,7 +17171,7 @@ var pveapi = [
                                              "type" : "string"
                                           },
                                           "searchdomain" : {
-                                             "description" : "cloud-init: Sets DNS search domains for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
+                                             "description" : "cloud-init: Sets DNS search domains for a container. Create will'\n\t    .' automatically use the setting from the host if neither searchdomain nor nameserver'\n\t    .' are set.",
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -16757,7 +17181,7 @@ var pveapi = [
                                              "optional" : 1,
                                              "pattern" : "(/dev/.+|socket)",
                                              "type" : "string",
-                                             "verbose_description" : "Create a serial device inside the VM (n is 0 to 3), and pass through a\nhost serial device (i.e. /dev/ttyS0), or create a unix socket on the\nhost side (use 'qm terminal' to open a terminal connection).\n\nNOTE: If you pass through a host serial device, it is no longer possible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
+                                             "verbose_description" : "Create a serial device inside the VM (n is 0 to 3), and pass through a\nhost serial device (i.e. /dev/ttyS0), or create a unix socket on the\nhost side (use 'qm terminal' to open a terminal connection).\n\nNOTE: If you pass through a host serial device, it is no longer possible to migrate such machines -\nuse with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "shares" : {
                                              "default" : 1000,
@@ -16832,7 +17256,7 @@ var pveapi = [
                                           },
                                           "startdate" : {
                                              "default" : "now",
-                                             "description" : "Set the initial date of the real time clock. Valid format for date are: 'now' or '2006-06-17T16:01:21' or '2006-06-17'.",
+                                             "description" : "Set the initial date of the real time clock. Valid format for date are:'now' or '2006-06-17T16:01:21' or '2006-06-17'.",
                                              "optional" : 1,
                                              "pattern" : "(now|\\d{4}-\\d{1,2}-\\d{1,2}(T\\d{1,2}:\\d{1,2}:\\d{1,2})?)",
                                              "type" : "string",
@@ -16851,7 +17275,7 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "boolean",
                                              "typetext" : "<boolean>",
-                                             "verbose_description" : "Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (-vga=qxl)."
+                                             "verbose_description" : "Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (`qm set <vmid> --vga qxl`)."
                                           },
                                           "tags" : {
                                              "description" : "Tags of the VM. This is only meta information.",
@@ -16897,7 +17321,7 @@ var pveapi = [
                                              "format" : {
                                                 "host" : {
                                                    "default_key" : 1,
-                                                   "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n",
+                                                   "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n",
                                                    "format" : "pve-qm-usb-device",
                                                    "format_description" : "HOSTUSBDEVICE|spice",
                                                    "type" : "string"
@@ -17276,7 +17700,7 @@ var pveapi = [
                                              "optional" : 1,
                                              "pattern" : "(?:[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}|[01])",
                                              "type" : "string",
-                                             "verbose_description" : "The VM generation ID (vmgenid) device exposes a 128-bit integer value identifier to the guest OS. This allows to notify the guest operating system when the virtual machine is executed with a different configuration (e.g. snapshot execution or creation from a template). The guest operating system notices the change, and is then able to react as appropriate by marking its copies of distributed databases as dirty, re-initializing its random number generator, etc.\nNote that auto-creation only works when done throug API/CLI create or update methods, but not when manually editing the config file."
+                                             "verbose_description" : "The VM generation ID (vmgenid) device exposes a 128-bit integer value identifier to the guest OS. This allows to notify the guest operating system when the virtual machine is executed with a different configuration (e.g. snapshot execution or creation from a template). The guest operating system notices the change, and is then able to react as appropriate by marking its copies of distributed databases as dirty, re-initializing its random number generator, etc.\nNote that auto-creation only works when done through API/CLI create or update methods, but not when manually editing the config file."
                                           },
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
@@ -20079,14 +20503,14 @@ var pveapi = [
                                  "type" : "string"
                               },
                               "boot" : {
-                                 "default" : "cdn",
-                                 "description" : "Boot on floppy (a), hard disk (c), CD-ROM (d), or network (n).",
+                                 "description" : "Specify guest boot order. Use with 'order=', usage with no key or 'legacy=' is deprecated.",
+                                 "format" : "pve-qm-boot",
                                  "optional" : 1,
-                                 "pattern" : "[acdn]{1,4}",
-                                 "type" : "string"
+                                 "type" : "string",
+                                 "typetext" : "[[legacy=]<[acdn]{1,4}>] [,order=<device[;device...]>]"
                               },
                               "bootdisk" : {
-                                 "description" : "Enable booting from specified disk.",
+                                 "description" : "Enable booting from specified disk. Deprecated: Use 'boot: order=foo;bar' instead.",
                                  "format" : "pve-qm-bootdisk",
                                  "optional" : 1,
                                  "pattern" : "(ide|sata|scsi|virtio)\\d+",
@@ -20587,7 +21011,7 @@ var pveapi = [
                                  "typetext" : "[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                               },
                               "ipconfig[n]" : {
-                                 "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit gateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using dhcp on IPv4.\n",
+                                 "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit\ngateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using\ndhcp on IPv4.\n",
                                  "format" : "pve-qm-ipconfig",
                                  "optional" : 1,
                                  "type" : "string",
@@ -20612,6 +21036,13 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "size=<integer> [,name=<string>]"
+                              },
+                              "keephugepages" : {
+                                 "default" : 0,
+                                 "description" : "Use together with hugepages. If enabled, hugepages will not not be deleted after VM shutdown and can be used for subsequent starts.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
                               },
                               "keyboard" : {
                                  "default" : null,
@@ -20714,7 +21145,7 @@ var pveapi = [
                                  "typetext" : "<string>"
                               },
                               "nameserver" : {
-                                 "description" : "cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
+                                 "description" : "cloud-init: Sets DNS server IP address for a container. Create will'\n\t    .' automatically use the setting from the host if neither searchdomain nor nameserver'\n\t    .' are set.",
                                  "format" : "address-list",
                                  "optional" : 1,
                                  "type" : "string",
@@ -20940,7 +21371,7 @@ var pveapi = [
                                  "optional" : 1,
                                  "pattern" : "/dev/parport\\d+|/dev/usb/lp\\d+",
                                  "type" : "string",
-                                 "verbose_description" : "Map host parallel devices (n is 0 to 2).\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
+                                 "verbose_description" : "Map host parallel devices (n is 0 to 2).\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                               },
                               "pool" : {
                                  "description" : "Add the VM to the specified pool.",
@@ -21659,7 +22090,7 @@ var pveapi = [
                                  "type" : "string"
                               },
                               "searchdomain" : {
-                                 "description" : "cloud-init: Sets DNS search domains for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
+                                 "description" : "cloud-init: Sets DNS search domains for a container. Create will'\n\t    .' automatically use the setting from the host if neither searchdomain nor nameserver'\n\t    .' are set.",
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -21669,7 +22100,7 @@ var pveapi = [
                                  "optional" : 1,
                                  "pattern" : "(/dev/.+|socket)",
                                  "type" : "string",
-                                 "verbose_description" : "Create a serial device inside the VM (n is 0 to 3), and pass through a\nhost serial device (i.e. /dev/ttyS0), or create a unix socket on the\nhost side (use 'qm terminal' to open a terminal connection).\n\nNOTE: If you pass through a host serial device, it is no longer possible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
+                                 "verbose_description" : "Create a serial device inside the VM (n is 0 to 3), and pass through a\nhost serial device (i.e. /dev/ttyS0), or create a unix socket on the\nhost side (use 'qm terminal' to open a terminal connection).\n\nNOTE: If you pass through a host serial device, it is no longer possible to migrate such machines -\nuse with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                               },
                               "shares" : {
                                  "default" : 1000,
@@ -21745,7 +22176,7 @@ var pveapi = [
                               },
                               "startdate" : {
                                  "default" : "now",
-                                 "description" : "Set the initial date of the real time clock. Valid format for date are: 'now' or '2006-06-17T16:01:21' or '2006-06-17'.",
+                                 "description" : "Set the initial date of the real time clock. Valid format for date are:'now' or '2006-06-17T16:01:21' or '2006-06-17'.",
                                  "optional" : 1,
                                  "pattern" : "(now|\\d{4}-\\d{1,2}-\\d{1,2}(T\\d{1,2}:\\d{1,2}:\\d{1,2})?)",
                                  "type" : "string",
@@ -21771,7 +22202,7 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>",
-                                 "verbose_description" : "Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (-vga=qxl)."
+                                 "verbose_description" : "Enable/disable the USB tablet device. This device is usually needed to allow absolute mouse positioning with VNC. Else the mouse runs out of sync with normal VNC clients. If you're running lots of console-only guests on one host, you may consider disabling this to save some context switches. This is turned off by default if you use spice (`qm set <vmid> --vga qxl`)."
                               },
                               "tags" : {
                                  "description" : "Tags of the VM. This is only meta information.",
@@ -21824,7 +22255,7 @@ var pveapi = [
                                  "format" : {
                                     "host" : {
                                        "default_key" : 1,
-                                       "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such machines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n",
+                                       "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n",
                                        "format" : "pve-qm-usb-device",
                                        "format_description" : "HOSTUSBDEVICE|spice",
                                        "type" : "string"
@@ -22203,7 +22634,7 @@ var pveapi = [
                                  "optional" : 1,
                                  "pattern" : "(?:[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}|[01])",
                                  "type" : "string",
-                                 "verbose_description" : "The VM generation ID (vmgenid) device exposes a 128-bit integer value identifier to the guest OS. This allows to notify the guest operating system when the virtual machine is executed with a different configuration (e.g. snapshot execution or creation from a template). The guest operating system notices the change, and is then able to react as appropriate by marking its copies of distributed databases as dirty, re-initializing its random number generator, etc.\nNote that auto-creation only works when done throug API/CLI create or update methods, but not when manually editing the config file."
+                                 "verbose_description" : "The VM generation ID (vmgenid) device exposes a 128-bit integer value identifier to the guest OS. This allows to notify the guest operating system when the virtual machine is executed with a different configuration (e.g. snapshot execution or creation from a template). The guest operating system notices the change, and is then able to react as appropriate by marking its copies of distributed databases as dirty, re-initializing its random number generator, etc.\nNote that auto-creation only works when done through API/CLI create or update methods, but not when manually editing the config file."
                               },
                               "vmid" : {
                                  "description" : "The (unique) ID of the VM.",
@@ -22385,7 +22816,7 @@ var pveapi = [
                                           },
                                           "cores" : {
                                              "description" : "The number of cores assigned to the container. A container can use all available cores by default.",
-                                             "maximum" : 128,
+                                             "maximum" : 8192,
                                              "minimum" : 1,
                                              "optional" : 1,
                                              "type" : "integer"
@@ -22393,7 +22824,7 @@ var pveapi = [
                                           "cpulimit" : {
                                              "default" : 0,
                                              "description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has a total of '2' CPU time. Value '0' indicates no CPU limit.",
-                                             "maximum" : 128,
+                                             "maximum" : 8192,
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "number"
@@ -22877,20 +23308,20 @@ var pveapi = [
                                           },
                                           "cores" : {
                                              "description" : "The number of cores assigned to the container. A container can use all available cores by default.",
-                                             "maximum" : 128,
+                                             "maximum" : 8192,
                                              "minimum" : 1,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - 128)"
+                                             "typetext" : "<integer> (1 - 8192)"
                                           },
                                           "cpulimit" : {
                                              "default" : 0,
                                              "description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has a total of '2' CPU time. Value '0' indicates no CPU limit.",
-                                             "maximum" : 128,
+                                             "maximum" : 8192,
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "number",
-                                             "typetext" : "<number> (0 - 128)"
+                                             "typetext" : "<number> (0 - 8192)"
                                           },
                                           "cpuunits" : {
                                              "default" : 1024,
@@ -24388,6 +24819,10 @@ var pveapi = [
                                                          "optional" : 1,
                                                          "type" : "integer"
                                                       },
+                                                      "icmp-type" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
                                                       "iface" : {
                                                          "optional" : 1,
                                                          "type" : "string"
@@ -24494,6 +24929,13 @@ var pveapi = [
                                                          "optional" : 1,
                                                          "type" : "integer",
                                                          "typetext" : "<integer> (0 - N)"
+                                                      },
+                                                      "icmp-type" : {
+                                                         "description" : "Specify icmp-type. Only valid if proto equals 'icmp'.",
+                                                         "format" : "pve-fw-icmp-type-spec",
+                                                         "optional" : 1,
+                                                         "type" : "string",
+                                                         "typetext" : "<string>"
                                                       },
                                                       "iface" : {
                                                          "description" : "Network interface name. You have to use network configuration key names for VMs and containers ('net\\d+'). Host related rules can use arbitrary strings.",
@@ -24709,6 +25151,13 @@ var pveapi = [
                                                    "optional" : 1,
                                                    "type" : "integer",
                                                    "typetext" : "<integer> (0 - N)"
+                                                },
+                                                "icmp-type" : {
+                                                   "description" : "Specify icmp-type. Only valid if proto equals 'icmp'.",
+                                                   "format" : "pve-fw-icmp-type-spec",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
                                                 },
                                                 "iface" : {
                                                    "description" : "Network interface name. You have to use network configuration key names for VMs and containers ('net\\d+'). Host related rules can use arbitrary strings.",
@@ -27813,20 +28262,20 @@ var pveapi = [
                               },
                               "cores" : {
                                  "description" : "The number of cores assigned to the container. A container can use all available cores by default.",
-                                 "maximum" : 128,
+                                 "maximum" : 8192,
                                  "minimum" : 1,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "<integer> (1 - 128)"
+                                 "typetext" : "<integer> (1 - 8192)"
                               },
                               "cpulimit" : {
                                  "default" : 0,
                                  "description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has a total of '2' CPU time. Value '0' indicates no CPU limit.",
-                                 "maximum" : 128,
+                                 "maximum" : 8192,
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "number",
-                                 "typetext" : "<number> (0 - 128)"
+                                 "typetext" : "<number> (0 - 8192)"
                               },
                               "cpuunits" : {
                                  "default" : 1024,
@@ -29763,6 +30212,92 @@ var pveapi = [
                                     "returns" : {
                                        "type" : "string"
                                     }
+                                 },
+                                 "PUT" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Change POOL settings",
+                                    "method" : "PUT",
+                                    "name" : "setpool",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "application" : {
+                                             "description" : "The application of the pool.",
+                                             "enum" : [
+                                                "rbd",
+                                                "cephfs",
+                                                "rgw"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "crush_rule" : {
+                                             "description" : "The rule to use for mapping object placement in the cluster.",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "min_size" : {
+                                             "description" : "Minimum number of replicas per object",
+                                             "maximum" : 7,
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - 7)"
+                                          },
+                                          "name" : {
+                                             "description" : "The name of the pool. It must be unique.",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "pg_autoscale_mode" : {
+                                             "description" : "The automatic PG scaling mode of the pool.",
+                                             "enum" : [
+                                                "on",
+                                                "off",
+                                                "warn"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "pg_num" : {
+                                             "description" : "Number of placement groups.",
+                                             "maximum" : 32768,
+                                             "minimum" : 8,
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (8 - 32768)"
+                                          },
+                                          "size" : {
+                                             "description" : "Number of replicas per object",
+                                             "maximum" : 7,
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - 7)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/",
+                                          [
+                                             "Sys.Modify"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
                                  }
                               },
                               "leaf" : 1,
@@ -29872,7 +30407,8 @@ var pveapi = [
                                        "typetext" : "<boolean>"
                                     },
                                     "application" : {
-                                       "description" : "The application of the pool, 'rbd' by default.",
+                                       "default" : "rbd",
+                                       "description" : "The application of the pool.",
                                        "enum" : [
                                           "rbd",
                                           "cephfs",
@@ -29906,6 +30442,17 @@ var pveapi = [
                                        "format" : "pve-node",
                                        "type" : "string",
                                        "typetext" : "<string>"
+                                    },
+                                    "pg_autoscale_mode" : {
+                                       "default" : "warn",
+                                       "description" : "The automatic PG scaling mode of the pool.",
+                                       "enum" : [
+                                          "on",
+                                          "off",
+                                          "warn"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
                                     },
                                     "pg_num" : {
                                        "default" : 128,
@@ -30470,7 +31017,7 @@ var pveapi = [
                                  "format" : "prune-backups",
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                                 "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
                               },
                               "quiet" : {
                                  "default" : 0,
@@ -30558,7 +31105,7 @@ var pveapi = [
                            }
                         },
                         "permissions" : {
-                           "description" : "The user needs 'VM.Backup' permissions on any VM, and 'Datastore.AllocateSpace' on the backup storage. The 'maxfiles', 'tmpdir', 'dumpdir', 'script', 'bwlimit' and 'ionice' parameters are restricted to the 'root@pam' user.",
+                           "description" : "The user needs 'VM.Backup' permissions on any VM, and 'Datastore.AllocateSpace' on the backup storage. The 'maxfiles', 'prune-backups', 'tmpdir', 'dumpdir', 'script', 'bwlimit' and 'ionice' parameters are restricted to the 'root@pam' user.",
                            "user" : "all"
                         },
                         "protected" : 1,
@@ -32990,7 +33537,7 @@ var pveapi = [
                                              "format" : "prune-backups",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                                             "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
                                           },
                                           "storage" : {
                                              "description" : "The storage identifier.",
@@ -33029,7 +33576,7 @@ var pveapi = [
                                  },
                                  "GET" : {
                                     "allowtoken" : 1,
-                                    "description" : "Get prune information for backups. NOTE: this is only a preview and might not be exactly what a subsequent prune call does, if the hour changes or if backups are removed/added in the meantime.",
+                                    "description" : "Get prune information for backups. NOTE: this is only a preview and might not be what a subsequent prune call does if backups are removed/added in the meantime.",
                                     "method" : "GET",
                                     "name" : "dryrun",
                                     "parameters" : {
@@ -33046,7 +33593,7 @@ var pveapi = [
                                              "format" : "prune-backups",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                                             "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
                                           },
                                           "storage" : {
                                              "description" : "The storage identifier.",
@@ -33208,6 +33755,31 @@ var pveapi = [
                                           "protected" : 1,
                                           "proxyto" : "node",
                                           "returns" : {
+                                             "properties" : {
+                                                "format" : {
+                                                   "description" : "Format identifier ('raw', 'qcow2', 'subvol', 'iso', 'tgz' ...)",
+                                                   "type" : "string"
+                                                },
+                                                "notes" : {
+                                                   "description" : "Optional notes.",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "path" : {
+                                                   "description" : "The Path",
+                                                   "type" : "string"
+                                                },
+                                                "size" : {
+                                                   "description" : "Volume size in bytes.",
+                                                   "renderer" : "bytes",
+                                                   "type" : "integer"
+                                                },
+                                                "used" : {
+                                                   "description" : "Used space. Please note that most storage plugins do not report anything useful here.",
+                                                   "renderer" : "bytes",
+                                                   "type" : "integer"
+                                                }
+                                             },
                                              "type" : "object"
                                           }
                                        },
@@ -33255,6 +33827,50 @@ var pveapi = [
                                           "proxyto" : "node",
                                           "returns" : {
                                              "type" : "string"
+                                          }
+                                       },
+                                       "PUT" : {
+                                          "allowtoken" : 1,
+                                          "description" : "Update volume attributes",
+                                          "method" : "PUT",
+                                          "name" : "updateattributes",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "notes" : {
+                                                   "description" : "The new notes.",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "storage" : {
+                                                   "description" : "The storage identifier.",
+                                                   "format" : "pve-storage-id",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "volume" : {
+                                                   "description" : "Volume identifier",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "description" : "You need read access for the volume.",
+                                             "user" : "all"
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "type" : "null"
                                           }
                                        }
                                     },
@@ -33328,6 +33944,11 @@ var pveapi = [
                                                 "description" : "Format identifier ('raw', 'qcow2', 'subvol', 'iso', 'tgz' ...)",
                                                 "type" : "string"
                                              },
+                                             "notes" : {
+                                                "description" : "Optional notes. If they contain multiple lines, only the first one is returned here.",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
                                              "parent" : {
                                                 "description" : "Volume identifier of parent (for linked cloned).",
                                                 "optional" : 1,
@@ -33343,6 +33964,21 @@ var pveapi = [
                                                 "optional" : 1,
                                                 "renderer" : "bytes",
                                                 "type" : "integer"
+                                             },
+                                             "verification" : {
+                                                "description" : "Last backup verification result, only useful for PBS storages.",
+                                                "optional" : 1,
+                                                "properties" : {
+                                                   "state" : {
+                                                      "description" : "Last backup verification state.",
+                                                      "type" : "string"
+                                                   },
+                                                   "upid" : {
+                                                      "description" : "Last backup verification UPID.",
+                                                      "type" : "string"
+                                                   }
+                                                },
+                                                "type" : "object"
                                              },
                                              "vmid" : {
                                                 "description" : "Associated Owner VMID.",
@@ -35133,6 +35769,10 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "integer"
                                           },
+                                          "icmp-type" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
                                           "iface" : {
                                              "optional" : 1,
                                              "type" : "string"
@@ -35239,6 +35879,13 @@ var pveapi = [
                                              "optional" : 1,
                                              "type" : "integer",
                                              "typetext" : "<integer> (0 - N)"
+                                          },
+                                          "icmp-type" : {
+                                             "description" : "Specify icmp-type. Only valid if proto equals 'icmp'.",
+                                             "format" : "pve-fw-icmp-type-spec",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
                                           },
                                           "iface" : {
                                              "description" : "Network interface name. You have to use network configuration key names for VMs and containers ('net\\d+'). Host related rules can use arbitrary strings.",
@@ -35440,6 +36087,13 @@ var pveapi = [
                                        "optional" : 1,
                                        "type" : "integer",
                                        "typetext" : "<integer> (0 - N)"
+                                    },
+                                    "icmp-type" : {
+                                       "description" : "Specify icmp-type. Only valid if proto equals 'icmp'.",
+                                       "format" : "pve-fw-icmp-type-spec",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
                                     },
                                     "iface" : {
                                        "description" : "Network interface name. You have to use network configuration key names for VMs and containers ('net\\d+'). Host related rules can use arbitrary strings.",
@@ -37671,11 +38325,19 @@ var pveapi = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "login",
-                                    "ceph_install",
-                                    "upgrade"
+                                    "upgrade",
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
+                              },
+                              "cmd-opts" : {
+                                 "default" : "",
+                                 "description" : "Add parameters to a command. Encoded as null terminated strings.",
+                                 "optional" : 1,
+                                 "requires" : "cmd",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               },
                               "height" : {
                                  "description" : "sets the height of the console in pixels.",
@@ -37766,11 +38428,19 @@ var pveapi = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "login",
-                                    "ceph_install",
-                                    "upgrade"
+                                    "upgrade",
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
+                              },
+                              "cmd-opts" : {
+                                 "default" : "",
+                                 "description" : "Add parameters to a command. Encoded as null terminated strings.",
+                                 "optional" : 1,
+                                 "requires" : "cmd",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               },
                               "node" : {
                                  "description" : "The cluster node name.",
@@ -37891,11 +38561,19 @@ var pveapi = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "login",
-                                    "ceph_install",
-                                    "upgrade"
+                                    "upgrade",
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
+                              },
+                              "cmd-opts" : {
+                                 "default" : "",
+                                 "description" : "Add parameters to a command. Encoded as null terminated strings.",
+                                 "optional" : 1,
+                                 "requires" : "cmd",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               },
                               "node" : {
                                  "description" : "The cluster node name.",
@@ -38935,12 +39613,21 @@ var pveapi = [
                            "type" : "string",
                            "typetext" : "<string>"
                         },
+                        "port" : {
+                           "default" : 8007,
+                           "description" : "For non default port.",
+                           "maximum" : 65535,
+                           "minimum" : 1,
+                           "optional" : 1,
+                           "type" : "integer",
+                           "typetext" : "<integer> (1 - 65535)"
+                        },
                         "prune-backups" : {
                            "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
                            "format" : "prune-backups",
                            "optional" : 1,
                            "type" : "string",
-                           "typetext" : "[keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                           "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
                         },
                         "redundancy" : {
                            "default" : 2,
@@ -39049,7 +39736,46 @@ var pveapi = [
                   },
                   "protected" : 1,
                   "returns" : {
-                     "type" : "null"
+                     "properties" : {
+                        "config" : {
+                           "additionalProperties" : 1,
+                           "description" : "Partial, possible server generated, configuration properties.",
+                           "optional" : 1,
+                           "properties" : {
+                              "encryption-key" : {
+                                 "description" : "The, possible auto-generated, encryption-key.",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              }
+                           },
+                           "type" : "object"
+                        },
+                        "storage" : {
+                           "description" : "The ID of the created storage.",
+                           "type" : "string"
+                        },
+                        "type" : {
+                           "description" : "The type of the created storage.",
+                           "enum" : [
+                              "cephfs",
+                              "cifs",
+                              "dir",
+                              "drbd",
+                              "glusterfs",
+                              "iscsi",
+                              "iscsidirect",
+                              "lvm",
+                              "lvmthin",
+                              "nfs",
+                              "pbs",
+                              "rbd",
+                              "zfs",
+                              "zfspool"
+                           ],
+                           "type" : "string"
+                        }
+                     },
+                     "type" : "object"
                   }
                }
             },
@@ -39202,7 +39928,7 @@ var pveapi = [
                      "typetext" : "<string>"
                   },
                   "datastore" : {
-                     "description" : "Proxmox backup server datastore name.",
+                     "description" : "Proxmox Backup Server datastore name.",
                      "optional" : 1,
                      "type" : "string",
                      "typetext" : "<string>"
@@ -39345,6 +40071,15 @@ var pveapi = [
                      "type" : "string",
                      "typetext" : "<string>"
                   },
+                  "port" : {
+                     "default" : 8007,
+                     "description" : "For non default port.",
+                     "maximum" : 65535,
+                     "minimum" : 1,
+                     "optional" : 1,
+                     "type" : "integer",
+                     "typetext" : "<integer> (1 - 65535)"
+                  },
                   "portal" : {
                      "description" : "iSCSI portal (IP or DNS name with optional port).",
                      "format" : "pve-storage-portal-dns",
@@ -39357,7 +40092,7 @@ var pveapi = [
                      "format" : "prune-backups",
                      "optional" : 1,
                      "type" : "string",
-                     "typetext" : "[keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
+                     "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
                   },
                   "redundancy" : {
                      "default" : 2,
@@ -39518,7 +40253,46 @@ var pveapi = [
             },
             "protected" : 1,
             "returns" : {
-               "type" : "null"
+               "properties" : {
+                  "config" : {
+                     "additionalProperties" : 1,
+                     "description" : "Partial, possible server generated, configuration properties.",
+                     "optional" : 1,
+                     "properties" : {
+                        "encryption-key" : {
+                           "description" : "The, possible auto-generated, encryption-key.",
+                           "optional" : 1,
+                           "type" : "string"
+                        }
+                     },
+                     "type" : "object"
+                  },
+                  "storage" : {
+                     "description" : "The ID of the created storage.",
+                     "type" : "string"
+                  },
+                  "type" : {
+                     "description" : "The type of the created storage.",
+                     "enum" : [
+                        "cephfs",
+                        "cifs",
+                        "dir",
+                        "drbd",
+                        "glusterfs",
+                        "iscsi",
+                        "iscsidirect",
+                        "lvm",
+                        "lvmthin",
+                        "nfs",
+                        "pbs",
+                        "rbd",
+                        "zfs",
+                        "zfspool"
+                     ],
+                     "type" : "string"
+                  }
+               },
+               "type" : "object"
             }
          }
       },
@@ -41221,6 +41995,13 @@ var pveapi = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "case-sensitive" : {
+                                 "default" : 1,
+                                 "description" : "username is case-sensitive",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
                               "cert" : {
                                  "description" : "Path to the client certificate",
                                  "optional" : 1,
@@ -41512,6 +42293,13 @@ var pveapi = [
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
+                        },
+                        "case-sensitive" : {
+                           "default" : 1,
+                           "description" : "username is case-sensitive",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
                         },
                         "cert" : {
                            "description" : "Path to the client certificate",

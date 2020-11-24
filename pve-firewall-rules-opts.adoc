@@ -6,6 +6,10 @@ Restrict packet destination address. This can refer to a single IP address, an I
 
 Restrict TCP/UDP destination port. You can use service names or simple numbers (0-65535), as defined in '/etc/services'. Port ranges can be specified with '\d+:\d+', for example '80:85', and you can use comma separated list to match several ports or ranges.
 
+`--icmp-type` `<string>` ::
+
+Specify icmp-type. Only valid if proto equals 'icmp'.
+
 `--iface` `<string>` ::
 
 Network interface name. You have to use network configuration key names for VMs and containers ('net\d+'). Host related rules can use arbitrary strings.

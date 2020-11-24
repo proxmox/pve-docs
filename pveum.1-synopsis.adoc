@@ -156,6 +156,10 @@ LDAP bind domain name
 
 Path to the CA certificate store
 
+`--case-sensitive` `<boolean>` ('default =' `1`)::
+
+username is case-sensitive
+
 `--cert` `<string>` ::
 
 Path to the client certificate
@@ -283,6 +287,10 @@ LDAP bind domain name
 `--capath` `<string>` ('default =' `/etc/ssl/certs`)::
 
 Path to the CA certificate store
+
+`--case-sensitive` `<boolean>` ('default =' `1`)::
+
+username is case-sensitive
 
 `--cert` `<string>` ::
 

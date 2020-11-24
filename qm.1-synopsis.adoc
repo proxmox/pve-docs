@@ -143,13 +143,13 @@ Amount of target RAM for the VM in MB. Using zero disables the ballon driver.
 
 Select BIOS implementation.
 
-`--boot` `[acdn]{1,4}` ('default =' `cdn`)::
+`--boot` `[[legacy=]<[acdn]{1,4}>] [,order=<device[;device...]>]` ::
 
-Boot on floppy (a), hard disk (c), CD-ROM (d), or network (n).
+Specify guest boot order. Use with 'order=', usage with no key or 'legacy=' is deprecated.
 
 `--bootdisk` `(ide|sata|scsi|virtio)\d+` ::
 
-Enable booting from specified disk.
+Enable booting from specified disk. Deprecated: Use 'boot: order=foo;bar' instead.
 
 `--bwlimit` `<integer> (0 - N)` ('default =' `restore limit from datacenter or storage config`)::
 
@@ -235,14 +235,20 @@ cloud-init: Specify IP addresses and gateways for the corresponding interface.
 +
 IP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.
 +
-The special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit gateway should be provided.
+The special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit
+gateway should be provided.
 For IPv6 the special string 'auto' can be used to use stateless autoconfiguration.
 +
-If cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using dhcp on IPv4.
+If cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using
+dhcp on IPv4.
 
 `--ivshmem` `size=<integer> [,name=<string>]` ::
 
 Inter-VM shared memory. Useful for direct communication between VMs, or to the host.
+
+`--keephugepages` `<boolean>` ('default =' `0`)::
+
+Use together with hugepages. If enabled, hugepages will not not be deleted after VM shutdown and can be used for subsequent starts.
 
 `--keyboard` `<da | de | de-ch | en-gb | en-us | es | fi | fr | fr-be | fr-ca | fr-ch | hu | is | it | ja | lt | mk | nl | no | pl | pt | pt-br | sl | sv | tr>` ::
 
@@ -282,7 +288,9 @@ Set a name for the VM. Only used on the configuration web interface.
 
 `--nameserver` `<string>` ::
 
-cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.
+cloud-init: Sets DNS server IP address for a container. Create will'
+	    .' automatically use the setting from the host if neither searchdomain nor nameserver'
+	    .' are set.
 
 `--net[n]` `[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
 
@@ -338,7 +346,9 @@ SCSI controller model
 
 `--searchdomain` `<string>` ::
 
-cloud-init: Sets DNS search domains for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.
+cloud-init: Sets DNS search domains for a container. Create will'
+	    .' automatically use the setting from the host if neither searchdomain nor nameserver'
+	    .' are set.
 
 `--serial[n]` `(/dev/.+|socket)` ::
 
@@ -374,7 +384,7 @@ Start VM after it was created successfully.
 
 `--startdate` `(now | YYYY-MM-DD | YYYY-MM-DDTHH:MM:SS)` ('default =' `now`)::
 
-Set the initial date of the real time clock. Valid format for date are: 'now' or '2006-06-17T16:01:21' or '2006-06-17'.
+Set the initial date of the real time clock. Valid format for date are:'now' or '2006-06-17T16:01:21' or '2006-06-17'.
 
 `--startup` `[[order=]\d+] [,up=\d+] [,down=\d+] ` ::
 
@@ -854,13 +864,13 @@ Amount of target RAM for the VM in MB. Using zero disables the ballon driver.
 
 Select BIOS implementation.
 
-`--boot` `[acdn]{1,4}` ('default =' `cdn`)::
+`--boot` `[[legacy=]<[acdn]{1,4}>] [,order=<device[;device...]>]` ::
 
-Boot on floppy (a), hard disk (c), CD-ROM (d), or network (n).
+Specify guest boot order. Use with 'order=', usage with no key or 'legacy=' is deprecated.
 
 `--bootdisk` `(ide|sata|scsi|virtio)\d+` ::
 
-Enable booting from specified disk.
+Enable booting from specified disk. Deprecated: Use 'boot: order=foo;bar' instead.
 
 `--cdrom` `<volume>` ::
 
@@ -950,14 +960,20 @@ cloud-init: Specify IP addresses and gateways for the corresponding interface.
 +
 IP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.
 +
-The special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit gateway should be provided.
+The special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit
+gateway should be provided.
 For IPv6 the special string 'auto' can be used to use stateless autoconfiguration.
 +
-If cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using dhcp on IPv4.
+If cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using
+dhcp on IPv4.
 
 `--ivshmem` `size=<integer> [,name=<string>]` ::
 
 Inter-VM shared memory. Useful for direct communication between VMs, or to the host.
+
+`--keephugepages` `<boolean>` ('default =' `0`)::
+
+Use together with hugepages. If enabled, hugepages will not not be deleted after VM shutdown and can be used for subsequent starts.
 
 `--keyboard` `<da | de | de-ch | en-gb | en-us | es | fi | fr | fr-be | fr-ca | fr-ch | hu | is | it | ja | lt | mk | nl | no | pl | pt | pt-br | sl | sv | tr>` ::
 
@@ -997,7 +1013,9 @@ Set a name for the VM. Only used on the configuration web interface.
 
 `--nameserver` `<string>` ::
 
-cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.
+cloud-init: Sets DNS server IP address for a container. Create will'
+	    .' automatically use the setting from the host if neither searchdomain nor nameserver'
+	    .' are set.
 
 `--net[n]` `[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
 
@@ -1053,7 +1071,9 @@ SCSI controller model
 
 `--searchdomain` `<string>` ::
 
-cloud-init: Sets DNS search domains for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.
+cloud-init: Sets DNS search domains for a container. Create will'
+	    .' automatically use the setting from the host if neither searchdomain nor nameserver'
+	    .' are set.
 
 `--serial[n]` `(/dev/.+|socket)` ::
 
@@ -1089,7 +1109,7 @@ cloud-init: Setup public SSH keys (one key per line, OpenSSH format).
 
 `--startdate` `(now | YYYY-MM-DD | YYYY-MM-DDTHH:MM:SS)` ('default =' `now`)::
 
-Set the initial date of the real time clock. Valid format for date are: 'now' or '2006-06-17T16:01:21' or '2006-06-17'.
+Set the initial date of the real time clock. Valid format for date are:'now' or '2006-06-17T16:01:21' or '2006-06-17'.
 
 `--startup` `[[order=]\d+] [,up=\d+] [,down=\d+] ` ::
 
