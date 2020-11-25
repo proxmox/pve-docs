@@ -841,8 +841,8 @@ resources. If desired, a value of '0' for `max_bytes` can be used to disable
 all limits.
 
 [[qm_bootorder]]
-Guest Boot Order
-~~~~~~~~~~~~~~~~
+Device Boot Order
+~~~~~~~~~~~~~~~~~
 
 QEMU can tell the guest which devices it should boot from, and in which order.
 This can be specified in the config via the `boot` property, e.g.:
