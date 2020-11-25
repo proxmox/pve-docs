@@ -82,6 +82,48 @@ container.
 |backup        |n/a           |yes    |n/a       |n/a
 |===============================================================
 
+[[storage_pbs_encryption]]
+Encryption
+~~~~~~~~~~
+
+Optionally, you can configure client-side encryption with AES-256 in GCM mode.
+Encryption can be configured either via the web interface, or on the CLI with
+the `encryption-key` option (see above). The key will be saved in the file
+`/etc/pve/priv/storage/<STORAGE-ID>.enc`, which is only accessible by the root
+user.
+
+WARNING: Without their key, backups will be inaccessible. Thus, you should
+keep keys ordered and in a place that is separate from the contents being
+backed up. It can happen, for example, that you back up an entire system, using
+a key on that system. If the system then becomes inaccessible for any reason
+and needs to be restored, this will not be possible as the encryption key will be
+lost along with the broken system.
+
+It is recommended that you keep your keys safe, but easily accessible, in
+order for quick disaster recovery. For this reason, the best place to store it
+is in your password manager, where it is immediately recoverable. As a backup to
+this, you should also save the key to a USB drive and store that in a secure
+place. This way, it is detached from any system, but is still easy to recover
+from, in case of emergency. Finally, in preparation for the worst case scenario,
+you should also consider keeping a paper copy of your master key locked away in
+a safe place. The `paperkey` subcommand can be used to create a QR encoded
+version of your master key. The following command sends the output of the
+`paperkey` command to a text file, for easy printing.
+
+----
+# proxmox-backup-client key paperkey --output-format text > qrkey.txt
+----
+
+Because the encryption is managed on the client side, you can use the same
+datastore on the server for unencrypted backups and encrypted backups, even
+if they are encrypted with different keys. However, deduplication between
+backups with different keys is not possible, so it is often better to create
+separate datastores.
+
+NOTE: Do not use encryption if there is no benefit from it, for example, when
+you are running the server locally in a trusted network. It is always easier to
+recover from unencrypted backups.
+
 Examples
 ~~~~~~~~
 

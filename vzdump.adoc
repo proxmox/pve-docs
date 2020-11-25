@@ -179,6 +179,11 @@ compression algorithm has been used to create the backup.
 If the backup file name doesn't end with one of the above file extensions, then
 it was not compressed by vzdump.
 
+Backup Encryption
+-----------------
+
+For Proxmox Backup Server storages, you can optionally set up client-side
+encryption of backups, see xref:storage_pbs_encryption[the corresponding section.]
 
 [[vzdump_retention]]
 Backup Retention
