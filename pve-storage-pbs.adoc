@@ -86,6 +86,8 @@ container.
 Encryption
 ~~~~~~~~~~
 
+[thumbnail="screenshot/storage-pbs-encryption-with-key.png"]
+
 Optionally, you can configure client-side encryption with AES-256 in GCM mode.
 Encryption can be configured either via the web interface, or on the CLI with
 the `encryption-key` option (see above). The key will be saved in the file
