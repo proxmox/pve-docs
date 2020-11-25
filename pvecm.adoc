@@ -872,17 +872,19 @@ If you see a healthy cluster state, it means that your new link is being used.
 Role of SSH in {PVE} Clusters
 -----------------------------
 
-{PVE} utilizes SSH tunnels for various operations.
+{PVE} utilizes SSH tunnels for various features.
 
-* Proxying terminal sessions of node and containers between nodes
+* Proxying console/shell sessions (node and guests)
 +
-When you connect another nodes shell through the web interface, for example, a
-non-interactive SSH tunnel is started in order to forward the necessary ports
-for the VNC connection.
+When using the shell for node B while being connected to node A, connects to a
+terminal proxy on node A, which is in turn connected to the login shell on node
+B via a non-interactive SSH tunnel.
 
-* VM and CT memory and local-storage migration, if the cluster wide migration
-  settings are not configured 'insecure' mode. During a VM migration an SSH
-  tunnel is established between the target and source nodes.
+* VM and CT memory and local-storage migration in 'secure' mode.
++
+During the migration one or more SSH tunnel(s) are established between the
+source and target nodes, in order to exchange migration information and
+transfer memory and disk contents.
 
 * Storage replication
 
