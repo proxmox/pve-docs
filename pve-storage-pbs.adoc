@@ -124,8 +124,8 @@ NOTE: Do not use encryption if there is no benefit from it, for example, when
 you are running the server locally in a trusted network. It is always easier to
 recover from unencrypted backups.
 
-Examples
-~~~~~~~~
+Example: Add Storage over CLI
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // TODO: FIXME: add once available
 //You can get a list of exported CIFS shares with:
