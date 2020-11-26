@@ -101,19 +101,19 @@ a key on that system. If the system then becomes inaccessible for any reason
 and needs to be restored, this will not be possible as the encryption key will be
 lost along with the broken system.
 
-It is recommended that you keep your keys safe, but easily accessible, in
+It is recommended that you keep your key safe, but easily accessible, in
 order for quick disaster recovery. For this reason, the best place to store it
 is in your password manager, where it is immediately recoverable. As a backup to
 this, you should also save the key to a USB drive and store that in a secure
 place. This way, it is detached from any system, but is still easy to recover
 from, in case of emergency. Finally, in preparation for the worst case scenario,
-you should also consider keeping a paper copy of your master key locked away in
-a safe place. The `paperkey` subcommand can be used to create a QR encoded
-version of your master key. The following command sends the output of the
-`paperkey` command to a text file, for easy printing.
+you should also consider keeping a paper copy of your key locked away in a safe
+place. The `paperkey` subcommand can be used to create a QR encoded version of
+your key. The following command sends the output of the `paperkey` command to
+a text file, for easy printing.
 
 ----
-# proxmox-backup-client key paperkey --output-format text > qrkey.txt
+# proxmox-backup-client key paperkey /etc/pve/priv/storage/<STORAGE-ID>.enc --output-format text > qrkey.txt
 ----
 
 Because the encryption is managed on the client side, you can use the same
