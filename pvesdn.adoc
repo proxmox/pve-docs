@@ -31,6 +31,13 @@ configuration reloading without reboot:
 apt install ifupdown2
 ----
 
+You need to add
+----
+source /etc/network/interfaces.d/*
+----
+at the end of /etc/network/interfaces to have the sdn config included
+
+
 Basic Overview
 --------------
 
@@ -48,24 +55,31 @@ from the cluster wide datacenter SDN administration interface.
 
 
 Main configuration
-------------------
+~~~~~~~~~~~~~~~~~~
 
 The configuration is done at datacenter (cluster-wide) level, it will be saved
 in configuration files located in the shared configuration file system:
 `/etc/pve/sdn`
 
-On the web-interface  SDN feature have 4 main sections for the configuration
+On the web-interface  SDN feature have 3 main sections for the configuration
 
 * SDN: a overview of the SDN state
 
 * Zones: Create and manage the virtual separated network Zones
 
-* VNets: The per-node building block to provide a Zone for VMs
+* VNets: Create virtual network bridges + subnets management.
+
+And some options:
 
 * Controller: For complex setups to control Layer 3 routing
 
+* Ipams: Allow to use external tools for ip managements (vm/ct ips)
+
+* Dns: Allow to define a dns server api for register vm/ct hostname/ip addresses
+
 
 [[pvesdn_config_main_sdn]]
+
 SDN
 ~~~
 
@@ -76,9 +90,20 @@ There is an 'Apply' button, to push and reload local configuration on all
 cluster nodes nodes.
 
 
+[[pvesdn_local_deployment_monitoring]]
+Local Deployment Monitoring
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+After applying the configuration through the main SDN web-interface panel,
+the local network configuration is generated locally on each node in
+`/etc/network/interfaces.d/sdn`, and with ifupdown2 reloaded.
+
+You can monitor the status of local zones and vnets through the main tree.
+
+
 [[pvesdn_config_zone]]
 Zones
-~~~~~
+-----
 
 A zone will define a virtually separated network.
 
@@ -90,6 +115,8 @@ It can use different technologies for separation:
 
 * VXLAN: (layer2 vxlan)
 
+* Simple: Isolated Bridge, simple l3 routing bridge (NAT)
+
 * bgp-evpn: vxlan using layer3 border gateway protocol routing
 
 You can restrict a zone to specific nodes.
@@ -97,57 +124,37 @@ You can restrict a zone to specific nodes.
 It's also possible to add permissions on a zone, to restrict user to use only a
 specific zone and only the VNets in that zone
 
-[[pvesdn_config_vnet]]
-VNets
-~~~~~
-
-A `VNet` is in its basic form just a Linux bridge that will be deployed locally
-on the node and used for Virtual Machine communication.
-
-VNet properties are:
-
-* ID: a 8 characters ID to name and identify a VNet
-
-* Alias: Optional longer name, if the ID isn't enough
-
-* Zone: The associated zone for this VNet
-
-* Tag: The unique VLAN or VXLAN id
-
-* VLAN Aware: Allow to add an extra VLAN tag in the virtual machine or
-  container vNIC configurations or allow the guest OS to manage the VLAN's tag.
-
-* IPv4: an anycast IPv4 address, it will be configured on the underlying bridge
-  on each node part of the Zone. It's only useful for `bgp-evpn` routing.
-
-* IPv6: an anycast IPv6 address, it will be configured on the underlying bridge
-  on each node part of the Zone. It's only useful for `bgp-evpn` routing.
-
-
-[[pvesdn_config_controllers]]
-Controllers
-~~~~~~~~~~~
-
-Some zone types need an external controller to manage the VNet control-plane.
-Currently this is only required for the `bgp-evpn` zone plugin.
-
-
-[[pvesdn_zone_plugins]]
-Zones Plugins
--------------
-
 Common options
 ~~~~~~~~~~~~~~
 
 nodes:: Deploy and allow to use a VNets configured for this Zone only on these
 nodes.
 
+Ipam:: Optional, if you want to use an ipam tool to manage ips in  this zone
+
+Dns:: Optional, dns api server.
+
+ReverseDns:: Optional, reverse dns api server.
+
+Dnszone:: Optional, dns domain name. Use to register hostname like  <hostname>.<domain>
+           The dns zone need to be already existing in dns server.
+
+
+[[pvesdn_zone_plugin_simple]]
+Simple Zones
+~~~~~~~~~~~~
+
+This is the simplest plugin, it will create an isolated vnet bridge.
+This bridge is not linked to physical interfaces, VM traffic is only
+local to the node(s).
+It can be also used for NAT or routed setup.
+
 [[pvesdn_zone_plugin_vlan]]
 VLAN Zones
 ~~~~~~~~~~
 
-This is the simplest plugin, it will reuse an existing local Linux or OVS
-bridge, and manage VLANs on it.
+This plugin will reuse an existing local Linux or OVS bridge, 
+and manage VLANs on it.
 The benefit of using SDN module, is that you can create different zones with
 specific VNets VLAN tag, and restrict Virtual Machines to separated zones.
 
@@ -217,15 +224,73 @@ it must be different than VXLAN-id of VNets
 controller:: an EVPN-controller need to be defined first (see controller
 plugins section)
 
+
+Exit Nodes:: This is used if you want to defined some proxmox nodes, as
+             exit gateway from evpn network through real network. This nodes
+             will announce a default route in the evpn network.
+
 mtu:: because VXLAN encapsulation use 50bytes, the MTU need to be 50 bytes
 lower than the outgoing physical interface.
 
 
-[[pvesdn_controller_plugins]]
-Controllers Plugins
--------------------
+[[pvesdn_config_vnet]]
+VNets
+-----
 
-For complex zones requiring a control plane.
+A `VNet` is in its basic form just a Linux bridge that will be deployed locally
+on the node and used for Virtual Machine communication.
+
+VNet properties are:
+
+ID:: a 8 characters ID to name and identify a VNet
+
+Alias:: Optional longer name, if the ID isn't enough
+
+Zone:: The associated zone for this VNet
+
+Tag:: The unique VLAN or VXLAN id
+
+VLAN Aware:: Allow to add an extra VLAN tag in the virtual machine or
+  container vNIC configurations or allow the guest OS to manage the VLAN's tag.
+
+[[pvesdn_config_subnet]]
+
+Subnets
+~~~~~~~
+
+For each Vnet, you can define 1 or multiple subnets to define an ip network (ipv4 or ipv6).
+
+It can be used to restrict ip addresses you can define on a specific vnet,
+assign routes/gateway on vnet in layer3 zones,
+enable snat in layer 3 zones,
+auto assign ips on vm/ct through ipam plugin && dns registration through dns plugins.
+
+If an ipam server is associated to the subnet zone, the subnet prefix will be automatically
+registered in the ipam.
+
+
+Subnet properties are:
+
+ID:: a cidr network address. Ex: 10.0.0.0/8
+
+Gateway:: ip address for the default gateway of the network. 
+           On layer3 zones (simple/evpn plugins), it'll be deployed on the vnet.
+           
+Snat:: Optional, Enable Snat for layer3 zones (simple/evpn plugins) for this subnet.
+        The subnet source ip will be natted to server outgoing interface/ip.
+        On evpn zone, it's done only on evpn gateway-nodes.
+
+Dnszoneprefix:: Optional, add a prefix to domain registration, like <hostname>.prefix.<domain>
+
+
+
+
+[[pvesdn_config_controllers]]
+Controllers
+-----------
+
+Some zone types need an external controller to manage the VNet control-plane.
+Currently this is only required for the `bgp-evpn` zone plugin.
 
 [[pvesdn_controller_plugin_evpn]]
 EVPN Controller
@@ -236,7 +301,7 @@ The currently supported software controller is the "frr" router.
 You may need to install it on each node where you want to deploy EVPN zones.
 
 ----
-apt install frr
+apt install frr frr-pythontools
 ----
 
 Configuration options:
@@ -245,41 +310,113 @@ asn:: A unique BGP ASN number. It's highly recommended to use private ASN
 number (64512 – 65534, 4200000000 – 4294967294), as else you could end up
 breaking, or get broken, by global routing by mistake.
 
-peers:: An ip list of all nodes where you want to communicate (could be also
+peers:: An ip list of all nodes where you want to communicate for the EVPN (could be also
 external nodes or route reflectors servers)
 
-Additionally, if you want to route traffic from a SDN BGP-EVPN network to
-external world:
 
-gateway-nodes:: The proxmox nodes from where the bgp-evpn traffic will exit to
-external through the nodes default gateway
+[[pvesdn_controller_plugin_BGP]]
+BGP Controller
+~~~~~~~~~~~~~~~
 
-gateway-external-peers::  If you want that gateway nodes don't use the default
-gateway, but, for example, sent traffic to external BGP routers, which handle
-(reverse) routing then dynamically you can use. For example
-`192.168.0.253,192.168.0.254'
+The bgp controller is not used directly by a zone. 
+You can used it to configure frr to manage bgp peers.
+
+For Bgp-evpn, it can be use to define a different ASN by node,
+so doing ebgp.
+
+Configuration options:
+
+asn:: A unique BGP ASN number. It's highly recommended to use private ASN
+number (64512 – 65534, 4200000000 – 4294967294), as else you could end up
+breaking, or get broken, by global routing by mistake.
+
+peers:: An ip list of peers where you want to communicate for the underlay 
+BGP network 
+
+ebgp:: if your peers remote-as is different, it's enabling ebgp.
+
+node:: the node of this bgp controller
+
+loopback:: If you want to use a loopback or dummy interface as source
+           for the evpn network. (for multipath)
 
 
-[[pvesdn_local_deployment_monitoring]]
-Local Deployment Monitoring
----------------------------
+[[pvesdn_config_ipam]]
+Ipams
+-----
+IPAM (IP address management) tools, are used to manage/assign ips on your devices on the network.
+It can be used to find free ip address when you create a vm/ct for example (not yet implemented).
 
-After applying the configuration through the main SDN web-interface panel,
-the local network configuration is generated locally on each node in
-`/etc/network/interfaces.d/sdn`, and with ifupdown2 reloaded.
+An IPAM is associated to 1 or multiple zones, to provide ip addresses for all subnets defined in this zone.
 
-You need to add
+
+[[pvesdn_ipam_plugin_pveipam]]
+PVEIpam plugin
+~~~~~~~~~~~~~~
+
+This is the default internal ipam for your proxmox cluster if you don't have external ipam software
+
+[[pvesdn_ipam_plugin_phpipam]]
+PHPIpam plugin
+~~~~~~~~~~~~~~
+https://phpipam.net/
+
+You need to create an application in phpipam, and add an api token with admin permission
+
+PHPipam properties are:
+
+* Url: The rest api url : http://phpipam.domain.com/api/<appname>/
+* Token: your api token
+* Section: An integer id. Sections are group of subnets in phpipam. 
+           Default install have sectionid=1 for customers
+
+[[pvesdn_ipam_plugin_netbox]]
+Netbox Ipam plugin
+~~~~~~~~~~~~~~~~~~
+https://github.com/netbox-community/netbox
+
+you need to create an api token in netbox
+https://netbox.readthedocs.io/en/stable/api/authentication
+
+PHPipam properties are:
+
+Url:: The rest api url: http://yournetbox.domain.com/api
+Token:: your api token
+
+[[pvesdn_config_dns]]
+Dns
+---
+Dns is used to define a dns api server for registration of your hostname/ip address
+an DNS is associated to 1 or multiple zones, to provide dns registration 
+for all ips in subnets defined in this zone.
+
+[[pvesdn_dns_plugin_powerdns]]
+Powerdns plugin
+~~~~~~~~~~~~~~~
+https://doc.powerdns.com/authoritative/http-api/index.html
+
+you need to enable webserver && api in your powerdns config:
+
 ----
-source /etc/network/interfaces.d/*
+api=yes
+api-key=arandomgeneratedstring
+webserver=yes
+webserver-port=8081
 ----
-at the end of /etc/network/interfaces to have the sdn config included
 
-You can monitor the status of local zones and vnets through the main tree.
+Powerdns properties are:
 
+Url:: The rest api url: http://yourpowerdnserver.domain.com:8081/api/v1/servers/localhost
+key:: the api key
+ttl:: default ttl for records
+
+
+Examples
+--------
 
 [[pvesdn_setup_example_vlan]]
 VLAN Setup Example
-------------------
+~~~~~~~~~~~~~~~~~~
 
 TIP: While we show plain configuration content here, almost everything should
 be configurable using the web-interface only.
@@ -367,7 +504,7 @@ Then, you should be able to ping between both VMs over that network.
 
 [[pvesdn_setup_example_qinq]]
 QinQ Setup Example
-------------------
+~~~~~~~~~~~~~~~~~~
 
 TIP: While we show plain configuration content here, almost everything should
 be configurable using the web-interface only.
@@ -497,7 +634,7 @@ or 'vm4', as they are on a different zone with different service-vlan.
 
 [[pvesdn_setup_example_vxlan]]
 VXLAN Setup Example
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 TIP: While we show plain configuration content here, almost everything should
 be configurable using the web-interface only.
@@ -597,7 +734,7 @@ Then, you should be able to ping between between 'vm1' and 'vm2'.
 
 [[pvesdn_setup_example_evpn]]
 EVPN Setup Example
-------------------
+~~~~~~~~~~~~~~~~~~
 
 node1: /etc/network/interfaces
 
@@ -645,34 +782,38 @@ source /etc/network/interfaces.d/*
 ----
 
 Create a EVPN controller, using a private ASN number and above node addreesses
-as peers. Define 'node1' and 'node2' as gateway nodes.
+as peers.
 
 ----
 id: myevpnctl
 asn: 65000
 peers: 192.168.0.1,192.168.0.2,192.168.0.3
-gateway nodes: node1,node2
 ----
 
 Create an EVPN zone named `myevpnzone' using the previously created
-EVPN-controller.
+EVPN-controller Define 'node1' and 'node2' as exit nodes.
+
 
 ----
 id: myevpnzone
 vrf vxlan tag: 10000
 controller: myevpnctl
 mtu: 1450
+exitnodes: node1,node2
 ----
 
-Create the first VNet named `myvnet1' using the EVPN zone `myevpnzone', a IPv4
-CIDR network and a random MAC address.
-
+Create the first VNet named `myvnet1' using the EVPN zone `myevpnzone'.
 ----
 id: myvnet1
 zone: myevpnzone
 tag: 11000
-ipv4: 10.0.1.1/24
 mac address: 8C:73:B2:7B:F9:60 #random generate mac address
+----
+
+Create a subnet 10.0.1.0/24 with 10.0.1.1 as gateway
+----
+id: 10.0.1.0/24
+gateway: 10.0.1.1
 ----
 
 Create the second VNet named `myvnet2' using the same EVPN zone `myevpnzone', a
@@ -682,9 +823,15 @@ different IPv4 CIDR network and a different random MAC address than  `myvnet1'.
 id: myvnet2
 zone: myevpnzone
 tag: 12000
-ipv4: 10.0.2.1/24
 mac address: 8C:73:B2:7B:F9:61  #random mac, need to be different on each vnet
 ----
+
+Create a different subnet 10.0.2.0/24 with 10.0.2.1 as gateway
+----
+id: 10.0.2.0/24
+gateway: 10.0.2.1
+----
+
 
 Apply the configuration on the main SDN web-interface panel to create VNets
 locally on each nodes and generate the FRR config.
@@ -719,7 +866,7 @@ iface eth0 inet static
 Then, you should be able to ping vm2 from vm1, and vm1 from vm2.
 
 If you ping an external IP from 'vm2' on the non-gateway 'node3', the packet
-will go to the configured 'myvnet2' gateway, then will be routed to gateway
+will go to the configured 'myvnet2' gateway, then will be routed to the exit
 nodes ('node1' or 'node2') and from there it will leave those nodes over the
 default gateway configured on node1 or node2.
 
