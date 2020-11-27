@@ -42,8 +42,6 @@ management.
 
 * Designed for high storage capacities
 
-* Protection against data corruption
-
 * Asynchronous replication over network
 
 * Open Source
