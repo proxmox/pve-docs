@@ -791,6 +791,16 @@ Reduce the memory of the container to 512MB
 # pct set 100 -memory 512
 ----
 
+Destroying a container always removes it from Access Control Lists and it always
+removes the firewall configuration of the container. You have to activate
+'--purge', if you want to additionally remove the container from replication jobs,
+backup jobs and HA resource configurations.
+
+----
+# pct destroy 100 --purge
+----
+
+
 
 Obtaining Debugging Logs
 ~~~~~~~~~~~~~~~~~~~~~~~~

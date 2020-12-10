@@ -1326,6 +1326,14 @@ Same as above, but only wait for 40 seconds.
 
  qm shutdown 300 && qm wait 300 -timeout 40
 
+Destroying a VM always removes it from Access Control Lists and it always
+removes the firewall configuration of the VM. You have to activate
+'--purge', if you want to additionally remove the VM from replication jobs,
+backup jobs and HA resource configurations.
+
+ qm destroy 300 --purge
+
+
 
 [[qm_configuration]]
 Configuration
