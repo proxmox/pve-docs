@@ -796,11 +796,18 @@ Supported audio devices are:
 * `intel-hda`: Intel HD Audio Controller, emulates ICH6
 * `AC97`: Audio Codec '97, useful for older operating systems like Windows XP
 
-NOTE: The audio device works only in combination with SPICE. Remote protocols
-like Microsoft's RDP have options to play sound. To use the physical audio
-device of the host use device passthrough (see
-xref:qm_pci_passthrough[PCI Passthrough] and
-xref:qm_usb_passthrough[USB Passthrough]).
+There are two backends available:
+
+* 'spice'
+* 'none'
+
+The 'spice' backend can be used in combination with xref:qm_display[SPICE] while
+the 'none' backend can be useful if an audio device is needed in the VM for some
+software to work. To use the physical audio device of the host use device
+passthrough (see xref:qm_pci_passthrough[PCI Passthrough] and
+xref:qm_usb_passthrough[USB Passthrough]). Remote protocols like Microsoft’s RDP
+have options to play sound.
+
 
 [[qm_virtio_rng]]
 VirtIO RNG
