@@ -29,7 +29,7 @@ physical servers. Such a group is called a *cluster*. We use the
 http://www.corosync.org[Corosync Cluster Engine] for reliable group
 communication. There's no explicit limit for the number of nodes in a cluster.
 In practice, the actual possible node count may be limited by the host and
-network performance. Currently (2021) there are reports of clusters (using
+network performance. Currently (2021), there are reports of clusters (using
 high-end enterprise hardware) with over 50 nodes in production.
 
 `pvecm` can be used to create a new cluster, join nodes to a cluster,
