@@ -45,7 +45,9 @@ Ceph pool name.
 
 username::
 
-RBD user Id. Optional, only needed if Ceph is not running on the PVE cluster.
+RBD user ID. Optional, only needed if Ceph is not running on the PVE cluster.
+Note that only the user ID should be used. The "client." type prefix must be
+left out.
 
 krbd::
 
