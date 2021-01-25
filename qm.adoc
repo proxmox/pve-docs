@@ -917,6 +917,63 @@ start after those where the parameter is set. Further, this parameter can only
 be enforced between virtual machines running on the same host, not
 cluster-wide.
 
+
+[[qm_qemu_agent]]
+Qemu Guest Agent
+~~~~~~~~~~~~~~~~
+
+The Qemu Guest Agent is a service which runs inside the VM, providing a
+communication channel between the host and the guest. It is used to exchange
+information and allows the host to issue commands to the guest.
+
+For example, the IP addresses in the VM summary panel are fetched via the guest
+agent.
+
+Or when starting a backup, the guest is told via the guest agent to sync
+outstanding writes via the 'fs-freeze' and 'fs-thaw' commands.
+
+For the guest agent to work properly the following steps must be taken:
+
+* install the agent in the guest and make sure it is running
+* enable the communication via the agent in {pve}
+
+Install Guest Agent
+^^^^^^^^^^^^^^^^^^^
+
+For most Linux distributions, the guest agent is available. The package is
+usually named `qemu-guest-agent`.
+
+For Windows, it can be installed from the
+https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso[Fedora
+VirtIO driver ISO].
+
+Enable Guest Agent Communication
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Communication from {pve} with the guest agent can be enabled in the VM's
+*Options* panel. A fresh start of the VM is necessary for the changes to take
+effect.
+
+It is possible to enable the 'Run guest-trim' option. With this enabled,
+{pve} will issue a trim command to the guest after the following
+operations that have the potential to write out zeros to the storage:
+
+* moving a disk to another storage
+* live migrating a VM to another node with local storage
+
+On a thin provisioned storage, this can help to free up unused space.
+
+Troubleshooting
+^^^^^^^^^^^^^^^
+
+.VM does not shut down
+
+Make sure the guest agent is installed and running.
+
+Once the guest agent is enabled, {pve} will send power commands like
+'shutdown' via the guest agent. If the guest agent is not running, commands
+cannot get executed properly and the shutdown command will run into a timeout.
+
 [[qm_spice_enhancements]]
 SPICE Enhancements
 ~~~~~~~~~~~~~~~~~~
