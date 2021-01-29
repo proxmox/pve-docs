@@ -100,6 +100,20 @@ To use an API token, set the HTTP header 'Authorization' to the displayed value
 of the form `PVEAPIToken=USER@REALM!TOKENID=UUID` when making API requests, or
 refer to your API client documentation.
 
+[[pveum_resource_pools]]
+Resource Pools
+--------------
+
+[thumbnail="screenshot/gui-datacenter-pool-window.png"]
+
+A resource pool is a set of virtual machines, containers, and storage
+devices. It is useful for permission handling in cases where certain users
+should have controlled access to a specific set of resources, as it allows for a
+single permission to be applied to a set of elements, rather than having to
+manage this on a per resource basis. Resource pools are often used in tandem
+with groups so that the members of a group have permissions on a set of machines
+and storage.
+
 [[pveum_authentication_realms]]
 Authentication Realms
 ---------------------
@@ -707,20 +721,13 @@ Verify the permissions of the user and token:
  pveum user permissions joe@pve
  pveum user token permissions joe@pve monitoring
 
-Pools
-~~~~~
+Resource Pools
+~~~~~~~~~~~~~~
 
-An enterprise is usually structured into several smaller departments,
-and it is common that you want to assign resources to them and
-delegate management tasks. A pool is simply a set of virtual machines
-and data stores. You can create pools on the GUI. After that you can
-add resources to the pool (VMs, Storage).
-
-You can also assign permissions to the pool. Those permissions are
-inherited to all pool members.
-
-Lets assume you have a software development department, so we first
-create a group
+An enterprise is usually structured into several smaller departments, and it is
+common that you want to assign resources and delegate management tasks to each
+of these. Let's assume that you want to set up a pool for a software development
+department. First, create a group
 
 [source,bash]
  pveum groupadd developers -comment "Our software developers"
@@ -732,7 +739,12 @@ Now we create a new user which is a member of that group
 
 NOTE: The -password parameter will prompt you for a password
 
-I assume we already created a pool called ``dev-pool'' on the GUI. So we can now assign permission to that pool:
+Then we create a resource pool for our development department to use
+
+[source,bash]
+ pveum pooladd dev-pool --comment "IT development pool"
+
+Finally, we can assign permissions to that pool
 
 [source,bash]
  pveum aclmod /pool/dev-pool/ -group developers -role PVEAdmin
