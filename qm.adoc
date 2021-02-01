@@ -1332,7 +1332,7 @@ Hookscripts
 
 You can add a hook script to VMs with the config property `hookscript`.
 
- qm set 100 -hookscript local:snippets/hookscript.pl
+ qm set 100 --hookscript local:snippets/hookscript.pl
 
 It will be called during various phases of the guests lifetime.
 For an example and documentation see the example script under
