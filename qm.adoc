@@ -203,7 +203,7 @@ either the *raw disk image format* or the *QEMU image format*.
  format does not support thin provisioning or snapshots by itself, requiring
  cooperation from the storage layer for these tasks. It may, however, be up to
  10% faster than the *QEMU image format*. footnote:[See this benchmark for details
- http://events.linuxfoundation.org/sites/events/files/slides/CloudOpen2013_Khoa_Huynh_v3.pdf]
+ https://events.static.linuxfound.org/sites/events/files/slides/CloudOpen2013_Khoa_Huynh_v3.pdf]
  * the *VMware image format* only makes sense if you intend to import/export the
  disk image to other hypervisors.
 
