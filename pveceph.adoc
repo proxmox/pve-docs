@@ -540,6 +540,42 @@ pveceph pool destroy <name>
 NOTE: Deleting the data of a pool is a background task and can take some time.
 You will notice that the data usage in the cluster is decreasing.
 
+
+PG Autoscaler
+~~~~~~~~~~~~~
+
+The PG autoscaler allows the cluster to consider the amount of (expected) data
+stored in each pool and to choose the appropriate pg_num values automatically.
+
+You may need to activate the PG autoscaler module before adjustments can take
+effect.
+[source,bash]
+----
+ceph mgr module enable pg_autoscaler
+----
+
+The autoscaler is configured on a per pool basis and has the following modes:
+
+[horizontal]
+warn:: A health warning is issued if the suggested `pg_num` value differs too
+much from the current value.
+on:: The `pg_num` is adjusted automatically with no need for any manual
+interaction.
+off:: No automatic `pg_num` adjustments are made, and no warning will be issued
+if the PG count is far from optimal.
+
+The scaling factor can be adjusted to facilitate future data storage, with the
+`target_size`, `target_size_ratio` and the `pg_num_min` options.
+
+WARNING: By default, the autoscaler considers tuning the PG count of a pool if
+it is off by a factor of 3. This will lead to a considerable shift in data
+placement and might introduce a high load on the cluster.
+
+You can find a more in-depth introduction to the PG autoscaler on Ceph's Blog -
+https://ceph.io/rados/new-in-nautilus-pg-merging-and-autotuning/[New in
+Nautilus: PG merging and autotuning].
+
+
 [[pve_ceph_device_classes]]
 Ceph CRUSH & device classes
 ---------------------------
