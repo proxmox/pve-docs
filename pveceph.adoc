@@ -466,12 +466,16 @@ WARNING: **Do not set a min_size of 1**. A replicated pool with min_size of 1
 allows I/O on an object when it has only 1 replica which could lead to data
 loss, incomplete PGs or unfound objects.
 
-It is advised to calculate the PG number depending on your setup, you can find
-the formula and the PG calculator footnote:[PG calculator
-https://ceph.com/pgcalc/] online. From Ceph Nautilus onwards it is possible to
-increase and decrease the number of PGs later on footnote:[Placement Groups
-{cephdocs-url}/rados/operations/placement-groups/].
+It is advised that you calculate the PG number based on your setup. You can
+find the formula and the PG calculator footnote:[PG calculator
+https://ceph.com/pgcalc/] online. From Ceph Nautilus onward, you can change the
+number of PGs footnoteref:[placement_groups,Placement Groups
+{cephdocs-url}/rados/operations/placement-groups/] after the setup.
 
+In addition to manual adjustment, the PG autoscaler
+footnoteref:[autoscaler,Automated Scaling
+{cephdocs-url}/rados/operations/placement-groups/#automated-scaling] can
+automatically scale the PG count for a pool in the background.
 
 You can create pools through command line or on the GUI on each PVE host under
 **Ceph -> Pools**.
@@ -484,6 +488,34 @@ pveceph pool create <name>
 If you would like to automatically also get a storage definition for your pool,
 mark the checkbox "Add storages" in the GUI or use the command line option
 '--add_storages' at pool creation.
+
+.Base Options
+Name:: The name of the pool. This must be unique and can't be changed afterwards.
+Size:: The number of replicas per object. Ceph always tries to have this many
+copies of an object. Default: `3`.
+PG Autoscale Mode:: The automatic PG scaling mode footnoteref:[autoscaler] of
+the pool. If set to `warn`, it produces a warning message when a pool
+has a non-optimal PG count. Default: `warn`.
+Add as Storage:: Configure a VM or container storage using the new pool.
+Default: `true`.
+
+.Advanced Options
+Min. Size:: The minimum number of replicas per object. Ceph will reject I/O on
+the pool if a PG has less than this many replicas. Default: `2`.
+Crush Rule:: The rule to use for mapping object placement in the cluster. These
+rules define how data is placed within the cluster. See
+xref:pve_ceph_device_classes[Ceph CRUSH & device classes] for information on
+device-based rules.
+# of PGs:: The number of placement groups footnoteref:[placement_groups] that
+the pool should have at the beginning. Default: `128`.
+Traget Size:: The estimated amount of data expected in the pool. The PG
+autoscaler uses this size to estimate the optimal PG count.
+Target Size Ratio:: The ratio of data that is expected in the pool. The PG
+autoscaler uses the ratio relative to other ratio sets. It takes precedence
+over the `target size` if both are set.
+Min. # of PGs:: The minimum number of placement groups. This setting is used to
+fine-tune the lower bound of the PG count for that pool. The PG autoscaler
+will not merge PGs below this threshold.
 
 Further information on Ceph pool handling can be found in the Ceph pool
 operation footnote:[Ceph pool operation
@@ -697,10 +729,9 @@ This creates a CephFS named `'cephfs'' using a pool for its data named
 `'cephfs_metadata'' with one quarter of the data pools placement groups (`32`).
 Check the xref:pve_ceph_pools[{pve} managed Ceph pool chapter] or visit the
 Ceph documentation for more information regarding a fitting placement group
-number (`pg_num`) for your setup footnote:[Ceph Placement Groups
-{cephdocs-url}/rados/operations/placement-groups/].
+number (`pg_num`) for your setup footnoteref:[placement_groups].
 Additionally, the `'--add-storage'' parameter will add the CephFS to the {pve}
-storage configuration after it was created successfully.
+storage configuration after it has been created successfully.
 
 Destroy CephFS
 ~~~~~~~~~~~~~~
