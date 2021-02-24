@@ -806,17 +806,23 @@ Obtaining Debugging Logs
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 In case `pct start` is unable to start a specific container, it might be
-helpful to collect debugging output by running `lxc-start` (replace `ID` with
-the container's ID):
+helpful to collect debugging output by passing the `--debug` flag (replace `CTID` with
+the container's CTID):
 
 ----
-# lxc-start -n ID -F -l DEBUG -o /tmp/lxc-ID.log
+# pct start CTID --debug
+----
+
+or alternatively with `lxc-start` command (which will produce a log file):
+
+----
+# lxc-start -n CTID -F -l DEBUG -o /tmp/lxc-CTID.log
 ----
 
 This command will attempt to start the container in foreground mode, to stop
-the container run `pct shutdown ID` or `pct stop ID` in a second terminal.
+the container run `pct shutdown CTID` or `pct stop CTID` in a second terminal.
 
-The collected debug log is written to `/tmp/lxc-ID.log`.
+The collected debug log is written to `/tmp/lxc-CTID.log`.
 
 NOTE: If you have changed the container's configuration since the last start
 attempt with `pct start`, you need to run `pct start` at least once to also
