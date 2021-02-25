@@ -813,7 +813,8 @@ the container's CTID):
 # pct start CTID --debug
 ----
 
-or alternatively with `lxc-start` command (which will produce a log file):
+Alternatively, you can use the following `lxc-start` command, which will save
+the debug log to the file specified by the `-o` output option:
 
 ----
 # lxc-start -n CTID -F -l DEBUG -o /tmp/lxc-CTID.log
