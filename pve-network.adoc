@@ -38,9 +38,6 @@ Reload Network with ifupdown2
 With the optional `ifupdown2` network managing package you also can reload the
 network configuration live, without requiring a reboot.
 
-NOTE: 'ifupdown2' cannot understand 'OpenVSwitch' syntax, so reloading is *not*
-possible if OVS interfaces are configured.
-
 Since {pve} 6.1 you can apply pending network changes over the web-interface,
 using the 'Apply Configuration' button in the 'Network' panel of a node.
 
