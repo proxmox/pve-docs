@@ -776,9 +776,8 @@ shutdown or stopped. Open connections will still persist, but new connections
 to the exact same device cannot be made anymore.
 
 A use case for such a device is the Looking Glass
-footnote:[Looking Glass: https://looking-glass.hostfission.com/] project,
-which enables high performance, low-latency display mirroring between
-host and guest.
+footnote:[Looking Glass: https://looking-glass.io/] project, which enables high
+performance, low-latency display mirroring between host and guest.
 
 [[qm_audio_device]]
 Audio Device
