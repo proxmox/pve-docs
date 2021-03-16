@@ -72,7 +72,7 @@ data to different nodes.
 |Directory      |dir         |file  |no    |no^1^    |yes
 |NFS            |nfs         |file  |yes   |no^1^    |yes
 |CIFS           |cifs        |file  |yes   |no^1^    |yes
-|Proxmox Backup |pbs         |both  |yes   |n/a      |beta
+|Proxmox Backup |pbs         |both  |yes   |n/a      |yes
 |GlusterFS      |glusterfs   |file  |yes   |no^1^    |yes
 |CephFS         |cephfs      |file  |yes   |yes      |yes
 |LVM            |lvm         |block |no^2^ |no       |yes
