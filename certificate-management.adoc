@@ -67,13 +67,14 @@ Trusted certificates via Let's Encrypt (ACME)
 
 {PVE} includes an implementation of the **A**utomatic **C**ertificate
 **M**anagement **E**nvironment **ACME** protocol, allowing {pve} admins to
-interface with Let's Encrypt for easy setup of trusted TLS certificates which
-are accepted out of the box on most modern operating systems and browsers.
+use an ACME provider like Let's Encrypt for easy setup of TLS certificates
+which are accepted and trusted on modern operating systems and web browsers
+out of the box.
 
-Currently the two ACME endpoints implemented are the
+Currently, the two ACME endpoints implemented are the
 https://letsencrypt.org[Let's Encrypt (LE)] production and its staging
 environment. Our ACME client supports validation of `http-01` challenges using
-a built-in webserver and validation of `dns-01` challenges using a DNS plugin
+a built-in web server and validation of `dns-01` challenges using a DNS plugin
 supporting all the DNS API endpoints https://acme.sh[acme.sh] does.
 
 [[sysadmin_certs_acme_account]]
@@ -83,7 +84,7 @@ ACME Account
 [thumbnail="screenshot/gui-datacenter-acme-register-account.png"]
 
 You need to register an ACME account per cluster with the endpoint you want to
-use. The email address used for that account will server as contact point for
+use. The email address used for that account will serve as contact point for
 renewal-due or similar notifications from the ACME endpoint.
 
 You can register and deactivate ACME accounts over the web interface
@@ -104,12 +105,11 @@ the {pve} cluster under your operation, are the real owner of a domain. This is
 the basis building block for automatic certificate management.
 
 The ACME protocol specifies different types of challenges, for example the
-`http-01` where a webserver provides a file with a certain value to prove that
-it controls a domain. Sometimes this isn't possible, either because of
-technical limitations or if the address a domain points to is not reachable
-from the public internet. For such cases, one could use the `dns-01` challenge.
-This challenge also provides a certain value, but through a DNS record on the
-authority name server of the domain, rather than over a text file.
+`http-01` where a web server provides a file with a certain content to prove
+that it controls a domain. Sometimes this isn't possible, either because of
+technical limitations or if the address of a record to is not reachable from
+the public internet. The `dns-01` challenge can be used in these cases.  This
+challenge is fulfilled by creating a certain DNS record in the domain's zone.
 
 [thumbnail="screenshot/gui-datacenter-acme-overview.png"]
 
@@ -168,9 +168,8 @@ Configuring ACME DNS APIs for validation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 {PVE} re-uses the DNS plugins developed for the `acme.sh`
-footnote:[acme.sh https://github.com/acmesh-official/acme.sh]
-project, please refer to its documentation for details on configuration of
-specific APIs.
+footnote:[acme.sh https://github.com/acmesh-official/acme.sh] project, please
+refer to its documentation for details on configuration of specific APIs.
 
 The easiest way to configure a new plugin with the DNS API is using the web
 interface (`Datacenter -> ACME`).
@@ -185,8 +184,8 @@ https://github.com/acmesh-official/acme.sh/wiki/dnsapi#how-to-use-dns-api[How to
 wiki for more detailed information about getting API credentials for your
 provider.
 
-As there are so many API endpoints {pve} autogenerates the form for the
-credentials, but not all providers are annotated yet. For those you will see a
+As there are many DNS providers and API endpoints {pve} automatically generates
+the form for the credentials for some providers. For the others you will see a
 bigger text area, simply copy all the credentials `KEY`=`VALUE` pairs in there.
 
 DNS Validation through CNAME Alias
