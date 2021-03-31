@@ -699,3 +699,38 @@ in the pool will opt in for small file blocks).
 ----
 # zfs set special_small_blocks=0 <pool>/<filesystem>
 ----
+
+[[sysadmin_zfs_features]]
+ZFS Pool Features
+~~~~~~~~~~~~~~~~~
+
+Changes to the on-disk format in ZFS are only made between major version changes
+and are specified through *features*. All features, as well as the general
+mechanism are well documented in the `zpool-features(5)` manpage.
+
+Since enabling new features can render a pool not importable by an older version
+of ZFS, this needs to be done actively by the administrator, by running
+`zpool upgrade` on the pool (see the `zpool-upgrade(8)` manpage).
+
+Unless you need to use one of the new features, there is no upside to enabling
+them.
+
+In fact, there are some downsides to enabling new features:
+
+* A system with root on ZFS, that still boots using `grub` will become
+  unbootable if a new feature is active on the rpool, due to the incompatible
+  implementation of ZFS in grub.
+* The system will not be able to import any upgraded pool when booted with an
+  older kernel, which still ships with the old ZFS modules.
+* Booting an older {pve} ISO to repair a non-booting system will likewise not
+  work.
+
+IMPORTANT: Do not upgrade your rpool if your system is still booted with `grub`,
+as this will render your system unbootable. This includes systems installed
+before {pve} 5.4, and systems booting with legacy BIOS boot (see
+xref:sysboot_determine_bootloader_used[how to determine the bootloader]).
+
+.Enable new features for a pool:
+----
+# zpool upgrade <pool>
+----
