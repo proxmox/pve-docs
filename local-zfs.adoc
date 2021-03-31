@@ -725,12 +725,12 @@ In fact, there are some downsides to enabling new features:
 * Booting an older {pve} ISO to repair a non-booting system will likewise not
   work.
 
-IMPORTANT: Do not upgrade your rpool if your system is still booted with `grub`,
-as this will render your system unbootable. This includes systems installed
-before {pve} 5.4, and systems booting with legacy BIOS boot (see
+IMPORTANT: Do *not* upgrade your rpool if your system is still booted with
+`grub`, as this will render your system unbootable. This includes systems
+installed before {pve} 5.4, and systems booting with legacy BIOS boot (see
 xref:sysboot_determine_bootloader_used[how to determine the bootloader]).
 
-.Enable new features for a pool:
+.Enable new features for a ZFS pool:
 ----
 # zpool upgrade <pool>
 ----
