@@ -243,7 +243,7 @@ the current manager status file and executes the respective commands.
 
 `pve-ha-crm`::
 
-The cluster resource manager (CRM), which makes the cluster wide
+The cluster resource manager (CRM), which makes the cluster-wide
 decisions. It sends commands to the LRM, processes the results,
 and moves resources to other nodes if something fails. The CRM also
 handles node fencing.
@@ -347,7 +347,7 @@ Local Resource Manager
 ~~~~~~~~~~~~~~~~~~~~~~
 
 The local resource manager (`pve-ha-lrm`) is started as a daemon on
-boot and waits until the HA cluster is quorate and thus cluster wide
+boot and waits until the HA cluster is quorate and thus cluster-wide
 locks are working.
 
 It can be in three states:

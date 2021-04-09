@@ -55,22 +55,22 @@ Hardware
 ~~~~~~~~
 
 ZFS depends heavily on memory, so you need at least 8GB to start. In
-practice, use as much you can get for your hardware/budget. To prevent
+practice, use as much as you can get for your hardware/budget. To prevent
 data corruption, we recommend the use of high quality ECC RAM.
 
 If you use a dedicated cache and/or log disk, you should use an
 enterprise class SSD (e.g. Intel SSD DC S3700 Series). This can
 increase the overall performance significantly.
 
-IMPORTANT: Do not use ZFS on top of hardware controller which has its
-own cache management. ZFS needs to directly communicate with disks. An
-HBA adapter is the way to go, or something like LSI controller flashed
-in ``IT'' mode.
+IMPORTANT: Do not use ZFS on top of a hardware RAID controller which has its
+own cache management. ZFS needs to communicate directly with the disks. An
+HBA adapter or something like an LSI controller flashed in ``IT'' mode is more
+appropriate.
 
 If you are experimenting with an installation of {pve} inside a VM
 (Nested Virtualization), don't use `virtio` for disks of that VM,
-since they are not supported by ZFS. Use IDE or SCSI instead (works
-also with `virtio` SCSI controller type).
+as they are not supported by ZFS. Use IDE or SCSI instead (also works
+with the `virtio` SCSI controller type).
 
 
 Installation as Root File System

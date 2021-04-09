@@ -101,8 +101,8 @@ target hard disk(s) will appear. The `Options` button opens the dialog to select
 the target file system.
 
 The default file system is `ext4`. The Logical Volume Manager (LVM) is used when
-`ext4` or `xfs` ist selected. Additional options to restrict LVM space
-can be set (see <<advanced_lvm_options,below>>).
+`ext4` or `xfs` is selected. Additional options to restrict LVM space
+can also be set (see <<advanced_lvm_options,below>>).
 
 {pve} can be installed on ZFS. As ZFS offers several software RAID levels, this
 is an option for systems that don't have a hardware RAID controller. The target

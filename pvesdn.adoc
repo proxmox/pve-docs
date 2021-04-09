@@ -51,7 +51,7 @@ features, advantages or disadvantages.
 Normally a 'VNet' shows up as a common Linux bridge with either a VLAN or
 'VXLAN' tag, but some can also use layer 3 routing for control.
 The 'VNets' are deployed locally on each node, after configuration was committed
-from the cluster wide datacenter SDN administration interface.
+from the cluster-wide datacenter SDN administration interface.
 
 
 Main configuration
@@ -87,7 +87,7 @@ This is the main status panel. Here you can see deployment status of zones on
 different nodes.
 
 There is an 'Apply' button, to push and reload local configuration on all
-cluster nodes nodes.
+cluster nodes.
 
 
 [[pvesdn_local_deployment_monitoring]]

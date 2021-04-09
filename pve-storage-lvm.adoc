@@ -63,15 +63,15 @@ Storage Features
 ~~~~~~~~~~~~~~~~
 
 LVM is a typical block storage, but this backend does not support
-snapshot and clones. Unfortunately, normal LVM snapshots are quite
-inefficient, because they interfere all writes on the whole volume
+snapshots and clones. Unfortunately, normal LVM snapshots are quite
+inefficient, because they interfere with all writes on the entire volume
 group during snapshot time.
 
 One big advantage is that you can use it on top of a shared storage,
-for example an iSCSI LUN. The backend itself implement proper cluster
-wide locking.
+for example, an iSCSI LUN. The backend itself implements proper cluster-wide
+locking.
 
-TIP: The newer LVM-thin backend allows snapshot and clones, but does
+TIP: The newer LVM-thin backend allows snapshots and clones, but does
 not support shared storage.
 
 

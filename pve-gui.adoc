@@ -151,16 +151,16 @@ Resource Tree
 ~~~~~~~~~~~~~
 
 This is the main navigation tree. On top of the tree you can select
-some predefined views, which changes the structure of the tree
-below. The default view is *Server View*, and it shows the following
+some predefined views, which change the structure of the tree
+below. The default view is the *Server View*, and it shows the following
 object types:
 
 [horizontal]
-Datacenter:: Contains cluster wide setting (relevant for all nodes).
+Datacenter:: Contains cluster-wide settings (relevant for all nodes).
 
-Node:: Represents the hosts inside a cluster, where the guests runs.
+Node:: Represents the hosts inside a cluster, where the guests run.
 
-Guest:: VMs, Containers and Templates.
+Guest:: VMs, containers and templates.
 
 Storage:: Data Storage.
 
@@ -171,13 +171,13 @@ management.
 The following view types are available:
 
 [horizontal]
-Server View:: Shows all kind of objects, grouped by nodes.
+Server View:: Shows all kinds of objects, grouped by nodes.
 
-Folder View:: Shows all kind of objects, grouped by object type.
+Folder View:: Shows all kinds of objects, grouped by object type.
 
-Storage View:: Only show storage objects, grouped by nodes.
+Storage View:: Only shows storage objects, grouped by nodes.
 
-Pool View:: Show VMs and Containers, grouped by pool.
+Pool View:: Show VMs and containers, grouped by pool.
 
 
 Log Panel
@@ -185,31 +185,31 @@ Log Panel
 
 The main purpose of the log panel is to show you what is currently
 going on in your cluster. Actions like creating an new VM are executed
-in background, and we call such background job a 'task'.
+in the background, and we call such a background job a 'task'.
 
-Any output from such task is saved into a separate log file. You can
+Any output from such a task is saved into a separate log file. You can
 view that log by simply double-click a task log entry. It is also
 possible to abort a running task there.
 
-Please note that we display most recent tasks from all cluster nodes
+Please note that we display the most recent tasks from all cluster nodes
 here. So you can see when somebody else is working on another cluster
 node in real-time.
 
 NOTE: We remove older and finished task from the log panel to keep
-that list short. But you can still find those tasks in the 'Task
-History' within the node panel.
+that list short. But you can still find those tasks within the node panel in the
+'Task History'.
 
-Some short running actions simply sends logs to all cluster
+Some short-running actions simply send logs to all cluster
 members. You can see those messages in the 'Cluster log' panel.
 
 
 Content Panels
 --------------
 
-When you select something in the resource tree, the corresponding
+When you select an item from the resource tree, the corresponding
 object displays configuration and status information in the content
-panel. The following sections give a brief overview of the
-functionality. Please refer to the individual chapters inside the
+panel. The following sections provide a brief overview of this
+functionality. Please refer to the corresponding chapters in the
 reference documentation to get more detailed information.
 
 
@@ -218,36 +218,37 @@ Datacenter
 
 [thumbnail="screenshot/gui-datacenter-search.png"]
 
-On the datacenter level you can access cluster wide settings and information.
+On the datacenter level, you can access cluster-wide settings and information.
 
-* *Search:* it is possible to search anything in cluster
-,this can be a node, VM, Container, Storage or a pool.
+* *Search:* perform a cluster-wide search for nodes, VMs, containers, storage
+   devices, and pools.
 
-* *Summary:* gives a brief overview over the cluster health.
+* *Summary:* gives a brief overview of the cluster's health and resource usage.
 
-* *Cluster:* allows to create/join cluster and shows join information.
+* *Cluster:* provides the functionality and information necessary to create or
+   join a cluster.
 
-* *Options:* can show and set defaults, which apply cluster wide.
+* *Options:* view and manage cluster-wide default settings.
 
-* *Storage:* is the place where a storage will add/managed/removed.
+* *Storage:* provides an interface for managing cluster storage.
 
-* *Backup:* has the capability to schedule Backups. This is
-   cluster wide, so you do not care about where the VM/Container are on
-   your cluster at schedule time.
+* *Backup:* schedule backup jobs. This operates cluster wide, so it doesn't
+   matter where the VMs/containers are on your cluster when scheduling.
 
-* *Replication:* shows replication jobs and allows to create new ones.
+* *Replication:* view and manage replication jobs.
 
-* *Permissions:* will manage user and group permission, LDAP,
-   MS-AD and Two-Factor authentication can be setup here.
+* *Permissions:* manage user, group, and API token permissions, and LDAP,
+   MS-AD and Two-Factor authentication.
 
-* *HA:* will manage the {pve} High-Availability
+* *HA:* manage {pve} High Availability.
 
-* *Firewall:* on this level the Proxmox Firewall works cluster wide and
-   makes templates which are cluster wide available.
+* *ACME:* set up ACME (Let's Encrypt) certificates for server nodes.
 
-* *Support:* here you get all information about your support subscription.
+* *Firewall:* configure and make templates for the Proxmox Firewall cluster wide.
 
-If you like to have more information about this see the corresponding chapter.
+* *Metric Server:* define external metric servers for {pve}.
+
+* *Support:* display information about your support subscription.
 
 
 Nodes
@@ -255,41 +256,39 @@ Nodes
 
 [thumbnail="screenshot/gui-node-summary.png"]
 
-Nodes in your cluster can be managed invidiually at this level.
+Nodes in your cluster can be managed individually at this level.
 
 The top header has useful buttons such as 'Reboot', 'Shutdown', 'Shell',
 'Bulk Actions' and 'Help'.
 'Shell' has the options 'noVNC', 'SPICE' and 'xterm.js'.
 'Bulk Actions' has the options 'Bulk Start', 'Bulk Stop' and 'Bulk Migrate'.
 
-* *Search:* it is possible to search anything on the node,
- this can be a VM, Container, Storage or a pool.
+* *Search:* search a node for VMs, containers, storage devices, and pools.
 
-* *Summary:* gives a brief overview over the resource usage.
+* *Summary:* display a brief overview of the node's resource usage.
 
-* *Notes:* is where custom notes about a node can be written.
+* *Notes:* write custom notes about a node.
 
-* *Shell:* logs you into the shell of the node.
+* *Shell:* access to a shell interface for the node.
 
-* *System:* is for configuring the network, DNS and time, and also shows your syslog.
+* *System:* configure network, DNS and time settings, and access the syslog.
 
-* *Updates:* will upgrade the system and inform you about new packages.
+* *Updates:* upgrade the system and see the available new packages.
 
-* *Firewall:* on this level is only for this node.
+* *Firewall:* manage the Proxmox Firewall for a specific node.
 
-* *Disks:* gives you a brief overview about you physical hard drives and
-   how they are used.
+* *Disks:* get an overview of the attached disks, and manage how they are used.
 
 * *Ceph:* is only used if you have installed a Ceph server on your
-   host. Then you can manage your Ceph cluster and see the status
+   host. In this case, you can manage your Ceph cluster and see the status
    of it here.
 
-* *Replication:* shows replication jobs and allows to create new ones.
+* *Replication:* view and manage replication jobs.
 
-* *Task History:* here all past tasks are shown.
+* *Task History:* see a list of past tasks.
 
-* *Subscription:* here you can upload you subscription key and get a
-   system overview in case of a support case.
+* *Subscription:* upload a subscription key, and generate a system report for
+   use in support cases.
 
 
 Guests
@@ -298,48 +297,50 @@ Guests
 [thumbnail="screenshot/gui-qemu-summary.png"]
 
 There are two different kinds of guests and both can be converted to a template.
-One of them is a Kernel-based Virtual Machine (KVM) and the other one a Linux Container (LXC).
-Generally the navigation is the same, only some options are different.
+One of them is a Kernel-based Virtual Machine (KVM) and the other is a Linux Container (LXC).
+Navigation for these are mostly the same; only some options are different.
 
-In the main management center the VM navigation begins if a VM is selected in the left tree.
+To access the various guest management interfaces, select a VM or container from
+the menu on the left.
 
-The top header contains important VM operation commands like 'Start', 'Shutdown', 'Reset',
-'Remove', 'Migrate', 'Console' and 'Help'.
-Some of them have hidden buttons like 'Shutdown' has 'Stop' and
-'Console' contains the different console types 'SPICE', 'noVNC' and 'xterm.js'.
+The header contains commands for items such as power management, migration,
+console access and type, cloning, HA, and help.
+Some of these buttons contain drop-down menus, for example, 'Shutdown' also contains
+other power options, and 'Console' contains the different console types:
+'SPICE', 'noVNC' and 'xterm.js'.
 
-On the right side the content switches depending on the selected option.
+The panel on the right contains an interface for whatever item is selected from
+the menu on the left.
 
-On the left side.
-All available options are listed one below the other.
+The available interfaces are as follows.
 
-* *Summary:* gives a brief overview over the VM activity.
+* *Summary:* provides a brief overview of the VM's activity.
 
-* *Console:* an interactive console to your VM.
+* *Console:* access to an interactive console for the VM/container.
 
-* *(KVM)Hardware:* shows and set the Hardware of the KVM VM.
+* *(KVM)Hardware:* define the hardware available to the KVM VM.
 
-* *(LXC)Resources:* defines the LXC Hardware opportunities.
+* *(LXC)Resources:* define the system resources available to the LXC.
 
-* *(LXC)Network:* the LXC Network settings.
+* *(LXC)Network:* configure a container's network settings.
 
-* *(LXC)DNS:* the LXC DNS settings.
+* *(LXC)DNS:* configure a container's DNS settings.
 
-* *Options:* all guest options can be set here.
+* *Options:* manage guest options.
 
-* *Task History:* here all previous tasks from the selected guest will be shown.
+* *Task History:* view all previous tasks related to the selected guest.
 
-* *(KVM) Monitor:* is the interactive communication interface to the KVM process.
+* *(KVM) Monitor:* an interactive communication interface to the KVM process.
 
-* *Backup:* shows the available backups from the selected guest and also create a backupset.
+* *Backup:* create and restore system backups.
 
-* *Replication:* shows the replication jobs for the selected guest and allows to create new jobs.
+* *Replication:* view and manage the replication jobs for the selected guest.
 
-* *Snapshots:* manage VM snapshots.
+* *Snapshots:* create and restore VM snapshots.
 
-* *Firewall:* manage the firewall on VM level.
+* *Firewall:* configure the firewall on the VM level.
 
-* *Permissions:* manage the user permission for the selected guest.
+* *Permissions:* manage permissions for the selected guest.
 
 
 Storage
@@ -347,16 +348,21 @@ Storage
 
 [thumbnail="screenshot/gui-storage-summary-local.png"]
 
+As with the guest interface, the interface for storage consists of a menu on the
+left for certain storage elements and an interface on the right to manage
+these elements.
+
 In this view we have a two partition split-view.
 On the left side we have the storage options
 and on the right side the content of the selected option will be shown.
 
-* *Summary:* shows important information about storages like
-'Usage', 'Type', 'Content', 'Active' and 'Enabled'.
+* *Summary:* shows important information about the storage, such as the type,
+   usage, and content which it stores.
 
-* *Content:* Here all content will be listed grouped by content type.
+* *Content:* a menu item for each content type which the storage
+   stores, for example, Backups, ISO Images, CT Templates.
 
-* *Permissions:* manage the user permission for this storage.
+* *Permissions:* manage permissions for the storage.
 
 
 Pools
@@ -364,15 +370,14 @@ Pools
 
 [thumbnail="screenshot/gui-pool-summary-development.png"]
 
-In this view we have a two partition split view.
-On the left side we have the logical pool options
-and on the right side the content of the selected option will be shown.
+Again, the pools view comprises two partitions: a menu on the left,
+and the corresponding interfaces for each menu item on the right.
 
-* *Summary:* show the description of the pool.
+* *Summary:* shows a description of the pool.
 
-* *Members:* Here all members of this pool will listed and can be managed.
+* *Members:* display and manage pool members (guests and storage).
 
-* *Permissions:* manage the user permission for this pool.
+* *Permissions:* manage the permissions for the pool.
 
 
 ifdef::wiki[]
@@ -384,9 +389,3 @@ See Also
 
 endif::wiki[]
 
-////
-TODO:
-
-VM, CT, Storage, Pool section
-
-////

@@ -33,8 +33,8 @@ network performance. Currently (2021), there are reports of clusters (using
 high-end enterprise hardware) with over 50 nodes in production.
 
 `pvecm` can be used to create a new cluster, join nodes to a cluster,
-leave the cluster, get status information and do various other cluster
-related tasks. The **P**rox**m**o**x** **C**luster **F**ile **S**ystem (``pmxcfs'')
+leave the cluster, get status information and do various other cluster-related
+tasks. The **P**rox**m**o**x** **C**luster **F**ile **S**ystem (``pmxcfs'')
 is used to transparently distribute the cluster configuration to all cluster
 nodes.
 
@@ -386,7 +386,7 @@ You can also separate a node from a cluster without reinstalling it from
 scratch.  But after removing the node from the cluster it will still have
 access to the shared storages! This must be resolved before you start removing
 the node from the cluster. A {pve} cluster cannot share the exact same
-storage with another cluster, as storage locking doesn't work over cluster
+storage with another cluster, as storage locking doesn't work over the cluster
 boundary. Further, it may also lead to VMID conflicts.
 
 Its suggested that you create a new storage where only the node which you want

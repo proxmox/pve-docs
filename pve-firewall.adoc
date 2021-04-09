@@ -84,7 +84,7 @@ name enclosed in `[` and `]`.
 Cluster Wide Setup
 ~~~~~~~~~~~~~~~~~~
 
-The cluster wide firewall configuration is stored at:
+The cluster-wide firewall configuration is stored at:
  
  /etc/pve/firewall/cluster.fw
 
@@ -92,13 +92,13 @@ The configuration can contain the following sections:
 
 `[OPTIONS]`::
 
-This is used to set cluster wide firewall options.
+This is used to set cluster-wide firewall options.
 
 include::pve-firewall-cluster-opts.adoc[]
 
 `[RULES]`::
 
-This sections contains cluster wide firewall rules for all nodes.
+This sections contains cluster-wide firewall rules for all nodes.
 
 `[IPSET <name>]`::
 
@@ -121,7 +121,7 @@ set the enable option here:
 
 ----
 [OPTIONS]
-# enable firewall (cluster wide setting, default is disabled)
+# enable firewall (cluster-wide setting, default is disabled)
 enable: 1
 ----
 
