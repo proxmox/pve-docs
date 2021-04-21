@@ -343,25 +343,27 @@ Create OSDs
 
 [thumbnail="screenshot/gui-ceph-osd-status.png"]
 
-via GUI or via CLI as follows:
+You can create an OSD either via the {pve} web-interface, or via CLI using
+`pveceph`. For example:
 
 [source,bash]
 ----
 pveceph osd create /dev/sd[X]
 ----
 
-TIP: We recommend a Ceph cluster size, starting with 12 OSDs, distributed
-evenly among your, at least three nodes (4 OSDs on each node).
+TIP: We recommend a Ceph cluster with at least three nodes and a at least 12
+OSDs, evenly distributed among the nodes.
 
-If the disk was used before (eg. ZFS/RAID/OSD), to remove partition table, boot
-sector and any OSD leftover the following command should be sufficient.
+If the disk was in use before (for example, in a ZFS, or as OSD) you need to
+first zap all traces of that usage. To remove the partition table, boot
+sector and any other OSD leftover, you can use the following command:
 
 [source,bash]
 ----
 ceph-volume lvm zap /dev/sd[X] --destroy
 ----
 
-WARNING: The above command will destroy data on the disk!
+WARNING: The above command will destroy all data on the disk!
 
 .Ceph Bluestore
 
