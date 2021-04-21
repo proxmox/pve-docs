@@ -455,14 +455,14 @@ A pool is a logical group for storing objects. It holds **P**lacement
 Create and Edit Pools
 ~~~~~~~~~~~~~~~~~~~~~
 
+You can create pools through command line or on the web-interface on each {pve}
+host under **Ceph -> Pools**.
+
 [thumbnail="screenshot/gui-ceph-pools.png"]
 
 When no options are given, we set a default of **128 PGs**, a **size of 3
-replicas** and a **min_size of 2 replicas** for serving objects in a degraded
-state.
-
-NOTE: The default number of PGs works for 2-5 disks. Ceph throws a
-'HEALTH_WARNING' if you have too few or too many PGs in your cluster.
+replicas** and a **min_size of 2 replicas**, to ensure no data loss occurs if
+any OSD fails.
 
 WARNING: **Do not set a min_size of 1**. A replicated pool with min_size of 1
 allows I/O on an object when it has only 1 replica which could lead to data
@@ -479,17 +479,15 @@ footnoteref:[autoscaler,Automated Scaling
 {cephdocs-url}/rados/operations/placement-groups/#automated-scaling] can
 automatically scale the PG count for a pool in the background.
 
-You can create pools through command line or on the GUI on each PVE host under
-**Ceph -> Pools**.
-
+.Example for creating a pool over the CLI
 [source,bash]
 ----
-pveceph pool create <name>
+pveceph pool create <name> --add_storages
 ----
 
-If you would like to automatically also get a storage definition for your pool,
-mark the checkbox "Add storages" in the GUI or use the command line option
-'--add_storages' at pool creation.
+TIP: If you would like to automatically also get a storage definition for your
+pool, keep the `Add storages' checkbox ticked in the web-interface, or use the
+command line option '--add_storages' at pool creation.
 
 .Base Options
 Name:: The name of the pool. This must be unique and can't be changed afterwards.
