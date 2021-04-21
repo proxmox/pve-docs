@@ -508,11 +508,11 @@ xref:pve_ceph_device_classes[Ceph CRUSH & device classes] for information on
 device-based rules.
 # of PGs:: The number of placement groups footnoteref:[placement_groups] that
 the pool should have at the beginning. Default: `128`.
-Traget Size:: The estimated amount of data expected in the pool. The PG
-autoscaler uses this size to estimate the optimal PG count.
 Target Size Ratio:: The ratio of data that is expected in the pool. The PG
 autoscaler uses the ratio relative to other ratio sets. It takes precedence
 over the `target size` if both are set.
+Target Size:: The estimated amount of data expected in the pool. The PG
+autoscaler uses this size to estimate the optimal PG count.
 Min. # of PGs:: The minimum number of placement groups. This setting is used to
 fine-tune the lower bound of the PG count for that pool. The PG autoscaler
 will not merge PGs below this threshold.
