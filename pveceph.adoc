@@ -450,7 +450,7 @@ A pool is a logical group for storing objects. It holds **P**lacement
 **G**roups (`PG`, `pg_num`), a collection of objects.
 
 
-Create and edit Pools
+Create and Edit Pools
 ~~~~~~~~~~~~~~~~~~~~~
 
 [thumbnail="screenshot/gui-ceph-pools.png"]
