@@ -450,8 +450,8 @@ A pool is a logical group for storing objects. It holds **P**lacement
 **G**roups (`PG`, `pg_num`), a collection of objects.
 
 
-Create Pools
-~~~~~~~~~~~~
+Create and edit Pools
+~~~~~~~~~~~~~~~~~~~~~
 
 [thumbnail="screenshot/gui-ceph-pools.png"]
 
@@ -497,7 +497,7 @@ PG Autoscale Mode:: The automatic PG scaling mode footnoteref:[autoscaler] of
 the pool. If set to `warn`, it produces a warning message when a pool
 has a non-optimal PG count. Default: `warn`.
 Add as Storage:: Configure a VM or container storage using the new pool.
-Default: `true`.
+Default: `true` (only visible on creation).
 
 .Advanced Options
 Min. Size:: The minimum number of replicas per object. Ceph will reject I/O on
