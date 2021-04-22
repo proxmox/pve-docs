@@ -337,6 +337,34 @@ per configured storage, this can be done with:
 # pvesm set STORAGEID --bwlimit restore=KIBs
 ----
 
+Live-Restore
+~~~~~~~~~~~~
+
+Restoring a large backup can take a long time, in which a guest is still
+unavailable. For VM backups stored on a Proxmox Backup Server, this wait
+time can be mitigated using the live-restore option.
+
+Enabling live-restore via either the checkbox in the GUI or the `--live-restore`
+argument of `qmrestore` causes the VM to start as soon as the restore
+begins. Data is copied in the background, prioritizing chunks that the VM is
+actively accessing.
+
+Note that this comes with two caveats:
+
+* During live-restore, the VM will operate with limited disk read speeds, as
+  data has to be loaded from the backup server (once loaded, it is immediately
+  available on the destination storage however, so accessing data twice only
+  incurs the penalty the first time). Write speeds are largely unaffected.
+* If the live-restore fails for any reason, the VM will be left in an
+  undefined state - that is, not all data might have been copied from the
+  backup, and it is _most likely_ not possible to keep any data that was written
+  during the failed restore operation.
+
+This mode of operation is especially useful for large VMs, where only a small
+amount of data is required for initial operation, e.g. web servers - once the OS
+and necessary services have been started, the VM is operational, while the
+background task continues copying seldomly used data.
+
 [[vzdump_configuration]]
 Configuration
 -------------
