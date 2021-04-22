@@ -365,6 +365,30 @@ amount of data is required for initial operation, e.g. web servers - once the OS
 and necessary services have been started, the VM is operational, while the
 background task continues copying seldomly used data.
 
+Single File Restore
+~~~~~~~~~~~~~~~~~~~
+
+The 'File Restore' button in the 'Backups' tab of the storage GUI can be used to
+open a file browser directly on the data contained in a backup. This feature
+is only available for backups on a Proxmox Backup Server.
+
+For containers, the first layer of the file tree shows all included 'pxar'
+archives, which can be opened and browsed freely. For VMs, the first layer shows
+contained drive images, which can be opened to reveal a list of supported
+storage technologies found on the drive. In the most basic case, this will be an
+entry called 'part', representing a partition table, which contains entries for
+each partition found on the drive. Note that for VMs, not all data might be
+accessible (unsupported guest file systems, storage technologies, etc...).
+
+Files and directories can be downloaded using the 'Download' button, the latter
+being compressed into a zip archive on the fly.
+
+To enable secure access to VM images, which might contain untrusted data, a
+temporary VM (not visible as a guest) is started. This does not mean that data
+downloaded from such an archive is inherently safe, but it avoids exposing the
+hypervisor system to danger. The VM will stop itself after a timeout. This
+entire process happens transparently from a user's point of view.
+
 [[vzdump_configuration]]
 Configuration
 -------------
