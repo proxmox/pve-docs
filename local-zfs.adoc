@@ -473,6 +473,19 @@ options zfs zfs_arc_max=8589934592
 
 This example setting limits the usage to 8 GiB ('8 * 2^30^').
 
+IMPORTANT: In case your desired +zfs_arc_max+ value is lower than or equal to
++zfs_arc_min+ (which defaults to 1/32 of the system memory), +zfs_arc_max+ will
+be ignored unless you also set +zfs_arc_min+ to at most +zfs_arc_max - 1+.
+
+----
+echo "$[8 * 1024*1024*1024 - 1]" >/sys/module/zfs/parameters/zfs_arc_min
+echo "$[8 * 1024*1024*1024]" >/sys/module/zfs/parameters/zfs_arc_max
+----
+
+This example setting (temporarily) limits the usage to 8 GiB ('8 * 2^30^') on
+systems with more than 256 GiB of total memory, where simply setting
++zfs_arc_max+ alone would not work.
+
 [IMPORTANT]
 ====
 If your root file system is ZFS, you must update your initramfs every
