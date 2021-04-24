@@ -607,12 +607,12 @@ Here are some simple usage examples. To show help type:
 or (to show detailed help about a specific command)
 
 [source,bash]
- pveum help useradd
+ pveum help user add
 
 Create a new user:
 
 [source,bash]
- pveum useradd testuser@pve -comment "Just a test"
+ pveum user add testuser@pve -comment "Just a test"
 
 Set or Change the password (not all realms support that):
 
@@ -622,17 +622,17 @@ Set or Change the password (not all realms support that):
 Disable a user:
 
 [source,bash]
- pveum usermod testuser@pve -enable 0
+ pveum user modify testuser@pve -enable 0
 
 Create a new group:
 
 [source,bash]
- pveum groupadd testgroup
+ pveum group add testgroup
 
 Create a new role:
 
 [source,bash]
- pveum roleadd PVE_Power-only -privs "VM.PowerMgmt VM.Console"
+ pveum role add PVE_Power-only -privs "VM.PowerMgmt VM.Console"
 
 
 Real World Examples
@@ -648,17 +648,17 @@ users with full administrator rights (without using the root account).
 Define the group:
 
 [source,bash]
- pveum groupadd admin -comment "System Administrators"
+ pveum group add admin -comment "System Administrators"
 
 Then add the permission:
 
 [source,bash]
- pveum aclmod / -group admin -role Administrator
+ pveum acl modify / -group admin -role Administrator
 
 You can finally add users to the new 'admin' group:
 
 [source,bash]
- pveum usermod testuser@pve -group admin
+ pveum user modify testuser@pve -group admin
 
 
 Auditors
@@ -670,12 +670,12 @@ role to users or groups.
 Example1: Allow user `joe@pve` to see everything
 
 [source,bash]
- pveum aclmod / -user joe@pve -role PVEAuditor
+ pveum acl modify / -user joe@pve -role PVEAuditor
 
 Example1: Allow user `joe@pve` to see all virtual machines
 
 [source,bash]
- pveum aclmod /vms -user joe@pve -role PVEAuditor
+ pveum acl modify /vms -user joe@pve -role PVEAuditor
 
 
 Delegate User Management
@@ -685,7 +685,7 @@ If you want to delegate user management to user `joe@pve` you can do
 that with:
 
 [source,bash]
- pveum aclmod /access -user joe@pve -role PVEUserAdmin
+ pveum acl modify /access -user joe@pve -role PVEUserAdmin
 
 User `joe@pve` can now add and remove users, change passwords and
 other user attributes. This is a very powerful role, and you most
@@ -694,8 +694,8 @@ example allows `joe@pve` to modify users within realm `pve` if they
 are members of group `customers`:
 
 [source,bash]
- pveum aclmod /access/realm/pve -user joe@pve -role PVEUserAdmin
- pveum aclmod /access/groups/customers -user joe@pve -role PVEUserAdmin
+ pveum acl modify /access/realm/pve -user joe@pve -role PVEUserAdmin
+ pveum acl modify /access/groups/customers -user joe@pve -role PVEUserAdmin
 
 NOTE: The user is able to add other users, but only if they are
 members of group `customers` and within realm `pve`.
@@ -706,14 +706,14 @@ Limited API token for monitoring
 Given a user `joe@pve` with the PVEVMAdmin role on all VMs:
 
 [source,bash]
- pveum aclmod /vms -user joe@pve -role PVEVMAdmin
+ pveum acl modify /vms -user joe@pve -role PVEVMAdmin
 
 Add a new API token with separate privileges, which is only allowed to view VM
 information (e.g., for monitoring purposes):
 
 [source,bash]
  pveum user token add joe@pve monitoring -privsep 1
- pveum aclmod /vms -token 'joe@pve!monitoring' -role PVEAuditor
+ pveum acl modify /vms -token 'joe@pve!monitoring' -role PVEAuditor
 
 Verify the permissions of the user and token:
 
@@ -730,24 +730,24 @@ of these. Let's assume that you want to set up a pool for a software development
 department. First, create a group
 
 [source,bash]
- pveum groupadd developers -comment "Our software developers"
+ pveum group add developers -comment "Our software developers"
 
 Now we create a new user which is a member of that group
 
 [source,bash]
- pveum useradd developer1@pve -group developers -password
+ pveum user add developer1@pve -group developers -password
 
 NOTE: The -password parameter will prompt you for a password
 
 Then we create a resource pool for our development department to use
 
 [source,bash]
- pveum pooladd dev-pool --comment "IT development pool"
+ pveum pool add dev-pool --comment "IT development pool"
 
 Finally, we can assign permissions to that pool
 
 [source,bash]
- pveum aclmod /pool/dev-pool/ -group developers -role PVEAdmin
+ pveum acl modify /pool/dev-pool/ -group developers -role PVEAdmin
 
 Our software developers can now administrate the resources assigned to
 that pool.
