@@ -17,15 +17,8 @@ also applies to systems which are installed on top of Debian).
 Partitioning Scheme Used by the Installer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The {pve} installer creates 3 partitions on the bootable disks selected for
-installation. The bootable disks are:
-
-* For Installations with `ext4` or `xfs` the selected disk
-
-* For ZFS installations all disks belonging to the first `vdev`:
-** The first disk for RAID0
-** All disks for RAID1, RAIDZ1, RAIDZ2, RAIDZ3
-** The first two disks for RAID10
+The {pve} installer creates 3 partitions on all disks selected for
+installation.
 
 The created partitions are:
 
@@ -36,8 +29,140 @@ The created partitions are:
 * a third partition spanning the set `hdsize` parameter or the remaining space
     used for the chosen storage type
 
+Systems using ZFS as root filesystem are booted with a kernel and initrd image
+stored on the 512 MB EFI System Partition. For legacy BIOS systems, `grub` is
+used, for EFI systems `systemd-boot` is used. Both are installed and configured
+to point to the ESPs.
+
 `grub` in BIOS mode (`--target i386-pc`) is installed onto the BIOS Boot
-Partition of all bootable disks for supporting older systems.
+Partition of all selected disks on all systems booted with `grub`
+footnote:[These are all installs with root on `ext4` or `xfs` and installs
+with root on ZFS on non-EFI systems].
+
+
+[[sysboot_proxmox_boot_tool]]
+Synchronizing the content of the ESP with `proxmox-boot-tool`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+`proxmox-boot-tool` is a utility used to keep the contents of the EFI System
+Partitions properly configured and synchronized. It copies certain kernel
+versions to all ESPs and configures the respective bootloader to boot from
+the `vfat` formatted ESPs. In the context of ZFS as root filesystem this means
+that you can use all optional features on your root pool instead of the subset
+which is also present in the ZFS implementation in `grub` or having to create a
+separate small boot-pool footnote:[Booting ZFS on root with grub
+https://github.com/zfsonlinux/zfs/wiki/Debian-Stretch-Root-on-ZFS].
+
+In setups with redundancy all disks are partitioned with an ESP, by the
+installer. This ensures the system boots even if the first boot device fails
+or if the BIOS can only boot from a particular disk.
+
+The ESPs are not kept mounted during regular operation. This helps to prevent
+filesystem corruption to the `vfat` formatted ESPs in case of a system crash,
+and removes the need to manually adapt `/etc/fstab` in case the primary boot
+device fails.
+
+`proxmox-boot-tool` handles the following tasks:
+
+* formatting and setting up a new partition
+* copying and configuring new kernel images and initrd images to all listed ESPs
+* synchronizing the configuration on kernel upgrades and other maintenance tasks
+* managing the list of kernel versions which are synchronized
+
+
+You can view the currently configured ESPs and their state by running:
+
+----
+# proxmox-boot-tool status
+----
+
+[[sysboot_proxmox_boot_setup]]
+.Setting up a new partition for use as synced ESP
+
+To format and initialize a partition as synced ESP, e.g., after replacing a
+failed vdev in an rpool, or when converting an existing system that pre-dates
+the sync mechanism, `proxmox-boot-tool` from `pve-kernel-helpers` can be used.
+
+WARNING: the `format` command will format the `<partition>`, make sure to pass
+in the right device/partition!
+
+For example, to format an empty partition `/dev/sda2` as ESP, run the following:
+
+----
+# proxmox-boot-tool format /dev/sda2
+----
+
+To setup an existing, unmounted ESP located on `/dev/sda2` for inclusion in
+{pve}'s kernel update synchronization mechanism, use the following:
+
+----
+# proxmox-boot-tool init /dev/sda2
+----
+
+Afterwards `/etc/kernel/proxmox-boot-uuids` should contain a new line with the
+UUID of the newly added partition. The `init` command will also automatically
+trigger a refresh of all configured ESPs.
+
+[[sysboot_proxmox_boot_refresh]]
+.Updating the configuration on all ESPs
+
+To copy and configure all bootable kernels and keep all ESPs listed in
+`/etc/kernel/proxmox-boot-uuids` in sync you just need to run:
+
+----
+# proxmox-boot-tool refresh
+----
+(The equivalent to running `update-grub` systems with `ext4` or `xfs` on root).
+
+This is necessary should you make changes to the kernel commandline, or want to
+sync all kernels and initrds.
+
+NOTE: Both `update-initramfs` and `apt` (when necessary) will automatically
+trigger a refresh.
+
+.Kernel Versions considered by `proxmox-boot-tool`
+The following kernel versions are configured by default:
+
+* the currently running kernel
+* the version being newly installed on package updates
+* the two latest already installed kernels
+* the latest version of the second-to-last kernel series (e.g. 5.0, 5.3), if applicable
+* any manually selected kernels
+
+.Manually keeping a kernel bootable
+
+Should you wish to add a certain kernel and initrd image to the list of
+bootable kernels use `proxmox-boot-tool kernel add`.
+
+For example run the following to add the kernel with ABI version `5.0.15-1-pve`
+to the list of kernels to keep installed and synced to all ESPs:
+
+----
+# proxmox-boot-tool kernel add 5.0.15-1-pve
+----
+
+`proxmox-boot-tool kernel list` will list all kernel versions currently selected
+for booting:
+
+----
+# proxmox-boot-tool kernel list
+Manually selected kernels:
+5.0.15-1-pve
+
+Automatically selected kernels:
+5.0.12-1-pve
+4.15.18-18-pve
+----
+
+Run `proxmox-boot-tool kernel remove` to remove a kernel from the list of
+manually selected kernels, for example:
+
+----
+# proxmox-boot-tool kernel remove 5.0.15-1-pve
+----
+
+NOTE: It's required to run `proxmox-boot-tool refresh` to update all EFI System
+Partitions (ESPs) after a manual kernel addition or removal from above.
 
 
 [[sysboot_determine_bootloader_used]]
@@ -72,11 +197,20 @@ used in UEFI mode.
 Boot0005* proxmox	[...] File(\EFI\proxmox\grubx64.efi)
 ----
 
-If the output contains a line similar to the following, `systemd-bood` is used.
+If the output contains a line similar to the following, `systemd-boot` is used.
 
 ----
 Boot0006* Linux Boot Manager	[...] File(\EFI\systemd\systemd-bootx64.efi)
 ----
+
+By running:
+
+----
+# proxmox-boot-tool status
+----
+
+you can find out if `proxmox-boot-tool` is configured, which is a good
+indication of how the system is booted.
 
 
 [[sysboot_grub]]
@@ -87,18 +221,18 @@ Grub
 and is quite well documented
 footnote:[Grub Manual https://www.gnu.org/software/grub/manual/grub/grub.html].
 
-The kernel and initrd images are taken from `/boot` and its configuration file
-`/boot/grub/grub.cfg` gets updated by the kernel installation process.
-
 Configuration
 ^^^^^^^^^^^^^
 Changes to the `grub` configuration are done via the defaults file
 `/etc/default/grub` or config snippets in `/etc/default/grub.d`. To regenerate
-the `/boot/grub/grub.cfg` after a change to the configuration run:
+the configuration file after a change to the configuration run:
+footnote:[Systems using `proxmox-boot-tool` will call `proxmox-boot-tool
+refresh` upon `update-grub`.]
 
 ----
-`update-grub`.
+# update-grub
 ----
+
 
 [[sysboot_systemd_boot]]
 Systemd-boot
@@ -107,33 +241,9 @@ Systemd-boot
 `systemd-boot` is a lightweight EFI bootloader. It reads the kernel and initrd
 images directly from the EFI Service Partition (ESP) where it is installed.
 The main advantage of directly loading the kernel from the ESP is that it does
-not need to reimplement the drivers for accessing the storage.  In the context
-of ZFS as root filesystem this means that you can use all optional features on
-your root pool instead of the subset which is also present in the ZFS
-implementation in `grub` or having to create a separate small boot-pool
-footnote:[Booting ZFS on root with grub https://github.com/zfsonlinux/zfs/wiki/Debian-Stretch-Root-on-ZFS].
-
-In setups with redundancy (RAID1, RAID10, RAIDZ*) all bootable disks (those
-being part of the first `vdev`) are partitioned with an ESP. This ensures the
-system boots even if the first boot device fails.  The ESPs are kept in sync by
-a kernel postinstall hook script `/etc/kernel/postinst.d/zz-pve-efiboot`. The
-script copies certain kernel versions and the initrd images to `EFI/proxmox/`
-on the root of each ESP and creates the appropriate config files in
-`loader/entries/proxmox-*.conf`. The `pve-efiboot-tool` script assists in
-managing both the synced ESPs themselves and their contents.
-
-The following kernel versions are configured by default:
-
-* the currently running kernel
-* the version being newly installed on package updates
-* the two latest already installed kernels
-* the latest version of the second-to-last kernel series (e.g. 4.15, 5.0), if applicable
-* any manually selected kernels (see below)
-
-The ESPs are not kept mounted during regular operation, in contrast to `grub`,
-which keeps an ESP mounted on `/boot/efi`. This helps to prevent filesystem
-corruption to the `vfat` formatted ESPs in case of a system crash, and removes
-the need to manually adapt `/etc/fstab` in case the primary boot device fails.
+not need to reimplement the drivers for accessing the storage. In {pve}
+xref:sysboot_proxmox_boot_tool[`proxmox-boot-tool`] is used to keep the
+configuration on the ESPs synchronized.
 
 [[sysboot_systemd_boot_config]]
 Configuration
@@ -157,86 +267,6 @@ initrd   /EFI/proxmox/5.0.15-1-pve/initrd.img-5.0.15-1-pve
 ----
 
 
-.Manually keeping a kernel bootable
-
-Should you wish to add a certain kernel and initrd image to the list of
-bootable kernels use `pve-efiboot-tool kernel add`.
-
-For example run the following to add the kernel with ABI version `5.0.15-1-pve`
-to the list of kernels to keep installed and synced to all ESPs:
-
-----
-pve-efiboot-tool kernel add 5.0.15-1-pve
-----
-
-`pve-efiboot-tool kernel list` will list all kernel versions currently selected
-for booting:
-
-----
-# pve-efiboot-tool kernel list
-Manually selected kernels:
-5.0.15-1-pve
-
-Automatically selected kernels:
-5.0.12-1-pve
-4.15.18-18-pve
-----
-
-Run `pve-efiboot-tool remove` to remove a kernel from the list of manually
-selected kernels, for example:
-
-----
-pve-efiboot-tool kernel remove 5.0.15-1-pve
-----
-
-NOTE: It's required to run `pve-efiboot-tool refresh` to update all EFI System
-Partitions (ESPs) after a manual kernel addition or removal from above.
-
-[[sysboot_systemd_boot_setup]]
-.Setting up a new partition for use as synced ESP
-
-To format and initialize a partition as synced ESP, e.g., after replacing a
-failed vdev in an rpool, or when converting an existing system that pre-dates
-the sync mechanism, `pve-efiboot-tool` from `pve-kernel-helpers` can be used.
-
-WARNING: the `format` command will format the `<partition>`, make sure to pass
-in the right device/partition!
-
-For example, to format an empty partition `/dev/sda2` as ESP, run the following:
-
-----
-pve-efiboot-tool format /dev/sda2
-----
-
-To setup an existing, unmounted ESP located on `/dev/sda2` for inclusion in
-{pve}'s kernel update synchronization mechanism, use the following:
-
-----
-pve-efiboot-tool init /dev/sda2
-----
-
-Afterwards `/etc/kernel/pve-efiboot-uuids` should contain a new line with the
-UUID of the newly added partition. The `init` command will also automatically
-trigger a refresh of all configured ESPs.
-
-[[sysboot_systemd_boot_refresh]]
-.Updating the configuration on all ESPs
-
-To copy and configure all bootable kernels and keep all ESPs listed in
-`/etc/kernel/pve-efiboot-uuids` in sync you just need to run:
-
-----
- pve-efiboot-tool refresh
-----
-(The equivalent to running `update-grub` on systems being booted with `grub`).
-
-This is necessary should you make changes to the kernel commandline, or want to
-sync all kernels and initrds.
-
-NOTE: Both `update-initramfs` and `apt` (when necessary) will automatically
-trigger a refresh.
-
-
 [[sysboot_edit_kernel_cmdline]]
 Editing the Kernel Commandline
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -254,5 +284,5 @@ The kernel commandline needs to be placed in the variable
 .Systemd-boot
 
 The kernel commandline needs to be placed as one line in `/etc/kernel/cmdline`.
-To apply your changes, run `pve-efiboot-tool refresh`, which sets it as the
+To apply your changes, run `proxmox-boot-tool refresh`, which sets it as the
 `option` line for all config files in `loader/entries/proxmox-*.conf`.

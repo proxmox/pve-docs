@@ -247,8 +247,8 @@ RAIDZ performance characteristics are acceptable.
 Bootloader
 ~~~~~~~~~~
 
-Depending on whether the system is booted in EFI or legacy BIOS mode the
-{pve} installer sets up either `grub` or `systemd-boot` as main bootloader.
+{pve} uses xref:sysboot_proxmox_boot_tool[`proxmox-boot-tool`] to manage the
+bootloader configuration.
 See the chapter on xref:sysboot[{pve} host bootladers] for details.
 
 
@@ -387,8 +387,14 @@ Changing a failed device
 
 .Changing a failed bootable device
 
-Depending on how {pve} was installed it is either using `grub` or `systemd-boot`
-as bootloader (see xref:sysboot[Host Bootloader]).
+Depending on how {pve} was installed it is either using `proxmox-boot-tool`
+footnote:[Systems installed with {pve} 6.4 or later, EFI systems installed with
+{pve} 5.4 or later] or plain `grub` as bootloader (see
+xref:sysboot[Host Bootloader]). You can check by running:
+
+----
+# proxmox-boot-tool status
+----
 
 The first steps of copying the partition table, reissuing GUIDs and replacing
 the ZFS partition are the same. To make the system bootable from the new disk,
@@ -403,16 +409,16 @@ different steps are needed which depend on the bootloader in use.
 NOTE: Use the `zpool status -v` command to monitor how far the resilvering
 process of the new disk has progressed.
 
-.With `systemd-boot`:
+.With `proxmox-boot-tool`:
 
 ----
-# pve-efiboot-tool format <new disk's ESP>
-# pve-efiboot-tool init <new disk's ESP>
+# proxmox-boot-tool format <new disk's ESP>
+# proxmox-boot-tool init <new disk's ESP>
 ----
 
 NOTE: `ESP` stands for EFI System Partition, which is setup as partition #2 on
 bootable disks setup by the {pve} installer since version 5.4. For details, see
-xref:sysboot_systemd_boot_setup[Setting up a new partition for use as synced ESP].
+xref:sysboot_proxmox_boot_setup[Setting up a new partition for use as synced ESP].
 
 .With `grub`:
 
