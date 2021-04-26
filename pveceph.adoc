@@ -23,7 +23,7 @@ Deploy Hyper-Converged Ceph Cluster
 :pve-toplevel:
 endif::manvolnum[]
 
-[thumbnail="screenshot/gui-ceph-status.png"]
+[thumbnail="screenshot/gui-ceph-status-dashboard.png"]
 
 {pve} unifies your compute and storage systems, that is, you can use the same
 physical nodes within a cluster for both computing (processing VMs and
@@ -177,6 +177,7 @@ Ceph.
 
 After starting the installation, the wizard will download and install all the
 required packages from {pve}'s Ceph repository.
+[thumbnail="screenshot/gui-node-ceph-install-wizard-step0.png"]
 
 After finishing the installation step, you will need to create a configuration.
 This step is only needed once per cluster, as this configuration is distributed
@@ -461,6 +462,9 @@ WARNING: The above command will destroy all data on the disk!
 [[pve_ceph_pools]]
 Ceph Pools
 ----------
+
+[thumbnail="screenshot/gui-ceph-pools.png"]
+
 A pool is a logical group for storing objects. It holds a collection of objects,
 known as **P**lacement **G**roups (`PG`, `pg_num`).
 
@@ -470,8 +474,6 @@ Create and Edit Pools
 
 You can create and edit pools from the command line or the web-interface of any
 {pve} host under **Ceph -> Pools**.
-
-[thumbnail="screenshot/gui-ceph-pools.png"]
 
 When no options are given, we set a default of **128 PGs**, a **size of 3
 replicas** and a **min_size of 2 replicas**, to ensure no data loss occurs if
@@ -506,6 +508,8 @@ command line option '--add_storages' at pool creation.
 
 Pool Options
 ^^^^^^^^^^^^
+
+[thumbnail="screenshot/gui-ceph-pool-create.png"]
 
 The following options are available on pool creation, and partially also when
 editing a pool.
