@@ -8,31 +8,31 @@ endif::wiki[]
 
 Storage pool type: `cephfs`
 
-CephFS implements a POSIX-compliant filesystem using a http://ceph.com[Ceph]
-storage cluster to store its data. As CephFS builds on Ceph it shares most of
-its properties, this includes redundancy, scalability, self healing and high
+CephFS implements a POSIX-compliant filesystem, using a http://ceph.com[Ceph]
+storage cluster to store its data. As CephFS builds upon Ceph, it shares most of
+its properties. This includes redundancy, scalability, self-healing, and high
 availability.
 
-TIP: {pve} can xref:chapter_pveceph[manage ceph setups], which makes
-configuring a CephFS storage easier. As recent hardware has plenty of CPU power
-and RAM, running storage services and VMs on same node is possible without a
-big performance impact.
+TIP: {pve} can xref:chapter_pveceph[manage Ceph setups], which makes
+configuring a CephFS storage easier. As modern hardware offers a lot of
+processing power and RAM, running storage services and VMs on same node is
+possible without a significant performance impact.
 
-To use the CephFS storage plugin you need update the debian stock Ceph client.
-Add our Ceph repository xref:sysadmin_package_repositories_ceph[Ceph repository].
-Once added, run an `apt update` and `apt dist-upgrade` cycle to get the newest
-packages.
+To use the CephFS storage plugin, you must replace the stock Debian Ceph client,
+by adding our xref:sysadmin_package_repositories_ceph[Ceph repository].
+Once added, run `apt update`, followed by `apt dist-upgrade`, in order to get
+the newest packages.
 
-You need to make sure that there is no other Ceph repository configured,
-otherwise the installation will fail or there will be mixed package
-versions on the node, leading to unexpected behavior.
+WARNING: Please ensure that there are no other Ceph repositories configured.
+Otherwise the installation will fail or there will be mixed package versions on
+the node, leading to unexpected behavior.
 
 [[storage_cephfs_config]]
 Configuration
 ~~~~~~~~~~~~~
 
 This backend supports the common storage properties `nodes`,
-`disable`, `content`, and the following `cephfs` specific properties:
+`disable`, `content`, as well as the following `cephfs` specific properties:
 
 monhost::
 
@@ -45,7 +45,7 @@ The local mount point. Optional, defaults to `/mnt/pve/<STORAGE_ID>/`.
 
 username::
 
-Ceph user id. Optional, only needed if Ceph is not running on the PVE cluster
+Ceph user id. Optional, only needed if Ceph is not running on the PVE cluster,
 where it defaults to `admin`.
 
 subdir::
@@ -57,7 +57,7 @@ fuse::
 Access CephFS through FUSE, instead of the kernel client. Optional, defaults
 to `0`.
 
-.Configuration Example for a external Ceph cluster (`/etc/pve/storage.cfg`)
+.Configuration example for an external Ceph cluster (`/etc/pve/storage.cfg`)
 ----
 cephfs: cephfs-external
         monhost 10.1.1.20 10.1.1.21 10.1.1.22
@@ -65,13 +65,13 @@ cephfs: cephfs-external
         content backup
         username admin
 ----
-NOTE: Don't forget to setup the client secret key file if cephx was not turned
-off.
+NOTE: Don't forget to set up the client's secret key file, if cephx was not
+disabled.
 
 Authentication
 ~~~~~~~~~~~~~~
 
-If you use the, by-default enabled, `cephx` authentication, you need to copy
+If you use `cephx` authentication, which is enabled by default, you need to copy
 the secret from your external Ceph cluster to a Proxmox VE host.
 
 Create the directory `/etc/pve/priv/ceph` with
@@ -82,25 +82,26 @@ Then copy the secret
 
  scp cephfs.secret <proxmox>:/etc/pve/priv/ceph/<STORAGE_ID>.secret
 
-The secret must be named to match your `<STORAGE_ID>`. Copying the
+The secret must be renamed to match your `<STORAGE_ID>`. Copying the
 secret generally requires root privileges. The file must only contain the
-secret key itself, opposed to the `rbd` backend which also contains a
+secret key itself, as opposed to the `rbd` backend which also contains a
 `[client.userid]` section.
 
-A secret can be received from the ceph cluster (as ceph admin) by issuing the
-following command. Replace the `userid` with the actual client ID configured to
-access the cluster. For further ceph user management see the Ceph docs
-footnote:[Ceph user management {cephdocs-url}/rados/operations/user-management/].
+A secret can be received from the Ceph cluster (as Ceph admin) by issuing the
+command below, where `userid` is the client ID that has been configured to
+access the cluster. For further information on Ceph user management, see the
+Ceph docs footnote:[Ceph user management
+{cephdocs-url}/rados/operations/user-management/].
 
  ceph auth get-key client.userid > cephfs.secret
 
-If Ceph is installed locally on the PVE cluster, i.e., setup with `pveceph`,
-this is done automatically.
+If Ceph is installed locally on the PVE cluster, that is, it was set up using
+`pveceph`, this is done automatically.
 
 Storage Features
 ~~~~~~~~~~~~~~~~
 
-The `cephfs` backend is a POSIX-compliant filesystem on top of a Ceph cluster.
+The `cephfs` backend is a POSIX-compliant filesystem, on top of a Ceph cluster.
 
 .Storage features for backend `cephfs`
 [width="100%",cols="m,m,3*d",options="header"]
@@ -108,8 +109,8 @@ The `cephfs` backend is a POSIX-compliant filesystem on top of a Ceph cluster.
 |Content types              |Image formats  |Shared |Snapshots |Clones
 |vztmpl iso backup snippets |none           |yes    |yes^[1]^  |no
 |==============================================================================
-^[1]^ Snapshots, while no known bugs, cannot be guaranteed to be stable yet, as
-they lack testing.
+^[1]^ While no known bugs exist, snapshots are not yet guaranteed to be stable,
+as they lack sufficient testing.
 
 ifdef::wiki[]
 
