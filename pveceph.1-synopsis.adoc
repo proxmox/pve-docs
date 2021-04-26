@@ -242,13 +242,25 @@ Minimum number of replicas per object
 
 The automatic PG scaling mode of the pool.
 
-`--pg_num` `<integer> (8 - 32768)` ('default =' `128`)::
+`--pg_num` `<integer> (1 - 32768)` ('default =' `128`)::
 
 Number of placement groups.
+
+`--pg_num_min` `<integer> (-N - 32768)` ::
+
+Minimal number of placement groups.
 
 `--size` `<integer> (1 - 7)` ('default =' `3`)::
 
 Number of replicas per object
+
+`--target_size` `^(\d+(\.\d+)?)([KMGT])?$` ::
+
+The estimated target size of the pool for the PG autoscaler.
+
+`--target_size_ratio` `<number>` ::
+
+The estimated target ratio of the pool for the PG autoscaler.
 
 *pveceph pool destroy* `<name>` `[OPTIONS]`
 
@@ -265,6 +277,18 @@ If true, destroys pool even if in use
 `--remove_storages` `<boolean>` ('default =' `0`)::
 
 Remove all pveceph-managed storages configured for this pool
+
+*pveceph pool get* `<name>` `[OPTIONS]` `[FORMAT_OPTIONS]`
+
+List pool settings.
+
+`<name>`: `<string>` ::
+
+The name of the pool. It must be unique.
+
+`--verbose` `<boolean>` ('default =' `0`)::
+
+If enabled, will display additional data(eg. statistics).
 
 *pveceph pool ls* `[FORMAT_OPTIONS]`
 
@@ -294,13 +318,25 @@ Minimum number of replicas per object
 
 The automatic PG scaling mode of the pool.
 
-`--pg_num` `<integer> (8 - 32768)` ::
+`--pg_num` `<integer> (1 - 32768)` ::
 
 Number of placement groups.
+
+`--pg_num_min` `<integer> (-N - 32768)` ::
+
+Minimal number of placement groups.
 
 `--size` `<integer> (1 - 7)` ::
 
 Number of replicas per object
+
+`--target_size` `^(\d+(\.\d+)?)([KMGT])?$` ::
+
+The estimated target size of the pool for the PG autoscaler.
+
+`--target_size_ratio` `<number>` ::
+
+The estimated target ratio of the pool for the PG autoscaler.
 
 *pveceph purge* `[OPTIONS]`
 
@@ -324,7 +360,7 @@ Ceph service name.
 
 *pveceph status*
 
-Get ceph status.
+Get Ceph Status.
 
 *pveceph stop* `[OPTIONS]`
 

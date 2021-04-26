@@ -12,7 +12,7 @@ Enable/disable Qemu GuestAgent.
 
 `fstrim_cloned_disks`=`<boolean>` ('default =' `0`);;
 
-Run fstrim after cloning/moving a disk.
+Run fstrim after moving a disk or migrating the VM.
 
 `type`=`<isa | virtio>` ('default =' `virtio`);;
 
@@ -30,7 +30,7 @@ args: -no-reboot -no-hpet
 +
 NOTE: this option is for experts only.
 
-`audio0`: `device=<ich9-intel-hda|intel-hda|AC97> [,driver=<spice>]` ::
+`audio0`: `device=<ich9-intel-hda|intel-hda|AC97> [,driver=<spice|none>]` ::
 
 Configure a audio device, useful in combination with QXL/Spice.
 
@@ -38,7 +38,7 @@ Configure a audio device, useful in combination with QXL/Spice.
 
 Configure an audio device.
 
-`driver`=`<spice>` ('default =' `spice`);;
+`driver`=`<none | spice>` ('default =' `spice`);;
 
 Driver backend for the audio device.
 
@@ -105,7 +105,7 @@ Specify a custom file containing all user data passed to the VM via cloud-init.
 
 cloud-init: Password to assign the user. Using this is generally not recommended. Use ssh keys instead. Also note that older cloud-init versions do not support hashed passwords.
 
-`citype`: `<configdrive2 | nocloud>` ::
+`citype`: `<configdrive2 | nocloud | opennebula>` ::
 
 Specifies the cloud-init configuration format. The default depends on the configured operating system type (`ostype`. We use the `nocloud` format for Linux, and `configdrive2` for windows.
 
@@ -161,7 +161,7 @@ Description for the VM. Only used on the configuration web interface. This is sa
 
 `efidisk0`: `[file=]<volume> [,format=<enum>] [,size=<DiskSize>]` ::
 
-Configure a Disk for storing EFI vars
+Configure a Disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead.
 
 `file`=`<volume>` ;;
 
@@ -237,7 +237,7 @@ Enable/disable hugepages memory.
 
 `ide[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]` ::
 
-Use volume as IDE hard disk or CD-ROM (n is 0 to 3).
+Use volume as IDE hard disk or CD-ROM (n is 0 to 3). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.
 
 `aio`=`<native | threads>` ;;
 
@@ -421,7 +421,8 @@ IP addresses use CIDR notation, gateways are optional but need an IP of the same
 +
 The special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit
 gateway should be provided.
-For IPv6 the special string 'auto' can be used to use stateless autoconfiguration.
+For IPv6 the special string 'auto' can be used to use stateless autoconfiguration. This requires
+cloud-init 19.4 or newer.
 +
 If cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using
 dhcp on IPv4.
@@ -601,7 +602,7 @@ w2k8;; Microsoft Windows 2008
 wvista;; Microsoft Windows Vista
 win7;; Microsoft Windows 7
 win8;; Microsoft Windows 8/2012/2012r2
-win10;; Microsoft Windows 10/2016
+win10;; Microsoft Windows 10/2016/2019
 l24;; Linux 2.4 Kernel
 l26;; Linux 2.6 - 5.X Kernel
 solaris;; Solaris/OpenSolaris/OpenIndiania kernel
@@ -641,7 +642,7 @@ The file on the host to gather entropy from. In most cases /dev/urandom should b
 
 `sata[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]` ::
 
-Use volume as SATA hard disk or CD-ROM (n is 0 to 5).
+Use volume as SATA hard disk or CD-ROM (n is 0 to 5). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.
 
 `aio`=`<native | threads>` ;;
 
@@ -815,7 +816,7 @@ The drive's worldwide name, encoded as 16 bytes hex string, prefixed by '0x'.
 
 `scsi[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]` ::
 
-Use volume as SCSI hard disk or CD-ROM (n is 0 to 30).
+Use volume as SCSI hard disk or CD-ROM (n is 0 to 30). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.
 
 `aio`=`<native | threads>` ;;
 
@@ -1160,7 +1161,7 @@ Select the VGA type.
 
 `virtio[n]`: `[file=]<volume> [,aio=<native|threads>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]` ::
 
-Use volume as VIRTIO hard disk (n is 0 to 15).
+Use volume as VIRTIO hard disk (n is 0 to 15). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.
 
 `aio`=`<native | threads>` ;;
 

@@ -80,7 +80,7 @@ Amount of RAM for the VM in MB.
 
 `mp[n]`: `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
-Use volume as container mount point.
+Use volume as container mount point. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.
 
 `acl`=`<boolean>` ;;
 
@@ -190,7 +190,7 @@ Network interface type.
 
 Specifies whether a VM will be started during system bootup.
 
-`ostype`: `<alpine | archlinux | centos | debian | fedora | gentoo | opensuse | ubuntu | unmanaged>` ::
+`ostype`: `<alpine | archlinux | centos | debian | devuan | fedora | gentoo | opensuse | ubuntu | unmanaged>` ::
 
 OS type. This is used to setup configuration inside the container, and corresponds to lxc setup scripts in /usr/share/lxc/config/<ostype>.common.conf. Value 'unmanaged' can be used to skip and OS specific setup.
 

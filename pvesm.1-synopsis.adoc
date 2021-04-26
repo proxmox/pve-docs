@@ -90,6 +90,10 @@ Always access rbd through krbd kernel module.
 
 target portal group for Linux LIO targets
 
+`--master-pubkey` `a file containing a PEM-formatted master public key` ::
+
+Base64-encoded, PEM-formatted public RSA key. Used tp encrypt a copy of the encryption-key which will be added to each encrypted backup.
+
 `--maxfiles` `<integer> (0 - N)` ::
 
 Maximal number of backup files per VM. Use '0' for unlimted.
@@ -105,6 +109,10 @@ IP addresses of monitors (for external clusters).
 `--mountpoint` `<string>` ::
 
 mount point
+
+`--namespace` `<string>` ::
+
+RBD Namespace.
 
 `--nodes` `<string>` ::
 
@@ -262,11 +270,11 @@ Export stream format
 
 Destination file name
 
-`--base` `(?^:[a-z0-9_\-]{1,40})` ::
+`--base` `(?^i:[a-z0-9_\-]{1,40})` ::
 
 Snapshot to start an incremental stream from
 
-`--snapshot` `(?^:[a-z0-9_\-]{1,40})` ::
+`--snapshot` `(?^i:[a-z0-9_\-]{1,40})` ::
 
 Snapshot to export
 
@@ -328,17 +336,17 @@ Import stream format
 
 `<filename>`: `<string>` ::
 
-Source file name. For '-' stdin is used, the tcp://<IP-or-CIDR> format allows to use a TCP connection as input. Else, the file is treated as common file.
+Source file name. For '-' stdin is used, the tcp://<IP-or-CIDR> format allows to use a TCP connection, the unix://PATH-TO-SOCKET format a UNIX socket as input.Else, the file is treated as common file.
 
 `--allow-rename` `<boolean>` ('default =' `0`)::
 
 Choose a new volume ID if the requested volume ID already exists, instead of throwing an error.
 
-`--base` `(?^:[a-z0-9_\-]{1,40})` ::
+`--base` `(?^i:[a-z0-9_\-]{1,40})` ::
 
 Base snapshot of an incremental stream
 
-`--delete-snapshot` `(?^:[a-z0-9_\-]{1,80})` ::
+`--delete-snapshot` `(?^i:[a-z0-9_\-]{1,80})` ::
 
 A snapshot to delete on success
 
@@ -500,6 +508,30 @@ Scan remote NFS server.
 
 The server address (name or IP).
 
+*pvesm scan pbs* `<server> <username> --password <string>` `[OPTIONS]` `[FORMAT_OPTIONS]`
+
+Scan remote Proxmox Backup Server.
+
+`<server>`: `<string>` ::
+
+The server address (name or IP).
+
+`<username>`: `<string>` ::
+
+User-name or API token-ID.
+
+`--fingerprint` `([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}` ::
+
+Certificate SHA 256 fingerprint.
+
+`--password` `<string>` ::
+
+User password or API token secret.
+
+`--port` `<integer> (1 - 65535)` ('default =' `8007`)::
+
+Optional port.
+
 *pvesm scan zfs*
 
 Scan zfs pool list on local node.
@@ -578,6 +610,10 @@ Always access rbd through krbd kernel module.
 
 target portal group for Linux LIO targets
 
+`--master-pubkey` `a file containing a PEM-formatted master public key` ::
+
+Base64-encoded, PEM-formatted public RSA key. Used tp encrypt a copy of the encryption-key which will be added to each encrypted backup.
+
 `--maxfiles` `<integer> (0 - N)` ::
 
 Maximal number of backup files per VM. Use '0' for unlimted.
@@ -593,6 +629,10 @@ IP addresses of monitors (for external clusters).
 `--mountpoint` `<string>` ::
 
 mount point
+
+`--namespace` `<string>` ::
+
+RBD Namespace.
 
 `--nodes` `<string>` ::
 

@@ -136,6 +136,54 @@ Change user password.
 
 User ID
 
+*pveum pool add* `<poolid>` `[OPTIONS]`
+
+Create new pool.
+
+`<poolid>`: `<string>` ::
+
+no description available
+
+`--comment` `<string>` ::
+
+no description available
+
+*pveum pool delete* `<poolid>`
+
+Delete pool.
+
+`<poolid>`: `<string>` ::
+
+no description available
+
+*pveum pool list* `[FORMAT_OPTIONS]`
+
+Pool index.
+
+*pveum pool modify* `<poolid>` `[OPTIONS]`
+
+Update pool data.
+
+`<poolid>`: `<string>` ::
+
+no description available
+
+`--comment` `<string>` ::
+
+no description available
+
+`--delete` `<boolean>` ::
+
+Remove vms/storage (instead of adding it).
+
+`--storage` `<string>` ::
+
+List of storage IDs.
+
+`--vms` `<string>` ::
+
+List of virtual machines.
+
 *pveum realm add* `<realm> --type <string>` `[OPTIONS]`
 
 Add an authentication server.

@@ -34,7 +34,7 @@ Storage replication schedule. The format is a subset of `systemd` calendar event
 
 `--source` `<string>` ::
 
-Source of the replication.
+For internal use, to detect if the guest was stolen.
 
 *pvesr delete* `<id>` `[OPTIONS]`
 
@@ -228,6 +228,6 @@ Storage replication schedule. The format is a subset of `systemd` calendar event
 
 `--source` `<string>` ::
 
-Source of the replication.
+For internal use, to detect if the guest was stolen.
 
 

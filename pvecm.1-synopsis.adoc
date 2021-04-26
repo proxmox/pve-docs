@@ -179,7 +179,7 @@ Update node certificates (and generate all needed files/directories).
 
 `--force` `<boolean>` ::
 
-Force generation of new SSL certifate.
+Force generation of new SSL certificate.
 
 `--silent` `<boolean>` ::
 

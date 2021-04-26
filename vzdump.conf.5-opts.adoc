@@ -12,7 +12,7 @@ Store resulting files to specified directory.
 
 `exclude-path`: `<string>` ::
 
-Exclude certain files/directories (shell globs).
+Exclude certain files/directories (shell globs). Paths starting with '/' are anchored to the container's root,  other paths match relative to each subdirectory.
 
 `ionice`: `<integer> (0 - 8)` ('default =' `7`)::
 
@@ -28,7 +28,7 @@ Specify when to send an email
 
 `mailto`: `<string>` ::
 
-Comma-separated list of email addresses that should receive email notifications.
+Comma-separated list of email addresses or users that should receive email notifications.
 
 `maxfiles`: `<integer> (1 - N)` ('default =' `1`)::
 

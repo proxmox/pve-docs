@@ -4,7 +4,7 @@ Use volume as container root. See below for a detailed description of all option
 
 `mp[n]`: `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
-Use volume as container mount point.
+Use volume as container mount point. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.
 
 `acl`=`<boolean>` ;;
 

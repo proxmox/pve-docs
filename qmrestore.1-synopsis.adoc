@@ -20,6 +20,10 @@ Override i/o bandwidth limit (in KiB/s).
 
 Allow to overwrite existing VM.
 
+`--live-restore` `<boolean>` ::
+
+Start the VM immediately from the backup and restore in background. PBS only.
+
 `--pool` `<string>` ::
 
 Add the VM to the specified pool.
