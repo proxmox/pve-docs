@@ -73,10 +73,12 @@ And some options:
 
 * Controller: For complex setups to control Layer 3 routing
 
-* Ipams: Allow to use external tools for ip managements (vm/ct ips)
+* Sub-nets: Used to defined ip networks on VNets.
 
-* Dns: Allow to define a dns server api for register vm/ct hostname/ip addresses
+* IPAM: Allow to use external tools for IP address management (guest IPs)
 
+* DNS: Allow to define a DNS server api for registering a virtual guests
+  hostname and IP-addresses
 
 [[pvesdn_config_main_sdn]]
 
@@ -127,17 +129,19 @@ specific zone and only the VNets in that zone
 Common options
 ~~~~~~~~~~~~~~
 
+The following options are available for all zone types.
+
 nodes:: Deploy and allow to use a VNets configured for this Zone only on these
 nodes.
 
-Ipam:: Optional, if you want to use an ipam tool to manage ips in  this zone
+ipam:: Optional, if you want to use an ipam tool to manage ips in  this zone
 
-Dns:: Optional, dns api server.
+dns:: Optional, dns api server.
 
-ReverseDns:: Optional, reverse dns api server.
+reversedns:: Optional, reverse dns api server.
 
-Dnszone:: Optional, dns domain name. Use to register hostname like  <hostname>.<domain>
-           The dns zone need to be already existing in dns server.
+dnszone:: Optional, dns domain name. Use to register hostname like
+`<hostname>.<domain>`. The dns zone need to be already existing in dns server.
 
 
 [[pvesdn_zone_plugin_simple]]
@@ -255,18 +259,22 @@ VLAN Aware:: Allow to add an extra VLAN tag in the virtual machine or
 
 [[pvesdn_config_subnet]]
 
-Subnets
-~~~~~~~
+Sub-Nets
+~~~~~~~~
 
-For each Vnet, you can define 1 or multiple subnets to define an ip network (ipv4 or ipv6).
+A sub-network (subnet or sub-net) allows you to define a specific IP network
+(IPv4 or IPv6). For each VNET, you can define one or more subnets.
 
-It can be used to restrict ip addresses you can define on a specific vnet,
-assign routes/gateway on vnet in layer3 zones,
-enable snat in layer 3 zones,
-auto assign ips on vm/ct through ipam plugin && dns registration through dns plugins.
+A subnet can be used to:
 
-If an ipam server is associated to the subnet zone, the subnet prefix will be automatically
-registered in the ipam.
+* restrict IP-addresses you can define on a specific VNET
+* assign routes/gateway on a VNET in layer 3 zones
+* enable SNAT on a VNET in layer 3 zones
+* auto assign IPs on virtual guests (VM or CT) through IPAM plugin
+* DNS registration through DNS plugins
+
+If an IPAM server is associated to the subnet zone, the subnet prefix will be
+automatically registered in the IPAM.
 
 
 Subnet properties are:
@@ -274,15 +282,13 @@ Subnet properties are:
 ID:: a cidr network address. Ex: 10.0.0.0/8
 
 Gateway:: ip address for the default gateway of the network. 
-           On layer3 zones (simple/evpn plugins), it'll be deployed on the vnet.
-           
+          On layer3 zones (simple/evpn plugins), it'll be deployed on the vnet.
+
 Snat:: Optional, Enable Snat for layer3 zones (simple/evpn plugins) for this subnet.
-        The subnet source ip will be natted to server outgoing interface/ip.
-        On evpn zone, it's done only on evpn gateway-nodes.
+       The subnet source ip will be natted to server outgoing interface/ip.
+       On evpn zone, it's done only on evpn gateway-nodes.
 
 Dnszoneprefix:: Optional, add a prefix to domain registration, like <hostname>.prefix.<domain>
-
-
 
 
 [[pvesdn_config_controllers]]
@@ -321,28 +327,27 @@ BGP Controller
 The bgp controller is not used directly by a zone. 
 You can used it to configure frr to manage bgp peers.
 
-For Bgp-evpn, it can be use to define a different ASN by node,
-so doing ebgp.
+For BGP-evpn, it can be use to define a different ASN by node, so doing EBGP.
 
 Configuration options:
 
 asn:: A unique BGP ASN number. It's highly recommended to use private ASN
-number (64512 – 65534, 4200000000 – 4294967294), as else you could end up
-breaking, or get broken, by global routing by mistake.
+  number from the range (64512 - 65534) or (4200000000 - 4294967294), as else
+  you could end up breaking, or get broken, by global routing by mistake.
 
-peers:: An ip list of peers where you want to communicate for the underlay 
-BGP network 
+peers:: An IP list of peers you want to communicate with for the underlying
+  BGP network.
 
-ebgp:: if your peers remote-as is different, it's enabling ebgp.
+ebgp:: If your peer's remote-AS is different, it's enabling EBGP.
 
-node:: the node of this bgp controller
+node:: The node of this BGP controller
 
-loopback:: If you want to use a loopback or dummy interface as source
-           for the evpn network. (for multipath)
+loopback:: If you want to use a loopback or dummy interface as source for the
+  evpn network. (for multipath)
 
 
 [[pvesdn_config_ipam]]
-Ipams
+IPAMs
 -----
 IPAM (IP address management) tools, are used to manage/assign ips on your devices on the network.
 It can be used to find free ip address when you create a vm/ct for example (not yet implemented).
@@ -351,51 +356,58 @@ An IPAM is associated to 1 or multiple zones, to provide ip addresses for all su
 
 
 [[pvesdn_ipam_plugin_pveipam]]
-PVEIpam plugin
-~~~~~~~~~~~~~~
+{pve} IPAM plugin
+~~~~~~~~~~~~~~~~~
 
-This is the default internal ipam for your proxmox cluster if you don't have external ipam software
+This is the default internal IPAM for your proxmox cluster if you don't have
+external ipam software
 
 [[pvesdn_ipam_plugin_phpipam]]
-PHPIpam plugin
+phpIPAM plugin
 ~~~~~~~~~~~~~~
 https://phpipam.net/
 
-You need to create an application in phpipam, and add an api token with admin permission
+You need to create an application in phpipam, and add an api token with admin
+permission
 
-PHPipam properties are:
+phpIPAM properties are:
 
-* Url: The rest api url : http://phpipam.domain.com/api/<appname>/
-* Token: your api token
-* Section: An integer id. Sections are group of subnets in phpipam. 
-           Default install have sectionid=1 for customers
+url:: The REST-API endpoint: `http://phpipam.domain.com/api/<appname>/`
+token:: An API access token
+section:: An integer ID. Sections are group of subnets in phpIPAM. Default
+ installations use `sectionid=1` for customers.
 
 [[pvesdn_ipam_plugin_netbox]]
-Netbox Ipam plugin
+Netbox IPAM plugin
 ~~~~~~~~~~~~~~~~~~
+
+NetBox is an IP address management (IPAM) and data center infrastructure
+management (DCIM) tool, see the source code repository for details:
 https://github.com/netbox-community/netbox
 
-you need to create an api token in netbox
+You need to create an api token in netbox
 https://netbox.readthedocs.io/en/stable/api/authentication
 
-PHPipam properties are:
+NetBox properties are:
 
-Url:: The rest api url: http://yournetbox.domain.com/api
-Token:: your api token
+url:: The REST API endpoint: `http://yournetbox.domain.com/api`
+token:: An API access token
 
 [[pvesdn_config_dns]]
-Dns
+DNS
 ---
-Dns is used to define a dns api server for registration of your hostname/ip address
-an DNS is associated to 1 or multiple zones, to provide dns registration 
-for all ips in subnets defined in this zone.
+
+The DNS plugin in {pve} SDN is used to define a DNS API server for registration
+of your hostname and IP-address. A DNS configuration is associated with one or
+more zones, to provide DNS registration for all the sub-net IPs configured for
+a zone.
 
 [[pvesdn_dns_plugin_powerdns]]
-Powerdns plugin
+PowerDNS plugin
 ~~~~~~~~~~~~~~~
 https://doc.powerdns.com/authoritative/http-api/index.html
 
-you need to enable webserver && api in your powerdns config:
+You need to enable the webserver and the API in your PowerDNS config:
 
 ----
 api=yes
@@ -406,9 +418,9 @@ webserver-port=8081
 
 Powerdns properties are:
 
-Url:: The rest api url: http://yourpowerdnserver.domain.com:8081/api/v1/servers/localhost
-key:: the api key
-ttl:: default ttl for records
+url:: The REST API endpoint: http://yourpowerdnserver.domain.com:8081/api/v1/servers/localhost
+key:: An API access key
+ttl:: The default TTL for records
 
 
 Examples
