@@ -1,3 +1,40 @@
+pve-docs (6.4-1) pve; urgency=medium
+
+  * pbs storage: consistently talk about the storage key
+
+  * VM/CT: Add explanation for the "purge" option on guest removal
+
+  * VM: add QEMU Guest Agent section
+
+  * fix #3264: RBD storage: improve documentation for the user-id in rbd
+    storage configuration
+
+  * external metrics server: explain the HTTP(s) API
+
+  * update SDN (tech preview) documentation
+
+  * fix #3327: qm: update link to looking glass project
+
+  * ceph: add explanation on the PG-autoscaler
+
+  * local ZFS: improve memory-limit section
+
+  * local ZFS: add section on zpool-features
+
+  * pveproxy: document the new LISTEN_IP setting
+
+  * vzdump: add section about live-restore
+
+  * vzdump: add section about single-file restore
+
+  * pveum: adapt CLI examples to newer sub-command syntax
+
+  * update static API and schema information
+
+  * sys: boot/zfs: adapt docs to proxmox-boot-tool update
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 26 Apr 2021 19:17:25 +0200
+
 pve-docs (6.3-1) pve; urgency=medium
 
   * virtual machines: add section about VM device boot order
