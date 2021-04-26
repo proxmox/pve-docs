@@ -125,8 +125,9 @@ In general SSDs will provide more IOPs than spinning disks. With this in mind,
 in addition to the higher cost, it may make sense to implement a
 xref:pve_ceph_device_classes[class based] separation of pools. Another way to
 speed up OSDs is to use a faster disk as a journal or
-DB/**W**rite-**A**head-**L**og device, see xref:pve_ceph_osds[creating Ceph
-OSDs]. If a faster disk is used for multiple OSDs, a proper balance between OSD
+DB/**W**rite-**A**head-**L**og device, see
+xref:pve_ceph_osds[creating Ceph OSDs].
+If a faster disk is used for multiple OSDs, a proper balance between OSD
 and WAL / DB (or journal) disk must be selected, otherwise the faster disk
 becomes the bottleneck for all linked OSDs.
 
@@ -157,6 +158,9 @@ You should test your setup and monitor health and performance continuously.
 Initial Ceph Installation & Configuration
 -----------------------------------------
 
+Using the Web-based Wizard
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 [thumbnail="screenshot/gui-node-ceph-install.png"]
 
 With {pve} you have the benefit of an easy to use installation wizard
@@ -165,11 +169,16 @@ section in the menu tree. If Ceph is not already installed, you will see a
 prompt offering to do so.
 
 The wizard is divided into multiple sections, where each needs to
-finish successfully, in order to use Ceph. After starting the installation,
-the wizard will download and install all the required packages from {pve}'s Ceph
-repository.
+finish successfully, in order to use Ceph.
 
-After finishing the first step, you will need to create a configuration.
+First you need to chose which Ceph version you want to install. Prefer the one
+from your other nodes, or the newest if this is the first node you install
+Ceph.
+
+After starting the installation, the wizard will download and install all the
+required packages from {pve}'s Ceph repository.
+
+After finishing the installation step, you will need to create a configuration.
 This step is only needed once per cluster, as this configuration is distributed
 automatically to all remaining cluster members through {pve}'s clustered
 xref:chapter_pmxcfs[configuration file system (pmxcfs)].
@@ -208,10 +217,11 @@ more, such as xref:pveceph_fs[CephFS], which is a helpful addition to your
 new Ceph cluster.
 
 [[pve_ceph_install]]
-Installation of Ceph Packages
------------------------------
-Use the {pve} Ceph installation wizard (recommended) or run the following
-command on each node:
+CLI Installation of Ceph Packages
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Alternatively to the the recommended {pve}  Ceph installation wizard available
+in the web-interface, you can use the following CLI command on each node:
 
 [source,bash]
 ----
@@ -222,10 +232,8 @@ This sets up an `apt` package repository in
 `/etc/apt/sources.list.d/ceph.list` and installs the required software.
 
 
-Create initial Ceph configuration
----------------------------------
-
-[thumbnail="screenshot/gui-ceph-config.png"]
+Initial Ceph configuration via CLI
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Use the {pve} Ceph installation wizard (recommended) or run the
 following command on one node:
@@ -246,6 +254,9 @@ configuration file.
 [[pve_ceph_monitors]]
 Ceph Monitor
 -----------
+
+[thumbnail="screenshot/gui-ceph-monitor.png"]
+
 The Ceph Monitor (MON)
 footnote:[Ceph Monitor {cephdocs-url}/start/intro/]
 maintains a master copy of the cluster map. For high availability, you need at
@@ -254,12 +265,9 @@ used the installation wizard. You won't need more than 3 monitors, as long
 as your cluster is small to medium-sized. Only really large clusters will
 require more than this.
 
-
 [[pveceph_create_mon]]
 Create Monitors
 ~~~~~~~~~~~~~~~
-
-[thumbnail="screenshot/gui-ceph-monitor.png"]
 
 On each node where you want to place a monitor (three monitors are recommended),
 create one by using the 'Ceph -> Monitor' tab in the GUI or run:
@@ -335,16 +343,15 @@ telemetry and more.
 [[pve_ceph_osds]]
 Ceph OSDs
 ---------
+
+[thumbnail="screenshot/gui-ceph-osd-status.png"]
+
 Ceph **O**bject **S**torage **D**aemons store objects for Ceph over the
 network. It is recommended to use one OSD per physical disk.
-
-NOTE: By default an object is 4 MiB in size.
 
 [[pve_ceph_osd_create]]
 Create OSDs
 ~~~~~~~~~~~
-
-[thumbnail="screenshot/gui-ceph-osd-status.png"]
 
 You can create an OSD either via the {pve} web-interface or via the CLI using
 `pveceph`. For example:
@@ -406,7 +413,6 @@ NOTE: The DB stores BlueStore’s internal metadata, and the WAL is BlueStore’
 internal journal or write-ahead log. It is recommended to use a fast SSD or
 NVRAM for better performance.
 
-
 .Ceph Filestore
 
 Before Ceph Luminous, Filestore was used as the default storage type for Ceph OSDs.
@@ -462,8 +468,8 @@ known as **P**lacement **G**roups (`PG`, `pg_num`).
 Create and Edit Pools
 ~~~~~~~~~~~~~~~~~~~~~
 
-You can create pools from the command line or the web-interface of any {pve}
-host under **Ceph -> Pools**.
+You can create and edit pools from the command line or the web-interface of any
+{pve} host under **Ceph -> Pools**.
 
 [thumbnail="screenshot/gui-ceph-pools.png"]
 
@@ -475,16 +481,18 @@ WARNING: **Do not set a min_size of 1**. A replicated pool with min_size of 1
 allows I/O on an object when it has only 1 replica, which could lead to data
 loss, incomplete PGs or unfound objects.
 
-It is advised that you calculate the PG number based on your setup. You can
-find the formula and the PG calculator footnote:[PG calculator
-https://ceph.com/pgcalc/] online. From Ceph Nautilus onward, you can change the
-number of PGs footnoteref:[placement_groups,Placement Groups
+It is advised that you either enable the PG-Autoscaler or calculate the PG
+number based on your setup. You can find the formula and the PG calculator
+footnote:[PG calculator https://ceph.com/pgcalc/] online. From Ceph Nautilus
+onward, you can change the number of PGs
+footnoteref:[placement_groups,Placement Groups
 {cephdocs-url}/rados/operations/placement-groups/] after the setup.
 
-In addition to manual adjustment, the PG autoscaler
-footnoteref:[autoscaler,Automated Scaling
+The PG autoscaler footnoteref:[autoscaler,Automated Scaling
 {cephdocs-url}/rados/operations/placement-groups/#automated-scaling] can
-automatically scale the PG count for a pool in the background.
+automatically scale the PG count for a pool in the background. Setting the
+`Target Size` or `Target Ratio` advanced parameters helps the PG-Autoscaler to
+make better decisions.
 
 .Example for creating a pool over the CLI
 [source,bash]
@@ -496,7 +504,12 @@ TIP: If you would also like to automatically define a storage for your
 pool, keep the `Add as Storage' checkbox checked in the web-interface, or use the
 command line option '--add_storages' at pool creation.
 
-.Base Options
+Pool Options
+^^^^^^^^^^^^
+
+The following options are available on pool creation, and partially also when
+editing a pool.
+
 Name:: The name of the pool. This must be unique and can't be changed afterwards.
 Size:: The number of replicas per object. Ceph always tries to have this many
 copies of an object. Default: `3`.
@@ -515,7 +528,7 @@ xref:pve_ceph_device_classes[Ceph CRUSH & device classes] for information on
 device-based rules.
 # of PGs:: The number of placement groups footnoteref:[placement_groups] that
 the pool should have at the beginning. Default: `128`.
-Target Size Ratio:: The ratio of data that is expected in the pool. The PG
+Target Ratio:: The ratio of data that is expected in the pool. The PG
 autoscaler uses the ratio relative to other ratio sets. It takes precedence
 over the `target size` if both are set.
 Target Size:: The estimated amount of data expected in the pool. The PG
@@ -555,6 +568,7 @@ PG Autoscaler
 
 The PG autoscaler allows the cluster to consider the amount of (expected) data
 stored in each pool and to choose the appropriate pg_num values automatically.
+It is available since Ceph Nautilus.
 
 You may need to activate the PG autoscaler module before adjustments can take
 effect.
@@ -589,6 +603,9 @@ Nautilus: PG merging and autotuning].
 [[pve_ceph_device_classes]]
 Ceph CRUSH & device classes
 ---------------------------
+
+[thumbnail="screenshot/gui-ceph-config.png"]
+
 The footnote:[CRUSH
 https://ceph.com/wp-content/uploads/2016/08/weil-crush-sc06.pdf] (**C**ontrolled
 **R**eplication **U**nder **S**calable **H**ashing) algorithm is at the
@@ -673,8 +690,8 @@ Ceph Client
 
 Following the setup from the previous sections, you can configure {pve} to use
 such pools to store VM and Container images. Simply use the GUI to add a new
-`RBD` storage (see section xref:ceph_rados_block_devices[Ceph RADOS Block
-Devices (RBD)]).
+`RBD` storage (see section
+xref:ceph_rados_block_devices[Ceph RADOS Block Devices (RBD)]).
 
 You also need to copy the keyring to a predefined location for an external Ceph
 cluster. If Ceph is installed on the Proxmox nodes itself, then this will be
