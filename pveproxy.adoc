@@ -69,11 +69,15 @@ be configured on the system.
 This can be used to listen only to an internal interface and thus have less
 exposure to the public internet:
 
- LISTEN_IP="192.0.2.1"
+----
+LISTEN_IP="192.0.2.1"
+----
 
-Similarly you can also set a n IPv6 address:
+Similarly, you can also set an IPv6 address:
 
- LISTEN_IP="2001:db8:85a3::1"
+----
+LISTEN_IP="2001:db8:85a3::1"
+----
 
 WARNING: The nodes in a cluster need access to `pveproxy` for communication,
 possibly on different sub-nets. It is **not recommended** to set `LISTEN_IP` on
