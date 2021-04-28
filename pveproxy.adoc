@@ -79,6 +79,13 @@ Similarly, you can also set an IPv6 address:
 LISTEN_IP="2001:db8:85a3::1"
 ----
 
+Note that if you want to specify a link-local IPv6 address, you need to provide
+the interface name itself. For example:
+
+----
+LISTEN_IP="fe80::c463:8cff:feb9:6a4e%vmbr0"
+----
+
 WARNING: The nodes in a cluster need access to `pveproxy` for communication,
 possibly on different sub-nets. It is **not recommended** to set `LISTEN_IP` on
 clustered systems.
