@@ -90,6 +90,18 @@ WARNING: The nodes in a cluster need access to `pveproxy` for communication,
 possibly on different sub-nets. It is **not recommended** to set `LISTEN_IP` on
 clustered systems.
 
+To apply the change you need to either reboot your node or fully restart the
+`pveproxy` and `spiceproxy` service:
+
+----
+systemctl restart pveproxy.service spiceproxy.service
+----
+
+NOTE: Unlike `reload`, a `restart` of the pveproxy service can interrupt some
+long-running worker processes, for example a running console or shell from a
+virtual guest. So, please use a maintenance window to bring this change in
+effect.
+
 SSL Cipher Suite
 ----------------
 
