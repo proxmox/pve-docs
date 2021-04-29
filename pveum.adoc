@@ -327,8 +327,9 @@ field before pressing the 'Apply' button.
 Server side U2F configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To allow users to use 'U2F' authentication, the server needs to have a valid
-domain with a valid https certificate. Initially an 'AppId'
+To allow users to use 'U2F' authentication, it may be necessary to use a valid
+domain with a valid https certificate, otherwise some browsers may print
+a warning or reject U2F usage altogether. Initially an 'AppId'
 footnote:[AppId https://developers.yubico.com/U2F/App_ID.html]
 needs to be configured.
 
