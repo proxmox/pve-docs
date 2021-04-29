@@ -78,10 +78,10 @@ are only accessible by root.
 Technology
 ----------
 
-We use the http://www.corosync.org[Corosync Cluster Engine] for
-cluster communication, and http://www.sqlite.org[SQlite] for the
+We use the https://www.corosync.org[Corosync Cluster Engine] for
+cluster communication, and https://www.sqlite.org[SQlite] for the
 database file. The file system is implemented in user space using
-http://fuse.sourceforge.net[FUSE].
+https://github.com/libfuse/libfuse[FUSE].
 
 File System Layout
 ------------------

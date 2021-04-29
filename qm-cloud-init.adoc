@@ -5,7 +5,7 @@ ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]
 
-http://cloudinit.readthedocs.io[Cloud-Init] is the de facto
+https://cloudinit.readthedocs.io[Cloud-Init] is the de facto
 multi-distribution package that handles early initialization of a
 virtual machine instance. Using Cloud-Init, configuration of network
 devices and ssh keys on the hypervisor side is possible. When the VM

@@ -304,10 +304,10 @@ Video Tutorials
 ---------------
 
 * List of all official tutorials on our
-  http://www.youtube.com/proxmoxve[{pve} YouTube Channel]
+  https://www.youtube.com/proxmoxve[{pve} YouTube Channel]
 
 * Tutorials in Spanish language on
-  http://www.youtube.com/playlist?list=PLUULBIhA5QDBdNf1pcTZ5UXhek63Fij8z[ITexperts.es
+  https://www.youtube.com/playlist?list=PLUULBIhA5QDBdNf1pcTZ5UXhek63Fij8z[ITexperts.es
   YouTube Play List]
 
 

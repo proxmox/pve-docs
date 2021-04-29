@@ -562,7 +562,7 @@ and add `ip_conntrack_ftp` to `/etc/modules` (so that it works after a reboot).
 Suricata IPS integration
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you want to use the http://suricata-ids.org/[Suricata IPS]
+If you want to use the https://suricata-ids.org/[Suricata IPS]
 (Intrusion Prevention System), it's possible.
 
 Packets will be forwarded to the IPS only after the firewall ACCEPTed

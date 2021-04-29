@@ -8,7 +8,7 @@ endif::wiki[]
 
 Storage pool type: `cephfs`
 
-CephFS implements a POSIX-compliant filesystem, using a http://ceph.com[Ceph]
+CephFS implements a POSIX-compliant filesystem, using a https://ceph.com[Ceph]
 storage cluster to store its data. As CephFS builds upon Ceph, it shares most of
 its properties. This includes redundancy, scalability, self-healing, and high
 availability.

@@ -17,7 +17,7 @@ ADD NEW FAQS TO THE BOTTOM OF THIS SECTION TO MAINTAIN NUMBERING
 
 What distribution is {pve} based on?::
 
-{pve} is based on http://www.debian.org[Debian GNU/Linux]
+{pve} is based on https://www.debian.org[Debian GNU/Linux]
 
 What license does the {pve} project use?::
 
@@ -43,13 +43,14 @@ egrep '(vmx|svm)' /proc/cpuinfo
 Supported Intel CPUs::
 
 64-bit processors with
-http://en.wikipedia.org/wiki/Virtualization_Technology#Intel_virtualization_.28VT-x.29[Intel
-Virtualization Technology (Intel VT-x)] support. (http://ark.intel.com/search/advanced/?s=t&VTX=true&InstructionSet=64-bit[List of processors with Intel VT and 64-bit])
+https://en.wikipedia.org/wiki/Virtualization_Technology#Intel_virtualization_.28VT-x.29[Intel
+Virtualization Technology (Intel VT-x)] support.
+(https://ark.intel.com/content/www/us/en/ark/search/featurefilter.html?productType=873&2_VTX=True&2_InstructionSet=64-bit[List of processors with Intel VT and 64-bit])
 
 Supported AMD CPUs::
 
 64-bit processors with
-http://en.wikipedia.org/wiki/Virtualization_Technology#AMD_virtualization_.28AMD-V.29[AMD
+https://en.wikipedia.org/wiki/Virtualization_Technology#AMD_virtualization_.28AMD-V.29[AMD
 Virtualization Technology (AMD-V)] support.
 
 What is a container/virtual environment (VE)/virtual private server (VPS)?::

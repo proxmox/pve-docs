@@ -537,7 +537,7 @@ What permission do I need?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The required API permissions are documented for each individual
-method, and can be found at http://pve.proxmox.com/pve-docs/api-viewer/
+method, and can be found at https://pve.proxmox.com/pve-docs/api-viewer/
 
 The permissions are specified as a list which can be interpreted as a
 tree of logic and access-check functions:

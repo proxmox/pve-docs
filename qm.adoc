@@ -85,7 +85,7 @@ versus an emulated IDE controller will double the sequential write throughput,
 as measured with `bonnie++(8)`. Using the virtio network interface can deliver
 up to three times the throughput of an emulated Intel E1000 network card, as
 measured with `iperf(1)`. footnote:[See this benchmark on the KVM wiki
-http://www.linux-kvm.org/page/Using_VirtIO_NIC]
+https://www.linux-kvm.org/page/Using_VirtIO_NIC]
 
 
 [[qm_virtual_machines_settings]]
@@ -735,8 +735,8 @@ standard setups.
 
 There are, however, some scenarios in which a BIOS is not a good firmware
 to boot from, e.g. if you want to do VGA passthrough. footnote:[Alex Williamson has a very good blog entry about this.
-http://vfio.blogspot.co.at/2014/08/primary-graphics-assignment-without-vga.html]
-In such cases, you should rather use *OVMF*, which is an open-source UEFI implementation. footnote:[See the OVMF Project http://www.tianocore.org/ovmf/]
+https://vfio.blogspot.co.at/2014/08/primary-graphics-assignment-without-vga.html]
+In such cases, you should rather use *OVMF*, which is an open-source UEFI implementation. footnote:[See the OVMF Project https://github.com/tianocore/tianocore.github.io/wiki/OVMF]
 
 If you want to use OVMF, there are several things to consider:
 

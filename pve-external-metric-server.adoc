@@ -12,7 +12,7 @@ receive various stats about your hosts, virtual guests and storages.
 
 Currently supported are:
 
- * Graphite (see http://graphiteapp.org )
+ * Graphite (see https://graphiteapp.org )
  * InfluxDB (see https://www.influxdata.com/time-series-platform/influxdb/ )
 
 The external metric server definitions are saved in '/etc/pve/status.cfg', and

@@ -169,7 +169,7 @@ Why Open Source
 
 {pve} uses a Linux kernel and is based on the Debian GNU/Linux
 Distribution. The source code of {pve} is released under the
-http://www.gnu.org/licenses/agpl-3.0.html[GNU Affero General Public
+https://www.gnu.org/licenses/agpl-3.0.html[GNU Affero General Public
 License, version 3]. This means that you are free to inspect the
 source code at any time or contribute to the project yourself.
 
@@ -209,7 +209,7 @@ machines. The clustering features were limited, and the user interface
 was simple (server generated web page).
 
 But we quickly developed new features using the
-http://corosync.github.io/corosync/[Corosync] cluster stack, and the
+https://corosync.github.io/corosync/[Corosync] cluster stack, and the
 introduction of the new Proxmox cluster file system (pmxcfs) was a big
 step forward, because it completely hides the cluster complexity from
 the user. Managing a cluster of 16 nodes is as simple as managing a
@@ -229,7 +229,7 @@ to manage your VMs.
 The support for various storage types is another big task. Notably,
 {pve} was the first distribution to ship ZFS on Linux by default in
 2014. Another milestone was the ability to run and manage
-http://ceph.com/[Ceph] storage on the hypervisor nodes. Such setups
+https://ceph.com/[Ceph] storage on the hypervisor nodes. Such setups
 are extremely cost effective.
 
 When we started we were among the first companies providing

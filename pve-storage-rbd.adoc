@@ -8,7 +8,7 @@ endif::wiki[]
 
 Storage pool type: `rbd`
 
-http://ceph.com[Ceph] is a distributed object store and file system
+https://ceph.com[Ceph] is a distributed object store and file system
 designed to provide excellent performance, reliability and
 scalability. RADOS block devices implement a feature rich block level
 storage, and you get the following advantages:

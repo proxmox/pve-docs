@@ -11,11 +11,11 @@ Storage pool type: `iscsi`
 iSCSI is a widely employed technology used to connect to storage
 servers. Almost all storage vendors support iSCSI. There are also open
 source iSCSI target solutions available,
-e.g. http://www.openmediavault.org/[OpenMediaVault], which is based on
+e.g. https://www.openmediavault.org/[OpenMediaVault], which is based on
 Debian.
 
 To use this backend, you need to install the
-http://www.open-iscsi.org/[Open-iSCSI] (`open-iscsi`) package. This is a
+https://www.open-iscsi.com/[Open-iSCSI] (`open-iscsi`) package. This is a
 standard Debian package, but it is not installed by default to save
 resources.
 
