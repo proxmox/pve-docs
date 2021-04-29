@@ -182,6 +182,8 @@ bridge:: A local VLAN-aware bridge already configured on each local node
 
 service vlan:: The main VLAN tag of this zone
 
+service vlan protocol:: allow to define a 802.1q (default) or 802.1ad service vlan type.
+
 mtu:: Due to the double stacking of tags you need 4 more bytes for QinQ VLANs.
 For example, you reduce the MTU to `1496` if you physical interface MTU is
 `1500`.
@@ -228,6 +230,8 @@ it must be different than VXLAN-id of VNets
 controller:: an EVPN-controller need to be defined first (see controller
 plugins section)
 
+Vnet Mac Address:: An unique, anycast macaddress for all vnets in this zone.
+                  Auto-generated if you don't define it.
 
 Exit Nodes:: This is used if you want to defined some proxmox nodes, as
              exit gateway from evpn network through real network. This nodes
@@ -331,6 +335,8 @@ For BGP-evpn, it can be use to define a different ASN by node, so doing EBGP.
 
 Configuration options:
 
+node:: The node of this BGP controller
+
 asn:: A unique BGP ASN number. It's highly recommended to use private ASN
   number from the range (64512 - 65534) or (4200000000 - 4294967294), as else
   you could end up breaking, or get broken, by global routing by mistake.
@@ -340,11 +346,11 @@ peers:: An IP list of peers you want to communicate with for the underlying
 
 ebgp:: If your peer's remote-AS is different, it's enabling EBGP.
 
-node:: The node of this BGP controller
-
 loopback:: If you want to use a loopback or dummy interface as source for the
   evpn network. (for multipath)
 
+ebgp-mutltihop:: if the peers are not directly connected or use loopback, you can increase the
+  number of hops to reach them.
 
 [[pvesdn_config_ipam]]
 IPAMs
@@ -811,6 +817,7 @@ id: myevpnzone
 vrf vxlan tag: 10000
 controller: myevpnctl
 mtu: 1450
+vnet mac address: 32:F4:05:FE:6C:0A
 exitnodes: node1,node2
 ----
 
@@ -819,28 +826,26 @@ Create the first VNet named `myvnet1' using the EVPN zone `myevpnzone'.
 id: myvnet1
 zone: myevpnzone
 tag: 11000
-mac address: 8C:73:B2:7B:F9:60 #random generate mac address
 ----
 
-Create a subnet 10.0.1.0/24 with 10.0.1.1 as gateway
+Create a subnet 10.0.1.0/24 with 10.0.1.1 as gateway on vnet1
 ----
-id: 10.0.1.0/24
+subnet: 10.0.1.0/24
 gateway: 10.0.1.1
 ----
 
 Create the second VNet named `myvnet2' using the same EVPN zone `myevpnzone', a
-different IPv4 CIDR network and a different random MAC address than  `myvnet1'.
+different IPv4 CIDR network.
 
 ----
 id: myvnet2
 zone: myevpnzone
 tag: 12000
-mac address: 8C:73:B2:7B:F9:61  #random mac, need to be different on each vnet
 ----
 
-Create a different subnet 10.0.2.0/24 with 10.0.2.1 as gateway
+Create a different subnet 10.0.2.0/24 with 10.0.2.1 as gateway on vnet2
 ----
-id: 10.0.2.0/24
+subnet: 10.0.2.0/24
 gateway: 10.0.2.1
 ----
 
