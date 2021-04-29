@@ -171,7 +171,7 @@ description: This is the first test user.
 The 'Base Domain Name' would be `ou=People,dc=ldap-test,dc=com` and the user
 attribute would be `uid`.
 +
-If {pve} needs to authenticate (bind) to the ldap server before being
+If {pve} needs to authenticate (bind) to the LDAP server before being
 able to query and authenticate users, a bind domain name can be
 configured via the `bind_dn` property in `/etc/pve/domains.cfg`. Its
 password then has to be stored in `/etc/pve/priv/ldap/<realmname>.pw`
@@ -181,14 +181,13 @@ single line containing the raw password.
 To verify certificates, you need to to set `capath`. You can set it either
 directly to the CA certificate of your LDAP server, or to the system path
 containing all trusted CA certificates (`/etc/ssl/certs`).
-Additionally, you need to set the `verify` option, which can also be doen over
+Additionally, you need to set the `verify` option, which can also be done over
 the web interface.
 
 Microsoft Active Directory::
 
-A server and authentication domain need to be specified. Like with
-ldap an optional fallback server, optional port, and SSL
-encryption can be configured.
+A server and authentication domain need to be specified. Like with LDAP, an
+optional fallback server, port, and SSL encryption can be configured.
 
 [[pveum_ldap_sync]]
 Syncing LDAP-based realms
@@ -409,7 +408,7 @@ of predefined roles which satisfies most needs.
 * `PVETemplateUser`: view and clone templates
 * `PVEUserAdmin`: user administration
 * `PVEVMAdmin`: fully administer VMs
-* `PVEVMUser`: view, backup, config CDROM, VM console, VM power management
+* `PVEVMUser`: view, backup, config CD-ROM, VM console, VM power management
 
 You can see the whole set of predefined roles on the GUI.
 
@@ -464,7 +463,7 @@ Virtual machine related privileges::
 * `VM.Audit`: view VM config
 * `VM.Clone`: clone/copy a VM
 * `VM.Config.Disk`: add/modify/delete Disks 
-* `VM.Config.CDROM`: eject/change CDROM
+* `VM.Config.CDROM`: eject/change CD-ROM
 * `VM.Config.CPU`: modify CPU settings
 * `VM.Config.Memory`: modify Memory settings
 * `VM.Config.Network`: add/modify/delete Network devices

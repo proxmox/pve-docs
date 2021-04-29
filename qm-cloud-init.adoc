@@ -5,7 +5,7 @@ ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]
 
-http://cloudinit.readthedocs.io[Cloud-Init] is the defacto
+http://cloudinit.readthedocs.io[Cloud-Init] is the de facto
 multi-distribution package that handles early initialization of a
 virtual machine instance. Using Cloud-Init, configuration of network
 devices and ssh keys on the hypervisor side is possible. When the VM
@@ -32,7 +32,7 @@ needs to store an encrypted version of that password inside the
 Cloud-Init data.
 
 {pve} generates an ISO image to pass the Cloud-Init data to the VM. For
-that purpose all Cloud-Init VMs need to have an assigned CDROM drive.
+that purpose, all Cloud-Init VMs need to have an assigned CD-ROM drive.
 Also many Cloud-Init images assume to have a serial console, so it is
 recommended to add a serial console and use it as display for those VMs.
 
@@ -70,11 +70,11 @@ qm set 9000 --scsihw virtio-scsi-pci --scsi0 local-lvm:vm-9000-disk-1
 NOTE: Ubuntu Cloud-Init images require the `virtio-scsi-pci`
 controller type for SCSI drives.
 
-.Add Cloud-Init CDROM drive
+.Add Cloud-Init CD-ROM drive
 
 [thumbnail="screenshot/gui-cloudinit-hardware.png"]
 
-The next step is to configure a CDROM drive which will be used to pass
+The next step is to configure a CD-ROM drive, which will be used to pass
 the Cloud-Init data to the VM.
 
 ----
@@ -84,7 +84,7 @@ qm set 9000 --ide2 local-lvm:cloudinit
 To be able to boot directly from the Cloud-Init image, set the
 `bootdisk` parameter to `scsi0`, and restrict BIOS to boot from disk
 only. This will speed up booting, because VM BIOS skips the testing for
-a bootable CDROM.
+a bootable CD-ROM.
 
 ----
 qm set 9000 --boot c --bootdisk scsi0

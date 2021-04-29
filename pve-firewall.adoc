@@ -475,7 +475,7 @@ Logging of firewall rules
 -------------------------
 
 By default, all logging of traffic filtered by the firewall rules is disabled.
-To enable logging, the `loglevel` for incommig and/or outgoing traffic has to be
+To enable logging, the `loglevel` for incoming and/or outgoing traffic has to be
 set in *Firewall* -> *Options*. This can be done for the host as well as for the
 VM/CT firewall individually. By this, logging of {PVE}'s standard firewall rules
 is enabled and the output can be observed in *Firewall* -> *Log*.

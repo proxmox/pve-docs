@@ -313,7 +313,7 @@ root@proxmox:~# pvenode acme plugin config example_plugin
 └────────┴──────────────────────────────────────────┘
 ----
 
-At last you can configure the domain you want to get certitficates for and
+At last you can configure the domain you want to get certificates for and
 place the certificate order for it:
 
 ----

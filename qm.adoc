@@ -36,9 +36,9 @@ like partitions, files, network cards which are then passed to an
 emulated computer which sees them as if they were real devices.
 
 A guest operating system running in the emulated computer accesses these
-devices, and runs as it were running on real hardware. For instance you can pass
-an iso image as a parameter to Qemu, and the OS running in the emulated computer
-will see a real CDROM inserted in a CD drive.
+devices, and runs as if it were running on real hardware. For instance, you can pass
+an ISO image as a parameter to Qemu, and the OS running in the emulated computer
+will see a real CD-ROM inserted into a CD drive.
 
 Qemu can emulate a great variety of hardware from ARM to Sparc, but {pve} is
 only concerned with 32 and 64 bits PC clone emulation, since it represents the
@@ -49,8 +49,8 @@ architecture.
 
 NOTE: You may sometimes encounter the term _KVM_ (Kernel-based Virtual Machine).
 It means that Qemu is running with the support of the virtualization processor
-extensions, via the Linux kvm module. In the context of {pve} _Qemu_ and
-_KVM_ can be used interchangeably as Qemu in {pve} will always try to load the kvm
+extensions, via the Linux KVM module. In the context of {pve} _Qemu_ and
+_KVM_ can be used interchangeably, as Qemu in {pve} will always try to load the KVM
 module.
 
 Qemu inside {pve} runs as a root process, since this is required to access block
@@ -61,7 +61,7 @@ Emulated devices and paravirtualized devices
 --------------------------------------------
 
 The PC hardware emulated by Qemu includes a mainboard, network controllers,
-scsi, ide and sata controllers, serial ports (the complete list can be seen in
+SCSI, IDE and SATA controllers, serial ports (the complete list can be seen in
 the `kvm(1)` man page) all of them emulated in software. All these devices
 are the exact software equivalent of existing hardware devices, and if the OS
 running in the guest has the proper drivers it will use the devices as if it
@@ -138,7 +138,7 @@ snapshots) more intelligently.
 
 {pve} allows to boot VMs with different firmware and machine types, namely
 xref:qm_bios_and_uefi[SeaBIOS and OVMF]. In most cases you want to switch from
-the default SeabBIOS to OVMF only if you plan to use
+the default SeaBIOS to OVMF only if you plan to use
 xref:qm_pci_passthrough[PCIe pass through]. A VMs 'Machine Type' defines the
 hardware layout of the VM's virtual motherboard. You can choose between the
 default https://en.wikipedia.org/wiki/Intel_440FX[Intel 440FX] or the
@@ -271,10 +271,10 @@ However some software licenses depend on the number of sockets a machine has,
 in that case it makes sense to set the number of sockets to what the license
 allows you.
 
-Increasing the number of virtual cpus (cores and sockets) will usually provide a
+Increasing the number of virtual CPUs (cores and sockets) will usually provide a
 performance improvement though that is heavily dependent on the use of the VM.
-Multithreaded applications will of course benefit from a large number of
-virtual cpus, as for each virtual cpu you add, Qemu will create a new thread of
+Multi-threaded applications will of course benefit from a large number of
+virtual CPUs, as for each virtual cpu you add, Qemu will create a new thread of
 execution on the host system. If you're not sure about the workload of your VM,
 it is usually a safe bet to set the number of *Total cores* to 2.
 
@@ -282,7 +282,7 @@ NOTE: It is perfectly safe if the _overall_ number of cores of all your VMs
 is greater than the number of cores on the server (e.g., 4 VMs with each 4
 cores on a machine with only 8 cores). In that case the host system will
 balance the Qemu execution threads between your server cores, just like if you
-were running a standard multithreaded application. However, {pve} will prevent
+were running a standard multi-threaded application. However, {pve} will prevent
 you from starting VMs with more virtual CPU cores than physically available, as
 this will only bring the performance down due to the cost of context switches.
 
@@ -492,7 +492,7 @@ vCPU hot-plug
 ^^^^^^^^^^^^^
 
 Modern operating systems introduced the capability to hot-plug and, to a
-certain extent, hot-unplug CPUs in a running systems. Virtualisation allows us
+certain extent, hot-unplug CPUs in a running system. Virtualization allows us
 to avoid a lot of the (physical) problems real hardware can cause in such
 scenarios.
 Still, this is a rather new and complicated feature, so its use should be

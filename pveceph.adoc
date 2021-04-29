@@ -92,7 +92,7 @@ machines and containers, you must also account for having enough memory
 available for Ceph to provide excellent and stable performance.
 
 As a rule of thumb, for roughly **1 TiB of data, 1 GiB of memory** will be used
-by an OSD. Especially during recovery, rebalancing or backfilling.
+by an OSD. Especially during recovery, re-balancing or backfilling.
 
 The daemon itself will use additional memory. The Bluestore backend of the
 daemon requires by default **3-5 GiB of memory** (adjustable). In contrast, the
@@ -121,7 +121,7 @@ might take long. It is recommended that you use SSDs instead of HDDs in small
 setups to reduce recovery time, minimizing the likelihood of a subsequent
 failure event during recovery.
 
-In general SSDs will provide more IOPs than spinning disks. With this in mind,
+In general, SSDs will provide more IOPS than spinning disks. With this in mind,
 in addition to the higher cost, it may make sense to implement a
 xref:pve_ceph_device_classes[class based] separation of pools. Another way to
 speed up OSDs is to use a faster disk as a journal or
@@ -623,7 +623,7 @@ NOTE: Further information can be found in the Ceph documentation, under the
 section CRUSH map footnote:[CRUSH map {cephdocs-url}/rados/operations/crush-map/].
 
 This map can be altered to reflect different replication hierarchies. The object
-replicas can be separated (eg. failure domains), while maintaining the desired
+replicas can be separated (e.g., failure domains), while maintaining the desired
 distribution.
 
 A common configuration is to use different classes of disks for different Ceph
@@ -672,7 +672,7 @@ ceph osd crush rule create-replicated <rule-name> <root> <failure-domain> <class
 |<rule-name>|name of the rule, to connect with a pool (seen in GUI & CLI)
 |<root>|which crush root it should belong to (default ceph root "default")
 |<failure-domain>|at which failure-domain the objects should be distributed (usually host)
-|<class>|what type of OSD backing store to use (eg. nvme, ssd, hdd)
+|<class>|what type of OSD backing store to use (e.g., nvme, ssd, hdd)
 |===
 
 Once the rule is in the CRUSH map, you can tell a pool to use the ruleset.

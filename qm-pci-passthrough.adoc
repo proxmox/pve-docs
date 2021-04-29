@@ -309,7 +309,7 @@ Mediated Devices (vGPU, GVT-g)
 
 Mediated devices are another method to reuse features and performance from
 physical hardware for virtualized hardware. These are found most common in
-virtualized GPU setups such as Intels GVT-g and Nvidias vGPUs used in their
+virtualized GPU setups such as Intel's GVT-g and NVIDIA's vGPUs used in their
 GRID technology.
 
 With this, a physical Card is able to create virtual cards, similar to SR-IOV.
@@ -324,7 +324,7 @@ In general your card's driver must support that feature, otherwise it will
 not work. So please refer to your vendor for compatible drivers and how to
 configure them.
 
-Intels drivers for GVT-g are integrated in the Kernel and should work
+Intel's drivers for GVT-g are integrated in the Kernel and should work
 with 5th, 6th and 7th generation Intel Core Processors, as well as E3 v4, E3
 v5 and E3 v6 Xeon Processors.
 

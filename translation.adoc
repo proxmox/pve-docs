@@ -76,7 +76,7 @@ perl packages installed on your system. For Debian/Ubuntu:
 Sending the Translation
 ~~~~~~~~~~~~~~~~~~~~~~~
 You can send the finished translation (`.po` file) to the Proxmox team at the address
-office(at)proxmox.com, along with a signed contributor licence agreement.
+office(at)proxmox.com, along with a signed contributor license agreement.
 Alternatively, if you have some developer experience, you can send it as a
 patch to the {pve} development mailing list. See
 {webwiki-url}Developer_Documentation[Developer Documentation].
