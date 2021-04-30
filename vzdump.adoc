@@ -363,7 +363,7 @@ Note that this comes with two caveats:
 This mode of operation is especially useful for large VMs, where only a small
 amount of data is required for initial operation, e.g. web servers - once the OS
 and necessary services have been started, the VM is operational, while the
-background task continues copying seldomly used data.
+background task continues copying seldom used data.
 
 Single File Restore
 ~~~~~~~~~~~~~~~~~~~

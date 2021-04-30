@@ -20,7 +20,7 @@ VXLAN encapsulation add 50bytes overhead, so you need to increase mtu on your ho
 physical interfaces to 1550 at minimum. (or decrease mtu inside your vms to 1450)
 
 For BUM traffic (broadcast / unknown unicast traffic, multicast),
-we have 3 differents vxlan setup modes : multicast, unicast, bgp-evpn
+we have 3 different VXLAN setup modes : multicast, unicast, bgp-evpn
 
 image::images/vxlan-l2-vlanunaware.svg["vxlan l2 bridge vlan unaware",align="center"]
 
