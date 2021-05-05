@@ -62,6 +62,9 @@ The default policy is `allow`.
 Listening IP
 ------------
 
+By default the `pveproxy` and `spiceproxy` daemons listen on the wildcard
+address and accept connections from both IPv4 and IPv6 clients.
+
 By setting `LISTEN_IP` in `/etc/default/pveproxy` you can control to which IP
 address the `pveproxy` and `spiceproxy` daemons bind. The IP-address needs to
 be configured on the system.
@@ -101,6 +104,12 @@ NOTE: Unlike `reload`, a `restart` of the pveproxy service can interrupt some
 long-running worker processes, for example a running console or shell from a
 virtual guest. So, please use a maintenance window to bring this change in
 effect.
+
+NOTE: setting the `sysctl` `net.ipv6.bindv6only` to `1` will cause the daemons
+  to only accept connection from IPv6 clients. This non-default setting usually
+  also causes other issues. Either remove the `sysctl` setting, or set the
+  `LISTEN_IP` to `0.0.0.0` (which will only allow IPv4 clients).
+
 
 SSL Cipher Suite
 ----------------
