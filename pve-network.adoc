@@ -548,6 +548,25 @@ iface vmbr0 inet manual
 
 ----
 
+Disabling IPv6 on the Node
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+{pve} works correctly in all environments, irrespective of whether IPv6 is
+deployed or not. We recommend leaving all settings at the provided defaults.
+
+Should you still need to disable support for IPv6 on your node, do so by
+creating an appropriate `sysctl.conf (5)` snippet file and setting the proper
+https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt[sysctls],
+for example adding `/etc/sysctl.d/disable-ipv6.conf` with content:
+
+----
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+----
+
+This method is preferred to disabling the loading of the IPv6 module on the
+https://www.kernel.org/doc/Documentation/networking/ipv6.rst[kernel commandline].
+
 ////
 TODO: explain IPv6 support?
 TODO: explain OVS
