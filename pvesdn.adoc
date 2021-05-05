@@ -224,21 +224,21 @@ Routing and Forwarding) interface.
 
 Specific EVPN configuration options:
 
-VRF VXLAN Tag:: This is a vxlan-id used for routing interconnect between vnets,
+VRF VXLAN tag:: This is a vxlan-id used for routing interconnect between vnets,
 it must be different than VXLAN-id of VNets
 
 controller:: an EVPN-controller need to be defined first (see controller
 plugins section)
 
-Vnet Mac Address:: An unique, anycast macaddress for all vnets in this zone.
-                  Auto-generated if you don't define it.
+VNet MAC address:: A unique anycast MAC address for all VNets in this zone.
+  Will be auto-generated if not defined.
 
-Exit Nodes:: This is used if you want to defined some proxmox nodes, as
-             exit gateway from evpn network through real network. This nodes
-             will announce a default route in the evpn network.
+Exit Nodes:: This is used if you want to define some proxmox nodes, as exit
+  gateway from evpn network through real network. The configured nodes will
+  announce a default route in the EVPN network.
 
-mtu:: because VXLAN encapsulation use 50bytes, the MTU need to be 50 bytes
-lower than the outgoing physical interface.
+MTU:: because VXLAN encapsulation use 50 bytes, the MTU needs to be 50 bytes
+  lower than the maximal MTU of the outgoing physical interface.
 
 
 [[pvesdn_config_vnet]]
@@ -811,7 +811,6 @@ peers: 192.168.0.1,192.168.0.2,192.168.0.3
 Create an EVPN zone named `myevpnzone' using the previously created
 EVPN-controller Define 'node1' and 'node2' as exit nodes.
 
-
 ----
 id: myevpnzone
 vrf vxlan tag: 10000
@@ -829,6 +828,7 @@ tag: 11000
 ----
 
 Create a subnet 10.0.1.0/24 with 10.0.1.1 as gateway on vnet1
+
 ----
 subnet: 10.0.1.0/24
 gateway: 10.0.1.1
@@ -844,6 +844,7 @@ tag: 12000
 ----
 
 Create a different subnet 10.0.2.0/24 with 10.0.2.1 as gateway on vnet2
+
 ----
 subnet: 10.0.2.0/24
 gateway: 10.0.2.1
@@ -852,7 +853,6 @@ gateway: 10.0.2.1
 
 Apply the configuration on the main SDN web-interface panel to create VNets
 locally on each nodes and generate the FRR config.
-
 
 Create a Debian-based Virtual Machine (vm1) on node1, with a vNIC on `myvnet1'.
 
