@@ -45,7 +45,8 @@ POLICY="allow"
 ----
 
 IP addresses can be specified using any syntax understood by `Net::IP`. The
-name `all` is an alias for `0/0`.
+name `all` is an alias for `0/0` and `::/0` (meaning all IPv4 and IPv6
+addresses).
 
 The default policy is `allow`.
 
