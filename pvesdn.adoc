@@ -17,25 +17,21 @@ xref:getting_help[mailing lists or in the forum] for questions and feedback.
 Installation
 ------------
 
-To enable the experimental SDN integration, you need to install
-"libpve-network-perl" package
+To enable the experimental SDN integration, you need to install the
+`libpve-network-perl` and `ifupdown2` package on every node:
 
 ----
-apt install libpve-network-perl
+apt update
+apt install libpve-network-perl ifupdown2
 ----
 
-You need to have `ifupdown2` package installed on each node to manage local
-configuration reloading without reboot:
+After that you need to add the following line:
 
-----
-apt install ifupdown2
-----
-
-You need to add
 ----
 source /etc/network/interfaces.d/*
 ----
-at the end of /etc/network/interfaces to have the sdn config included
+at the end of the `/etc/network/interfaces` configuration file, so that the SDN
+config gets included and activated.
 
 
 Basic Overview
