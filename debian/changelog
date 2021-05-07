@@ -1,3 +1,18 @@
+pve-docs (6.4-2) pve; urgency=medium
+
+  * pveum: u2f: note that self-signed certificates not added to the system
+    trust store may nowadays work with U2F just fine
+
+  * network: shortly document how one can disable IPv6 support gracefully
+
+  * pveproxy: add notes about binding to IPv6 only
+
+  * pveproxy: improve LISTEN_IP documentation and add more examples
+
+  * general typo/grammar fixes and external link hygiene
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 07 May 2021 18:37:37 +0200
+
 pve-docs (6.4-1) pve; urgency=medium
 
   * pbs storage: consistently talk about the storage key
