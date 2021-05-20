@@ -449,6 +449,7 @@ Node / System related privileges::
 * `Sys.Modify`: create/remove/modify node network parameters
 * `Group.Allocate`: create/remove/modify groups
 * `Pool.Allocate`: create/remove/modify a pool
+* `Pool.Audit`: view a pool
 * `Realm.Allocate`: create/remove/modify authentication realms
 * `Realm.AllocateUser`: assign user to a realm
 * `User.Modify`: create/remove/modify user access and details.
