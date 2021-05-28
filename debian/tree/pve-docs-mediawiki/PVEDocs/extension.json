@@ -1,0 +1,25 @@
+{
+    "name": "PVEDocs",
+    "author": "Thomas Lamprecht, Dietmar Maurer",
+    "version": "2021.05.1",
+    "url": "https://git.proxmox.com/?p=pve-docs.git;a=summary",
+    "descriptionmsg": "Display PVE Documentation Pages",
+    "license-name": "GPL-3.0-or-later",
+    "type": "parserhook",
+    "AutoloadClasses": {
+        "PVEDocs": "include/PVEDocs.php"
+    },
+    "MessagesDirs": {
+        "PVEDocs": [
+            "i18n"
+         ]
+    },
+    "ExtensionMessagesFiles": {
+        "PVEDocsMagic": "PVEDocs.i18n.magic.php"
+    },
+    "Hooks": {
+        "ParserFirstCallInit": "PVEDocs::onParserFirstCallInit",
+        "ParserAfterTidy": "PVEDocs::efPvedocsPostProcessFunction"
+    },
+    "manifest_version": 1
+}
