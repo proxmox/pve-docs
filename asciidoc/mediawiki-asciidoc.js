@@ -91,8 +91,11 @@ var asciidoc = {
 
 // add init to mediawiki resource loader queue
 (window.RLQ=window.RLQ||[]).push(function(){
-    mw.hook('wikipage.content').add(function($content) {
-	asciidoc.toc($content);
-	asciidoc.footnotes($content);
+    // cannot use mw.hook directly here yet, the mediawiki.base module is not yet available
+    mw.loader.implement('pve.doctoc', function() {
+	mw.hook('wikipage.content').add(function($content) {
+	    asciidoc.toc($content);
+	    asciidoc.footnotes($content);
+	});
     });
 });
