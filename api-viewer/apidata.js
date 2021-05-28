@@ -1449,6 +1449,7 @@ var pveapi = [
                                           "dest" : {
                                              "description" : "Restrict packet destination address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                              "format" : "pve-fw-addr-spec",
+                                             "maxLength" : 512,
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -1544,6 +1545,7 @@ var pveapi = [
                                           "source" : {
                                              "description" : "Restrict packet source address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                              "format" : "pve-fw-addr-spec",
+                                             "maxLength" : 512,
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -1690,6 +1692,7 @@ var pveapi = [
                                     "dest" : {
                                        "description" : "Restrict packet destination address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                        "format" : "pve-fw-addr-spec",
+                                       "maxLength" : 512,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -1778,6 +1781,7 @@ var pveapi = [
                                     "source" : {
                                        "description" : "Restrict packet source address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                        "format" : "pve-fw-addr-spec",
+                                       "maxLength" : 512,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -2099,6 +2103,7 @@ var pveapi = [
                                     "dest" : {
                                        "description" : "Restrict packet destination address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                        "format" : "pve-fw-addr-spec",
+                                       "maxLength" : 512,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -2187,6 +2192,7 @@ var pveapi = [
                                     "source" : {
                                        "description" : "Restrict packet source address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                        "format" : "pve-fw-addr-spec",
+                                       "maxLength" : 512,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -2293,6 +2299,7 @@ var pveapi = [
                               "dest" : {
                                  "description" : "Restrict packet destination address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                  "format" : "pve-fw-addr-spec",
+                                 "maxLength" : 512,
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -2374,6 +2381,7 @@ var pveapi = [
                               "source" : {
                                  "description" : "Restrict packet source address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                  "format" : "pve-fw-addr-spec",
+                                 "maxLength" : 512,
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -8905,6 +8913,7 @@ var pveapi = [
                                                       "dest" : {
                                                          "description" : "Restrict packet destination address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                                          "format" : "pve-fw-addr-spec",
+                                                         "maxLength" : 512,
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -8999,6 +9008,7 @@ var pveapi = [
                                                       "source" : {
                                                          "description" : "Restrict packet source address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                                          "format" : "pve-fw-addr-spec",
+                                                         "maxLength" : 512,
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -9127,6 +9137,7 @@ var pveapi = [
                                                 "dest" : {
                                                    "description" : "Restrict packet destination address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                                    "format" : "pve-fw-addr-spec",
+                                                   "maxLength" : 512,
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -9214,6 +9225,7 @@ var pveapi = [
                                                 "source" : {
                                                    "description" : "Restrict packet source address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                                    "format" : "pve-fw-addr-spec",
+                                                   "maxLength" : 512,
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -26023,6 +26035,7 @@ var pveapi = [
                                                       "dest" : {
                                                          "description" : "Restrict packet destination address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                                          "format" : "pve-fw-addr-spec",
+                                                         "maxLength" : 512,
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -26117,6 +26130,7 @@ var pveapi = [
                                                       "source" : {
                                                          "description" : "Restrict packet source address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                                          "format" : "pve-fw-addr-spec",
+                                                         "maxLength" : 512,
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -26245,6 +26259,7 @@ var pveapi = [
                                                 "dest" : {
                                                    "description" : "Restrict packet destination address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                                    "format" : "pve-fw-addr-spec",
+                                                   "maxLength" : 512,
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -26332,6 +26347,7 @@ var pveapi = [
                                                 "source" : {
                                                    "description" : "Restrict packet source address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                                    "format" : "pve-fw-addr-spec",
+                                                   "maxLength" : 512,
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -37945,6 +37961,7 @@ var pveapi = [
                                           "dest" : {
                                              "description" : "Restrict packet destination address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                              "format" : "pve-fw-addr-spec",
+                                             "maxLength" : 512,
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -38039,6 +38056,7 @@ var pveapi = [
                                           "source" : {
                                              "description" : "Restrict packet source address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                              "format" : "pve-fw-addr-spec",
+                                             "maxLength" : 512,
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -38153,6 +38171,7 @@ var pveapi = [
                                     "dest" : {
                                        "description" : "Restrict packet destination address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                        "format" : "pve-fw-addr-spec",
+                                       "maxLength" : 512,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -38240,6 +38259,7 @@ var pveapi = [
                                     "source" : {
                                        "description" : "Restrict packet source address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                        "format" : "pve-fw-addr-spec",
+                                       "maxLength" : 512,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -40414,9 +40434,9 @@ var pveapi = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "upgrade",
                                     "ceph_install",
-                                    "login"
+                                    "login",
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -40517,9 +40537,9 @@ var pveapi = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "upgrade",
                                     "ceph_install",
-                                    "login"
+                                    "login",
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -40650,9 +40670,9 @@ var pveapi = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "upgrade",
                                     "ceph_install",
-                                    "login"
+                                    "login",
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
