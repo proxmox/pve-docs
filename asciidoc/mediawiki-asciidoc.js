@@ -6,15 +6,11 @@
 //////////////////////////////////////////////////////////////////////////
 
 var asciidoc = {
-
-    // toc generator
-    toc: function ($content) {
+    toc: function ($content) { // toc generator
 	var tocholder = $content.find('#toc');
-
 	if (!tocholder) {
 	    return;
 	}
-
 	tocholder.html('');
 	tocholder.hide();
 
