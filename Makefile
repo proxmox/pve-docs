@@ -63,6 +63,11 @@ GEN_SCRIPTS=					\
 	gen-pve-firewall-vm-opts.pl		\
 	gen-output-format-opts.pl
 
+API_VIEWER_FILES=							\
+	api-viewer/apidata.js						\
+	api-viewer/PVEAPI.js						\
+	/usr/share/javascript/proxmox-widget-toolkit-dev/APIVIEWER.js
+
 API_VIEWER_SOURCES=				\
 	api-viewer/index.html			\
 	api-viewer/apidoc.js
@@ -149,8 +154,9 @@ pve-admin-guide.epub: ${PVE_ADMIN_GUIDE_ADOCDEPENDS}
 api-viewer/apidata.js: extractapi.pl
 	./extractapi.pl >$@
 
-api-viewer/apidoc.js: api-viewer/apidata.js api-viewer/PVEAPI.js
-	cat api-viewer/apidata.js api-viewer/PVEAPI.js >$@
+api-viewer/apidoc.js: ${API_VIEWER_FILES}
+	cat ${API_VIEWER_FILES} >$@.tmp
+	mv $@.tmp $@
 
 .PHONY: dinstall
 dinstall: ${GEN_DEB} ${DOC_DEB} ${MEDIAWIKI_DEB}
