@@ -34,7 +34,10 @@ class PVEDocs {
             die("no such manual page");
         }
 
-        $content = file_get_contents("/usr/share/pve-docs/$doc");
+        // load JS helper for TOC/footnote generation and load actual HTML content fom docs
+        $content = "\n<script type=\"text/javascript\">\n".file_get_contents("/usr/lib/pve-docs/PVEDocs/mw-asciidoc.js") ."</script>";
+
+        $content .= file_get_contents("/usr/share/pve-docs/$doc");
 
         // from https://gerrit.wikimedia.org/r/plugins/gitiles/mediawiki/extensions/HTMLets/+/11e5ef1ea2820319458dc67174ca76d6e00b10cc/HTMLets.php#140
         $output = '<!--- @PVEDOCS_BASE64@ '.base64_encode($content).' @PVEDOCS_BASE64@ -->';
