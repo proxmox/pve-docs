@@ -11,9 +11,9 @@ Build-Depends: asciidoc-dblatex,
                libjson-perl,
                librsvg2-bin,
                lintian,
+               proxmox-widget-toolkit-dev,
                rsync,
                source-highlight,
-	       proxmox-widget-toolkit-dev,
 Standards-Version: 4.3.0
 
 Package: pve-doc-generator
@@ -31,7 +31,7 @@ Description: Proxmox VE Documentation helpers
 
 Package: pve-docs
 Section: doc
-Depends: libjs-extjs, ${perl:Depends},
+Depends: libjs-extjs, ${perl:Depends}
 Architecture: all
 Description: Proxmox VE Documentation
  This package contains the Proxmox VE Documentation files.
@@ -40,10 +40,10 @@ Package: pve-docs-mediawiki
 Architecture: all
 Section: doc
 Depends: libhtml-parser-perl,
-         pve-docs,
          libmediawiki-api-perl,
+         pve-docs,
          ${misc:Depends},
          ${perl:Depends},
-Suggests: apache2,
+Suggests: apache2
 Description: Proxmox VE Documentation - mediawiki plugin
  This package contains tools to view Proxmox VE Documentation with mediakiki.
