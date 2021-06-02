@@ -66,7 +66,7 @@ GEN_SCRIPTS=					\
 API_VIEWER_FILES=							\
 	api-viewer/apidata.js						\
 	api-viewer/PVEAPI.js						\
-	/usr/share/javascript/proxmox-widget-toolkit-dev/APIVIEWER.js
+	/usr/share/javascript/proxmox-widget-toolkit-dev/APIViewer.js
 
 API_VIEWER_SOURCES=				\
 	api-viewer/index.html			\
