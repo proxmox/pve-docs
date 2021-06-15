@@ -18,13 +18,12 @@ or via the GUI.
 
 .File `/etc/apt/sources.list`
 ----
-deb http://ftp.debian.org/debian buster main contrib
-deb http://ftp.debian.org/debian buster-updates main contrib
+deb http://ftp.debian.org/debian bullseye main contrib
+deb http://ftp.debian.org/debian bullseye-updates main contrib
 
 # security updates
-deb http://security.debian.org/debian-security buster/updates main contrib
+deb http://security.debian.org/debian-security bullseye-security main contrib
 ----
-// FIXME for 7.0: change security update suite to bullseye-security
 
 {pve} additionally provides three different package repositories.
 
@@ -38,7 +37,7 @@ production use. The `pve-enterprise` repository is enabled by default:
 
 .File `/etc/apt/sources.list.d/pve-enterprise.list`
 ----
-deb https://enterprise.proxmox.com/debian/pve buster pve-enterprise
+deb https://enterprise.proxmox.com/debian/pve bullseye pve-enterprise
 ----
 
 The `root@pam` user is notified via email about available updates. Click the
@@ -65,15 +64,15 @@ We recommend to configure this repository in `/etc/apt/sources.list`.
 
 .File `/etc/apt/sources.list`
 ----
-deb http://ftp.debian.org/debian buster main contrib
-deb http://ftp.debian.org/debian buster-updates main contrib
+deb http://ftp.debian.org/debian bullseye main contrib
+deb http://ftp.debian.org/debian bullseye-updates main contrib
 
 # PVE pve-no-subscription repository provided by proxmox.com,
 # NOT recommended for production use
-deb http://download.proxmox.com/debian/pve buster pve-no-subscription
+deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription
 
 # security updates
-deb http://security.debian.org/debian-security buster/updates main contrib
+deb http://security.debian.org/debian-security bullseye-security main contrib
 ----
 
 
@@ -87,19 +86,46 @@ to test new features. To configure it, add the following line to
 
 .sources.list entry for `pvetest`
 ----
-deb http://download.proxmox.com/debian/pve buster pvetest
+deb http://download.proxmox.com/debian/pve bullseye pvetest
 ----
 
 WARNING: The `pvetest` repository should (as the name implies) only be used for
 testing new features or bug fixes.
 
 [[sysadmin_package_repositories_ceph]]
+Ceph Pacific Repository
+~~~~~~~~~~~~~~~~~~~~~~~
+
+NOTE: Ceph Octopus (16.2) was declared stable with {pve} 7.0
+
+This repository holds the main {pve} Ceph Pacific packages. They are suitable
+for production. Use this repository if you run the Ceph client or a full Ceph
+cluster on {pve}.
+
+.File `/etc/apt/sources.list.d/ceph.list`
+----
+deb http://download.proxmox.com/debian/ceph-pacific bullseye main
+----
+
+
+Ceph Pacific Test Repository
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This Ceph repository contains the Ceph Pacific packages before they are moved
+to the main repository. It is used to test new Ceph releases on {pve}.
+
+.File `/etc/apt/sources.list.d/ceph.list`
+----
+deb http://download.proxmox.com/debian/ceph-pacific bullseye test
+----
+
+[[sysadmin_package_repositories_ceph_octopus]]
 Ceph Octopus Repository
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-NOTE: Ceph Octopus (15.2) was declared stable with {pve} 6.3 and is the most
-recent Ceph release supported. It will continue to get updates for the
-xref:faq-support-table[remaining life time of the 6.x release].
+NOTE: Ceph Octopus (15.2) was declared stable with {pve} 6.3 it will continue
+to get updates for the xref:faq-support-table[remaining life time of the 6.x release]
+and also for {pve} 7.x until Ceph Octopus upstream EOL (~ 2022-07).
 
 This repository holds the main {pve} Ceph Octopus packages. They are suitable
 for production. Use this repository if you run the Ceph client or a full Ceph
@@ -107,8 +133,11 @@ cluster on {pve}.
 
 .File `/etc/apt/sources.list.d/ceph.list`
 ----
-deb http://download.proxmox.com/debian/ceph-octopus buster main
+deb http://download.proxmox.com/debian/ceph-octopus bullseye main
 ----
+
+Note that on an older {pve} 6.x you need to change `bullseye` to `buster` in
+the repository specification above.
 
 
 Ceph Octopus Test Repository
@@ -119,51 +148,7 @@ main repository. It is used to test new Ceph releases on {pve}.
 
 .File `/etc/apt/sources.list.d/ceph.list`
 ----
-deb http://download.proxmox.com/debian/ceph-octopus buster test
-----
-
-Ceph Nautilus Repository
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-NOTE: Ceph Nautlius (14.2) is the older supported Ceph version, introduced with
-{pve} 6.0. It will continue to get updates until end of Q2 2021, so you will
-eventually need to
-https://pve.proxmox.com/wiki/Ceph_Nautilus_to_Octopus[upgrade to Ceph Octopus].
-
-This repository holds the main {pve} Ceph Nautilus packages. They are suitable
-for production. Use this repository if you run the Ceph client or a full Ceph
-cluster on {pve}.
-
-.File `/etc/apt/sources.list.d/ceph.list`
-----
-deb http://download.proxmox.com/debian/ceph-nautilus buster main
-----
-
-
-Ceph Nautilus Test Repository
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This Ceph repository contains the Ceph packages before they are moved to the
-main repository. It is used to test new Ceph releases on {pve}.
-
-.File `/etc/apt/sources.list.d/ceph.list`
-----
-deb http://download.proxmox.com/debian/ceph-nautilus buster test
-----
-
-{pve} Ceph Luminous Repository For Upgrade
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-If Ceph is deployed this repository is needed for the upgrade from {pve} 5.x to
-{pve} 6.0. It provides packages for the older Ceph Luminous release for {pve}
-6.0.
-
-The https://pve.proxmox.com/wiki/Upgrade_from_5.x_to_6.0[Upgrade 5.x to 6.0]
-document explains how to use this repository in detail.
-
-.File `/etc/apt/sources.list.d/ceph.list`
-----
-deb http://download.proxmox.com/debian/ceph-luminous buster main
+deb http://download.proxmox.com/debian/ceph-octopus bullseye test
 ----
 
 SecureApt
@@ -179,36 +164,55 @@ If you install {pve} on top of Debian, download and install
 the key with the following commands:
 
 ----
- # wget http://download.proxmox.com/debian/proxmox-ve-release-6.x.gpg -O /etc/apt/trusted.gpg.d/proxmox-ve-release-6.x.gpg
+ # wget https://enterprise.proxmox.com/debian/proxmox-release-bullseye.gpg -O /etc/apt/trusted.gpg.d/proxmox-release-bullseye.gpg
 ----
 
 Verify the checksum afterwards with:
 
 ----
-# sha512sum /etc/apt/trusted.gpg.d/proxmox-ve-release-6.x.gpg
+# sha512sum /etc/apt/trusted.gpg.d/proxmox-release-bullseye.gpg
 ----
 
 The output should be:
 
 ----
-acca6f416917e8e11490a08a1e2842d500b3a5d9f322c6319db0927b2901c3eae23cfb5cd5df6facf2b57399d3cfa52ad7769ebdd75d9b204549ca147da52626 /etc/apt/trusted.gpg.d/proxmox-ve-release-6.x.gpg
+7fb03ec8a1675723d2853b84aa4fdb49a46a3bb72b9951361488bfd19b29aab0a789a4f8c7406e71a69aabbc727c936d3549731c4659ffa1a08f44db8fdcebfa /etc/apt/trusted.gpg.d/proxmox-release-bullseye.gpg
 ----
 
 or:
 
 ----
-# md5sum /etc/apt/trusted.gpg.d/proxmox-ve-release-6.x.gpg
+# md5sum /etc/apt/trusted.gpg.d/proxmox-release-bullseye.gpg
 ----
 The output should be:
 
 ----
-f3f6c5a3a67baf38ad178e5ff1ee270c /etc/apt/trusted.gpg.d/proxmox-ve-release-6.x.gpg
+bcc35c7173e0845c0d6ad6470b70f50e /etc/apt/trusted.gpg.d/proxmox-release-bullseye.gpg
 ----
 
 
 ifdef::wiki[]
 
 // include note about older releases, but only for wiki
+
+
+{pve} 6.x Repositories
+~~~~~~~~~~~~~~~~~~~~~~
+
+{pve} 6.x is based on Debian 10.x (``buster''). Please note that this release is
+out of date. Existing installations should be updated. Nevertheless access to
+these repositories is still provided.
+
+[width="100%",cols="<d,3m",options="header"]
+|===========================================================
+|Repository                 | sources.list entry
+|{pve} 6.x Enterprise       |
+deb https://enterprise.proxmox.com/debian buster pve-enterprise
+|{pve} 6.x No-Subscription  |
+deb http://download.proxmox.com/debian buster pve-no-subscription
+|{pve} 6.x Test             |
+deb http://download.proxmox.com/debian buster pvetest
+|===========================================================
 
 
 {pve} 5.x Repositories
