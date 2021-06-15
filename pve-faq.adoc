@@ -87,15 +87,16 @@ rolling release model and using the latest stable version is always
 recommended.
 +
 [width="100%",cols="5*d",options="header"]
-|===========================================================
-| {pve} Version | Debian Version    | First Release | Debian EOL | Proxmox EOL
-| {pve} 6.x     | Debian 10 (Buster)| 2019-07       | tba        | tba
-| {pve} 5.x     | Debian 9 (Stretch)| 2017-07       | 2020-07    | 2020-07
-| {pve} 4.x     | Debian 8 (Jessie) | 2015-10       | 2018-06    | 2018-06
-| {pve} 3.x     | Debian 7 (Wheezy) | 2013-05       | 2016-04    | 2017-02
-| {pve} 2.x     | Debian 6 (Squeeze)| 2012-04       | 2014-05    | 2014-05
-| {pve} 1.x     | Debian 5 (Lenny)  | 2008-10       | 2012-03    | 2013-01
-|===========================================================
+|===============================================================================
+| {pve} Version | Debian Version      | First Release | Debian EOL | Proxmox EOL
+| {pve} 7.x     | Debian 11 (Bullseye)| tba           | tba        | tba
+| {pve} 6.x     | Debian 10 (Buster)  | 2019-07       | 2022-07    | 2022-07
+| {pve} 5.x     | Debian 9 (Stretch)  | 2017-07       | 2020-07    | 2020-07
+| {pve} 4.x     | Debian 8 (Jessie)   | 2015-10       | 2018-06    | 2018-06
+| {pve} 3.x     | Debian 7 (Wheezy)   | 2013-05       | 2016-04    | 2017-02
+| {pve} 2.x     | Debian 6 (Squeeze)  | 2012-04       | 2014-05    | 2014-05
+| {pve} 1.x     | Debian 5 (Lenny)    | 2008-10       | 2012-03    | 2013-01
+|===============================================================================
 
 [[faq-upgrade]]
 How can I upgrade {pve} to the next release?::
@@ -120,6 +121,8 @@ Although the specific upgrade steps depend on your respective setup, we
 provide general instructions and advice of how a upgrade should be
 performed:
 +
+* https://pve.proxmox.com/wiki/Upgrade_from_5.x_to_6.0[Upgrade from {pve} 6.x to 7.0]
+
 * https://pve.proxmox.com/wiki/Upgrade_from_5.x_to_6.0[Upgrade from {pve} 5.x to 6.0]
 
 * https://pve.proxmox.com/wiki/Upgrade_from_4.x_to_5.0[Upgrade from {pve} 4.x to 5.0]
