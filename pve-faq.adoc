@@ -121,7 +121,7 @@ Although the specific upgrade steps depend on your respective setup, we
 provide general instructions and advice of how a upgrade should be
 performed:
 +
-* https://pve.proxmox.com/wiki/Upgrade_from_5.x_to_6.0[Upgrade from {pve} 6.x to 7.0]
+* https://pve.proxmox.com/wiki/Upgrade_from_6.x_to_7.0[Upgrade from {pve} 6.x to 7.0]
 
 * https://pve.proxmox.com/wiki/Upgrade_from_5.x_to_6.0[Upgrade from {pve} 5.x to 6.0]
 
