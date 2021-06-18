@@ -1,3 +1,17 @@
+pve-docs (7.0-2) bullseye; urgency=medium
+
+  * mediawiki: transform into new-style add-on#
+
+  * fix #3202: pveum: add Pool.Audit permission
+
+  * faq: add entry for PVE 7 and set tentative EOL date for PVE 6
+
+  * update repositories for PVE 7 based on Debian 11/Bullseye
+
+  * update static API and schema information
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 18 Jun 2021 19:38:18 +0200
+
 pve-docs (7.0-1) bullseye; urgency=medium
 
   * bump version for Proxmox VE 7 / Debian Bullseye
