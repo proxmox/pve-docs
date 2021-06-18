@@ -1,4 +1,4 @@
-var pveapi = [
+const apiSchema = [
    {
       "children" : [
          {
@@ -1449,6 +1449,7 @@ var pveapi = [
                                           "dest" : {
                                              "description" : "Restrict packet destination address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                              "format" : "pve-fw-addr-spec",
+                                             "maxLength" : 512,
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -1544,6 +1545,7 @@ var pveapi = [
                                           "source" : {
                                              "description" : "Restrict packet source address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                              "format" : "pve-fw-addr-spec",
+                                             "maxLength" : 512,
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -1690,6 +1692,7 @@ var pveapi = [
                                     "dest" : {
                                        "description" : "Restrict packet destination address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                        "format" : "pve-fw-addr-spec",
+                                       "maxLength" : 512,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -1778,6 +1781,7 @@ var pveapi = [
                                     "source" : {
                                        "description" : "Restrict packet source address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                        "format" : "pve-fw-addr-spec",
+                                       "maxLength" : 512,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -2099,6 +2103,7 @@ var pveapi = [
                                     "dest" : {
                                        "description" : "Restrict packet destination address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                        "format" : "pve-fw-addr-spec",
+                                       "maxLength" : 512,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -2187,6 +2192,7 @@ var pveapi = [
                                     "source" : {
                                        "description" : "Restrict packet source address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                        "format" : "pve-fw-addr-spec",
+                                       "maxLength" : 512,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -2293,6 +2299,7 @@ var pveapi = [
                               "dest" : {
                                  "description" : "Restrict packet destination address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                  "format" : "pve-fw-addr-spec",
+                                 "maxLength" : 512,
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -2374,6 +2381,7 @@ var pveapi = [
                               "source" : {
                                  "description" : "Restrict packet source address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                  "format" : "pve-fw-addr-spec",
+                                 "maxLength" : 512,
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -3638,8 +3646,7 @@ var pveapi = [
                                  "typetext" : "<string>"
                               },
                               "maxfiles" : {
-                                 "default" : 1,
-                                 "description" : "Maximal number of backup files per guest system.",
+                                 "description" : "Deprecated: use 'prune-backups' instead. Maximal number of backup files per guest system.",
                                  "minimum" : 1,
                                  "optional" : 1,
                                  "type" : "integer",
@@ -3677,6 +3684,7 @@ var pveapi = [
                                  "typetext" : "<string>"
                               },
                               "prune-backups" : {
+                                 "default" : "keep-all=1",
                                  "description" : "Use these retention options instead of those from the storage configuration.",
                                  "format" : "prune-backups",
                                  "optional" : 1,
@@ -3692,7 +3700,7 @@ var pveapi = [
                               },
                               "remove" : {
                                  "default" : 1,
-                                 "description" : "Remove old backup files if there are more than 'maxfiles' backup files.",
+                                 "description" : "Prune older backups according to 'prune-backups'.",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
@@ -3702,14 +3710,6 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
-                              },
-                              "size" : {
-                                 "default" : 1024,
-                                 "description" : "Unused, will be removed in a future release.",
-                                 "minimum" : 500,
-                                 "optional" : 1,
-                                 "type" : "integer",
-                                 "typetext" : "<integer> (500 - N)"
                               },
                               "starttime" : {
                                  "description" : "Job Start time.",
@@ -3933,8 +3933,7 @@ var pveapi = [
                            "typetext" : "<string>"
                         },
                         "maxfiles" : {
-                           "default" : 1,
-                           "description" : "Maximal number of backup files per guest system.",
+                           "description" : "Deprecated: use 'prune-backups' instead. Maximal number of backup files per guest system.",
                            "minimum" : 1,
                            "optional" : 1,
                            "type" : "integer",
@@ -3972,6 +3971,7 @@ var pveapi = [
                            "typetext" : "<string>"
                         },
                         "prune-backups" : {
+                           "default" : "keep-all=1",
                            "description" : "Use these retention options instead of those from the storage configuration.",
                            "format" : "prune-backups",
                            "optional" : 1,
@@ -3987,7 +3987,7 @@ var pveapi = [
                         },
                         "remove" : {
                            "default" : 1,
-                           "description" : "Remove old backup files if there are more than 'maxfiles' backup files.",
+                           "description" : "Prune older backups according to 'prune-backups'.",
                            "optional" : 1,
                            "type" : "boolean",
                            "typetext" : "<boolean>"
@@ -3997,14 +3997,6 @@ var pveapi = [
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
-                        },
-                        "size" : {
-                           "default" : 1024,
-                           "description" : "Unused, will be removed in a future release.",
-                           "minimum" : 500,
-                           "optional" : 1,
-                           "type" : "integer",
-                           "typetext" : "<integer> (500 - N)"
                         },
                         "starttime" : {
                            "description" : "Job Start time.",
@@ -8905,6 +8897,7 @@ var pveapi = [
                                                       "dest" : {
                                                          "description" : "Restrict packet destination address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                                          "format" : "pve-fw-addr-spec",
+                                                         "maxLength" : 512,
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -8999,6 +8992,7 @@ var pveapi = [
                                                       "source" : {
                                                          "description" : "Restrict packet source address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                                          "format" : "pve-fw-addr-spec",
+                                                         "maxLength" : 512,
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -9127,6 +9121,7 @@ var pveapi = [
                                                 "dest" : {
                                                    "description" : "Restrict packet destination address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                                    "format" : "pve-fw-addr-spec",
+                                                   "maxLength" : 512,
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -9214,6 +9209,7 @@ var pveapi = [
                                                 "source" : {
                                                    "description" : "Restrict packet source address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                                    "format" : "pve-fw-addr-spec",
+                                                   "maxLength" : 512,
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -23792,60 +23788,6 @@ var pveapi = [
                   "text" : "qemu"
                },
                {
-                  "info" : {
-                     "GET" : {
-                        "allowtoken" : 1,
-                        "description" : "List all custom and default CPU models.",
-                        "method" : "GET",
-                        "name" : "index",
-                        "parameters" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "node" : {
-                                 "description" : "The cluster node name.",
-                                 "format" : "pve-node",
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              }
-                           }
-                        },
-                        "permissions" : {
-                           "description" : "Only returns custom models when the current user has Sys.Audit on /nodes.",
-                           "user" : "all"
-                        },
-                        "returns" : {
-                           "items" : {
-                              "properties" : {
-                                 "custom" : {
-                                    "description" : "True if this is a custom CPU model.",
-                                    "type" : "boolean"
-                                 },
-                                 "name" : {
-                                    "description" : "Name of the CPU model. Identifies it for subsequent API calls. Prefixed with 'custom-' for custom models.",
-                                    "type" : "string"
-                                 },
-                                 "vendor" : {
-                                    "description" : "CPU vendor visible to the guest when this model is selected. Vendor of 'reported-model' in case of custom models.",
-                                    "type" : "string"
-                                 }
-                              },
-                              "type" : "object"
-                           },
-                           "links" : [
-                              {
-                                 "href" : "{name}",
-                                 "rel" : "child"
-                              }
-                           ],
-                           "type" : "array"
-                        }
-                     }
-                  },
-                  "leaf" : 1,
-                  "path" : "/nodes/{node}/cpu",
-                  "text" : "cpu"
-               },
-               {
                   "children" : [
                      {
                         "children" : [
@@ -26023,6 +25965,7 @@ var pveapi = [
                                                       "dest" : {
                                                          "description" : "Restrict packet destination address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                                          "format" : "pve-fw-addr-spec",
+                                                         "maxLength" : 512,
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -26117,6 +26060,7 @@ var pveapi = [
                                                       "source" : {
                                                          "description" : "Restrict packet source address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                                          "format" : "pve-fw-addr-spec",
+                                                         "maxLength" : 512,
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -26245,6 +26189,7 @@ var pveapi = [
                                                 "dest" : {
                                                    "description" : "Restrict packet destination address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                                    "format" : "pve-fw-addr-spec",
+                                                   "maxLength" : 512,
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -26332,6 +26277,7 @@ var pveapi = [
                                                 "source" : {
                                                    "description" : "Restrict packet source address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                                    "format" : "pve-fw-addr-spec",
+                                                   "maxLength" : 512,
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -30178,7 +30124,7 @@ var pveapi = [
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
-                                    "db_size" : {
+                                    "db_dev_size" : {
                                        "default" : "bluestore_block_db_size or 10% of OSD size",
                                        "description" : "Size in GiB for block.db.",
                                        "minimum" : 1,
@@ -30212,7 +30158,7 @@ var pveapi = [
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
-                                    "wal_size" : {
+                                    "wal_dev_size" : {
                                        "default" : "bluestore_block_wal_size or 1% of OSD size",
                                        "description" : "Size in GiB for block.wal.",
                                        "minimum" : 0.5,
@@ -30601,8 +30547,8 @@ var pveapi = [
                                        "additionalProperties" : 0,
                                        "properties" : {
                                           "mon-address" : {
-                                             "description" : "Overwrites autodetected monitor IP address. Must be in the public network of ceph.",
-                                             "format" : "ip",
+                                             "description" : "Overwrites autodetected monitor IP address(es). Must be in the public network(s) of Ceph.",
+                                             "format" : "ip-list",
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -31443,89 +31389,6 @@ var pveapi = [
                         "info" : {
                            "GET" : {
                               "allowtoken" : 1,
-                              "description" : "List local disks.",
-                              "method" : "GET",
-                              "name" : "disks",
-                              "parameters" : {
-                                 "additionalProperties" : 0,
-                                 "properties" : {
-                                    "node" : {
-                                       "description" : "The cluster node name.",
-                                       "format" : "pve-node",
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    },
-                                    "type" : {
-                                       "description" : "Only list specific types of disks.",
-                                       "enum" : [
-                                          "unused",
-                                          "journal_disks"
-                                       ],
-                                       "optional" : 1,
-                                       "type" : "string"
-                                    }
-                                 }
-                              },
-                              "permissions" : {
-                                 "check" : [
-                                    "perm",
-                                    "/",
-                                    [
-                                       "Sys.Audit",
-                                       "Datastore.Audit"
-                                    ],
-                                    "any",
-                                    1
-                                 ]
-                              },
-                              "protected" : 1,
-                              "proxyto" : "node",
-                              "returns" : {
-                                 "items" : {
-                                    "properties" : {
-                                       "dev" : {
-                                          "type" : "string"
-                                       },
-                                       "gpt" : {
-                                          "type" : "boolean"
-                                       },
-                                       "model" : {
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "osdid" : {
-                                          "type" : "integer"
-                                       },
-                                       "serial" : {
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "size" : {
-                                          "type" : "integer"
-                                       },
-                                       "used" : {
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       },
-                                       "vendor" : {
-                                          "optional" : 1,
-                                          "type" : "string"
-                                       }
-                                    },
-                                    "type" : "object"
-                                 },
-                                 "type" : "array"
-                              }
-                           }
-                        },
-                        "leaf" : 1,
-                        "path" : "/nodes/{node}/ceph/disks",
-                        "text" : "disks"
-                     },
-                     {
-                        "info" : {
-                           "GET" : {
-                              "allowtoken" : 1,
                               "description" : "Get Ceph configuration.",
                               "method" : "GET",
                               "name" : "config",
@@ -31892,149 +31755,6 @@ var pveapi = [
                         "text" : "status"
                      },
                      {
-                        "children" : [
-                           {
-                              "info" : {
-                                 "DELETE" : {
-                                    "allowtoken" : 1,
-                                    "description" : "Unset a ceph flag",
-                                    "method" : "DELETE",
-                                    "name" : "unset_flag",
-                                    "parameters" : {
-                                       "additionalProperties" : 0,
-                                       "properties" : {
-                                          "flag" : {
-                                             "description" : "The ceph flag to unset",
-                                             "enum" : [
-                                                "nobackfill",
-                                                "nodeep-scrub",
-                                                "nodown",
-                                                "noin",
-                                                "noout",
-                                                "norebalance",
-                                                "norecover",
-                                                "noscrub",
-                                                "notieragent",
-                                                "noup",
-                                                "pause"
-                                             ],
-                                             "type" : "string"
-                                          },
-                                          "node" : {
-                                             "description" : "The cluster node name.",
-                                             "format" : "pve-node",
-                                             "type" : "string",
-                                             "typetext" : "<string>"
-                                          }
-                                       }
-                                    },
-                                    "permissions" : {
-                                       "check" : [
-                                          "perm",
-                                          "/",
-                                          [
-                                             "Sys.Modify"
-                                          ]
-                                       ]
-                                    },
-                                    "protected" : 1,
-                                    "proxyto" : "node",
-                                    "returns" : {
-                                       "type" : "null"
-                                    }
-                                 },
-                                 "POST" : {
-                                    "allowtoken" : 1,
-                                    "description" : "Set a specific ceph flag",
-                                    "method" : "POST",
-                                    "name" : "set_flag",
-                                    "parameters" : {
-                                       "additionalProperties" : 0,
-                                       "properties" : {
-                                          "flag" : {
-                                             "description" : "The ceph flag to set",
-                                             "enum" : [
-                                                "nobackfill",
-                                                "nodeep-scrub",
-                                                "nodown",
-                                                "noin",
-                                                "noout",
-                                                "norebalance",
-                                                "norecover",
-                                                "noscrub",
-                                                "notieragent",
-                                                "noup",
-                                                "pause"
-                                             ],
-                                             "type" : "string"
-                                          },
-                                          "node" : {
-                                             "description" : "The cluster node name.",
-                                             "format" : "pve-node",
-                                             "type" : "string",
-                                             "typetext" : "<string>"
-                                          }
-                                       }
-                                    },
-                                    "permissions" : {
-                                       "check" : [
-                                          "perm",
-                                          "/",
-                                          [
-                                             "Sys.Modify"
-                                          ]
-                                       ]
-                                    },
-                                    "protected" : 1,
-                                    "proxyto" : "node",
-                                    "returns" : {
-                                       "type" : "null"
-                                    }
-                                 }
-                              },
-                              "leaf" : 1,
-                              "path" : "/nodes/{node}/ceph/flags/{flag}",
-                              "text" : "{flag}"
-                           }
-                        ],
-                        "info" : {
-                           "GET" : {
-                              "allowtoken" : 1,
-                              "description" : "get all set ceph flags",
-                              "method" : "GET",
-                              "name" : "get_flags",
-                              "parameters" : {
-                                 "additionalProperties" : 0,
-                                 "properties" : {
-                                    "node" : {
-                                       "description" : "The cluster node name.",
-                                       "format" : "pve-node",
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    }
-                                 }
-                              },
-                              "permissions" : {
-                                 "check" : [
-                                    "perm",
-                                    "/",
-                                    [
-                                       "Sys.Audit"
-                                    ]
-                                 ]
-                              },
-                              "protected" : 1,
-                              "proxyto" : "node",
-                              "returns" : {
-                                 "type" : "string"
-                              }
-                           }
-                        },
-                        "leaf" : 0,
-                        "path" : "/nodes/{node}/ceph/flags",
-                        "text" : "flags"
-                     },
-                     {
                         "info" : {
                            "GET" : {
                               "allowtoken" : 1,
@@ -32348,8 +32068,7 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "maxfiles" : {
-                                       "default" : 1,
-                                       "description" : "Maximal number of backup files per guest system.",
+                                       "description" : "Deprecated: use 'prune-backups' instead. Maximal number of backup files per guest system.",
                                        "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer"
@@ -32383,6 +32102,7 @@ var pveapi = [
                                        "type" : "string"
                                     },
                                     "prune-backups" : {
+                                       "default" : "keep-all=1",
                                        "description" : "Use these retention options instead of those from the storage configuration.",
                                        "format" : "prune-backups",
                                        "optional" : 1,
@@ -32396,7 +32116,7 @@ var pveapi = [
                                     },
                                     "remove" : {
                                        "default" : 1,
-                                       "description" : "Remove old backup files if there are more than 'maxfiles' backup files.",
+                                       "description" : "Prune older backups according to 'prune-backups'.",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -32404,13 +32124,6 @@ var pveapi = [
                                        "description" : "Use specified hook script.",
                                        "optional" : 1,
                                        "type" : "string"
-                                    },
-                                    "size" : {
-                                       "default" : 1024,
-                                       "description" : "Unused, will be removed in a future release.",
-                                       "minimum" : 500,
-                                       "optional" : 1,
-                                       "type" : "integer"
                                     },
                                     "stdexcludes" : {
                                        "default" : 1,
@@ -32594,8 +32307,7 @@ var pveapi = [
                                  "typetext" : "<string>"
                               },
                               "maxfiles" : {
-                                 "default" : 1,
-                                 "description" : "Maximal number of backup files per guest system.",
+                                 "description" : "Deprecated: use 'prune-backups' instead. Maximal number of backup files per guest system.",
                                  "minimum" : 1,
                                  "optional" : 1,
                                  "type" : "integer",
@@ -32633,6 +32345,7 @@ var pveapi = [
                                  "typetext" : "<string>"
                               },
                               "prune-backups" : {
+                                 "default" : "keep-all=1",
                                  "description" : "Use these retention options instead of those from the storage configuration.",
                                  "format" : "prune-backups",
                                  "optional" : 1,
@@ -32648,7 +32361,7 @@ var pveapi = [
                               },
                               "remove" : {
                                  "default" : 1,
-                                 "description" : "Remove old backup files if there are more than 'maxfiles' backup files.",
+                                 "description" : "Prune older backups according to 'prune-backups'.",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
@@ -32658,14 +32371,6 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
-                              },
-                              "size" : {
-                                 "default" : 1024,
-                                 "description" : "Unused, will be removed in a future release.",
-                                 "minimum" : 500,
-                                 "optional" : 1,
-                                 "type" : "integer",
-                                 "typetext" : "<integer> (500 - N)"
                               },
                               "stdexcludes" : {
                                  "default" : 1,
@@ -35306,6 +35011,60 @@ var pveapi = [
                               "info" : {
                                  "GET" : {
                                     "allowtoken" : 1,
+                                    "description" : "List all custom and default CPU models.",
+                                    "method" : "GET",
+                                    "name" : "index",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "description" : "Only returns custom models when the current user has Sys.Audit on /nodes.",
+                                       "user" : "all"
+                                    },
+                                    "returns" : {
+                                       "items" : {
+                                          "properties" : {
+                                             "custom" : {
+                                                "description" : "True if this is a custom CPU model.",
+                                                "type" : "boolean"
+                                             },
+                                             "name" : {
+                                                "description" : "Name of the CPU model. Identifies it for subsequent API calls. Prefixed with 'custom-' for custom models.",
+                                                "type" : "string"
+                                             },
+                                             "vendor" : {
+                                                "description" : "CPU vendor visible to the guest when this model is selected. Vendor of 'reported-model' in case of custom models.",
+                                                "type" : "string"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "links" : [
+                                          {
+                                             "href" : "{name}",
+                                             "rel" : "child"
+                                          }
+                                       ],
+                                       "type" : "array"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/capabilities/qemu/cpu",
+                              "text" : "cpu"
+                           },
+                           {
+                              "info" : {
+                                 "GET" : {
+                                    "allowtoken" : 1,
                                     "description" : "Get available QEMU/KVM machine types.",
                                     "method" : "GET",
                                     "name" : "types",
@@ -37490,6 +37249,40 @@ var pveapi = [
                         "leaf" : 1,
                         "path" : "/nodes/{node}/disks/initgpt",
                         "text" : "initgpt"
+                     },
+                     {
+                        "info" : {
+                           "PUT" : {
+                              "allowtoken" : 1,
+                              "description" : "Wipe a disk or partition.",
+                              "method" : "PUT",
+                              "name" : "wipe_disk",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "disk" : {
+                                       "description" : "Block device name",
+                                       "pattern" : "^/dev/[a-zA-Z0-9\\/]+$",
+                                       "type" : "string"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/disks/wipedisk",
+                        "text" : "wipedisk"
                      }
                   ],
                   "info" : {
@@ -37945,6 +37738,7 @@ var pveapi = [
                                           "dest" : {
                                              "description" : "Restrict packet destination address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                              "format" : "pve-fw-addr-spec",
+                                             "maxLength" : 512,
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -38039,6 +37833,7 @@ var pveapi = [
                                           "source" : {
                                              "description" : "Restrict packet source address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                              "format" : "pve-fw-addr-spec",
+                                             "maxLength" : 512,
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -38153,6 +37948,7 @@ var pveapi = [
                                     "dest" : {
                                        "description" : "Restrict packet destination address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                        "format" : "pve-fw-addr-spec",
+                                       "maxLength" : 512,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -38240,6 +38036,7 @@ var pveapi = [
                                     "source" : {
                                        "description" : "Restrict packet source address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
                                        "format" : "pve-fw-addr-spec",
+                                       "maxLength" : 512,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -39582,7 +39379,8 @@ var pveapi = [
                                  "typetext" : "<string>"
                               },
                               "description" : {
-                                 "description" : "Node description/comment.",
+                                 "description" : "Description for the Node. Shown in the web-interface node notes panel. This is saved as comment inside the configuration file.",
+                                 "maxLength" : 65536,
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -40414,8 +40212,8 @@ var pveapi = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "upgrade",
                                     "ceph_install",
+                                    "upgrade",
                                     "login"
                                  ],
                                  "optional" : 1,
@@ -40442,13 +40240,6 @@ var pveapi = [
                                  "format" : "pve-node",
                                  "type" : "string",
                                  "typetext" : "<string>"
-                              },
-                              "upgrade" : {
-                                 "default" : 0,
-                                 "description" : "Deprecated, use the 'cmd' property instead! Run 'apt-get dist-upgrade' instead of normal shell.",
-                                 "optional" : 1,
-                                 "type" : "boolean",
-                                 "typetext" : "<boolean>"
                               },
                               "websocket" : {
                                  "description" : "use websocket instead of standard vnc.",
@@ -40517,8 +40308,8 @@ var pveapi = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "upgrade",
                                     "ceph_install",
+                                    "upgrade",
                                     "login"
                                  ],
                                  "optional" : 1,
@@ -40537,13 +40328,6 @@ var pveapi = [
                                  "format" : "pve-node",
                                  "type" : "string",
                                  "typetext" : "<string>"
-                              },
-                              "upgrade" : {
-                                 "default" : 0,
-                                 "description" : "Deprecated, use the 'cmd' property instead! Run 'apt-get dist-upgrade' instead of normal shell.",
-                                 "optional" : 1,
-                                 "type" : "boolean",
-                                 "typetext" : "<boolean>"
                               }
                            }
                         },
@@ -40585,7 +40369,7 @@ var pveapi = [
                   "info" : {
                      "GET" : {
                         "allowtoken" : 1,
-                        "description" : "Opens a weksocket for VNC traffic.",
+                        "description" : "Opens a websocket for VNC traffic.",
                         "method" : "GET",
                         "name" : "vncwebsocket",
                         "parameters" : {
@@ -40650,8 +40434,8 @@ var pveapi = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "upgrade",
                                     "ceph_install",
+                                    "upgrade",
                                     "login"
                                  ],
                                  "optional" : 1,
@@ -40677,13 +40461,6 @@ var pveapi = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
-                              },
-                              "upgrade" : {
-                                 "default" : 0,
-                                 "description" : "Deprecated, use the 'cmd' property instead! Run 'apt-get dist-upgrade' instead of normal shell.",
-                                 "optional" : 1,
-                                 "type" : "boolean",
-                                 "typetext" : "<boolean>"
                               }
                            }
                         },
@@ -41731,15 +41508,6 @@ var pveapi = [
                            "type" : "string",
                            "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
                         },
-                        "redundancy" : {
-                           "default" : 2,
-                           "description" : "The redundancy count specifies the number of nodes to which the resource should be deployed. It must be at least 1 and at most the number of nodes in the cluster.",
-                           "maximum" : 16,
-                           "minimum" : 1,
-                           "optional" : 1,
-                           "type" : "integer",
-                           "typetext" : "<integer> (1 - 16)"
-                        },
                         "saferemove" : {
                            "description" : "Zero-out data when removing LVs.",
                            "optional" : 1,
@@ -41862,7 +41630,6 @@ var pveapi = [
                               "cephfs",
                               "cifs",
                               "dir",
-                              "drbd",
                               "glusterfs",
                               "iscsi",
                               "iscsidirect",
@@ -41901,7 +41668,6 @@ var pveapi = [
                         "cephfs",
                         "cifs",
                         "dir",
-                        "drbd",
                         "glusterfs",
                         "iscsi",
                         "iscsidirect",
@@ -42208,15 +41974,6 @@ var pveapi = [
                      "type" : "string",
                      "typetext" : "[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]"
                   },
-                  "redundancy" : {
-                     "default" : 2,
-                     "description" : "The redundancy count specifies the number of nodes to which the resource should be deployed. It must be at least 1 and at most the number of nodes in the cluster.",
-                     "maximum" : 16,
-                     "minimum" : 1,
-                     "optional" : 1,
-                     "type" : "integer",
-                     "typetext" : "<integer> (1 - 16)"
-                  },
                   "saferemove" : {
                      "description" : "Zero-out data when removing LVs.",
                      "optional" : 1,
@@ -42320,7 +42077,6 @@ var pveapi = [
                         "cephfs",
                         "cifs",
                         "dir",
-                        "drbd",
                         "glusterfs",
                         "iscsi",
                         "iscsidirect",
@@ -42391,7 +42147,6 @@ var pveapi = [
                         "cephfs",
                         "cifs",
                         "dir",
-                        "drbd",
                         "glusterfs",
                         "iscsi",
                         "iscsidirect",
@@ -43564,6 +43319,10 @@ var pveapi = [
                                  "type" : "boolean"
                               },
                               "Pool.Allocate" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Pool.Audit" : {
                                  "optional" : 1,
                                  "type" : "boolean"
                               },
@@ -45029,7 +44788,7 @@ var pveapi = [
                         "perm",
                         "/pool/{poolid}",
                         [
-                           "Pool.Allocate"
+                           "Pool.Audit"
                         ]
                      ]
                   },
@@ -45147,7 +44906,7 @@ var pveapi = [
                "additionalProperties" : 0
             },
             "permissions" : {
-               "description" : "List all pools where you have Pool.Allocate or VM.Allocate permissions on /pool/<pool>.",
+               "description" : "List all pools where you have Pool.Audit permissions on /pool/<pool>.",
                "user" : "all"
             },
             "returns" : {

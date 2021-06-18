@@ -219,7 +219,7 @@ A list of settings you want to delete.
 
 `--description` `<string>` ::
 
-Node description/comment.
+Description for the Node. Shown in the web-interface node notes panel. This is saved as comment inside the configuration file.
 
 `--digest` `<string>` ::
 

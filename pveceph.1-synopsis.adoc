@@ -102,7 +102,11 @@ Install ceph related packages.
 
 Allow experimental versions. Use with care!
 
-`--version` `<luminous | nautilus | octopus>` ('default =' `nautilus`)::
+`--test-repository` `<boolean>` ('default =' `0`)::
+
+Use the test, not the main repository. Use with care!
+
+`--version` `<octopus | pacific>` ('default =' `pacific`)::
 
 Ceph version to install.
 
@@ -152,7 +156,7 @@ Create Ceph Monitor and Manager
 
 `--mon-address` `<string>` ::
 
-Overwrites autodetected monitor IP address. Must be in the public network of ceph.
+Overwrites autodetected monitor IP address(es). Must be in the public network(s) of Ceph.
 
 `--monid` `[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?` ::
 
@@ -182,7 +186,7 @@ Set the device class of the OSD in crush.
 
 Block device name for block.db.
 
-`--db_size` `<number> (1 - N)` ('default =' `bluestore_block_db_size or 10% of OSD size`)::
+`--db_dev_size` `<number> (1 - N)` ('default =' `bluestore_block_db_size or 10% of OSD size`)::
 
 Size in GiB for block.db.
 +
@@ -196,7 +200,7 @@ Enables encryption of the OSD.
 
 Block device name for block.wal.
 
-`--wal_size` `<number> (0.5 - N)` ('default =' `bluestore_block_wal_size or 1% of OSD size`)::
+`--wal_dev_size` `<number> (0.5 - N)` ('default =' `bluestore_block_wal_size or 1% of OSD size`)::
 
 Size in GiB for block.wal.
 +

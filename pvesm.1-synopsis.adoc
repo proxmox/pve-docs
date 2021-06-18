@@ -4,7 +4,7 @@
 
 Create a new storage.
 
-`<type>`: `<cephfs | cifs | dir | drbd | glusterfs | iscsi | iscsidirect | lvm | lvmthin | nfs | pbs | rbd | zfs | zfspool>` ::
+`<type>`: `<cephfs | cifs | dir | glusterfs | iscsi | iscsidirect | lvm | lvmthin | nfs | pbs | rbd | zfs | zfspool>` ::
 
 Storage type.
 
@@ -149,10 +149,6 @@ iSCSI portal (IP or DNS name with optional port).
 `--prune-backups` `[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]` ::
 
 The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.
-
-`--redundancy` `<integer> (1 - 16)` ('default =' `2`)::
-
-The redundancy count specifies the number of nodes to which the resource should be deployed. It must be at least 1 and at most the number of nodes in the cluster.
 
 `--saferemove` `<boolean>` ::
 
@@ -661,10 +657,6 @@ For non default port.
 `--prune-backups` `[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]` ::
 
 The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.
-
-`--redundancy` `<integer> (1 - 16)` ('default =' `2`)::
-
-The redundancy count specifies the number of nodes to which the resource should be deployed. It must be at least 1 and at most the number of nodes in the cluster.
 
 `--saferemove` `<boolean>` ::
 

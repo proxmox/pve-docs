@@ -30,9 +30,9 @@ Specify when to send an email
 
 Comma-separated list of email addresses or users that should receive email notifications.
 
-`maxfiles`: `<integer> (1 - N)` ('default =' `1`)::
+`maxfiles`: `<integer> (1 - N)` ::
 
-Maximal number of backup files per guest system.
+Deprecated: use 'prune-backups' instead. Maximal number of backup files per guest system.
 
 `mode`: `<snapshot | stop | suspend>` ('default =' `snapshot`)::
 
@@ -46,7 +46,7 @@ Use pigz instead of gzip when N>0. N=1 uses half of cores, N>1 uses N as thread 
 
 Backup all known guest systems included in the specified pool.
 
-`prune-backups`: `[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]` ::
+`prune-backups`: `[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]` ('default =' `keep-all=1`)::
 
 Use these retention options instead of those from the storage configuration.
 
@@ -80,7 +80,7 @@ Keep backups for the last <N> different years. If there is morethan one backup f
 
 `remove`: `<boolean>` ('default =' `1`)::
 
-Remove old backup files if there are more than 'maxfiles' backup files.
+Prune older backups according to 'prune-backups'.
 
 `script`: `<string>` ::
 
