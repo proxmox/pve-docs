@@ -57,6 +57,13 @@ restricted to the root user.  Use the magic value `autogen` to automatically
 generate a new one using `proxmox-backup-client key create --kdf none <path>`.
 Optional.
 
+master-pubkey::
+
+A public RSA key used to encrypt the backup encryption key as part of the
+backup task. The encrypted copy will be appended to the backup and stored on
+the Proxmox Backup Server instance for recovery purposes.
+Optional, requires `encryption-key`.
+
 .Configuration Example (`/etc/pve/storage.cfg`)
 ----
 pbs: backup
@@ -115,6 +122,18 @@ a text file, for easy printing.
 ----
 # proxmox-backup-client key paperkey /etc/pve/priv/storage/<STORAGE-ID>.enc --output-format text > qrkey.txt
 ----
+
+Additionally, it is possible to use a single RSA master key pair for key
+recovery purposes: configure all clients doing encrypted backups to use a
+single public master key, and all subsequent encrypted backups will contain a
+RSA-encrypted copy of the used AES encryption key. The corresponding private
+master key allows recovering the AES key and decrypting the backup even if the
+client system is no longer available.
+
+WARNING: The same safe-keeping rules apply to the master key pair as to the
+regular encryption keys. Without a copy of the private key recovery is not
+possible! The `paperkey` command supports generating paper copies of private
+master keys for storage in a safe, physical location.
 
 Because the encryption is managed on the client side, you can use the same
 datastore on the server for unencrypted backups and encrypted backups, even
