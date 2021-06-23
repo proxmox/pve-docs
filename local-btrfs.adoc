@@ -95,26 +95,53 @@ optional `-L` parameter, a label can be set.
 Generally, the following modes are supported: `single`, `raid0`, `raid1`,
 `raid10`.
 
-Create a BTRFS file system on `/dev/sdb1`
+Create a BTRFS file system on a single disk `/dev/sdb` with the label
+`My-Storage`:
 
 ----
- # mkfs.btrfs -m single -d single -L My-Storage /dev/sdb1
+ # mkfs.btrfs -m single -d single -L My-Storage /dev/sdb
 ----
 
-Or create a RAID1 on `/dev/sdb1` and `/dev/sdc1`
+Or create a RAID1 on the two partitions `/dev/sdb1` and `/dev/sdc1`:
 
 ----
  # mkfs.btrfs -m raid1 -d raid1 -L My-Storage /dev/sdb1 /dev/sdc1
 ----
 
-This can then be mounted or used in `/etc/fstab` like any other mount point.
+Mounting a BTRFS file system
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-For example
+The new file-system can then be mounted either manually, for example:
 
 ----
  # mkdir /my-storage
- # mount /dev/sdb1 /my-storage
+ # mount /dev/sdb /my-storage
 ----
+
+A BTRFS can also be added to `/etc/fstab` like any other mount point,
+automatically mounting it on boot. It's recommended to avoid  using
+block-device paths but use the `UUID` value the `mkfs.btrfs` command printed,
+especially there is more than one disk in a BTRFS setup.
+
+For example:
+
+.File `/etc/fstab`
+----
+# ... other mount points left out for brevity
+
+# using the UUID from the mkfs.btrfs output is highly recommended
+UUID=e2c0c3ff-2114-4f54-b767-3a203e49f6f3 /my-storage btrfs defaults 0 0
+----
+
+TIP: If you do not have the UUID available anymore you can use the `blkid` tool
+ to list all properties of block-devices.
+
+Afterwards you can trigger the first mount by executing:
+
+----
+mount /my-storage
+----
+After the next reboot this will be automatically done by the system at boot.
 
 Creating a subvolume
 ^^^^^^^^^^^^^^^^^^^^
