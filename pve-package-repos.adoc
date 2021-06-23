@@ -96,7 +96,7 @@ testing new features or bug fixes.
 Ceph Pacific Repository
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-NOTE: Ceph Octopus (16.2) was declared stable with {pve} 7.0
+NOTE: Ceph Pacific (16.2) was declared stable with {pve} 7.0.
 
 This repository holds the main {pve} Ceph Pacific packages. They are suitable
 for production. Use this repository if you run the Ceph client or a full Ceph
