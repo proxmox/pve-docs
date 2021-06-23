@@ -143,6 +143,16 @@ mount /my-storage
 ----
 After the next reboot this will be automatically done by the system at boot.
 
+Adding a BTRFS file system to {pve}
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can add an existing BTRFS file system to {pve} via the web-interface, or
+using the CLI, for example:
+
+----
+pvesm add btrfs my-storage --path /my-storage
+----
+
 Creating a subvolume
 ^^^^^^^^^^^^^^^^^^^^
 
