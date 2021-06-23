@@ -40158,8 +40158,8 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "upgrade",
                                     "login",
+                                    "upgrade",
                                     "ceph_install"
                                  ],
                                  "optional" : 1,
@@ -40254,8 +40254,8 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "upgrade",
                                     "login",
+                                    "upgrade",
                                     "ceph_install"
                                  ],
                                  "optional" : 1,
@@ -40380,8 +40380,8 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "upgrade",
                                     "login",
+                                    "upgrade",
                                     "ceph_install"
                                  ],
                                  "optional" : 1,
@@ -41366,13 +41366,13 @@ const apiSchema = [
                            "typetext" : "<string>"
                         },
                         "master-pubkey" : {
-                           "description" : "Base64-encoded, PEM-formatted public RSA key. Used tp encrypt a copy of the encryption-key which will be added to each encrypted backup.",
+                           "description" : "Base64-encoded, PEM-formatted public RSA key. Used to encrypt a copy of the encryption-key which will be added to each encrypted backup.",
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
                         },
                         "maxfiles" : {
-                           "description" : "Deprecated: use 'prune-backups' instead. Maximal number of backup files per VM. Use '0' for unlimted.",
+                           "description" : "Deprecated: use 'prune-backups' instead. Maximal number of backup files per VM. Use '0' for unlimited.",
                            "minimum" : 0,
                            "optional" : 1,
                            "type" : "integer",
@@ -41404,6 +41404,13 @@ const apiSchema = [
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
+                        },
+                        "nocow" : {
+                           "default" : 0,
+                           "description" : "Set the NOCOW flag on files. Disables data checksumming and causes data errors to be unrecoverable from while allowing direct I/O. Only use this if data does not need to be any more safe than on a single ext4 formatted disk with no underlying raid system.",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
                         },
                         "nodes" : {
                            "description" : "List of cluster node names.",
@@ -41573,6 +41580,7 @@ const apiSchema = [
                         "type" : {
                            "description" : "The type of the created storage.",
                            "enum" : [
+                              "btrfs",
                               "cephfs",
                               "cifs",
                               "dir",
@@ -41611,6 +41619,7 @@ const apiSchema = [
                   "type" : {
                      "description" : "Only list storage of specific type",
                      "enum" : [
+                        "btrfs",
                         "cephfs",
                         "cifs",
                         "dir",
@@ -41818,13 +41827,13 @@ const apiSchema = [
                      "typetext" : "<string>"
                   },
                   "master-pubkey" : {
-                     "description" : "Base64-encoded, PEM-formatted public RSA key. Used tp encrypt a copy of the encryption-key which will be added to each encrypted backup.",
+                     "description" : "Base64-encoded, PEM-formatted public RSA key. Used to encrypt a copy of the encryption-key which will be added to each encrypted backup.",
                      "optional" : 1,
                      "type" : "string",
                      "typetext" : "<string>"
                   },
                   "maxfiles" : {
-                     "description" : "Deprecated: use 'prune-backups' instead. Maximal number of backup files per VM. Use '0' for unlimted.",
+                     "description" : "Deprecated: use 'prune-backups' instead. Maximal number of backup files per VM. Use '0' for unlimited.",
                      "minimum" : 0,
                      "optional" : 1,
                      "type" : "integer",
@@ -41856,6 +41865,13 @@ const apiSchema = [
                      "optional" : 1,
                      "type" : "string",
                      "typetext" : "<string>"
+                  },
+                  "nocow" : {
+                     "default" : 0,
+                     "description" : "Set the NOCOW flag on files. Disables data checksumming and causes data errors to be unrecoverable from while allowing direct I/O. Only use this if data does not need to be any more safe than on a single ext4 formatted disk with no underlying raid system.",
+                     "optional" : 1,
+                     "type" : "boolean",
+                     "typetext" : "<boolean>"
                   },
                   "nodes" : {
                      "description" : "List of cluster node names.",
@@ -42020,6 +42036,7 @@ const apiSchema = [
                   "type" : {
                      "description" : "Storage type.",
                      "enum" : [
+                        "btrfs",
                         "cephfs",
                         "cifs",
                         "dir",
@@ -42090,6 +42107,7 @@ const apiSchema = [
                   "type" : {
                      "description" : "The type of the created storage.",
                      "enum" : [
+                        "btrfs",
                         "cephfs",
                         "cifs",
                         "dir",
