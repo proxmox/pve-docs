@@ -126,7 +126,7 @@ Try to be more verbose. For now this only enables debug log-level on start.
 
 `--description` `<string>` ::
 
-Container description. Only used on the configuration web interface.
+Description for the Container. Shown in the web-interface CT's summary. This is saved as comment inside the configuration file.
 
 `--features` `[force_rw_sys=<1|0>] [,fuse=<1|0>] [,keyctl=<1|0>] [,mknod=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]` ::
 
@@ -382,10 +382,6 @@ Target node.
 
 Override I/O bandwidth limit (in KiB/s).
 
-`--force` `<boolean>` ::
-
-Force migration despite local bind / device mounts. NOTE: deprecated, use 'shared' property of mount point instead.
-
 `--online` `<boolean>` ::
 
 Use online/live migration.
@@ -595,7 +591,7 @@ Try to be more verbose. For now this only enables debug log-level on start.
 
 `--description` `<string>` ::
 
-Container description. Only used on the configuration web interface.
+Description for the Container. Shown in the web-interface CT's summary. This is saved as comment inside the configuration file.
 
 `--features` `[force_rw_sys=<1|0>] [,fuse=<1|0>] [,keyctl=<1|0>] [,mknod=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]` ::
 
@@ -781,7 +777,7 @@ A list of settings you want to delete.
 
 `--description` `<string>` ::
 
-Container description. Only used on the configuration web interface.
+Description for the Container. Shown in the web-interface CT's summary. This is saved as comment inside the configuration file.
 
 `--digest` `<string>` ::
 

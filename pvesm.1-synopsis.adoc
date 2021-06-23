@@ -96,7 +96,7 @@ Base64-encoded, PEM-formatted public RSA key. Used tp encrypt a copy of the encr
 
 `--maxfiles` `<integer> (0 - N)` ::
 
-Maximal number of backup files per VM. Use '0' for unlimted.
+Deprecated: use 'prune-backups' instead. Maximal number of backup files per VM. Use '0' for unlimted.
 
 `--mkdir` `<boolean>` ('default =' `yes`)::
 
@@ -612,7 +612,7 @@ Base64-encoded, PEM-formatted public RSA key. Used tp encrypt a copy of the encr
 
 `--maxfiles` `<integer> (0 - N)` ::
 
-Maximal number of backup files per VM. Use '0' for unlimted.
+Deprecated: use 'prune-backups' instead. Maximal number of backup files per VM. Use '0' for unlimted.
 
 `--mkdir` `<boolean>` ('default =' `yes`)::
 
