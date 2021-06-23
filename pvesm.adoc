@@ -70,6 +70,7 @@ data to different nodes.
 |Description    |PVE type    |Level |Shared|Snapshots|Stable
 |ZFS (local)    |zfspool     |file  |no    |yes      |yes
 |Directory      |dir         |file  |no    |no^1^    |yes
+|BTRFS          |btrfs       |file  |no    |yes      |technology preview
 |NFS            |nfs         |file  |yes   |no^1^    |yes
 |CIFS           |cifs        |file  |yes   |no^1^    |yes
 |Proxmox Backup |pbs         |both  |yes   |n/a      |yes

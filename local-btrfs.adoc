@@ -5,6 +5,8 @@ ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]
 
+WARNING: BTRFS integration is currently a **technology preview** in {pve}.
+
 BTRFS is a modern copy on write file system natively supported by the Linux
 kernel, implementing features such as snapshots, built-in RAID and self healing
 via checksums for data and metadata. Starting with {pve} 7.0, BTRFS is
