@@ -56,10 +56,10 @@ Each user entry in this file contains the following information:
 * Whether this user is enabled or disabled
 * Optional two-factor authentication keys
 
-CAUTION: After disabling or deleting a user, this user will not be able to
-log in to new sessions or start new tasks. All tasks which already have
-been started by this user (for example terminal sessions) will **not** be
-terminated automatically.
+CAUTION: When you disabled or delete a user, or the expiry date got set and is
+in the past, this user will not be able to log in to new sessions or start new
+tasks. All tasks which already have been started by this user (for example
+terminal sessions) will **not** be terminated automatically by any such event.
 
 
 System administrator
