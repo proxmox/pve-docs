@@ -1,0 +1,55 @@
+[[storage_btrfs]]
+BTRFS Backend
+-------------
+ifdef::wiki[]
+:pve-toplevel:
+:title: Storage: BTRFS
+endif::wiki[]
+
+Storage pool type: `btrfs`
+
+On the surface, this storage type is very similar to the directory storage type,
+so see the directory backend section for a general overview.
+
+The main difference is that with this storage type `raw` formatted disks will be
+placed in a subvolume, in order to allow taking snapshots and supporting offline
+storage migration with snapshots being preserved.
+
+NOTE: BTRFS will honor the `O_DIRECT` flag when opening files, meaning VMs
+should not use cache mode `none`, otherwise there will be checksum errors.
+
+Configuration
+~~~~~~~~~~~~~
+
+This backend is configured similarly to the directory storage. Note that when
+adding a directory as a BTRFS storage, which is not itself also the mount point,
+it is highly recommended to specify the actual mount point via the
+`is_mountpoint` option.
+
+For example, if a BTRFS file system is mounted at `/mnt/data2` and its
+`pve-storage/` subdirectory (which may be a snapshot, which is recommended)
+should be added as a storage pool called `data2`, you can use the following
+entry:
+
+----
+btrfs: data2
+        path /mnt/data2/pve-storage
+        content rootdir,images
+        is_mountpoint /mnt/data2
+----
+
+Snapshots
+~~~~~~~~~
+
+When taking a snapshot of a subvolume or `raw` file, the snapshot will be
+created as a read-only subvolume with the same path followed by an `@` and the
+snapshot's name.
+
+ifdef::wiki[]
+
+See Also
+~~~~~~~~
+
+* link:/wiki/Storage[Storage]
+
+endif::wiki[]

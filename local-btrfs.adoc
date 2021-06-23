@@ -1,0 +1,177 @@
+[[chapter_btrfs]]
+BTRFS
+-----
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
+
+BTRFS is a modern copy on write file system natively supported by the Linux
+kernel, implementing features such as snapshots, built-in RAID and self healing
+via checksums for data and metadata. Starting with {pve} 7.0, BTRFS is
+introduced as optional selection for the root file system.
+
+.General BTRFS advantages
+
+* Main system setup almost identical to the traditional ext4 based setup
+
+* Snapshots
+
+* Data compression on file system level
+
+* Copy-on-write clone
+
+* RAID0, RAID1 and RAID10
+
+* Protection against data corruption
+
+* Self healing
+
+* natively supported by the Linux kernel
+
+* ...
+
+.Caveats
+
+* RAID levels 5/6 are experimental and dangerous
+
+Installation as Root File System
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you install using the {pve} installer, you can choose BTRFS for the root
+file system. You need to select the RAID type at installation time:
+
+[horizontal]
+RAID0:: Also called ``striping''. The capacity of such volume is the sum
+of the capacities of all disks. But RAID0 does not add any redundancy,
+so the failure of a single drive makes the volume unusable.
+
+RAID1:: Also called ``mirroring''. Data is written identically to all
+disks. This mode requires at least 2 disks with the same size. The
+resulting capacity is that of a single disk.
+
+RAID10:: A combination of RAID0 and RAID1. Requires at least 4 disks.
+
+The installer automatically partitions the disks and creates an additional
+subvolume at `/var/lib/pve/local-btrfs`.  In order to use that with the {pve}
+tools, the installer creates the following configuration entry in
+`/etc/pve/storage.cfg`:
+
+----
+dir: local
+	path /var/lib/vz
+	content iso,vztmpl,backup
+	disable
+
+btrfs: local-btrfs
+	path /var/lib/pve/local-btrfs
+	content iso,vztmpl,backup,images,rootdir
+----
+
+This explicitly disables the default `local` storage in favor of a btrfs
+specific storage entry on the additional subvolume.
+
+The `btrfs` command is used to configure and manage the btrfs file system,
+After the installation, the following command lists all additional subvolumes:
+
+----
+# btrfs subvolume list /
+ID 256 gen 6 top level 5 path var/lib/pve/local-btrfs
+----
+
+BTRFS Administration
+~~~~~~~~~~~~~~~~~~~~
+
+This section gives you some usage examples for common tasks.
+
+Creating a BTRFS file system
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To create BTRFS file systems, `mkfs.btrfs` is used. The `-d` and `-m` parameters
+are used to set the profile for metadata and data respectively. With the
+optional `-L` parameter, a label can be set.
+
+Generally, the following modes are supported: `single`, `raid0`, `raid1`,
+`raid10`.
+
+Create a BTRFS file system on `/dev/sdb1`
+
+----
+ # mkfs.btrfs -m single -d single -L My-Storage /dev/sdb1
+----
+
+Or create a RAID1 on `/dev/sdb1` and `/dev/sdc1`
+
+----
+ # mkfs.btrfs -m raid1 -d raid1 -L My-Storage /dev/sdb1 /dev/sdc1
+----
+
+This can then be mounted or used in `/etc/fstab` like any other mount point.
+
+For example
+
+----
+ # mkdir /my-storage
+ # mount /dev/sdb1 /my-storage
+----
+
+Creating a subvolume
+^^^^^^^^^^^^^^^^^^^^
+
+Creating a subvolume links it to a path in the btrfs file system, where it will
+appear as a regular directory.
+
+----
+# btrfs subvolume create /some/path
+----
+
+Afterwards `/some/path` will act like a regular directory.
+
+Deleting a subvolume
+^^^^^^^^^^^^^^^^^^^^
+
+Contrary to directories removed via `rmdir`, subvolumes do not need to be empty
+in order to be deleted via the `btrfs` command.
+
+----
+# btrfs subvolume delete /some/path
+----
+
+Creating a snapshot of a subvolume
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+BTRFS does not actually distinguish between snapshots and normal subvolumes, so
+taking a snapshot can also be seen as creating an arbitrary copy of a subvolume.
+By convention, {pve} will use the read-only flag when creating snapshots of
+guest disks or subvolumes, but this flag can also be changed later on.
+
+----
+# btrfs subvolume snapshot -r /some/path /a/new/path
+----
+
+This will create a read-only "clone" of the subvolume on `/some/path` at
+`/a/new/path`. Any future modifications to `/some/path` cause the modified data
+to be copied before modification.
+
+If the read-only (`-r`) option is left out, both subvolumes will be writable.
+
+Enabling compression
+^^^^^^^^^^^^^^^^^^^^
+
+By default, BTRFS does not compress data. To enable compression, the `compress`
+mount option can be added. Note that data already written will not be compressed
+after the fact.
+
+By default, the rootfs will be listed in `/etc/fstab` as follows:
+
+----
+UUID=<uuid of your root file system> / btrfs defaults 0 1
+----
+
+You can simply append `compress=zstd`, `compress=lzo`, or `compress=zlib` to the
+`defaults` above like so:
+
+----
+UUID=<uuid of your root file system> / btrfs defaults,compress=zstd 0 1
+----
+
+This change will take effect after rebooting.

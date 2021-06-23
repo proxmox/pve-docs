@@ -433,6 +433,7 @@ include::pve-storage-rbd.adoc[]
 
 include::pve-storage-cephfs.adoc[]
 
+include::pve-storage-btrfs.adoc[]
 
 
 ifdef::manvolnum[]

@@ -62,6 +62,8 @@ include::local-lvm.adoc[]
 
 include::local-zfs.adoc[]
 
+include::local-btrfs.adoc[]
+
 include::pvenode.adoc[]
 
 include::certificate-management.adoc[]
