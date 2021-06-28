@@ -484,7 +484,54 @@ lxc.apparmor.profile = unconfined
 WARNING: Please note that this is not recommended for production use.
 
 
-// TODO: describe cgroups + seccomp a bit more.
+[[pct_cgroup]]
+Control Groups ('cgroup')
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+'cgroup' is a kernel
+mechanism used to hierarchically organize processes and distribute system
+resources.
+
+The main resources controlled via 'cgroups' are CPU time, memory and swap
+limits, and access to device nodes. 'cgroups' are also used to "freeze" a
+container before taking snapshots.
+
+There are 2 versions of 'cgroups' currently available,
+https://www.kernel.org/doc/html/v5.11/admin-guide/cgroup-v1/index.html[legacy]
+and
+https://www.kernel.org/doc/html/v5.11/admin-guide/cgroup-v2.html['cgroupv2'].
+
+Since {pve} 7.0, the default is a pure 'cgroupv2' environment. Previously a
+"hybrid" setup was used, where resource control was mainly done in 'cgroupv1'
+with an additional 'cgroupv2' controller which could take over some subsystems
+via the 'cgroup_no_v1' kernel command line parameter. (See the
+https://www.kernel.org/doc/html/latest/admin-guide/kernel-parameters.html[kernel
+parameter documentation] for details.)
+
+The main difference between pure 'cgroupv2' and the old hybrid environments
+regarding {pve} is that with 'cgroupv2' memory and swap are now controlled
+independently. The memory and swap settings for containers can map directly to
+these values, whereas previously only the memory limit and the limit of the
+*sum* of memory and swap could be limited.
+
+Another important difference is that the 'devices' controller is configured in a
+completely different way. Because of this, file system quotas are currently not
+supported in a pure 'cgroupv2' environment.
+
+If file system quotas are not required and the containers are new enough to
+understand 'cgroupv2', it is recommended to stick to the new default.
+
+To switch back to the previous version the following kernel command line
+parameter can be used:
+
+----
+systemd.unified_cgroup_hierarchy=0
+----
+
+See xref:sysboot_edit_kernel_cmdline[this section] on editing the kernel boot
+command line on where to add the parameter.
+
+// TODO: seccomp a bit more.
 // TODO: pve-lxc-syscalld
 
 
@@ -602,6 +649,8 @@ Using Quotas Inside Containers
 
 Quotas allow to set limits inside a container for the amount of disk space that
 each user can use.
+
+NOTE: This currently requires the use of legacy 'cgroups'.
 
 NOTE: This only works on ext4 image based storage types and currently only
 works with privileged containers.
