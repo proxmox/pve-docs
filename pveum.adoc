@@ -29,7 +29,7 @@ endif::manvolnum[]
 
 Proxmox VE supports multiple authentication sources, e.g. Linux PAM,
 an integrated Proxmox VE authentication server, LDAP, Microsoft Active
-Directory.
+Directory and OpenId Connect.
 
 By using the role based user- and permission management for all
 objects (VMs, storages, nodes, etc.) granular access can be defined.
@@ -193,6 +193,92 @@ Microsoft Active Directory::
 
 A server and authentication domain need to be specified. Like with LDAP, an
 optional fallback server, port, and SSL encryption can be configured.
+
+OpenId Connect::
+
+OpenID Connect allows clients to verify the identity of the user based
+on the authentication performed by an external authorization
+server.
+
+
+[[pveum_openid]]
+OpenId Connect
+~~~~~~~~~~~~~~
+
+The main OpenID Connect configuration options are:
+
+* `issuer-url`: This is the Url to the authorization server. Proxmox
+uses the OpenID Connect Discovery protocol to automatiocally configure
+further details.
++
+While it is possible to use unencrypted `http://` Urls, we strongly recommend to
+use encrypted `https://` connections.
+
+* `client-id`:  OpenID Client ID.
+
+* `client-key`: Optional OpenID Client Key.
+
+* `autocreate`: Automatically create users if they do not exist. While
+authentification is done at the OpenID server, all users still need an
+entry in the {pve} user configuration. You can either add them
+manually, or use the `autocreate` option to automatically add new
+users.
+
+* `username-claim`: OpenID claim used to generate the unique username
+  (`subject`, `username` or `email`).
+
+Username mapping
+^^^^^^^^^^^^^^^^
+
+The Openid Connect specification defines a single unique attribute
+('claim' in OpenId terms) named `subject`. By default, we use the
+value of this attribute to generate {pve} usernames, by simple adding
+`@` and the realm name: `${subject}@${realm}`.
+
+Unfortunately, most OpenID server use random strings for `subject`, like
+`DGH76OKH34BNG3245SB`, so a typical username would look like
+`DGH76OKH34BNG3245SB@yourrealm`. While unique, it is really hard for
+humans to remember such random strings, making it quite impossible to
+associate real users with that.
+
+The `username-claim` setting allows you to use other attributes for
+the username mapping. Setting it to `username` is preferred, if the
+OpenId Connect server provides that attribute and guarrantee its
+uniqueness.
+
+Another option is to use `email`, which also yields to human readable
+usernames. Again, only use this setting if the server guarrantees the
+uniqueness of this attribute.
+
+Examples
+^^^^^^^^
+
+Here is an example to create an OpenId realm using Google. You need to
+replace `--client-id` and `--client-key` with the values
+from your Google OpenId settings.
+
+----
+pveum realm add myrealm1 --type openid --issuer-url  https://accounts.google.com --client-id XXXX --client-key YYYY --username-claim email
+----
+
+Above setup uses `--username-claim email`, so the usernames at the
+{pve} side looks like `example.user@google.com@myrealm1`.
+
+KeyCloak (https://www.keycloak.org/) is a popular Open Source Identity
+and Access Management supporting OpenId Connect. In the following
+example, you need to replace the `--issuer-url` and `--client-id` with
+your setting:
+
+----
+pveum realm add myrealm2 --type openid --issuer-url  https://your.server:8080/auth/realms/your-realm --client-id XXX --username-claim username
+----
+
+Using `--username-claim username` yields to simple usernames on the
+{pve} side, like `example.user@myrealm2`.
+
+WARNING: You need to make sure that the user is not allowed to edit
+the username setting himself (on the Keycloak server).
+
 
 [[pveum_ldap_sync]]
 Syncing LDAP-based realms
