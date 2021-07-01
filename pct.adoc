@@ -518,8 +518,17 @@ Another important difference is that the 'devices' controller is configured in a
 completely different way. Because of this, file system quotas are currently not
 supported in a pure 'cgroupv2' environment.
 
-If file system quotas are not required and the containers are new enough to
-understand 'cgroupv2', it is recommended to stick to the new default.
+'cgroupv2' support by the container's OS is needed to run in a pure 'cgroupv2'
+environment. Containers running 'systemd' version 231 or newer support
+'cgroupv2' footnote:[this includes all newest major versions of container
+templates shipped by {pve}], as do containers not using 'systemd' as init
+system footnote:[for example Alpine Linux].
+
+NOTE: CentOS 7 and Ubuntu 16.10 are two prominent Linux distributions, which
+have a 'systemd' version that is too old to run in a 'cgroupv2' environment.
+
+If file system quotas are not required and the containers support 'cgroupv2',
+it is recommended to stick to the new default.
 
 To switch back to the previous version the following kernel command line
 parameter can be used:
