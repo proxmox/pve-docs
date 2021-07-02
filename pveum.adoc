@@ -219,7 +219,7 @@ use encrypted `https://` connections.
 * `client-key`: Optional OpenID Client Key.
 
 * `autocreate`: Automatically create users if they do not exist. While
-authentification is done at the OpenID server, all users still need an
+authentication is done at the OpenID server, all users still need an
 entry in the {pve} user configuration. You can either add them
 manually, or use the `autocreate` option to automatically add new
 users.
@@ -243,11 +243,11 @@ associate real users with that.
 
 The `username-claim` setting allows you to use other attributes for
 the username mapping. Setting it to `username` is preferred, if the
-OpenId Connect server provides that attribute and guarrantee its
+OpenId Connect server provides that attribute and guarantee its
 uniqueness.
 
 Another option is to use `email`, which also yields to human readable
-usernames. Again, only use this setting if the server guarrantees the
+usernames. Again, only use this setting if the server guarantees the
 uniqueness of this attribute.
 
 Examples
