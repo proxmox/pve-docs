@@ -307,10 +307,20 @@ LRM that the service is running.
 
 fence::
 
-Wait for node fencing (service node is not inside quorate cluster
-partition). As soon as node gets fenced successfully the service will
-be recovered to another node, if possible
-(see xref:ha_manager_fencing[Fencing]).
+Wait for node fencing as the service node is not inside the quorate cluster
+partition (see xref:ha_manager_fencing[Fencing]).
+As soon as node gets fenced successfully the service will be placed into the
+recovery state.
+
+recovery::
+
+Wait for recovery of the service. The HA manager tries to find a new node where
+the service can run on. This search depends not only on the list of online and
+quorate nodes, but also if the service is a group member and how such a group
+is limited.
+As soon as a new available node is found, the service will be moved there and
+initially placed into stopped state. If it's configured to run the new node
+will do so.
 
 freeze::
 
@@ -321,9 +331,8 @@ node, or when we restart the LRM daemon
 ignored::
 
 Act as if the service were not managed by HA at all.
-Useful, when full control over the service is desired temporarily,
-without removing it from the HA configuration.
-
+Useful, when full control over the service is desired temporarily, without
+removing it from the HA configuration.
 
 migrate::
 
