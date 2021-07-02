@@ -508,6 +508,9 @@ via the 'cgroup_no_v1' kernel command line parameter. (See the
 https://www.kernel.org/doc/html/latest/admin-guide/kernel-parameters.html[kernel
 parameter documentation] for details.)
 
+[[pct_cgroup_compat]]
+CGroup Version Compatibility
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The main difference between pure 'cgroupv2' and the old hybrid environments
 regarding {pve} is that with 'cgroupv2' memory and swap are now controlled
 independently. The memory and swap settings for containers can map directly to
@@ -524,10 +527,35 @@ environment. Containers running 'systemd' version 231 or newer support
 templates shipped by {pve}], as do containers not using 'systemd' as init
 system footnote:[for example Alpine Linux].
 
-NOTE: CentOS 7 and Ubuntu 16.10 are two prominent Linux distributions, which
-have a 'systemd' version that is too old to run in a 'cgroupv2' environment.
+[NOTE]
+====
+CentOS 7 and Ubuntu 16.10 are two prominent Linux distributions releases,
+which have a 'systemd' version that is too old to run in a 'cgroupv2'
+environment, you can either
 
-If file system quotas are not required and the containers support 'cgroupv2',
+* Upgrade the whole distribution to a newer release. For the examples above, that
+  could be Ubuntu 18.04 or 20.04, and CentOS 8 (or RHEL/CentOS derivatives like
+  AlmaLinux or Rocky Linux). This has the benefit to get the newest bug and
+  security fixes, often also new features, and moving the EOL date in the future.
+
+* Upgrade the Containers systemd version. If the distribution provides a
+  backports repository this can be an easy and quick stop-gap measurement.
+
+* Move the container, or its services, to a Virtual Machine. Virtual Machines
+  have a much less interaction with the host, that's why one can install
+  decades old OS versions just fine there.
+
+* Switch back to the legacy 'cgroup' controller. Note that while it can be a
+  valid solution, it's not a permanent one. There's a high likelihood that a
+  future {pve} major release, for example 8.0, cannot support the legacy
+  controller anymore.
+====
+
+[[pct_cgroup_change_version]]
+Changing CGroup Version
+^^^^^^^^^^^^^^^^^^^^^^^
+
+TIP: If file system quotas are not required and all containers support 'cgroupv2',
 it is recommended to stick to the new default.
 
 To switch back to the previous version the following kernel command line
