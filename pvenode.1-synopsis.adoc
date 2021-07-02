@@ -298,6 +298,10 @@ no description available
 
 Only list this amount of tasks.
 
+`--since` `<integer>` ::
+
+Only list tasks since this UNIX epoch.
+
 `--source` `<active | all | archive>` ('default =' `archive`)::
 
 List archived, active or all tasks.
@@ -306,9 +310,17 @@ List archived, active or all tasks.
 
 List tasks beginning from this offset.
 
+`--statusfilter` `<string>` ::
+
+List of Task States that should be returned.
+
 `--typefilter` `<string>` ::
 
 Only list tasks of this type (e.g., vzstart, vzdump).
+
+`--until` `<integer>` ::
+
+Only list tasks until this UNIX epoch.
 
 `--userfilter` `<string>` ::
 

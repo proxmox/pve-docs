@@ -4126,29 +4126,43 @@ const apiSchema = [
                      }
                   },
                   "leaf" : 1,
-                  "path" : "/cluster/backupinfo/not_backed_up",
-                  "text" : "not_backed_up"
+                  "path" : "/cluster/backup-info/not-backed-up",
+                  "text" : "not-backed-up"
                }
             ],
             "info" : {
                "GET" : {
                   "allowtoken" : 1,
-                  "description" : "Stub, waits for future use.",
+                  "description" : "Index for backup info related endpoints",
                   "method" : "GET",
-                  "name" : "get_backupinfo",
+                  "name" : "index",
                   "parameters" : {
                      "additionalProperties" : 0
                   },
-                  "protected" : 1,
                   "returns" : {
-                     "description" : "Shows stub message",
-                     "type" : "string"
+                     "description" : "Directory index.",
+                     "items" : {
+                        "properties" : {
+                           "subdir" : {
+                              "description" : "API sub-directory endpoint",
+                              "type" : "string"
+                           }
+                        },
+                        "type" : "object"
+                     },
+                     "links" : [
+                        {
+                           "href" : "{subdir}",
+                           "rel" : "child"
+                        }
+                     ],
+                     "type" : "array"
                   }
                }
             },
             "leaf" : 0,
-            "path" : "/cluster/backupinfo",
-            "text" : "backupinfo"
+            "path" : "/cluster/backup-info",
+            "text" : "backup-info"
          },
          {
             "children" : [
@@ -8160,6 +8174,11 @@ const apiSchema = [
                               "description" : "Used memory in bytes (when type in node,qemu,lxc).",
                               "optional" : 1,
                               "renderer" : "bytes",
+                              "type" : "string"
+                           },
+                           "name" : {
+                              "description" : "Name of the resource.",
+                              "optional" : 1,
                               "type" : "string"
                            },
                            "node" : {
@@ -33970,6 +33989,12 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "since" : {
+                                 "description" : "Only list tasks since this UNIX epoch.",
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer>"
+                              },
                               "source" : {
                                  "default" : "archive",
                                  "description" : "List archived, active or all tasks.",
@@ -33989,11 +34014,24 @@ const apiSchema = [
                                  "type" : "integer",
                                  "typetext" : "<integer> (0 - N)"
                               },
+                              "statusfilter" : {
+                                 "description" : "List of Task States that should be returned.",
+                                 "format" : "pve-task-status-type-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "typefilter" : {
                                  "description" : "Only list tasks of this type (e.g., vzstart, vzdump).",
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "until" : {
+                                 "description" : "Only list tasks until this UNIX epoch.",
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer>"
                               },
                               "userfilter" : {
                                  "description" : "Only list tasks from this user.",
@@ -36095,6 +36133,109 @@ const apiSchema = [
                               "leaf" : 1,
                               "path" : "/nodes/{node}/storage/{storage}/upload",
                               "text" : "upload"
+                           },
+                           {
+                              "info" : {
+                                 "POST" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Download templates and ISO images by using an URL.",
+                                    "method" : "POST",
+                                    "name" : "download_url",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "checksum" : {
+                                             "description" : "The expected checksum of the file.",
+                                             "optional" : 1,
+                                             "requires" : "checksum-algorithm",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "checksum-algorithm" : {
+                                             "description" : "The algorithm to calculate the checksum of the file.",
+                                             "enum" : [
+                                                "md5",
+                                                "sha1",
+                                                "sha224",
+                                                "sha256",
+                                                "sha384",
+                                                "sha512"
+                                             ],
+                                             "optional" : 1,
+                                             "requires" : "checksum",
+                                             "type" : "string"
+                                          },
+                                          "content" : {
+                                             "description" : "Content type.",
+                                             "enum" : [
+                                                "iso",
+                                                "vztmpl"
+                                             ],
+                                             "format" : "pve-storage-content",
+                                             "type" : "string"
+                                          },
+                                          "filename" : {
+                                             "description" : "The name of the file to create. Caution: This will be normalized!",
+                                             "maxLength" : 255,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "storage" : {
+                                             "description" : "The storage identifier.",
+                                             "format" : "pve-storage-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "url" : {
+                                             "description" : "The URL to download the file from.",
+                                             "pattern" : "https?://.*",
+                                             "type" : "string"
+                                          },
+                                          "verify-certificates" : {
+                                             "default" : 1,
+                                             "description" : "If false, no SSL/TLS certificates will be verified.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "and",
+                                          [
+                                             "perm",
+                                             "/storage/{storage}",
+                                             [
+                                                "Datastore.AllocateTemplate"
+                                             ]
+                                          ],
+                                          [
+                                             "perm",
+                                             "/",
+                                             [
+                                                "Sys.Audit",
+                                                "Sys.Modify"
+                                             ]
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/storage/{storage}/download-url",
+                              "text" : "download-url"
                            }
                         ],
                         "info" : {
@@ -37407,6 +37548,322 @@ const apiSchema = [
                         "leaf" : 1,
                         "path" : "/nodes/{node}/apt/changelog",
                         "text" : "changelog"
+                     },
+                     {
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Get APT repository information.",
+                              "method" : "GET",
+                              "name" : "repositories",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/nodes/{node}",
+                                    [
+                                       "Sys.Audit"
+                                    ]
+                                 ]
+                              },
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "description" : "Result from parsing the APT repository files in /etc/apt/.",
+                                 "properties" : {
+                                    "digest" : {
+                                       "description" : "Common digest of all files.",
+                                       "type" : "string"
+                                    },
+                                    "errors" : {
+                                       "description" : "List of problematic repository files.",
+                                       "items" : {
+                                          "properties" : {
+                                             "error" : {
+                                                "description" : "The error message",
+                                                "type" : "string"
+                                             },
+                                             "path" : {
+                                                "description" : "Path to the problematic file.",
+                                                "type" : "string"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "type" : "array"
+                                    },
+                                    "files" : {
+                                       "description" : "List of parsed repository files.",
+                                       "items" : {
+                                          "properties" : {
+                                             "digest" : {
+                                                "description" : "Digest of the file as bytes.",
+                                                "items" : {
+                                                   "type" : "integer"
+                                                },
+                                                "type" : "array"
+                                             },
+                                             "file-type" : {
+                                                "description" : "Format of the file.",
+                                                "enum" : [
+                                                   "list",
+                                                   "sources"
+                                                ],
+                                                "type" : "string"
+                                             },
+                                             "path" : {
+                                                "description" : "Path to the problematic file.",
+                                                "type" : "string"
+                                             },
+                                             "repositories" : {
+                                                "description" : "The parsed repositories.",
+                                                "items" : {
+                                                   "properties" : {
+                                                      "Comment" : {
+                                                         "description" : "Associated comment",
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "Components" : {
+                                                         "description" : "List of repository components",
+                                                         "items" : {
+                                                            "type" : "string"
+                                                         },
+                                                         "optional" : 1,
+                                                         "type" : "array"
+                                                      },
+                                                      "Enabled" : {
+                                                         "description" : "Whether the repository is enabled or not",
+                                                         "type" : "boolean"
+                                                      },
+                                                      "FileType" : {
+                                                         "description" : "Format of the defining file.",
+                                                         "enum" : [
+                                                            "list",
+                                                            "sources"
+                                                         ],
+                                                         "type" : "string"
+                                                      },
+                                                      "Options" : {
+                                                         "description" : "Additional options",
+                                                         "items" : {
+                                                            "properties" : {
+                                                               "Key" : {
+                                                                  "type" : "string"
+                                                               },
+                                                               "Values" : {
+                                                                  "items" : {
+                                                                     "type" : "string"
+                                                                  },
+                                                                  "type" : "array"
+                                                               }
+                                                            },
+                                                            "type" : "object"
+                                                         },
+                                                         "optional" : 1,
+                                                         "type" : "array"
+                                                      },
+                                                      "Suites" : {
+                                                         "description" : "List of package distribuitions",
+                                                         "items" : {
+                                                            "type" : "string"
+                                                         },
+                                                         "type" : "array"
+                                                      },
+                                                      "Types" : {
+                                                         "description" : "List of package types.",
+                                                         "items" : {
+                                                            "enum" : [
+                                                               "deb",
+                                                               "deb-src"
+                                                            ],
+                                                            "type" : "string"
+                                                         },
+                                                         "type" : "array"
+                                                      },
+                                                      "URIs" : {
+                                                         "description" : "List of repository URIs.",
+                                                         "items" : {
+                                                            "type" : "string"
+                                                         },
+                                                         "type" : "array"
+                                                      }
+                                                   },
+                                                   "type" : "object"
+                                                },
+                                                "type" : "array"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "type" : "array"
+                                    },
+                                    "infos" : {
+                                       "description" : "Additional information/warnings for APT repositories.",
+                                       "items" : {
+                                          "properties" : {
+                                             "index" : {
+                                                "description" : "Index of the associated repository within the file.",
+                                                "type" : "string"
+                                             },
+                                             "kind" : {
+                                                "description" : "Kind of the information (e.g. warning).",
+                                                "type" : "string"
+                                             },
+                                             "message" : {
+                                                "description" : "Information message.",
+                                                "type" : "string"
+                                             },
+                                             "path" : {
+                                                "description" : "Path to the associated file.",
+                                                "type" : "string"
+                                             },
+                                             "property" : {
+                                                "description" : "Property from which the info originates.",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "type" : "array"
+                                    },
+                                    "standard-repos" : {
+                                       "description" : "List of standard repositories and their configuration status",
+                                       "items" : {
+                                          "properties" : {
+                                             "handle" : {
+                                                "description" : "Handle to identify the repository.",
+                                                "type" : "string"
+                                             },
+                                             "name" : {
+                                                "description" : "Full name of the repository.",
+                                                "type" : "string"
+                                             },
+                                             "status" : {
+                                                "description" : "Indicating enabled/disabled status, if the repository is configured.",
+                                                "optional" : 1,
+                                                "type" : "boolean"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "type" : "array"
+                                    }
+                                 },
+                                 "type" : "object"
+                              }
+                           },
+                           "POST" : {
+                              "allowtoken" : 1,
+                              "description" : "Change the properties of a repository. Currently only allows enabling/disabling.",
+                              "method" : "POST",
+                              "name" : "change_repository",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "digest" : {
+                                       "description" : "Digest to detect modifications.",
+                                       "maxLength" : 80,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "enabled" : {
+                                       "description" : "Whether the repository should be enabled or not.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "index" : {
+                                       "description" : "Index within the file (starting from 0).",
+                                       "type" : "integer",
+                                       "typetext" : "<integer>"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "path" : {
+                                       "description" : "Path to the containing file.",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/nodes/{node}",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           },
+                           "PUT" : {
+                              "allowtoken" : 1,
+                              "description" : "Add a standard repository to the configuration",
+                              "method" : "PUT",
+                              "name" : "add_repository",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "digest" : {
+                                       "description" : "Digest to detect modifications.",
+                                       "maxLength" : 80,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "handle" : {
+                                       "description" : "Handle that identifies a repository.",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/nodes/{node}",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/apt/repositories",
+                        "text" : "repositories"
                      },
                      {
                         "info" : {
@@ -40159,8 +40616,8 @@ const apiSchema = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "login",
-                                    "upgrade",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -40255,8 +40712,8 @@ const apiSchema = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "login",
-                                    "upgrade",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -40381,8 +40838,8 @@ const apiSchema = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "login",
-                                    "upgrade",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -42854,6 +43311,12 @@ const apiSchema = [
                               "optional" : 1,
                               "type" : "string"
                            },
+                           "realm-type" : {
+                              "description" : "The type of the users realm",
+                              "format" : "pve-realm",
+                              "optional" : 1,
+                              "type" : "string"
+                           },
                            "tokens" : {
                               "items" : {
                                  "properties" : {
@@ -43811,6 +44274,13 @@ const apiSchema = [
                         "parameters" : {
                            "additionalProperties" : 0,
                            "properties" : {
+                              "autocreate" : {
+                                 "default" : 0,
+                                 "description" : "Automatically create users if they do not exist.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
                               "base_dn" : {
                                  "description" : "LDAP base domain name",
                                  "maxLength" : 256,
@@ -43847,6 +44317,20 @@ const apiSchema = [
                               },
                               "certkey" : {
                                  "description" : "Path to the client certificate key",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "client-id" : {
+                                 "description" : "OpenID Client ID",
+                                 "maxLength" : 256,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "client-key" : {
+                                 "description" : "OpenID Client Key",
+                                 "maxLength" : 256,
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -43918,6 +44402,13 @@ const apiSchema = [
                               "group_name_attr" : {
                                  "description" : "LDAP attribute representing a groups name. If not set or found, the first value of the DN will be used as name.",
                                  "format" : "ldap-simple-attr",
+                                 "maxLength" : 256,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "issuer-url" : {
+                                 "description" : "OpenID Issuer Url",
                                  "maxLength" : 256,
                                  "optional" : 1,
                                  "type" : "string",
@@ -44110,6 +44601,13 @@ const apiSchema = [
                   "parameters" : {
                      "additionalProperties" : 0,
                      "properties" : {
+                        "autocreate" : {
+                           "default" : 0,
+                           "description" : "Automatically create users if they do not exist.",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
                         "base_dn" : {
                            "description" : "LDAP base domain name",
                            "maxLength" : 256,
@@ -44146,6 +44644,20 @@ const apiSchema = [
                         },
                         "certkey" : {
                            "description" : "Path to the client certificate key",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "client-id" : {
+                           "description" : "OpenID Client ID",
+                           "maxLength" : 256,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "client-key" : {
+                           "description" : "OpenID Client Key",
+                           "maxLength" : 256,
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
@@ -44202,6 +44714,13 @@ const apiSchema = [
                         "group_name_attr" : {
                            "description" : "LDAP attribute representing a groups name. If not set or found, the first value of the DN will be used as name.",
                            "format" : "ldap-simple-attr",
+                           "maxLength" : 256,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "issuer-url" : {
+                           "description" : "OpenID Issuer Url",
                            "maxLength" : 256,
                            "optional" : 1,
                            "type" : "string",
@@ -44298,6 +44817,7 @@ const apiSchema = [
                            "enum" : [
                               "ad",
                               "ldap",
+                              "openid",
                               "pam",
                               "pve"
                            ],
@@ -44317,6 +44837,16 @@ const apiSchema = [
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
+                        },
+                        "username-claim" : {
+                           "description" : "OpenID claim used to generate the unique username.",
+                           "enum" : [
+                              "subject",
+                              "username",
+                              "email"
+                           ],
+                           "optional" : 1,
+                           "type" : "string"
                         },
                         "verify" : {
                            "default" : 0,
@@ -44346,6 +44876,143 @@ const apiSchema = [
             "leaf" : 0,
             "path" : "/access/domains",
             "text" : "domains"
+         },
+         {
+            "children" : [
+               {
+                  "info" : {
+                     "POST" : {
+                        "allowtoken" : 1,
+                        "description" : "Get the OpenId Authorization Url for the specified realm.",
+                        "method" : "POST",
+                        "name" : "auth_url",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "realm" : {
+                                 "description" : "Authentication domain ID",
+                                 "format" : "pve-realm",
+                                 "maxLength" : 32,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "redirect-url" : {
+                                 "description" : "Redirection Url. The client should set this to the used server url (location.origin).",
+                                 "maxLength" : 255,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "user" : "world"
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "description" : "Redirection URL.",
+                           "type" : "string"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/access/openid/auth-url",
+                  "text" : "auth-url"
+               },
+               {
+                  "info" : {
+                     "POST" : {
+                        "allowtoken" : 1,
+                        "description" : " Verify OpenID authorization code and create a ticket.",
+                        "method" : "POST",
+                        "name" : "login",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "code" : {
+                                 "description" : "OpenId authorization code.",
+                                 "maxLength" : 1024,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "redirect-url" : {
+                                 "description" : "Redirection Url. The client should set this to the used server url (location.origin).",
+                                 "maxLength" : 255,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "state" : {
+                                 "description" : "OpenId state.",
+                                 "maxLength" : 1024,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "user" : "world"
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "properties" : {
+                              "CSRFPreventionToken" : {
+                                 "type" : "string"
+                              },
+                              "cap" : {
+                                 "type" : "object"
+                              },
+                              "clustername" : {
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "ticket" : {
+                                 "type" : "string"
+                              },
+                              "username" : {
+                                 "type" : "string"
+                              }
+                           }
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/access/openid/login",
+                  "text" : "login"
+               }
+            ],
+            "info" : {
+               "GET" : {
+                  "allowtoken" : 1,
+                  "description" : "Directory index.",
+                  "method" : "GET",
+                  "name" : "index",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "permissions" : {
+                     "user" : "all"
+                  },
+                  "returns" : {
+                     "items" : {
+                        "properties" : {
+                           "subdir" : {
+                              "type" : "string"
+                           }
+                        },
+                        "type" : "object"
+                     },
+                     "links" : [
+                        {
+                           "href" : "{subdir}",
+                           "rel" : "child"
+                        }
+                     ],
+                     "type" : "array"
+                  }
+               }
+            },
+            "leaf" : 0,
+            "path" : "/access/openid",
+            "text" : "openid"
          },
          {
             "info" : {

@@ -192,6 +192,10 @@ Add an authentication server.
 
 Authentication domain ID
 
+`--autocreate` `<boolean>` ('default =' `0`)::
+
+Automatically create users if they do not exist.
+
 `--base_dn` `\w+=[^,]+(,\s*\w+=[^,]+)*` ::
 
 LDAP base domain name
@@ -215,6 +219,14 @@ Path to the client certificate
 `--certkey` `<string>` ::
 
 Path to the client certificate key
+
+`--client-id` `<string>` ::
+
+OpenID Client ID
+
+`--client-key` `<string>` ::
+
+OpenID Client Key
 
 `--comment` `<string>` ::
 
@@ -247,6 +259,10 @@ LDAP filter for group sync.
 `--group_name_attr` `<string>` ::
 
 LDAP attribute representing a groups name. If not set or found, the first value of the DN will be used as name.
+
+`--issuer-url` `<string>` ::
+
+OpenID Issuer Url
 
 `--mode` `<ldap | ldap+starttls | ldaps>` ('default =' `ldap`)::
 
@@ -288,7 +304,7 @@ Comma separated list of key=value pairs for specifying which LDAP attributes map
 
 Use Two-factor authentication.
 
-`--type` `<ad | ldap | pam | pve>` ::
+`--type` `<ad | ldap | openid | pam | pve>` ::
 
 Realm type.
 
@@ -299,6 +315,10 @@ LDAP user attribute name
 `--user_classes` `<string>` ('default =' `inetorgperson, posixaccount, person, user`)::
 
 The objectclasses for users.
+
+`--username-claim` `<email | subject | username>` ::
+
+OpenID claim used to generate the unique username.
 
 `--verify` `<boolean>` ('default =' `0`)::
 
@@ -324,6 +344,10 @@ Update authentication server settings.
 
 Authentication domain ID
 
+`--autocreate` `<boolean>` ('default =' `0`)::
+
+Automatically create users if they do not exist.
+
 `--base_dn` `\w+=[^,]+(,\s*\w+=[^,]+)*` ::
 
 LDAP base domain name
@@ -347,6 +371,14 @@ Path to the client certificate
 `--certkey` `<string>` ::
 
 Path to the client certificate key
+
+`--client-id` `<string>` ::
+
+OpenID Client ID
+
+`--client-key` `<string>` ::
+
+OpenID Client Key
 
 `--comment` `<string>` ::
 
@@ -387,6 +419,10 @@ LDAP filter for group sync.
 `--group_name_attr` `<string>` ::
 
 LDAP attribute representing a groups name. If not set or found, the first value of the DN will be used as name.
+
+`--issuer-url` `<string>` ::
+
+OpenID Issuer Url
 
 `--mode` `<ldap | ldap+starttls | ldaps>` ('default =' `ldap`)::
 
