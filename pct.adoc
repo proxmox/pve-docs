@@ -123,24 +123,24 @@ interested in, for example basic `system` images:
 .List available system images
 ----
 # pveam available --section system
-system          alpine-3.10-default_20190626_amd64.tar.xz
-system          alpine-3.9-default_20190224_amd64.tar.xz
-system          archlinux-base_20190924-1_amd64.tar.gz
-system          centos-6-default_20191016_amd64.tar.xz
+system          alpine-3.12-default_20200823_amd64.tar.xz
+system          alpine-3.13-default_20210419_amd64.tar.xz
+system          alpine-3.14-default_20210623_amd64.tar.xz
+system          archlinux-base_20210420-1_amd64.tar.gz
 system          centos-7-default_20190926_amd64.tar.xz
-system          centos-8-default_20191016_amd64.tar.xz
-system          debian-10.0-standard_10.0-1_amd64.tar.gz
-system          debian-8.0-standard_8.11-1_amd64.tar.gz
+system          centos-8-default_20201210_amd64.tar.xz
 system          debian-9.0-standard_9.7-1_amd64.tar.gz
-system          fedora-30-default_20190718_amd64.tar.xz
-system          fedora-31-default_20191029_amd64.tar.xz
-system          gentoo-current-default_20190718_amd64.tar.xz
-system          opensuse-15.0-default_20180907_amd64.tar.xz
-system          opensuse-15.1-default_20190719_amd64.tar.xz
+system          debian-10-standard_10.7-1_amd64.tar.gz
+system          devuan-3.0-standard_3.0_amd64.tar.gz
+system          fedora-33-default_20201115_amd64.tar.xz
+system          fedora-34-default_20210427_amd64.tar.xz
+system          gentoo-current-default_20200310_amd64.tar.xz
+system          opensuse-15.2-default_20200824_amd64.tar.xz
 system          ubuntu-16.04-standard_16.04.5-1_amd64.tar.gz
 system          ubuntu-18.04-standard_18.04.1-1_amd64.tar.gz
-system          ubuntu-19.04-standard_19.04-1_amd64.tar.gz
-system          ubuntu-19.10-standard_19.10-1_amd64.tar.gz
+system          ubuntu-20.04-standard_20.04-1_amd64.tar.gz
+system          ubuntu-20.10-standard_20.10-1_amd64.tar.gz
+system          ubuntu-21.04-standard_21.04-1_amd64.tar.gz
 ----
 
 Before you can use such a template, you need to download them into one of your
