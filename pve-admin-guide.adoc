@@ -309,6 +309,9 @@ Firewall Macro Definitions
 
 include::pve-firewall-macros.adoc[]
 
+:leveloffset: 1
+[appendix]
+include::markdown-primer.adoc[]
 
 :leveloffset: 1
 [appendix]
