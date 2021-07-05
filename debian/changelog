@@ -1,3 +1,20 @@
+pve-docs (7.0-4) bullseye; urgency=medium
+
+  * container: add Control Group (cgroup) section
+
+  * user-management: add OpenID Connect documentation
+
+  * ha: document recovery state
+
+  * container: cgroup: describe some possibilities to resolve version change
+    for old CTs
+
+  * add basic markdown primer for gui notes onlineHelp
+
+  * package repositories: mention new apt repo-status GUI
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 05 Jul 2021 15:52:20 +0200
+
 pve-docs (7.0-3) bullseye; urgency=medium
 
   * Proxmox Backup Server: add information about master key support
