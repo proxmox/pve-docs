@@ -214,3 +214,13 @@ UUID=<uuid of your root file system> / btrfs defaults,compress=zstd 0 1
 ----
 
 This change will take effect after rebooting.
+
+Checking Space Usage
+^^^^^^^^^^^^^^^^^^^^
+
+The classic `df` tool may output confusing values for some btrfs setups.
+For a better estimate use the `btrfs filesystem usage /PATH` command, for example:
+
+----
+# btrfs fi usage /my-storage
+----
