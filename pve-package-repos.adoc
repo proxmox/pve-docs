@@ -6,15 +6,41 @@ ifdef::wiki[]
 endif::wiki[]
 
 {pve} uses http://en.wikipedia.org/wiki/Advanced_Packaging_Tool[APT] as its
-package management tool like any other Debian-based system. Repositories are
-defined in the file `/etc/apt/sources.list` and in `.list` files placed in
-`/etc/apt/sources.list.d/`.
+package management tool like any other Debian-based system.
 
-Each line defines a package repository. The preferred source must come first.
-Empty lines are ignored. A `#` character anywhere on a line marks the remainder
-of that line as a comment. The available packages from a repository are acquired
-by running `apt-get update`. Updates can be installed directly using `apt-get`,
-or via the GUI.
+Repositories in {pve}
+~~~~~~~~~~~~~~~~~~~~~
+
+Repositories are a collection of software packages, they can be used to install
+new software, but are also important to get new updates.
+
+NOTE: You need valid Debian and Proxmox repositories to get the latest
+security updates, bug fixes and new features.
+
+APT Repositories are defined in the file `/etc/apt/sources.list` and in `.list`
+files placed in `/etc/apt/sources.list.d/`.
+
+Repository Management
+^^^^^^^^^^^^^^^^^^^^^
+
+[thumbnail="screenshot/gui-node-repositories.png"]
+
+Since Proxmox VE 7.0 you can check the repository state in the web interface.
+The node summary panel shows a high level status overview, while the separate
+'Repository' panel shows in-depth status and list of all configured
+repositories.
+
+Basic repository management, for example, activating or deactivating a
+repository, is also supported.
+
+Sources.list
+^^^^^^^^^^^^
+
+In a `sources.list` file, each line defines a package repository. The preferred
+source must come first.  Empty lines are ignored. A `#` character anywhere on a
+line marks the remainder of that line as a comment. The available packages from
+a repository are acquired by running `apt-get update`. Updates can be installed
+directly using `apt-get`, or via the GUI (Node -> Updates).
 
 .File `/etc/apt/sources.list`
 ----
@@ -25,7 +51,7 @@ deb http://ftp.debian.org/debian bullseye-updates main contrib
 deb http://security.debian.org/debian-security bullseye-security main contrib
 ----
 
-{pve} additionally provides three different package repositories.
+{pve} provides three different package repositories.
 
 [[sysadmin_enterprise_repo]]
 {pve} Enterprise Repository
@@ -150,6 +176,8 @@ main repository. It is used to test new Ceph releases on {pve}.
 ----
 deb http://download.proxmox.com/debian/ceph-octopus bullseye test
 ----
+
+[[repos_secure_apt]]
 
 SecureApt
 ~~~~~~~~~
