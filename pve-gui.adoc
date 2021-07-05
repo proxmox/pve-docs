@@ -267,7 +267,7 @@ The top header has useful buttons such as 'Reboot', 'Shutdown', 'Shell',
 
 * *Summary:* display a brief overview of the node's resource usage.
 
-* *Notes:* write custom notes in Markdown syntax about a node.
+* *Notes:* write custom comments in xref:markdown_basics[Markdown syntax].
 
 * *Shell:* access to a shell interface for the node.
 
@@ -315,7 +315,7 @@ the menu on the left.
 The available interfaces are as follows.
 
 * *Summary:* provides a brief overview of the VM's activity and a `Notes` field
-  for Markdown formatted comments.
+  for xref:markdown_basics[Markdown syntax] comments.
 
 * *Console:* access to an interactive console for the VM/container.
 
