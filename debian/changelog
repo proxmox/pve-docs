@@ -1,4 +1,4 @@
-pve-docs (7.0-4) bullseye; urgency=medium
+pve-docs (7.0-5) bullseye; urgency=medium
 
   * container: add Control Group (cgroup) section
 
@@ -13,7 +13,7 @@ pve-docs (7.0-4) bullseye; urgency=medium
 
   * package repositories: mention new apt repo-status GUI
 
- -- Proxmox Support Team <support@proxmox.com>  Mon, 05 Jul 2021 15:52:20 +0200
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 05 Jul 2021 16:54:24 +0200
 
 pve-docs (7.0-3) bullseye; urgency=medium
 
