@@ -13,7 +13,7 @@ provided by Proxmox include a complete Debian system as well as all necessary
 {pve} packages.
 
 TIP: See the xref:faq-support-table[support table in the FAQ] for the
-relationship between Proxmox VE releases and Debian releases.
+relationship between {pve} releases and Debian releases.
 
 The installer will guide through the setup, allowing you to partition the local
 disk(s), apply basic system configurations (for example, timezone, language,
@@ -42,8 +42,8 @@ The installer ISO image includes the following:
 
 * Complete operating system (Debian Linux, 64-bit)
 
-* The {pve} installer, which partitions the local disk(s) with ext4, xfs
-  or ZFS and installs the operating system.
+* The {pve} installer, which partitions the local disk(s) with ext4, XFS,
+  BTRFS (technology preview), or ZFS and installs the operating system.
 
 * {pve} Linux kernel with KVM and LXC support
 
