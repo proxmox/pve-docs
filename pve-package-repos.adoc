@@ -195,26 +195,17 @@ the key with the following commands:
  # wget https://enterprise.proxmox.com/debian/proxmox-release-bullseye.gpg -O /etc/apt/trusted.gpg.d/proxmox-release-bullseye.gpg
 ----
 
-Verify the checksum afterwards with:
+Verify the checksum afterwards with the `sha512sum` CLI tool:
 
 ----
 # sha512sum /etc/apt/trusted.gpg.d/proxmox-release-bullseye.gpg
-----
-
-The output should be:
-
-----
 7fb03ec8a1675723d2853b84aa4fdb49a46a3bb72b9951361488bfd19b29aab0a789a4f8c7406e71a69aabbc727c936d3549731c4659ffa1a08f44db8fdcebfa /etc/apt/trusted.gpg.d/proxmox-release-bullseye.gpg
 ----
 
-or:
+or the `md5sum` CLI tool:
 
 ----
 # md5sum /etc/apt/trusted.gpg.d/proxmox-release-bullseye.gpg
-----
-The output should be:
-
-----
 bcc35c7173e0845c0d6ad6470b70f50e /etc/apt/trusted.gpg.d/proxmox-release-bullseye.gpg
 ----
 
