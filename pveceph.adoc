@@ -485,7 +485,7 @@ loss, incomplete PGs or unfound objects.
 
 It is advised that you either enable the PG-Autoscaler or calculate the PG
 number based on your setup. You can find the formula and the PG calculator
-footnote:[PG calculator https://ceph.com/pgcalc/] online. From Ceph Nautilus
+footnote:[PG calculator https://web.archive.org/web/20210301111112/http://ceph.com/pgcalc/] online. From Ceph Nautilus
 onward, you can change the number of PGs
 footnoteref:[placement_groups,Placement Groups
 {cephdocs-url}/rados/operations/placement-groups/] after the setup.
