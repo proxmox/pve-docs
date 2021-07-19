@@ -33,7 +33,7 @@ VG:
   swap pve  -wi-ao---- 896.00m     
 ----
 
-root:: Formatted as `ext4`, and contains the operation system.
+root:: Formatted as `ext4`, and contains the operating system.
 
 swap:: Swap partition
 

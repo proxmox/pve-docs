@@ -1108,7 +1108,7 @@ Copies and Clones
 [thumbnail="screenshot/gui-qemu-full-clone.png"]
 
 VM installation is usually done using an installation media (CD-ROM)
-from the operation system vendor. Depending on the OS, this can be a
+from the operating system vendor. Depending on the OS, this can be a
 time consuming task one might want to avoid.
 
 An easy way to deploy many VMs of the same type is to copy an existing
