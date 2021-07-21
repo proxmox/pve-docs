@@ -31,7 +31,7 @@ graph default_network_setup_routed {
 
 	[% server(id="vm100" title="VM 100" subtitle="203.0.113.18" top_ports='ens18') %]
 	[% server(id="vm101" title="VM 101" subtitle="203.0.113.19" top_ports='ens18') %]
-	[% server(id="vm102" title="VM 101" subtitle="203.0.113.20" top_ports='ens18') %]
+	[% server(id="vm102" title="VM 102" subtitle="203.0.113.20" top_ports='ens18') %]
 
 	node1_vmbr0:tap100i0 -- vm100:ens18
 	node1_vmbr0:tap100i0 -- vm101:ens18

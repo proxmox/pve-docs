@@ -185,16 +185,16 @@ address.
 [thumbnail="default-network-setup-routed.svg"]
 A common scenario is that you have a public IP (assume `198.51.100.5`
 for this example), and an additional IP block for your VMs
-(`203.0.113.16/29`). We recommend the following setup for such
+(`203.0.113.16/28`). We recommend the following setup for such
 situations:
 
 ----
 auto lo
 iface lo inet loopback
 
-auto eno1
-iface eno1 inet static
-        address  198.51.100.5/24
+auto eno0
+iface eno0 inet static
+        address  198.51.100.5/29
         gateway  198.51.100.1
         post-up echo 1 > /proc/sys/net/ipv4/ip_forward
         post-up echo 1 > /proc/sys/net/ipv4/conf/eno1/proxy_arp
@@ -202,7 +202,7 @@ iface eno1 inet static
 
 auto vmbr0
 iface vmbr0 inet static
-        address  203.0.113.17/29
+        address  203.0.113.17/28
         bridge-ports none
         bridge-stp off
         bridge-fd 0
