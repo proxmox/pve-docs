@@ -206,7 +206,9 @@ configuration, for example by executing:
 ----
 
 If your device has multiple functions (e.g., ``00:02.0`' and ``00:02.1`' ),
-you can pass them through all together with the shortened syntax ``00:02`'
+you can pass them through all together with the shortened syntax ``00:02`'.
+This is equivalent with checking the ``All Functions`' checkbox in the
+web-interface.
 
 There are some options to which may be necessary, depending on the device
 and guest OS:
