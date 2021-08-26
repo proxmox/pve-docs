@@ -6,34 +6,68 @@ endif::wiki[]
 
 The {pve} cluster stack itself relies heavily on the fact that all
 the nodes have precisely synchronized time. Some other components,
-like Ceph, also refuse to work properly if the local time on nodes is
+like Ceph, also won't work properly if the local time on all nodes is
 not in sync.
 
-Time synchronization between nodes can be achieved with the ``Network
-Time Protocol'' (`NTP`). {pve} uses `systemd-timesyncd` as NTP client
-by default, preconfigured to use a set of public servers. This setup
-works out of the box in most cases.
+Time synchronization between nodes can be achieved using the ``Network
+Time Protocol'' (`NTP`). As of {pve} 7, `chrony` is used as the default
+NTP daemon, while {pve} 6 uses `systemd-timesyncd`. Both come preconfigured to
+use a set of public servers.
 
+IMPORTANT: If you upgrade your system to {pve} 7, it is recommended that you
+manually install either `chrony`, `ntp` or `openntpd`.
 
 Using Custom NTP Servers
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-In some cases, it might be desired to not use the default NTP
+In some cases, it might be desired to use non-default NTP
 servers. For example, if your {pve} nodes do not have access to the
-public internet (e.g., because of restrictive firewall rules), you
-need to setup local NTP servers and tell `systemd-timesyncd` to use
-them:
+public internet due to restrictive firewall rules, you
+need to set up local NTP servers and tell the NTP daemon to use
+them.
 
-.File `/etc/systemd/timesyncd.conf`
+For systems using chrony:
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Specify which servers `chrony` should use in `/etc/chrony/chrony.conf`:
+
+----
+server ntp1.example.com iburst
+server ntp2.example.com iburst
+server ntp3.example.com iburst
+----
+
+Restart `chrony`:
+
+ # systemctl restart chronyd
+
+Check the journal to confirm that the newly configured NTP servers are being
+used:
+
+ # journalctl --since -1h -u chrony
+
+----
+...
+Aug 26 13:00:09 node1 systemd[1]: Started chrony, an NTP client/server.
+Aug 26 13:00:15 node1 chronyd[4873]: Selected source 10.0.0.1 (ntp1.example.com)
+Aug 26 13:00:15 node1 chronyd[4873]: System clock TAI offset set to 37 seconds
+...
+----
+
+For systems using systemd-timesyncd:
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Specify which servers `systemd-timesyncd` should use in
+`/etc/systemd/timesyncd.conf`:
+
 ----
 [Time]
 NTP=ntp1.example.com ntp2.example.com ntp3.example.com ntp4.example.com
 ----
 
-After restarting the synchronization service (`systemctl restart
-systemd-timesyncd`) you should verify that your newly configured NTP
-servers are used by checking the journal (`journalctl --since -1h -u
-systemd-timesyncd`):
+Then, restart the synchronization service (`systemctl restart
+systemd-timesyncd`), and verify that your newly configured NTP servers are in
+use by checking the journal (`journalctl --since -1h -u systemd-timesyncd`):
 
 ----
 ...
@@ -41,6 +75,6 @@ Oct 07 14:58:36 node1 systemd[1]: Stopping Network Time Synchronization...
 Oct 07 14:58:36 node1 systemd[1]: Starting Network Time Synchronization...
 Oct 07 14:58:36 node1 systemd[1]: Started Network Time Synchronization.
 Oct 07 14:58:36 node1 systemd-timesyncd[13514]: Using NTP server 10.0.0.1:123 (ntp1.example.com).
-Oct 07 14:58:36 nora systemd-timesyncd[13514]: interval/delta/delay/jitter/drift 64s/-0.002s/0.020s/0.000s/-31ppm
+Oct 07 14:58:36 node1 systemd-timesyncd[13514]: interval/delta/delay/jitter/drift 64s/-0.002s/0.020s/0.000s/-31ppm
 ...
 ----
