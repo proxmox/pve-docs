@@ -24,7 +24,7 @@ my $phase = shift;
 if ($phase eq 'pre-start') {
 
     # First phase 'pre-start' will be executed before the guest
-    # ist started. Exiting with a code != 0 will abort the start
+    # is started. Exiting with a code != 0 will abort the start
 
     print "$vmid is starting, doing preparations.\n";
 
