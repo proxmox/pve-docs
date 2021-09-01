@@ -80,8 +80,6 @@ include::pveperf.adoc[]
 
 include::pvesh.adoc[]
 
-include::pvenode.adoc[]
-
 :leveloffset: 1
 
 include::pve-faq.adoc[]
