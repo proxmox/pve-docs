@@ -103,7 +103,7 @@ pvenode task list --errors --vmid 100
 The log of a task can then be printed using its UPID:
 
 ----
-pvenode task log UPID:pve1:00010D94:001CA6EA:6124E1B9:vzdump:100:root@pam: 
+pvenode task log UPID:pve1:00010D94:001CA6EA:6124E1B9:vzdump:100:root@pam:
 ----
 
 
