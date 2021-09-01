@@ -83,6 +83,24 @@ of `<node>` obtained from the `wakeonlan` property. The node specific
 pvenode config set -wakeonlan XX:XX:XX:XX:XX:XX
 ----
 
+
+[[first_guest_boot_delay]]
+First Guest Boot Delay
+~~~~~~~~~~~~~~~~~~~~~~
+
+In case your VMs/containers rely on slow-to-start external resources, for
+example an NFS server, you can also set a per-node delay between the time {pve}
+boots and the time the first VM/container that is configured to autostart boots
+(see xref:qm_startup_and_shutdown[Automatic Start and Shutdown of Virtual Machines]).
+
+You can achieve this by setting the following (where `10` represents the delay
+in seconds):
+
+----
+pvenode config set --startall-onboot-delay 10
+----
+
+
 // TODO: extend and improve chapter!
 
 ifdef::manvolnum[]

@@ -923,6 +923,9 @@ start after those where the parameter is set. Further, this parameter can only
 be enforced between virtual machines running on the same host, not
 cluster-wide.
 
+If you require a delay between the host boot and the booting of the first VM,
+see the section on xref:first_guest_boot_delay[Proxmox VE Node Management].
+
 
 [[qm_qemu_agent]]
 Qemu Guest Agent

@@ -433,6 +433,11 @@ always start after those where the parameter is set, and this parameter only
 makes sense between the machines running locally on a host, and not
 cluster-wide.
 
+If you require a delay between the host boot and the booting of the first
+container, see the section on
+xref:first_guest_boot_delay[Proxmox VE Node Management].
+
+
 Hookscripts
 ~~~~~~~~~~~
 
