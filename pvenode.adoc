@@ -24,11 +24,13 @@ ifdef::wiki[]
 endif::wiki[]
 endif::manvolnum[]
 
-The {PVE} node management tool (`pvenode`) allows to control node specific
+The {PVE} node management tool (`pvenode`) allows you to control node specific
 settings and resources.
 
-Currently `pvenode` allows to set a node's description and to manage
-the node's SSL certificates used for the API and the web GUI through `pveproxy`.
+Currently `pvenode` allows you to set a node's description, run various
+bulk operations on the node's guests, view the node's task history, and
+manage the node's SSL certificates, which are used for the API and the web GUI
+through `pveproxy`.
 
 ifdef::manvolnum[]
 include::output-format.adoc[]
@@ -43,7 +45,7 @@ Examples
 Both files need to be PEM encoded. `certificate.key` contains the private key
 and `certificate.crt` contains the whole certificate chain.
 
-.Setup ACME account and order a certificate for local node.
+.Setup ACME account and order a certificate for the local node.
 
 -----
 pvenode acme account register default mail@example.invalid
@@ -56,19 +58,19 @@ endif::manvolnum[]
 
 Wake-on-LAN
 ~~~~~~~~~~~
-Wake-on-LAN (WoL) allows to switch on a sleeping computer in the network by
-sending a magic packet. At least one NIC must support this feature and the
-respective option needs to be enabled in the computers firmware (BIOS/UEFI)
+Wake-on-LAN (WoL) allows you to switch on a sleeping computer in the network, by
+sending a magic packet. At least one NIC must support this feature, and the
+respective option needs to be enabled in the computer's firmware (BIOS/UEFI)
 configuration. The option name can vary from 'Enable Wake-on-Lan' to
-'Power On By PCIE Device', check your motherboards vendor manual, if unsure.
-`ethtool` can be used to check the WoL configuration of `<interface>` by
-running:
+'Power On By PCIE Device'; check your motherboard's vendor manual, if you're
+unsure. `ethtool` can be used to check the WoL configuration of `<interface>`
+by running:
 
 ----
 ethtool <interface> | grep Wake-on
 ----
 
-`pvenode` allows to wake sleeping members of a cluster via WoL using the
+`pvenode` allows you to wake sleeping members of a cluster via WoL, using the
 command:
 
 ----
@@ -76,8 +78,8 @@ pvenode wakeonlan <node>
 ----
 
 This broadcasts the WoL magic packet on UDP port 9, containing the MAC address
-of `<node>` obtained from the `wakeonlan` property. The node specific
-`wakeonlan` property can be set by the following command:
+of `<node>` obtained from the `wakeonlan` property. The node-specific
+`wakeonlan` property can be set using the following command:
 
 ----
 pvenode config set -wakeonlan XX:XX:XX:XX:XX:XX
