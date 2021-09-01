@@ -83,6 +83,54 @@ of `<node>` obtained from the `wakeonlan` property. The node specific
 pvenode config set -wakeonlan XX:XX:XX:XX:XX:XX
 ----
 
+Task History
+~~~~~~~~~~~~
+
+When troubleshooting server issues, for example, failed backup jobs, it can
+often be helpful to have a log of the previously run tasks. With {pve}, you can
+access the nodes's task history through the `pvenode task` command.
+
+You can get a filtered list of a node's finished tasks with the `list`
+subcommand. For example, to get a list of tasks related to VM '100'
+that ended with an error, the command would be:
+
+----
+pvenode task list --errors --vmid 100
+----
+
+The log of a task can then be printed using its UPID:
+
+----
+pvenode task log UPID:pve1:00010D94:001CA6EA:6124E1B9:vzdump:100:root@pam: 
+----
+
+
+Bulk Guest Power Management
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In case you have many VMs/containers, starting and stopping guests can be
+carried out in bulk operations with the `startall` and `stopall` subcommands of
+`pvenode`.  By default, `pvenode startall` will only start VMs/containers which
+have been set to automatically start on boot (see
+xref:qm_startup_and_shutdown[Automatic Start and Shutdown of Virtual Machines]),
+however, you can override this behavior with the `--force` flag. Both commands
+also have a `--vms` option, which limits the stopped/started guests to the
+specified VMIDs.
+
+For example, to start VMs '100', '101', and '102', regardless of whether they
+have `onboot` set, you can use:
+
+----
+pvenode startall --vms 100,101,102 --force
+----
+
+To stop these guests (and any other guests that may be running), use the
+command:
+
+----
+pvenode stopall
+----
+
 
 [[first_guest_boot_delay]]
 First Guest Boot Delay
@@ -101,7 +149,21 @@ pvenode config set --startall-onboot-delay 10
 ----
 
 
-// TODO: extend and improve chapter!
+Bulk Guest Migration
+~~~~~~~~~~~~~~~~~~~~
+
+In case an upgrade situation requires you to migrate all of your guests from one
+node to another, `pvenode` also offers the `migrateall` subcommand for bulk
+migration. By default, this command will migrate every guest on the system to
+the target node. It can however be set to only migrate a set of guests.
+
+For example, to migrate VMs '100', '101', and '102', to the node 'pve2', with
+live-migration for local disks enabled, you can run:
+
+----
+pvenode migrateall pve2 --vms 100,101,102 --with-local-disks
+----
+
 
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
