@@ -498,6 +498,7 @@ iface vmbr0 inet manual
         bridge-stp off
         bridge-fd 0
         bridge-vlan-aware yes
+        bridge-vids 2-4094
 ----
 
 The next example is the same setup but a bond is used to
