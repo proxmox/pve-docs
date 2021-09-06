@@ -233,6 +233,15 @@ Exit Nodes:: This is used if you want to define some proxmox nodes, as exit
   gateway from evpn network through real network. The configured nodes will
   announce a default route in the EVPN network.
 
+Advertise Subnets:: Optional. If you have silent vms/CT (for example, multiples
+  ips by interfaces, and the anycast gateway don't see traffic from theses ips,
+  the ips addresses won't be able to be reach inside the evpn network). This
+  option will announce the full subnet in the evpn network in this case.
+
+Exit Nodes local routing:: Optional. This is a special option if you need to
+  reach a vm/ct service from an exit node. (By default, the exit nodes only
+  allow forwarding traffic between real network and evpn network).
+
 MTU:: because VXLAN encapsulation use 50 bytes, the MTU needs to be 50 bytes
   lower than the maximal MTU of the outgoing physical interface.
 
