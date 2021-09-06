@@ -898,3 +898,55 @@ public network can reply back.
 
 If you have configured an external BGP router, the BGP-EVPN routes (10.0.1.0/24
 and 10.0.2.0/24 in this example), will be announced dynamically.
+
+
+Notes
+-----
+
+Vxlan Encryption
+~~~~~~~~~~~~~~~~
+If you need to add encryption on top of vxlan, it's possible to do it with strongswan software.
+You'll need to reduce the mtu around 60bytes (ipv4) or 80bytes (ipv6) to handle encryption.
+
+So with default 1500 mtu, you need mtu 1370 (1370 + 80bytes ipsec + 50 bytes vxlan).
+
+
+Install strongwan
+----
+apt install strongwan
+----
+
+Add configuration in /etc/ipsec.conf.
+(Encrypt only vxlan udp port 4789)
+
+----
+conn %default
+    ike=aes256-sha1-modp1024!  #the fastest (but reasonably secure)cipher on reasonably modern hardware
+    esp=aes256-sha1!
+    leftfirewall=yes           # this is necessary when using Proxmox firewall rules
+
+conn output
+    rightsubnet=%dynamic[udp/4789]
+    right=%any
+    type=transport
+    authby=psk
+    auto=route
+
+conn input
+    leftsubnet=%dynamic[udp/4789]
+    type=transport
+    authby=psk
+    auto=route
+----
+
+Then generate a preshared key with
+
+----
+openssl rand -base64 128
+----
+
+and copy the key in /etc/ipsec.secrets
+
+----
+: PSK <generatedbase64key>
+----
