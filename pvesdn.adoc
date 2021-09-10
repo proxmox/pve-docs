@@ -910,10 +910,9 @@ You'll need to reduce the mtu around 60bytes (ipv4) or 80bytes (ipv6) to handle 
 
 So with default 1500 mtu, you need mtu 1370 (1370 + 80bytes ipsec + 50 bytes vxlan).
 
-
-Install strongwan
+.Install strongswan
 ----
-apt install strongwan
+apt install strongswan
 ----
 
 Add configuration in /etc/ipsec.conf.
