@@ -903,26 +903,28 @@ and 10.0.2.0/24 in this example), will be announced dynamically.
 Notes
 -----
 
-Vxlan Encryption
-~~~~~~~~~~~~~~~~
-If you need to add encryption on top of vxlan, it's possible to do it with strongswan software.
-You'll need to reduce the mtu around 60bytes (ipv4) or 80bytes (ipv6) to handle encryption.
+VXLAN IPSEC Encryption
+~~~~~~~~~~~~~~~~~~~~~~
+If you need to add encryption on top of VXLAN, it's possible to do so with
+IPSEC through `strongswan`. You'll need to reduce the 'MTU' by 60 bytes (IPv4)
+or 80 bytes (IPv6) to handle encryption.
 
-So with default 1500 mtu, you need mtu 1370 (1370 + 80bytes ipsec + 50 bytes vxlan).
+So with default real 1500 MTU, you need to use a MTU of 1370 (1370 + 80 (IPSEC)
++ 50 (VXLAN) == 1500).
 
 .Install strongswan
 ----
 apt install strongswan
 ----
 
-Add configuration in /etc/ipsec.conf.
-(Encrypt only vxlan udp port 4789)
+Add configuration in `/etc/ipsec.conf'. We only need to encrypt traffic from
+the VXLAN UDP port '4789'.
 
 ----
 conn %default
-    ike=aes256-sha1-modp1024!  #the fastest (but reasonably secure)cipher on reasonably modern hardware
+    ike=aes256-sha1-modp1024!  # the fastest, but reasonably secure cipher on modern HW
     esp=aes256-sha1!
-    leftfirewall=yes           # this is necessary when using Proxmox firewall rules
+    leftfirewall=yes           # this is necessary when using Proxmox VE firewall rules
 
 conn output
     rightsubnet=%dynamic[udp/4789]
@@ -944,8 +946,10 @@ Then generate a preshared key with
 openssl rand -base64 128
 ----
 
-and copy the key in /etc/ipsec.secrets
+and copy the key in `/etc/ipsec.secrets' so that the file content looks like:
 
 ----
 : PSK <generatedbase64key>
 ----
+
+You need to copy the PSK and the config on other nodes.
