@@ -93,37 +93,59 @@ Files
 
 [width="100%",cols="m,d"]
 |=======
-|`corosync.conf`                        | Corosync cluster configuration file (previous to {pve} 4.x this file was called cluster.conf)
-|`storage.cfg`                          | {pve} storage configuration
-|`datacenter.cfg`                       | {pve} datacenter wide configuration (keyboard layout, proxy, ...)
-|`user.cfg`                             | {pve} access control configuration (users/groups/...)
+|`authkey.pub`                          | Public key used by the ticket system
+|`ceph.conf`                            | Ceph configuration file (note: /etc/ceph/ceph.conf is a symbolic link to this)
+|`corosync.conf`                        | Corosync cluster configuration file (prior to {pve} 4.x, this file was called cluster.conf)
+|`datacenter.cfg`                       | {pve} data center-wide configuration (keyboard layout, proxy, ...)
 |`domains.cfg`                          | {pve} authentication domains
-|`status.cfg`                           | {pve} external metrics server configuration
-|`authkey.pub`                          | Public key used by ticket system
-|`pve-root-ca.pem`                      | Public certificate of cluster CA
-|`priv/shadow.cfg`                      | Shadow password file
-|`priv/authkey.key`                     | Private key used by ticket system
-|`priv/pve-root-ca.key`                 | Private key of cluster CA
-|`nodes/<NAME>/pve-ssl.pem`             | Public SSL certificate for web server (signed by cluster CA)
-|`nodes/<NAME>/pve-ssl.key`             | Private SSL key for `pve-ssl.pem`
-|`nodes/<NAME>/pveproxy-ssl.pem`        | Public SSL certificate (chain) for web server (optional override for `pve-ssl.pem`)
-|`nodes/<NAME>/pveproxy-ssl.key`        | Private SSL key for `pveproxy-ssl.pem` (optional)
-|`nodes/<NAME>/qemu-server/<VMID>.conf` | VM configuration data for KVM VMs
-|`nodes/<NAME>/lxc/<VMID>.conf`         | VM configuration data for LXC containers
 |`firewall/cluster.fw`                  | Firewall configuration applied to all nodes
 |`firewall/<NAME>.fw`                   | Firewall configuration for individual nodes
-|`firewall/<VMID>.fw`                   | Firewall configuration for VMs and Containers
+|`firewall/<VMID>.fw`                   | Firewall configuration for VMs and containers
+|`ha/crm_commands`                      | Displays HA operations that are currently being carried out by the CRM
+|`ha/manager_status`                    | JSON-formatted information regarding HA services on the cluster
+|`ha/resources.cfg`                     | Resources managed by high availability, and their current state
+|`nodes/<NAME>/config`                  | Node-specific configuration
+|`nodes/<NAME>/lxc/<VMID>.conf`         | VM configuration data for LXC containers
+|`nodes/<NAME>/openvz/`                 | Prior to PVE 4.0, used for container configuration data (deprecated, removed soon)
+|`nodes/<NAME>/pve-ssl.key`             | Private SSL key for `pve-ssl.pem`
+|`nodes/<NAME>/pve-ssl.pem`             | Public SSL certificate for web server (signed by cluster CA)
+|`nodes/<NAME>/pveproxy-ssl.key`        | Private SSL key for `pveproxy-ssl.pem` (optional)
+|`nodes/<NAME>/pveproxy-ssl.pem`        | Public SSL certificate (chain) for web server (optional override for `pve-ssl.pem`)
+|`nodes/<NAME>/qemu-server/<VMID>.conf` | VM configuration data for KVM VMs
+|`priv/authkey.key`                     | Private key used by ticket system
+|`priv/authorized_keys`                 | SSH keys of cluster members for authentication
+|`priv/ceph*`                           | Ceph authentication keys and associated capabilities
+|`priv/known_hosts`                     | SSH keys of the cluster members for verification
+|`priv/lock/*`                          | Lock files used by various services to ensure safe cluster-wide operations
+|`priv/pve-root-ca.key`                 | Private key of cluster CA
+|`priv/shadow.cfg`                      | Shadow password file for PVE Realm users
+|`priv/storage/<STORAGE-ID>.pw`         | Contains the password of a storage in plain text
+|`priv/tfa.cfg`                         | Base64-encoded two-factor authentication configuration
+|`priv/token.cfg`                       | API token secrets of all tokens
+|`pve-root-ca.pem`                      | Public certificate of cluster CA
+|`pve-www.key`                          | Private key used for generating CSRF tokens
+|`sdn/*`                                | Shared configuration files for Software Defined Networking (SDN)
+|`status.cfg`                           | {pve} external metrics server configuration
+|`storage.cfg`                          | {pve} storage configuration
+|`user.cfg`                             | {pve} access control configuration (users/groups/...)
+|`virtual-guest/cpu-models.conf`        | For storing custom CPU models
+|`vzdump.cron`                          | Cluster-wide vzdump backup-job schedule
 |=======
 
 
 Symbolic links
 ~~~~~~~~~~~~~~
 
+Certain directories within the cluster file system use symbolic links, in order
+to point to a node's own configuration files. Thus, the files pointed to in the
+table below refer to different files on each node of the cluster.
+
 [width="100%",cols="m,m"]
 |=======
 |`local`         | `nodes/<LOCAL_HOST_NAME>`
-|`qemu-server`   | `nodes/<LOCAL_HOST_NAME>/qemu-server/`
 |`lxc`           | `nodes/<LOCAL_HOST_NAME>/lxc/`
+|`openvz`        | `nodes/<LOCAL_HOST_NAME>/openvz/` (deprecated, removed soon)
+|`qemu-server`   | `nodes/<LOCAL_HOST_NAME>/qemu-server/`
 |=======
 
 
