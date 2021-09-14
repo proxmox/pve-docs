@@ -30,17 +30,17 @@ cluster nodes using `corosync`. We use this to store all PVE related
 configuration files.
 
 Although the file system stores all data inside a persistent database
-on disk, a copy of the data resides in RAM. That imposes restriction
+on disk, a copy of the data resides in RAM. This imposes restrictions
 on the maximum size, which is currently 30MB. This is still enough to
 store the configuration of several thousand virtual machines.
 
 This system provides the following advantages:
 
-* seamless replication of all configuration to all nodes in real time
-* provides strong consistency checks to avoid duplicate VM IDs
-* read-only when a node loses quorum
-* automatic updates of the corosync cluster configuration to all nodes
-* includes a distributed locking mechanism
+* Seamless replication of all configuration to all nodes in real time
+* Provides strong consistency checks to avoid duplicate VM IDs
+* Read-only when a node loses quorum
+* Automatic updates of the corosync cluster configuration to all nodes
+* Includes a distributed locking mechanism
 
 
 POSIX Compatibility
@@ -49,13 +49,13 @@ POSIX Compatibility
 The file system is based on FUSE, so the behavior is POSIX like. But
 some feature are simply not implemented, because we do not need them:
 
-* you can just generate normal files and directories, but no symbolic
+* You can just generate normal files and directories, but no symbolic
   links, ...
 
-* you can't rename non-empty directories (because this makes it easier
+* You can't rename non-empty directories (because this makes it easier
   to guarantee that VMIDs are unique).
 
-* you can't change file permissions (permissions are based on path)
+* You can't change file permissions (permissions are based on paths)
 
 * `O_EXCL` creates were not atomic (like old NFS)
 
@@ -67,12 +67,10 @@ File Access Rights
 
 All files and directories are owned by user `root` and have group
 `www-data`. Only root has write permissions, but group `www-data` can
-read most files. Files below the following paths:
+read most files. Files below the following paths are only accessible by root:
 
  /etc/pve/priv/
  /etc/pve/nodes/${NAME}/priv/
-
-are only accessible by root.
 
 
 Technology
@@ -157,25 +155,25 @@ And disable verbose syslog messages with:
 Recovery
 --------
 
-If you have major problems with your Proxmox VE host, e.g. hardware
-issues, it could be helpful to just copy the pmxcfs database file
-`/var/lib/pve-cluster/config.db` and move it to a new Proxmox VE
+If you have major problems with your {pve} host, for example hardware
+issues, it could be helpful to copy the pmxcfs database file
+`/var/lib/pve-cluster/config.db`, and move it to a new {pve}
 host. On the new host (with nothing running), you need to stop the
-`pve-cluster` service and replace the `config.db` file (needed permissions
-`0600`). Second, adapt `/etc/hostname` and `/etc/hosts` according to the
-lost Proxmox VE host, then reboot and check. (And don't forget your
-VM/CT data)
+`pve-cluster` service and replace the `config.db` file (required permissions
+`0600`). Following this, adapt `/etc/hostname` and `/etc/hosts` according to the
+lost {pve} host, then reboot and check (and don't forget your
+VM/CT data).
 
 
-Remove Cluster configuration
+Remove Cluster Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The recommended way is to reinstall the node after you removed it from
-your cluster. This makes sure that all secret cluster/ssh keys and any
+The recommended way is to reinstall the node after you remove it from
+your cluster. This ensures that all secret cluster/ssh keys and any
 shared configuration data is destroyed.
 
 In some cases, you might prefer to put a node back to local mode without
-reinstall, which is described in
+reinstalling, which is described in
 <<pvecm_separate_node_without_reinstall,Separate A Node Without Reinstalling>>
 
 
@@ -183,28 +181,28 @@ Recovering/Moving Guests from Failed Nodes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 For the guest configuration files in `nodes/<NAME>/qemu-server/` (VMs) and
-`nodes/<NAME>/lxc/` (containers), {pve} sees the containing node `<NAME>` as
+`nodes/<NAME>/lxc/` (containers), {pve} sees the containing node `<NAME>` as the
 owner of the respective guest. This concept enables the usage of local locks
 instead of expensive cluster-wide locks for preventing concurrent guest
 configuration changes.
 
-As a consequence, if the owning node of a guest fails (e.g., because of a power
-outage, fencing event, ..), a regular migration is not possible (even if all
-the disks are located on shared storage) because such a local lock on the
-(dead) owning node is unobtainable. This is not a problem for HA-managed
+As a consequence, if the owning node of a guest fails (for example, due to a power
+outage, fencing event, etc.), a regular migration is not possible (even if all
+the disks are located on shared storage), because such a local lock on the
+(offline) owning node is unobtainable. This is not a problem for HA-managed
 guests, as {pve}'s High Availability stack includes the necessary
 (cluster-wide) locking and watchdog functionality to ensure correct and
 automatic recovery of guests from fenced nodes.
 
 If a non-HA-managed guest has only shared disks (and no other local resources
-which are only available on the failed node are configured), a manual recovery
+which are only available on the failed node), a manual recovery
 is possible by simply moving the guest configuration file from the failed
-node's directory in `/etc/pve/` to an alive node's directory (which changes the
+node's directory in `/etc/pve/` to an online node's directory (which changes the
 logical owner or location of the guest).
 
-For example, recovering the VM with ID `100` from a dead `node1` to another
-node `node2` works with the following command executed when logged in as root
-on any member node of the cluster:
+For example, recovering the VM with ID `100` from an offline `node1` to another
+node `node2` works by running the following command as root on any member node
+of the cluster:
 
  mv /etc/pve/nodes/node1/qemu-server/100.conf /etc/pve/nodes/node2/
 
@@ -213,8 +211,8 @@ that the failed source node is really powered off/fenced. Otherwise {pve}'s
 locking principles are violated by the `mv` command, which can have unexpected
 consequences.
 
-WARNING: Guest with local disks (or other local resources which are only
-available on the dead node) are not recoverable like this. Either wait for the
+WARNING: Guests with local disks (or other local resources which are only
+available on the offline node) are not recoverable like this. Either wait for the
 failed node to rejoin the cluster or restore such guests from backups.
 
 ifdef::manvolnum[]
