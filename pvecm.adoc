@@ -33,19 +33,19 @@ network performance. Currently (2021), there are reports of clusters (using
 high-end enterprise hardware) with over 50 nodes in production.
 
 `pvecm` can be used to create a new cluster, join nodes to a cluster,
-leave the cluster, get status information and do various other cluster-related
+leave the cluster, get status information, and do various other cluster-related
 tasks. The **P**rox**m**o**x** **C**luster **F**ile **S**ystem (``pmxcfs'')
 is used to transparently distribute the cluster configuration to all cluster
 nodes.
 
 Grouping nodes into a cluster has the following advantages:
 
-* Centralized, web based management
+* Centralized, web-based management
 
 * Multi-master clusters: each node can do all management tasks
 
-* `pmxcfs`: database-driven file system for storing configuration files,
- replicated in real-time on all nodes using `corosync`.
+* Use of `pmxcfs`, a database-driven file system, for storing configuration
+  files, replicated in real-time on all nodes using `corosync`
 
 * Easy migration of virtual machines and containers between physical
   hosts
@@ -61,9 +61,9 @@ Requirements
 * All nodes must be able to connect to each other via UDP ports 5404 and 5405
  for corosync to work.
 
-* Date and time have to be synchronized.
+* Date and time must be synchronized.
 
-* SSH tunnel on TCP port 22 between nodes is used.
+* An SSH tunnel on TCP port 22 between nodes is required.
 
 * If you are interested in High Availability, you need to have at
   least three nodes for reliable quorum. All nodes should have the
@@ -72,14 +72,14 @@ Requirements
 * We recommend a dedicated NIC for the cluster traffic, especially if
   you use shared storage.
 
-* Root password of a cluster node is required for adding nodes.
+* The root password of a cluster node is required for adding nodes.
 
 NOTE: It is not possible to mix {pve} 3.x and earlier with {pve} 4.X cluster
 nodes.
 
-NOTE: While it's possible to mix {pve} 4.4 and {pve} 5.0  nodes, doing so is
-not supported as production configuration and should only used temporarily
-during upgrading the whole cluster from one to another major version.
+NOTE: While it's possible to mix {pve} 4.4 and {pve} 5.0 nodes, doing so is
+not supported as a production configuration and should only be done temporarily,
+during an upgrade of the whole cluster from one major version to another.
 
 NOTE: Running a cluster of {pve} 6.x with earlier versions is not possible. The
 cluster protocol (corosync) between {pve} 6.x and earlier versions changed
@@ -94,12 +94,12 @@ First, install {PVE} on all nodes. Make sure that each node is
 installed with the final hostname and IP configuration. Changing the
 hostname and IP is not possible after cluster creation.
 
-While it's common to reference all nodenames and their IPs in `/etc/hosts` (or
+While it's common to reference all node names and their IPs in `/etc/hosts` (or
 make their names resolvable through other means), this is not necessary for a
 cluster to work. It may be useful however, as you can then connect from one node
-to the other with SSH via the easier to remember node name (see also
+to another via SSH, using the easier to remember node name (see also
 xref:pvecm_corosync_addresses[Link Address Types]). Note that we always
-recommend to reference nodes by their IP addresses in the cluster configuration.
+recommend referencing nodes by their IP addresses in the cluster configuration.
 
 
 [[pvecm_create_cluster]]
@@ -107,7 +107,7 @@ Create a Cluster
 ----------------
 
 You can either create a cluster on the console (login via `ssh`), or through
-the API using the {pve} Webinterface (__Datacenter -> Cluster__).
+the API using the {pve} web interface (__Datacenter -> Cluster__).
 
 NOTE: Use a unique name for your cluster. This name cannot be changed later.
 The cluster name follows the same rules as node names.
@@ -119,23 +119,23 @@ Create via Web GUI
 [thumbnail="screenshot/gui-cluster-create.png"]
 
 Under __Datacenter -> Cluster__, click on *Create Cluster*. Enter the cluster
-name and select a network connection from the dropdown to serve as the main
-cluster network (Link 0). It defaults to the IP resolved via the node's
+name and select a network connection from the drop-down list to serve as the
+main cluster network (Link 0). It defaults to the IP resolved via the node's
 hostname.
 
 To add a second link as fallback, you can select the 'Advanced' checkbox and
 choose an additional network interface (Link 1, see also
 xref:pvecm_redundancy[Corosync Redundancy]).
 
-NOTE: Ensure the network selected for the cluster communication is not used for
-any high traffic loads like those of (network) storages or live-migration.
+NOTE: Ensure that the network selected for cluster communication is not used for
+any high traffic purposes, like network storage or live-migration.
 While the cluster network itself produces small amounts of data, it is very
 sensitive to latency. Check out full
 xref:pvecm_cluster_network_requirements[cluster network requirements].
 
 [[pvecm_cluster_create_via_cli]]
-Create via Command Line
-~~~~~~~~~~~~~~~~~~~~~~~
+Create via the Command Line
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Login via `ssh` to the first {pve} node and run the following command:
 
@@ -149,13 +149,13 @@ To check the state of the new cluster use:
  hp1# pvecm status
 ----
 
-Multiple Clusters In Same Network
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Multiple Clusters in the Same Network
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 It is possible to create multiple clusters in the same physical or logical
-network. Each such cluster must have a unique name to avoid possible clashes in
-the cluster communication stack. This also helps avoid human confusion by making
-clusters clearly distinguishable.
+network. In this case, each cluster must have a unique name to avoid possible
+clashes in the cluster communication stack. Furthermore, this helps avoid human
+confusion by making clusters clearly distinguishable.
 
 While the bandwidth requirement of a corosync cluster is relatively low, the
 latency of packages and the package per second (PPS) rate is the limiting
@@ -169,23 +169,23 @@ Adding Nodes to the Cluster
 
 CAUTION: A node that is about to be added to the cluster cannot hold any guests.
 All existing configuration in `/etc/pve` is overwritten when joining a cluster,
-since guest IDs could be conflicting. As a workaround create a backup of the
-guest (`vzdump`) and restore it as a different ID after the node has been added
-to the cluster.
+since guest IDs could otherwise conflict. As a workaround, you can create a
+backup of the guest (`vzdump`) and restore it under a different ID, after the
+node has been added to the cluster.
 
 Join Node to Cluster via GUI
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 [thumbnail="screenshot/gui-cluster-join-information.png"]
 
-Login to the web interface on an existing cluster node. Under __Datacenter ->
-Cluster__, click the button *Join Information* at the top. Then, click on the
+Log in to the web interface on an existing cluster node. Under __Datacenter ->
+Cluster__, click the *Join Information* button at the top. Then, click on the
 button *Copy Information*. Alternatively, copy the string from the 'Information'
 field manually.
 
 [thumbnail="screenshot/gui-cluster-join.png"]
 
-Next, login to the web interface on the node you want to add.
+Next, log in to the web interface on the node you want to add.
 Under __Datacenter -> Cluster__, click on *Join Cluster*. Fill in the
 'Information' field with the 'Join Information' text you copied earlier.
 Most settings required for joining the cluster will be filled out
@@ -196,24 +196,24 @@ NOTE: To enter all required data manually, you can disable the 'Assisted Join'
 checkbox.
 
 After clicking the *Join* button, the cluster join process will start
-immediately. After the node joined the cluster its current node certificate
-will be replaced by one signed from the cluster certificate authority (CA),
-that means the current session will stop to work after a few seconds. You might
-then need to force-reload the webinterface and re-login with the cluster
-credentials.
+immediately. After the node has joined the cluster, its current node certificate
+will be replaced by one signed from the cluster certificate authority (CA).
+This means that the current session will stop working after a few seconds. You
+then might need to force-reload the web interface and log in again with the
+cluster credentials.
 
 Now your node should be visible under __Datacenter -> Cluster__.
 
 Join Node to Cluster via Command Line
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Login via `ssh` to the node you want to join into an existing cluster.
+Log in to the node you want to join into an existing cluster via `ssh`.
 
 ----
  hp2# pvecm add IP-ADDRESS-CLUSTER
 ----
 
-For `IP-ADDRESS-CLUSTER` use the IP or hostname of an existing cluster node.
+For `IP-ADDRESS-CLUSTER`, use the IP or hostname of an existing cluster node.
 An IP address is recommended (see xref:pvecm_corosync_addresses[Link Address Types]).
 
 
@@ -252,7 +252,7 @@ Membership information
 0x00000004          1 192.168.15.94
 ----
 
-If you only want the list of all nodes use:
+If you only want a list of all nodes, use:
 
 ----
  # pvecm nodes
@@ -272,10 +272,10 @@ Membership information
 ----
 
 [[pvecm_adding_nodes_with_separated_cluster_network]]
-Adding Nodes With Separated Cluster Network
+Adding Nodes with Separated Cluster Network
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When adding a node to a cluster with a separated cluster network you need to
+When adding a node to a cluster with a separated cluster network, you need to
 use the 'link0' parameter to set the nodes address on that network:
 
 [source,bash]
@@ -284,20 +284,20 @@ pvecm add IP-ADDRESS-CLUSTER -link0 LOCAL-IP-ADDRESS-LINK0
 ----
 
 If you want to use the built-in xref:pvecm_redundancy[redundancy] of the
-kronosnet transport layer, also use the 'link1' parameter.
+Kronosnet transport layer, also use the 'link1' parameter.
 
-Using the GUI, you can select the correct interface from the corresponding 'Link 0'
-and 'Link 1' fields in the *Cluster Join* dialog.
+Using the GUI, you can select the correct interface from the corresponding
+'Link X' fields in the *Cluster Join* dialog.
 
 Remove a Cluster Node
 ---------------------
 
-CAUTION: Read carefully the procedure before proceeding, as it could
+CAUTION: Read the procedure carefully before proceeding, as it may
 not be what you want or need.
 
-Move all virtual machines from the node. Make sure you have no local
-data or backups you want to keep, or save them accordingly.
-In the following example we will remove the node hp4 from the cluster.
+Move all virtual machines from the node. Make sure you have made copies of any
+local data or backups that you want to keep. In the following example, we will
+remove the node hp4 from the cluster.
 
 Log in to a *different* cluster node (not hp4), and issue a `pvecm nodes`
 command to identify the node ID to remove:
@@ -315,15 +315,14 @@ Membership information
 ----
 
 
-At this point you must power off hp4 and
-make sure that it will not power on again (in the network) as it
-is.
+At this point, you must power off hp4 and ensure that it will not power on
+again (in the network) with its current configuration.
 
-IMPORTANT: As said above, it is critical to power off the node
-*before* removal, and make sure that it will *never* power on again
-(in the existing cluster network) as it is.
-If you power on the node as it is, your cluster will be screwed up and
-it could be difficult to restore a clean cluster state.
+IMPORTANT: As mentioned above, it is critical to power off the node
+*before* removal, and make sure that it will *not* power on again
+(in the existing cluster network) with its current configuration.
+If you power on the node as it is, the cluster could end up broken,
+and it could be difficult to restore it to a functioning state.
 
 After powering off the node hp4, we can safely remove it from the cluster.
 
@@ -364,9 +363,9 @@ Membership information
 ----
 
 If, for whatever reason, you want this server to join the same cluster again,
-you have to
+you have to:
 
-* reinstall {pve} on it from scratch
+* do a fresh install of {pve} on it,
 
 * then join it, as explained in the previous section.
 
@@ -376,37 +375,37 @@ a node with the same IP or hostname, run `pvecm updatecerts` once on the
 re-added node to update its fingerprint cluster wide.
 
 [[pvecm_separate_node_without_reinstall]]
-Separate A Node Without Reinstalling
+Separate a Node Without Reinstalling
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 CAUTION: This is *not* the recommended method, proceed with caution. Use the
-above mentioned method if you're unsure.
+previous method if you're unsure.
 
 You can also separate a node from a cluster without reinstalling it from
-scratch.  But after removing the node from the cluster it will still have
-access to the shared storages! This must be resolved before you start removing
+scratch. But after removing the node from the cluster, it will still have
+access to any shared storage. This must be resolved before you start removing
 the node from the cluster. A {pve} cluster cannot share the exact same
 storage with another cluster, as storage locking doesn't work over the cluster
-boundary. Further, it may also lead to VMID conflicts.
+boundary. Furthermore, it may also lead to VMID conflicts.
 
-Its suggested that you create a new storage where only the node which you want
+It's suggested that you create a new storage, where only the node which you want
 to separate has access. This can be a new export on your NFS or a new Ceph
-pool, to name a few examples. Its just important that the exact same storage
-does not gets accessed by multiple clusters. After setting this storage up move
-all data from the node and its VMs to it. Then you are ready to separate the
+pool, to name a few examples. It's just important that the exact same storage
+does not get accessed by multiple clusters. After setting up this storage, move
+all data and VMs from the node to it. Then you are ready to separate the
 node from the cluster.
 
-WARNING: Ensure all shared resources are cleanly separated! Otherwise you will
-run into conflicts and problems.
+WARNING: Ensure that all shared resources are cleanly separated! Otherwise you
+will run into conflicts and problems.
 
-First, stop the corosync and the pve-cluster services on the node:
+First, stop the corosync and pve-cluster services on the node:
 [source,bash]
 ----
 systemctl stop pve-cluster
 systemctl stop corosync
 ----
 
-Start the cluster filesystem again in local mode:
+Start the cluster file system again in local mode:
 [source,bash]
 ----
 pmxcfs -l
@@ -419,22 +418,22 @@ rm /etc/pve/corosync.conf
 rm -r /etc/corosync/*
 ----
 
-You can now start the filesystem again as normal service:
+You can now start the file system again as a normal service:
 [source,bash]
 ----
 killall pmxcfs
 systemctl start pve-cluster
 ----
 
-The node is now separated from the cluster. You can deleted it from a remaining
-node of the cluster with:
+The node is now separated from the cluster. You can deleted it from any
+remaining node of the cluster with:
 [source,bash]
 ----
 pvecm delnode oldnode
 ----
 
-If the command failed, because the remaining node in the cluster lost quorum
-when the now separate node exited, you may set the expected votes to 1 as a workaround:
+If the command fails due to a loss of quorum in the remaining node, you can set
+the expected votes to 1 as a workaround:
 [source,bash]
 ----
 pvecm expected 1
@@ -442,9 +441,9 @@ pvecm expected 1
 
 And then repeat the 'pvecm delnode' command.
 
-Now switch back to the separated node, here delete all remaining files left
-from the old cluster. This ensures that the node can be added to another
-cluster again without problems.
+Now switch back to the separated node and delete all the remaining cluster
+files on it. This ensures that the node can be added to another cluster again
+without problems.
 
 [source,bash]
 ----
@@ -452,13 +451,13 @@ rm /var/lib/corosync/*
 ----
 
 As the configuration files from the other nodes are still in the cluster
-filesystem you may want to clean those up too.  Remove simply the whole
-directory recursive from '/etc/pve/nodes/NODENAME', but check three times that
-you used the correct one before deleting it.
+file system, you may want to clean those up too. After making absolutely sure
+that you have the correct node name, you can simply remove the entire
+directory recursively from '/etc/pve/nodes/NODENAME'.
 
-CAUTION: The nodes SSH keys are still in the 'authorized_key' file, this means
-the nodes can still connect to each other with public key authentication. This
-should be fixed by removing the respective keys from the
+CAUTION: The node's SSH keys will remain in the 'authorized_key' file. This
+means that the nodes can still connect to each other with public key
+authentication. You should fix this by removing the respective keys from the
 '/etc/pve/priv/authorized_keys' file.
 
 
@@ -487,21 +486,21 @@ Cluster Network
 
 The cluster network is the core of a cluster. All messages sent over it have to
 be delivered reliably to all nodes in their respective order. In {pve} this
-part is done by corosync, an implementation of a high performance, low overhead
-high availability development toolkit. It serves our decentralized
-configuration file system (`pmxcfs`).
+part is done by corosync, an implementation of a high performance, low overhead,
+high availability development toolkit. It serves our decentralized configuration
+file system (`pmxcfs`).
 
 [[pvecm_cluster_network_requirements]]
 Network Requirements
 ~~~~~~~~~~~~~~~~~~~~
 This needs a reliable network with latencies under 2 milliseconds (LAN
 performance) to work properly. The network should not be used heavily by other
-members, ideally corosync runs on its own network. Do not use a shared network
+members; ideally corosync runs on its own network. Do not use a shared network
 for corosync and storage (except as a potential low-priority fallback in a
 xref:pvecm_redundancy[redundant] configuration).
 
 Before setting up a cluster, it is good practice to check if the network is fit
-for that purpose. To make sure the nodes can connect to each other on the
+for that purpose. To ensure that the nodes can connect to each other on the
 cluster network, you can test the connectivity between them with the `ping`
 tool.
 
@@ -520,13 +519,13 @@ This is therefore not recommended.
 Separate Cluster Network
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-When creating a cluster without any parameters the corosync cluster network is
-generally shared with the Web UI and the VMs and their traffic. Depending on
-your setup, even storage traffic may get sent over the same network. Its
-recommended to change that, as corosync is a time critical real time
+When creating a cluster without any parameters, the corosync cluster network is
+generally shared with the web interface and the VMs' network. Depending on
+your setup, even storage traffic may get sent over the same network. It's
+recommended to change that, as corosync is a time-critical, real-time
 application.
 
-Setting Up A New Network
+Setting Up a New Network
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 First, you have to set up a new network interface. It should be on a physically
@@ -537,7 +536,7 @@ Separate On Cluster Creation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This is possible via the 'linkX' parameters of the 'pvecm create'
-command used for creating a new cluster.
+command, used for creating a new cluster.
 
 If you have set up an additional NIC with a static address on 10.10.10.1/25,
 and want to send and receive all cluster communication over this interface,
@@ -548,7 +547,7 @@ you would execute:
 pvecm create test --link0 10.10.10.1
 ----
 
-To check if everything is working properly execute:
+To check if everything is working properly, execute:
 [source,bash]
 ----
 systemctl status corosync
@@ -563,7 +562,7 @@ Separate After Cluster Creation
 
 You can do this if you have already created a cluster and want to switch
 its communication to another network, without rebuilding the whole cluster.
-This change may lead to short durations of quorum loss in the cluster, as nodes
+This change may lead to short periods of quorum loss in the cluster, as nodes
 have to restart corosync and come up one after the other on the new network.
 
 Check how to xref:pvecm_edit_corosync_conf[edit the corosync.conf file] first.
@@ -617,24 +616,24 @@ totem {
 }
 ----
 
-NOTE: `ringX_addr` actually specifies a corosync *link address*, the name "ring"
+NOTE: `ringX_addr` actually specifies a corosync *link address*. The name "ring"
 is a remnant of older corosync versions that is kept for backwards
 compatibility.
 
-The first thing you want to do is add the 'name' properties in the node entries
+The first thing you want to do is add the 'name' properties in the node entries,
 if you do not see them already. Those *must* match the node name.
 
 Then replace all addresses from the 'ring0_addr' properties of all nodes with
 the new addresses. You may use plain IP addresses or hostnames here. If you use
-hostnames ensure that they are resolvable from all nodes. (see also
-xref:pvecm_corosync_addresses[Link Address Types])
+hostnames, ensure that they are resolvable from all nodes (see also
+xref:pvecm_corosync_addresses[Link Address Types]).
 
-In this example, we want to switch the cluster communication to the
-10.10.10.1/25 network. So we replace all 'ring0_addr' respectively.
+In this example, we want to switch cluster communication to the
+10.10.10.1/25 network, so we change the 'ring0_addr' of each node respectively.
 
 NOTE: The exact same procedure can be used to change other 'ringX_addr' values
-as well, although we recommend to not change multiple addresses at once, to make
-it easier to recover if something goes wrong.
+as well. However, we recommend only changing one link address at a time, so
+that it's easier to recover if something goes wrong.
 
 After we increase the 'config_version' property, the new configuration file
 should look like:
@@ -687,9 +686,10 @@ totem {
 }
 ----
 
-Then, after a final check if all changed information is correct, we save it and
-once again follow the xref:pvecm_edit_corosync_conf[edit corosync.conf file]
-section to bring it into effect.
+Then, after a final check to see that all changed information is correct, we
+save it and once again follow the
+xref:pvecm_edit_corosync_conf[edit corosync.conf file] section to bring it into
+effect.
 
 The changes will be applied live, so restarting corosync is not strictly
 necessary. If you changed other settings as well, or notice corosync
@@ -702,32 +702,32 @@ On a single node execute:
 systemctl restart corosync
 ----
 
-Now check if everything is fine:
+Now check if everything is okay:
 
 [source,bash]
 ----
 systemctl status corosync
 ----
 
-If corosync runs again correct restart corosync also on all other nodes.
+If corosync begins to work again, restart it on all other nodes too.
 They will then join the cluster membership one by one on the new network.
 
 [[pvecm_corosync_addresses]]
-Corosync addresses
+Corosync Addresses
 ~~~~~~~~~~~~~~~~~~
 
 A corosync link address (for backwards compatibility denoted by 'ringX_addr' in
 `corosync.conf`) can be specified in two ways:
 
-* **IPv4/v6 addresses** will be used directly. They are recommended, since they
+* **IPv4/v6 addresses** can be used directly. They are recommended, since they
 are static and usually not changed carelessly.
 
-* **Hostnames** will be resolved using `getaddrinfo`, which means that per
+* **Hostnames** will be resolved using `getaddrinfo`, which means that by
 default, IPv6 addresses will be used first, if available (see also
 `man gai.conf`). Keep this in mind, especially when upgrading an existing
 cluster to IPv6.
 
-CAUTION: Hostnames should be used with care, since the address they
+CAUTION: Hostnames should be used with care, since the addresses they
 resolve to can be changed without touching corosync or the node it runs on -
 which may lead to a situation where an address is changed without thinking
 about implications for corosync.
@@ -737,7 +737,7 @@ hostnames are preferred. Also, make sure that every node in the cluster can
 resolve all hostnames correctly.
 
 Since {pve} 5.1, while supported, hostnames will be resolved at the time of
-entry. Only the resolved IP is then saved to the configuration.
+entry. Only the resolved IP is saved to the configuration.
 
 Nodes that joined the cluster on earlier versions likely still use their
 unresolved hostname in `corosync.conf`. It might be a good idea to replace
@@ -748,7 +748,7 @@ them with IPs or a separate hostname, as mentioned above.
 Corosync Redundancy
 -------------------
 
-Corosync supports redundant networking via its integrated kronosnet layer by
+Corosync supports redundant networking via its integrated Kronosnet layer by
 default (it is not supported on the legacy udp/udpu transports). It can be
 enabled by specifying more than one link address, either via the '--linkX'
 parameters of `pvecm`, in the GUI as **Link 1** (while creating a cluster or
@@ -774,13 +774,13 @@ links will be used in order of their number, with the lower number having higher
 priority.
 
 Even if all links are working, only the one with the highest priority will see
-corosync traffic. Link priorities cannot be mixed, i.e. links with different
-priorities will not be able to communicate with each other.
+corosync traffic. Link priorities cannot be mixed, meaning that links with
+different priorities will not be able to communicate with each other.
 
 Since lower priority links will not see traffic unless all higher priorities
-have failed, it becomes a useful strategy to specify even networks used for
-other tasks (VMs, storage, etc...) as low-priority links. If worst comes to
-worst, a higher-latency or more congested connection might be better than no
+have failed, it becomes a useful strategy to specify networks used for
+other tasks (VMs, storage, etc.) as low-priority links. If worst comes to
+worst, a higher latency or more congested connection might be better than no
 connection at all.
 
 Adding Redundant Links To An Existing Cluster
@@ -794,7 +794,7 @@ sure that your 'X' is the same for every node you add it to, and that it is
 unique for each node.
 
 Lastly, add a new 'interface', as shown below, to your `totem`
-section, replacing 'X' with your link number chosen above.
+section, replacing 'X' with the link number chosen above.
 
 Assuming you added a link with number 1, the new configuration file could look
 like this:
@@ -884,7 +884,7 @@ B via a non-interactive SSH tunnel.
 
 * VM and CT memory and local-storage migration in 'secure' mode.
 +
-During the migration one or more SSH tunnel(s) are established between the
+During the migration, one or more SSH tunnel(s) are established between the
 source and target nodes, in order to exchange migration information and
 transfer memory and disk contents.
 
@@ -896,8 +896,8 @@ transfer memory and disk contents.
 In case you have a custom `.bashrc`, or similar files that get executed on
 login by the configured shell, `ssh` will automatically run it once the session
 is established successfully. This can cause some unexpected behavior, as those
-commands may be executed with root permissions on any above described
-operation. That can cause possible problematic side-effects!
+commands may be executed with root permissions on any of the operations
+described above. This can cause possible problematic side-effects!
 
 In order to avoid such complications, it's recommended to add a check in
 `/root/.bashrc` to make sure the session is interactive, and only then run
@@ -922,42 +922,42 @@ This section describes a way to deploy an external voter in a {pve} cluster.
 When configured, the cluster can sustain more node failures without
 violating safety properties of the cluster communication.
 
-For this to work there are two services involved:
+For this to work, there are two services involved:
 
-* a so called qdevice daemon which runs on each {pve} node
+* A QDevice daemon which runs on each {pve} node
 
-* an external vote daemon which runs on an independent server.
+* An external vote daemon which runs on an independent server
 
-As a result you can achieve higher availability even in smaller setups (for
+As a result, you can achieve higher availability, even in smaller setups (for
 example 2+1 nodes).
 
 QDevice Technical Overview
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The Corosync Quorum Device (QDevice) is a daemon which runs on each cluster
-node. It provides a configured number of votes to the clusters quorum
-subsystem based on an external running third-party arbitrator's decision.
+node. It provides a configured number of votes to the cluster's quorum
+subsystem, based on an externally running third-party arbitrator's decision.
 Its primary use is to allow a cluster to sustain more node failures than
 standard quorum rules allow. This can be done safely as the external device
 can see all nodes and thus choose only one set of nodes to give its vote.
-This will only be done if said set of nodes can have quorum (again) when
+This will only be done if said set of nodes can have quorum (again) after
 receiving the third-party vote.
 
-Currently only 'QDevice Net' is supported as a third-party arbitrator. It is
-a daemon which provides a vote to a cluster partition if it can reach the
-partition members over the network. It will give only votes to one partition
+Currently, only 'QDevice Net' is supported as a third-party arbitrator. This is
+a daemon which provides a vote to a cluster partition, if it can reach the
+partition members over the network. It will only give votes to one partition
 of a cluster at any time.
 It's designed to support multiple clusters and is almost configuration and
 state free. New clusters are handled dynamically and no configuration file
 is needed on the host running a QDevice.
 
-The external host has the only requirement that it needs network access to the
-cluster and a corosync-qnetd package available. We provide such a package
-for Debian based hosts, other Linux distributions should also have a package
+The only requirements for the external host are that it needs network access to
+the cluster and to have a corosync-qnetd package available. We provide a package
+for Debian based hosts, and other Linux distributions should also have a package
 available through their respective package manager.
 
 NOTE: In contrast to corosync itself, a QDevice connects to the cluster over
-TCP/IP. The daemon may even run outside of the clusters LAN and can have longer
+TCP/IP. The daemon may even run outside of the cluster's LAN and can have longer
 latencies than 2 ms.
 
 Supported Setups
@@ -965,43 +965,41 @@ Supported Setups
 
 We support QDevices for clusters with an even number of nodes and recommend
 it for 2 node clusters, if they should provide higher availability.
-For clusters with an odd node count we discourage the use of QDevices
-currently. The reason for this, is the difference of the votes the QDevice
-provides for each cluster type. Even numbered clusters get single additional
-vote, with this we can only increase availability, i.e. if the QDevice
-itself fails we are in the same situation as with no QDevice at all.
+For clusters with an odd node count, we currently discourage the use of
+QDevices. The reason for this is the difference in the votes which the QDevice
+provides for each cluster type. Even numbered clusters get a single additional
+vote, which only increases availability, because if the QDevice
+itself fails, you are in the same position as with no QDevice at all.
 
-Now, with an odd numbered cluster size the QDevice provides '(N-1)' votes --
-where 'N' corresponds to the cluster node count. This difference makes
-sense, if we had only one additional vote the cluster can get into a split
-brain situation.
-This algorithm would allow that all nodes but one (and naturally the
-QDevice itself) could fail.
-There are two drawbacks with this:
+On the other hand, with an odd numbered cluster size, the QDevice provides
+'(N-1)' votes -- where 'N' corresponds to the cluster node count. This
+alternative behavior makes sense; if it had only one additional vote, the
+cluster could get into a split-brain situation. This algorithm allows for all
+nodes but one (and naturally the QDevice itself) to fail. However, there are two
+drawbacks to this:
 
 * If the QNet daemon itself fails, no other node may fail or the cluster
-  immediately loses quorum.  For example, in a cluster with 15 nodes 7
+  immediately loses quorum. For example, in a cluster with 15 nodes, 7
   could fail before the cluster becomes inquorate. But, if a QDevice is
-  configured here and said QDevice fails itself **no single node** of
-  the 15 may fail. The QDevice acts almost as a single point of failure in
-  this case.
+  configured here and it itself fails, **no single node** of the 15 may fail.
+  The QDevice acts almost as a single point of failure in this case.
 
-* The fact that all but one node plus QDevice may fail sound promising at
-  first, but this may result in a mass recovery of HA services that would
-  overload the single node left. Also ceph server will stop to provide
-  services after only '((N-1)/2)' nodes are online.
+* The fact that all but one node plus QDevice may fail sounds promising at
+  first, but this may result in a mass recovery of HA services, which could
+  overload the single remaining node. Furthermore, a Ceph server will stop
+  providing services if only '((N-1)/2)' nodes or less remain online.
 
-If you understand the drawbacks and implications you can decide yourself if
-you should use this technology in an odd numbered cluster setup.
+If you understand the drawbacks and implications, you can decide yourself if
+you want to use this technology in an odd numbered cluster setup.
 
 QDevice-Net Setup
 ~~~~~~~~~~~~~~~~~
 
-We recommend to run any daemon which provides votes to corosync-qdevice as an
+We recommend running any daemon which provides votes to corosync-qdevice as an
 unprivileged user. {pve} and Debian provide a package which is already
 configured to do so.
 The traffic between the daemon and the cluster must be encrypted to ensure a
-safe and secure QDevice integration in {pve}.
+safe and secure integration of the QDevice in {pve}.
 
 First, install the 'corosync-qnetd' package on your external server
 
@@ -1015,9 +1013,9 @@ and the 'corosync-qdevice' package on all cluster nodes
 pve# apt install corosync-qdevice
 ----
 
-After that, ensure that all your nodes on the cluster are online.
+After doing this, ensure that all the nodes in the cluster are online.
 
-You can now easily set up your QDevice by running the following command on one
+You can now set up your QDevice by running the following command on one
 of the {pve} nodes:
 
 ----
@@ -1029,8 +1027,8 @@ The SSH key from the cluster will be automatically copied to the QDevice.
 NOTE: Make sure that the SSH configuration on your external server allows root
 login via password, if you are asked for a password during this step.
 
-After you enter the password and all the steps are successfully completed, you
-will see "Done". You can check the status now:
+After you enter the password and all the steps have successfully completed, you
+will see "Done". You can verify that the QDevice has been set up with:
 
 ----
 pve# pvecm status
@@ -1054,7 +1052,6 @@ Membership information
 
 ----
 
-which means the QDevice is set up.
 
 Frequently Asked Questions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1063,15 +1060,15 @@ Tie Breaking
 ^^^^^^^^^^^^
 
 In case of a tie, where two same-sized cluster partitions cannot see each other
-but the QDevice, the QDevice chooses randomly one of those partitions and
-provides a vote to it.
+but can see the QDevice, the QDevice chooses one of those partitions randomly
+and provides a vote to it.
 
 Possible Negative Implications
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-For clusters with an even node count there are no negative implications when
-setting up a QDevice. If it fails to work, you are as good as without QDevice at
-all.
+For clusters with an even node count, there are no negative implications when
+using a QDevice. If it fails to work, it is the same as not having a QDevice
+at all.
 
 Adding/Deleting Nodes After QDevice Setup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1079,13 +1076,13 @@ Adding/Deleting Nodes After QDevice Setup
 If you want to add a new node or remove an existing one from a cluster with a
 QDevice setup, you need to remove the QDevice first. After that, you can add or
 remove nodes normally. Once you have a cluster with an even node count again,
-you can set up the QDevice again as described above.
+you can set up the QDevice again as described previously.
 
 Removing the QDevice
 ^^^^^^^^^^^^^^^^^^^^
 
 If you used the official `pvecm` tool to add the QDevice, you can remove it
-trivially by running:
+by running:
 
 ----
 pve# pvecm qdevice remove
@@ -1107,7 +1104,7 @@ For further information about it, check the corosync.conf man page:
 man corosync.conf
 ----
 
-For node membership you should always use the `pvecm` tool provided by {pve}.
+For node membership, you should always use the `pvecm` tool provided by {pve}.
 You may have to edit the configuration file manually for other changes.
 Here are a few best practice tips for doing this.
 
@@ -1120,52 +1117,53 @@ two on each cluster node, one in `/etc/pve/corosync.conf` and the other in
 `/etc/corosync/corosync.conf`. Editing the one in our cluster file system will
 propagate the changes to the local one, but not vice versa.
 
-The configuration will get updated automatically as soon as the file changes.
-This means changes which can be integrated in a running corosync will take
-effect immediately. So you should always make a copy and edit that instead, to
-avoid triggering some unwanted changes by an in-between safe.
+The configuration will get updated automatically, as soon as the file changes.
+This means that changes which can be integrated in a running corosync will take
+effect immediately. Thus, you should always make a copy and edit that instead,
+to avoid triggering unintended changes when saving the file while editing.
 
 [source,bash]
 ----
 cp /etc/pve/corosync.conf /etc/pve/corosync.conf.new
 ----
 
-Then open the config file with your favorite editor, `nano` and `vim.tiny` are
-preinstalled on any {pve} node for example.
+Then, open the config file with your favorite editor, such as `nano` or
+`vim.tiny`, which come pre-installed on every {pve} node.
 
-NOTE: Always increment the 'config_version' number on configuration changes,
+NOTE: Always increment the 'config_version' number after configuration changes;
 omitting this can lead to problems.
 
-After making the necessary changes create another copy of the current working
+After making the necessary changes, create another copy of the current working
 configuration file. This serves as a backup if the new configuration fails to
-apply or makes problems in other ways.
+apply or causes other issues.
 
 [source,bash]
 ----
 cp /etc/pve/corosync.conf /etc/pve/corosync.conf.bak
 ----
 
-Then move the new configuration file over the old one:
+Then replace the old configuration file with the new one:
 [source,bash]
 ----
 mv /etc/pve/corosync.conf.new /etc/pve/corosync.conf
 ----
 
-You may check with the commands
+You can check if the changes could be applied automatically, using the following
+commands:
 [source,bash]
 ----
 systemctl status corosync
 journalctl -b -u corosync
 ----
 
-If the change could be applied automatically. If not you may have to restart the
+If the changes could not be applied automatically, you may have to restart the
 corosync service via:
 [source,bash]
 ----
 systemctl restart corosync
 ----
 
-On errors check the troubleshooting section below.
+On errors, check the troubleshooting section below.
 
 Troubleshooting
 ~~~~~~~~~~~~~~~
@@ -1183,27 +1181,27 @@ corosync[1647]:  [SERV  ] Service engine 'corosync_quorum' failed to load for re
 [...]
 ----
 
-It means that the hostname you set for corosync 'ringX_addr' in the
+It means that the hostname you set for a corosync 'ringX_addr' in the
 configuration could not be resolved.
 
 Write Configuration When Not Quorate
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you need to change '/etc/pve/corosync.conf' on an node with no quorum, and you
-know what you do, use:
+If you need to change '/etc/pve/corosync.conf' on a node with no quorum, and you
+understand what you are doing, use:
 [source,bash]
 ----
 pvecm expected 1
 ----
 
 This sets the expected vote count to 1 and makes the cluster quorate. You can
-now fix your configuration, or revert it back to the last working backup.
+then fix your configuration, or revert it back to the last working backup.
 
-This is not enough if corosync cannot start anymore. Here it is best to edit the
-local copy of the corosync configuration in '/etc/corosync/corosync.conf' so
-that corosync can start again. Ensure that on all nodes this configuration has
-the same content to avoid split brains. If you are not sure what went wrong
-it's best to ask the Proxmox Community to help you.
+This is not enough if corosync cannot start anymore. In that case, it is best to
+edit the local copy of the corosync configuration in
+'/etc/corosync/corosync.conf', so that corosync can start again. Ensure that on
+all nodes, this configuration has the same content to avoid split-brain
+situations.
 
 
 [[pvecm_corosync_conf_glossary]]
@@ -1211,7 +1209,7 @@ Corosync Configuration Glossary
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ringX_addr::
-This names the different link addresses for the kronosnet connections between
+This names the different link addresses for the Kronosnet connections between
 nodes.
 
 
@@ -1230,7 +1228,7 @@ quorum. Once quorate, it starts all guests which have the `onboot`
 flag set.
 
 When you turn on nodes, or when power comes back after power failure,
-it is likely that some nodes boots faster than others. Please keep in
+it is likely that some nodes will boot faster than others. Please keep in
 mind that guest startup is delayed until you reach quorum.
 
 
@@ -1243,13 +1241,13 @@ migrations. This can be done via the configuration file
 `datacenter.cfg` or for a specific migration via API or command line
 parameters.
 
-It makes a difference if a Guest is online or offline, or if it has
+It makes a difference if a guest is online or offline, or if it has
 local resources (like a local disk).
 
-For Details about Virtual Machine Migration see the
+For details about virtual machine migration, see the
 xref:qm_migration[QEMU/KVM Migration Chapter].
 
-For Details about Container Migration see the
+For details about container migration, see the
 xref:pct_migration[Container Migration Chapter].
 
 Migration Type
@@ -1258,9 +1256,9 @@ Migration Type
 The migration type defines if the migration data should be sent over an
 encrypted (`secure`) channel or an unencrypted (`insecure`) one.
 Setting the migration type to insecure means that the RAM content of a
-virtual guest gets also transferred unencrypted, which can lead to
+virtual guest is also transferred unencrypted, which can lead to
 information disclosure of critical data from inside the guest (for
-example passwords or encryption keys).
+example, passwords or encryption keys).
 
 Therefore, we strongly recommend using the secure channel if you do
 not have full control over the network and can not guarantee that no
@@ -1273,33 +1271,33 @@ Encryption requires a lot of computing power, so this setting is often
 changed to "unsafe" to achieve better performance. The impact on
 modern systems is lower because they implement AES encryption in
 hardware. The performance impact is particularly evident in fast
-networks where you can transfer 10 Gbps or more.
+networks, where you can transfer 10 Gbps or more.
 
 Migration Network
 ~~~~~~~~~~~~~~~~~
 
 By default, {pve} uses the network in which cluster communication
-takes place to send the migration traffic. This is not optimal because
+takes place to send the migration traffic. This is not optimal both because
 sensitive cluster traffic can be disrupted and this network may not
 have the best bandwidth available on the node.
 
 Setting the migration network parameter allows the use of a dedicated
-network for the entire migration traffic. In addition to the memory,
+network for all migration traffic. In addition to the memory,
 this also affects the storage traffic for offline migrations.
 
-The migration network is set as a network in the CIDR notation. This
-has the advantage that you do not have to set individual IP addresses
-for each node.  {pve} can determine the real address on the
-destination node from the network specified in the CIDR form.  To
-enable this, the network must be specified so that each node has one,
-but only one IP in the respective network.
+The migration network is set as a network using CIDR notation. This
+has the advantage that you don't have to set individual IP addresses
+for each node. {pve} can determine the real address on the
+destination node from the network specified in the CIDR form. To
+enable this, the network must be specified so that each node has exactly one
+IP in the respective network.
 
 Example
 ^^^^^^^
 
-We assume that we have a three-node setup with three separate
+We assume that we have a three-node setup, with three separate
 networks. One for public communication with the Internet, one for
-cluster communication and a very fast one, which we want to use as a
+cluster communication, and a very fast one, which we want to use as a
 dedicated network for migration.
 
 A network configuration for such a setup might look as follows:
@@ -1348,7 +1346,7 @@ migration: secure,network=10.1.2.0/24
 ----
 
 NOTE: The migration type must always be set when the migration network
-gets set in `/etc/pve/datacenter.cfg`.
+is set in `/etc/pve/datacenter.cfg`.
 
 
 ifdef::manvolnum[]
