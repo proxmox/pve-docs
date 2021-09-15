@@ -210,7 +210,7 @@ Join Node to Cluster via Command Line
 Log in to the node you want to join into an existing cluster via `ssh`.
 
 ----
- hp2# pvecm add IP-ADDRESS-CLUSTER
+ # pvecm add IP-ADDRESS-CLUSTER
 ----
 
 For `IP-ADDRESS-CLUSTER`, use the IP or hostname of an existing cluster node.
@@ -225,14 +225,21 @@ To check the state of the cluster use:
 
 .Cluster status after adding 4 nodes
 ----
-hp2# pvecm status
+ # pvecm status
+Cluster information
+~~~~~~~~~~~~~~~~~~~
+Name:             prod-central
+Config Version:   3
+Transport:        knet
+Secure auth:      on
+
 Quorum information
 ~~~~~~~~~~~~~~~~~~
-Date:             Mon Apr 20 12:30:13 2015
+Date:             Tue Sep 14 11:06:47 2021
 Quorum provider:  corosync_votequorum
 Nodes:            4
 Node ID:          0x00000001
-Ring ID:          1/8
+Ring ID:          1.1a8
 Quorate:          Yes
 
 Votequorum information
@@ -260,7 +267,7 @@ If you only want a list of all nodes, use:
 
 .List nodes in a cluster
 ----
-hp2# pvecm nodes
+ # pvecm nodes
 
 Membership information
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -303,7 +310,7 @@ Log in to a *different* cluster node (not hp4), and issue a `pvecm nodes`
 command to identify the node ID to remove:
 
 ----
-hp1# pvecm nodes
+ hp1# pvecm nodes
 
 Membership information
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -337,14 +344,7 @@ look something like:
 ----
 hp1# pvecm status
 
-Quorum information
-~~~~~~~~~~~~~~~~~~
-Date:             Mon Apr 20 12:44:28 2015
-Quorum provider:  corosync_votequorum
-Nodes:            3
-Node ID:          0x00000001
-Ring ID:          1/8
-Quorate:          Yes
+...
 
 Votequorum information
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -1308,8 +1308,7 @@ iface eno1 inet manual
 # public network
 auto vmbr0
 iface vmbr0 inet static
-    address 192.X.Y.57
-    netmask 255.255.250.0
+    address 192.X.Y.57/24
     gateway 192.X.Y.1
     bridge-ports eno1
     bridge-stp off
@@ -1318,14 +1317,12 @@ iface vmbr0 inet static
 # cluster network
 auto eno2
 iface eno2 inet static
-    address  10.1.1.1
-    netmask  255.255.255.0
+    address  10.1.1.1/24
 
 # fast network
 auto eno3
 iface eno3 inet static
-    address  10.1.2.1
-    netmask  255.255.255.0
+    address  10.1.2.1/24
 ----
 
 Here, we will use the network 10.1.2.0/24 as a migration network. For
