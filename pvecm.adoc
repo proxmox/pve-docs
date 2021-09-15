@@ -304,9 +304,17 @@ Remove a Cluster Node
 CAUTION: Read the procedure carefully before proceeding, as it may
 not be what you want or need.
 
-Move all virtual machines from the node. Make sure you have made copies of any
-local data or backups that you want to keep. In the following example, we will
-remove the node hp4 from the cluster.
+Move all virtual machines from the node. Ensure that you have made copies of any
+local data or backups that you want to keep. In addition, make sure to remove
+any scheduled replication jobs to the node to be removed.
+
+CAUTION: Failure to remove replication jobs to a node before removing said node
+will result in the replication job becoming irremovable. Especially note that
+replication automatically switches direction if a replicated VM is migrated, so
+by migrating a replicated VM from a node to be deleted, replication jobs will be
+set up to that node automatically.
+
+In the following example, we will remove the node hp4 from the cluster.
 
 Log in to a *different* cluster node (not hp4), and issue a `pvecm nodes`
 command to identify the node ID to remove:
