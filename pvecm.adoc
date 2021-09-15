@@ -123,9 +123,11 @@ name and select a network connection from the drop-down list to serve as the
 main cluster network (Link 0). It defaults to the IP resolved via the node's
 hostname.
 
-To add a second link as fallback, you can select the 'Advanced' checkbox and
-choose an additional network interface (Link 1, see also
-xref:pvecm_redundancy[Corosync Redundancy]).
+As of {pve} 6.2, up to 8 fallback links can be added to a cluster. To add a
+redundant link, click the 'Add' button and select a link number and IP address
+from the respective fields. Prior to {pve} 6.2, to add a second link as
+fallback, you can select the 'Advanced' checkbox and choose an additional
+network interface (Link 1, see also xref:pvecm_redundancy[Corosync Redundancy]).
 
 NOTE: Ensure that the network selected for cluster communication is not used for
 any high traffic purposes, like network storage or live-migration.
