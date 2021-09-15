@@ -340,6 +340,11 @@ After powering off the node hp4, we can safely remove it from the cluster.
  Killing node 4
 ----
 
+NOTE: At this point, it is possible that you will receive an error message
+stating `Could not kill node (error = CS_ERR_NOT_EXIST)`. This does not
+signify an actual failure in the deletion of the node, but rather a failure in
+corosync trying to kill an offline node. Thus, it can be safely ignored.
+
 Use `pvecm nodes` or `pvecm status` to check the node list again. It should
 look something like:
 
