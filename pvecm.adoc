@@ -24,7 +24,7 @@ Cluster Manager
 :pve-toplevel:
 endif::manvolnum[]
 
-The {PVE} cluster manager `pvecm` is a tool to create a group of
+The {pve} cluster manager `pvecm` is a tool to create a group of
 physical servers. Such a group is called a *cluster*. We use the
 http://www.corosync.org[Corosync Cluster Engine] for reliable group
 communication. There's no explicit limit for the number of nodes in a cluster.
@@ -90,7 +90,7 @@ upgrade procedure to {pve} 6.0.
 Preparing Nodes
 ---------------
 
-First, install {PVE} on all nodes. Make sure that each node is
+First, install {pve} on all nodes. Make sure that each node is
 installed with the final hostname and IP configuration. Changing the
 hostname and IP is not possible after cluster creation.
 
@@ -871,10 +871,10 @@ pvecm status
 If you see a healthy cluster state, it means that your new link is being used.
 
 
-Role of SSH in {PVE} Clusters
+Role of SSH in {pve} Clusters
 -----------------------------
 
-{PVE} utilizes SSH tunnels for various features.
+{pve} utilizes SSH tunnels for various features.
 
 * Proxying console/shell sessions (node and guests)
 +
