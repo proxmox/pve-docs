@@ -792,8 +792,8 @@ explicitly set, the mount point configuration from the backed up configuration
 file is restored using the following steps:
 
 . Extract mount points and their options from backup
-. Create volumes for storage backed mount points (on storage provided with the
-  `storage` parameter, or default local storage if unset)
+. Create volumes for storage backed mount points on the target provided with the
+  `storage` parameter. (default: `local`)
 . Extract files from backup archive
 . Add bind and device mount points to restored configuration (limited to root
   user)
