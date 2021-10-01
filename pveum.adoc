@@ -793,7 +793,13 @@ members of the group `customers` and within the realm `pve`.
 Limited API Token for Monitoring
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Given a user `joe@pve`, with the PVEVMAdmin role on all VMs:
+Permissions on API tokens are always a subset of those of their corresponding
+user, meaning that an API token can't be used to carry out a task that the
+backing user has no permission to do. This section will demonstrate how you can
+use an API token with separate privileges, to limit the token owner's
+permissions further.
+
+Give the user `joe@pve` the role PVEVMAdmin on all VMs:
 
 [source,bash]
  pveum acl modify /vms -user joe@pve -role PVEVMAdmin
