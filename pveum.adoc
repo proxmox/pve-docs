@@ -27,12 +27,12 @@ endif::manvolnum[]
 
 // Copied from pve wiki: Revision as of 16:10, 27 October 2015
 
-Proxmox VE supports multiple authentication sources, e.g. Linux PAM,
+{pve} supports multiple authentication sources, for example Linux PAM,
 an integrated Proxmox VE authentication server, LDAP, Microsoft Active
-Directory and OpenId Connect.
+Directory and OpenID Connect.
 
-By using the role based user- and permission management for all
-objects (VMs, storages, nodes, etc.) granular access can be defined.
+By using role-based user and permission management for all objects (VMs,
+Storage, nodes, etc.), granular access can be defined.
 
 
 [[pveum_users]]
@@ -40,9 +40,9 @@ Users
 -----
 
 {pve} stores user attributes in `/etc/pve/user.cfg`.
-Passwords are not stored here, users are instead associated with
+Passwords are not stored here; users are instead associated with the
 <<pveum_authentication_realms,authentication realms>> described below.
-Therefore a user is internally often identified by its name and
+Therefore, a user is often internally identified by their username and
 realm in the form `<userid>@<realm>`.
 
 Each user entry in this file contains the following information:
@@ -51,14 +51,14 @@ Each user entry in this file contains the following information:
 * Last name
 * E-mail address
 * Group memberships
-* An optional Expiration date
+* An optional expiration date
 * A comment or note about this user
 * Whether this user is enabled or disabled
 * Optional two-factor authentication keys
 
-CAUTION: When you disabled or delete a user, or the expiry date got set and is
+CAUTION: When you disable or delete a user, or if the expiry date set is
 in the past, this user will not be able to log in to new sessions or start new
-tasks. All tasks which already have been started by this user (for example
+tasks. All tasks which have already been started by this user (for example,
 terminal sessions) will **not** be terminated automatically by any such event.
 
 
@@ -67,7 +67,7 @@ System administrator
 
 The system's root user can always log in via the Linux PAM realm and is an
 unconfined administrator. This user cannot be deleted, but attributes can
-still be changed and system mails will be sent to the email address
+still be changed. System mails will be sent to the email address
 assigned to this user.
 
 
@@ -75,27 +75,27 @@ assigned to this user.
 Groups
 ------
 
-Each user can be member of several groups. Groups are the preferred
-way to organize access permissions. You should always grant permission
-to groups instead of using individual users. That way you will get a
-much shorter access control list which is easier to handle.
+Each user can be a member of several groups. Groups are the preferred
+way to organize access permissions. You should always grant permissions
+to groups instead of individual users. That way you will get a
+much more maintainable access control list.
 
 [[pveum_tokens]]
 API Tokens
 ----------
 
-API tokens allow stateless access to most parts of the REST API by another
+API tokens allow stateless access to most parts of the REST API from another
 system, software or API client. Tokens can be generated for individual users
 and can be given separate permissions and expiration dates to limit the scope
-and duration of the access. Should the API token get compromised it can be
+and duration of the access. Should the API token get compromised, it can be
 revoked without disabling the user itself.
 
 API tokens come in two basic types:
 
-* separated privileges: the token needs to be given explicit access with ACLs,
-  its effective permissions are calculated by intersecting user and token
+* Separated privileges: The token needs to be given explicit access with ACLs.
+  Its effective permissions are calculated by intersecting user and token
   permissions.
-* full privileges: the token permissions are identical to that of the
+* Full privileges: The token's permissions are identical to that of the
   associated user.
 
 CAUTION: The token value is only displayed/returned once when the token is
@@ -103,7 +103,7 @@ generated. It cannot be retrieved again over the API at a later time!
 
 To use an API token, set the HTTP header 'Authorization' to the displayed value
 of the form `PVEAPIToken=USER@REALM!TOKENID=UUID` when making API requests, or
-refer to your API client documentation.
+refer to your API client's documentation.
 
 [[pveum_resource_pools]]
 Resource Pools
@@ -115,9 +115,9 @@ A resource pool is a set of virtual machines, containers, and storage
 devices. It is useful for permission handling in cases where certain users
 should have controlled access to a specific set of resources, as it allows for a
 single permission to be applied to a set of elements, rather than having to
-manage this on a per resource basis. Resource pools are often used in tandem
-with groups so that the members of a group have permissions on a set of machines
-and storage.
+manage this on a per-resource basis. Resource pools are often used in tandem
+with groups, so that the members of a group have permissions on a set of
+machines and storage.
 
 [[pveum_authentication_realms]]
 Authentication Realms
@@ -128,8 +128,8 @@ realm, the realms have to be configured in `/etc/pve/domains.cfg`.
 The following realms (authentication methods) are available:
 
 Linux PAM standard authentication::
-In this case a system user has to exist (e.g. created via the `adduser`
-command) on all nodes the user is allowed to login, and the user
+In this case, a system user must exist (for example, created via the `adduser`
+command) on each node which the user is allowed to log in, and the user
 authenticates with their usual system password.
 +
 [source,bash]
@@ -141,24 +141,24 @@ usermod -a -G watchman heinz
 ----
 
 Proxmox VE authentication server::
-This is a unix like password store (`/etc/pve/priv/shadow.cfg`).
-Password are encrypted using the SHA-256 hash method.
-This is the most convenient method for small (or even medium)
-installations where users do not need access to anything outside of
-{pve}. In this case users are fully managed by {pve} and are able to
+This is a Unix-like password store (`/etc/pve/priv/shadow.cfg`).
+Passwords are encrypted using the SHA-256 hashing algorithm.
+This is the most convenient method for small-scale (or even mid-scale)
+installations, where users do not need access to anything outside of
+{pve}. In this case, users are fully managed by {pve} and are able to
 change their own passwords via the GUI.
 
 LDAP::
-It is possible to authenticate users via an LDAP server (e.g.
-openldap). The server and an optional fallback server can be
-configured and the connection can be encrypted via SSL.
+It is possible to authenticate users via an LDAP server (for example,
+openldap). A server and optional fallback server can be
+configured, and the connection can be encrypted via SSL.
 +
 Users are searched under a 'Base Domain Name' (`base_dn`), with the
-user name found in the attribute specified in the 'User Attribute Name'
+username found in the attribute specified in the 'User Attribute Name'
 (`user_attr`) field.
 +
 For instance, if a user is represented via the
-following ldif dataset:
+following LDIF dataset:
 +
 ----
 # user1 of People at ldap-test.com
@@ -180,38 +180,38 @@ If {pve} needs to authenticate (bind) to the LDAP server before being
 able to query and authenticate users, a bind domain name can be
 configured via the `bind_dn` property in `/etc/pve/domains.cfg`. Its
 password then has to be stored in `/etc/pve/priv/ldap/<realmname>.pw`
-(e.g. `/etc/pve/priv/ldap/my-ldap.pw`). This file should contain a
-single line containing the raw password.
+(for example, `/etc/pve/priv/ldap/my-ldap.pw`). This file should contain a
+single line with the raw password.
 +
-To verify certificates, you need to to set `capath`. You can set it either
+To verify certificates, you need to set `capath`. You can set it either
 directly to the CA certificate of your LDAP server, or to the system path
 containing all trusted CA certificates (`/etc/ssl/certs`).
 Additionally, you need to set the `verify` option, which can also be done over
 the web interface.
 
-Microsoft Active Directory::
+NOTE: In order to allow a particular user to authenticate using the LDAP server,
+you must also add them as a user of that realm from the {pve} server.
 
 A server and authentication domain need to be specified. Like with LDAP, an
 optional fallback server, port, and SSL encryption can be configured.
 
-OpenId Connect::
+OpenID Connect::
 
-OpenID Connect allows clients to verify the identity of the user based
-on the authentication performed by an external authorization
-server.
+OpenID Connect allows clients to verify the identity of the user, based on
+authentication performed by an external authorization server.
 
 
 [[pveum_openid]]
-OpenId Connect
+OpenID Connect
 ~~~~~~~~~~~~~~
 
 The main OpenID Connect configuration options are:
 
-* `issuer-url`: This is the Url to the authorization server. Proxmox
-uses the OpenID Connect Discovery protocol to automatiocally configure
+* `issuer-url`: This is the URL to the authorization server. Proxmox
+uses the OpenID Connect Discovery protocol to automatically configure
 further details.
 +
-While it is possible to use unencrypted `http://` Urls, we strongly recommend to
+While it is possible to use unencrypted `http://` URLs, we strongly recommend to
 use encrypted `https://` connections.
 
 * `client-id`:  OpenID Client ID.
@@ -230,54 +230,54 @@ users.
 Username mapping
 ^^^^^^^^^^^^^^^^
 
-The Openid Connect specification defines a single unique attribute
-('claim' in OpenId terms) named `subject`. By default, we use the
+The OpenID Connect specification defines a single unique attribute
+('claim' in OpenID terms) named `subject`. By default, we use the
 value of this attribute to generate {pve} usernames, by simple adding
 `@` and the realm name: `${subject}@${realm}`.
 
-Unfortunately, most OpenID server use random strings for `subject`, like
+Unfortunately, most OpenID servers use random strings for `subject`, like
 `DGH76OKH34BNG3245SB`, so a typical username would look like
-`DGH76OKH34BNG3245SB@yourrealm`. While unique, it is really hard for
+`DGH76OKH34BNG3245SB@yourrealm`. While unique, it is difficult for
 humans to remember such random strings, making it quite impossible to
-associate real users with that.
+associate real users with this.
 
 The `username-claim` setting allows you to use other attributes for
-the username mapping. Setting it to `username` is preferred, if the
-OpenId Connect server provides that attribute and guarantee its
+the username mapping. Setting it to `username` is preferred if the
+OpenID Connect server provides that attribute and guarantees its
 uniqueness.
 
-Another option is to use `email`, which also yields to human readable
+Another option is to use `email`, which also yields human readable
 usernames. Again, only use this setting if the server guarantees the
 uniqueness of this attribute.
 
 Examples
 ^^^^^^^^
 
-Here is an example to create an OpenId realm using Google. You need to
+Here is an example of creating an OpenID realm using Google. You need to
 replace `--client-id` and `--client-key` with the values
-from your Google OpenId settings.
+from your Google OpenID settings.
 
 ----
 pveum realm add myrealm1 --type openid --issuer-url  https://accounts.google.com --client-id XXXX --client-key YYYY --username-claim email
 ----
 
-Above setup uses `--username-claim email`, so the usernames at the
-{pve} side looks like `example.user@google.com@myrealm1`.
+The above command uses `--username-claim email`, so that the usernames on the
+{pve} side look like `example.user@google.com@myrealm1`.
 
-KeyCloak (https://www.keycloak.org/) is a popular Open Source Identity
-and Access Management supporting OpenId Connect. In the following
+Keycloak (https://www.keycloak.org/) is a popular open source Identity
+and Access Management tool, which supports OpenID Connect. In the following
 example, you need to replace the `--issuer-url` and `--client-id` with
-your setting:
+your information:
 
 ----
 pveum realm add myrealm2 --type openid --issuer-url  https://your.server:8080/auth/realms/your-realm --client-id XXX --username-claim username
 ----
 
-Using `--username-claim username` yields to simple usernames on the
+Using `--username-claim username` enables simple usernames on the
 {pve} side, like `example.user@myrealm2`.
 
-WARNING: You need to make sure that the user is not allowed to edit
-the username setting himself (on the Keycloak server).
+WARNING: You need to ensure that the user is not allowed to edit
+the username setting themselves (on the Keycloak server).
 
 
 [[pveum_ldap_sync]]
@@ -286,27 +286,28 @@ Syncing LDAP-based realms
 
 [thumbnail="screenshot/gui-datacenter-realm-add-ldap.png"]
 
-It is possible to sync users and groups for LDAP based realms. You can use the
-CLI command
+It is possible to sync users and groups for LDAP-based realms. You can use the
+following CLI command:
 
 ----
-  pveum realm sync <realm>
+pveum realm sync <realm>
 ----
-or in the `Authentication` panel of the GUI. Users and groups are synced to the
+
+or the `Authentication` panel of the GUI. Users and groups are synced to the
 cluster-wide user configuration file `/etc/pve/user.cfg`.
 
 Requirements and limitations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The `bind_dn` is used to query the users and groups. This account needs access
+The `bind_dn` is used to query users and groups. This account needs access
 to all desired entries.
 
 The fields which represent the names of the users and groups can be configured
 via the `user_attr` and `group_name_attr` respectively. Only entries which
-adhere to the usual character limitations of the user.cfg are synced.
+adhere to the usual character limitations of the `user.cfg` are synced.
 
-Groups are synced with `-$realm` attached to the name, to avoid naming
-conflicts. Please make sure that a sync does not overwrite manually created
+Groups are synced with `-$realm` attached to the name, in order to avoid naming
+conflicts. Please ensure that a sync does not overwrite manually created
 groups.
 
 [[pveum_ldap_sync_options]]
@@ -318,14 +319,14 @@ Options
 The main options for syncing are:
 
 * `dry-run`: No data is written to the config. This is useful if you want to
-  see which users and groups would get synced to the user.cfg. This is set
+  see which users and groups would get synced to the `user.cfg`. This is set
   when you click `Preview` in the GUI.
 
-* `enable-new`: If set, the newly synced users are enabled and can login.
+* `enable-new`: If set, the newly synced users are enabled and can log in.
   The default is `true`.
 
-* `full`: If set, the sync uses the LDAP Directory as a source of truth,
-  overwriting information set manually in the user.cfg and deletes users
+* `full`: If set, the sync uses the LDAP directory as a source of truth,
+  overwriting information set manually in the `user.cfg` and deleting users
   and groups which are not present in the LDAP directory. If not set,
   only new data is written to the config, and no stale users are deleted.
 
@@ -335,46 +336,46 @@ The main options for syncing are:
 * `scope`: The scope of what to sync. It can be either `users`, `groups` or
   `both`.
 
-These options are either set as parameters or as defaults, via the
+These options are either set as parameters or as defaults via the
 realm option `sync-defaults-options`.
 
 [[pveum_tfa_auth]]
-Two-factor authentication
+Two-Factor Authentication
 -------------------------
 
 There are two ways to use two-factor authentication:
 
 It can be required by the authentication realm, either via 'TOTP'
-(Time-based One-Time Password) or 'YubiKey OTP'. In this case a newly
-created user needs their keys added immediately as there is no way to
+(Time-based One-Time Password) or 'YubiKey OTP'. In this case, a newly
+created user needs to have their keys added immediately, as there is no way to
 log in without the second factor. In the case of 'TOTP', users can
 also change the 'TOTP' later on, provided they can log in first.
 
-Alternatively, users can choose to opt in to two-factor authentication
+Alternatively, users can choose to opt-in to two-factor authentication
 via 'TOTP' later on, even if the realm does not enforce it. As another
-option, if the server has an 'AppId' configured, a user can opt into
+option, if the server has an 'AppId' configured, a user can opt-in to
 'U2F' authentication, provided the realm does not enforce any other
 second factor.
 
-Realm enforced two-factor authentication
+Realm Enforced Two-Factor Authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This can be done by selecting one of the available methods via the
 'TFA' dropdown box when adding or editing an Authentication Realm.
-When a realm has TFA enabled it becomes a requirement and only users
-with configured TFA will be able to login.
+When a realm has TFA enabled, it becomes a requirement, and only users
+with configured TFA will be able to log in.
 
 Currently there are two methods available:
 
-Time-based OATH (TOTP):: This uses the standard HMAC-SHA1 algorithm
+Time-based OATH (TOTP):: This uses the standard HMAC-SHA1 algorithm,
 where the current time is hashed with the user's configured key. The
-time step and password length parameters are configured.
+time step and password length parameters are configurable.
 +
 A user can have multiple keys configured (separated by spaces), and the keys
 can be specified in Base32 (RFC3548) or hexadecimal notation.
 +
 {pve} provides a key generation tool (`oathkeygen`) which prints out a random
-key in Base32 notation which can be used directly with various OTP tools, such
+key in Base32 notation, that can be used directly with various OTP tools, such
 as the `oathtool` command line tool, or on Android Google Authenticator,
 FreeOTP, andOTP or similar applications.
 
@@ -382,86 +383,84 @@ YubiKey OTP::
 For authenticating via a YubiKey a Yubico API ID, API KEY and validation
 server URL must be configured, and users must have a YubiKey available. In
 order to get the key ID from a YubiKey, you can trigger the YubiKey once
-after connecting it to USB and copy the first 12 characters of the typed
+after connecting it via USB, and copy the first 12 characters of the typed
 password into the user's 'Key IDs' field.
 
-+
 Please refer to the https://developers.yubico.com/OTP/[YubiKey OTP]
 documentation for how to use the
 https://www.yubico.com/products/services-software/yubicloud/[YubiCloud] or
-https://developers.yubico.com/Software_Projects/Yubico_OTP/YubiCloud_Validation_Servers/[host
-your own verification server].
+https://developers.yubico.com/Software_Projects/Yubico_OTP/YubiCloud_Validation_Servers/[host your own verification server].
 
 [[pveum_user_configured_totp]]
-User configured TOTP authentication
+User Configured TOTP Authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Users can choose to enable 'TOTP' as a second factor on login via the 'TFA'
+Users can choose to enable 'TOTP' as a second factor on login, via the 'TFA'
 button in the user list (unless the realm enforces 'YubiKey OTP').
 
 [thumbnail="screenshot/gui-datacenter-users-tfa.png"]
 
-After opening the 'TFA' window, the user is presented with a dialog to setup
-'TOTP' authentication. The 'Secret' field contains the key, which can simply be
-generated randomly via the 'Randomize' button. An optional 'Issuer Name' can be
-added to provide information to the 'TOTP' app what the key belongs to.
+After opening the 'TFA' window, the user is presented with a dialog to set up
+'TOTP' authentication. The 'Secret' field contains the key, which can be
+randomly generated via the 'Randomize' button. An optional 'Issuer Name' can be
+added to provide information to the 'TOTP' app about what the key belongs to.
 Most 'TOTP' apps will show the issuer name together with the corresponding
-'OTP' values. The user name is also included in the QR code for the 'TOTP' app.
+'OTP' values. The username is also included in the QR code for the 'TOTP' app.
 
-After generating a key, a QR code will be displayed which can be used with most
-OTP apps such as FreeOTP. Now the user needs to verify both the current user
+After generating a key, a QR code will be displayed, which can be used with most
+OTP apps such as FreeOTP. The user then needs to verify the current user
 password (unless logged in as 'root'), as well as the ability to correctly use
-the 'TOTP' key by typing the current 'OTP' value into the 'Verification Code'
-field before pressing the 'Apply' button.
+the 'TOTP' key, by typing the current 'OTP' value into the 'Verification Code'
+field and pressing the 'Apply' button.
 
 [[pveum_configure_u2f]]
-Server side U2F configuration
+Server Side U2F Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To allow users to use 'U2F' authentication, it may be necessary to use a valid
-domain with a valid https certificate, otherwise some browsers may print
-a warning or reject U2F usage altogether. Initially an 'AppId'
+domain with a valid SSL certificate, otherwise, some browsers may print
+a warning or reject U2F usage altogether. Initially, an 'AppId'
 footnote:[AppId https://developers.yubico.com/U2F/App_ID.html]
 needs to be configured.
 
 NOTE: Changing the 'AppId' will render all existing 'U2F' registrations
 unusable!
 
-This is done via `/etc/pve/datacenter.cfg`, for instance:
+This is done via `/etc/pve/datacenter.cfg`. For instance:
 
 ----
 u2f: appid=https://mypve.example.com:8006
 ----
 
-For a single node, the 'AppId' can simply be the web UI address exactly as it
-is used in the browser, including the 'https://' and the port as shown above.
-Please note that some browsers may be more strict than others when matching
-'AppIds'.
+For a single node, the 'AppId' can simply be the address of the web-interface,
+exactly as it is used in the browser, including the 'https://' and the port, as
+shown above. Please note that some browsers may be more strict than others when
+matching 'AppIds'.
 
 When using multiple nodes, it is best to have a separate `https` server
 providing an `appid.json`
 footnote:[Multi-facet apps: https://developers.yubico.com/U2F/App_ID.html]
 file, as it seems to be compatible with most
 browsers. If all nodes use subdomains of the same top level domain, it may be
-enough to use the TLD as 'AppId', but note that some browsers may not accept
-this.
+enough to use the TLD as 'AppId'. It should however be noted that some browsers
+may not accept this.
 
 NOTE: A bad 'AppId' will usually produce an error, but we have encountered
-situation where this does not happen, particularly when using a top level domain
-'AppId' for a node accessed via a subdomain in Chromium. For this reason it is
-recommended to test the configuration with multiple browsers, as changing the
-'AppId' later will render existing 'U2F' registrations unusable.
+situations when this does not happen, particularly when using a top level domain
+'AppId' for a node that is accessed via a subdomain in Chromium. For this reason
+it is recommended to test the configuration with multiple browsers, as changing
+the 'AppId' later will render existing 'U2F' registrations unusable.
 
 [[pveum_user_configured_u2f]]
-Activating U2F as a user
+Activating U2F as a User
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 To enable 'U2F' authentication, open the 'TFA' window's 'U2F' tab, type in the
 current password (unless logged in as root), and press the 'Register' button.
-If the server is setup correctly and the browser accepted the server's provided
+If the server is set up correctly and the browser accepts the server's provided
 'AppId', a message will appear prompting the user to press the button on the
-'U2F' device (if it is a 'YubiKey' the button light should be toggling off and
-on steadily around twice per second).
+'U2F' device (if it is a 'YubiKey', the button light should be toggling on and
+off steadily, roughly twice per second).
 
 Firefox users may need to enable 'security.webauth.u2f' via 'about:config'
 before they can use a 'U2F' token.
@@ -471,12 +470,12 @@ Permission Management
 ---------------------
 
 In order for a user to perform an action (such as listing, modifying or
-deleting a parts of a VM configuration), the user needs to have the
+deleting parts of a VM's configuration), the user needs to have the
 appropriate permissions.
 
 {pve} uses a role and path based permission management system. An entry in
 the permissions table allows a user, group or token to take on a specific role
-when accessing an 'object' or 'path'. This means an such an access rule can
+when accessing an 'object' or 'path'. This means that such an access rule can
 be represented as a triple of '(path, user, role)', '(path, group,
 role)' or '(path, token, role)', with the role containing a set of allowed
 actions, and the path representing the target of these actions.
@@ -487,36 +486,36 @@ Roles
 ~~~~~
 
 A role is simply a list of privileges. Proxmox VE comes with a number
-of predefined roles which satisfies most needs.
+of predefined roles, which satisfy most requirements.
 
-* `Administrator`: has all privileges
+* `Administrator`: has full privileges
 * `NoAccess`: has no privileges (used to forbid access)
-* `PVEAdmin`: can do most things, but miss rights to modify system settings (`Sys.PowerMgmt`, `Sys.Modify`, `Realm.Allocate`).
-* `PVEAuditor`: read only access
+* `PVEAdmin`: can do most tasks, but has no rights to modify system settings (`Sys.PowerMgmt`, `Sys.Modify`, `Realm.Allocate`)
+* `PVEAuditor`: has read only access
 * `PVEDatastoreAdmin`: create and allocate backup space and templates
 * `PVEDatastoreUser`: allocate backup space and view storage
 * `PVEPoolAdmin`: allocate pools
 * `PVESysAdmin`: User ACLs, audit, system console and system logs
 * `PVETemplateUser`: view and clone templates
-* `PVEUserAdmin`: user administration
+* `PVEUserAdmin`: manage users
 * `PVEVMAdmin`: fully administer VMs
-* `PVEVMUser`: view, backup, config CD-ROM, VM console, VM power management
+* `PVEVMUser`: view, backup, configure CD-ROM, VM console, VM power management
 
-You can see the whole set of predefined roles on the GUI.
+You can see the whole set of predefined roles in the GUI.
 
-Adding new roles can be done via both GUI and the command line.
+You can add new roles via the GUI or the command line.
 
 [thumbnail="screenshot/gui-datacenter-role-add.png"]
-For the GUI just navigate to 'Permissions -> User' Tab from 'Datacenter' and
-click on the 'Create' button, there you can set a name and select all desired
-roles from the 'Privileges' dropdown box.
+From the GUI, navigate to the 'Permissions -> Roles' tab from 'Datacenter' and
+click on the 'Create' button. There you can set a role name and select any
+desired privileges from the 'Privileges' drop-down menu.
 
-To add a role through the command line you can use the 'pveum' CLI tool, like
-this:
+To add a role through the command line, you can use the 'pveum' CLI tool, for
+example:
 [source,bash]
 ----
-pveum roleadd PVE_Power-only -privs "VM.PowerMgmt VM.Console"
-pveum roleadd Sys_Power-only -privs "Sys.PowerMgmt Sys.Console"
+pveum role add PVE_Power-only --privs "VM.PowerMgmt VM.Console"
+pveum role add Sys_Power-only --privs "Sys.PowerMgmt Sys.Console"
 ----
 
 
@@ -525,29 +524,29 @@ Privileges
 
 A privilege is the right to perform a specific action. To simplify
 management, lists of privileges are grouped into roles, which can then
-be used in the permission table. Note that privileges cannot directly be
+be used in the permission table. Note that privileges cannot be directly
 assigned to users and paths without being part of a role.
 
-We currently use the following privileges:
+We currently support the following privileges:
 
 Node / System related privileges::
 
 * `Permissions.Modify`: modify access permissions
-* `Sys.PowerMgmt`: Node power management (start, stop, reset, shutdown, ...)
-* `Sys.Console`: console access to Node
-* `Sys.Syslog`: view Syslog
-* `Sys.Audit`: view node status/config, Corosync cluster config and HA config
-* `Sys.Modify`: create/remove/modify node network parameters
-* `Group.Allocate`: create/remove/modify groups
-* `Pool.Allocate`: create/remove/modify a pool
+* `Sys.PowerMgmt`: node power management (start, stop, reset, shutdown, ...)
+* `Sys.Console`: console access to node
+* `Sys.Syslog`: view syslog
+* `Sys.Audit`: view node status/config, Corosync cluster config, and HA config
+* `Sys.Modify`: create/modify/remove node network parameters
+* `Group.Allocate`: create/modify/remove groups
+* `Pool.Allocate`: create/modify/remove a pool
 * `Pool.Audit`: view a pool
-* `Realm.Allocate`: create/remove/modify authentication realms
+* `Realm.Allocate`: create/modify/remove authentication realms
 * `Realm.AllocateUser`: assign user to a realm
-* `User.Modify`: create/remove/modify user access and details.
+* `User.Modify`: create/modify/remove user access and details.
 
 Virtual machine related privileges::
 
-* `VM.Allocate`: create/remove new VM to server inventory
+* `VM.Allocate`: create/remove VM on a server
 * `VM.Migrate`: migrate VM to alternate server on cluster
 * `VM.PowerMgmt`: power management (start, stop, reset, shutdown, ...)
 * `VM.Console`: console access to VM
@@ -555,37 +554,37 @@ Virtual machine related privileges::
 * `VM.Backup`: backup/restore VMs
 * `VM.Audit`: view VM config
 * `VM.Clone`: clone/copy a VM
-* `VM.Config.Disk`: add/modify/delete Disks 
+* `VM.Config.Disk`: add/modify/remove disks
 * `VM.Config.CDROM`: eject/change CD-ROM
 * `VM.Config.CPU`: modify CPU settings
-* `VM.Config.Memory`: modify Memory settings
-* `VM.Config.Network`: add/modify/delete Network devices
-* `VM.Config.HWType`: modify emulated HW type
+* `VM.Config.Memory`: modify memory settings
+* `VM.Config.Network`: add/modify/remove network devices
+* `VM.Config.HWType`: modify emulated hardware types
 * `VM.Config.Options`: modify any other VM configuration
-* `VM.Snapshot`: create/remove VM snapshots
+* `VM.Snapshot`: create/delete VM snapshots
 
 Storage related privileges::
 
-* `Datastore.Allocate`: create/remove/modify a data store, delete volumes
+* `Datastore.Allocate`: create/modify/remove a datastore and delete volumes
 * `Datastore.AllocateSpace`: allocate space on a datastore
-* `Datastore.AllocateTemplate`: allocate/upload templates and iso images 
+* `Datastore.AllocateTemplate`: allocate/upload templates and ISO images
 * `Datastore.Audit`: view/browse a datastore
 
 
 Objects and Paths
 ~~~~~~~~~~~~~~~~~
 
-Access permissions are assigned to objects, such as a virtual machines,
-storages or pools of resources.
+Access permissions are assigned to objects, such as virtual machines,
+storages or resource pools.
 We use file system like paths to address these objects. These paths form a
-natural tree, and permissions of higher levels (shorter path) can
+natural tree, and permissions of higher levels (shorter paths) can
 optionally be propagated down within this hierarchy.
 
 [[pveum_templated_paths]]
 Paths can be templated. When an API call requires permissions on a
 templated path, the path may contain references to parameters of the API
 call. These references are specified in curly braces. Some parameters are
-implicitly taken from the API call's URI. For instance the permission path
+implicitly taken from the API call's URI. For instance, the permission path
 `/nodes/{node}` when calling '/nodes/mynode/status' requires permissions on
 `/nodes/mynode`, while the path `{path}` in a PUT request to `/access/acl`
 refers to the method's `path` parameter.
@@ -595,8 +594,8 @@ Some examples are:
 * `/nodes/{node}`: Access to {pve} server machines
 * `/vms`: Covers all VMs
 * `/vms/{vmid}`: Access to specific VMs
-* `/storage/{storeid}`: Access to a storages
-* `/pool/{poolname}`: Access to VMs part of a <<pveum_pools,pool>>
+* `/storage/{storeid}`: Access to a specific storage
+* `/pool/{poolname}`: Access to resources contained in a specific <<pveum_pools,pool>>
 * `/access/groups`: Group administration
 * `/access/realms/{realmid}`: Administrative access to realms
 
@@ -605,33 +604,32 @@ Inheritance
 ^^^^^^^^^^^
 
 As mentioned earlier, object paths form a file system like tree, and
-permissions can be inherited down that tree (the propagate flag is set
-by default). We use the following inheritance rules:
+permissions can be inherited by objects down that tree (the propagate flag is
+set by default). We use the following inheritance rules:
 
 * Permissions for individual users always replace group permissions.
 * Permissions for groups apply when the user is member of that group.
-* Permissions replace the ones inherited from an upper level.
+* Permissions on deeper levels replace those inherited from an upper level.
 
-Additionally, privilege separated tokens can never have a permission on any
+Additionally, privilege separated tokens can never have permissions on any
 given path that their associated user does not have.
 
 [[pveum_pools]]
 Pools
 ~~~~~
 
-Pools can be used to group a set of virtual machines and data
-stores. You can then simply set permissions on pools (`/pool/{poolid}`),
-which are inherited to all pool members. This is a great way simplify
-access control.
+Pools can be used to group a set of virtual machines and datastores. You can
+then simply set permissions on pools (`/pool/{poolid}`), which are inherited by
+all pool members. This is a great way to simplify access control.
 
 
-What permission do I need?
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Which Permissions Do I Need?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The required API permissions are documented for each individual
-method, and can be found at https://pve.proxmox.com/pve-docs/api-viewer/
+method, and can be found at https://pve.proxmox.com/pve-docs/api-viewer/.
 
-The permissions are specified as a list which can be interpreted as a
+The permissions are specified as a list, which can be interpreted as a
 tree of logic and access-check functions:
 
 `["and", <subtests>...]` and `["or", <subtests>...]`::
@@ -647,7 +645,7 @@ API call's schema otherwise lists it as being optional.
 
 `["userid-group", [ <privileges>... ], <options>...]`::
 The caller must have any of the listed privileges on `/access/groups`. In
-addition there are two possible checks depending on whether the
+addition, there are two possible checks, depending on whether the
 `groups_param` option is set:
 +
 * `groups_param` is set: The API call has a non-optional `groups` parameter
@@ -659,9 +657,9 @@ privileges (via the `/access/groups/<group>` path).
 
 `["userid-param", "self"]`::
 The value provided for the API call's `userid` parameter must refer to the
-user performing the action. (Usually in conjunction with `or`, to allow
-users to perform an action on themselves even if they don't have elevated
-privileges.)
+user performing the action (usually in conjunction with `or`, to allow
+users to perform an action on themselves, even if they don't have elevated
+privileges).
 
 `["userid-param", "Realm.AllocateUser"]`::
 The user needs `Realm.AllocateUser` access to `/access/realm/<realm>`, with
@@ -673,7 +671,7 @@ associated with a realm, since user IDs are passed in the form of
 `["perm-modify", <path>]`::
 The `path` is a templated parameter (see
 <<pveum_templated_paths,Objects and Paths>>). The user needs either the
-`Permissions.Modify` privilege, or,
+`Permissions.Modify` privilege or,
 depending on the path, the following privileges as a possible substitute:
 +
 * `/storage/...`: additionally requires 'Datastore.Allocate`
@@ -691,7 +689,7 @@ a fully featured command line tool called `pveum` (short for ``**P**roxmox
 line tools are wrappers around the API, so you can also access those
 functions through the REST API.
 
-Here are some simple usage examples. To show help type:
+Here are some simple usage examples. To show help, type:
 
 [source,bash]
  pveum
@@ -706,7 +704,7 @@ Create a new user:
 [source,bash]
  pveum user add testuser@pve -comment "Just a test"
 
-Set or Change the password (not all realms support that):
+Set or change the password (not all realms support this):
 
 [source,bash]
  pveum passwd testuser@pve
@@ -734,20 +732,20 @@ Real World Examples
 Administrator Group
 ~~~~~~~~~~~~~~~~~~~
 
-One of the most wanted features was the ability to define a group of
-users with full administrator rights (without using the root account).
+It is possible that an administrator would want to create a group of users with
+full administrator rights (without using the root account).
 
-Define the group:
+To do this, first define the group:
 
 [source,bash]
  pveum group add admin -comment "System Administrators"
 
-Then add the permission:
+Then assign the role:
 
 [source,bash]
  pveum acl modify / -group admin -role Administrator
 
-You can finally add users to the new 'admin' group:
+Finally, you can add users to the new 'admin' group:
 
 [source,bash]
  pveum user modify testuser@pve -group admin
@@ -759,12 +757,12 @@ Auditors
 You can give read only access to users by assigning the `PVEAuditor`
 role to users or groups.
 
-Example1: Allow user `joe@pve` to see everything
+Example 1: Allow user `joe@pve` to see everything
 
 [source,bash]
  pveum acl modify / -user joe@pve -role PVEAuditor
 
-Example1: Allow user `joe@pve` to see all virtual machines
+Example 2: Allow user `joe@pve` to see all virtual machines
 
 [source,bash]
  pveum acl modify /vms -user joe@pve -role PVEAuditor
@@ -773,16 +771,16 @@ Example1: Allow user `joe@pve` to see all virtual machines
 Delegate User Management
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you want to delegate user management to user `joe@pve` you can do
+If you want to delegate user management to user `joe@pve`, you can do
 that with:
 
 [source,bash]
  pveum acl modify /access -user joe@pve -role PVEUserAdmin
 
-User `joe@pve` can now add and remove users, change passwords and
-other user attributes. This is a very powerful role, and you most
-likely want to limit that to selected realms and groups. The following
-example allows `joe@pve` to modify users within realm `pve` if they
+User `joe@pve` can now add and remove users, and change other user attributes,
+such as passwords. This is a very powerful role, and you most
+likely want to limit it to selected realms and groups. The following
+example allows `joe@pve` to modify users within the realm `pve`, if they
 are members of group `customers`:
 
 [source,bash]
@@ -790,18 +788,18 @@ are members of group `customers`:
  pveum acl modify /access/groups/customers -user joe@pve -role PVEUserAdmin
 
 NOTE: The user is able to add other users, but only if they are
-members of group `customers` and within realm `pve`.
+members of the group `customers` and within the realm `pve`.
 
-Limited API token for monitoring
+Limited API Token for Monitoring
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Given a user `joe@pve` with the PVEVMAdmin role on all VMs:
+Given a user `joe@pve`, with the PVEVMAdmin role on all VMs:
 
 [source,bash]
  pveum acl modify /vms -user joe@pve -role PVEVMAdmin
 
 Add a new API token with separate privileges, which is only allowed to view VM
-information (e.g., for monitoring purposes):
+information (for example, for monitoring purposes):
 
 [source,bash]
  pveum user token add joe@pve monitoring -privsep 1
@@ -819,29 +817,29 @@ Resource Pools
 An enterprise is usually structured into several smaller departments, and it is
 common that you want to assign resources and delegate management tasks to each
 of these. Let's assume that you want to set up a pool for a software development
-department. First, create a group
+department. First, create a group:
 
 [source,bash]
  pveum group add developers -comment "Our software developers"
 
-Now we create a new user which is a member of that group
+Now we create a new user which is a member of that group:
 
 [source,bash]
  pveum user add developer1@pve -group developers -password
 
-NOTE: The -password parameter will prompt you for a password
+NOTE: The "-password" parameter will prompt you for a password
 
-Then we create a resource pool for our development department to use
+Then we create a resource pool for our development department to use:
 
 [source,bash]
  pveum pool add dev-pool --comment "IT development pool"
 
-Finally, we can assign permissions to that pool
+Finally, we can assign permissions to that pool:
 
 [source,bash]
  pveum acl modify /pool/dev-pool/ -group developers -role PVEAdmin
 
-Our software developers can now administrate the resources assigned to
+Our software developers can now administer the resources assigned to
 that pool.
 
 
