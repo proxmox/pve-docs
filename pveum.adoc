@@ -127,39 +127,78 @@ As {pve} users are just counterparts for users existing on some external
 realm, the realms have to be configured in `/etc/pve/domains.cfg`.
 The following realms (authentication methods) are available:
 
-Linux PAM standard authentication::
-In this case, a system user must exist (for example, created via the `adduser`
-command) on each node which the user is allowed to log in, and the user
-authenticates with their usual system password.
-+
-[source,bash]
-----
-useradd heinz
-passwd heinz
-groupadd watchman
-usermod -a -G watchman heinz
-----
+Linux PAM Standard Authentication::
 
-Proxmox VE authentication server::
-This is a Unix-like password store (`/etc/pve/priv/shadow.cfg`).
-Passwords are encrypted using the SHA-256 hashing algorithm.
-This is the most convenient method for small-scale (or even mid-scale)
-installations, where users do not need access to anything outside of
-{pve}. In this case, users are fully managed by {pve} and are able to
-change their own passwords via the GUI.
+Linux PAM is a framework for system-wide user authentication. These users are
+created on the host system with commands such as `adduser`. If PAM users exist
+on the {pve} host system, corresponding entries can be added to {pve}, to allow
+these users to log in via their system username and password.
+
+{pve} Authentication Server::
+
+This is a Unix-like password store, which stores hashed passwords in
+`/etc/pve/priv/shadow.cfg`. Passwords are hashed using the SHA-256 hashing
+algorithm. This is the most convenient realm for small-scale (or even
+mid-scale) installations, where users do not need access to anything outside of
+{pve}. In this case, users are fully managed by {pve} and are able to change
+their own passwords via the GUI.
 
 LDAP::
-It is possible to authenticate users via an LDAP server (for example,
-openldap). A server and optional fallback server can be
-configured, and the connection can be encrypted via SSL.
-+
-Users are searched under a 'Base Domain Name' (`base_dn`), with the
-username found in the attribute specified in the 'User Attribute Name'
+
+LDAP (Lightweight Directory Access Protocol) is an open, cross-platform protocol
+for authentication using directory services. OpenLDAP is a popular open-source
+implementations of the LDAP protocol.
+
+Microsoft Active Directory (AD)::
+
+Microsoft Active Directory (AD) is a directory service for Windows domain
+networks and is supported as an authentication realm for {pve}. It supports LDAP
+as an authentication protocol.
+
+OpenID Connect::
+
+OpenID Connect is implemented as an identity layer on top of the OATH 2.0
+protocol. It allows clients to verify the identity of the user, based on
+authentication performed by an external authorization server.
+
+Linux PAM Standard Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+As Linux PAM corresponds to host system users, a system user must exist on each
+node which the user is allowed to log in on. The user authenticates with their
+usual system password. This realm is added by default and can't be removed. In
+terms of configurability, an administrator can choose to require two-factor
+authentication with logins from the realm and to set the realm as the default
+authentication realm.
+
+
+{pve} Authentication Server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The {pve} authentication server realm is a simple Unix-like password store.
+The realm is created by default, and as with Linux PAM, the only configuration
+items available are the ability to require two-factor authentication for users
+of the realm, and to set it as the default realm for login.
+
+Unlike the other {pve} realm types, users are created and authenticated entirely
+through {pve}, rather than authenticating against another system. Hence, you are
+required to set a password for this type of user upon creation.
+
+
+LDAP
+~~~~
+
+You can also use an external LDAP server for user authentication (for examle,
+OpenLDAP). In this realm type, users are searched under a 'Base Domain Name'
+(`base_dn`), using the username attribute specified in the 'User Attribute Name'
 (`user_attr`) field.
-+
-For instance, if a user is represented via the
-following LDIF dataset:
-+
+
+A server and optional fallback server can be configured, and the connection can
+be encrypted via SSL. Furthermore, filters can be configured for directories and
+groups. Filters allow you to further limit the scope of the realm.
+
+For instance, if a user is represented via the following LDIF dataset:
+
 ----
 # user1 of People at ldap-test.com
 dn: uid=user1,ou=People,dc=ldap-test,dc=com
@@ -172,33 +211,160 @@ cn: Test User 1
 sn: Testers
 description: This is the first test user.
 ----
-+
+
 The 'Base Domain Name' would be `ou=People,dc=ldap-test,dc=com` and the user
 attribute would be `uid`.
-+
+
 If {pve} needs to authenticate (bind) to the LDAP server before being
 able to query and authenticate users, a bind domain name can be
 configured via the `bind_dn` property in `/etc/pve/domains.cfg`. Its
 password then has to be stored in `/etc/pve/priv/ldap/<realmname>.pw`
 (for example, `/etc/pve/priv/ldap/my-ldap.pw`). This file should contain a
 single line with the raw password.
-+
+
 To verify certificates, you need to set `capath`. You can set it either
 directly to the CA certificate of your LDAP server, or to the system path
 containing all trusted CA certificates (`/etc/ssl/certs`).
 Additionally, you need to set the `verify` option, which can also be done over
 the web interface.
 
+The main configuration options for an LDAP server realm are as follows:
+
+* `Realm` (`realm`): The realm identifier for {pve} users
+
+* `Base Domain Name` (`base_dn`): The directory which users are searched under
+
+* `User Attribute Name` (`user_attr`): The LDAP attribute containing the
+  username that users will log in with
+
+* `Server` (`server1`): The server hosting the LDAP directory
+
+* `Fallback Server` (`server2`): An optional fallback server address, in case
+  the primary server is unreachable
+
+* `Port` (`port`): The port that the LDAP server listens on
+
 NOTE: In order to allow a particular user to authenticate using the LDAP server,
-you must also add them as a user of that realm from the {pve} server.
+you must also add them as a user of that realm from the {pve} server. This can
+be carried out automatically with <<pveum_ldap_sync, syncing>>.
 
-A server and authentication domain need to be specified. Like with LDAP, an
-optional fallback server, port, and SSL encryption can be configured.
 
-OpenID Connect::
+Microsoft Active Directory (AD)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-OpenID Connect allows clients to verify the identity of the user, based on
-authentication performed by an external authorization server.
+To set up Microsoft AD as a realm, a server address and authentication domain
+need to be specified. Active Directory supports most of the same properties as
+LDAP, such as an optional fallback server, port, and SSL encryption.
+Furthermore, users can be added to {pve} automatically via
+<<pveum_ldap_sync, sync>> operations, after configuration.
+
+As with LDAP, if {pve} needs to authenticate before it binds to the AD server,
+you must configure the 'Bind User' (`bind_dn`) property. This property is
+typically required by default for Microsoft AD.
+
+The main configuration settings for Microsoft Active Directory are:
+
+* `Realm` (`realm`): The realm identifier for {pve} users
+
+* `Domain` (`domain`): The AD domain of the server
+
+* `Server` (`server1`): The FQDN or IP address of the server
+
+* `Fallback Server` (`server2`): An optional fallback server address, in case
+  the primary server is unreachable
+
+* `Port` (`port`): The port that the Microsoft AD server listens on
+
+[[pveum_ldap_sync]]
+Syncing LDAP-Based Realms
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[thumbnail="screenshot/gui-datacenter-realm-add-ldap.png"]
+
+It's possible to automatically sync users and groups for LDAP-based realms (LDAP
+& Microsoft Active Directory), rather than having to add them to {pve} manually.
+You can access the sync options from the Add/Edit window of the web interface's
+`Authentication` panel or via the `pveum realm add/modify` commands. You can
+then carry out the sync operation from the `Authentication` panel of the GUI or
+using the following command:
+
+----
+pveum realm sync <realm>
+----
+
+Users and groups are synced to the cluster-wide configuration file,
+`/etc/pve/user.cfg`.
+
+
+Sync Configuration
+^^^^^^^^^^^^^^^^^^
+
+The configuration options for syncing LDAP-based realms can be found in the
+`Sync Options` tab of the Add/Edit window.
+
+The configuration options are as follows:
+
+* `Bind User` (`bind_dn`): Refers to the LDAP account used to query users
+  and groups. This account needs access to all desired entries. If it's set, the
+  search will be carried out via binding; otherwise, the search will be carried
+  out anonymously. The user must be a complete LDAP formatted distinguished name
+  (DN), for example, `cn=admin,dc=example,dc=com`.
+
+* Groupname attr. (group_name_attr): Represents the
+  users' groups. Only entries which adhere to the usual character limitations of
+  the `user.cfg` are synced. Groups are synced with `-$realm` attached to the
+  name, in order to avoid naming conflicts. Please ensure that a sync does not
+  overwrite manually created groups.
+
+* `User classes` (`user_classes`): Objects classes associated with users.
+
+* `Group classes` (`group_classes`): Objects classes associated with groups.
+
+* `E-Mail attribute`: If the LDAP-based server specifies user email addresses,
+  these can also be included in the sync by setting the associated attribute
+  here. From the command line, this is achievable through the
+  `--sync_attributes` parameter.
+
+* `User Filter` (`filter`): For further filter options to target specific users.
+
+* `Group Filter` (`group_filter`): For further filter options to target specific
+  groups.
+
+NOTE: Filters allow you to create a set of additional match criteria, to narrow
+down the scope of a sync. Information on available LDAP filter types and their
+usage can be found at https://ldap.com/ldap-filters/[ldap.com].
+
+
+[[pveum_ldap_sync_options]]
+Sync Options
+^^^^^^^^^^^^
+
+[thumbnail="screenshot/gui-datacenter-realm-add-ldap-sync-options.png"]
+
+In addition to the options specified in the previous section, you can also
+configure further options that describe the behavior of the sync operation.
+
+These options are either set as parameters before the sync, or as defaults via
+the realm option `sync-defaults-options`.
+
+The main options for syncing are:
+
+* `Scope` (`scope`): The scope of what to sync. It can be either `users`,
+  `groups` or `both`.
+
+* `Enable new` (`enable-new`): If set, the newly synced users are enabled and
+  can log in. The default is `true`.
+
+* `Full` (`full`): If set, the sync uses the LDAP directory as a source of
+  truth, overwriting information set manually in the `user.cfg` and deleting
+  users and groups which are not present in the LDAP directory. If not set, only
+  new data is written to the configuration, and no stale users are deleted.
+
+* `Purge ACLs` (`purge`): If set, sync removes all corresponding ACLs when
+  removing users and groups. This is only useful with the option `full`.
+
+* `Preview` (`dry-run`): No data is written to the config. This is useful if you
+  want to see which users and groups would get synced to the `user.cfg`.
 
 
 [[pveum_openid]]
@@ -207,25 +373,26 @@ OpenID Connect
 
 The main OpenID Connect configuration options are:
 
-* `issuer-url`: This is the URL to the authorization server. Proxmox
-uses the OpenID Connect Discovery protocol to automatically configure
+* `Issuer URL` (`issuer-url`): This is the URL of the authorization server.
+Proxmox uses the OpenID Connect Discovery protocol to automatically configure
 further details.
 +
 While it is possible to use unencrypted `http://` URLs, we strongly recommend to
 use encrypted `https://` connections.
 
-* `client-id`:  OpenID Client ID.
+* `Realm` (`realm`): The realm identifier for {pve} users
 
-* `client-key`: Optional OpenID Client Key.
+* `Client ID` (`client-id`):  OpenID Client ID.
 
-* `autocreate`: Automatically create users if they do not exist. While
-authentication is done at the OpenID server, all users still need an
-entry in the {pve} user configuration. You can either add them
-manually, or use the `autocreate` option to automatically add new
-users.
+* `Client Key` (`client-key`): Optional OpenID Client Key.
 
-* `username-claim`: OpenID claim used to generate the unique username
-  (`subject`, `username` or `email`).
+* `Autocreate Users` (`autocreate`): Automatically create users if they do not
+exist. While authentication is done at the OpenID server, all users still need
+an entry in the {pve} user configuration. You can either add them manually, or
+use the `autocreate` option to automatically add new users.
+
+* `Username Claim` (`username-claim`): OpenID claim used to generate the unique
+username (`subject`, `username` or `email`).
 
 Username mapping
 ^^^^^^^^^^^^^^^^
@@ -279,65 +446,6 @@ Using `--username-claim username` enables simple usernames on the
 WARNING: You need to ensure that the user is not allowed to edit
 the username setting themselves (on the Keycloak server).
 
-
-[[pveum_ldap_sync]]
-Syncing LDAP-based realms
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-[thumbnail="screenshot/gui-datacenter-realm-add-ldap.png"]
-
-It is possible to sync users and groups for LDAP-based realms. You can use the
-following CLI command:
-
-----
-pveum realm sync <realm>
-----
-
-or the `Authentication` panel of the GUI. Users and groups are synced to the
-cluster-wide user configuration file `/etc/pve/user.cfg`.
-
-Requirements and limitations
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-The `bind_dn` is used to query users and groups. This account needs access
-to all desired entries.
-
-The fields which represent the names of the users and groups can be configured
-via the `user_attr` and `group_name_attr` respectively. Only entries which
-adhere to the usual character limitations of the `user.cfg` are synced.
-
-Groups are synced with `-$realm` attached to the name, in order to avoid naming
-conflicts. Please ensure that a sync does not overwrite manually created
-groups.
-
-[[pveum_ldap_sync_options]]
-Options
-^^^^^^^
-
-[thumbnail="screenshot/gui-datacenter-realm-add-ldap-sync-options.png"]
-
-The main options for syncing are:
-
-* `dry-run`: No data is written to the config. This is useful if you want to
-  see which users and groups would get synced to the `user.cfg`. This is set
-  when you click `Preview` in the GUI.
-
-* `enable-new`: If set, the newly synced users are enabled and can log in.
-  The default is `true`.
-
-* `full`: If set, the sync uses the LDAP directory as a source of truth,
-  overwriting information set manually in the `user.cfg` and deleting users
-  and groups which are not present in the LDAP directory. If not set,
-  only new data is written to the config, and no stale users are deleted.
-
-* `purge`: If set, sync removes all corresponding ACLs when removing users
-  and groups. This is only useful with the option `full`.
-
-* `scope`: The scope of what to sync. It can be either `users`, `groups` or
-  `both`.
-
-These options are either set as parameters or as defaults via the
-realm option `sync-defaults-options`.
 
 [[pveum_tfa_auth]]
 Two-Factor Authentication
