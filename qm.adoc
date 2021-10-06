@@ -733,10 +733,13 @@ the operating system. By default QEMU uses *SeaBIOS* for this, which is an
 open-source, x86 BIOS implementation. SeaBIOS is a good choice for most
 standard setups.
 
-There are, however, some scenarios in which a BIOS is not a good firmware
-to boot from, e.g. if you want to do VGA passthrough. footnote:[Alex Williamson has a very good blog entry about this.
-https://vfio.blogspot.co.at/2014/08/primary-graphics-assignment-without-vga.html]
-In such cases, you should rather use *OVMF*, which is an open-source UEFI implementation. footnote:[See the OVMF Project https://github.com/tianocore/tianocore.github.io/wiki/OVMF]
+Some operating systems (such as Windows 11) may require use of an UEFI
+compatible implementation instead. In such cases, you must rather use *OVMF*,
+which is an open-source UEFI implementation. footnote:[See the OVMF Project https://github.com/tianocore/tianocore.github.io/wiki/OVMF]
+
+There are other scenarios in which a BIOS is not a good firmware to boot from,
+e.g. if you want to do VGA passthrough. footnote:[Alex Williamson has a very
+good blog entry about this https://vfio.blogspot.co.at/2014/08/primary-graphics-assignment-without-vga.html]
 
 If you want to use OVMF, there are several things to consider:
 
@@ -745,15 +748,30 @@ This disk will be included in backups and snapshots, and there can only be one.
 
 You can create such a disk with the following command:
 
- qm set <vmid> -efidisk0 <storage>:1,format=<format>
+ qm set <vmid> -efidisk0 <storage>:1,format=<format>,efitype=4m,pre-enrolled-keys=1
 
 Where *<storage>* is the storage where you want to have the disk, and
 *<format>* is a format which the storage supports. Alternatively, you can
 create such a disk through the web interface with 'Add' -> 'EFI Disk' in the
 hardware section of a VM.
 
+The *efitype* option specifies which version of the OVMF firmware should be
+used. For new VMs, this should always be '4m', as it supports Secure Boot and
+has more space allocated to support future development (this is the default in
+the GUI).
+
+*pre-enroll-keys* specifies if the efidisk should come pre-loaded with
+distribution-specific and Microsoft Standard Secure Boot keys. It also enables
+Secure Boot by default (though it can still be disabled in the OVMF menu within
+the VM).
+
+NOTE: If you want to start using Secure Boot in an existing VM (that still uses
+a '2m' efidisk), you need to recreate the efidisk. To do so, delete the old one
+(`qm set <vmid> -delete efidisk0`) and add a new one as described above. This
+will reset any custom configurations you have made in the OVMF menu!
+
 When using OVMF with a virtual display (without VGA passthrough),
-you need to set the client resolution in the OVMF menu(which you can reach
+you need to set the client resolution in the OVMF menu (which you can reach
 with a press of the ESC button during boot), or you have to choose
 SPICE as the display type.
 
