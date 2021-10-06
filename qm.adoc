@@ -775,6 +775,36 @@ you need to set the client resolution in the OVMF menu (which you can reach
 with a press of the ESC button during boot), or you have to choose
 SPICE as the display type.
 
+[[qm_tpm]]
+Trusted Platform Module (TPM)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A *Trusted Platform Module* is a device which stores secret data - such as
+encryption keys - securely and provides tamper-resistance functions for
+validating system boot.
+
+Certain operating systems (e.g. Windows 11) require such a device to be attached
+to a machine (be it physical or virtual).
+
+A TPM is added by specifying a *tpmstate* volume. This works similar to an
+efidisk, in that it cannot be changed (only removed) once created. You can add
+one via the following command:
+
+ qm set <vmid> -tpmstate0 <storage>:1,version=<version>
+
+Where *<storage>* is the storage you want to put the state on, and *<version>*
+is either 'v1.2' or 'v2.0'. You can also add one via the web interface, by
+choosing 'Add' -> 'TPM State' in the hardware section of a VM.
+
+The 'v2.0' TPM spec is newer and better supported, so unless you have a specific
+implementation that requires a 'v1.2' TPM, it should be preferred.
+
+NOTE: Compared to a physical TPM, an emulated one does *not* provide any real
+security benefits. The point of a TPM is that the data on it cannot be modified
+easily, except via commands specified as part of the TPM spec. Since with an
+emulated device the data storage happens on a regular volume, it can potentially
+be edited by anyone with access to it.
+
 [[qm_ivshmem]]
 Inter-VM shared memory
 ~~~~~~~~~~~~~~~~~~~~~~
