@@ -226,11 +226,11 @@ these repositories is still provided.
 |===========================================================
 |Repository                 | sources.list entry
 |{pve} 6.x Enterprise       |
-deb https://enterprise.proxmox.com/debian buster pve-enterprise
+deb https://enterprise.proxmox.com/debian/pve buster pve-enterprise
 |{pve} 6.x No-Subscription  |
-deb http://download.proxmox.com/debian buster pve-no-subscription
+deb http://download.proxmox.com/debian/pve buster pve-no-subscription
 |{pve} 6.x Test             |
-deb http://download.proxmox.com/debian buster pvetest
+deb http://download.proxmox.com/debian/pve buster pvetest
 |===========================================================
 
 
@@ -245,11 +245,11 @@ these repositories is still provided.
 |===========================================================
 |Repository                 | sources.list entry
 |{pve} 5.x Enterprise       |
-deb https://enterprise.proxmox.com/debian stretch pve-enterprise
+deb https://enterprise.proxmox.com/debian/pve stretch pve-enterprise
 |{pve} 5.x No-Subscription  |
-deb http://download.proxmox.com/debian stretch pve-no-subscription
+deb http://download.proxmox.com/debian/pve stretch pve-no-subscription
 |{pve} 5.x Test             |
-deb http://download.proxmox.com/debian stretch pvetest
+deb http://download.proxmox.com/debian/pve stretch pvetest
 |===========================================================
 
 
@@ -264,11 +264,11 @@ these repositories is still provided.
 |===========================================================
 |Repository                 | sources.list entry
 |{pve} 4.x Enterprise       |
-deb https://enterprise.proxmox.com/debian jessie pve-enterprise
+deb https://enterprise.proxmox.com/debian/pve jessie pve-enterprise
 |{pve} 4.x No-Subscription  |
-deb http://download.proxmox.com/debian jessie pve-no-subscription
+deb http://download.proxmox.com/debian/pve jessie pve-no-subscription
 |{pve} 4.x Test             |
-deb http://download.proxmox.com/debian jessie pvetest
+deb http://download.proxmox.com/debian/pve jessie pvetest
 |===========================================================
 
 
@@ -283,11 +283,11 @@ these repositories is still provided.
 |===========================================================
 |Repository                 | sources.list entry
 |{pve} 3.x Enterprise       |
-deb https://enterprise.proxmox.com/debian wheezy pve-enterprise
+deb https://enterprise.proxmox.com/debian/pve wheezy pve-enterprise
 |{pve} 3.x No-Subscription  |
-deb http://download.proxmox.com/debian wheezy pve-no-subscription
+deb http://download.proxmox.com/debian/pve wheezy pve-no-subscription
 |{pve} 3.x Test             |
-deb http://download.proxmox.com/debian wheezy pvetest
+deb http://download.proxmox.com/debian/pve wheezy pvetest
 |===========================================================
 
 
