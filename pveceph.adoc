@@ -809,28 +809,53 @@ Destroy CephFS
 WARNING: Destroying a CephFS will render all of its data unusable. This cannot be
 undone!
 
-If you really want to destroy an existing CephFS, you first need to stop or
-destroy all metadata servers (`M̀DS`). You can destroy them either via the web
-interface or via the command line interface, by issuing
+To completely an cleanly remove a CephFS, the following steps are necessary:
 
+* Disconnect every non-{PVE} client (e.g. unmount the CephFS in guests).
+* Disable all related CephFS {PVE} storage entries (to prevent it from being
+  automatically mounted).
+* Remove all used resources from guests (e.g. ISOs) that are on the CephFS you
+  want to destroy.
+* Unmount the CephFS storages on all cluster nodes manually with
++
+----
+umount /mnt/pve/<STORAGE-NAME>
+----
++
+Where `<STORAGE-NAME>` is the name of the CephFS storage in your {PVE}.
+
+* Now make sure that no metadata server (`MDS`) is running for that CephFS,
+  either by stopping or destroying them. This can be done either via the web
+  interface or via the command line interface, by issuing:
++
+----
+pveceph stop --service mds.NAME
+----
++
+to stop them, or
++
 ----
 pveceph mds destroy NAME
 ----
-on each {pve} node hosting an MDS daemon.
++
+to destroy them.
++
+Note that standby servers will automatically be promoted to active when an
+active `MDS` is stopped or removed, so it is best to first stop all standby
+servers.
 
-Then, you can remove (destroy) the CephFS by issuing
+* Now you can destroy the CephFS with
++
+----
+pveceph fs destroy NAME --remove-storages --remove-pools
+----
++
+This will automatically destroy the underlying ceph pools as well as remove
+the storages from pve config.
 
-----
-ceph fs rm NAME --yes-i-really-mean-it
-----
-on a single node hosting Ceph. After this, you may want to remove the created
-data and metadata pools, this can be done either over the Web GUI or the CLI
-with:
-
-----
-pveceph pool destroy NAME
-----
-
+After these steps, the CephFS should be completely removed and if you have
+other CephFS instances, the stopped metadata servers can be started again
+to act as standbys.
 
 Ceph maintenance
 ----------------
