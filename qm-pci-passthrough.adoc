@@ -45,7 +45,11 @@ some configuration to enable PCI(e) passthrough.
 
 .IOMMU
 
-The IOMMU has to be activated on the
+First, the IOMMU support has to be enabled in your BIOS/UEFI. Most often, that
+options is named `IOMMU` or `VT-d`, but check the manual for your motherboard
+for the exact option you need to enable.
+
+Then, the IOMMU has to be activated on the
 xref:sysboot_edit_kernel_cmdline[kernel commandline].
 
 The command line parameters are:
