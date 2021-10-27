@@ -55,12 +55,7 @@ The command line parameters are:
 ----
  intel_iommu=on
 ----
-* for AMD CPUs:
-+
-----
- amd_iommu=on
-----
-
+* for AMD CPUs it should be enabled automatically.
 
 .Kernel Modules
 
