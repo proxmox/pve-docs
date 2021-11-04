@@ -110,7 +110,9 @@ Alpine Linux is a security-oriented, lightweight Linux distribution based on
 musl libc and busybox.
 ____
 
-For currently supported releases see: https://alpinelinux.org/releases/
+For currently supported releases see:
+
+https://alpinelinux.org/releases/
 
 Arch Linux
 ~~~~~~~~~~
