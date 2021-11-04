@@ -84,12 +84,144 @@ Technology Overview
 
 * Modern Linux kernels
 
-* Image based deployment (templates)
+* Image based deployment (xref:pct_supported_distributions[templates])
 
 * Uses {pve} xref:chapter_storage[storage library]
 
 * Container setup from host (network, DNS, storage, etc.)
 
+
+[[pct_supported_distributions]]
+Supported Distributions
+~~~~~~~~~~~~~~~~~~~~~~~
+
+List of officially supported distributions can be found below.
+
+Templates for the following distributions are available through our
+repositories. You can use xref:pct_container_images[pveam] tool or the
+Graphical User Interface to download them.
+
+Alpine Linux
+^^^^^^^^^^^^
+
+[quote, 'https://alpinelinux.org']
+____
+"Alpine Linux is a security-oriented, lightweight Linux distribution based on
+musl libc and busybox."
+____
+
+https://alpinelinux.org/releases/
+
+Archlinux
+^^^^^^^^^
+
+[quote, 'https://wiki.archlinux.org/title/Arch_Linux']
+____
+"a lightweight and flexible Linux® distribution that tries to Keep It Simple."
+____
+
+
+CentOS, Almalinux, Rocky Linux
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+__CentOS__:
+
+[quote, 'https://centos.org']
+____
+"The CentOS Linux distribution is a stable, predictable, manageable and
+reproducible platform derived from the sources of Red Hat Enterprise Linux
+(RHEL)"
+____
+
+https://wiki.centos.org/About/Product
+
+__Almalinux__:
+
+[quote, 'https://almalinux.org']
+____
+"An Open Source, community owned and governed, forever-free
+enterprise Linux distribution, focused on long-term stability, providing a
+robust production-grade platform. AlmaLinux OS is 1:1 binary compatible with
+RHEL® and pre-Stream CentOS."
+____
+
+
+https://en.wikipedia.org/wiki/AlmaLinux#Releases
+
+__Rocky Linux__:
+
+[quote, 'https://rockylinux.org']
+____
+"Rocky Linux is a community enterprise operating system designed
+to be 100% bug-for-bug compatible with America's top enterprise Linux
+distribution now that its downstream partner has shifted direction."
+____
+
+https://en.wikipedia.org/wiki/Rocky_Linux#Releases
+
+
+Debian
+^^^^^^
+
+[quote, 'https://www.debian.org/intro/index#software']
+____
+"Debian is a free operating system, developed and maintained by the Debian
+project. A free Linux distribution with thousands of applications to meet our
+users' needs."
+____
+
+https://www.debian.org/releases/stable/releasenotes
+
+Devuan
+^^^^^^
+
+[quote, 'https://www.devuan.org']
+____
+"Devuan GNU+Linux is a fork of Debian without systemd that allows users to
+reclaim control over their system by avoiding unnecessary entanglements and
+ensuring Init Freedom."
+____
+
+
+Fedora
+^^^^^^
+
+[quote, 'https://getfedora.org']
+____
+"Fedora creates an innovative, free, and open source platform for hardware,
+clouds, and containers that enables software developers and community members
+to build tailored solutions for their users."
+____
+
+https://fedoraproject.org/wiki/Releases
+
+Gentoo
+^^^^^^
+
+[quote, 'https://www.gentoo.org']
+____
+"a highly flexible, source-based Linux distribution."
+____
+
+OpenSUSE
+^^^^^^^^
+
+[quote, 'https://www.opensuse.org']
+____
+"The makers' choice for sysadmins, developers and desktop users."
+____
+
+https://get.opensuse.org/leap/
+
+Ubuntu
+^^^^^^
+
+[quote, 'https://docs.ubuntu.com/']
+____
+"The world’s most popular Linux for desktop computing."
+____
+
+https://wiki.ubuntu.com/Releases
 
 [[pct_container_images]]
 Container Images
@@ -98,11 +230,11 @@ Container Images
 Container images, sometimes also referred to as ``templates'' or
 ``appliances'', are `tar` archives which contain everything to run a container.
 
-{pve} itself provides a variety of basic templates for the most common Linux
-distributions. They can be downloaded using the GUI or the `pveam` (short for
-{pve} Appliance Manager) command line utility.
-Additionally, https://www.turnkeylinux.org/[TurnKey Linux] container templates
-are also available to download.
+{pve} itself provides a variety of basic templates for the
+xref:pct_supported_distributions[most common Linux distributions].  They can be
+downloaded using the GUI or the `pveam` (short for {pve} Appliance Manager)
+command line utility.  Additionally, https://www.turnkeylinux.org/[TurnKey
+Linux] container templates are also available to download.
 
 The list of available templates is updated daily through the 'pve-daily-update'
 timer. You can also trigger an update manually by executing:
