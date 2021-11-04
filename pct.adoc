@@ -106,8 +106,8 @@ Alpine Linux
 
 [quote, 'https://alpinelinux.org']
 ____
-"Alpine Linux is a security-oriented, lightweight Linux distribution based on
-musl libc and busybox."
+Alpine Linux is a security-oriented, lightweight Linux distribution based on
+musl libc and busybox.
 ____
 
 https://alpinelinux.org/releases/
@@ -115,9 +115,9 @@ https://alpinelinux.org/releases/
 Arch Linux
 ~~~~~~~~~~
 
-[quote, 'https://wiki.archlinux.org/title/Arch_Linux']
+[quote, 'https://archlinux.org/']
 ____
-"a lightweight and flexible Linux® distribution that tries to Keep It Simple."
+Arch Linux, a lightweight and flexible Linux® distribution that tries to Keep It Simple.
 ____
 
 
@@ -129,9 +129,9 @@ CentOS / CentOS Stream
 
 [quote, 'https://centos.org']
 ____
-"The CentOS Linux distribution is a stable, predictable, manageable and
+The CentOS Linux distribution is a stable, predictable, manageable and
 reproducible platform derived from the sources of Red Hat Enterprise Linux
-(RHEL)"
+(RHEL)
 ____
 
 https://wiki.centos.org/About/Product
@@ -141,10 +141,10 @@ Almalinux
 
 [quote, 'https://almalinux.org']
 ____
-"An Open Source, community owned and governed, forever-free
-enterprise Linux distribution, focused on long-term stability, providing a
-robust production-grade platform. AlmaLinux OS is 1:1 binary compatible with
-RHEL® and pre-Stream CentOS."
+An Open Source, community owned and governed, forever-free enterprise Linux
+distribution, focused on long-term stability, providing a robust
+production-grade platform. AlmaLinux OS is 1:1 binary compatible with RHEL® and
+pre-Stream CentOS.
 ____
 
 
@@ -155,9 +155,9 @@ Rocky Linux
 
 [quote, 'https://rockylinux.org']
 ____
-"Rocky Linux is a community enterprise operating system designed
-to be 100% bug-for-bug compatible with America's top enterprise Linux
-distribution now that its downstream partner has shifted direction."
+Rocky Linux is a community enterprise operating system designed to be 100%
+bug-for-bug compatible with America's top enterprise Linux distribution now
+that its downstream partner has shifted direction.
 ____
 
 https://en.wikipedia.org/wiki/Rocky_Linux#Releases
@@ -167,9 +167,9 @@ Debian
 
 [quote, 'https://www.debian.org/intro/index#software']
 ____
-"Debian is a free operating system, developed and maintained by the Debian
+Debian is a free operating system, developed and maintained by the Debian
 project. A free Linux distribution with thousands of applications to meet our
-users' needs."
+users' needs.
 ____
 
 https://www.debian.org/releases/stable/releasenotes
@@ -179,9 +179,9 @@ Devuan
 
 [quote, 'https://www.devuan.org']
 ____
-"Devuan GNU+Linux is a fork of Debian without systemd that allows users to
+Devuan GNU+Linux is a fork of Debian without systemd that allows users to
 reclaim control over their system by avoiding unnecessary entanglements and
-ensuring Init Freedom."
+ensuring Init Freedom.
 ____
 
 
@@ -190,9 +190,9 @@ Fedora
 
 [quote, 'https://getfedora.org']
 ____
-"Fedora creates an innovative, free, and open source platform for hardware,
+Fedora creates an innovative, free, and open source platform for hardware,
 clouds, and containers that enables software developers and community members
-to build tailored solutions for their users."
+to build tailored solutions for their users.
 ____
 
 https://fedoraproject.org/wiki/Releases
@@ -202,7 +202,7 @@ Gentoo
 
 [quote, 'https://www.gentoo.org']
 ____
-"a highly flexible, source-based Linux distribution."
+a highly flexible, source-based Linux distribution.
 ____
 
 OpenSUSE
@@ -210,7 +210,7 @@ OpenSUSE
 
 [quote, 'https://www.opensuse.org']
 ____
-"The makers' choice for sysadmins, developers and desktop users."
+The makers' choice for sysadmins, developers and desktop users.
 ____
 
 https://get.opensuse.org/leap/
@@ -218,9 +218,10 @@ https://get.opensuse.org/leap/
 Ubuntu
 ~~~~~~
 
-[quote, 'https://docs.ubuntu.com/']
+[quote, 'https://ubuntu.com/']
 ____
-"The world’s most popular Linux for desktop computing."
+Ubuntu is the modern, open source operating system on Linux for the enterprise
+server, desktop, cloud, and IoT.
 ____
 
 https://wiki.ubuntu.com/Releases
