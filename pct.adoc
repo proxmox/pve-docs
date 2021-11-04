@@ -110,7 +110,7 @@ Alpine Linux is a security-oriented, lightweight Linux distribution based on
 musl libc and busybox.
 ____
 
-https://alpinelinux.org/releases/
+For currently supported releases see: https://alpinelinux.org/releases/
 
 Arch Linux
 ~~~~~~~~~~
@@ -120,6 +120,9 @@ ____
 Arch Linux, a lightweight and flexible Linux® distribution that tries to Keep It Simple.
 ____
 
+Arch Linux is using a rolling-release model, see its wiki for more details:
+
+https://wiki.archlinux.org/title/Arch_Linux
 
 CentOS, Almalinux, Rocky Linux
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -133,6 +136,8 @@ The CentOS Linux distribution is a stable, predictable, manageable and
 reproducible platform derived from the sources of Red Hat Enterprise Linux
 (RHEL)
 ____
+
+For currently supported releases see:
 
 https://wiki.centos.org/About/Product
 
@@ -148,6 +153,8 @@ pre-Stream CentOS.
 ____
 
 
+For currently supported releases see:
+
 https://en.wikipedia.org/wiki/AlmaLinux#Releases
 
 Rocky Linux
@@ -159,6 +166,8 @@ Rocky Linux is a community enterprise operating system designed to be 100%
 bug-for-bug compatible with America's top enterprise Linux distribution now
 that its downstream partner has shifted direction.
 ____
+
+For currently supported releases see:
 
 https://en.wikipedia.org/wiki/Rocky_Linux#Releases
 
@@ -172,6 +181,8 @@ project. A free Linux distribution with thousands of applications to meet our
 users' needs.
 ____
 
+For currently supported releases see:
+
 https://www.debian.org/releases/stable/releasenotes
 
 Devuan
@@ -184,6 +195,9 @@ reclaim control over their system by avoiding unnecessary entanglements and
 ensuring Init Freedom.
 ____
 
+For currently supported releases see:
+
+https://www.devuan.org/os/releases
 
 Fedora
 ~~~~~~
@@ -195,6 +209,8 @@ clouds, and containers that enables software developers and community members
 to build tailored solutions for their users.
 ____
 
+For currently supported releases see:
+
 https://fedoraproject.org/wiki/Releases
 
 Gentoo
@@ -205,6 +221,8 @@ ____
 a highly flexible, source-based Linux distribution.
 ____
 
+Gentoo is using a rolling-release model.
+
 OpenSUSE
 ~~~~~~~~
 
@@ -212,6 +230,8 @@ OpenSUSE
 ____
 The makers' choice for sysadmins, developers and desktop users.
 ____
+
+For currently supported releases see:
 
 https://get.opensuse.org/leap/
 
@@ -223,6 +243,8 @@ ____
 Ubuntu is the modern, open source operating system on Linux for the enterprise
 server, desktop, cloud, and IoT.
 ____
+
+For currently supported releases see:
 
 https://wiki.ubuntu.com/Releases
 
