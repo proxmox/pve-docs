@@ -93,7 +93,7 @@ Technology Overview
 
 [[pct_supported_distributions]]
 Supported Distributions
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
 List of officially supported distributions can be found below.
 
@@ -102,7 +102,7 @@ repositories. You can use xref:pct_container_images[pveam] tool or the
 Graphical User Interface to download them.
 
 Alpine Linux
-^^^^^^^^^^^^
+~~~~~~~~~~~~
 
 [quote, 'https://alpinelinux.org']
 ____
@@ -112,8 +112,8 @@ ____
 
 https://alpinelinux.org/releases/
 
-Archlinux
-^^^^^^^^^
+Arch Linux
+~~~~~~~~~~
 
 [quote, 'https://wiki.archlinux.org/title/Arch_Linux']
 ____
@@ -122,9 +122,10 @@ ____
 
 
 CentOS, Almalinux, Rocky Linux
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-__CentOS__:
+CentOS / CentOS Stream
+^^^^^^^^^^^^^^^^^^^^^^
 
 [quote, 'https://centos.org']
 ____
@@ -135,7 +136,8 @@ ____
 
 https://wiki.centos.org/About/Product
 
-__Almalinux__:
+Almalinux
+^^^^^^^^^
 
 [quote, 'https://almalinux.org']
 ____
@@ -148,7 +150,8 @@ ____
 
 https://en.wikipedia.org/wiki/AlmaLinux#Releases
 
-__Rocky Linux__:
+Rocky Linux
+^^^^^^^^^^^
 
 [quote, 'https://rockylinux.org']
 ____
@@ -159,9 +162,8 @@ ____
 
 https://en.wikipedia.org/wiki/Rocky_Linux#Releases
 
-
 Debian
-^^^^^^
+~~~~~~
 
 [quote, 'https://www.debian.org/intro/index#software']
 ____
@@ -173,7 +175,7 @@ ____
 https://www.debian.org/releases/stable/releasenotes
 
 Devuan
-^^^^^^
+~~~~~~
 
 [quote, 'https://www.devuan.org']
 ____
@@ -184,7 +186,7 @@ ____
 
 
 Fedora
-^^^^^^
+~~~~~~
 
 [quote, 'https://getfedora.org']
 ____
@@ -196,7 +198,7 @@ ____
 https://fedoraproject.org/wiki/Releases
 
 Gentoo
-^^^^^^
+~~~~~~
 
 [quote, 'https://www.gentoo.org']
 ____
@@ -204,7 +206,7 @@ ____
 ____
 
 OpenSUSE
-^^^^^^^^
+~~~~~~~~
 
 [quote, 'https://www.opensuse.org']
 ____
@@ -214,7 +216,7 @@ ____
 https://get.opensuse.org/leap/
 
 Ubuntu
-^^^^^^
+~~~~~~
 
 [quote, 'https://docs.ubuntu.com/']
 ____
