@@ -521,6 +521,8 @@ password (unless logged in as 'root'), as well as the ability to correctly use
 the 'TOTP' key, by typing the current 'OTP' value into the 'Verification Code'
 field and pressing the 'Apply' button.
 
+// FIXME: move webauthn to actual, separate section once there!
+[[pveum_configure_webauthn]]
 [[pveum_configure_u2f]]
 Server Side U2F Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
