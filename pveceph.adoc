@@ -809,7 +809,8 @@ Destroy CephFS
 WARNING: Destroying a CephFS will render all of its data unusable. This cannot be
 undone!
 
-To completely an cleanly remove a CephFS, the following steps are necessary:
+To completely and gracefully remove a CephFS, the following steps are
+necessary:
 
 * Disconnect every non-{PVE} client (e.g. unmount the CephFS in guests).
 * Disable all related CephFS {PVE} storage entries (to prevent it from being
@@ -825,8 +826,9 @@ umount /mnt/pve/<STORAGE-NAME>
 Where `<STORAGE-NAME>` is the name of the CephFS storage in your {PVE}.
 
 * Now make sure that no metadata server (`MDS`) is running for that CephFS,
-  either by stopping or destroying them. This can be done either via the web
-  interface or via the command line interface, by issuing:
+  either by stopping or destroying them. This can be done through the web
+  interface or via the command line interface, for the latter you would issue
+  the following command:
 +
 ----
 pveceph stop --service mds.NAME
