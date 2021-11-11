@@ -66,6 +66,8 @@ include::pvestatd.adoc[]
 
 include::spiceproxy.adoc[]
 
+include::pvescheduler.adoc[]
+
 :leveloffset: 0
 
 
@@ -291,6 +293,13 @@ include::pve-ha-lrm.8-synopsis.adoc[]
 
 :leveloffset: 0
 
+*pvescheduler* - {pve} Scheduler Daemon
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:leveloffset: 1
+include::pvescheduler.8-synopsis.adoc[]
+
+:leveloffset: 0
 
 [appendix]
 Configuration Files
@@ -298,6 +307,15 @@ Configuration Files
 
 :leveloffset: 2
 include::datacenter.cfg.adoc[]
+
+:leveloffset: 0
+
+[appendix]
+Calendar Events
+---------------
+
+:leveloffset: 1
+include::calendar-events.adoc[]
 
 :leveloffset: 0
 
