@@ -1,3 +1,67 @@
+pve-docs (7.1-1) bullseye; urgency=medium
+
+  * network: the netmask property is depreacated, avoid referring to it and
+    use CIDR format for addresses
+
+  * pvesr: remove note about non working live migration, it works nowadays
+
+  * fix #3523: routed net: make example conform to image
+
+  * fix #3557: qm/pci-passthrouh: add note about the 'All Functions' checkbox
+
+  * storage: add minimal zfs over iscsi doc
+
+  * fix #3598: include chrony in time synchronisation section
+
+  * fix #844: document first VM/CT start-up delay
+
+  * pvenode: add task & migrate/stop/startall sections
+
+  * network: add bridge-vids to vlan aware bridge example
+
+  * pvesdn: document evpn "Advertise Subnets" and "Exit Nodes Local" routing
+    options
+
+  * sdn: add vxlan encryption notes
+
+  * pvecm: fix command output formatting
+
+  * pvecm: update instructions to add redundant links
+
+  * pvecm: add note about corosync killnode error
+
+  * fix #3375: warn user to remove replication jobs
+
+  * pct: clarify simple restore mode default 'local' storage
+
+  * pveum: add intro to 'limited API Token' section
+
+  * pveum: expamd LDAP/AD explanation and restructure section
+
+  * qm: add note about secure boot and new efidisk behaviour
+
+  * qm: add section about TPM
+
+  * old repos: use `/pve` suffix in URLs, it has better compatibility
+
+  * remove 'amd_iommu=on' from the passthrough docs
+
+  * pci-passthrough: expand IOMMU section with notice about BIOS
+
+  * pct: add section for supported distributions
+
+  * refactor calendar events into appendix
+
+  * vzdump: minimal changes to document vzdump.cron to pvescheduler switch
+
+  * pvescheduler: add basic docs and manual page
+
+  * pveceph: improve documentation for destroying a CephFS
+
+  * various formatitting, typo and language improvements
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 11 Nov 2021 18:46:38 +0100
+
 pve-docs (7.0-5) bullseye; urgency=medium
 
   * container: add Control Group (cgroup) section
