@@ -49,7 +49,10 @@ archiving.
 Backup jobs can be scheduled so that they are executed automatically
 on specific days and times, for selectable nodes and guest systems.
 Configuration of scheduled backups is done at the Datacenter level in
-the GUI, which will generate a cron entry in /etc/cron.d/vzdump.
+the GUI, which will generate a job entry in /etc/pve/jobs.cfg, which
+will in turn be parsed and executed by the `pvescheduler` daemon.
+These jobs use the xref:chapter_calendar_events[calendar events] for
+defining the schedule.
 
 Backup modes
 ------------
