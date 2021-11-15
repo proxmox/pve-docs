@@ -460,10 +460,35 @@ log in without the second factor. In the case of 'TOTP', users can
 also change the 'TOTP' later on, provided they can log in first.
 
 Alternatively, users can choose to opt-in to two-factor authentication
-via 'TOTP' later on, even if the realm does not enforce it. As another
-option, if the server has an 'AppId' configured, a user can opt-in to
-'U2F' authentication, provided the realm does not enforce any other
-second factor.
+later on, even if the realm does not enforce it.
+
+Available Second Factors
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can set up multiple second factors, in order to avoid a situation in
+which losing your smartphone or security key locks you out of your
+account permanently.
+
+The following two-factor authentication methods are available in
+addition to realm-enforced TOTP and YubiKey OTP:
+
+* User configured TOTP
+  (https://en.wikipedia.org/wiki/Time-based_One-Time_Password[Time-based One-Time Password]).
+  A short code derived from a shared secret and the current time, it changes
+  every 30 seconds.
+* WebAuthn (https://en.wikipedia.org/wiki/WebAuthn[Web Authentication]).
+  A general standard for authentication. It is implemented by various
+  security devices, like hardware keys or trusted platform modules (TPM)
+  from a computer or smart phone.
+* Single use Recovery Keys. A list of keys which should either be
+  printed out and locked in a secure place or saved digitally in an
+  electronic vault. Each key can be used only once. These are perfect for
+  ensuring that you are not locked out, even if all of your other second
+  factors are lost or corrupt.
+
+Before WebAuthn was supported, U2F could be setup by the user. Existing
+U2F factors can still be used, but it is recommended to switch to
+WebAuthn, once it is configured on the server.
 
 Realm Enforced Two-Factor Authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -503,10 +528,12 @@ https://developers.yubico.com/Software_Projects/Yubico_OTP/YubiCloud_Validation_
 User Configured TOTP Authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Users can choose to enable 'TOTP' as a second factor on login, via the 'TFA'
-button in the user list (unless the realm enforces 'YubiKey OTP').
+Users can choose to enable 'TOTP' or 'WebAuthn' as a second factor on login, via
+the 'TFA' button in the user list (unless the realm enforces 'YubiKey OTP').
 
-[thumbnail="screenshot/gui-datacenter-users-tfa.png"]
+Users can always add and use one time 'Recovery Keys'.
+
+[thumbnail="screenshot/gui-datacenter-two-factor.png"]
 
 After opening the 'TFA' window, the user is presented with a dialog to set up
 'TOTP' authentication. The 'Secret' field contains the key, which can be
@@ -521,11 +548,71 @@ password (unless logged in as 'root'), as well as the ability to correctly use
 the 'TOTP' key, by typing the current 'OTP' value into the 'Verification Code'
 field and pressing the 'Apply' button.
 
+[[user_tfa_setup_totp]]
+=== TOTP
+
+[thumbnail="screenshot/pve-gui-tfa-add-totp.png"]
+
+There is no server setup required. Simply install a TOTP app on your
+smartphone (for example, https://freeotp.github.io/[FreeOTP]) and use
+the Proxmox Backup Server web-interface to add a TOTP factor.
+
+[[user_tfa_setup_webauthn]]
+=== WebAuthn
+
+For WebAuthn to work, you need to have two things:
+
+* A trusted HTTPS certificate (for example, by using
+  https://pve.proxmox.com/wiki/Certificate_Management[Let's Encrypt]).
+  While it probably works with an untrusted certificate, some browsers may
+  warn or refuse WebAuthn operations if it is not trusted.
+* Setup the WebAuthn configuration (see *Datacenter -> Options ->
+  WebAuthn Settings* in the Proxmox VE web interface). This can be
+  auto-filled in most setups.
+
+Once you have fulfilled both of these requirements, you can add a WebAuthn
+configuration in the *Two Factor* panel under *Datacenter -> Permissions -> Two
+Factor*.
+
+[[user_tfa_setup_recovery_keys]]
+=== Recovery Keys
+
+[thumbnail="screenshot/pve-gui-tfa-add-recovery-keys.png"]
+
+Recovery key codes do not need any preparation; you can simply create a
+set of recovery keys in the *Two Factor* panel under *Datacenter -> Permissions
+-> Two Factor*.
+
+NOTE: There can only be one set of single-use recovery keys per user at any
+time.
+
+
 // FIXME: move webauthn to actual, separate section once there!
 [[pveum_configure_webauthn]]
+Server Side Webauthn Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[thumbnail="screenshot/gui-datacenter-webauthn-edit.png"]
+
+To allow users to use 'WebAuthn' authentication, it is necessaary to use a valid
+domain with a valid SSL certificate, otherwise some browsers may warn or refuse
+to authenticate altogether.
+
+NOTE: Changing the 'WebAuthn' configuration may render all existing 'WebAuthn'
+registrations unusable!
+
+This is done via `/etc/pve/datacenter.cfg`. For instance:
+
+----
+webauthn:
+rp=mypve.example.com,origin=https://mypve.example.com:8006,id=mypve.example.com
+----
+
 [[pveum_configure_u2f]]
 Server Side U2F Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+NOTE: It is recommended to use WebAuthn instead.
 
 To allow users to use 'U2F' authentication, it may be necessary to use a valid
 domain with a valid SSL certificate, otherwise, some browsers may print
