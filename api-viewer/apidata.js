@@ -471,6 +471,13 @@ const apiSchema = [
                                        ],
                                        "format" : "pve-configid",
                                        "type" : "string"
+                                    },
+                                    "verify-certificate" : {
+                                       "default" : 1,
+                                       "description" : "Set to 0 to disable certificate verification for https endpoints.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
                                     }
                                  },
                                  "type" : "object"
@@ -611,6 +618,13 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
+                                    },
+                                    "verify-certificate" : {
+                                       "default" : 1,
+                                       "description" : "Set to 0 to disable certificate verification for https endpoints.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
                                     }
                                  },
                                  "type" : "object"
@@ -3551,6 +3565,13 @@ const apiSchema = [
                                  "type" : "integer",
                                  "typetext" : "<integer> (0 - N)"
                               },
+                              "comment" : {
+                                 "description" : "Description for the Job.",
+                                 "maxLength" : 512,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "compress" : {
                                  "default" : "0",
                                  "description" : "Compress dump file.",
@@ -3575,6 +3596,7 @@ const apiSchema = [
                                  "description" : "Day of week selection.",
                                  "format" : "pve-day-of-week-list",
                                  "optional" : 1,
+                                 "requires" : "starttime",
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
@@ -3705,6 +3727,14 @@ const apiSchema = [
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
                               },
+                              "schedule" : {
+                                 "description" : "Backup schedule. The format is a subset of `systemd` calendar events.",
+                                 "format" : "pve-calendar-event",
+                                 "maxLength" : 128,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "script" : {
                                  "description" : "Use specified hook script.",
                                  "optional" : 1,
@@ -3713,6 +3743,7 @@ const apiSchema = [
                               },
                               "starttime" : {
                                  "description" : "Job Start time.",
+                                 "optional" : 1,
                                  "pattern" : "\\d{1,2}:\\d{1,2}",
                                  "type" : "string",
                                  "typetext" : "HH:MM"
@@ -3850,6 +3881,13 @@ const apiSchema = [
                            "type" : "integer",
                            "typetext" : "<integer> (0 - N)"
                         },
+                        "comment" : {
+                           "description" : "Description for the Job.",
+                           "maxLength" : 512,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
                         "compress" : {
                            "default" : "0",
                            "description" : "Compress dump file.",
@@ -3868,6 +3906,7 @@ const apiSchema = [
                            "description" : "Day of week selection.",
                            "format" : "pve-day-of-week-list",
                            "optional" : 1,
+                           "requires" : "starttime",
                            "type" : "string",
                            "typetext" : "<string>"
                         },
@@ -3894,6 +3933,13 @@ const apiSchema = [
                         "exclude-path" : {
                            "description" : "Exclude certain files/directories (shell globs). Paths starting with '/' are anchored to the container's root,  other paths match relative to each subdirectory.",
                            "format" : "string-alist",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "id" : {
+                           "description" : "Job ID (will be autogenerated).",
+                           "format" : "pve-configid",
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
@@ -3992,6 +4038,14 @@ const apiSchema = [
                            "type" : "boolean",
                            "typetext" : "<boolean>"
                         },
+                        "schedule" : {
+                           "description" : "Backup schedule. The format is a subset of `systemd` calendar events.",
+                           "format" : "pve-calendar-event",
+                           "maxLength" : 128,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
                         "script" : {
                            "description" : "Use specified hook script.",
                            "optional" : 1,
@@ -4000,6 +4054,7 @@ const apiSchema = [
                         },
                         "starttime" : {
                            "description" : "Job Start time.",
+                           "optional" : 1,
                            "pattern" : "\\d{1,2}:\\d{1,2}",
                            "type" : "string",
                            "typetext" : "HH:MM"
@@ -5071,6 +5126,7 @@ const apiSchema = [
                                           "aurora",
                                           "autodns",
                                           "aws",
+                                          "azion",
                                           "azure",
                                           "cf",
                                           "clouddns",
@@ -5150,6 +5206,7 @@ const apiSchema = [
                                           "nsone",
                                           "nsupdate",
                                           "nw",
+                                          "oci",
                                           "one",
                                           "online",
                                           "openprovider",
@@ -5174,6 +5231,7 @@ const apiSchema = [
                                           "ultra",
                                           "unoeuro",
                                           "variomedia",
+                                          "veesp",
                                           "vscale",
                                           "vultr",
                                           "websupport",
@@ -5330,6 +5388,7 @@ const apiSchema = [
                                     "aurora",
                                     "autodns",
                                     "aws",
+                                    "azion",
                                     "azure",
                                     "cf",
                                     "clouddns",
@@ -5409,6 +5468,7 @@ const apiSchema = [
                                     "nsone",
                                     "nsupdate",
                                     "nw",
+                                    "oci",
                                     "one",
                                     "online",
                                     "openprovider",
@@ -5433,6 +5493,7 @@ const apiSchema = [
                                     "ultra",
                                     "unoeuro",
                                     "variomedia",
+                                    "veesp",
                                     "vscale",
                                     "vultr",
                                     "websupport",
@@ -6193,6 +6254,106 @@ const apiSchema = [
          {
             "children" : [
                {
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Returns a list of future schedule runtimes.",
+                        "method" : "GET",
+                        "name" : "schedule-analyze",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "iterations" : {
+                                 "default" : 10,
+                                 "description" : "Number of event-iteration to simulate and return.",
+                                 "maximum" : 100,
+                                 "minimum" : 1,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (1 - 100)"
+                              },
+                              "schedule" : {
+                                 "description" : "Job schedule. The format is a subset of `systemd` calendar events.",
+                                 "format" : "pve-calendar-event",
+                                 "maxLength" : 128,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "starttime" : {
+                                 "description" : "UNIX timestamp to start the calculation from. Defaults to the current time.",
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "user" : "all"
+                        },
+                        "returns" : {
+                           "description" : "An array of the next <iterations> events since <starttime>.",
+                           "items" : {
+                              "properties" : {
+                                 "timestamp" : {
+                                    "description" : "UNIX timestamp for the run.",
+                                    "type" : "integer"
+                                 },
+                                 "utc" : {
+                                    "description" : "UTC timestamp for the run.",
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/jobs/schedule-analyze",
+                  "text" : "schedule-analyze"
+               }
+            ],
+            "info" : {
+               "GET" : {
+                  "allowtoken" : 1,
+                  "description" : "Index for jobs related endpoints.",
+                  "method" : "GET",
+                  "name" : "index",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "permissions" : {
+                     "user" : "all"
+                  },
+                  "returns" : {
+                     "description" : "Directory index.",
+                     "items" : {
+                        "properties" : {
+                           "subdir" : {
+                              "description" : "API sub-directory endpoint",
+                              "type" : "string"
+                           }
+                        },
+                        "type" : "object"
+                     },
+                     "links" : [
+                        {
+                           "href" : "{subdir}",
+                           "rel" : "child"
+                        }
+                     ],
+                     "type" : "array"
+                  }
+               }
+            },
+            "leaf" : 0,
+            "path" : "/cluster/jobs",
+            "text" : "jobs"
+         },
+         {
+            "children" : [
+               {
                   "children" : [
                      {
                         "children" : [
@@ -6559,9 +6720,10 @@ const apiSchema = [
                                  "properties" : {
                                     "alias" : {
                                        "description" : "alias name of the vnet",
+                                       "maxLength" : 256,
                                        "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
+                                       "pattern" : "(?^i:[\\(\\)-_.\\w\\d\\s]{0,256})",
+                                       "type" : "string"
                                     },
                                     "delete" : {
                                        "description" : "A list of settings you want to delete.",
@@ -6676,9 +6838,10 @@ const apiSchema = [
                            "properties" : {
                               "alias" : {
                                  "description" : "alias name of the vnet",
+                                 "maxLength" : 256,
                                  "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
+                                 "pattern" : "(?^i:[\\(\\)-_.\\w\\d\\s]{0,256})",
+                                 "type" : "string"
                               },
                               "tag" : {
                                  "description" : "vlan or vxlan id",
@@ -6817,6 +6980,12 @@ const apiSchema = [
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
+                                    "advertise-subnets" : {
+                                       "description" : "Advertise evpn subnets if you have silent hosts",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
                                     "bridge" : {
                                        "optional" : 1,
                                        "type" : "string",
@@ -6843,6 +7012,12 @@ const apiSchema = [
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
+                                    "disable-arp-nd-suppression" : {
+                                       "description" : "Disable ipv4 arp && ipv6 neighbour discovery suppression",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
                                     "dns" : {
                                        "description" : "dns api server",
                                        "optional" : 1,
@@ -6868,6 +7043,12 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
+                                    },
+                                    "exitnodes-local-routing" : {
+                                       "description" : "Allow exitnodes to connect to evpn guests",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
                                     },
                                     "ipam" : {
                                        "description" : "use a specific ipam",
@@ -7059,6 +7240,12 @@ const apiSchema = [
                         "parameters" : {
                            "additionalProperties" : 0,
                            "properties" : {
+                              "advertise-subnets" : {
+                                 "description" : "Advertise evpn subnets if you have silent hosts",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
                               "bridge" : {
                                  "optional" : 1,
                                  "type" : "string",
@@ -7069,6 +7256,12 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "disable-arp-nd-suppression" : {
+                                 "description" : "Disable ipv4 arp && ipv6 neighbour discovery suppression",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
                               },
                               "dns" : {
                                  "description" : "dns api server",
@@ -7095,6 +7288,12 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "exitnodes-local-routing" : {
+                                 "description" : "Allow exitnodes to connect to evpn guests",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
                               },
                               "ipam" : {
                                  "description" : "use a specific ipam",
@@ -8360,6 +8559,13 @@ const apiSchema = [
                            "type" : "string",
                            "typetext" : "<string>"
                         },
+                        "description" : {
+                           "description" : "Datacenter description. Shown in the web-interface datacenter notes panel. This is saved as comment inside the configuration file.",
+                           "maxLength" : 65536,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
                         "email_from" : {
                            "description" : "Specify email address to send notification from (default is root@$hostname)",
                            "format" : "email-opt",
@@ -8528,6 +8734,32 @@ const apiSchema = [
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "[appid=<APPID>] [,origin=<URL>]"
+                        },
+                        "webauthn" : {
+                           "description" : "webauthn configuration",
+                           "format" : {
+                              "id" : {
+                                 "description" : "Relying part ID. Must be the domain name without protocol, port or location. Changing this *will* break existing credentials.",
+                                 "format_description" : "DOMAINNAME",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "origin" : {
+                                 "description" : "Site origin. Must be a `https://` URL (or `http://localhost`). Should contain the address users type in their browsers to access the web interface. Changing this *may* break existing credentials.",
+                                 "format_description" : "URL",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "rp" : {
+                                 "description" : "Relying party name. Any text identifier. Changing this *may* break existing credentials.",
+                                 "format_description" : "RELYING_PARTY",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "[id=<DOMAINNAME>] [,origin=<URL>] [,rp=<RELYING_PARTY>]"
                         }
                      }
                   },
@@ -12116,12 +12348,12 @@ const apiSchema = [
                                              "type" : "boolean"
                                           },
                                           "agent" : {
-                                             "description" : "Enable/disable Qemu GuestAgent and its properties.",
+                                             "description" : "Enable/disable communication with the Qemu Guest Agent and its properties.",
                                              "format" : {
                                                 "enabled" : {
                                                    "default" : 0,
                                                    "default_key" : 1,
-                                                   "description" : "Enable/disable Qemu GuestAgent.",
+                                                   "description" : "Enable/disable communication with a Qemu Guest Agent (QGA) running in the VM.",
                                                    "type" : "boolean"
                                                 },
                                                 "fstrim_cloned_disks" : {
@@ -12208,7 +12440,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "boot" : {
-                                             "description" : "Specify guest boot order. Use with 'order=', usage with no key or 'legacy=' is deprecated.",
+                                             "description" : "Specify guest boot order. Use the 'order=' sub-property as usage with no key or 'legacy=' is deprecated.",
                                              "format" : "pve-qm-boot",
                                              "optional" : 1,
                                              "type" : "string"
@@ -12276,8 +12508,8 @@ const apiSchema = [
                                              "verbose_description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has total of '2' CPU time. Value '0' indicates no CPU limit."
                                           },
                                           "cpuunits" : {
-                                             "default" : 1024,
-                                             "description" : "CPU weight for a VM.",
+                                             "default" : "cgroup v1: 1024, cgroup v2: 100",
+                                             "description" : "CPU weight for a VM, will be clamped to [1, 10000] in cgroup v2.",
                                              "maximum" : 262144,
                                              "minimum" : 2,
                                              "optional" : 1,
@@ -12297,6 +12529,16 @@ const apiSchema = [
                                           "efidisk0" : {
                                              "description" : "Configure a Disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead.",
                                              "format" : {
+                                                "efitype" : {
+                                                   "default" : "2m",
+                                                   "description" : "Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified.",
+                                                   "enum" : [
+                                                      "2m",
+                                                      "4m"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
                                                 "file" : {
                                                    "default_key" : 1,
                                                    "description" : "The drive's backing volume.",
@@ -12317,6 +12559,12 @@ const apiSchema = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
+                                                },
+                                                "pre-enrolled-keys" : {
+                                                   "default" : 0,
+                                                   "description" : "Use am EFI vars template with distribution-specific and Microsoft Standard keys enrolled, if used with 'efitype=4m'. Note that this will enable Secure Boot by default, though it can still be turned off from within the VM.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
                                                 },
                                                 "size" : {
                                                    "description" : "Disk size. This is purely informational and has no effect.",
@@ -12352,7 +12600,7 @@ const apiSchema = [
                                           },
                                           "hotplug" : {
                                              "default" : "network,disk,usb",
-                                             "description" : "Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to disable hotplug completely. Value '1' is an alias for the default 'network,disk,usb'.",
+                                             "description" : "Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to disable hotplug completely. Using '1' as value is an alias for the default `network,disk,usb`.",
                                              "format" : "pve-hotplug-features",
                                              "optional" : 1,
                                              "type" : "string"
@@ -12725,7 +12973,7 @@ const apiSchema = [
                                           },
                                           "keyboard" : {
                                              "default" : null,
-                                             "description" : "Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.cfg' configuration file.It should not be necessary to set it.",
+                                             "description" : "Keyboard layout for VNC server. The default is read from the'/etc/pve/datacenter.cfg' configuration file. It should not be necessary to set it.",
                                              "enum" : [
                                                 "de",
                                                 "de-ch",
@@ -12763,7 +13011,7 @@ const apiSchema = [
                                              "type" : "boolean"
                                           },
                                           "localtime" : {
-                                             "description" : "Set the real time clock to local time. This is enabled by default if ostype indicates a Microsoft OS.",
+                                             "description" : "Set the real time clock (RTC) to local time. This is enabled by default if the `ostype` indicates a Microsoft Windows OS.",
                                              "optional" : 1,
                                              "type" : "boolean"
                                           },
@@ -12849,6 +13097,10 @@ const apiSchema = [
                                                    "alias" : "macaddr",
                                                    "keyAlias" : "model"
                                                 },
+                                                "e1000e" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
                                                 "firewall" : {
                                                    "description" : "Whether this interface should be protected by the firewall.",
                                                    "optional" : 1,
@@ -12883,19 +13135,20 @@ const apiSchema = [
                                                    "default_key" : 1,
                                                    "description" : "Network Card Model. The 'virtio' model provides the best performance with very low CPU overhead. If your guest does not support this driver, it is usually best to use 'e1000'.",
                                                    "enum" : [
-                                                      "rtl8139",
-                                                      "ne2k_pci",
                                                       "e1000",
-                                                      "pcnet",
-                                                      "virtio",
-                                                      "ne2k_isa",
+                                                      "e1000-82540em",
+                                                      "e1000-82544gc",
+                                                      "e1000-82545em",
+                                                      "e1000e",
                                                       "i82551",
                                                       "i82557b",
                                                       "i82559er",
-                                                      "vmxnet3",
-                                                      "e1000-82540em",
-                                                      "e1000-82544gc",
-                                                      "e1000-82545em"
+                                                      "ne2k_isa",
+                                                      "ne2k_pci",
+                                                      "pcnet",
+                                                      "rtl8139",
+                                                      "virtio",
+                                                      "vmxnet3"
                                                    ],
                                                    "type" : "string"
                                                 },
@@ -13020,13 +13273,14 @@ const apiSchema = [
                                                 "win7",
                                                 "win8",
                                                 "win10",
+                                                "win11",
                                                 "l24",
                                                 "l26",
                                                 "solaris"
                                              ],
                                              "optional" : 1,
                                              "type" : "string",
-                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016/2019\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6 - 5.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
+                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016/2019\nwin11;; Microsoft Windows 11/2022\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6 - 5.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
                                           },
                                           "parallel[n]" : {
                                              "description" : "Map host parallel devices (n is 0 to 2).",
@@ -13052,7 +13306,7 @@ const apiSchema = [
                                              "format" : {
                                                 "max_bytes" : {
                                                    "default" : 1024,
-                                                   "description" : "Maximum bytes of entropy injected into the guest every 'period' milliseconds. Prefer a lower value when using /dev/random as source. Use 0 to disable limiting (potentially dangerous!).",
+                                                   "description" : "Maximum bytes of entropy allowed to get injected into the guest every 'period' milliseconds. Prefer a lower value when using '/dev/random' as source. Use `0` to disable limiting (potentially dangerous!).",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -13064,7 +13318,7 @@ const apiSchema = [
                                                 },
                                                 "source" : {
                                                    "default_key" : 1,
-                                                   "description" : "The file on the host to gather entropy from. In most cases /dev/urandom should be preferred over /dev/random to avoid entropy-starvation issues on the host. Using urandom does *not* decrease security in any meaningful way, as it's still seeded from real entropy, and the bytes provided will most likely be mixed with real entropy on the guest as well. /dev/hwrng can be used to pass through a hardware RNG from the host.",
+                                                   "description" : "The file on the host to gather entropy from. In most cases '/dev/urandom' should be preferred over '/dev/random' to avoid entropy-starvation issues on the host. Using urandom does *not* decrease security in any meaningful way, as it's still seeded from real entropy, and the bytes provided will most likely be mixed with real entropy on the guest as well. '/dev/hwrng' can be used to pass through a hardware RNG from the host.",
                                                    "enum" : [
                                                       "/dev/urandom",
                                                       "/dev/random",
@@ -13649,6 +13903,11 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "ro" : {
+                                                   "description" : "Whether the drive is read-only.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "scsiblock" : {
                                                    "default" : 0,
                                                    "description" : "whether to use scsi-block for full passthrough of host block device\n\nWARNING: can lead to I/O errors in combination with low memory or high memory fragmentation on host",
@@ -13851,6 +14110,40 @@ const apiSchema = [
                                              "description" : "Enable/disable Template.",
                                              "optional" : 1,
                                              "type" : "boolean"
+                                          },
+                                          "tpmstate0" : {
+                                             "description" : "Configure a Disk for storing TPM state. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default size of 4 MiB will always be used instead. The format is also fixed to 'raw'.",
+                                             "format" : {
+                                                "file" : {
+                                                   "default_key" : 1,
+                                                   "description" : "The drive's backing volume.",
+                                                   "format" : "pve-volume-id-or-qm-path",
+                                                   "format_description" : "volume",
+                                                   "type" : "string"
+                                                },
+                                                "size" : {
+                                                   "description" : "Disk size. This is purely informational and has no effect.",
+                                                   "format" : "disk-size",
+                                                   "format_description" : "DiskSize",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "version" : {
+                                                   "default" : "v2.0",
+                                                   "description" : "The TPM interface version. v2.0 is newer and should be preferred. Note that this cannot be changed later on.",
+                                                   "enum" : [
+                                                      "v1.2",
+                                                      "v2.0"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "volume" : {
+                                                   "alias" : "file"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string"
                                           },
                                           "unused[n]" : {
                                              "description" : "Reference to unused volumes. This is used internally, and should not be modified manually.",
@@ -14182,6 +14475,11 @@ const apiSchema = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
+                                                },
+                                                "ro" : {
+                                                   "description" : "Whether the drive is read-only.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
                                                 },
                                                 "secs" : {
                                                    "description" : "Force the drive's physical geometry to have a specific sector count.",
@@ -14285,12 +14583,12 @@ const apiSchema = [
                                              "typetext" : "<boolean>"
                                           },
                                           "agent" : {
-                                             "description" : "Enable/disable Qemu GuestAgent and its properties.",
+                                             "description" : "Enable/disable communication with the Qemu Guest Agent and its properties.",
                                              "format" : {
                                                 "enabled" : {
                                                    "default" : 0,
                                                    "default_key" : 1,
-                                                   "description" : "Enable/disable Qemu GuestAgent.",
+                                                   "description" : "Enable/disable communication with a Qemu Guest Agent (QGA) running in the VM.",
                                                    "type" : "boolean"
                                                 },
                                                 "fstrim_cloned_disks" : {
@@ -14390,7 +14688,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "boot" : {
-                                             "description" : "Specify guest boot order. Use with 'order=', usage with no key or 'legacy=' is deprecated.",
+                                             "description" : "Specify guest boot order. Use the 'order=' sub-property as usage with no key or 'legacy=' is deprecated.",
                                              "format" : "pve-qm-boot",
                                              "optional" : 1,
                                              "type" : "string",
@@ -14415,7 +14713,7 @@ const apiSchema = [
                                              "format" : "pve-qm-cicustom",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[meta=<volume>] [,network=<volume>] [,user=<volume>]"
+                                             "typetext" : "[meta=<volume>] [,network=<volume>] [,user=<volume>] [,vendor=<volume>]"
                                           },
                                           "cipassword" : {
                                              "description" : "cloud-init: Password to assign the user. Using this is generally not recommended. Use ssh keys instead. Also note that older cloud-init versions do not support hashed passwords.",
@@ -14465,8 +14763,8 @@ const apiSchema = [
                                              "verbose_description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has total of '2' CPU time. Value '0' indicates no CPU limit."
                                           },
                                           "cpuunits" : {
-                                             "default" : 1024,
-                                             "description" : "CPU weight for a VM.",
+                                             "default" : "cgroup v1: 1024, cgroup v2: 100",
+                                             "description" : "CPU weight for a VM, will be clamped to [1, 10000] in cgroup v2.",
                                              "maximum" : 262144,
                                              "minimum" : 2,
                                              "optional" : 1,
@@ -14498,6 +14796,16 @@ const apiSchema = [
                                           "efidisk0" : {
                                              "description" : "Configure a Disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead.",
                                              "format" : {
+                                                "efitype" : {
+                                                   "default" : "2m",
+                                                   "description" : "Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified.",
+                                                   "enum" : [
+                                                      "2m",
+                                                      "4m"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
                                                 "file" : {
                                                    "default_key" : 1,
                                                    "description" : "The drive's backing volume.",
@@ -14519,6 +14827,12 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "pre-enrolled-keys" : {
+                                                   "default" : 0,
+                                                   "description" : "Use am EFI vars template with distribution-specific and Microsoft Standard keys enrolled, if used with 'efitype=4m'. Note that this will enable Secure Boot by default, though it can still be turned off from within the VM.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "size" : {
                                                    "description" : "Disk size. This is purely informational and has no effect.",
                                                    "format" : "disk-size",
@@ -14532,7 +14846,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,format=<enum>] [,size=<DiskSize>]"
+                                             "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
                                           },
                                           "force" : {
                                              "description" : "Force physical removal. Without this, we simple remove the disk from the config file and create an additional configuration entry called 'unused[n]', which contains the volume ID. Unlink of unused[n] always cause physical removal.",
@@ -14564,7 +14878,7 @@ const apiSchema = [
                                           },
                                           "hotplug" : {
                                              "default" : "network,disk,usb",
-                                             "description" : "Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to disable hotplug completely. Value '1' is an alias for the default 'network,disk,usb'.",
+                                             "description" : "Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to disable hotplug completely. Using '1' as value is an alias for the default `network,disk,usb`.",
                                              "format" : "pve-hotplug-features",
                                              "optional" : 1,
                                              "type" : "string",
@@ -14942,7 +15256,7 @@ const apiSchema = [
                                           },
                                           "keyboard" : {
                                              "default" : null,
-                                             "description" : "Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.cfg' configuration file.It should not be necessary to set it.",
+                                             "description" : "Keyboard layout for VNC server. The default is read from the'/etc/pve/datacenter.cfg' configuration file. It should not be necessary to set it.",
                                              "enum" : [
                                                 "de",
                                                 "de-ch",
@@ -14981,7 +15295,7 @@ const apiSchema = [
                                              "typetext" : "<boolean>"
                                           },
                                           "localtime" : {
-                                             "description" : "Set the real time clock to local time. This is enabled by default if ostype indicates a Microsoft OS.",
+                                             "description" : "Set the real time clock (RTC) to local time. This is enabled by default if the `ostype` indicates a Microsoft Windows OS.",
                                              "optional" : 1,
                                              "type" : "boolean",
                                              "typetext" : "<boolean>"
@@ -15073,6 +15387,10 @@ const apiSchema = [
                                                    "alias" : "macaddr",
                                                    "keyAlias" : "model"
                                                 },
+                                                "e1000e" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
                                                 "firewall" : {
                                                    "description" : "Whether this interface should be protected by the firewall.",
                                                    "optional" : 1,
@@ -15107,19 +15425,20 @@ const apiSchema = [
                                                    "default_key" : 1,
                                                    "description" : "Network Card Model. The 'virtio' model provides the best performance with very low CPU overhead. If your guest does not support this driver, it is usually best to use 'e1000'.",
                                                    "enum" : [
-                                                      "rtl8139",
-                                                      "ne2k_pci",
                                                       "e1000",
-                                                      "pcnet",
-                                                      "virtio",
-                                                      "ne2k_isa",
+                                                      "e1000-82540em",
+                                                      "e1000-82544gc",
+                                                      "e1000-82545em",
+                                                      "e1000e",
                                                       "i82551",
                                                       "i82557b",
                                                       "i82559er",
-                                                      "vmxnet3",
-                                                      "e1000-82540em",
-                                                      "e1000-82544gc",
-                                                      "e1000-82545em"
+                                                      "ne2k_isa",
+                                                      "ne2k_pci",
+                                                      "pcnet",
+                                                      "rtl8139",
+                                                      "virtio",
+                                                      "vmxnet3"
                                                    ],
                                                    "type" : "string"
                                                 },
@@ -15254,13 +15573,14 @@ const apiSchema = [
                                                 "win7",
                                                 "win8",
                                                 "win10",
+                                                "win11",
                                                 "l24",
                                                 "l26",
                                                 "solaris"
                                              ],
                                              "optional" : 1,
                                              "type" : "string",
-                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016/2019\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6 - 5.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
+                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016/2019\nwin11;; Microsoft Windows 11/2022\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6 - 5.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
                                           },
                                           "parallel[n]" : {
                                              "description" : "Map host parallel devices (n is 0 to 2).",
@@ -15295,7 +15615,7 @@ const apiSchema = [
                                              "format" : {
                                                 "max_bytes" : {
                                                    "default" : 1024,
-                                                   "description" : "Maximum bytes of entropy injected into the guest every 'period' milliseconds. Prefer a lower value when using /dev/random as source. Use 0 to disable limiting (potentially dangerous!).",
+                                                   "description" : "Maximum bytes of entropy allowed to get injected into the guest every 'period' milliseconds. Prefer a lower value when using '/dev/random' as source. Use `0` to disable limiting (potentially dangerous!).",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -15307,7 +15627,7 @@ const apiSchema = [
                                                 },
                                                 "source" : {
                                                    "default_key" : 1,
-                                                   "description" : "The file on the host to gather entropy from. In most cases /dev/urandom should be preferred over /dev/random to avoid entropy-starvation issues on the host. Using urandom does *not* decrease security in any meaningful way, as it's still seeded from real entropy, and the bytes provided will most likely be mixed with real entropy on the guest as well. /dev/hwrng can be used to pass through a hardware RNG from the host.",
+                                                   "description" : "The file on the host to gather entropy from. In most cases '/dev/urandom' should be preferred over '/dev/random' to avoid entropy-starvation issues on the host. Using urandom does *not* decrease security in any meaningful way, as it's still seeded from real entropy, and the bytes provided will most likely be mixed with real entropy on the guest as well. '/dev/hwrng' can be used to pass through a hardware RNG from the host.",
                                                    "enum" : [
                                                       "/dev/urandom",
                                                       "/dev/random",
@@ -15894,6 +16214,11 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "ro" : {
+                                                   "description" : "Whether the drive is read-only.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "scsiblock" : {
                                                    "default" : 0,
                                                    "description" : "whether to use scsi-block for full passthrough of host block device\n\nWARNING: can lead to I/O errors in combination with low memory or high memory fragmentation on host",
@@ -15971,7 +16296,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "scsihw" : {
                                              "default" : "lsi",
@@ -16114,6 +16439,41 @@ const apiSchema = [
                                              "optional" : 1,
                                              "type" : "boolean",
                                              "typetext" : "<boolean>"
+                                          },
+                                          "tpmstate0" : {
+                                             "description" : "Configure a Disk for storing TPM state. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default size of 4 MiB will always be used instead. The format is also fixed to 'raw'.",
+                                             "format" : {
+                                                "file" : {
+                                                   "default_key" : 1,
+                                                   "description" : "The drive's backing volume.",
+                                                   "format" : "pve-volume-id-or-qm-path",
+                                                   "format_description" : "volume",
+                                                   "type" : "string"
+                                                },
+                                                "size" : {
+                                                   "description" : "Disk size. This is purely informational and has no effect.",
+                                                   "format" : "disk-size",
+                                                   "format_description" : "DiskSize",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "version" : {
+                                                   "default" : "v2.0",
+                                                   "description" : "The TPM interface version. v2.0 is newer and should be preferred. Note that this cannot be changed later on.",
+                                                   "enum" : [
+                                                      "v1.2",
+                                                      "v2.0"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "volume" : {
+                                                   "alias" : "file"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "[file=]<volume> [,size=<DiskSize>] [,version=<v1.2|v2.0>]"
                                           },
                                           "unused[n]" : {
                                              "description" : "Reference to unused volumes. This is used internally, and should not be modified manually.",
@@ -16450,6 +16810,11 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "ro" : {
+                                                   "description" : "Whether the drive is read-only.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "secs" : {
                                                    "description" : "Force the drive's physical geometry to have a specific sector count.",
                                                    "optional" : 1,
@@ -16509,7 +16874,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
                                           "vmgenid" : {
                                              "default" : "1 (autogenerated)",
@@ -16585,12 +16950,12 @@ const apiSchema = [
                                              "typetext" : "<boolean>"
                                           },
                                           "agent" : {
-                                             "description" : "Enable/disable Qemu GuestAgent and its properties.",
+                                             "description" : "Enable/disable communication with the Qemu Guest Agent and its properties.",
                                              "format" : {
                                                 "enabled" : {
                                                    "default" : 0,
                                                    "default_key" : 1,
-                                                   "description" : "Enable/disable Qemu GuestAgent.",
+                                                   "description" : "Enable/disable communication with a Qemu Guest Agent (QGA) running in the VM.",
                                                    "type" : "boolean"
                                                 },
                                                 "fstrim_cloned_disks" : {
@@ -16682,7 +17047,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "boot" : {
-                                             "description" : "Specify guest boot order. Use with 'order=', usage with no key or 'legacy=' is deprecated.",
+                                             "description" : "Specify guest boot order. Use the 'order=' sub-property as usage with no key or 'legacy=' is deprecated.",
                                              "format" : "pve-qm-boot",
                                              "optional" : 1,
                                              "type" : "string",
@@ -16707,7 +17072,7 @@ const apiSchema = [
                                              "format" : "pve-qm-cicustom",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[meta=<volume>] [,network=<volume>] [,user=<volume>]"
+                                             "typetext" : "[meta=<volume>] [,network=<volume>] [,user=<volume>] [,vendor=<volume>]"
                                           },
                                           "cipassword" : {
                                              "description" : "cloud-init: Password to assign the user. Using this is generally not recommended. Use ssh keys instead. Also note that older cloud-init versions do not support hashed passwords.",
@@ -16757,8 +17122,8 @@ const apiSchema = [
                                              "verbose_description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has total of '2' CPU time. Value '0' indicates no CPU limit."
                                           },
                                           "cpuunits" : {
-                                             "default" : 1024,
-                                             "description" : "CPU weight for a VM.",
+                                             "default" : "cgroup v1: 1024, cgroup v2: 100",
+                                             "description" : "CPU weight for a VM, will be clamped to [1, 10000] in cgroup v2.",
                                              "maximum" : 262144,
                                              "minimum" : 2,
                                              "optional" : 1,
@@ -16790,6 +17155,16 @@ const apiSchema = [
                                           "efidisk0" : {
                                              "description" : "Configure a Disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead.",
                                              "format" : {
+                                                "efitype" : {
+                                                   "default" : "2m",
+                                                   "description" : "Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified.",
+                                                   "enum" : [
+                                                      "2m",
+                                                      "4m"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
                                                 "file" : {
                                                    "default_key" : 1,
                                                    "description" : "The drive's backing volume.",
@@ -16811,6 +17186,12 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "pre-enrolled-keys" : {
+                                                   "default" : 0,
+                                                   "description" : "Use am EFI vars template with distribution-specific and Microsoft Standard keys enrolled, if used with 'efitype=4m'. Note that this will enable Secure Boot by default, though it can still be turned off from within the VM.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "size" : {
                                                    "description" : "Disk size. This is purely informational and has no effect.",
                                                    "format" : "disk-size",
@@ -16824,7 +17205,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,format=<enum>] [,size=<DiskSize>]"
+                                             "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
                                           },
                                           "force" : {
                                              "description" : "Force physical removal. Without this, we simple remove the disk from the config file and create an additional configuration entry called 'unused[n]', which contains the volume ID. Unlink of unused[n] always cause physical removal.",
@@ -16856,7 +17237,7 @@ const apiSchema = [
                                           },
                                           "hotplug" : {
                                              "default" : "network,disk,usb",
-                                             "description" : "Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to disable hotplug completely. Value '1' is an alias for the default 'network,disk,usb'.",
+                                             "description" : "Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to disable hotplug completely. Using '1' as value is an alias for the default `network,disk,usb`.",
                                              "format" : "pve-hotplug-features",
                                              "optional" : 1,
                                              "type" : "string",
@@ -17234,7 +17615,7 @@ const apiSchema = [
                                           },
                                           "keyboard" : {
                                              "default" : null,
-                                             "description" : "Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.cfg' configuration file.It should not be necessary to set it.",
+                                             "description" : "Keyboard layout for VNC server. The default is read from the'/etc/pve/datacenter.cfg' configuration file. It should not be necessary to set it.",
                                              "enum" : [
                                                 "de",
                                                 "de-ch",
@@ -17273,7 +17654,7 @@ const apiSchema = [
                                              "typetext" : "<boolean>"
                                           },
                                           "localtime" : {
-                                             "description" : "Set the real time clock to local time. This is enabled by default if ostype indicates a Microsoft OS.",
+                                             "description" : "Set the real time clock (RTC) to local time. This is enabled by default if the `ostype` indicates a Microsoft Windows OS.",
                                              "optional" : 1,
                                              "type" : "boolean",
                                              "typetext" : "<boolean>"
@@ -17365,6 +17746,10 @@ const apiSchema = [
                                                    "alias" : "macaddr",
                                                    "keyAlias" : "model"
                                                 },
+                                                "e1000e" : {
+                                                   "alias" : "macaddr",
+                                                   "keyAlias" : "model"
+                                                },
                                                 "firewall" : {
                                                    "description" : "Whether this interface should be protected by the firewall.",
                                                    "optional" : 1,
@@ -17399,19 +17784,20 @@ const apiSchema = [
                                                    "default_key" : 1,
                                                    "description" : "Network Card Model. The 'virtio' model provides the best performance with very low CPU overhead. If your guest does not support this driver, it is usually best to use 'e1000'.",
                                                    "enum" : [
-                                                      "rtl8139",
-                                                      "ne2k_pci",
                                                       "e1000",
-                                                      "pcnet",
-                                                      "virtio",
-                                                      "ne2k_isa",
+                                                      "e1000-82540em",
+                                                      "e1000-82544gc",
+                                                      "e1000-82545em",
+                                                      "e1000e",
                                                       "i82551",
                                                       "i82557b",
                                                       "i82559er",
-                                                      "vmxnet3",
-                                                      "e1000-82540em",
-                                                      "e1000-82544gc",
-                                                      "e1000-82545em"
+                                                      "ne2k_isa",
+                                                      "ne2k_pci",
+                                                      "pcnet",
+                                                      "rtl8139",
+                                                      "virtio",
+                                                      "vmxnet3"
                                                    ],
                                                    "type" : "string"
                                                 },
@@ -17546,13 +17932,14 @@ const apiSchema = [
                                                 "win7",
                                                 "win8",
                                                 "win10",
+                                                "win11",
                                                 "l24",
                                                 "l26",
                                                 "solaris"
                                              ],
                                              "optional" : 1,
                                              "type" : "string",
-                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016/2019\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6 - 5.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
+                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016/2019\nwin11;; Microsoft Windows 11/2022\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6 - 5.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
                                           },
                                           "parallel[n]" : {
                                              "description" : "Map host parallel devices (n is 0 to 2).",
@@ -17587,7 +17974,7 @@ const apiSchema = [
                                              "format" : {
                                                 "max_bytes" : {
                                                    "default" : 1024,
-                                                   "description" : "Maximum bytes of entropy injected into the guest every 'period' milliseconds. Prefer a lower value when using /dev/random as source. Use 0 to disable limiting (potentially dangerous!).",
+                                                   "description" : "Maximum bytes of entropy allowed to get injected into the guest every 'period' milliseconds. Prefer a lower value when using '/dev/random' as source. Use `0` to disable limiting (potentially dangerous!).",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -17599,7 +17986,7 @@ const apiSchema = [
                                                 },
                                                 "source" : {
                                                    "default_key" : 1,
-                                                   "description" : "The file on the host to gather entropy from. In most cases /dev/urandom should be preferred over /dev/random to avoid entropy-starvation issues on the host. Using urandom does *not* decrease security in any meaningful way, as it's still seeded from real entropy, and the bytes provided will most likely be mixed with real entropy on the guest as well. /dev/hwrng can be used to pass through a hardware RNG from the host.",
+                                                   "description" : "The file on the host to gather entropy from. In most cases '/dev/urandom' should be preferred over '/dev/random' to avoid entropy-starvation issues on the host. Using urandom does *not* decrease security in any meaningful way, as it's still seeded from real entropy, and the bytes provided will most likely be mixed with real entropy on the guest as well. '/dev/hwrng' can be used to pass through a hardware RNG from the host.",
                                                    "enum" : [
                                                       "/dev/urandom",
                                                       "/dev/random",
@@ -18186,6 +18573,11 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "ro" : {
+                                                   "description" : "Whether the drive is read-only.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "scsiblock" : {
                                                    "default" : 0,
                                                    "description" : "whether to use scsi-block for full passthrough of host block device\n\nWARNING: can lead to I/O errors in combination with low memory or high memory fragmentation on host",
@@ -18263,7 +18655,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "scsihw" : {
                                              "default" : "lsi",
@@ -18406,6 +18798,41 @@ const apiSchema = [
                                              "optional" : 1,
                                              "type" : "boolean",
                                              "typetext" : "<boolean>"
+                                          },
+                                          "tpmstate0" : {
+                                             "description" : "Configure a Disk for storing TPM state. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default size of 4 MiB will always be used instead. The format is also fixed to 'raw'.",
+                                             "format" : {
+                                                "file" : {
+                                                   "default_key" : 1,
+                                                   "description" : "The drive's backing volume.",
+                                                   "format" : "pve-volume-id-or-qm-path",
+                                                   "format_description" : "volume",
+                                                   "type" : "string"
+                                                },
+                                                "size" : {
+                                                   "description" : "Disk size. This is purely informational and has no effect.",
+                                                   "format" : "disk-size",
+                                                   "format_description" : "DiskSize",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "version" : {
+                                                   "default" : "v2.0",
+                                                   "description" : "The TPM interface version. v2.0 is newer and should be preferred. Note that this cannot be changed later on.",
+                                                   "enum" : [
+                                                      "v1.2",
+                                                      "v2.0"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "volume" : {
+                                                   "alias" : "file"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "[file=]<volume> [,size=<DiskSize>] [,version=<v1.2|v2.0>]"
                                           },
                                           "unused[n]" : {
                                              "description" : "Reference to unused volumes. This is used internally, and should not be modified manually.",
@@ -18742,6 +19169,11 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "ro" : {
+                                                   "description" : "Whether the drive is read-only.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "secs" : {
                                                    "description" : "Force the drive's physical geometry to have a specific sector count.",
                                                    "optional" : 1,
@@ -18801,7 +19233,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
                                           "vmgenid" : {
                                              "default" : "1 (autogenerated)",
@@ -19474,7 +19906,7 @@ const apiSchema = [
                                                 },
                                                 "targetstorage" : {
                                                    "description" : "Mapping from source to target storages. Providing only a single storage ID maps all source storages to that storage. Providing the special value '1' will map each source storage to itself.",
-                                                   "format" : "storagepair-list",
+                                                   "format" : "storage-pair-list",
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -20212,7 +20644,7 @@ const apiSchema = [
                               "info" : {
                                  "POST" : {
                                     "allowtoken" : 1,
-                                    "description" : "Move volume to different storage.",
+                                    "description" : "Move volume to different storage or to a different VM.",
                                     "method" : "POST",
                                     "name" : "move_vm_disk",
                                     "parameters" : {
@@ -20234,7 +20666,7 @@ const apiSchema = [
                                              "typetext" : "<boolean>"
                                           },
                                           "digest" : {
-                                             "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
+                                             "description" : "Prevent changes if current configuration file has different SHA1\"\n\t\t    .\" digest. This can be used to prevent concurrent modifications.",
                                              "maxLength" : 40,
                                              "optional" : 1,
                                              "type" : "string",
@@ -20300,7 +20732,264 @@ const apiSchema = [
                                                 "sata3",
                                                 "sata4",
                                                 "sata5",
-                                                "efidisk0"
+                                                "efidisk0",
+                                                "tpmstate0",
+                                                "unused0",
+                                                "unused1",
+                                                "unused2",
+                                                "unused3",
+                                                "unused4",
+                                                "unused5",
+                                                "unused6",
+                                                "unused7",
+                                                "unused8",
+                                                "unused9",
+                                                "unused10",
+                                                "unused11",
+                                                "unused12",
+                                                "unused13",
+                                                "unused14",
+                                                "unused15",
+                                                "unused16",
+                                                "unused17",
+                                                "unused18",
+                                                "unused19",
+                                                "unused20",
+                                                "unused21",
+                                                "unused22",
+                                                "unused23",
+                                                "unused24",
+                                                "unused25",
+                                                "unused26",
+                                                "unused27",
+                                                "unused28",
+                                                "unused29",
+                                                "unused30",
+                                                "unused31",
+                                                "unused32",
+                                                "unused33",
+                                                "unused34",
+                                                "unused35",
+                                                "unused36",
+                                                "unused37",
+                                                "unused38",
+                                                "unused39",
+                                                "unused40",
+                                                "unused41",
+                                                "unused42",
+                                                "unused43",
+                                                "unused44",
+                                                "unused45",
+                                                "unused46",
+                                                "unused47",
+                                                "unused48",
+                                                "unused49",
+                                                "unused50",
+                                                "unused51",
+                                                "unused52",
+                                                "unused53",
+                                                "unused54",
+                                                "unused55",
+                                                "unused56",
+                                                "unused57",
+                                                "unused58",
+                                                "unused59",
+                                                "unused60",
+                                                "unused61",
+                                                "unused62",
+                                                "unused63",
+                                                "unused64",
+                                                "unused65",
+                                                "unused66",
+                                                "unused67",
+                                                "unused68",
+                                                "unused69",
+                                                "unused70",
+                                                "unused71",
+                                                "unused72",
+                                                "unused73",
+                                                "unused74",
+                                                "unused75",
+                                                "unused76",
+                                                "unused77",
+                                                "unused78",
+                                                "unused79",
+                                                "unused80",
+                                                "unused81",
+                                                "unused82",
+                                                "unused83",
+                                                "unused84",
+                                                "unused85",
+                                                "unused86",
+                                                "unused87",
+                                                "unused88",
+                                                "unused89",
+                                                "unused90",
+                                                "unused91",
+                                                "unused92",
+                                                "unused93",
+                                                "unused94",
+                                                "unused95",
+                                                "unused96",
+                                                "unused97",
+                                                "unused98",
+                                                "unused99",
+                                                "unused100",
+                                                "unused101",
+                                                "unused102",
+                                                "unused103",
+                                                "unused104",
+                                                "unused105",
+                                                "unused106",
+                                                "unused107",
+                                                "unused108",
+                                                "unused109",
+                                                "unused110",
+                                                "unused111",
+                                                "unused112",
+                                                "unused113",
+                                                "unused114",
+                                                "unused115",
+                                                "unused116",
+                                                "unused117",
+                                                "unused118",
+                                                "unused119",
+                                                "unused120",
+                                                "unused121",
+                                                "unused122",
+                                                "unused123",
+                                                "unused124",
+                                                "unused125",
+                                                "unused126",
+                                                "unused127",
+                                                "unused128",
+                                                "unused129",
+                                                "unused130",
+                                                "unused131",
+                                                "unused132",
+                                                "unused133",
+                                                "unused134",
+                                                "unused135",
+                                                "unused136",
+                                                "unused137",
+                                                "unused138",
+                                                "unused139",
+                                                "unused140",
+                                                "unused141",
+                                                "unused142",
+                                                "unused143",
+                                                "unused144",
+                                                "unused145",
+                                                "unused146",
+                                                "unused147",
+                                                "unused148",
+                                                "unused149",
+                                                "unused150",
+                                                "unused151",
+                                                "unused152",
+                                                "unused153",
+                                                "unused154",
+                                                "unused155",
+                                                "unused156",
+                                                "unused157",
+                                                "unused158",
+                                                "unused159",
+                                                "unused160",
+                                                "unused161",
+                                                "unused162",
+                                                "unused163",
+                                                "unused164",
+                                                "unused165",
+                                                "unused166",
+                                                "unused167",
+                                                "unused168",
+                                                "unused169",
+                                                "unused170",
+                                                "unused171",
+                                                "unused172",
+                                                "unused173",
+                                                "unused174",
+                                                "unused175",
+                                                "unused176",
+                                                "unused177",
+                                                "unused178",
+                                                "unused179",
+                                                "unused180",
+                                                "unused181",
+                                                "unused182",
+                                                "unused183",
+                                                "unused184",
+                                                "unused185",
+                                                "unused186",
+                                                "unused187",
+                                                "unused188",
+                                                "unused189",
+                                                "unused190",
+                                                "unused191",
+                                                "unused192",
+                                                "unused193",
+                                                "unused194",
+                                                "unused195",
+                                                "unused196",
+                                                "unused197",
+                                                "unused198",
+                                                "unused199",
+                                                "unused200",
+                                                "unused201",
+                                                "unused202",
+                                                "unused203",
+                                                "unused204",
+                                                "unused205",
+                                                "unused206",
+                                                "unused207",
+                                                "unused208",
+                                                "unused209",
+                                                "unused210",
+                                                "unused211",
+                                                "unused212",
+                                                "unused213",
+                                                "unused214",
+                                                "unused215",
+                                                "unused216",
+                                                "unused217",
+                                                "unused218",
+                                                "unused219",
+                                                "unused220",
+                                                "unused221",
+                                                "unused222",
+                                                "unused223",
+                                                "unused224",
+                                                "unused225",
+                                                "unused226",
+                                                "unused227",
+                                                "unused228",
+                                                "unused229",
+                                                "unused230",
+                                                "unused231",
+                                                "unused232",
+                                                "unused233",
+                                                "unused234",
+                                                "unused235",
+                                                "unused236",
+                                                "unused237",
+                                                "unused238",
+                                                "unused239",
+                                                "unused240",
+                                                "unused241",
+                                                "unused242",
+                                                "unused243",
+                                                "unused244",
+                                                "unused245",
+                                                "unused246",
+                                                "unused247",
+                                                "unused248",
+                                                "unused249",
+                                                "unused250",
+                                                "unused251",
+                                                "unused252",
+                                                "unused253",
+                                                "unused254",
+                                                "unused255"
                                              ],
                                              "type" : "string"
                                           },
@@ -20323,8 +21012,346 @@ const apiSchema = [
                                           "storage" : {
                                              "description" : "Target storage.",
                                              "format" : "pve-storage-id",
+                                             "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
+                                          },
+                                          "target-digest" : {
+                                             "description" : "Prevent changes if the current config file of the target VM has a\"\n\t\t    .\" different SHA1 digest. This can be used to detect concurrent modifications.",
+                                             "maxLength" : 40,
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "target-disk" : {
+                                             "description" : "The config key the disk will be moved to on the target VM (for example, ide0 or scsi1). Default is the source disk key.",
+                                             "enum" : [
+                                                "ide0",
+                                                "ide1",
+                                                "ide2",
+                                                "ide3",
+                                                "scsi0",
+                                                "scsi1",
+                                                "scsi2",
+                                                "scsi3",
+                                                "scsi4",
+                                                "scsi5",
+                                                "scsi6",
+                                                "scsi7",
+                                                "scsi8",
+                                                "scsi9",
+                                                "scsi10",
+                                                "scsi11",
+                                                "scsi12",
+                                                "scsi13",
+                                                "scsi14",
+                                                "scsi15",
+                                                "scsi16",
+                                                "scsi17",
+                                                "scsi18",
+                                                "scsi19",
+                                                "scsi20",
+                                                "scsi21",
+                                                "scsi22",
+                                                "scsi23",
+                                                "scsi24",
+                                                "scsi25",
+                                                "scsi26",
+                                                "scsi27",
+                                                "scsi28",
+                                                "scsi29",
+                                                "scsi30",
+                                                "virtio0",
+                                                "virtio1",
+                                                "virtio2",
+                                                "virtio3",
+                                                "virtio4",
+                                                "virtio5",
+                                                "virtio6",
+                                                "virtio7",
+                                                "virtio8",
+                                                "virtio9",
+                                                "virtio10",
+                                                "virtio11",
+                                                "virtio12",
+                                                "virtio13",
+                                                "virtio14",
+                                                "virtio15",
+                                                "sata0",
+                                                "sata1",
+                                                "sata2",
+                                                "sata3",
+                                                "sata4",
+                                                "sata5",
+                                                "efidisk0",
+                                                "tpmstate0",
+                                                "unused0",
+                                                "unused1",
+                                                "unused2",
+                                                "unused3",
+                                                "unused4",
+                                                "unused5",
+                                                "unused6",
+                                                "unused7",
+                                                "unused8",
+                                                "unused9",
+                                                "unused10",
+                                                "unused11",
+                                                "unused12",
+                                                "unused13",
+                                                "unused14",
+                                                "unused15",
+                                                "unused16",
+                                                "unused17",
+                                                "unused18",
+                                                "unused19",
+                                                "unused20",
+                                                "unused21",
+                                                "unused22",
+                                                "unused23",
+                                                "unused24",
+                                                "unused25",
+                                                "unused26",
+                                                "unused27",
+                                                "unused28",
+                                                "unused29",
+                                                "unused30",
+                                                "unused31",
+                                                "unused32",
+                                                "unused33",
+                                                "unused34",
+                                                "unused35",
+                                                "unused36",
+                                                "unused37",
+                                                "unused38",
+                                                "unused39",
+                                                "unused40",
+                                                "unused41",
+                                                "unused42",
+                                                "unused43",
+                                                "unused44",
+                                                "unused45",
+                                                "unused46",
+                                                "unused47",
+                                                "unused48",
+                                                "unused49",
+                                                "unused50",
+                                                "unused51",
+                                                "unused52",
+                                                "unused53",
+                                                "unused54",
+                                                "unused55",
+                                                "unused56",
+                                                "unused57",
+                                                "unused58",
+                                                "unused59",
+                                                "unused60",
+                                                "unused61",
+                                                "unused62",
+                                                "unused63",
+                                                "unused64",
+                                                "unused65",
+                                                "unused66",
+                                                "unused67",
+                                                "unused68",
+                                                "unused69",
+                                                "unused70",
+                                                "unused71",
+                                                "unused72",
+                                                "unused73",
+                                                "unused74",
+                                                "unused75",
+                                                "unused76",
+                                                "unused77",
+                                                "unused78",
+                                                "unused79",
+                                                "unused80",
+                                                "unused81",
+                                                "unused82",
+                                                "unused83",
+                                                "unused84",
+                                                "unused85",
+                                                "unused86",
+                                                "unused87",
+                                                "unused88",
+                                                "unused89",
+                                                "unused90",
+                                                "unused91",
+                                                "unused92",
+                                                "unused93",
+                                                "unused94",
+                                                "unused95",
+                                                "unused96",
+                                                "unused97",
+                                                "unused98",
+                                                "unused99",
+                                                "unused100",
+                                                "unused101",
+                                                "unused102",
+                                                "unused103",
+                                                "unused104",
+                                                "unused105",
+                                                "unused106",
+                                                "unused107",
+                                                "unused108",
+                                                "unused109",
+                                                "unused110",
+                                                "unused111",
+                                                "unused112",
+                                                "unused113",
+                                                "unused114",
+                                                "unused115",
+                                                "unused116",
+                                                "unused117",
+                                                "unused118",
+                                                "unused119",
+                                                "unused120",
+                                                "unused121",
+                                                "unused122",
+                                                "unused123",
+                                                "unused124",
+                                                "unused125",
+                                                "unused126",
+                                                "unused127",
+                                                "unused128",
+                                                "unused129",
+                                                "unused130",
+                                                "unused131",
+                                                "unused132",
+                                                "unused133",
+                                                "unused134",
+                                                "unused135",
+                                                "unused136",
+                                                "unused137",
+                                                "unused138",
+                                                "unused139",
+                                                "unused140",
+                                                "unused141",
+                                                "unused142",
+                                                "unused143",
+                                                "unused144",
+                                                "unused145",
+                                                "unused146",
+                                                "unused147",
+                                                "unused148",
+                                                "unused149",
+                                                "unused150",
+                                                "unused151",
+                                                "unused152",
+                                                "unused153",
+                                                "unused154",
+                                                "unused155",
+                                                "unused156",
+                                                "unused157",
+                                                "unused158",
+                                                "unused159",
+                                                "unused160",
+                                                "unused161",
+                                                "unused162",
+                                                "unused163",
+                                                "unused164",
+                                                "unused165",
+                                                "unused166",
+                                                "unused167",
+                                                "unused168",
+                                                "unused169",
+                                                "unused170",
+                                                "unused171",
+                                                "unused172",
+                                                "unused173",
+                                                "unused174",
+                                                "unused175",
+                                                "unused176",
+                                                "unused177",
+                                                "unused178",
+                                                "unused179",
+                                                "unused180",
+                                                "unused181",
+                                                "unused182",
+                                                "unused183",
+                                                "unused184",
+                                                "unused185",
+                                                "unused186",
+                                                "unused187",
+                                                "unused188",
+                                                "unused189",
+                                                "unused190",
+                                                "unused191",
+                                                "unused192",
+                                                "unused193",
+                                                "unused194",
+                                                "unused195",
+                                                "unused196",
+                                                "unused197",
+                                                "unused198",
+                                                "unused199",
+                                                "unused200",
+                                                "unused201",
+                                                "unused202",
+                                                "unused203",
+                                                "unused204",
+                                                "unused205",
+                                                "unused206",
+                                                "unused207",
+                                                "unused208",
+                                                "unused209",
+                                                "unused210",
+                                                "unused211",
+                                                "unused212",
+                                                "unused213",
+                                                "unused214",
+                                                "unused215",
+                                                "unused216",
+                                                "unused217",
+                                                "unused218",
+                                                "unused219",
+                                                "unused220",
+                                                "unused221",
+                                                "unused222",
+                                                "unused223",
+                                                "unused224",
+                                                "unused225",
+                                                "unused226",
+                                                "unused227",
+                                                "unused228",
+                                                "unused229",
+                                                "unused230",
+                                                "unused231",
+                                                "unused232",
+                                                "unused233",
+                                                "unused234",
+                                                "unused235",
+                                                "unused236",
+                                                "unused237",
+                                                "unused238",
+                                                "unused239",
+                                                "unused240",
+                                                "unused241",
+                                                "unused242",
+                                                "unused243",
+                                                "unused244",
+                                                "unused245",
+                                                "unused246",
+                                                "unused247",
+                                                "unused248",
+                                                "unused249",
+                                                "unused250",
+                                                "unused251",
+                                                "unused252",
+                                                "unused253",
+                                                "unused254",
+                                                "unused255"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "target-vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - N)"
                                           },
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
@@ -20337,23 +21364,13 @@ const apiSchema = [
                                     },
                                     "permissions" : {
                                        "check" : [
-                                          "and",
+                                          "perm",
+                                          "/vms/{vmid}",
                                           [
-                                             "perm",
-                                             "/vms/{vmid}",
-                                             [
-                                                "VM.Config.Disk"
-                                             ]
-                                          ],
-                                          [
-                                             "perm",
-                                             "/storage/{storage}",
-                                             [
-                                                "Datastore.AllocateSpace"
-                                             ]
+                                             "VM.Config.Disk"
                                           ]
                                        ],
-                                       "description" : "You need 'VM.Config.Disk' permissions on /vms/{vmid}, and 'Datastore.AllocateSpace' permissions on the storage."
+                                       "description" : "You need 'VM.Config.Disk' permissions on /vms/{vmid}, and 'Datastore.AllocateSpace' permissions on the storage. To move a disk to another VM, you need the permissions on the target VM as well."
                                     },
                                     "protected" : 1,
                                     "proxyto" : "node",
@@ -20495,7 +21512,7 @@ const apiSchema = [
                                           },
                                           "targetstorage" : {
                                              "description" : "Mapping from source to target storages. Providing only a single storage ID maps all source storages to that storage. Providing the special value '1' will map each source storage to itself.",
-                                             "format" : "storagepair-list",
+                                             "format" : "storage-pair-list",
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -20664,7 +21681,8 @@ const apiSchema = [
                                                 "sata3",
                                                 "sata4",
                                                 "sata5",
-                                                "efidisk0"
+                                                "efidisk0",
+                                                "tpmstate0"
                                              ],
                                              "type" : "string"
                                           },
@@ -21194,7 +22212,8 @@ const apiSchema = [
                                                 "sata3",
                                                 "sata4",
                                                 "sata5",
-                                                "efidisk0"
+                                                "efidisk0",
+                                                "tpmstate0"
                                              ],
                                              "optional" : 1,
                                              "type" : "string"
@@ -21227,7 +22246,8 @@ const apiSchema = [
                                     "protected" : 1,
                                     "proxyto" : "node",
                                     "returns" : {
-                                       "type" : "null"
+                                       "description" : "the task ID.",
+                                       "type" : "string"
                                     }
                                  }
                               },
@@ -21537,12 +22557,12 @@ const apiSchema = [
                                  "typetext" : "<boolean>"
                               },
                               "agent" : {
-                                 "description" : "Enable/disable Qemu GuestAgent and its properties.",
+                                 "description" : "Enable/disable communication with the Qemu Guest Agent and its properties.",
                                  "format" : {
                                     "enabled" : {
                                        "default" : 0,
                                        "default_key" : 1,
-                                       "description" : "Enable/disable Qemu GuestAgent.",
+                                       "description" : "Enable/disable communication with a Qemu Guest Agent (QGA) running in the VM.",
                                        "type" : "boolean"
                                     },
                                     "fstrim_cloned_disks" : {
@@ -21641,7 +22661,7 @@ const apiSchema = [
                                  "type" : "string"
                               },
                               "boot" : {
-                                 "description" : "Specify guest boot order. Use with 'order=', usage with no key or 'legacy=' is deprecated.",
+                                 "description" : "Specify guest boot order. Use the 'order=' sub-property as usage with no key or 'legacy=' is deprecated.",
                                  "format" : "pve-qm-boot",
                                  "optional" : 1,
                                  "type" : "string",
@@ -21674,7 +22694,7 @@ const apiSchema = [
                                  "format" : "pve-qm-cicustom",
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[meta=<volume>] [,network=<volume>] [,user=<volume>]"
+                                 "typetext" : "[meta=<volume>] [,network=<volume>] [,user=<volume>] [,vendor=<volume>]"
                               },
                               "cipassword" : {
                                  "description" : "cloud-init: Password to assign the user. Using this is generally not recommended. Use ssh keys instead. Also note that older cloud-init versions do not support hashed passwords.",
@@ -21724,8 +22744,8 @@ const apiSchema = [
                                  "verbose_description" : "Limit of CPU usage.\n\nNOTE: If the computer has 2 CPUs, it has total of '2' CPU time. Value '0' indicates no CPU limit."
                               },
                               "cpuunits" : {
-                                 "default" : 1024,
-                                 "description" : "CPU weight for a VM.",
+                                 "default" : "cgroup v1: 1024, cgroup v2: 100",
+                                 "description" : "CPU weight for a VM, will be clamped to [1, 10000] in cgroup v2.",
                                  "maximum" : 262144,
                                  "minimum" : 2,
                                  "optional" : 1,
@@ -21743,6 +22763,16 @@ const apiSchema = [
                               "efidisk0" : {
                                  "description" : "Configure a Disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead.",
                                  "format" : {
+                                    "efitype" : {
+                                       "default" : "2m",
+                                       "description" : "Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified.",
+                                       "enum" : [
+                                          "2m",
+                                          "4m"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
                                     "file" : {
                                        "default_key" : 1,
                                        "description" : "The drive's backing volume.",
@@ -21764,6 +22794,12 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
+                                    "pre-enrolled-keys" : {
+                                       "default" : 0,
+                                       "description" : "Use am EFI vars template with distribution-specific and Microsoft Standard keys enrolled, if used with 'efitype=4m'. Note that this will enable Secure Boot by default, though it can still be turned off from within the VM.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
                                     "size" : {
                                        "description" : "Disk size. This is purely informational and has no effect.",
                                        "format" : "disk-size",
@@ -21777,7 +22813,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,format=<enum>] [,size=<DiskSize>]"
+                                 "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
                               },
                               "force" : {
                                  "description" : "Allow to overwrite existing VM.",
@@ -21809,7 +22845,7 @@ const apiSchema = [
                               },
                               "hotplug" : {
                                  "default" : "network,disk,usb",
-                                 "description" : "Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to disable hotplug completely. Value '1' is an alias for the default 'network,disk,usb'.",
+                                 "description" : "Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to disable hotplug completely. Using '1' as value is an alias for the default `network,disk,usb`.",
                                  "format" : "pve-hotplug-features",
                                  "optional" : 1,
                                  "type" : "string",
@@ -22187,7 +23223,7 @@ const apiSchema = [
                               },
                               "keyboard" : {
                                  "default" : null,
-                                 "description" : "Keybord layout for vnc server. Default is read from the '/etc/pve/datacenter.cfg' configuration file.It should not be necessary to set it.",
+                                 "description" : "Keyboard layout for VNC server. The default is read from the'/etc/pve/datacenter.cfg' configuration file. It should not be necessary to set it.",
                                  "enum" : [
                                     "de",
                                     "de-ch",
@@ -22233,7 +23269,7 @@ const apiSchema = [
                                  "typetext" : "<boolean>"
                               },
                               "localtime" : {
-                                 "description" : "Set the real time clock to local time. This is enabled by default if ostype indicates a Microsoft OS.",
+                                 "description" : "Set the real time clock (RTC) to local time. This is enabled by default if the `ostype` indicates a Microsoft Windows OS.",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
@@ -22325,6 +23361,10 @@ const apiSchema = [
                                        "alias" : "macaddr",
                                        "keyAlias" : "model"
                                     },
+                                    "e1000e" : {
+                                       "alias" : "macaddr",
+                                       "keyAlias" : "model"
+                                    },
                                     "firewall" : {
                                        "description" : "Whether this interface should be protected by the firewall.",
                                        "optional" : 1,
@@ -22359,19 +23399,20 @@ const apiSchema = [
                                        "default_key" : 1,
                                        "description" : "Network Card Model. The 'virtio' model provides the best performance with very low CPU overhead. If your guest does not support this driver, it is usually best to use 'e1000'.",
                                        "enum" : [
-                                          "rtl8139",
-                                          "ne2k_pci",
                                           "e1000",
-                                          "pcnet",
-                                          "virtio",
-                                          "ne2k_isa",
+                                          "e1000-82540em",
+                                          "e1000-82544gc",
+                                          "e1000-82545em",
+                                          "e1000e",
                                           "i82551",
                                           "i82557b",
                                           "i82559er",
-                                          "vmxnet3",
-                                          "e1000-82540em",
-                                          "e1000-82544gc",
-                                          "e1000-82545em"
+                                          "ne2k_isa",
+                                          "ne2k_pci",
+                                          "pcnet",
+                                          "rtl8139",
+                                          "virtio",
+                                          "vmxnet3"
                                        ],
                                        "type" : "string"
                                     },
@@ -22506,13 +23547,14 @@ const apiSchema = [
                                     "win7",
                                     "win8",
                                     "win10",
+                                    "win11",
                                     "l24",
                                     "l26",
                                     "solaris"
                                  ],
                                  "optional" : 1,
                                  "type" : "string",
-                                 "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016/2019\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6 - 5.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
+                                 "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016/2019\nwin11;; Microsoft Windows 11/2022\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6 - 5.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
                               },
                               "parallel[n]" : {
                                  "description" : "Map host parallel devices (n is 0 to 2).",
@@ -22547,7 +23589,7 @@ const apiSchema = [
                                  "format" : {
                                     "max_bytes" : {
                                        "default" : 1024,
-                                       "description" : "Maximum bytes of entropy injected into the guest every 'period' milliseconds. Prefer a lower value when using /dev/random as source. Use 0 to disable limiting (potentially dangerous!).",
+                                       "description" : "Maximum bytes of entropy allowed to get injected into the guest every 'period' milliseconds. Prefer a lower value when using '/dev/random' as source. Use `0` to disable limiting (potentially dangerous!).",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -22559,7 +23601,7 @@ const apiSchema = [
                                     },
                                     "source" : {
                                        "default_key" : 1,
-                                       "description" : "The file on the host to gather entropy from. In most cases /dev/urandom should be preferred over /dev/random to avoid entropy-starvation issues on the host. Using urandom does *not* decrease security in any meaningful way, as it's still seeded from real entropy, and the bytes provided will most likely be mixed with real entropy on the guest as well. /dev/hwrng can be used to pass through a hardware RNG from the host.",
+                                       "description" : "The file on the host to gather entropy from. In most cases '/dev/urandom' should be preferred over '/dev/random' to avoid entropy-starvation issues on the host. Using urandom does *not* decrease security in any meaningful way, as it's still seeded from real entropy, and the bytes provided will most likely be mixed with real entropy on the guest as well. '/dev/hwrng' can be used to pass through a hardware RNG from the host.",
                                        "enum" : [
                                           "/dev/urandom",
                                           "/dev/random",
@@ -23146,6 +24188,11 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
+                                    "ro" : {
+                                       "description" : "Whether the drive is read-only.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
                                     "scsiblock" : {
                                        "default" : 0,
                                        "description" : "whether to use scsi-block for full passthrough of host block device\n\nWARNING: can lead to I/O errors in combination with low memory or high memory fragmentation on host",
@@ -23223,7 +24270,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                               },
                               "scsihw" : {
                                  "default" : "lsi",
@@ -23374,6 +24421,41 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
+                              },
+                              "tpmstate0" : {
+                                 "description" : "Configure a Disk for storing TPM state. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default size of 4 MiB will always be used instead. The format is also fixed to 'raw'.",
+                                 "format" : {
+                                    "file" : {
+                                       "default_key" : 1,
+                                       "description" : "The drive's backing volume.",
+                                       "format" : "pve-volume-id-or-qm-path",
+                                       "format_description" : "volume",
+                                       "type" : "string"
+                                    },
+                                    "size" : {
+                                       "description" : "Disk size. This is purely informational and has no effect.",
+                                       "format" : "disk-size",
+                                       "format_description" : "DiskSize",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "version" : {
+                                       "default" : "v2.0",
+                                       "description" : "The TPM interface version. v2.0 is newer and should be preferred. Note that this cannot be changed later on.",
+                                       "enum" : [
+                                          "v1.2",
+                                          "v2.0"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "volume" : {
+                                       "alias" : "file"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "[file=]<volume> [,size=<DiskSize>] [,version=<v1.2|v2.0>]"
                               },
                               "unique" : {
                                  "description" : "Assign a unique random ethernet address.",
@@ -23717,6 +24799,11 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
+                                    "ro" : {
+                                       "description" : "Whether the drive is read-only.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
                                     "secs" : {
                                        "description" : "Force the drive's physical geometry to have a specific sector count.",
                                        "optional" : 1,
@@ -23776,7 +24863,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                               },
                               "vmgenid" : {
                                  "default" : "1 (autogenerated)",
@@ -25212,7 +26299,7 @@ const apiSchema = [
                                     "info" : {
                                        "POST" : {
                                           "allowtoken" : 1,
-                                          "description" : "Suspend the container.",
+                                          "description" : "Suspend the container. This is experimental.",
                                           "method" : "POST",
                                           "name" : "vm_suspend",
                                           "parameters" : {
@@ -28699,7 +29786,7 @@ const apiSchema = [
                               "info" : {
                                  "POST" : {
                                     "allowtoken" : 1,
-                                    "description" : "Move a rootfs-/mp-volume to a different storage",
+                                    "description" : "Move a rootfs-/mp-volume to a different storage or to a different container.",
                                     "method" : "POST",
                                     "name" : "move_volume",
                                     "parameters" : {
@@ -28721,7 +29808,7 @@ const apiSchema = [
                                              "typetext" : "<boolean>"
                                           },
                                           "digest" : {
-                                             "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
+                                             "description" : "Prevent changes if current configuration file has different SHA1 \" .\n\t\t    \"digest. This can be used to prevent concurrent modifications.",
                                              "maxLength" : 40,
                                              "optional" : 1,
                                              "type" : "string",
@@ -28736,8 +29823,544 @@ const apiSchema = [
                                           "storage" : {
                                              "description" : "Target Storage.",
                                              "format" : "pve-storage-id",
+                                             "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
+                                          },
+                                          "target-digest" : {
+                                             "description" : "Prevent changes if current configuration file of the target \" .\n\t\t    \"container has a different SHA1 digest. This can be used to prevent \" .\n\t\t    \"concurrent modifications.",
+                                             "maxLength" : 40,
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "target-vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - N)"
+                                          },
+                                          "target-volume" : {
+                                             "description" : "The config key the volume will be moved to. Default is the source volume key.",
+                                             "enum" : [
+                                                "rootfs",
+                                                "mp0",
+                                                "mp1",
+                                                "mp2",
+                                                "mp3",
+                                                "mp4",
+                                                "mp5",
+                                                "mp6",
+                                                "mp7",
+                                                "mp8",
+                                                "mp9",
+                                                "mp10",
+                                                "mp11",
+                                                "mp12",
+                                                "mp13",
+                                                "mp14",
+                                                "mp15",
+                                                "mp16",
+                                                "mp17",
+                                                "mp18",
+                                                "mp19",
+                                                "mp20",
+                                                "mp21",
+                                                "mp22",
+                                                "mp23",
+                                                "mp24",
+                                                "mp25",
+                                                "mp26",
+                                                "mp27",
+                                                "mp28",
+                                                "mp29",
+                                                "mp30",
+                                                "mp31",
+                                                "mp32",
+                                                "mp33",
+                                                "mp34",
+                                                "mp35",
+                                                "mp36",
+                                                "mp37",
+                                                "mp38",
+                                                "mp39",
+                                                "mp40",
+                                                "mp41",
+                                                "mp42",
+                                                "mp43",
+                                                "mp44",
+                                                "mp45",
+                                                "mp46",
+                                                "mp47",
+                                                "mp48",
+                                                "mp49",
+                                                "mp50",
+                                                "mp51",
+                                                "mp52",
+                                                "mp53",
+                                                "mp54",
+                                                "mp55",
+                                                "mp56",
+                                                "mp57",
+                                                "mp58",
+                                                "mp59",
+                                                "mp60",
+                                                "mp61",
+                                                "mp62",
+                                                "mp63",
+                                                "mp64",
+                                                "mp65",
+                                                "mp66",
+                                                "mp67",
+                                                "mp68",
+                                                "mp69",
+                                                "mp70",
+                                                "mp71",
+                                                "mp72",
+                                                "mp73",
+                                                "mp74",
+                                                "mp75",
+                                                "mp76",
+                                                "mp77",
+                                                "mp78",
+                                                "mp79",
+                                                "mp80",
+                                                "mp81",
+                                                "mp82",
+                                                "mp83",
+                                                "mp84",
+                                                "mp85",
+                                                "mp86",
+                                                "mp87",
+                                                "mp88",
+                                                "mp89",
+                                                "mp90",
+                                                "mp91",
+                                                "mp92",
+                                                "mp93",
+                                                "mp94",
+                                                "mp95",
+                                                "mp96",
+                                                "mp97",
+                                                "mp98",
+                                                "mp99",
+                                                "mp100",
+                                                "mp101",
+                                                "mp102",
+                                                "mp103",
+                                                "mp104",
+                                                "mp105",
+                                                "mp106",
+                                                "mp107",
+                                                "mp108",
+                                                "mp109",
+                                                "mp110",
+                                                "mp111",
+                                                "mp112",
+                                                "mp113",
+                                                "mp114",
+                                                "mp115",
+                                                "mp116",
+                                                "mp117",
+                                                "mp118",
+                                                "mp119",
+                                                "mp120",
+                                                "mp121",
+                                                "mp122",
+                                                "mp123",
+                                                "mp124",
+                                                "mp125",
+                                                "mp126",
+                                                "mp127",
+                                                "mp128",
+                                                "mp129",
+                                                "mp130",
+                                                "mp131",
+                                                "mp132",
+                                                "mp133",
+                                                "mp134",
+                                                "mp135",
+                                                "mp136",
+                                                "mp137",
+                                                "mp138",
+                                                "mp139",
+                                                "mp140",
+                                                "mp141",
+                                                "mp142",
+                                                "mp143",
+                                                "mp144",
+                                                "mp145",
+                                                "mp146",
+                                                "mp147",
+                                                "mp148",
+                                                "mp149",
+                                                "mp150",
+                                                "mp151",
+                                                "mp152",
+                                                "mp153",
+                                                "mp154",
+                                                "mp155",
+                                                "mp156",
+                                                "mp157",
+                                                "mp158",
+                                                "mp159",
+                                                "mp160",
+                                                "mp161",
+                                                "mp162",
+                                                "mp163",
+                                                "mp164",
+                                                "mp165",
+                                                "mp166",
+                                                "mp167",
+                                                "mp168",
+                                                "mp169",
+                                                "mp170",
+                                                "mp171",
+                                                "mp172",
+                                                "mp173",
+                                                "mp174",
+                                                "mp175",
+                                                "mp176",
+                                                "mp177",
+                                                "mp178",
+                                                "mp179",
+                                                "mp180",
+                                                "mp181",
+                                                "mp182",
+                                                "mp183",
+                                                "mp184",
+                                                "mp185",
+                                                "mp186",
+                                                "mp187",
+                                                "mp188",
+                                                "mp189",
+                                                "mp190",
+                                                "mp191",
+                                                "mp192",
+                                                "mp193",
+                                                "mp194",
+                                                "mp195",
+                                                "mp196",
+                                                "mp197",
+                                                "mp198",
+                                                "mp199",
+                                                "mp200",
+                                                "mp201",
+                                                "mp202",
+                                                "mp203",
+                                                "mp204",
+                                                "mp205",
+                                                "mp206",
+                                                "mp207",
+                                                "mp208",
+                                                "mp209",
+                                                "mp210",
+                                                "mp211",
+                                                "mp212",
+                                                "mp213",
+                                                "mp214",
+                                                "mp215",
+                                                "mp216",
+                                                "mp217",
+                                                "mp218",
+                                                "mp219",
+                                                "mp220",
+                                                "mp221",
+                                                "mp222",
+                                                "mp223",
+                                                "mp224",
+                                                "mp225",
+                                                "mp226",
+                                                "mp227",
+                                                "mp228",
+                                                "mp229",
+                                                "mp230",
+                                                "mp231",
+                                                "mp232",
+                                                "mp233",
+                                                "mp234",
+                                                "mp235",
+                                                "mp236",
+                                                "mp237",
+                                                "mp238",
+                                                "mp239",
+                                                "mp240",
+                                                "mp241",
+                                                "mp242",
+                                                "mp243",
+                                                "mp244",
+                                                "mp245",
+                                                "mp246",
+                                                "mp247",
+                                                "mp248",
+                                                "mp249",
+                                                "mp250",
+                                                "mp251",
+                                                "mp252",
+                                                "mp253",
+                                                "mp254",
+                                                "mp255",
+                                                "unused0",
+                                                "unused1",
+                                                "unused2",
+                                                "unused3",
+                                                "unused4",
+                                                "unused5",
+                                                "unused6",
+                                                "unused7",
+                                                "unused8",
+                                                "unused9",
+                                                "unused10",
+                                                "unused11",
+                                                "unused12",
+                                                "unused13",
+                                                "unused14",
+                                                "unused15",
+                                                "unused16",
+                                                "unused17",
+                                                "unused18",
+                                                "unused19",
+                                                "unused20",
+                                                "unused21",
+                                                "unused22",
+                                                "unused23",
+                                                "unused24",
+                                                "unused25",
+                                                "unused26",
+                                                "unused27",
+                                                "unused28",
+                                                "unused29",
+                                                "unused30",
+                                                "unused31",
+                                                "unused32",
+                                                "unused33",
+                                                "unused34",
+                                                "unused35",
+                                                "unused36",
+                                                "unused37",
+                                                "unused38",
+                                                "unused39",
+                                                "unused40",
+                                                "unused41",
+                                                "unused42",
+                                                "unused43",
+                                                "unused44",
+                                                "unused45",
+                                                "unused46",
+                                                "unused47",
+                                                "unused48",
+                                                "unused49",
+                                                "unused50",
+                                                "unused51",
+                                                "unused52",
+                                                "unused53",
+                                                "unused54",
+                                                "unused55",
+                                                "unused56",
+                                                "unused57",
+                                                "unused58",
+                                                "unused59",
+                                                "unused60",
+                                                "unused61",
+                                                "unused62",
+                                                "unused63",
+                                                "unused64",
+                                                "unused65",
+                                                "unused66",
+                                                "unused67",
+                                                "unused68",
+                                                "unused69",
+                                                "unused70",
+                                                "unused71",
+                                                "unused72",
+                                                "unused73",
+                                                "unused74",
+                                                "unused75",
+                                                "unused76",
+                                                "unused77",
+                                                "unused78",
+                                                "unused79",
+                                                "unused80",
+                                                "unused81",
+                                                "unused82",
+                                                "unused83",
+                                                "unused84",
+                                                "unused85",
+                                                "unused86",
+                                                "unused87",
+                                                "unused88",
+                                                "unused89",
+                                                "unused90",
+                                                "unused91",
+                                                "unused92",
+                                                "unused93",
+                                                "unused94",
+                                                "unused95",
+                                                "unused96",
+                                                "unused97",
+                                                "unused98",
+                                                "unused99",
+                                                "unused100",
+                                                "unused101",
+                                                "unused102",
+                                                "unused103",
+                                                "unused104",
+                                                "unused105",
+                                                "unused106",
+                                                "unused107",
+                                                "unused108",
+                                                "unused109",
+                                                "unused110",
+                                                "unused111",
+                                                "unused112",
+                                                "unused113",
+                                                "unused114",
+                                                "unused115",
+                                                "unused116",
+                                                "unused117",
+                                                "unused118",
+                                                "unused119",
+                                                "unused120",
+                                                "unused121",
+                                                "unused122",
+                                                "unused123",
+                                                "unused124",
+                                                "unused125",
+                                                "unused126",
+                                                "unused127",
+                                                "unused128",
+                                                "unused129",
+                                                "unused130",
+                                                "unused131",
+                                                "unused132",
+                                                "unused133",
+                                                "unused134",
+                                                "unused135",
+                                                "unused136",
+                                                "unused137",
+                                                "unused138",
+                                                "unused139",
+                                                "unused140",
+                                                "unused141",
+                                                "unused142",
+                                                "unused143",
+                                                "unused144",
+                                                "unused145",
+                                                "unused146",
+                                                "unused147",
+                                                "unused148",
+                                                "unused149",
+                                                "unused150",
+                                                "unused151",
+                                                "unused152",
+                                                "unused153",
+                                                "unused154",
+                                                "unused155",
+                                                "unused156",
+                                                "unused157",
+                                                "unused158",
+                                                "unused159",
+                                                "unused160",
+                                                "unused161",
+                                                "unused162",
+                                                "unused163",
+                                                "unused164",
+                                                "unused165",
+                                                "unused166",
+                                                "unused167",
+                                                "unused168",
+                                                "unused169",
+                                                "unused170",
+                                                "unused171",
+                                                "unused172",
+                                                "unused173",
+                                                "unused174",
+                                                "unused175",
+                                                "unused176",
+                                                "unused177",
+                                                "unused178",
+                                                "unused179",
+                                                "unused180",
+                                                "unused181",
+                                                "unused182",
+                                                "unused183",
+                                                "unused184",
+                                                "unused185",
+                                                "unused186",
+                                                "unused187",
+                                                "unused188",
+                                                "unused189",
+                                                "unused190",
+                                                "unused191",
+                                                "unused192",
+                                                "unused193",
+                                                "unused194",
+                                                "unused195",
+                                                "unused196",
+                                                "unused197",
+                                                "unused198",
+                                                "unused199",
+                                                "unused200",
+                                                "unused201",
+                                                "unused202",
+                                                "unused203",
+                                                "unused204",
+                                                "unused205",
+                                                "unused206",
+                                                "unused207",
+                                                "unused208",
+                                                "unused209",
+                                                "unused210",
+                                                "unused211",
+                                                "unused212",
+                                                "unused213",
+                                                "unused214",
+                                                "unused215",
+                                                "unused216",
+                                                "unused217",
+                                                "unused218",
+                                                "unused219",
+                                                "unused220",
+                                                "unused221",
+                                                "unused222",
+                                                "unused223",
+                                                "unused224",
+                                                "unused225",
+                                                "unused226",
+                                                "unused227",
+                                                "unused228",
+                                                "unused229",
+                                                "unused230",
+                                                "unused231",
+                                                "unused232",
+                                                "unused233",
+                                                "unused234",
+                                                "unused235",
+                                                "unused236",
+                                                "unused237",
+                                                "unused238",
+                                                "unused239",
+                                                "unused240",
+                                                "unused241",
+                                                "unused242",
+                                                "unused243",
+                                                "unused244",
+                                                "unused245",
+                                                "unused246",
+                                                "unused247",
+                                                "unused248",
+                                                "unused249",
+                                                "unused250",
+                                                "unused251",
+                                                "unused252",
+                                                "unused253",
+                                                "unused254",
+                                                "unused255"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
                                           },
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
@@ -29005,7 +30628,263 @@ const apiSchema = [
                                                 "mp252",
                                                 "mp253",
                                                 "mp254",
-                                                "mp255"
+                                                "mp255",
+                                                "unused0",
+                                                "unused1",
+                                                "unused2",
+                                                "unused3",
+                                                "unused4",
+                                                "unused5",
+                                                "unused6",
+                                                "unused7",
+                                                "unused8",
+                                                "unused9",
+                                                "unused10",
+                                                "unused11",
+                                                "unused12",
+                                                "unused13",
+                                                "unused14",
+                                                "unused15",
+                                                "unused16",
+                                                "unused17",
+                                                "unused18",
+                                                "unused19",
+                                                "unused20",
+                                                "unused21",
+                                                "unused22",
+                                                "unused23",
+                                                "unused24",
+                                                "unused25",
+                                                "unused26",
+                                                "unused27",
+                                                "unused28",
+                                                "unused29",
+                                                "unused30",
+                                                "unused31",
+                                                "unused32",
+                                                "unused33",
+                                                "unused34",
+                                                "unused35",
+                                                "unused36",
+                                                "unused37",
+                                                "unused38",
+                                                "unused39",
+                                                "unused40",
+                                                "unused41",
+                                                "unused42",
+                                                "unused43",
+                                                "unused44",
+                                                "unused45",
+                                                "unused46",
+                                                "unused47",
+                                                "unused48",
+                                                "unused49",
+                                                "unused50",
+                                                "unused51",
+                                                "unused52",
+                                                "unused53",
+                                                "unused54",
+                                                "unused55",
+                                                "unused56",
+                                                "unused57",
+                                                "unused58",
+                                                "unused59",
+                                                "unused60",
+                                                "unused61",
+                                                "unused62",
+                                                "unused63",
+                                                "unused64",
+                                                "unused65",
+                                                "unused66",
+                                                "unused67",
+                                                "unused68",
+                                                "unused69",
+                                                "unused70",
+                                                "unused71",
+                                                "unused72",
+                                                "unused73",
+                                                "unused74",
+                                                "unused75",
+                                                "unused76",
+                                                "unused77",
+                                                "unused78",
+                                                "unused79",
+                                                "unused80",
+                                                "unused81",
+                                                "unused82",
+                                                "unused83",
+                                                "unused84",
+                                                "unused85",
+                                                "unused86",
+                                                "unused87",
+                                                "unused88",
+                                                "unused89",
+                                                "unused90",
+                                                "unused91",
+                                                "unused92",
+                                                "unused93",
+                                                "unused94",
+                                                "unused95",
+                                                "unused96",
+                                                "unused97",
+                                                "unused98",
+                                                "unused99",
+                                                "unused100",
+                                                "unused101",
+                                                "unused102",
+                                                "unused103",
+                                                "unused104",
+                                                "unused105",
+                                                "unused106",
+                                                "unused107",
+                                                "unused108",
+                                                "unused109",
+                                                "unused110",
+                                                "unused111",
+                                                "unused112",
+                                                "unused113",
+                                                "unused114",
+                                                "unused115",
+                                                "unused116",
+                                                "unused117",
+                                                "unused118",
+                                                "unused119",
+                                                "unused120",
+                                                "unused121",
+                                                "unused122",
+                                                "unused123",
+                                                "unused124",
+                                                "unused125",
+                                                "unused126",
+                                                "unused127",
+                                                "unused128",
+                                                "unused129",
+                                                "unused130",
+                                                "unused131",
+                                                "unused132",
+                                                "unused133",
+                                                "unused134",
+                                                "unused135",
+                                                "unused136",
+                                                "unused137",
+                                                "unused138",
+                                                "unused139",
+                                                "unused140",
+                                                "unused141",
+                                                "unused142",
+                                                "unused143",
+                                                "unused144",
+                                                "unused145",
+                                                "unused146",
+                                                "unused147",
+                                                "unused148",
+                                                "unused149",
+                                                "unused150",
+                                                "unused151",
+                                                "unused152",
+                                                "unused153",
+                                                "unused154",
+                                                "unused155",
+                                                "unused156",
+                                                "unused157",
+                                                "unused158",
+                                                "unused159",
+                                                "unused160",
+                                                "unused161",
+                                                "unused162",
+                                                "unused163",
+                                                "unused164",
+                                                "unused165",
+                                                "unused166",
+                                                "unused167",
+                                                "unused168",
+                                                "unused169",
+                                                "unused170",
+                                                "unused171",
+                                                "unused172",
+                                                "unused173",
+                                                "unused174",
+                                                "unused175",
+                                                "unused176",
+                                                "unused177",
+                                                "unused178",
+                                                "unused179",
+                                                "unused180",
+                                                "unused181",
+                                                "unused182",
+                                                "unused183",
+                                                "unused184",
+                                                "unused185",
+                                                "unused186",
+                                                "unused187",
+                                                "unused188",
+                                                "unused189",
+                                                "unused190",
+                                                "unused191",
+                                                "unused192",
+                                                "unused193",
+                                                "unused194",
+                                                "unused195",
+                                                "unused196",
+                                                "unused197",
+                                                "unused198",
+                                                "unused199",
+                                                "unused200",
+                                                "unused201",
+                                                "unused202",
+                                                "unused203",
+                                                "unused204",
+                                                "unused205",
+                                                "unused206",
+                                                "unused207",
+                                                "unused208",
+                                                "unused209",
+                                                "unused210",
+                                                "unused211",
+                                                "unused212",
+                                                "unused213",
+                                                "unused214",
+                                                "unused215",
+                                                "unused216",
+                                                "unused217",
+                                                "unused218",
+                                                "unused219",
+                                                "unused220",
+                                                "unused221",
+                                                "unused222",
+                                                "unused223",
+                                                "unused224",
+                                                "unused225",
+                                                "unused226",
+                                                "unused227",
+                                                "unused228",
+                                                "unused229",
+                                                "unused230",
+                                                "unused231",
+                                                "unused232",
+                                                "unused233",
+                                                "unused234",
+                                                "unused235",
+                                                "unused236",
+                                                "unused237",
+                                                "unused238",
+                                                "unused239",
+                                                "unused240",
+                                                "unused241",
+                                                "unused242",
+                                                "unused243",
+                                                "unused244",
+                                                "unused245",
+                                                "unused246",
+                                                "unused247",
+                                                "unused248",
+                                                "unused249",
+                                                "unused250",
+                                                "unused251",
+                                                "unused252",
+                                                "unused253",
+                                                "unused254",
+                                                "unused255"
                                              ],
                                              "type" : "string"
                                           }
@@ -29013,23 +30892,13 @@ const apiSchema = [
                                     },
                                     "permissions" : {
                                        "check" : [
-                                          "and",
+                                          "perm",
+                                          "/vms/{vmid}",
                                           [
-                                             "perm",
-                                             "/vms/{vmid}",
-                                             [
-                                                "VM.Config.Disk"
-                                             ]
-                                          ],
-                                          [
-                                             "perm",
-                                             "/storage/{storage}",
-                                             [
-                                                "Datastore.AllocateSpace"
-                                             ]
+                                             "VM.Config.Disk"
                                           ]
                                        ],
-                                       "description" : "You need 'VM.Config.Disk' permissions on /vms/{vmid}, and 'Datastore.AllocateSpace' permissions on the storage."
+                                       "description" : "You need 'VM.Config.Disk' permissions on /vms/{vmid}, and 'Datastore.AllocateSpace' permissions on the storage. To move a volume to another container, you need the permissions on the target container as well."
                                     },
                                     "protected" : 1,
                                     "proxyto" : "node",
@@ -32503,24 +34372,25 @@ const apiSchema = [
                                           "service" : {
                                              "description" : "Service ID",
                                              "enum" : [
-                                                "pveproxy",
-                                                "pvedaemon",
-                                                "spiceproxy",
-                                                "pvestatd",
-                                                "pve-cluster",
+                                                "chrony",
                                                 "corosync",
+                                                "cron",
+                                                "ksmtuned",
+                                                "postfix",
+                                                "pve-cluster",
                                                 "pve-firewall",
-                                                "pvefw-logger",
                                                 "pve-ha-crm",
                                                 "pve-ha-lrm",
+                                                "pvedaemon",
+                                                "pvefw-logger",
+                                                "pveproxy",
+                                                "pvescheduler",
+                                                "pvestatd",
+                                                "spiceproxy",
                                                 "sshd",
                                                 "syslog",
                                                 "systemd-journald",
-                                                "cron",
-                                                "postfix",
-                                                "ksmtuned",
-                                                "systemd-timesyncd",
-                                                "chrony"
+                                                "systemd-timesyncd"
                                              ],
                                              "type" : "string"
                                           }
@@ -32565,24 +34435,25 @@ const apiSchema = [
                                           "service" : {
                                              "description" : "Service ID",
                                              "enum" : [
-                                                "pveproxy",
-                                                "pvedaemon",
-                                                "spiceproxy",
-                                                "pvestatd",
-                                                "pve-cluster",
+                                                "chrony",
                                                 "corosync",
+                                                "cron",
+                                                "ksmtuned",
+                                                "postfix",
+                                                "pve-cluster",
                                                 "pve-firewall",
-                                                "pvefw-logger",
                                                 "pve-ha-crm",
                                                 "pve-ha-lrm",
+                                                "pvedaemon",
+                                                "pvefw-logger",
+                                                "pveproxy",
+                                                "pvescheduler",
+                                                "pvestatd",
+                                                "spiceproxy",
                                                 "sshd",
                                                 "syslog",
                                                 "systemd-journald",
-                                                "cron",
-                                                "postfix",
-                                                "ksmtuned",
-                                                "systemd-timesyncd",
-                                                "chrony"
+                                                "systemd-timesyncd"
                                              ],
                                              "type" : "string"
                                           }
@@ -32627,24 +34498,25 @@ const apiSchema = [
                                           "service" : {
                                              "description" : "Service ID",
                                              "enum" : [
-                                                "pveproxy",
-                                                "pvedaemon",
-                                                "spiceproxy",
-                                                "pvestatd",
-                                                "pve-cluster",
+                                                "chrony",
                                                 "corosync",
+                                                "cron",
+                                                "ksmtuned",
+                                                "postfix",
+                                                "pve-cluster",
                                                 "pve-firewall",
-                                                "pvefw-logger",
                                                 "pve-ha-crm",
                                                 "pve-ha-lrm",
+                                                "pvedaemon",
+                                                "pvefw-logger",
+                                                "pveproxy",
+                                                "pvescheduler",
+                                                "pvestatd",
+                                                "spiceproxy",
                                                 "sshd",
                                                 "syslog",
                                                 "systemd-journald",
-                                                "cron",
-                                                "postfix",
-                                                "ksmtuned",
-                                                "systemd-timesyncd",
-                                                "chrony"
+                                                "systemd-timesyncd"
                                              ],
                                              "type" : "string"
                                           }
@@ -32689,24 +34561,25 @@ const apiSchema = [
                                           "service" : {
                                              "description" : "Service ID",
                                              "enum" : [
-                                                "pveproxy",
-                                                "pvedaemon",
-                                                "spiceproxy",
-                                                "pvestatd",
-                                                "pve-cluster",
+                                                "chrony",
                                                 "corosync",
+                                                "cron",
+                                                "ksmtuned",
+                                                "postfix",
+                                                "pve-cluster",
                                                 "pve-firewall",
-                                                "pvefw-logger",
                                                 "pve-ha-crm",
                                                 "pve-ha-lrm",
+                                                "pvedaemon",
+                                                "pvefw-logger",
+                                                "pveproxy",
+                                                "pvescheduler",
+                                                "pvestatd",
+                                                "spiceproxy",
                                                 "sshd",
                                                 "syslog",
                                                 "systemd-journald",
-                                                "cron",
-                                                "postfix",
-                                                "ksmtuned",
-                                                "systemd-timesyncd",
-                                                "chrony"
+                                                "systemd-timesyncd"
                                              ],
                                              "type" : "string"
                                           }
@@ -32751,24 +34624,25 @@ const apiSchema = [
                                           "service" : {
                                              "description" : "Service ID",
                                              "enum" : [
-                                                "pveproxy",
-                                                "pvedaemon",
-                                                "spiceproxy",
-                                                "pvestatd",
-                                                "pve-cluster",
+                                                "chrony",
                                                 "corosync",
+                                                "cron",
+                                                "ksmtuned",
+                                                "postfix",
+                                                "pve-cluster",
                                                 "pve-firewall",
-                                                "pvefw-logger",
                                                 "pve-ha-crm",
                                                 "pve-ha-lrm",
+                                                "pvedaemon",
+                                                "pvefw-logger",
+                                                "pveproxy",
+                                                "pvescheduler",
+                                                "pvestatd",
+                                                "spiceproxy",
                                                 "sshd",
                                                 "syslog",
                                                 "systemd-journald",
-                                                "cron",
-                                                "postfix",
-                                                "ksmtuned",
-                                                "systemd-timesyncd",
-                                                "chrony"
+                                                "systemd-timesyncd"
                                              ],
                                              "type" : "string"
                                           }
@@ -32813,24 +34687,25 @@ const apiSchema = [
                                     "service" : {
                                        "description" : "Service ID",
                                        "enum" : [
-                                          "pveproxy",
-                                          "pvedaemon",
-                                          "spiceproxy",
-                                          "pvestatd",
-                                          "pve-cluster",
+                                          "chrony",
                                           "corosync",
+                                          "cron",
+                                          "ksmtuned",
+                                          "postfix",
+                                          "pve-cluster",
                                           "pve-firewall",
-                                          "pvefw-logger",
                                           "pve-ha-crm",
                                           "pve-ha-lrm",
+                                          "pvedaemon",
+                                          "pvefw-logger",
+                                          "pveproxy",
+                                          "pvescheduler",
+                                          "pvestatd",
+                                          "spiceproxy",
                                           "sshd",
                                           "syslog",
                                           "systemd-journald",
-                                          "cron",
-                                          "postfix",
-                                          "ksmtuned",
-                                          "systemd-timesyncd",
-                                          "chrony"
+                                          "systemd-timesyncd"
                                        ],
                                        "type" : "string"
                                     }
@@ -33784,6 +35659,7 @@ const apiSchema = [
                                        "properties" : {
                                           "limit" : {
                                              "default" : 50,
+                                             "description" : "The maximum amount of lines that should be printed.",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
@@ -33797,19 +35673,21 @@ const apiSchema = [
                                           },
                                           "start" : {
                                              "default" : 0,
+                                             "description" : "The line number to start printing at.",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
                                              "typetext" : "<integer> (0 - N)"
                                           },
                                           "upid" : {
+                                             "description" : "The task's unique ID.",
                                              "type" : "string",
                                              "typetext" : "<string>"
                                           }
                                        }
                                     },
                                     "permissions" : {
-                                       "description" : "The user needs 'Sys.Audit' permissions on '/nodes/<node>' if the task does not belong to him.",
+                                       "description" : "The user needs 'Sys.Audit' permissions on '/nodes/<node>' if they aren't the owner of the task.",
                                        "user" : "all"
                                     },
                                     "protected" : 1,
@@ -33853,27 +35731,50 @@ const apiSchema = [
                                              "typetext" : "<string>"
                                           },
                                           "upid" : {
+                                             "description" : "The task's unique ID.",
                                              "type" : "string",
                                              "typetext" : "<string>"
                                           }
                                        }
                                     },
                                     "permissions" : {
-                                       "description" : "The user needs 'Sys.Audit' permissions on '/nodes/<node>' if the task does not belong to him.",
+                                       "description" : "The user needs 'Sys.Audit' permissions on '/nodes/<node>' if they are not the owner of the task.",
                                        "user" : "all"
                                     },
                                     "protected" : 1,
                                     "proxyto" : "node",
                                     "returns" : {
                                        "properties" : {
+                                          "exitstatus" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "id" : {
+                                             "type" : "string"
+                                          },
+                                          "node" : {
+                                             "type" : "string"
+                                          },
                                           "pid" : {
                                              "type" : "integer"
+                                          },
+                                          "starttime" : {
+                                             "type" : "number"
                                           },
                                           "status" : {
                                              "enum" : [
                                                 "running",
                                                 "stopped"
                                              ],
+                                             "type" : "string"
+                                          },
+                                          "type" : {
+                                             "type" : "string"
+                                          },
+                                          "upid" : {
+                                             "type" : "string"
+                                          },
+                                          "user" : {
                                              "type" : "string"
                                           }
                                        },
@@ -33908,7 +35809,7 @@ const apiSchema = [
                                  }
                               },
                               "permissions" : {
-                                 "description" : "The user needs 'Sys.Modify' permissions on '/nodes/<node>' if the task does not belong to him.",
+                                 "description" : "The user needs 'Sys.Modify' permissions on '/nodes/<node>' if they aren't the owner of the task.",
                                  "user" : "all"
                               },
                               "protected" : 1,
@@ -33971,6 +35872,7 @@ const apiSchema = [
                            "properties" : {
                               "errors" : {
                                  "default" : 0,
+                                 "description" : "Only list tasks with a status of ERROR.",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
@@ -34762,8 +36664,8 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "pci-class-blacklist" : {
-                                       "default" : "05;06;08;0b",
-                                       "description" : "A list of blacklisted PCI classes, which will not be returned. Following are filtered by default: Memory Controller (05), Bridge (06), Generic System Peripheral (08) and Processor (0b).",
+                                       "default" : "05;06;0b",
+                                       "description" : "A list of blacklisted PCI classes, which will not be returned. Following are filtered by default: Memory Controller (05), Bridge (06) and Processor (0b).",
                                        "format" : "string-list",
                                        "optional" : 1,
                                        "type" : "string",
@@ -35308,7 +37210,13 @@ const apiSchema = [
                                                 "type" : "integer"
                                              },
                                              "mark" : {
-                                                "description" : "Whether the backup would be kept or removed. For backups that don't use the standard naming scheme, it's 'protected'.",
+                                                "description" : "Whether the backup would be kept or removed. Backups that are protected or don't use the standard naming scheme are not removed.",
+                                                "enum" : [
+                                                   "keep",
+                                                   "remove",
+                                                   "protected",
+                                                   "renamed"
+                                                ],
                                                 "type" : "string"
                                              },
                                              "type" : {
@@ -35435,6 +37343,11 @@ const apiSchema = [
                                                    "description" : "The Path",
                                                    "type" : "string"
                                                 },
+                                                "protected" : {
+                                                   "description" : "Protection status. Currently only supported for backups.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "size" : {
                                                    "description" : "Volume size in bytes.",
                                                    "renderer" : "bytes",
@@ -35514,6 +37427,12 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
+                                                },
+                                                "protected" : {
+                                                   "description" : "Protection status. Currently only supported for backups.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "typetext" : "<boolean>"
                                                 },
                                                 "storage" : {
                                                    "description" : "The storage identifier.",
@@ -35624,6 +37543,11 @@ const apiSchema = [
                                                 "description" : "Volume identifier of parent (for linked cloned).",
                                                 "optional" : 1,
                                                 "type" : "string"
+                                             },
+                                             "protected" : {
+                                                "description" : "Protection status. Currently only supported for backups.",
+                                                "optional" : 1,
+                                                "type" : "boolean"
                                              },
                                              "size" : {
                                                 "description" : "Volume size in bytes.",
@@ -36084,14 +38008,39 @@ const apiSchema = [
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
-                                          "content" : {
-                                             "description" : "Content type.",
-                                             "format" : "pve-storage-content",
+                                          "checksum" : {
+                                             "description" : "The expected checksum of the file.",
+                                             "optional" : 1,
+                                             "requires" : "checksum-algorithm",
                                              "type" : "string",
                                              "typetext" : "<string>"
                                           },
+                                          "checksum-algorithm" : {
+                                             "description" : "The algorithm to calculate the checksum of the file.",
+                                             "enum" : [
+                                                "md5",
+                                                "sha1",
+                                                "sha224",
+                                                "sha256",
+                                                "sha384",
+                                                "sha512"
+                                             ],
+                                             "optional" : 1,
+                                             "requires" : "checksum",
+                                             "type" : "string"
+                                          },
+                                          "content" : {
+                                             "description" : "Content type.",
+                                             "enum" : [
+                                                "iso",
+                                                "vztmpl"
+                                             ],
+                                             "format" : "pve-storage-content",
+                                             "type" : "string"
+                                          },
                                           "filename" : {
-                                             "description" : "The name of the file to create.",
+                                             "description" : "The name of the file to create. Caution: This will be normalized!",
+                                             "maxLength" : 255,
                                              "type" : "string",
                                              "typetext" : "<string>"
                                           },
@@ -36431,6 +38380,67 @@ const apiSchema = [
                {
                   "children" : [
                      {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "DELETE" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Remove an LVM Volume Group.",
+                                    "method" : "DELETE",
+                                    "name" : "delete",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "cleanup-config" : {
+                                             "default" : 0,
+                                             "description" : "Marks associated storage(s) as not available on this node anymore or removes them from the configuration (if configured for this node only).",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "cleanup-disks" : {
+                                             "default" : 0,
+                                             "description" : "Also wipe disks so they can be repurposed afterwards.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "name" : {
+                                             "description" : "The storage identifier.",
+                                             "format" : "pve-storage-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/",
+                                          [
+                                             "Sys.Modify",
+                                             "Datastore.Allocate"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/disks/lvm/{name}",
+                              "text" : "{name}"
+                           }
+                        ],
                         "info" : {
                            "GET" : {
                               "allowtoken" : 1,
@@ -36570,11 +38580,78 @@ const apiSchema = [
                               }
                            }
                         },
-                        "leaf" : 1,
+                        "leaf" : 0,
                         "path" : "/nodes/{node}/disks/lvm",
                         "text" : "lvm"
                      },
                      {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "DELETE" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Remove an LVM thin pool.",
+                                    "method" : "DELETE",
+                                    "name" : "delete",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "cleanup-config" : {
+                                             "default" : 0,
+                                             "description" : "Marks associated storage(s) as not available on this node anymore or removes them from the configuration (if configured for this node only).",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "cleanup-disks" : {
+                                             "default" : 0,
+                                             "description" : "Also wipe disks so they can be repurposed afterwards.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "name" : {
+                                             "description" : "The storage identifier.",
+                                             "format" : "pve-storage-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "volume-group" : {
+                                             "description" : "The storage identifier.",
+                                             "format" : "pve-storage-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/",
+                                          [
+                                             "Sys.Modify",
+                                             "Datastore.Allocate"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/disks/lvmthin/{name}",
+                              "text" : "{name}"
+                           }
+                        ],
                         "info" : {
                            "GET" : {
                               "allowtoken" : 1,
@@ -36628,6 +38705,10 @@ const apiSchema = [
                                        "used" : {
                                           "description" : "The used bytes of the thinpool.",
                                           "type" : "integer"
+                                       },
+                                       "vg" : {
+                                          "description" : "The associated volume group.",
+                                          "type" : "string"
                                        }
                                     },
                                     "type" : "object"
@@ -36686,11 +38767,72 @@ const apiSchema = [
                               }
                            }
                         },
-                        "leaf" : 1,
+                        "leaf" : 0,
                         "path" : "/nodes/{node}/disks/lvmthin",
                         "text" : "lvmthin"
                      },
                      {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "DELETE" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Unmounts the storage and removes the mount unit.",
+                                    "method" : "DELETE",
+                                    "name" : "delete",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "cleanup-config" : {
+                                             "default" : 0,
+                                             "description" : "Marks associated storage(s) as not available on this node anymore or removes them from the configuration (if configured for this node only).",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "cleanup-disks" : {
+                                             "default" : 0,
+                                             "description" : "Also wipe disk so it can be repurposed afterwards.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "name" : {
+                                             "description" : "The storage identifier.",
+                                             "format" : "pve-storage-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/",
+                                          [
+                                             "Sys.Modify",
+                                             "Datastore.Allocate"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/disks/directory/{name}",
+                              "text" : "{name}"
+                           }
+                        ],
                         "info" : {
                            "GET" : {
                               "allowtoken" : 1,
@@ -36812,7 +38954,7 @@ const apiSchema = [
                               }
                            }
                         },
-                        "leaf" : 1,
+                        "leaf" : 0,
                         "path" : "/nodes/{node}/disks/directory",
                         "text" : "directory"
                      },
@@ -36820,6 +38962,58 @@ const apiSchema = [
                         "children" : [
                            {
                               "info" : {
+                                 "DELETE" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Destroy a ZFS pool.",
+                                    "method" : "DELETE",
+                                    "name" : "delete",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "cleanup-config" : {
+                                             "default" : 0,
+                                             "description" : "Marks associated storage(s) as not available on this node anymore or removes them from the configuration (if configured for this node only).",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "cleanup-disks" : {
+                                             "default" : 0,
+                                             "description" : "Also wipe disks so they can be repurposed afterwards.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "name" : {
+                                             "description" : "The storage identifier.",
+                                             "format" : "pve-storage-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/",
+                                          [
+                                             "Sys.Modify",
+                                             "Datastore.Allocate"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
+                                 },
                                  "GET" : {
                                     "allowtoken" : 1,
                                     "description" : "Get details about a zpool.",
@@ -37036,7 +39230,8 @@ const apiSchema = [
                                           "gzip",
                                           "lz4",
                                           "lzjb",
-                                          "zle"
+                                          "zle",
+                                          "zstd"
                                        ],
                                        "optional" : 1,
                                        "type" : "string"
@@ -40615,9 +42810,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "login",
                                     "ceph_install",
-                                    "upgrade"
+                                    "upgrade",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -40711,9 +42906,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "login",
                                     "ceph_install",
-                                    "upgrade"
+                                    "upgrade",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -40837,9 +43032,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "login",
                                     "ceph_install",
-                                    "upgrade"
+                                    "upgrade",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -41192,6 +43387,71 @@ const apiSchema = [
                   "leaf" : 1,
                   "path" : "/nodes/{node}/aplinfo",
                   "text" : "aplinfo"
+               },
+               {
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Query metadata of an URL: file size, file name and mime type.",
+                        "method" : "GET",
+                        "name" : "query_url_metadata",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "url" : {
+                                 "description" : "The URL to query the metadata from.",
+                                 "pattern" : "https?://.*",
+                                 "type" : "string"
+                              },
+                              "verify-certificates" : {
+                                 "default" : 1,
+                                 "description" : "If false, no SSL/TLS certificates will be verified.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Audit",
+                                 "Sys.Modify"
+                              ]
+                           ]
+                        },
+                        "proxyto" : "node",
+                        "returns" : {
+                           "properties" : {
+                              "filename" : {
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "mimetype" : {
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "size" : {
+                                 "optional" : 1,
+                                 "renderer" : "bytes",
+                                 "type" : "integer"
+                              }
+                           },
+                           "type" : "object"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/nodes/{node}/query-url-metadata",
+                  "text" : "query-url-metadata"
                },
                {
                   "info" : {
@@ -41797,6 +44057,13 @@ const apiSchema = [
                            "type" : "string",
                            "typetext" : "<string>"
                         },
+                        "fs-name" : {
+                           "description" : "The Ceph filesystem name.",
+                           "format" : "pve-configid",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
                         "fuse" : {
                            "description" : "Mount CephFS through FUSE.",
                            "optional" : 1,
@@ -41806,6 +44073,12 @@ const apiSchema = [
                         "is_mountpoint" : {
                            "default" : "no",
                            "description" : "Assume the given path is an externally managed mountpoint and consider the storage offline if it is not mounted. Using a boolean (yes/no) value serves as a shortcut to using the target path in this field.",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "keyring" : {
+                           "description" : "Client keyring contents (for external clusters).",
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
@@ -41911,6 +44184,18 @@ const apiSchema = [
                            "type" : "integer",
                            "typetext" : "<integer> (1 - 65535)"
                         },
+                        "preallocation" : {
+                           "default" : "metadata",
+                           "description" : "Preallocation mode for raw and qcow2 images. Using 'metadata' on raw images results in preallocation=off.",
+                           "enum" : [
+                              "off",
+                              "metadata",
+                              "falloc",
+                              "full"
+                           ],
+                           "optional" : 1,
+                           "type" : "string"
+                        },
                         "prune-backups" : {
                            "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
                            "format" : "prune-backups",
@@ -41952,11 +44237,15 @@ const apiSchema = [
                            "typetext" : "<boolean>"
                         },
                         "smbversion" : {
-                           "description" : "SMB protocol version",
+                           "default" : "default",
+                           "description" : "SMB protocol version. 'default' if not set, negotiates the highest SMB2+ version supported by both the client and server.",
                            "enum" : [
+                              "default",
                               "2.0",
                               "2.1",
-                              "3.0"
+                              "3",
+                              "3.0",
+                              "3.11"
                            ],
                            "optional" : 1,
                            "type" : "string"
@@ -42252,6 +44541,13 @@ const apiSchema = [
                      "type" : "string",
                      "typetext" : "<string>"
                   },
+                  "fs-name" : {
+                     "description" : "The Ceph filesystem name.",
+                     "format" : "pve-configid",
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
                   "fuse" : {
                      "description" : "Mount CephFS through FUSE.",
                      "optional" : 1,
@@ -42267,6 +44563,12 @@ const apiSchema = [
                   },
                   "iscsiprovider" : {
                      "description" : "iscsi provider",
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "keyring" : {
+                     "description" : "Client keyring contents (for external clusters).",
                      "optional" : 1,
                      "type" : "string",
                      "typetext" : "<string>"
@@ -42386,6 +44688,18 @@ const apiSchema = [
                      "type" : "string",
                      "typetext" : "<string>"
                   },
+                  "preallocation" : {
+                     "default" : "metadata",
+                     "description" : "Preallocation mode for raw and qcow2 images. Using 'metadata' on raw images results in preallocation=off.",
+                     "enum" : [
+                        "off",
+                        "metadata",
+                        "falloc",
+                        "full"
+                     ],
+                     "optional" : 1,
+                     "type" : "string"
+                  },
                   "prune-backups" : {
                      "description" : "The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.",
                      "format" : "prune-backups",
@@ -42433,11 +44747,15 @@ const apiSchema = [
                      "typetext" : "<boolean>"
                   },
                   "smbversion" : {
-                     "description" : "SMB protocol version",
+                     "default" : "default",
+                     "description" : "SMB protocol version. 'default' if not set, negotiates the highest SMB2+ version supported by both the client and server.",
                      "enum" : [
+                        "default",
                         "2.0",
                         "2.1",
-                        "3.0"
+                        "3",
+                        "3.0",
+                        "3.11"
                      ],
                      "optional" : 1,
                      "type" : "string"
@@ -42606,6 +44924,13 @@ const apiSchema = [
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
+                                    "multiple" : {
+                                       "default" : 0,
+                                       "description" : "Request all entries as an array.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
                                     "userid" : {
                                        "description" : "User ID",
                                        "format" : "pve-userid",
@@ -42644,8 +44969,24 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
+                                    "types" : {
+                                       "description" : "Array of the user configured TFA types, if any. Only available if 'multiple' was not passed.",
+                                       "items" : {
+                                          "description" : "A TFA type.",
+                                          "enum" : [
+                                             "totp",
+                                             "u2f",
+                                             "yubico",
+                                             "webauthn",
+                                             "recovedry"
+                                          ],
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array"
+                                    },
                                     "user" : {
-                                       "description" : "The type of TFA the user has set, if any.",
+                                       "description" : "The type of TFA the user has set, if any. Only set if 'multiple' was not passed.",
                                        "enum" : [
                                           "oath",
                                           "u2f"
@@ -45015,6 +47356,487 @@ const apiSchema = [
             "text" : "openid"
          },
          {
+            "children" : [
+               {
+                  "children" : [
+                     {
+                        "info" : {
+                           "DELETE" : {
+                              "allowtoken" : 0,
+                              "description" : "Delete a TFA entry by ID.",
+                              "method" : "DELETE",
+                              "name" : "delete_tfa",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "id" : {
+                                       "description" : "A TFA entry id.",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "password" : {
+                                       "description" : "The current password.",
+                                       "maxLength" : 64,
+                                       "minLength" : 5,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "userid" : {
+                                       "description" : "User ID",
+                                       "format" : "pve-userid",
+                                       "maxLength" : 64,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "or",
+                                    [
+                                       "userid-param",
+                                       "self"
+                                    ],
+                                    [
+                                       "userid-group",
+                                       [
+                                          "User.Modify"
+                                       ]
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           },
+                           "GET" : {
+                              "allowtoken" : 0,
+                              "description" : "Fetch a requested TFA entry if present.",
+                              "method" : "GET",
+                              "name" : "get_tfa_entry",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "id" : {
+                                       "description" : "A TFA entry id.",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "userid" : {
+                                       "description" : "User ID",
+                                       "format" : "pve-userid",
+                                       "maxLength" : 64,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "or",
+                                    [
+                                       "userid-param",
+                                       "self"
+                                    ],
+                                    [
+                                       "userid-group",
+                                       [
+                                          "User.Modify",
+                                          "Sys.Audit"
+                                       ]
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "description" : "TFA Entry.",
+                                 "properties" : {
+                                    "created" : {
+                                       "description" : "Creation time of this entry as unix epoch.",
+                                       "type" : "integer"
+                                    },
+                                    "description" : {
+                                       "description" : "User chosen description for this entry.",
+                                       "type" : "string"
+                                    },
+                                    "enable" : {
+                                       "default" : 1,
+                                       "description" : "Whether this TFA entry is currently enabled.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "id" : {
+                                       "description" : "The id used to reference this entry.",
+                                       "type" : "string"
+                                    },
+                                    "type" : {
+                                       "description" : "TFA Entry Type.",
+                                       "enum" : [
+                                          "totp",
+                                          "u2f",
+                                          "webauthn",
+                                          "recovery",
+                                          "yubico"
+                                       ],
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              }
+                           },
+                           "PUT" : {
+                              "allowtoken" : 0,
+                              "description" : "Add a TFA entry for a user.",
+                              "method" : "PUT",
+                              "name" : "update_tfa_entry",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "description" : {
+                                       "description" : "A description to distinguish multiple entries from one another",
+                                       "maxLength" : 255,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "enable" : {
+                                       "description" : "Whether the entry should be enabled for login.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "id" : {
+                                       "description" : "A TFA entry id.",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "password" : {
+                                       "description" : "The current password.",
+                                       "maxLength" : 64,
+                                       "minLength" : 5,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "userid" : {
+                                       "description" : "User ID",
+                                       "format" : "pve-userid",
+                                       "maxLength" : 64,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "or",
+                                    [
+                                       "userid-param",
+                                       "self"
+                                    ],
+                                    [
+                                       "userid-group",
+                                       [
+                                          "User.Modify"
+                                       ]
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/access/tfa/{userid}/{id}",
+                        "text" : "{id}"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 0,
+                        "description" : "List TFA configurations of users.",
+                        "method" : "GET",
+                        "name" : "list_user_tfa",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "userid" : {
+                                 "description" : "User ID",
+                                 "format" : "pve-userid",
+                                 "maxLength" : 64,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "or",
+                              [
+                                 "userid-param",
+                                 "self"
+                              ],
+                              [
+                                 "userid-group",
+                                 [
+                                    "User.Modify",
+                                    "Sys.Audit"
+                                 ]
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "description" : "A list of the user's TFA entries.",
+                           "items" : {
+                              "description" : "TFA Entry.",
+                              "properties" : {
+                                 "created" : {
+                                    "description" : "Creation time of this entry as unix epoch.",
+                                    "type" : "integer"
+                                 },
+                                 "description" : {
+                                    "description" : "User chosen description for this entry.",
+                                    "type" : "string"
+                                 },
+                                 "enable" : {
+                                    "default" : 1,
+                                    "description" : "Whether this TFA entry is currently enabled.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
+                                 "id" : {
+                                    "description" : "The id used to reference this entry.",
+                                    "type" : "string"
+                                 },
+                                 "type" : {
+                                    "description" : "TFA Entry Type.",
+                                    "enum" : [
+                                       "totp",
+                                       "u2f",
+                                       "webauthn",
+                                       "recovery",
+                                       "yubico"
+                                    ],
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "type" : "array"
+                        }
+                     },
+                     "POST" : {
+                        "allowtoken" : 0,
+                        "description" : "Add a TFA entry for a user.",
+                        "method" : "POST",
+                        "name" : "add_tfa_entry",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "challenge" : {
+                                 "description" : "When responding to a u2f challenge: the original challenge string",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "description" : {
+                                 "description" : "A description to distinguish multiple entries from one another",
+                                 "maxLength" : 255,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "password" : {
+                                 "description" : "The current password.",
+                                 "maxLength" : 64,
+                                 "minLength" : 5,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "totp" : {
+                                 "description" : "A totp URI.",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "type" : {
+                                 "description" : "TFA Entry Type.",
+                                 "enum" : [
+                                    "totp",
+                                    "u2f",
+                                    "webauthn",
+                                    "recovery",
+                                    "yubico"
+                                 ],
+                                 "type" : "string"
+                              },
+                              "userid" : {
+                                 "description" : "User ID",
+                                 "format" : "pve-userid",
+                                 "maxLength" : 64,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "value" : {
+                                 "description" : "The current value for the provided totp URI, or a Webauthn/U2F challenge response",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "or",
+                              [
+                                 "userid-param",
+                                 "self"
+                              ],
+                              [
+                                 "userid-group",
+                                 [
+                                    "User.Modify"
+                                 ]
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "properties" : {
+                              "challenge" : {
+                                 "description" : "When adding u2f entries, this contains a challenge the user must respond to in order to finish the registration.",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "id" : {
+                                 "description" : "The id of a newly added TFA entry.",
+                                 "type" : "string"
+                              },
+                              "recovery" : {
+                                 "description" : "When adding recovery codes, this contains the list of codes to be displayed to the user",
+                                 "items" : {
+                                    "description" : "A recovery entry.",
+                                    "type" : "string"
+                                 },
+                                 "optional" : 1,
+                                 "type" : "array"
+                              }
+                           },
+                           "type" : "object"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/access/tfa/{userid}",
+                  "text" : "{userid}"
+               }
+            ],
+            "info" : {
+               "GET" : {
+                  "allowtoken" : 0,
+                  "description" : "List TFA configurations of users.",
+                  "method" : "GET",
+                  "name" : "list_tfa",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "permissions" : {
+                     "description" : "Returns all or just the logged-in user, depending on privileges.",
+                     "user" : "all"
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "description" : "The list tuples of user and TFA entries.",
+                     "items" : {
+                        "properties" : {
+                           "entries" : {
+                              "items" : {
+                                 "description" : "TFA Entry.",
+                                 "properties" : {
+                                    "created" : {
+                                       "description" : "Creation time of this entry as unix epoch.",
+                                       "type" : "integer"
+                                    },
+                                    "description" : {
+                                       "description" : "User chosen description for this entry.",
+                                       "type" : "string"
+                                    },
+                                    "enable" : {
+                                       "default" : 1,
+                                       "description" : "Whether this TFA entry is currently enabled.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "id" : {
+                                       "description" : "The id used to reference this entry.",
+                                       "type" : "string"
+                                    },
+                                    "type" : {
+                                       "description" : "TFA Entry Type.",
+                                       "enum" : [
+                                          "totp",
+                                          "u2f",
+                                          "webauthn",
+                                          "recovery",
+                                          "yubico"
+                                       ],
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
+                              "type" : "array"
+                           },
+                           "userid" : {
+                              "description" : "User this entry belongs to.",
+                              "type" : "string"
+                           }
+                        },
+                        "type" : "object"
+                     },
+                     "type" : "array"
+                  }
+               },
+               "POST" : {
+                  "allowtoken" : 0,
+                  "description" : "Finish a u2f challenge.",
+                  "method" : "POST",
+                  "name" : "verify_tfa",
+                  "parameters" : {
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "response" : {
+                           "description" : "The response to the current authentication challenge.",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        }
+                     }
+                  },
+                  "permissions" : {
+                     "user" : "all"
+                  },
+                  "protected" : 1,
+                  "returns" : {
+                     "properties" : {
+                        "ticket" : {
+                           "type" : "string"
+                        }
+                     },
+                     "type" : "object"
+                  }
+               }
+            },
+            "leaf" : 0,
+            "path" : "/access/tfa",
+            "text" : "tfa"
+         },
+         {
             "info" : {
                "GET" : {
                   "allowtoken" : 1,
@@ -45039,6 +47861,13 @@ const apiSchema = [
                   "parameters" : {
                      "additionalProperties" : 0,
                      "properties" : {
+                        "new-format" : {
+                           "default" : 0,
+                           "description" : "With webauthn the format of half-authenticated tickts changed. New clients should pass 1 here and not worry about the old format. The old format is deprecated and will be retired with PVE-8.0",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
                         "otp" : {
                            "description" : "One-time password for Two-factor authentication.",
                            "optional" : 1,
@@ -45071,6 +47900,12 @@ const apiSchema = [
                            "description" : "You can optionally pass the realm using this parameter. Normally the realm is simply added to the username <username>@<relam>.",
                            "format" : "pve-realm",
                            "maxLength" : 32,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "tfa-challenge" : {
+                           "description" : "The signed TFA challenge string the user wants to respond to.",
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
@@ -45172,124 +48007,6 @@ const apiSchema = [
             "leaf" : 1,
             "path" : "/access/password",
             "text" : "password"
-         },
-         {
-            "info" : {
-               "POST" : {
-                  "allowtoken" : 0,
-                  "description" : "Finish a u2f challenge.",
-                  "method" : "POST",
-                  "name" : "verify_tfa",
-                  "parameters" : {
-                     "additionalProperties" : 0,
-                     "properties" : {
-                        "response" : {
-                           "description" : "The response to the current authentication challenge.",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        }
-                     }
-                  },
-                  "permissions" : {
-                     "user" : "all"
-                  },
-                  "protected" : 1,
-                  "returns" : {
-                     "properties" : {
-                        "ticket" : {
-                           "type" : "string"
-                        }
-                     },
-                     "type" : "object"
-                  }
-               },
-               "PUT" : {
-                  "allowtoken" : 0,
-                  "description" : "Change user u2f authentication.",
-                  "method" : "PUT",
-                  "name" : "change_tfa",
-                  "parameters" : {
-                     "additionalProperties" : 0,
-                     "properties" : {
-                        "action" : {
-                           "description" : "The action to perform",
-                           "enum" : [
-                              "delete",
-                              "new",
-                              "confirm"
-                           ],
-                           "type" : "string"
-                        },
-                        "config" : {
-                           "description" : "A TFA configuration. This must currently be of type TOTP of not set at all.",
-                           "format" : "pve-tfa-config",
-                           "maxLength" : 128,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "type=<TFATYPE> [,digits=<COUNT>] [,id=<ID>] [,key=<KEY>] [,step=<SECONDS>] [,url=<URL>]"
-                        },
-                        "key" : {
-                           "description" : "When adding TOTP, the shared secret value.",
-                           "format" : "pve-tfa-secret",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "password" : {
-                           "description" : "The current password.",
-                           "maxLength" : 64,
-                           "minLength" : 5,
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "response" : {
-                           "description" : "Either the the response to the current u2f registration challenge, or, when adding TOTP, the currently valid TOTP value.",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
-                        "userid" : {
-                           "description" : "User ID",
-                           "format" : "pve-userid",
-                           "maxLength" : 64,
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        }
-                     }
-                  },
-                  "permissions" : {
-                     "check" : [
-                        "or",
-                        [
-                           "userid-param",
-                           "self"
-                        ],
-                        [
-                           "and",
-                           [
-                              "userid-param",
-                              "Realm.AllocateUser"
-                           ],
-                           [
-                              "userid-group",
-                              [
-                                 "User.Modify"
-                              ]
-                           ]
-                        ]
-                     ],
-                     "description" : "A user can change their own u2f or totp token."
-                  },
-                  "protected" : 1,
-                  "returns" : {
-                     "type" : "object"
-                  }
-               }
-            },
-            "leaf" : 1,
-            "path" : "/access/tfa",
-            "text" : "tfa"
          },
          {
             "info" : {
@@ -45601,7 +48318,7 @@ const apiSchema = [
       "info" : {
          "GET" : {
             "allowtoken" : 1,
-            "description" : "API version details. The result also includes the global datacenter confguration.",
+            "description" : "API version details, including some parts of the global datacenter config.",
             "method" : "GET",
             "name" : "version",
             "parameters" : {
@@ -45612,13 +48329,27 @@ const apiSchema = [
             },
             "returns" : {
                "properties" : {
+                  "console" : {
+                     "description" : "The default console viewer to use.",
+                     "enum" : [
+                        "applet",
+                        "vv",
+                        "html5",
+                        "xtermjs"
+                     ],
+                     "optional" : 1,
+                     "type" : "string"
+                  },
                   "release" : {
+                     "description" : "The current Proxmox VE point release in `x.y` format.",
                      "type" : "string"
                   },
                   "repoid" : {
+                     "description" : "The short git revision from which this version was build.",
                      "type" : "string"
                   },
                   "version" : {
+                     "description" : "The full pve-manager package version of this node.",
                      "type" : "string"
                   }
                },

@@ -48,6 +48,22 @@ The ceph filesystem name.
 
 Number of placement groups for the backing data pool. The metadata pool will use a quarter of this.
 
+*pveceph fs destroy* `<name>` `[OPTIONS]`
+
+Destroy a Ceph filesystem
+
+`<name>`: `<string>` ::
+
+The ceph filesystem name.
+
+`--remove-pools` `<boolean>` ('default =' `0`)::
+
+Remove data and metadata pools configured for this fs.
+
+`--remove-storages` `<boolean>` ('default =' `0`)::
+
+Remove all pveceph-managed storages configured for this fs.
+
 *pveceph help* `[OPTIONS]`
 
 Get help about specified command.

@@ -70,6 +70,10 @@ Certificate SHA 256 fingerprint.
 
 Default image format.
 
+`--fs-name` `<string>` ::
+
+The Ceph filesystem name.
+
 `--fuse` `<boolean>` ::
 
 Mount CephFS through FUSE.
@@ -81,6 +85,10 @@ Assume the given path is an externally managed mountpoint and consider the stora
 `--iscsiprovider` `<string>` ::
 
 iscsi provider
+
+`--keyring` `file containing the keyring to authenticate in the Ceph cluster` ::
+
+Client keyring contents (for external clusters).
 
 `--krbd` `<boolean>` ::
 
@@ -150,6 +158,10 @@ For non default port.
 
 iSCSI portal (IP or DNS name with optional port).
 
+`--preallocation` `<falloc | full | metadata | off>` ('default =' `metadata`)::
+
+Preallocation mode for raw and qcow2 images. Using 'metadata' on raw images results in preallocation=off.
+
 `--prune-backups` `[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]` ::
 
 The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.
@@ -180,9 +192,9 @@ CIFS share.
 
 Mark storage as shared.
 
-`--smbversion` `<2.0 | 2.1 | 3.0>` ::
+`--smbversion` `<2.0 | 2.1 | 3 | 3.0 | 3.11 | default>` ('default =' `default`)::
 
-SMB protocol version
+SMB protocol version. 'default' if not set, negotiates the highest SMB2+ version supported by both the client and server.
 
 `--sparse` `<boolean>` ::
 
@@ -602,6 +614,10 @@ Certificate SHA 256 fingerprint.
 
 Default image format.
 
+`--fs-name` `<string>` ::
+
+The Ceph filesystem name.
+
 `--fuse` `<boolean>` ::
 
 Mount CephFS through FUSE.
@@ -609,6 +625,10 @@ Mount CephFS through FUSE.
 `--is_mountpoint` `<string>` ('default =' `no`)::
 
 Assume the given path is an externally managed mountpoint and consider the storage offline if it is not mounted. Using a boolean (yes/no) value serves as a shortcut to using the target path in this field.
+
+`--keyring` `file containing the keyring to authenticate in the Ceph cluster` ::
+
+Client keyring contents (for external clusters).
 
 `--krbd` `<boolean>` ::
 
@@ -670,6 +690,10 @@ Pool.
 
 For non default port.
 
+`--preallocation` `<falloc | full | metadata | off>` ('default =' `metadata`)::
+
+Preallocation mode for raw and qcow2 images. Using 'metadata' on raw images results in preallocation=off.
+
 `--prune-backups` `[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]` ::
 
 The retention options with shorter intervals are processed first with --keep-last being the very first one. Each option covers a specific period of time. We say that backups within this period are covered by this option. The next option does not take care of already covered backups and only considers older backups.
@@ -696,9 +720,9 @@ NOTE: Requires option(s): `server`
 
 Mark storage as shared.
 
-`--smbversion` `<2.0 | 2.1 | 3.0>` ::
+`--smbversion` `<2.0 | 2.1 | 3 | 3.0 | 3.11 | default>` ('default =' `default`)::
 
-SMB protocol version
+SMB protocol version. 'default' if not set, negotiates the highest SMB2+ version supported by both the client and server.
 
 `--sparse` `<boolean>` ::
 

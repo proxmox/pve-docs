@@ -26,6 +26,10 @@ bandwidth limit in KiB/s for restoring guests from backups
 
 Select the default Console viewer. You can either use the builtin java applet (VNC; deprecated and maps to html5), an external virt-viewer comtatible application (SPICE), an HTML5 based vnc viewer (noVNC), or an HTML5 based console client (xtermjs). If the selected viewer is not available (e.g. SPICE not activated for the VM), the fallback is noVNC.
 
+`description`: `<string>` ::
+
+Datacenter description. Shown in the web-interface datacenter notes panel. This is saved as comment inside the configuration file.
+
 `email_from`: `<string>` ::
 
 Specify email address to send notification from (default is root@$hostname)
@@ -91,4 +95,20 @@ U2F AppId URL override. Defaults to the origin.
 `origin`=`<URL>` ;;
 
 U2F Origin override. Mostly useful for single nodes with a single URL.
+
+`webauthn`: `[id=<DOMAINNAME>] [,origin=<URL>] [,rp=<RELYING_PARTY>]` ::
+
+webauthn configuration
+
+`id`=`<DOMAINNAME>` ;;
+
+Relying part ID. Must be the domain name without protocol, port or location. Changing this *will* break existing credentials.
+
+`origin`=`<URL>` ;;
+
+Site origin. Must be a `https://` URL (or `http://localhost`). Should contain the address users type in their browsers to access the web interface. Changing this *may* break existing credentials.
+
+`rp`=`<RELYING_PARTY>` ;;
+
+Relying party name. Any text identifier. Changing this *may* break existing credentials.
 

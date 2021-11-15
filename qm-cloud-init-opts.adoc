@@ -1,4 +1,4 @@
-`cicustom`: `[meta=<volume>] [,network=<volume>] [,user=<volume>]` ::
+`cicustom`: `[meta=<volume>] [,network=<volume>] [,user=<volume>] [,vendor=<volume>]` ::
 
 Specify custom files to replace the automatically generated ones at start.
 
@@ -14,6 +14,10 @@ Specify a custom file containing all network data passed to the VM via cloud-ini
 `user`=`<volume>` ;;
 
 Specify a custom file containing all user data passed to the VM via cloud-init.
+
+`vendor`=`<volume>` ;;
+
+Specify a custom file containing all vendor data passed to the VM via cloud-init.
 
 `cipassword`: `<string>` ::
 
