@@ -1447,6 +1447,15 @@ backup jobs and HA resource configurations.
 
  qm destroy 300 --purge
 
+Move a disk image to a different storage.
+
+ qm move-disk 300 scsi0 other-storage
+
+Reassign a disk image to a different VM. This will remove the disk `scsi1` from
+the source VM and attaches it as `scsi3` to the target VM. In the background
+the disk image is being renamed so that the name matches the new owner.
+
+ qm move-disk 300 scsi1 --target-vmid 400 --target-disk scsi3
 
 
 [[qm_configuration]]

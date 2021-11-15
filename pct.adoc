@@ -1050,6 +1050,19 @@ backup jobs and HA resource configurations.
 # pct destroy 100 --purge
 ----
 
+Move a mount point volume to a different storage.
+
+----
+# pct move-volume 100 mp0 other-storage
+----
+
+Reassign a volume to a different CT. This will remove the volume `mp0` from
+the source CT and attaches it as `mp1` to the target CT. In the background
+the volume is being renamed so that the name matches the new owner.
+
+----
+#  pct move-volume 100 mp0 --target-vmid 200 --target-volume mp1
+----
 
 
 Obtaining Debugging Logs
