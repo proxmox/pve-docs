@@ -748,7 +748,9 @@ This disk will be included in backups and snapshots, and there can only be one.
 
 You can create such a disk with the following command:
 
- qm set <vmid> -efidisk0 <storage>:1,format=<format>,efitype=4m,pre-enrolled-keys=1
+----
+# qm set <vmid> -efidisk0 <storage>:1,format=<format>,efitype=4m,pre-enrolled-keys=1
+----
 
 Where *<storage>* is the storage where you want to have the disk, and
 *<format>* is a format which the storage supports. Alternatively, you can
@@ -790,7 +792,9 @@ A TPM is added by specifying a *tpmstate* volume. This works similar to an
 efidisk, in that it cannot be changed (only removed) once created. You can add
 one via the following command:
 
- qm set <vmid> -tpmstate0 <storage>:1,version=<version>
+----
+# qm set <vmid> -tpmstate0 <storage>:1,version=<version>
+----
 
 Where *<storage>* is the storage you want to put the state on, and *<version>*
 is either 'v1.2' or 'v2.0'. You can also add one via the web interface, by
@@ -814,7 +818,9 @@ share memory between the host and a guest, or also between multiple guests.
 
 To add such a device, you can use `qm`:
 
-  qm set <vmid> -ivshmem size=32,name=foo
+----
+# qm set <vmid> -ivshmem size=32,name=foo
+----
 
 Where the size is in MiB. The file will be located under
 `/dev/shm/pve-shm-$name` (the default name is the vmid).
@@ -936,7 +942,9 @@ when the host system boots. For this you need to select the option 'Start at
 boot' from the 'Options' Tab of your VM in the web interface, or set it with
 the following command:
 
- qm set <vmid> -onboot 1
+----
+# qm set <vmid> -onboot 1
+----
 
 .Start and Shutdown Order
 
@@ -1104,7 +1112,9 @@ Migration
 
 If you have a cluster, you can migrate your VM to another host with
 
- qm migrate <vmid> <target>
+----
+# qm migrate <vmid> <target>
+----
 
 There are generally two mechanisms for this
 
@@ -1252,8 +1262,8 @@ footnote:[Online GUID generator http://guid.one/] by using it as value,
 e.g.:
 
 ----
- qm set VMID -vmgenid 1
- qm set VMID -vmgenid 00000000-0000-0000-0000-000000000000
+# qm set VMID -vmgenid 1
+# qm set VMID -vmgenid 00000000-0000-0000-0000-000000000000
 ----
 
 NOTE: The initial addition of a 'vmgenid' device to an existing VM, may result
@@ -1265,7 +1275,7 @@ its value on VM creation, or retroactively delete the property in the
 configuration with:
 
 ----
- qm set VMID -delete vmgenid
+# qm set VMID -delete vmgenid
 ----
 
 The most prominent use case for 'vmgenid' are newer Microsoft Windows
@@ -1332,7 +1342,9 @@ This will create a new virtual machine, using cores, memory and
 VM name as read from the OVF manifest, and import the disks to the +local-lvm+
  storage. You have to configure the network manually.
 
- qm importovf 999 WinDev1709Eval.ovf local-lvm
+----
+# qm importovf 999 WinDev1709Eval.ovf local-lvm
+----
 
 The VM is ready to be started.
 
@@ -1356,16 +1368,22 @@ Suppose you created a Debian/Ubuntu disk image with the 'vmdebootstrap' tool:
 
 You can now create a new target VM for this image.
 
- qm create 600 --net0 virtio,bridge=vmbr0 --name vm600 --serial0 socket \
+----
+# qm create 600 --net0 virtio,bridge=vmbr0 --name vm600 --serial0 socket \
    --bootdisk scsi0 --scsihw virtio-scsi-pci --ostype l26
+----
 
 Add the disk image as +unused0+ to the VM, using the storage +pvedir+:
 
- qm importdisk 600 vm600.raw pvedir
+----
+# qm importdisk 600 vm600.raw pvedir
+----
 
 Finally attach the unused disk to the SCSI controller of the VM:
 
- qm set 600 --scsi0 pvedir:600/vm-600-disk-1.raw
+----
+# qm set 600 --scsi0 pvedir:600/vm-600-disk-1.raw
+----
 
 The VM is ready to be started.
 
@@ -1383,7 +1401,9 @@ Hookscripts
 
 You can add a hook script to VMs with the config property `hookscript`.
 
- qm set 100 --hookscript local:snippets/hookscript.pl
+----
+# qm set 100 --hookscript local:snippets/hookscript.pl
+----
 
 It will be called during various phases of the guests lifetime.
 For an example and documentation see the example script under
@@ -1395,7 +1415,9 @@ Hibernation
 
 You can suspend a VM to disk with the GUI option `Hibernate` or with
 
- qm suspend ID --todisk
+----
+# qm suspend ID --todisk
+----
 
 That means that the current content of the memory will be saved onto disk
 and the VM gets stopped. On the next start, the memory content will be
@@ -1426,36 +1448,50 @@ CLI Usage Examples
 Using an iso file uploaded on the 'local' storage, create a VM
 with a 4 GB IDE disk on the 'local-lvm' storage
 
- qm create 300 -ide0 local-lvm:4 -net0 e1000 -cdrom local:iso/proxmox-mailgateway_2.1.iso
+----
+# qm create 300 -ide0 local-lvm:4 -net0 e1000 -cdrom local:iso/proxmox-mailgateway_2.1.iso
+----
 
 Start the new VM
 
- qm start 300
+----
+# qm start 300
+----
 
 Send a shutdown request, then wait until the VM is stopped.
 
- qm shutdown 300 && qm wait 300
+----
+# qm shutdown 300 && qm wait 300
+----
 
 Same as above, but only wait for 40 seconds.
 
- qm shutdown 300 && qm wait 300 -timeout 40
+----
+# qm shutdown 300 && qm wait 300 -timeout 40
+----
 
 Destroying a VM always removes it from Access Control Lists and it always
 removes the firewall configuration of the VM. You have to activate
 '--purge', if you want to additionally remove the VM from replication jobs,
 backup jobs and HA resource configurations.
 
- qm destroy 300 --purge
+----
+# qm destroy 300 --purge
+----
 
 Move a disk image to a different storage.
 
- qm move-disk 300 scsi0 other-storage
+----
+# qm move-disk 300 scsi0 other-storage
+----
 
 Reassign a disk image to a different VM. This will remove the disk `scsi1` from
 the source VM and attaches it as `scsi3` to the target VM. In the background
 the disk image is being renamed so that the name matches the new owner.
 
- qm move-disk 300 scsi1 --target-vmid 400 --target-disk scsi3
+----
+# qm move-disk 300 scsi1 --target-vmid 400 --target-disk scsi3
+----
 
 
 [[qm_configuration]]
@@ -1556,7 +1592,9 @@ Online migrations, snapshots and backups (`vzdump`) set a lock to
 prevent incompatible concurrent actions on the affected VMs. Sometimes
 you need to remove such a lock manually (e.g., after a power failure).
 
- qm unlock <vmid>
+----
+# qm unlock <vmid>
+----
 
 CAUTION: Only do that if you are sure the action which set the lock is
 no longer running.
