@@ -587,7 +587,6 @@ NOTE: There can only be one set of single-use recovery keys per user at any
 time.
 
 
-// FIXME: move webauthn to actual, separate section once there!
 [[pveum_configure_webauthn]]
 Server Side Webauthn Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
