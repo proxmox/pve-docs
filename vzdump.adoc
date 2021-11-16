@@ -284,6 +284,19 @@ We recommend that you use a higher retention period than is minimally required
 by your environment; you can always reduce it if you find it is unnecessarily
 high, but you cannot recreate backups once they have been removed.
 
+[[vzdump_protection]]
+Backup Protection
+-----------------
+
+You can mark a backup as `protected` to prevent its removal. Attempting to
+remove a protected backup via {pve}'s UI or API will fail. However, manual
+removal of a backup file via CLI is still possible. Protected backups are
+ignored by pruning and do not count towards the retention settings.
+
+For filesystem-based storages, the protection is implemented via a sentinel file
+`<backup-name>.protected`. For Proxmox Backup Server, it is handled on the
+server side.
+
 [[vzdump_restore]]
 Restore
 -------
