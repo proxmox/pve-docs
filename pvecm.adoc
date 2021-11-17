@@ -1273,7 +1273,7 @@ Migration Type
 
 The migration type defines if the migration data should be sent over an
 encrypted (`secure`) channel or an unencrypted (`insecure`) one.
-Setting the migration type to insecure means that the RAM content of a
+Setting the migration type to `insecure` means that the RAM content of a
 virtual guest is also transferred unencrypted, which can lead to
 information disclosure of critical data from inside the guest (for
 example, passwords or encryption keys).
@@ -1286,7 +1286,7 @@ NOTE: Storage migration does not follow this setting. Currently, it
 always sends the storage content over a secure channel.
 
 Encryption requires a lot of computing power, so this setting is often
-changed to "unsafe" to achieve better performance. The impact on
+changed to `insecure` to achieve better performance. The impact on
 modern systems is lower because they implement AES encryption in
 hardware. The performance impact is particularly evident in fast
 networks, where you can transfer 10 Gbps or more.
