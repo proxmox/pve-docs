@@ -289,13 +289,17 @@ Backup Protection
 -----------------
 
 You can mark a backup as `protected` to prevent its removal. Attempting to
-remove a protected backup via {pve}'s UI or API will fail. However, manual
-removal of a backup file via CLI is still possible. Protected backups are
-ignored by pruning and do not count towards the retention settings.
+remove a protected backup via {pve}'s UI, CLI or API will fail. However, this
+is enforced by {pve} and not the file-system, that means that a manual removal
+of a backup file itself is still possible for anyone with write access to the
+underlying backup storage.
+
+NOTE: Protected backups are ignored by pruning and do not count towards the
+retention settings.
 
 For filesystem-based storages, the protection is implemented via a sentinel file
 `<backup-name>.protected`. For Proxmox Backup Server, it is handled on the
-server side.
+server side (available since Proxmox Backup Server version 2.1).
 
 [[vzdump_restore]]
 Restore
