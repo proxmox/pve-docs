@@ -74,6 +74,9 @@ Requirements
 
 * The root password of a cluster node is required for adding nodes.
 
+* Online migration of virtual machines is only supported when nodes have CPUs
+  from the same vendor. It might work otherwise, but this is never guaranteed.
+
 NOTE: It is not possible to mix {pve} 3.x and earlier with {pve} 4.X cluster
 nodes.
 

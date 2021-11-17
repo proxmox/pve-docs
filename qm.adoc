@@ -1154,6 +1154,8 @@ For Live Migration to work, there are some things required:
 * The hosts have a working (and reliable) network connection.
 * The target host must have the same or higher versions of the
   {pve} packages. (It *might* work the other way, but this is never guaranteed)
+* The hosts have CPUs from the same vendor. (It *might* work otherwise, but this
+  is never guaranteed)
 
 Offline Migration
 ~~~~~~~~~~~~~~~~~
