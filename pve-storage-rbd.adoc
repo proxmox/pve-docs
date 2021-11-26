@@ -37,7 +37,7 @@ This backend supports the common storage properties `nodes`,
 monhost::
 
 List of monitor daemon IPs. Optional, only needed if Ceph is not running on the
-PVE cluster.
+{pve} cluster.
 
 pool::
 
@@ -45,7 +45,7 @@ Ceph pool name.
 
 username::
 
-RBD user ID. Optional, only needed if Ceph is not running on the PVE cluster.
+RBD user ID. Optional, only needed if Ceph is not running on the {pve} cluster.
 Note that only the user ID should be used. The "client." type prefix must be
 left out.
 

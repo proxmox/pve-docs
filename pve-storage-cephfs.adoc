@@ -37,7 +37,7 @@ This backend supports the common storage properties `nodes`,
 monhost::
 
 List of monitor daemon addresses. Optional, only needed if Ceph is not running
-on the PVE cluster.
+on the {pve} cluster.
 
 path::
 
@@ -45,7 +45,7 @@ The local mount point. Optional, defaults to `/mnt/pve/<STORAGE_ID>/`.
 
 username::
 
-Ceph user id. Optional, only needed if Ceph is not running on the PVE cluster,
+Ceph user id. Optional, only needed if Ceph is not running on the {pve} cluster,
 where it defaults to `admin`.
 
 subdir::
