@@ -521,10 +521,21 @@ hierarchy under `/mnt/bindmounts`. Never bind mount system directories like
 NOTE: The bind mount source path must not contain any symlinks.
 
 For example, to make the directory `/mnt/bindmounts/shared` accessible in the
-container with ID `100` under the path `/shared`, use a configuration line like
-`mp0: /mnt/bindmounts/shared,mp=/shared` in `/etc/pve/lxc/100.conf`.
-Alternatively, use `pct set 100 -mp0 /mnt/bindmounts/shared,mp=/shared` to
-achieve the same result.
+container with ID `100` under the path `/shared`, add a configuration line such as:
+
+----
+mp0: /mnt/bindmounts/shared,mp=/shared
+----
+
+into `/etc/pve/lxc/100.conf`.
+
+Or alternatively use the `pct` tool:
+
+----
+pct set 100 -mp0 /mnt/bindmounts/shared,mp=/shared
+----
+
+to achieve the same result.
 
 
 Device Mount Points
