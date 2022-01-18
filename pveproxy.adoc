@@ -178,8 +178,9 @@ pveproxy uses `/etc/pve/local/pveproxy-ssl.pem` and
 `/etc/pve/local/pve-ssl.pem` and `/etc/pve/local/pve-ssl.key`.
 The private key may not use a passphrase.
 
-It is possible to override the location of the certificate private key by
-setting `TLS_KEY_FILE` in `/etc/default/pveproxy`, for example:
+It is possible to override the location of the certificate private key
+`/etc/pve/local/pveproxy-ssl.key` by setting `TLS_KEY_FILE` in
+`/etc/default/pveproxy`, for example:
 
  TLS_KEY_FILE="/secrets/pveproxy.key"
 
