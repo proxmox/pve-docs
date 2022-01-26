@@ -1,3 +1,4 @@
+:fn-ceph-user-mgmt: footnote:cephusermgmt[Ceph user management {cephdocs-url}/rados/operations/user-management/]
 [[ceph_rados_block_devices]]
 Ceph RADOS Block Devices (RBD)
 ------------------------------
@@ -69,22 +70,43 @@ TIP: You can use the `rbd` utility to do low-level management tasks.
 Authentication
 ~~~~~~~~~~~~~~
 
-If you use `cephx` authentication, you need to copy the keyfile from your
-external Ceph cluster to a Proxmox VE host.
+If you use `cephx` authentication, which is enabled by default, you need to
+provide the keyring from the external Ceph cluster.
 
-Create the directory `/etc/pve/priv/ceph` with
+To configure the storage via the CLI, you first need to make the file
+containing the keyring available. One way is to copy the file from the external
+Ceph cluster directly to one of the {pve} nodes. The following example will
+copy it to the `/root` directory of the node on which we run it:
 
- mkdir /etc/pve/priv/ceph
+----
+# scp <external cephserver>:/etc/ceph/ceph.client.admin.keyring /root/rbd.keyring
+----
 
-Then copy the keyring
+Then use the `pvesm` CLI tool to configure the external RBD storage, use the
+`--keyring` parameter, which needs to be a path to the keyring file that you
+copied.  For example:
 
- scp <cephserver>:/etc/ceph/ceph.client.admin.keyring /etc/pve/priv/ceph/<STORAGE_ID>.keyring
+----
+# pvesm add rbd <name> --monhost "10.1.1.20 10.1.1.21 10.1.1.22" --content images --keyring /root/rbd.keyring
+----
 
-The keyring must be named to match your `<STORAGE_ID>`. Copying the
-keyring generally requires root privileges.
+When configuring an external RBD storage via the GUI, you can copy and paste
+the keyring into the appropriate field.
 
-If Ceph is installed locally on the PVE cluster, this is done automatically by
-'pveceph' or in the GUI.
+The keyring will be stored at
+
+----
+# /etc/pve/priv/ceph/<STORAGE_ID>.keyring
+----
+
+If Ceph is installed locally on the {pve} cluster, this is done automatically
+when adding the storage.
+
+TIP: Creating a keyring with only the needed capabilities is recommend when
+connecting to an external cluster. For further information on Ceph user
+management, see the Ceph docs.footnoteref:[cephusermgmt,{cephdocs-url}/rados/operations/user-management/[Ceph User Management]]
+
+
 
 Storage Features
 ~~~~~~~~~~~~~~~~

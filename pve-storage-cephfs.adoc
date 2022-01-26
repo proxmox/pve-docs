@@ -71,32 +71,49 @@ disabled.
 Authentication
 ~~~~~~~~~~~~~~
 
-If you use `cephx` authentication, which is enabled by default, you need to copy
-the secret from your external Ceph cluster to a Proxmox VE host.
+If you use `cephx` authentication, which is enabled by default, you need to
+provide the secret from the external Ceph cluster.
 
-Create the directory `/etc/pve/priv/ceph` with
+To configure the storage via the CLI, you first need to make the file
+containing the secret available. One way is to copy the file from the external
+Ceph cluster directly to one of the {pve} nodes. The following example will
+copy it to the `/root` directory of the node on which we run it:
 
- mkdir /etc/pve/priv/ceph
+----
+# scp <external cephserver>:/etc/ceph/cephfs.secret /root/cephfs.secret
+----
 
-Then copy the secret
+Then use the `pvesm` CLI tool to configure the external RBD storage, use the
+`--keyring` parameter, which needs to be a path to the secret file that you
+copied.  For example:
 
- scp cephfs.secret <proxmox>:/etc/pve/priv/ceph/<STORAGE_ID>.secret
+----
+# pvesm add cephfs <name> --monhost "10.1.1.20 10.1.1.21 10.1.1.22" --content backup --keyring /root/cephfs.secret
+----
 
-The secret must be renamed to match your `<STORAGE_ID>`. Copying the
-secret generally requires root privileges. The file must only contain the
-secret key itself, as opposed to the `rbd` backend which also contains a
-`[client.userid]` section.
+When configuring an external RBD storage via the GUI, you can copy and paste
+the secret into the appropriate field.
+
+The secret is only the key itself, as opposed to the `rbd` backend which also
+contains a `[client.userid]` section.
+
+The secret will be stored at
+
+----
+# /etc/pve/priv/ceph/<STORAGE_ID>.secret
+----
 
 A secret can be received from the Ceph cluster (as Ceph admin) by issuing the
 command below, where `userid` is the client ID that has been configured to
 access the cluster. For further information on Ceph user management, see the
-Ceph docs footnote:[Ceph user management
-{cephdocs-url}/rados/operations/user-management/].
+Ceph docs.footnoteref:[cephusermgmt]
 
- ceph auth get-key client.userid > cephfs.secret
+----
+# ceph auth get-key client.userid > cephfs.secret
+----
 
-If Ceph is installed locally on the PVE cluster, that is, it was set up using
-`pveceph`, this is done automatically.
+If Ceph is installed locally on the {pve} cluster, this is done automatically
+when adding the storage.
 
 Storage Features
 ~~~~~~~~~~~~~~~~
