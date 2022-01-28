@@ -71,6 +71,9 @@ disabled.
 Authentication
 ~~~~~~~~~~~~~~
 
+NOTE: If Ceph is installed locally on the {pve} cluster, the following is done
+automatically when adding the storage.
+
 If you use `cephx` authentication, which is enabled by default, you need to
 provide the secret from the external Ceph cluster.
 
@@ -111,9 +114,6 @@ Ceph docs.footnoteref:[cephusermgmt]
 ----
 # ceph auth get-key client.userid > cephfs.secret
 ----
-
-If Ceph is installed locally on the {pve} cluster, this is done automatically
-when adding the storage.
 
 Storage Features
 ~~~~~~~~~~~~~~~~

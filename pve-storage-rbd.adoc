@@ -70,6 +70,9 @@ TIP: You can use the `rbd` utility to do low-level management tasks.
 Authentication
 ~~~~~~~~~~~~~~
 
+NOTE: If Ceph is installed locally on the {pve} cluster, the following is done
+automatically when adding the storage.
+
 If you use `cephx` authentication, which is enabled by default, you need to
 provide the keyring from the external Ceph cluster.
 
@@ -98,9 +101,6 @@ The keyring will be stored at
 ----
 # /etc/pve/priv/ceph/<STORAGE_ID>.keyring
 ----
-
-If Ceph is installed locally on the {pve} cluster, this is done automatically
-when adding the storage.
 
 TIP: Creating a keyring with only the needed capabilities is recommend when
 connecting to an external cluster. For further information on Ceph user
