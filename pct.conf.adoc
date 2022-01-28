@@ -31,7 +31,7 @@ endif::wiki[]
 The `/etc/pve/lxc/<CTID>.conf` files stores container configuration,
 where `CTID` is the numeric ID of the given container.
 
-NOTE: IDs <= 100 are reserved for internal purposes.
+NOTE: IDs < 100 are reserved for internal purposes.
 
 
 File Format

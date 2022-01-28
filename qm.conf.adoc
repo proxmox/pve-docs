@@ -31,7 +31,7 @@ endif::wiki[]
 The `/etc/pve/qemu-server/<VMID>.conf` files stores VM configuration,
 where "VMID" is the numeric ID of the given VM.
 
-NOTE: IDs <= 100 are reserved for internal purposes.
+NOTE: IDs < 100 are reserved for internal purposes.
 
 
 File Format
