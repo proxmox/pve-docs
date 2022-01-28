@@ -233,6 +233,24 @@ An example of PCIe passthrough with a GPU set to primary:
 # qm set VMID -hostpci0 02:00,pcie=on,x-vga=on
 ----
 
+.PCI ID overrides
+
+You can override the PCI vendor ID, device ID, and subsystem IDs that will be
+seen by the guest. This is useful if your device is a variant with an ID that
+your guest's drivers don't recognize, but you want to force those drivers to be
+loaded anyway (e.g. if you know your device shares the same chipset as a
+supported variant).
+
+The available options are `vendor-id`, `device-id`, `sub-vendor-id`, and
+`sub-device-id`. You can set any or all of these to override your device's
+default IDs.
+
+For example:
+
+----
+# qm set VMID -hostpci0 02:00,device-id=0x10f6,sub-vendor-id=0x0000
+----
+
 
 Other considerations
 ^^^^^^^^^^^^^^^^^^^^
