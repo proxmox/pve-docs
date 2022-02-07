@@ -239,6 +239,12 @@ format::
 
 Default image format (`raw|qcow2|vmdk`)
 
+preallocation::
+
+Preallocation mode (`off|metadata|falloc|full`) for `raw` and `qcow2` images on
+file-based storages. The default is `metadata`, which is treated like `off` for
+`raw` images. When using network storages in combination with large `qcow2`
+images, using `off` can help to avoid timeouts.
 
 WARNING: It is not advisable to use the same storage pool on different
 {pve} clusters. Some storage operation need exclusive access to the
