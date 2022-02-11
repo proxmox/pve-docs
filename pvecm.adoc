@@ -511,11 +511,18 @@ file system (`pmxcfs`).
 [[pvecm_cluster_network_requirements]]
 Network Requirements
 ~~~~~~~~~~~~~~~~~~~~
-This needs a reliable network with latencies under 2 milliseconds (LAN
-performance) to work properly. The network should not be used heavily by other
-members; ideally corosync runs on its own network. Do not use a shared network
-for corosync and storage (except as a potential low-priority fallback in a
-xref:pvecm_redundancy[redundant] configuration).
+
+The {pve} cluster stack requires a reliable network with latencies under 5
+milliseconds (LAN performance) between all nodes to operate stably. While on
+setups with a small node count a network with higher latencies _may_ work, this
+is not guaranteed and gets rather unlikely with more than three nodes and
+latencies above around 10 ms.
+
+The network should not be used heavily by other members, as while corosync does
+not uses much bandwidth it is sensitive to latency jitters; ideally corosync
+runs on its own physically separated network.  Especially do not use a shared
+network for corosync and storage (except as a potential low-priority fallback
+in a xref:pvecm_redundancy[redundant] configuration).
 
 Before setting up a cluster, it is good practice to check if the network is fit
 for that purpose. To ensure that the nodes can connect to each other on the
@@ -974,9 +981,9 @@ the cluster and to have a corosync-qnetd package available. We provide a package
 for Debian based hosts, and other Linux distributions should also have a package
 available through their respective package manager.
 
-NOTE: In contrast to corosync itself, a QDevice connects to the cluster over
-TCP/IP. The daemon may even run outside of the cluster's LAN and can have longer
-latencies than 2 ms.
+NOTE: Unlike corosync itself, a QDevice connects to the cluster over TCP/IP.
+The daemon can also run outside the LAN of the cluster and isn't limited to the
+low latencies requirements of corosync.
 
 Supported Setups
 ~~~~~~~~~~~~~~~~
