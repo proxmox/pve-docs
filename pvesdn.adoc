@@ -229,18 +229,30 @@ plugins section)
 VNet MAC address:: A unique anycast MAC address for all VNets in this zone.
   Will be auto-generated if not defined.
 
-Exit Nodes:: This is used if you want to define some proxmox nodes, as exit
+Exit Nodes:: Optionnal. This is used if you want to define some proxmox nodes, as exit
   gateway from evpn network through real network. The configured nodes will
   announce a default route in the EVPN network.
+
+Primary Exit Node:: Optionnal. If you use multiple exit-nodes, this force traffic 
+  to a primary exit-node instead loadbalancing on all nodes.
+  This is required if you want to use Snat or if your upstream router don't support
+  ecmp.
+
+Exit Nodes local routing:: Optional. This is a special option if you need to
+  reach a vm/ct service from an exit node. (By default, the exit nodes only
+  allow forwarding traffic between real network and evpn network).
 
 Advertise Subnets:: Optional. If you have silent vms/CT (for example, multiples
   ips by interfaces, and the anycast gateway don't see traffic from theses ips,
   the ips addresses won't be able to be reach inside the evpn network). This
   option will announce the full subnet in the evpn network in this case.
 
-Exit Nodes local routing:: Optional. This is a special option if you need to
-  reach a vm/ct service from an exit node. (By default, the exit nodes only
-  allow forwarding traffic between real network and evpn network).
+Disable Arp-Nd Suppression:: Optional. Don't suppression arp or nd packets.
+  This is required if you use moving virtual ip in your guests vm. 
+  (Ip is moving but mac address change)
+
+Route-target import:: Optional. Allow to import a list of external evpn route-targets.
+  For Cross-DC or differents evpn networks interconnect.
 
 MTU:: because VXLAN encapsulation use 50 bytes, the MTU needs to be 50 bytes
   lower than the maximal MTU of the outgoing physical interface.
@@ -356,6 +368,8 @@ loopback:: If you want to use a loopback or dummy interface as source for the
 
 ebgp-mutltihop:: if the peers are not directly connected or use loopback, you can increase the
   number of hops to reach them.
+
+bgp-multipath-as-path-relax:: Allow to do ECMP if your peers have differents ASN.
 
 [[pvesdn_config_ipam]]
 IPAMs
