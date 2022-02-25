@@ -1,0 +1,54 @@
+[[kernel_samepage_merging]]
+Kernel Samepage Merging (KSM)
+-----------------------------
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
+
+Kernel Samepage Merging (KSM) is an optional memory deduplication feature
+offered by the Linux kernel, which is enabled by default in {pve}. KSM
+works by scanning a range of physical memory pages for identical content, and
+identifying the virtual pages that are mapped to them. If identical pages are
+found, the corresponding virtual pages are re-mapped so that they all point to
+the same physical page, and the old pages are freed. The virtual pages are
+marked as "copy-on-write", so that any writes to them will be written to a new
+area of memory, leaving the shared physical page intact.
+
+Implications of KSM
+~~~~~~~~~~~~~~~~~~~
+
+KSM can optimize memory usage in virtualization environments, as multiple VMs
+running similar operating systems or workloads could potentially share a lot of
+common memory pages.
+
+However, while KSM can reduce memory usage, it also comes with some security
+risks, as it can expose VMs to side-channel attacks. Research has shown that it
+is possible to infer information about a running VM via a second VM on the same
+host, by exploiting certain characteristics of KSM.
+
+Thus, if you are using {pve} to provide hosting services, you should consider
+disabling KSM, in order to provide your users with additional security.
+Furthermore, you should check your country's regulations, as disabling KSM may
+be a legal requirement.
+
+Disabling KSM
+~~~~~~~~~~~~~
+
+To see if KSM is active, you can check the output of:
+
+----
+# systemctl status ksmtuned
+----
+
+If it is, it can be disabled immediately with:
+
+----
+# systemctl disable --now ksmtuned
+----
+
+Finally, to unmerge all the currently merged pages, run:
+
+----
+# echo 2 > /sys/kernel/mm/ksm/run
+----
+

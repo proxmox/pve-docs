@@ -70,6 +70,8 @@ include::certificate-management.adoc[]
 
 include::system-booting.adoc[]
 
+include::kernel-samepage-merging.adoc[]
+
 endif::wiki[]
 
 
