@@ -106,6 +106,25 @@ TIP: Creating a keyring with only the needed capabilities is recommend when
 connecting to an external cluster. For further information on Ceph user
 management, see the Ceph docs.footnoteref:[cephusermgmt,{cephdocs-url}/rados/operations/user-management/[Ceph User Management]]
 
+Ceph client configuration (optional)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Connecting to an external ceph storage doesn't always allow setting
+client-specific options in the config DB on the external cluster. You can add a
+`ceph.conf` beside the ceph keyring to change the ceph client configuration for
+the storage.
+
+The ceph.conf needs to have the same name as the storage.
+
+----
+# /etc/pve/priv/ceph/<STORAGE_ID>.conf
+----
+
+See the RBD configuration reference footnote:[RBD configuration reference
+{cephdocs-url}/rbd/rbd-config-ref/] for possible settings.
+
+NOTE: Do not change these settings lightly. {PVE} is merging the
+<STORAGE_ID>.conf with the storage configuration.
 
 
 Storage Features
