@@ -197,7 +197,7 @@ iface eno0 inet static
         address  198.51.100.5/29
         gateway  198.51.100.1
         post-up echo 1 > /proc/sys/net/ipv4/ip_forward
-        post-up echo 1 > /proc/sys/net/ipv4/conf/eno1/proxy_arp
+        post-up echo 1 > /proc/sys/net/ipv4/conf/eno0/proxy_arp
 
 
 auto vmbr0
