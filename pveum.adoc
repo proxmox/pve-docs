@@ -355,13 +355,21 @@ The main options for syncing are:
 * `Enable new` (`enable-new`): If set, the newly synced users are enabled and
   can log in. The default is `true`.
 
-* `Full` (`full`): If set, the sync uses the LDAP directory as a source of
-  truth, overwriting information set manually in the `user.cfg` and deleting
-  users and groups which are not present in the LDAP directory. If not set, only
-  new data is written to the configuration, and no stale users are deleted.
+* `Remove Vanished` (`remove-vanished`): This is a list of options which, when
+  activated, determine if they are removed when they are not returned from
+  the sync response. The options are:
 
-* `Purge ACLs` (`purge`): If set, sync removes all corresponding ACLs when
-  removing users and groups. This is only useful with the option `full`.
+    - `ACL` (`acl)`: Remove ACLs of users and groups which were not returned
+      returned in the sync response. This most often makes sense together with
+      `Entry`.
+
+    - `Entry` (`entry`): Removes entries (i.e. users and groups) when they are
+      not returned in the sync response.
+
+    - `Properties` (`properties`): Removes properties of entries which were
+      not returned in the sync response. This includes custom properties
+      which were never set by the sync. Exceptions are tokens and the enable
+      flag. Those will be retained even with this option.
 
 * `Preview` (`dry-run`): No data is written to the config. This is useful if you
   want to see which users and groups would get synced to the `user.cfg`.
