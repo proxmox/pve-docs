@@ -301,6 +301,11 @@ For filesystem-based storages, the protection is implemented via a sentinel file
 `<backup-name>.protected`. For Proxmox Backup Server, it is handled on the
 server side (available since Proxmox Backup Server version 2.1).
 
+Use the storage option `max-protected-backups` to control how many protected
+backups per guest are allowed on the storage. Use `-1` for unlimited. The
+default is unlimited for users with `Datastore.Allocate` privilege and `5` for
+other users.
+
 [[vzdump_restore]]
 Restore
 -------
