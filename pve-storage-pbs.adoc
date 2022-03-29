@@ -71,7 +71,7 @@ pbs: backup
         server enya.proxmox.com
         content backup
         fingerprint 09:54:ef:..snip..:88:af:47:fe:4c:3b:cf:8b:26:88:0b:4e:3c:b2
-        maxfiles 0
+        prune-backups keep-all=1
         username archiver@pbs
 ----
 

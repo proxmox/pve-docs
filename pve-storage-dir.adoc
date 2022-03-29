@@ -55,12 +55,12 @@ needs to be an absolute file system path.
 dir: backup
         path /mnt/backup
         content backup
-        maxfiles 7
+        prune-backups keep-last=7
 ----
 
-Above configuration defines a storage pool called `backup`. That pool
-can be used to store up to 7 backups (`maxfiles 7`) per VM. The real
-path for the backup files is `/mnt/backup/dump/...`.
+The above configuration defines a storage pool called `backup`. That pool can be
+used to store up to 7 backups (`keep-last=7`) per VM. The real path for the
+backup files is `/mnt/backup/dump/...`.
 
 
 File naming conventions
