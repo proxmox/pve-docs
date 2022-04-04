@@ -192,6 +192,10 @@ Add an authentication server.
 
 Authentication domain ID
 
+`--acr-values` `<string>` ::
+
+Specifies the Authentication Context Class Reference values that theAuthorization Server is being requested to use for the Auth Request.
+
 `--autocreate` `<boolean>` ('default =' `0`)::
 
 Automatically create users if they do not exist.
@@ -276,6 +280,14 @@ LDAP bind password. Will be stored in '/etc/pve/priv/realm/<REALM>.pw'.
 
 Server port.
 
+`--prompt` `(?:none|login|consent|select_account|\S+)` ::
+
+Specifies whether the Authorization Server prompts the End-User for reauthentication and consent.
+
+`--scopes` `<string>` ('default =' `email profile`)::
+
+Specifies the scopes (user details) that should be authorized and returned, for example 'email' or 'profile'.
+
 `--secure` `<boolean>` ::
 
 Use secure LDAPS protocol. DEPRECATED: use 'mode' instead.
@@ -316,7 +328,7 @@ LDAP user attribute name
 
 The objectclasses for users.
 
-`--username-claim` `<email | subject | username>` ::
+`--username-claim` `<string>` ::
 
 OpenID claim used to generate the unique username.
 
@@ -343,6 +355,10 @@ Update authentication server settings.
 `<realm>`: `<string>` ::
 
 Authentication domain ID
+
+`--acr-values` `<string>` ::
+
+Specifies the Authentication Context Class Reference values that theAuthorization Server is being requested to use for the Auth Request.
 
 `--autocreate` `<boolean>` ('default =' `0`)::
 
@@ -435,6 +451,14 @@ LDAP bind password. Will be stored in '/etc/pve/priv/realm/<REALM>.pw'.
 `--port` `<integer> (1 - 65535)` ::
 
 Server port.
+
+`--prompt` `(?:none|login|consent|select_account|\S+)` ::
+
+Specifies whether the Authorization Server prompts the End-User for reauthentication and consent.
+
+`--scopes` `<string>` ('default =' `email profile`)::
+
+Specifies the scopes (user details) that should be authorized and returned, for example 'email' or 'profile'.
 
 `--secure` `<boolean>` ::
 

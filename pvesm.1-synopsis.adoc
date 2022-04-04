@@ -42,6 +42,10 @@ Allowed content types.
 +
 NOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs.
 
+`--data-pool` `<string>` ::
+
+Data Pool (for erasure coding only)
+
 `--datastore` `<string>` ::
 
 Proxmox Backup Server datastore name.
@@ -585,6 +589,10 @@ target group for comstar views
 Allowed content types.
 +
 NOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs.
+
+`--data-pool` `<string>` ::
+
+Data Pool (for erasure coding only)
 
 `--delete` `<string>` ::
 

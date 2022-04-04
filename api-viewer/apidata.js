@@ -7050,6 +7050,13 @@ const apiSchema = [
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
                                     },
+                                    "exitnodes-primary" : {
+                                       "description" : "Force traffic to this exitnode first.",
+                                       "format" : "pve-node",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
                                     "ipam" : {
                                        "description" : "use a specific ipam",
                                        "optional" : 1,
@@ -7085,6 +7092,13 @@ const apiSchema = [
                                     },
                                     "reversedns" : {
                                        "description" : "reverse dns api server",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "rt-import" : {
+                                       "description" : "Route-Target import",
+                                       "format" : "pve-sdn-bgp-rt-list",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -7295,6 +7309,13 @@ const apiSchema = [
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
                               },
+                              "exitnodes-primary" : {
+                                 "description" : "Force traffic to this exitnode first.",
+                                 "format" : "pve-node",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "ipam" : {
                                  "description" : "use a specific ipam",
                                  "optional" : 1,
@@ -7330,6 +7351,13 @@ const apiSchema = [
                               },
                               "reversedns" : {
                                  "description" : "reverse dns api server",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "rt-import" : {
+                                 "description" : "Route-Target import",
+                                 "format" : "pve-sdn-bgp-rt-list",
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -7482,9 +7510,16 @@ const apiSchema = [
                                  "properties" : {
                                     "asn" : {
                                        "description" : "autonomous system number",
+                                       "maximum" : 4294967296,
+                                       "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "<integer>"
+                                       "typetext" : "<integer> (0 - 4294967296)"
+                                    },
+                                    "bgp-multipath-as-path-relax" : {
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
                                     },
                                     "controller" : {
                                        "description" : "The SDN controller object identifier.",
@@ -7636,9 +7671,16 @@ const apiSchema = [
                            "properties" : {
                               "asn" : {
                                  "description" : "autonomous system number",
+                                 "maximum" : 4294967296,
+                                 "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "<integer>"
+                                 "typetext" : "<integer> (0 - 4294967296)"
+                              },
+                              "bgp-multipath-as-path-relax" : {
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
                               },
                               "controller" : {
                                  "description" : "The SDN controller object identifier.",
@@ -8874,7 +8916,7 @@ const apiSchema = [
             "info" : {
                "GET" : {
                   "allowtoken" : 1,
-                  "description" : "Get next free VMID. If you pass an VMID it will raise an error if the ID is already used.",
+                  "description" : "Get next free VMID. Pass a VMID to assert that its free (at time of check).",
                   "method" : "GET",
                   "name" : "nextid",
                   "parameters" : {
@@ -25147,7 +25189,7 @@ const apiSchema = [
                                                    "description" : "Extra mount options for rootfs/mps.",
                                                    "format_description" : "opt[;opt...]",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^:(?^:(noatime|nodev|nosuid|noexec))(;(?^:(noatime|nodev|nosuid|noexec)))*)",
+                                                   "pattern" : "(?^:(?^:(noatime|lazytime|nodev|nosuid|noexec))(;(?^:(noatime|lazytime|nodev|nosuid|noexec)))*)",
                                                    "type" : "string"
                                                 },
                                                 "mp" : {
@@ -25340,7 +25382,7 @@ const apiSchema = [
                                                    "description" : "Extra mount options for rootfs/mps.",
                                                    "format_description" : "opt[;opt...]",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^:(?^:(noatime|nodev|nosuid|noexec))(;(?^:(noatime|nodev|nosuid|noexec)))*)",
+                                                   "pattern" : "(?^:(?^:(noatime|lazytime|nodev|nosuid|noexec))(;(?^:(noatime|lazytime|nodev|nosuid|noexec)))*)",
                                                    "type" : "string"
                                                 },
                                                 "quota" : {
@@ -25649,7 +25691,7 @@ const apiSchema = [
                                                    "description" : "Extra mount options for rootfs/mps.",
                                                    "format_description" : "opt[;opt...]",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^:(?^:(noatime|nodev|nosuid|noexec))(;(?^:(noatime|nodev|nosuid|noexec)))*)",
+                                                   "pattern" : "(?^:(?^:(noatime|lazytime|nodev|nosuid|noexec))(;(?^:(noatime|lazytime|nodev|nosuid|noexec)))*)",
                                                    "type" : "string"
                                                 },
                                                 "mp" : {
@@ -25860,7 +25902,7 @@ const apiSchema = [
                                                    "description" : "Extra mount options for rootfs/mps.",
                                                    "format_description" : "opt[;opt...]",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^:(?^:(noatime|nodev|nosuid|noexec))(;(?^:(noatime|nodev|nosuid|noexec)))*)",
+                                                   "pattern" : "(?^:(?^:(noatime|lazytime|nodev|nosuid|noexec))(;(?^:(noatime|lazytime|nodev|nosuid|noexec)))*)",
                                                    "type" : "string"
                                                 },
                                                 "quota" : {
@@ -29178,6 +29220,13 @@ const apiSchema = [
                                              "type" : "string",
                                              "typetext" : "<string>"
                                           },
+                                          "target-storage" : {
+                                             "description" : "Mapping from source to target storages. Providing only a single storage ID maps all source storages to that storage. Providing the special value '1' will map each source storage to itself.",
+                                             "format" : "storage-pair-list",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
                                           "timeout" : {
                                              "default" : 180,
                                              "description" : "Timeout in seconds for shutdown for restart migration",
@@ -31389,7 +31438,7 @@ const apiSchema = [
                                        "description" : "Extra mount options for rootfs/mps.",
                                        "format_description" : "opt[;opt...]",
                                        "optional" : 1,
-                                       "pattern" : "(?^:(?^:(noatime|nodev|nosuid|noexec))(;(?^:(noatime|nodev|nosuid|noexec)))*)",
+                                       "pattern" : "(?^:(?^:(noatime|lazytime|nodev|nosuid|noexec))(;(?^:(noatime|lazytime|nodev|nosuid|noexec)))*)",
                                        "type" : "string"
                                     },
                                     "mp" : {
@@ -31619,7 +31668,7 @@ const apiSchema = [
                                        "description" : "Extra mount options for rootfs/mps.",
                                        "format_description" : "opt[;opt...]",
                                        "optional" : 1,
-                                       "pattern" : "(?^:(?^:(noatime|nodev|nosuid|noexec))(;(?^:(noatime|nodev|nosuid|noexec)))*)",
+                                       "pattern" : "(?^:(?^:(noatime|lazytime|nodev|nosuid|noexec))(;(?^:(noatime|lazytime|nodev|nosuid|noexec)))*)",
                                        "type" : "string"
                                     },
                                     "quota" : {
@@ -41905,6 +41954,85 @@ const apiSchema = [
                         },
                         "proxyto" : "node",
                         "returns" : {
+                           "properties" : {
+                              "acme" : {
+                                 "description" : "Node specific ACME settings.",
+                                 "format" : {
+                                    "account" : {
+                                       "default" : "default",
+                                       "description" : "ACME account config file name.",
+                                       "format" : "pve-configid",
+                                       "format_description" : "name",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "domains" : {
+                                       "description" : "List of domains for this node's ACME certificate",
+                                       "format" : "pve-acme-domain-list",
+                                       "format_description" : "domain[;domain;...]",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "acmedomain[n]" : {
+                                 "description" : "ACME domain and validation plugin",
+                                 "format" : {
+                                    "alias" : {
+                                       "description" : "Alias for the Domain to verify ACME Challenge over DNS",
+                                       "format" : "pve-acme-alias",
+                                       "format_description" : "domain",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "domain" : {
+                                       "default_key" : 1,
+                                       "description" : "domain for this node's ACME certificate",
+                                       "format" : "pve-acme-domain",
+                                       "format_description" : "domain",
+                                       "type" : "string"
+                                    },
+                                    "plugin" : {
+                                       "default" : "standalone",
+                                       "description" : "The ACME plugin ID",
+                                       "format" : "pve-configid",
+                                       "format_description" : "name of the plugin configuration",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "description" : {
+                                 "description" : "Description for the Node. Shown in the web-interface node notes panel. This is saved as comment inside the configuration file.",
+                                 "maxLength" : 65536,
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "digest" : {
+                                 "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
+                                 "maxLength" : 40,
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "startall-onboot-delay" : {
+                                 "default" : 0,
+                                 "description" : "Initial delay in seconds, before starting all the Virtual Guests with on-boot enabled.",
+                                 "maximum" : 300,
+                                 "minimum" : 0,
+                                 "optional" : 1,
+                                 "type" : "integer"
+                              },
+                              "wakeonlan" : {
+                                 "description" : "MAC address for wake on LAN",
+                                 "format" : "mac-addr",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              }
+                           },
                            "type" : "object"
                         }
                      },
@@ -42810,8 +42938,8 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "ceph_install",
                                     "upgrade",
+                                    "ceph_install",
                                     "login"
                                  ],
                                  "optional" : 1,
@@ -42906,8 +43034,8 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "ceph_install",
                                     "upgrade",
+                                    "ceph_install",
                                     "login"
                                  ],
                                  "optional" : 1,
@@ -43032,8 +43160,8 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "ceph_install",
                                     "upgrade",
+                                    "ceph_install",
                                     "login"
                                  ],
                                  "optional" : 1,
@@ -44010,6 +44138,12 @@ const apiSchema = [
                            "type" : "string",
                            "typetext" : "<string>"
                         },
+                        "data-pool" : {
+                           "description" : "Data Pool (for erasure coding only)",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
                         "delete" : {
                            "description" : "A list of settings you want to delete.",
                            "format" : "pve-configid-list",
@@ -44492,6 +44626,12 @@ const apiSchema = [
                   "content" : {
                      "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs.\n",
                      "format" : "pve-storage-content-list",
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "data-pool" : {
+                     "description" : "Data Pool (for erasure coding only)",
                      "optional" : 1,
                      "type" : "string",
                      "typetext" : "<string>"
@@ -45484,6 +45624,28 @@ const apiSchema = [
                                  "type" : "string"
                               },
                               "tokens" : {
+                                 "additionalProperties" : {
+                                    "properties" : {
+                                       "comment" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "expire" : {
+                                          "default" : "same as user",
+                                          "description" : "API token expiration date (seconds since epoch). '0' means no expiration date.",
+                                          "minimum" : 0,
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "privsep" : {
+                                          "default" : 1,
+                                          "description" : "Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
                                  "optional" : 1,
                                  "type" : "object"
                               }
@@ -45568,7 +45730,7 @@ const apiSchema = [
                                  "User.Modify"
                               ],
                               "groups_param",
-                              1
+                              "update"
                            ]
                         },
                         "protected" : 1,
@@ -45792,7 +45954,7 @@ const apiSchema = [
                               "User.Modify"
                            ],
                            "groups_param",
-                           1
+                           "create"
                         ]
                      ],
                      "description" : "You need 'Realm.AllocateUser' on '/access/realm/<realm>' on the realm of user <userid>, and 'User.Modify' permissions to '/access/groups/<group>' for any group specified (or 'User.Modify' on '/access/groups' if you pass no groups."
@@ -46520,11 +46682,15 @@ const apiSchema = [
                                  "check" : [
                                     "and",
                                     [
-                                       "userid-param",
-                                       "Realm.AllocateUser"
+                                       "perm",
+                                       "/access/realm/{realm}",
+                                       [
+                                          "Realm.AllocateUser"
+                                       ]
                                     ],
                                     [
-                                       "userid-group",
+                                       "perm",
+                                       "/access/groups",
                                        [
                                           "User.Modify"
                                        ]
@@ -46615,6 +46781,12 @@ const apiSchema = [
                         "parameters" : {
                            "additionalProperties" : 0,
                            "properties" : {
+                              "acr-values" : {
+                                 "description" : "Specifies the Authentication Context Class Reference values that theAuthorization Server is being requested to use for the Auth Request.",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "autocreate" : {
                                  "default" : 0,
                                  "description" : "Automatically create users if they do not exist.",
@@ -46780,10 +46952,23 @@ const apiSchema = [
                                  "type" : "integer",
                                  "typetext" : "<integer> (1 - 65535)"
                               },
+                              "prompt" : {
+                                 "description" : "Specifies whether the Authorization Server prompts the End-User for reauthentication and consent.",
+                                 "optional" : 1,
+                                 "pattern" : "(?:none|login|consent|select_account|\\S+)",
+                                 "type" : "string"
+                              },
                               "realm" : {
                                  "description" : "Authentication domain ID",
                                  "format" : "pve-realm",
                                  "maxLength" : 32,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "scopes" : {
+                                 "default" : "email profile",
+                                 "description" : "Specifies the scopes (user details) that should be authorized and returned, for example 'email' or 'profile'.",
+                                 "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
@@ -46942,6 +47127,12 @@ const apiSchema = [
                   "parameters" : {
                      "additionalProperties" : 0,
                      "properties" : {
+                        "acr-values" : {
+                           "description" : "Specifies the Authentication Context Class Reference values that theAuthorization Server is being requested to use for the Auth Request.",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
                         "autocreate" : {
                            "default" : 0,
                            "description" : "Automatically create users if they do not exist.",
@@ -47092,10 +47283,23 @@ const apiSchema = [
                            "type" : "integer",
                            "typetext" : "<integer> (1 - 65535)"
                         },
+                        "prompt" : {
+                           "description" : "Specifies whether the Authorization Server prompts the End-User for reauthentication and consent.",
+                           "optional" : 1,
+                           "pattern" : "(?:none|login|consent|select_account|\\S+)",
+                           "type" : "string"
+                        },
                         "realm" : {
                            "description" : "Authentication domain ID",
                            "format" : "pve-realm",
                            "maxLength" : 32,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "scopes" : {
+                           "default" : "email profile",
+                           "description" : "Specifies the scopes (user details) that should be authorized and returned, for example 'email' or 'profile'.",
+                           "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
                         },
@@ -47181,13 +47385,9 @@ const apiSchema = [
                         },
                         "username-claim" : {
                            "description" : "OpenID claim used to generate the unique username.",
-                           "enum" : [
-                              "subject",
-                              "username",
-                              "email"
-                           ],
                            "optional" : 1,
-                           "type" : "string"
+                           "type" : "string",
+                           "typetext" : "<string>"
                         },
                         "verify" : {
                            "default" : 0,
@@ -48128,6 +48328,15 @@ const apiSchema = [
                            "format" : "pve-poolid",
                            "type" : "string",
                            "typetext" : "<string>"
+                        },
+                        "type" : {
+                           "enum" : [
+                              "qemu",
+                              "lxc",
+                              "storage"
+                           ],
+                           "optional" : 1,
+                           "type" : "string"
                         }
                      }
                   },

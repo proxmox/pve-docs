@@ -390,6 +390,10 @@ Use online/live migration.
 
 Use restart migration
 
+`--target-storage` `<string>` ::
+
+Mapping from source to target storages. Providing only a single storage ID maps all source storages to that storage. Providing the special value '1' will map each source storage to itself.
+
 `--timeout` `<integer>` ('default =' `180`)::
 
 Timeout in seconds for shutdown for restart migration
