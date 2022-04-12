@@ -68,6 +68,7 @@ device fails.
 * copying and configuring new kernel images and initrd images to all listed ESPs
 * synchronizing the configuration on kernel upgrades and other maintenance tasks
 * managing the list of kernel versions which are synchronized
+* configuring the boot-loader to boot a particular kernel version (pinning)
 
 
 You can view the currently configured ESPs and their state by running:
@@ -286,3 +287,50 @@ The kernel commandline needs to be placed in the variable
 The kernel commandline needs to be placed as one line in `/etc/kernel/cmdline`.
 To apply your changes, run `proxmox-boot-tool refresh`, which sets it as the
 `option` line for all config files in `loader/entries/proxmox-*.conf`.
+
+
+[[sysboot_kernel_pin]]
+Selecting the kernel-version for booting
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In addition to actively watching the boot process to select an older kernel
+version to boot into, you can also use `proxmox-boot-tool` to `pin` the kernel
+version the system should use. This should help you to work around
+incompatibilities between a newer kernel version and the hardware. Such a
+`pin` should be removed as soon as possible in order to have all the latest
+security patches in place.
+
+NOTE: The pinning functionality works for all {pve} systems, not only those
+using `proxmox-boot-tool` to synchronize the contents of the ESPs, if your
+system does not use `proxmox-boot-tool` for synchronizing you can also skip the
+`proxmox-boot-tool refresh` call in the end.
+
+To permanently select the version `5.15.30-1-pve` for booting run:
+
+----
+# proxmox-boot-tool kernel pin 5.15.30-1-pve
+----
+
+You can also set a kernel version to be booted on the next system boot only
+(e.g. to test if an updated kernel has resolved an issue, which caused you
+to `pin` a version in the first place):
+
+----
+# proxmox-boot-tool kernel pin 5.15.31-1-pve --next-boot
+----
+
+To remove any pinned version configuration use the `unpin` subcommand:
+
+----
+# proxmox-boot-tool kernel unpin
+----
+
+While `unpin` has a `--next-boot` option as well, it is used to clear a pinned
+version set with `--next-boot` and manually invoking is of little use.
+
+After setting or clearing pinned versions you also need to synchronize the
+content and configuration on the ESPs by running the `refresh` subcommand:
+
+----
+# proxmox-boot-tool refresh
+----
