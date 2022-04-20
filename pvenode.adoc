@@ -17,6 +17,8 @@ DESCRIPTION
 -----------
 endif::manvolnum[]
 ifndef::manvolnum[]
+
+[[proxmox_node_management]]
 Proxmox Node Management
 -----------------------
 ifdef::wiki[]
