@@ -290,33 +290,40 @@ To apply your changes, run `proxmox-boot-tool refresh`, which sets it as the
 
 
 [[sysboot_kernel_pin]]
-Selecting the kernel-version for booting
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Override the Kernel-Version for next Boot
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In addition to actively watching the boot process to select an older kernel
-version to boot into, you can also use `proxmox-boot-tool` to `pin` the kernel
-version the system should use. This should help you to work around
-incompatibilities between a newer kernel version and the hardware. Such a
-`pin` should be removed as soon as possible in order to have all the latest
-security patches in place.
+To select a kernel that is not currently the default kernel, you can either:
 
-NOTE: The pinning functionality works for all {pve} systems, not only those
-using `proxmox-boot-tool` to synchronize the contents of the ESPs, if your
-system does not use `proxmox-boot-tool` for synchronizing you can also skip the
-`proxmox-boot-tool refresh` call in the end.
+* use the boot loader menu that is displayed at the beginning of the boot
+  process
+* use the `proxmox-boot-tool` to `pin` the system to a kernel version either
+  once or permanently (until pin is reset).
 
-To permanently select the version `5.15.30-1-pve` for booting run:
+This should help you work around incompatibilities between a newer kernel
+version and the hardware.
+
+NOTE: Such a pin should be removed as soon as possible so that all current
+security patches of the latest kernel are also applied to the system.
+
+For example: To permanently select the version `5.15.30-1-pve` for booting you
+would run:
 
 ----
 # proxmox-boot-tool kernel pin 5.15.30-1-pve
 ----
 
-You can also set a kernel version to be booted on the next system boot only
-(e.g. to test if an updated kernel has resolved an issue, which caused you
-to `pin` a version in the first place):
+TIP: The pinning functionality works for all {pve} systems, not only those using
+`proxmox-boot-tool` to synchronize the contents of the ESPs, if your system
+does not use `proxmox-boot-tool` for synchronizing you can also skip the
+`proxmox-boot-tool refresh` call in the end.
+
+You can also set a kernel version to be booted on the next system boot only.
+This is for example useful to test if an updated kernel has resolved an issue,
+which caused you to `pin` a version in the first place:
 
 ----
-# proxmox-boot-tool kernel pin 5.15.31-1-pve --next-boot
+# proxmox-boot-tool kernel pin 5.15.30-1-pve --next-boot
 ----
 
 To remove any pinned version configuration use the `unpin` subcommand:
@@ -326,10 +333,14 @@ To remove any pinned version configuration use the `unpin` subcommand:
 ----
 
 While `unpin` has a `--next-boot` option as well, it is used to clear a pinned
-version set with `--next-boot` and manually invoking is of little use.
+version set with `--next-boot`. As that happens already automatically on boot,
+invonking it manually is of little use.
 
-After setting or clearing pinned versions you also need to synchronize the
-content and configuration on the ESPs by running the `refresh` subcommand:
+After setting, or clearing pinned versions you also need to synchronize the
+content and configuration on the ESPs by running the `refresh` subcommand.
+
+TIP: You will be prompted to automatically do for  `proxmox-boot-tool` managed
+systems if you call the tool interactively.
 
 ----
 # proxmox-boot-tool refresh
