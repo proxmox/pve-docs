@@ -106,6 +106,10 @@ target portal group for Linux LIO targets
 
 Base64-encoded, PEM-formatted public RSA key. Used to encrypt a copy of the encryption-key which will be added to each encrypted backup.
 
+`--max-protected-backups` `<integer> (-1 - N)` ('default =' `Unlimited for users with Datastore.Allocate privilege, 5 for other users`)::
+
+Maximal number of protected backups per guest. Use '-1' for unlimited.
+
 `--maxfiles` `<integer> (0 - N)` ::
 
 Deprecated: use 'prune-backups' instead. Maximal number of backup files per VM. Use '0' for unlimited.
@@ -649,6 +653,10 @@ target portal group for Linux LIO targets
 `--master-pubkey` `a file containing a PEM-formatted master public key` ::
 
 Base64-encoded, PEM-formatted public RSA key. Used to encrypt a copy of the encryption-key which will be added to each encrypted backup.
+
+`--max-protected-backups` `<integer> (-1 - N)` ('default =' `Unlimited for users with Datastore.Allocate privilege, 5 for other users`)::
+
+Maximal number of protected backups per guest. Use '-1' for unlimited.
 
 `--maxfiles` `<integer> (0 - N)` ::
 

@@ -84,6 +84,18 @@ Migration traffic is encrypted using an SSH tunnel by default. On secure, comple
 
 Migration is secure using SSH tunnel by default. For secure private networks you can disable it to speed up migration. Deprecated, use the 'migration' property instead!
 
+`next-id`: `[lower=<integer>] [,upper=<integer>]` ::
+
+Control the range for the free VMID auto-selection pool.
+
+`lower`=`<integer>` ('default =' `100`);;
+
+Lower, inclusive boundary for free next-id API range.
+
+`upper`=`<integer>` ('default =' `1000000`);;
+
+Upper, inclusive boundary for free next-id API range.
+
 `u2f`: `[appid=<APPID>] [,origin=<URL>]` ::
 
 u2f

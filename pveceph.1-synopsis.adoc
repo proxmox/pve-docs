@@ -236,7 +236,7 @@ If set, we remove partition table entries.
 
 *pveceph pool create* `<name>` `[OPTIONS]`
 
-Create POOL
+Create Ceph pool
 
 `<name>`: `<string>` ::
 
@@ -244,7 +244,7 @@ The name of the pool. It must be unique.
 
 `--add_storages` `<boolean>` ::
 
-Configure VM and CT storage using the new pool.
+Configure VM and CT storage using the new pool. Always enabled for erasure coded pools.
 
 `--application` `<cephfs | rbd | rgw>` ('default =' `rbd`)::
 
@@ -253,6 +253,10 @@ The application of the pool.
 `--crush_rule` `<string>` ::
 
 The rule to use for mapping object placement in the cluster.
+
+`--erasure-coding` `k=<integer> ,m=<integer> [,device-class=<class>] [,failure-domain=<domain>] [,profile=<profile>]` ::
+
+no description available
 
 `--min_size` `<integer> (1 - 7)` ('default =' `2`)::
 
@@ -293,6 +297,10 @@ The name of the pool. It must be unique.
 `--force` `<boolean>` ('default =' `0`)::
 
 If true, destroys pool even if in use
+
+`--remove_ecprofile` `<boolean>` ('default =' `1`)::
+
+Remove the erasure code profile. Defaults to true, if applicable.
 
 `--remove_storages` `<boolean>` ('default =' `0`)::
 

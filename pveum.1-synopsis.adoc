@@ -304,7 +304,7 @@ Fallback Server IP address (or DNS name)
 
 LDAPS TLS/SSL version. It's not recommended to use version older than 1.2!
 
-`--sync-defaults-options` `[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,scope=<users|groups|both>]` ::
+`--sync-defaults-options` `[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,remove-vanished=[acl];[properties];[entry]] [,scope=<users|groups|both>]` ::
 
 The default options for behavior of synchronizations.
 
@@ -476,7 +476,7 @@ Fallback Server IP address (or DNS name)
 
 LDAPS TLS/SSL version. It's not recommended to use version older than 1.2!
 
-`--sync-defaults-options` `[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,scope=<users|groups|both>]` ::
+`--sync-defaults-options` `[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,remove-vanished=[acl];[properties];[entry]] [,scope=<users|groups|both>]` ::
 
 The default options for behavior of synchronizations.
 
@@ -520,11 +520,15 @@ Enable newly synced users immediately.
 
 `--full` `<boolean>` ::
 
-If set, uses the LDAP Directory as source of truth, deleting users or groups not returned from the sync. Otherwise only syncs information which is not already present, and does not deletes or modifies anything else.
+DEPRECATED: use 'remove-vanished' instead. If set, uses the LDAP Directory as source of truth, deleting users or groups not returned from the sync and removing all locally modified properties of synced users. If not set, only syncs information which is present in the synced data, and does not delete or modify anything else.
 
 `--purge` `<boolean>` ::
 
-Remove ACLs for users or groups which were removed from the config during a sync.
+DEPRECATED: use 'remove-vanished' instead. Remove ACLs for users or groups which were removed from the config during a sync.
+
+`--remove-vanished` `[acl];[properties];[entry]` ::
+
+A semicolon-seperated list of things to remove when they or the user vanishes during a sync. The following values are possible: 'entry' removes the user/group when not returned from the sync. 'properties' removes the set properties on existing user/group that do not appear in the source (even custom ones). 'acl' removes acls when the user/group is not returned from the sync.
 
 `--scope` `<both | groups | users>` ::
 

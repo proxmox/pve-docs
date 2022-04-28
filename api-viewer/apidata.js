@@ -3692,6 +3692,13 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "notes-template" : {
+                                 "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, and {{vmid}}, but more might be added in the future.",
+                                 "optional" : 1,
+                                 "requires" : "storage",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "pigz" : {
                                  "default" : 0,
                                  "description" : "Use pigz instead of gzip when N>0. N=1 uses half of cores, N>1 uses N as thread count.",
@@ -3704,6 +3711,13 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "protected" : {
+                                 "description" : "If true, mark backup(s) as protected.",
+                                 "optional" : 1,
+                                 "requires" : "storage",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
                               },
                               "prune-backups" : {
                                  "default" : "keep-all=1",
@@ -4003,6 +4017,13 @@ const apiSchema = [
                            "type" : "string",
                            "typetext" : "<string>"
                         },
+                        "notes-template" : {
+                           "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, and {{vmid}}, but more might be added in the future.",
+                           "optional" : 1,
+                           "requires" : "storage",
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
                         "pigz" : {
                            "default" : 0,
                            "description" : "Use pigz instead of gzip when N>0. N=1 uses half of cores, N>1 uses N as thread count.",
@@ -4015,6 +4036,13 @@ const apiSchema = [
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
+                        },
+                        "protected" : {
+                           "description" : "If true, mark backup(s) as protected.",
+                           "optional" : 1,
+                           "requires" : "storage",
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
                         },
                         "prune-backups" : {
                            "default" : "keep-all=1",
@@ -6991,6 +7019,12 @@ const apiSchema = [
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
+                                    "bridge-disable-mac-learning" : {
+                                       "description" : "Disable auto mac learning.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
                                     "controller" : {
                                        "description" : "Frr router name",
                                        "optional" : 1,
@@ -7264,6 +7298,12 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "bridge-disable-mac-learning" : {
+                                 "description" : "Disable auto mac learning.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
                               },
                               "controller" : {
                                  "description" : "Frr router name",
@@ -8756,6 +8796,30 @@ const apiSchema = [
                            "optional" : 1,
                            "type" : "boolean",
                            "typetext" : "<boolean>"
+                        },
+                        "next-id" : {
+                           "description" : "Control the range for the free VMID auto-selection pool.",
+                           "format" : {
+                              "lower" : {
+                                 "default" : 100,
+                                 "description" : "Lower, inclusive boundary for free next-id API range.",
+                                 "max" : 999999999,
+                                 "min" : 100,
+                                 "optional" : 1,
+                                 "type" : "integer"
+                              },
+                              "upper" : {
+                                 "default" : 1000000,
+                                 "description" : "Upper, inclusive boundary for free next-id API range.",
+                                 "max" : 999999999,
+                                 "min" : 100,
+                                 "optional" : 1,
+                                 "type" : "integer"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "[lower=<integer>] [,upper=<integer>]"
                         },
                         "u2f" : {
                            "description" : "u2f",
@@ -12033,6 +12097,13 @@ const apiSchema = [
                                                    "type" : "string",
                                                    "typetext" : "<string>"
                                                 },
+                                                "encode" : {
+                                                   "default" : 1,
+                                                   "description" : "If set, the content will be encoded as base64 (required by QEMU).Otherwise the content needs to be encoded beforehand - defaults to true.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "typetext" : "<boolean>"
+                                                },
                                                 "file" : {
                                                    "description" : "The path to the file.",
                                                    "type" : "string",
@@ -12553,7 +12624,7 @@ const apiSchema = [
                                              "default" : "cgroup v1: 1024, cgroup v2: 100",
                                              "description" : "CPU weight for a VM, will be clamped to [1, 10000] in cgroup v2.",
                                              "maximum" : 262144,
-                                             "minimum" : 2,
+                                             "minimum" : 1,
                                              "optional" : 1,
                                              "type" : "integer",
                                              "verbose_description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs."
@@ -12569,7 +12640,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "efidisk0" : {
-                                             "description" : "Configure a Disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead.",
+                                             "description" : "Configure a Disk for storing EFI vars.",
                                              "format" : {
                                                 "efitype" : {
                                                    "default" : "2m",
@@ -12658,7 +12729,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "ide[n]" : {
-                                             "description" : "Use volume as IDE hard disk or CD-ROM (n is 0 to 3). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.",
+                                             "description" : "Use volume as IDE hard disk or CD-ROM (n is 0 to 3).",
                                              "format" : {
                                                 "aio" : {
                                                    "description" : "AIO type to use.",
@@ -13015,7 +13086,7 @@ const apiSchema = [
                                           },
                                           "keyboard" : {
                                              "default" : null,
-                                             "description" : "Keyboard layout for VNC server. The default is read from the'/etc/pve/datacenter.cfg' configuration file. It should not be necessary to set it.",
+                                             "description" : "Keyboard layout for VNC server. This option is generally not required and is often better handled from within the guest OS.",
                                              "enum" : [
                                                 "de",
                                                 "de-ch",
@@ -13118,9 +13189,9 @@ const apiSchema = [
                                              "format" : {
                                                 "bridge" : {
                                                    "description" : "Bridge to attach the network device to. The Proxmox VE standard bridge\nis called 'vmbr0'.\n\nIf you do not specify a bridge, we create a kvm user (NATed) network\ndevice, which provides DHCP and DNS services. The following addresses\nare used:\n\n 10.0.2.2   Gateway\n 10.0.2.3   DNS Server\n 10.0.2.4   SMB Server\n\nThe DHCP server assign addresses to the guest starting from 10.0.2.15.\n",
+                                                   "format" : "pve-bridge-id",
                                                    "format_description" : "bridge",
                                                    "optional" : 1,
-                                                   "pattern" : "[-_.\\w\\d]+",
                                                    "type" : "string"
                                                 },
                                                 "e1000" : {
@@ -13373,7 +13444,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "sata[n]" : {
-                                             "description" : "Use volume as SATA hard disk or CD-ROM (n is 0 to 5). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.",
+                                             "description" : "Use volume as SATA hard disk or CD-ROM (n is 0 to 5).",
                                              "format" : {
                                                 "aio" : {
                                                    "description" : "AIO type to use.",
@@ -13690,7 +13761,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "scsi[n]" : {
-                                             "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 30). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.",
+                                             "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 30).",
                                              "format" : {
                                                 "aio" : {
                                                    "description" : "AIO type to use.",
@@ -14154,7 +14225,7 @@ const apiSchema = [
                                              "type" : "boolean"
                                           },
                                           "tpmstate0" : {
-                                             "description" : "Configure a Disk for storing TPM state. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default size of 4 MiB will always be used instead. The format is also fixed to 'raw'.",
+                                             "description" : "Configure a Disk for storing TPM state. The format is fixed to 'raw'.",
                                              "format" : {
                                                 "file" : {
                                                    "default_key" : 1,
@@ -14258,6 +14329,7 @@ const apiSchema = [
                                                       "serial3",
                                                       "std",
                                                       "virtio",
+                                                      "virtio-gl",
                                                       "vmware"
                                                    ],
                                                    "optional" : 1,
@@ -14269,7 +14341,7 @@ const apiSchema = [
                                              "verbose_description" : "Configure the VGA Hardware. If you want to use high resolution modes (>= 1280x1024x16) you may need to increase the vga memory option. Since QEMU 2.9 the default VGA display type is 'std' for all OS types besides some Windows versions (XP and older) which use 'cirrus'. The 'qxl' option enables the SPICE display server. For win* OS you can select how many independent displays you want, Linux guests can add displays them self.\nYou can also run without any graphic card, using a serial device as terminal."
                                           },
                                           "virtio[n]" : {
-                                             "description" : "Use volume as VIRTIO hard disk (n is 0 to 15). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.",
+                                             "description" : "Use volume as VIRTIO hard disk (n is 0 to 15).",
                                              "format" : {
                                                 "aio" : {
                                                    "description" : "AIO type to use.",
@@ -14808,10 +14880,10 @@ const apiSchema = [
                                              "default" : "cgroup v1: 1024, cgroup v2: 100",
                                              "description" : "CPU weight for a VM, will be clamped to [1, 10000] in cgroup v2.",
                                              "maximum" : 262144,
-                                             "minimum" : 2,
+                                             "minimum" : 1,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (2 - 262144)",
+                                             "typetext" : "<integer> (1 - 262144)",
                                              "verbose_description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs."
                                           },
                                           "delete" : {
@@ -14836,7 +14908,7 @@ const apiSchema = [
                                              "typetext" : "<string>"
                                           },
                                           "efidisk0" : {
-                                             "description" : "Configure a Disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead.",
+                                             "description" : "Configure a Disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
                                              "format" : {
                                                 "efitype" : {
                                                    "default" : "2m",
@@ -14869,6 +14941,13 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "import-from" : {
+                                                   "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
+                                                   "format" : "pve-volume-id-or-absolute-path",
+                                                   "format_description" : "source volume",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
                                                 "pre-enrolled-keys" : {
                                                    "default" : 0,
                                                    "description" : "Use am EFI vars template with distribution-specific and Microsoft Standard keys enrolled, if used with 'efitype=4m'. Note that this will enable Secure Boot by default, though it can still be turned off from within the VM.",
@@ -14888,7 +14967,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
+                                             "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
                                           },
                                           "force" : {
                                              "description" : "Force physical removal. Without this, we simple remove the disk from the config file and create an additional configuration entry called 'unused[n]', which contains the volume ID. Unlink of unused[n] always cause physical removal.",
@@ -14915,7 +14994,7 @@ const apiSchema = [
                                              "format" : "pve-qm-hostpci",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,legacy-igd=<1|0>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]",
+                                             "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,device-id=<hex id>] [,legacy-igd=<1|0>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,sub-device-id=<hex id>] [,sub-vendor-id=<hex id>] [,vendor-id=<hex id>] [,x-vga=<1|0>]",
                                              "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer\npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "hotplug" : {
@@ -14937,7 +15016,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "ide[n]" : {
-                                             "description" : "Use volume as IDE hard disk or CD-ROM (n is 0 to 3). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.",
+                                             "description" : "Use volume as IDE hard disk or CD-ROM (n is 0 to 3). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
                                              "format" : {
                                                 "aio" : {
                                                    "description" : "AIO type to use.",
@@ -15055,6 +15134,13 @@ const apiSchema = [
                                                    "description" : "Force the drive's physical geometry to have a specific head count.",
                                                    "optional" : 1,
                                                    "type" : "integer"
+                                                },
+                                                "import-from" : {
+                                                   "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
+                                                   "format" : "pve-volume-id-or-absolute-path",
+                                                   "format_description" : "source volume",
+                                                   "optional" : 1,
+                                                   "type" : "string"
                                                 },
                                                 "iops" : {
                                                    "description" : "Maximum r/w I/O in operations per second.",
@@ -15260,7 +15346,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "ipconfig[n]" : {
                                              "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit\ngateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration. This requires\ncloud-init 19.4 or newer.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using\ndhcp on IPv4.\n",
@@ -15298,7 +15384,7 @@ const apiSchema = [
                                           },
                                           "keyboard" : {
                                              "default" : null,
-                                             "description" : "Keyboard layout for VNC server. The default is read from the'/etc/pve/datacenter.cfg' configuration file. It should not be necessary to set it.",
+                                             "description" : "Keyboard layout for VNC server. This option is generally not required and is often better handled from within the guest OS.",
                                              "enum" : [
                                                 "de",
                                                 "de-ch",
@@ -15408,9 +15494,9 @@ const apiSchema = [
                                              "format" : {
                                                 "bridge" : {
                                                    "description" : "Bridge to attach the network device to. The Proxmox VE standard bridge\nis called 'vmbr0'.\n\nIf you do not specify a bridge, we create a kvm user (NATed) network\ndevice, which provides DHCP and DNS services. The following addresses\nare used:\n\n 10.0.2.2   Gateway\n 10.0.2.3   DNS Server\n 10.0.2.4   SMB Server\n\nThe DHCP server assign addresses to the guest starting from 10.0.2.15.\n",
+                                                   "format" : "pve-bridge-id",
                                                    "format_description" : "bridge",
                                                    "optional" : 1,
-                                                   "pattern" : "[-_.\\w\\d]+",
                                                    "type" : "string"
                                                 },
                                                 "e1000" : {
@@ -15683,7 +15769,7 @@ const apiSchema = [
                                              "typetext" : "[source=]</dev/urandom|/dev/random|/dev/hwrng> [,max_bytes=<integer>] [,period=<integer>]"
                                           },
                                           "sata[n]" : {
-                                             "description" : "Use volume as SATA hard disk or CD-ROM (n is 0 to 5). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.",
+                                             "description" : "Use volume as SATA hard disk or CD-ROM (n is 0 to 5). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
                                              "format" : {
                                                 "aio" : {
                                                    "description" : "AIO type to use.",
@@ -15801,6 +15887,13 @@ const apiSchema = [
                                                    "description" : "Force the drive's physical geometry to have a specific head count.",
                                                    "optional" : 1,
                                                    "type" : "integer"
+                                                },
+                                                "import-from" : {
+                                                   "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
+                                                   "format" : "pve-volume-id-or-absolute-path",
+                                                   "format_description" : "source volume",
+                                                   "optional" : 1,
+                                                   "type" : "string"
                                                 },
                                                 "iops" : {
                                                    "description" : "Maximum r/w I/O in operations per second.",
@@ -15998,10 +16091,10 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "scsi[n]" : {
-                                             "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 30). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.",
+                                             "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 30). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
                                              "format" : {
                                                 "aio" : {
                                                    "description" : "AIO type to use.",
@@ -16119,6 +16212,13 @@ const apiSchema = [
                                                    "description" : "Force the drive's physical geometry to have a specific head count.",
                                                    "optional" : 1,
                                                    "type" : "integer"
+                                                },
+                                                "import-from" : {
+                                                   "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
+                                                   "format" : "pve-volume-id-or-absolute-path",
+                                                   "format_description" : "source volume",
+                                                   "optional" : 1,
+                                                   "type" : "string"
                                                 },
                                                 "iops" : {
                                                    "description" : "Maximum r/w I/O in operations per second.",
@@ -16338,7 +16438,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "scsihw" : {
                                              "default" : "lsi",
@@ -16483,13 +16583,20 @@ const apiSchema = [
                                              "typetext" : "<boolean>"
                                           },
                                           "tpmstate0" : {
-                                             "description" : "Configure a Disk for storing TPM state. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default size of 4 MiB will always be used instead. The format is also fixed to 'raw'.",
+                                             "description" : "Configure a Disk for storing TPM state. The format is fixed to 'raw'. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and 4 MiB will be used instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
                                              "format" : {
                                                 "file" : {
                                                    "default_key" : 1,
                                                    "description" : "The drive's backing volume.",
                                                    "format" : "pve-volume-id-or-qm-path",
                                                    "format_description" : "volume",
+                                                   "type" : "string"
+                                                },
+                                                "import-from" : {
+                                                   "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
+                                                   "format" : "pve-volume-id-or-absolute-path",
+                                                   "format_description" : "source volume",
+                                                   "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "size" : {
@@ -16515,7 +16622,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,size=<DiskSize>] [,version=<v1.2|v2.0>]"
+                                             "typetext" : "[file=]<volume> [,import-from=<source volume>] [,size=<DiskSize>] [,version=<v1.2|v2.0>]"
                                           },
                                           "unused[n]" : {
                                              "description" : "Reference to unused volumes. This is used internally, and should not be modified manually.",
@@ -16591,6 +16698,7 @@ const apiSchema = [
                                                       "serial3",
                                                       "std",
                                                       "virtio",
+                                                      "virtio-gl",
                                                       "vmware"
                                                    ],
                                                    "optional" : 1,
@@ -16603,7 +16711,7 @@ const apiSchema = [
                                              "verbose_description" : "Configure the VGA Hardware. If you want to use high resolution modes (>= 1280x1024x16) you may need to increase the vga memory option. Since QEMU 2.9 the default VGA display type is 'std' for all OS types besides some Windows versions (XP and older) which use 'cirrus'. The 'qxl' option enables the SPICE display server. For win* OS you can select how many independent displays you want, Linux guests can add displays them self.\nYou can also run without any graphic card, using a serial device as terminal."
                                           },
                                           "virtio[n]" : {
-                                             "description" : "Use volume as VIRTIO hard disk (n is 0 to 15). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.",
+                                             "description" : "Use volume as VIRTIO hard disk (n is 0 to 15). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
                                              "format" : {
                                                 "aio" : {
                                                    "description" : "AIO type to use.",
@@ -16721,6 +16829,13 @@ const apiSchema = [
                                                    "description" : "Force the drive's physical geometry to have a specific head count.",
                                                    "optional" : 1,
                                                    "type" : "integer"
+                                                },
+                                                "import-from" : {
+                                                   "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
+                                                   "format" : "pve-volume-id-or-absolute-path",
+                                                   "format_description" : "source volume",
+                                                   "optional" : 1,
+                                                   "type" : "string"
                                                 },
                                                 "iops" : {
                                                    "description" : "Maximum r/w I/O in operations per second.",
@@ -16916,7 +17031,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
                                           "vmgenid" : {
                                              "default" : "1 (autogenerated)",
@@ -17167,10 +17282,10 @@ const apiSchema = [
                                              "default" : "cgroup v1: 1024, cgroup v2: 100",
                                              "description" : "CPU weight for a VM, will be clamped to [1, 10000] in cgroup v2.",
                                              "maximum" : 262144,
-                                             "minimum" : 2,
+                                             "minimum" : 1,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (2 - 262144)",
+                                             "typetext" : "<integer> (1 - 262144)",
                                              "verbose_description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs."
                                           },
                                           "delete" : {
@@ -17195,7 +17310,7 @@ const apiSchema = [
                                              "typetext" : "<string>"
                                           },
                                           "efidisk0" : {
-                                             "description" : "Configure a Disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead.",
+                                             "description" : "Configure a Disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
                                              "format" : {
                                                 "efitype" : {
                                                    "default" : "2m",
@@ -17228,6 +17343,13 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "import-from" : {
+                                                   "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
+                                                   "format" : "pve-volume-id-or-absolute-path",
+                                                   "format_description" : "source volume",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
                                                 "pre-enrolled-keys" : {
                                                    "default" : 0,
                                                    "description" : "Use am EFI vars template with distribution-specific and Microsoft Standard keys enrolled, if used with 'efitype=4m'. Note that this will enable Secure Boot by default, though it can still be turned off from within the VM.",
@@ -17247,7 +17369,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
+                                             "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
                                           },
                                           "force" : {
                                              "description" : "Force physical removal. Without this, we simple remove the disk from the config file and create an additional configuration entry called 'unused[n]', which contains the volume ID. Unlink of unused[n] always cause physical removal.",
@@ -17274,7 +17396,7 @@ const apiSchema = [
                                              "format" : "pve-qm-hostpci",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,legacy-igd=<1|0>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]",
+                                             "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,device-id=<hex id>] [,legacy-igd=<1|0>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,sub-device-id=<hex id>] [,sub-vendor-id=<hex id>] [,vendor-id=<hex id>] [,x-vga=<1|0>]",
                                              "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer\npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "hotplug" : {
@@ -17296,7 +17418,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "ide[n]" : {
-                                             "description" : "Use volume as IDE hard disk or CD-ROM (n is 0 to 3). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.",
+                                             "description" : "Use volume as IDE hard disk or CD-ROM (n is 0 to 3). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
                                              "format" : {
                                                 "aio" : {
                                                    "description" : "AIO type to use.",
@@ -17414,6 +17536,13 @@ const apiSchema = [
                                                    "description" : "Force the drive's physical geometry to have a specific head count.",
                                                    "optional" : 1,
                                                    "type" : "integer"
+                                                },
+                                                "import-from" : {
+                                                   "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
+                                                   "format" : "pve-volume-id-or-absolute-path",
+                                                   "format_description" : "source volume",
+                                                   "optional" : 1,
+                                                   "type" : "string"
                                                 },
                                                 "iops" : {
                                                    "description" : "Maximum r/w I/O in operations per second.",
@@ -17619,7 +17748,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "ipconfig[n]" : {
                                              "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit\ngateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration. This requires\ncloud-init 19.4 or newer.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using\ndhcp on IPv4.\n",
@@ -17657,7 +17786,7 @@ const apiSchema = [
                                           },
                                           "keyboard" : {
                                              "default" : null,
-                                             "description" : "Keyboard layout for VNC server. The default is read from the'/etc/pve/datacenter.cfg' configuration file. It should not be necessary to set it.",
+                                             "description" : "Keyboard layout for VNC server. This option is generally not required and is often better handled from within the guest OS.",
                                              "enum" : [
                                                 "de",
                                                 "de-ch",
@@ -17767,9 +17896,9 @@ const apiSchema = [
                                              "format" : {
                                                 "bridge" : {
                                                    "description" : "Bridge to attach the network device to. The Proxmox VE standard bridge\nis called 'vmbr0'.\n\nIf you do not specify a bridge, we create a kvm user (NATed) network\ndevice, which provides DHCP and DNS services. The following addresses\nare used:\n\n 10.0.2.2   Gateway\n 10.0.2.3   DNS Server\n 10.0.2.4   SMB Server\n\nThe DHCP server assign addresses to the guest starting from 10.0.2.15.\n",
+                                                   "format" : "pve-bridge-id",
                                                    "format_description" : "bridge",
                                                    "optional" : 1,
-                                                   "pattern" : "[-_.\\w\\d]+",
                                                    "type" : "string"
                                                 },
                                                 "e1000" : {
@@ -18042,7 +18171,7 @@ const apiSchema = [
                                              "typetext" : "[source=]</dev/urandom|/dev/random|/dev/hwrng> [,max_bytes=<integer>] [,period=<integer>]"
                                           },
                                           "sata[n]" : {
-                                             "description" : "Use volume as SATA hard disk or CD-ROM (n is 0 to 5). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.",
+                                             "description" : "Use volume as SATA hard disk or CD-ROM (n is 0 to 5). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
                                              "format" : {
                                                 "aio" : {
                                                    "description" : "AIO type to use.",
@@ -18160,6 +18289,13 @@ const apiSchema = [
                                                    "description" : "Force the drive's physical geometry to have a specific head count.",
                                                    "optional" : 1,
                                                    "type" : "integer"
+                                                },
+                                                "import-from" : {
+                                                   "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
+                                                   "format" : "pve-volume-id-or-absolute-path",
+                                                   "format_description" : "source volume",
+                                                   "optional" : 1,
+                                                   "type" : "string"
                                                 },
                                                 "iops" : {
                                                    "description" : "Maximum r/w I/O in operations per second.",
@@ -18357,10 +18493,10 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "scsi[n]" : {
-                                             "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 30). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.",
+                                             "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 30). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
                                              "format" : {
                                                 "aio" : {
                                                    "description" : "AIO type to use.",
@@ -18478,6 +18614,13 @@ const apiSchema = [
                                                    "description" : "Force the drive's physical geometry to have a specific head count.",
                                                    "optional" : 1,
                                                    "type" : "integer"
+                                                },
+                                                "import-from" : {
+                                                   "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
+                                                   "format" : "pve-volume-id-or-absolute-path",
+                                                   "format_description" : "source volume",
+                                                   "optional" : 1,
+                                                   "type" : "string"
                                                 },
                                                 "iops" : {
                                                    "description" : "Maximum r/w I/O in operations per second.",
@@ -18697,7 +18840,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "scsihw" : {
                                              "default" : "lsi",
@@ -18842,13 +18985,20 @@ const apiSchema = [
                                              "typetext" : "<boolean>"
                                           },
                                           "tpmstate0" : {
-                                             "description" : "Configure a Disk for storing TPM state. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default size of 4 MiB will always be used instead. The format is also fixed to 'raw'.",
+                                             "description" : "Configure a Disk for storing TPM state. The format is fixed to 'raw'. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and 4 MiB will be used instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
                                              "format" : {
                                                 "file" : {
                                                    "default_key" : 1,
                                                    "description" : "The drive's backing volume.",
                                                    "format" : "pve-volume-id-or-qm-path",
                                                    "format_description" : "volume",
+                                                   "type" : "string"
+                                                },
+                                                "import-from" : {
+                                                   "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
+                                                   "format" : "pve-volume-id-or-absolute-path",
+                                                   "format_description" : "source volume",
+                                                   "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "size" : {
@@ -18874,7 +19024,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,size=<DiskSize>] [,version=<v1.2|v2.0>]"
+                                             "typetext" : "[file=]<volume> [,import-from=<source volume>] [,size=<DiskSize>] [,version=<v1.2|v2.0>]"
                                           },
                                           "unused[n]" : {
                                              "description" : "Reference to unused volumes. This is used internally, and should not be modified manually.",
@@ -18950,6 +19100,7 @@ const apiSchema = [
                                                       "serial3",
                                                       "std",
                                                       "virtio",
+                                                      "virtio-gl",
                                                       "vmware"
                                                    ],
                                                    "optional" : 1,
@@ -18962,7 +19113,7 @@ const apiSchema = [
                                              "verbose_description" : "Configure the VGA Hardware. If you want to use high resolution modes (>= 1280x1024x16) you may need to increase the vga memory option. Since QEMU 2.9 the default VGA display type is 'std' for all OS types besides some Windows versions (XP and older) which use 'cirrus'. The 'qxl' option enables the SPICE display server. For win* OS you can select how many independent displays you want, Linux guests can add displays them self.\nYou can also run without any graphic card, using a serial device as terminal."
                                           },
                                           "virtio[n]" : {
-                                             "description" : "Use volume as VIRTIO hard disk (n is 0 to 15). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.",
+                                             "description" : "Use volume as VIRTIO hard disk (n is 0 to 15). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
                                              "format" : {
                                                 "aio" : {
                                                    "description" : "AIO type to use.",
@@ -19080,6 +19231,13 @@ const apiSchema = [
                                                    "description" : "Force the drive's physical geometry to have a specific head count.",
                                                    "optional" : 1,
                                                    "type" : "integer"
+                                                },
+                                                "import-from" : {
+                                                   "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
+                                                   "format" : "pve-volume-id-or-absolute-path",
+                                                   "format_description" : "source volume",
+                                                   "optional" : 1,
+                                                   "type" : "string"
                                                 },
                                                 "iops" : {
                                                    "description" : "Maximum r/w I/O in operations per second.",
@@ -19275,7 +19433,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                                           },
                                           "vmgenid" : {
                                              "default" : "1 (autogenerated)",
@@ -22789,10 +22947,10 @@ const apiSchema = [
                                  "default" : "cgroup v1: 1024, cgroup v2: 100",
                                  "description" : "CPU weight for a VM, will be clamped to [1, 10000] in cgroup v2.",
                                  "maximum" : 262144,
-                                 "minimum" : 2,
+                                 "minimum" : 1,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "<integer> (2 - 262144)",
+                                 "typetext" : "<integer> (1 - 262144)",
                                  "verbose_description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs."
                               },
                               "description" : {
@@ -22803,7 +22961,7 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "efidisk0" : {
-                                 "description" : "Configure a Disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead.",
+                                 "description" : "Configure a Disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
                                  "format" : {
                                     "efitype" : {
                                        "default" : "2m",
@@ -22836,6 +22994,13 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
+                                    "import-from" : {
+                                       "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
+                                       "format" : "pve-volume-id-or-absolute-path",
+                                       "format_description" : "source volume",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
                                     "pre-enrolled-keys" : {
                                        "default" : 0,
                                        "description" : "Use am EFI vars template with distribution-specific and Microsoft Standard keys enrolled, if used with 'efitype=4m'. Note that this will enable Secure Boot by default, though it can still be turned off from within the VM.",
@@ -22855,7 +23020,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
+                                 "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
                               },
                               "force" : {
                                  "description" : "Allow to overwrite existing VM.",
@@ -22882,7 +23047,7 @@ const apiSchema = [
                                  "format" : "pve-qm-hostpci",
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,legacy-igd=<1|0>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,x-vga=<1|0>]",
+                                 "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,device-id=<hex id>] [,legacy-igd=<1|0>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,sub-device-id=<hex id>] [,sub-vendor-id=<hex id>] [,vendor-id=<hex id>] [,x-vga=<1|0>]",
                                  "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer\npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                               },
                               "hotplug" : {
@@ -22904,7 +23069,7 @@ const apiSchema = [
                                  "type" : "string"
                               },
                               "ide[n]" : {
-                                 "description" : "Use volume as IDE hard disk or CD-ROM (n is 0 to 3). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.",
+                                 "description" : "Use volume as IDE hard disk or CD-ROM (n is 0 to 3). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
                                  "format" : {
                                     "aio" : {
                                        "description" : "AIO type to use.",
@@ -23022,6 +23187,13 @@ const apiSchema = [
                                        "description" : "Force the drive's physical geometry to have a specific head count.",
                                        "optional" : 1,
                                        "type" : "integer"
+                                    },
+                                    "import-from" : {
+                                       "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
+                                       "format" : "pve-volume-id-or-absolute-path",
+                                       "format_description" : "source volume",
+                                       "optional" : 1,
+                                       "type" : "string"
                                     },
                                     "iops" : {
                                        "description" : "Maximum r/w I/O in operations per second.",
@@ -23227,7 +23399,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                               },
                               "ipconfig[n]" : {
                                  "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit\ngateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration. This requires\ncloud-init 19.4 or newer.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using\ndhcp on IPv4.\n",
@@ -23265,7 +23437,7 @@ const apiSchema = [
                               },
                               "keyboard" : {
                                  "default" : null,
-                                 "description" : "Keyboard layout for VNC server. The default is read from the'/etc/pve/datacenter.cfg' configuration file. It should not be necessary to set it.",
+                                 "description" : "Keyboard layout for VNC server. This option is generally not required and is often better handled from within the guest OS.",
                                  "enum" : [
                                     "de",
                                     "de-ch",
@@ -23382,9 +23554,9 @@ const apiSchema = [
                                  "format" : {
                                     "bridge" : {
                                        "description" : "Bridge to attach the network device to. The Proxmox VE standard bridge\nis called 'vmbr0'.\n\nIf you do not specify a bridge, we create a kvm user (NATed) network\ndevice, which provides DHCP and DNS services. The following addresses\nare used:\n\n 10.0.2.2   Gateway\n 10.0.2.3   DNS Server\n 10.0.2.4   SMB Server\n\nThe DHCP server assign addresses to the guest starting from 10.0.2.15.\n",
+                                       "format" : "pve-bridge-id",
                                        "format_description" : "bridge",
                                        "optional" : 1,
-                                       "pattern" : "[-_.\\w\\d]+",
                                        "type" : "string"
                                     },
                                     "e1000" : {
@@ -23657,7 +23829,7 @@ const apiSchema = [
                                  "typetext" : "[source=]</dev/urandom|/dev/random|/dev/hwrng> [,max_bytes=<integer>] [,period=<integer>]"
                               },
                               "sata[n]" : {
-                                 "description" : "Use volume as SATA hard disk or CD-ROM (n is 0 to 5). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.",
+                                 "description" : "Use volume as SATA hard disk or CD-ROM (n is 0 to 5). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
                                  "format" : {
                                     "aio" : {
                                        "description" : "AIO type to use.",
@@ -23775,6 +23947,13 @@ const apiSchema = [
                                        "description" : "Force the drive's physical geometry to have a specific head count.",
                                        "optional" : 1,
                                        "type" : "integer"
+                                    },
+                                    "import-from" : {
+                                       "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
+                                       "format" : "pve-volume-id-or-absolute-path",
+                                       "format_description" : "source volume",
+                                       "optional" : 1,
+                                       "type" : "string"
                                     },
                                     "iops" : {
                                        "description" : "Maximum r/w I/O in operations per second.",
@@ -23972,10 +24151,10 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                               },
                               "scsi[n]" : {
-                                 "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 30). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.",
+                                 "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 30). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
                                  "format" : {
                                     "aio" : {
                                        "description" : "AIO type to use.",
@@ -24093,6 +24272,13 @@ const apiSchema = [
                                        "description" : "Force the drive's physical geometry to have a specific head count.",
                                        "optional" : 1,
                                        "type" : "integer"
+                                    },
+                                    "import-from" : {
+                                       "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
+                                       "format" : "pve-volume-id-or-absolute-path",
+                                       "format_description" : "source volume",
+                                       "optional" : 1,
+                                       "type" : "string"
                                     },
                                     "iops" : {
                                        "description" : "Maximum r/w I/O in operations per second.",
@@ -24312,7 +24498,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                               },
                               "scsihw" : {
                                  "default" : "lsi",
@@ -24465,13 +24651,20 @@ const apiSchema = [
                                  "typetext" : "<boolean>"
                               },
                               "tpmstate0" : {
-                                 "description" : "Configure a Disk for storing TPM state. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default size of 4 MiB will always be used instead. The format is also fixed to 'raw'.",
+                                 "description" : "Configure a Disk for storing TPM state. The format is fixed to 'raw'. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and 4 MiB will be used instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
                                  "format" : {
                                     "file" : {
                                        "default_key" : 1,
                                        "description" : "The drive's backing volume.",
                                        "format" : "pve-volume-id-or-qm-path",
                                        "format_description" : "volume",
+                                       "type" : "string"
+                                    },
+                                    "import-from" : {
+                                       "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
+                                       "format" : "pve-volume-id-or-absolute-path",
+                                       "format_description" : "source volume",
+                                       "optional" : 1,
                                        "type" : "string"
                                     },
                                     "size" : {
@@ -24497,7 +24690,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,size=<DiskSize>] [,version=<v1.2|v2.0>]"
+                                 "typetext" : "[file=]<volume> [,import-from=<source volume>] [,size=<DiskSize>] [,version=<v1.2|v2.0>]"
                               },
                               "unique" : {
                                  "description" : "Assign a unique random ethernet address.",
@@ -24580,6 +24773,7 @@ const apiSchema = [
                                           "serial3",
                                           "std",
                                           "virtio",
+                                          "virtio-gl",
                                           "vmware"
                                        ],
                                        "optional" : 1,
@@ -24592,7 +24786,7 @@ const apiSchema = [
                                  "verbose_description" : "Configure the VGA Hardware. If you want to use high resolution modes (>= 1280x1024x16) you may need to increase the vga memory option. Since QEMU 2.9 the default VGA display type is 'std' for all OS types besides some Windows versions (XP and older) which use 'cirrus'. The 'qxl' option enables the SPICE display server. For win* OS you can select how many independent displays you want, Linux guests can add displays them self.\nYou can also run without any graphic card, using a serial device as terminal."
                               },
                               "virtio[n]" : {
-                                 "description" : "Use volume as VIRTIO hard disk (n is 0 to 15). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.",
+                                 "description" : "Use volume as VIRTIO hard disk (n is 0 to 15). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
                                  "format" : {
                                     "aio" : {
                                        "description" : "AIO type to use.",
@@ -24710,6 +24904,13 @@ const apiSchema = [
                                        "description" : "Force the drive's physical geometry to have a specific head count.",
                                        "optional" : 1,
                                        "type" : "integer"
+                                    },
+                                    "import-from" : {
+                                       "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
+                                       "format" : "pve-volume-id-or-absolute-path",
+                                       "format_description" : "source volume",
+                                       "optional" : 1,
+                                       "type" : "string"
                                     },
                                     "iops" : {
                                        "description" : "Maximum r/w I/O in operations per second.",
@@ -24905,7 +25106,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
                               },
                               "vmgenid" : {
                                  "default" : "1 (autogenerated)",
@@ -25359,6 +25560,7 @@ const apiSchema = [
                                                 "archlinux",
                                                 "alpine",
                                                 "gentoo",
+                                                "nixos",
                                                 "unmanaged"
                                              ],
                                              "optional" : 1,
@@ -25871,6 +26073,7 @@ const apiSchema = [
                                                 "archlinux",
                                                 "alpine",
                                                 "gentoo",
+                                                "nixos",
                                                 "unmanaged"
                                              ],
                                              "optional" : 1,
@@ -31624,6 +31827,7 @@ const apiSchema = [
                                     "archlinux",
                                     "alpine",
                                     "gentoo",
+                                    "nixos",
                                     "unmanaged"
                                  ],
                                  "optional" : 1,
@@ -32762,6 +32966,13 @@ const apiSchema = [
                                              "type" : "string",
                                              "typetext" : "<string>"
                                           },
+                                          "remove_ecprofile" : {
+                                             "default" : 1,
+                                             "description" : "Remove the erasure code profile. Defaults to true, if applicable.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
                                           "remove_storages" : {
                                              "default" : 0,
                                              "description" : "Remove all pveceph-managed storages configured for this pool",
@@ -33210,14 +33421,14 @@ const apiSchema = [
                            },
                            "POST" : {
                               "allowtoken" : 1,
-                              "description" : "Create POOL",
+                              "description" : "Create Ceph pool",
                               "method" : "POST",
                               "name" : "createpool",
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
                                     "add_storages" : {
-                                       "description" : "Configure VM and CT storage using the new pool.",
+                                       "description" : "Configure VM and CT storage using the new pool. Always enabled for erasure coded pools.",
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
@@ -33240,6 +33451,41 @@ const apiSchema = [
                                        "title" : "Crush Rule Name",
                                        "type" : "string",
                                        "typetext" : "<string>"
+                                    },
+                                    "erasure-coding" : {
+                                       "format" : {
+                                          "device-class" : {
+                                             "description" : "CRUSH device class. Will create an erasure coded pool plus a replicated pool for metadata.",
+                                             "format_description" : "class",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "failure-domain" : {
+                                             "description" : "CRUSH failure domain. Default is 'host'. Will create an erasure coded pool plus a replicated pool for metadata.",
+                                             "format_description" : "domain",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "k" : {
+                                             "description" : "Number of data chunks. Will create an erasure coded pool plus a replicated pool for metadata.",
+                                             "minimum" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "m" : {
+                                             "description" : "Number of coding chunks. Will create an erasure coded pool plus a replicated pool for metadata.",
+                                             "minimum" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "profile" : {
+                                             "description" : "Override the erasure code (EC) profile to use. Will create an erasure coded pool plus a replicated pool for metadata.",
+                                             "format_description" : "profile",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "k=<integer> ,m=<integer> [,device-class=<class>] [,failure-domain=<domain>] [,profile=<profile>]"
                                     },
                                     "min_size" : {
                                        "default" : 2,
@@ -34044,6 +34290,12 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
+                                    "notes-template" : {
+                                       "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, and {{vmid}}, but more might be added in the future.",
+                                       "optional" : 1,
+                                       "requires" : "storage",
+                                       "type" : "string"
+                                    },
                                     "pigz" : {
                                        "default" : 0,
                                        "description" : "Use pigz instead of gzip when N>0. N=1 uses half of cores, N>1 uses N as thread count.",
@@ -34054,6 +34306,12 @@ const apiSchema = [
                                        "description" : "Backup all known guest systems included in the specified pool.",
                                        "optional" : 1,
                                        "type" : "string"
+                                    },
+                                    "protected" : {
+                                       "description" : "If true, mark backup(s) as protected.",
+                                       "optional" : 1,
+                                       "requires" : "storage",
+                                       "type" : "boolean"
                                     },
                                     "prune-backups" : {
                                        "default" : "keep-all=1",
@@ -34285,6 +34543,13 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "notes-template" : {
+                                 "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, and {{vmid}}, but more might be added in the future.",
+                                 "optional" : 1,
+                                 "requires" : "storage",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "pigz" : {
                                  "default" : 0,
                                  "description" : "Use pigz instead of gzip when N>0. N=1 uses half of cores, N>1 uses N as thread count.",
@@ -34297,6 +34562,13 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "protected" : {
+                                 "description" : "If true, mark backup(s) as protected.",
+                                 "optional" : 1,
+                                 "requires" : "storage",
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
                               },
                               "prune-backups" : {
                                  "default" : "keep-all=1",
@@ -42938,8 +43210,8 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "upgrade",
                                     "ceph_install",
+                                    "upgrade",
                                     "login"
                                  ],
                                  "optional" : 1,
@@ -43034,8 +43306,8 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "upgrade",
                                     "ceph_install",
+                                    "upgrade",
                                     "login"
                                  ],
                                  "optional" : 1,
@@ -43160,8 +43432,8 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "upgrade",
                                     "ceph_install",
+                                    "upgrade",
                                     "login"
                                  ],
                                  "optional" : 1,
@@ -44235,6 +44507,14 @@ const apiSchema = [
                            "type" : "string",
                            "typetext" : "<string>"
                         },
+                        "max-protected-backups" : {
+                           "default" : "Unlimited for users with Datastore.Allocate privilege, 5 for other users",
+                           "description" : "Maximal number of protected backups per guest. Use '-1' for unlimited.",
+                           "minimum" : -1,
+                           "optional" : 1,
+                           "type" : "integer",
+                           "typetext" : "<integer> (-1 - N)"
+                        },
                         "maxfiles" : {
                            "description" : "Deprecated: use 'prune-backups' instead. Maximal number of backup files per VM. Use '0' for unlimited.",
                            "minimum" : 0,
@@ -44730,6 +45010,14 @@ const apiSchema = [
                      "optional" : 1,
                      "type" : "string",
                      "typetext" : "<string>"
+                  },
+                  "max-protected-backups" : {
+                     "default" : "Unlimited for users with Datastore.Allocate privilege, 5 for other users",
+                     "description" : "Maximal number of protected backups per guest. Use '-1' for unlimited.",
+                     "minimum" : -1,
+                     "optional" : 1,
+                     "type" : "integer",
+                     "typetext" : "<integer> (-1 - N)"
                   },
                   "maxfiles" : {
                      "description" : "Deprecated: use 'prune-backups' instead. Maximal number of backup files per VM. Use '0' for unlimited.",
@@ -46648,13 +46936,13 @@ const apiSchema = [
                                        "typetext" : "<boolean>"
                                     },
                                     "full" : {
-                                       "description" : "If set, uses the LDAP Directory as source of truth, deleting users or groups not returned from the sync. Otherwise only syncs information which is not already present, and does not deletes or modifies anything else.",
+                                       "description" : "DEPRECATED: use 'remove-vanished' instead. If set, uses the LDAP Directory as source of truth, deleting users or groups not returned from the sync and removing all locally modified properties of synced users. If not set, only syncs information which is present in the synced data, and does not delete or modify anything else.",
                                        "optional" : "1",
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
                                     },
                                     "purge" : {
-                                       "description" : "Remove ACLs for users or groups which were removed from the config during a sync.",
+                                       "description" : "DEPRECATED: use 'remove-vanished' instead. Remove ACLs for users or groups which were removed from the config during a sync.",
                                        "optional" : "1",
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
@@ -46665,6 +46953,13 @@ const apiSchema = [
                                        "maxLength" : 32,
                                        "type" : "string",
                                        "typetext" : "<string>"
+                                    },
+                                    "remove-vanished" : {
+                                       "description" : "A semicolon-seperated list of things to remove when they or the user vanishes during a sync. The following values are possible: 'entry' removes the user/group when not returned from the sync. 'properties' removes the set properties on existing user/group that do not appear in the source (even custom ones). 'acl' removes acls when the user/group is not returned from the sync.",
+                                       "optional" : "1",
+                                       "pattern" : "(?:(?:acl|properties|entry);)*(?:acl|properties|entry)",
+                                       "type" : "string",
+                                       "typetext" : "[acl];[properties];[entry]"
                                     },
                                     "scope" : {
                                        "description" : "Select what to sync.",
@@ -47010,7 +47305,7 @@ const apiSchema = [
                                  "format" : "realm-sync-options",
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,scope=<users|groups|both>]"
+                                 "typetext" : "[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,remove-vanished=[acl];[properties];[entry]] [,scope=<users|groups|both>]"
                               },
                               "sync_attributes" : {
                                  "description" : "Comma separated list of key=value pairs for specifying which LDAP attributes map to which PVE user field. For example, to map the LDAP attribute 'mail' to PVEs 'email', write  'email=mail'. By default, each PVE user field is represented  by an LDAP attribute of the same name.",
@@ -47341,7 +47636,7 @@ const apiSchema = [
                            "format" : "realm-sync-options",
                            "optional" : 1,
                            "type" : "string",
-                           "typetext" : "[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,scope=<users|groups|both>]"
+                           "typetext" : "[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,remove-vanished=[acl];[properties];[entry]] [,scope=<users|groups|both>]"
                         },
                         "sync_attributes" : {
                            "description" : "Comma separated list of key=value pairs for specifying which LDAP attributes map to which PVE user field. For example, to map the LDAP attribute 'mail' to PVEs 'email', write  'email=mail'. By default, each PVE user field is represented  by an LDAP attribute of the same name.",

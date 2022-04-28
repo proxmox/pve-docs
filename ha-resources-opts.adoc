@@ -41,7 +41,7 @@ of the `error` state.
 `ignored`;;
 +
 The resource gets removed from the manager status and so the CRM and the LRM do
-not touch the resource anymore. All {pve} API calls affecting this resource
+not touch the resource anymore. All \{pve\} API calls affecting this resource
 will be executed, directly bypassing the HA stack. CRM commands will be thrown
 away while there source is in this state. The resource will not get relocated
 on node failures.

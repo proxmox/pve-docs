@@ -190,7 +190,7 @@ Network interface type.
 
 Specifies whether a VM will be started during system bootup.
 
-`ostype`: `<alpine | archlinux | centos | debian | devuan | fedora | gentoo | opensuse | ubuntu | unmanaged>` ::
+`ostype`: `<alpine | archlinux | centos | debian | devuan | fedora | gentoo | nixos | opensuse | ubuntu | unmanaged>` ::
 
 OS type. This is used to setup configuration inside the container, and corresponds to lxc setup scripts in /usr/share/lxc/config/<ostype>.common.conf. Value 'unmanaged' can be used to skip and OS specific setup.
 

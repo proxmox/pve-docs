@@ -60,6 +60,12 @@ Backup mode.
 
 Only run if executed on this node.
 
+`--notes-template` `<string>` ::
+
+Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are \{\{cluster\}\}, \{\{guestname\}\}, \{\{node\}\}, and \{\{vmid\}\}, but more might be added in the future.
++
+NOTE: Requires option(s): `storage`
+
 `--pigz` `<integer>` ('default =' `0`)::
 
 Use pigz instead of gzip when N>0. N=1 uses half of cores, N>1 uses N as thread count.
@@ -67,6 +73,12 @@ Use pigz instead of gzip when N>0. N=1 uses half of cores, N>1 uses N as thread 
 `--pool` `<string>` ::
 
 Backup all known guest systems included in the specified pool.
+
+`--protected` `<boolean>` ::
+
+If true, mark backup(s) as protected.
++
+NOTE: Requires option(s): `storage`
 
 `--prune-backups` `[keep-all=<1|0>] [,keep-daily=<N>] [,keep-hourly=<N>] [,keep-last=<N>] [,keep-monthly=<N>] [,keep-weekly=<N>] [,keep-yearly=<N>]` ('default =' `keep-all=1`)::
 
