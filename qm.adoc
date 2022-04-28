@@ -664,6 +664,15 @@ qemu: using cirrus considered harmful], e.g., if using Windows XP or earlier
 * *qxl*, is the QXL paravirtualized graphics card. Selecting this also
 enables https://www.spice-space.org/[SPICE] (a remote viewer protocol) for the
 VM.
+* *virtio-gl*, often named VirGL is a virtual 3D GPU for use inside VMs that
+  can offload workloads to the host GPU without requiring special (expensive)
+  models and drivers and neither binding the host GPU completely, allowing
+  reuse between multiple guests and or the host.
++
+NOTE: VirGL support needs some extra libraries that aren't installed by
+default due to being relatively big and also not available as open source for
+all GPU models/vendors. For most setups you'll just need to do:
+`apt install libgl1 libegl1`
 
 You can edit the amount of memory given to the virtual GPU, by setting
 the 'memory' option. This can enable higher resolutions inside the VM,
