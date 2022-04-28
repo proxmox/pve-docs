@@ -306,6 +306,19 @@ backups per guest are allowed on the storage. Use `-1` for unlimited. The
 default is unlimited for users with `Datastore.Allocate` privilege and `5` for
 other users.
 
+[[vzdump_notes]]
+Backup Notes
+------------
+
+You can add notes to backups using the 'Edit Notes' button in the UI or via the
+storage content API. It is also possible to specify a template for generating
+notes dynamically for a backup job and for manual backup. The template string
+can contain variables, surrounded by two curly braces, which will be replaced by
+the corresponding value when the backup is executed. Currently supported are
+`{{cluster}}`, `{{guestname}}`, `{{node}}`, and `{{vmid}}`. When specified via
+API or CLI, it needs to be a single line, where newline and backslash need to be
+escaped as `\n` and `\\` respectively.
+
 [[vzdump_restore]]
 Restore
 -------
