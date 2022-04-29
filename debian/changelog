@@ -1,3 +1,54 @@
+pve-docs (7.1-3) bullseye; urgency=medium
+
+  * VM live migration: mention that CPU vendor should be the same
+
+  * add section for protection of backups
+
+  * pveproxy: document newly added TLS disable-version and TLS key-file
+    options
+
+  * storage: rbd: cephfs: update authentication section
+
+  * pci-passthrough: add section about new vendor and model ID overrides
+
+  * storage: document preallocation as a common storage option
+
+  * cluster: network: clarify and ease latency requirements
+
+  * add documentation for the new icmp-type parameter
+
+  * sdn: update bgp/evpn documentation
+
+  * zfs: update documentation about ZED, reflecting that it's installed by
+    default since Proxmox VE 6.1
+
+  * storage: switch to 'prune-backups' in examples
+
+  * vzdump/storage: mention protected backups limit and give an example
+
+  * fix #3884: Add section for kernel samepage merging
+
+  * sys: boot: initial basic documentation for new kernel version pinning
+
+  * storage: rbd: document optional ceph client configuration for external
+    clusters
+
+  * pve-network: Fix routed configuration example
+
+  * ldap/ad realms: update documentation about sync-options
+
+  * vzdump: add section for notes and notes-template
+
+  * qm: add very basic VirGL docs
+
+  * pveceph: add section about erasure code pools
+
+  * pvecm: add basic next-id section
+
+  * update static/schema information
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 29 Apr 2022 17:35:18 +0200
+
 pve-docs (7.1-2) bullseye; urgency=medium
 
   * update TFA docs
