@@ -1,3 +1,13 @@
+pve-docs (7.2-1) bullseye; urgency=medium
+
+  * calendar-events: update format and add more examples
+
+  * pbs storage: fix typo in feature table
+
+  * pveum: add paragraph about syncing user attributes
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 02 May 2022 17:38:02 +0200
+
 pve-docs (7.1-3) bullseye; urgency=medium
 
   * VM live migration: mention that CPU vendor should be the same
