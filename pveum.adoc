@@ -295,6 +295,11 @@ pveum realm sync <realm>
 Users and groups are synced to the cluster-wide configuration file,
 `/etc/pve/user.cfg`.
 
+If the sync response includes user attributes, they will be synced into the
+matching user property in the `user.cfg` (for example: 'firstname', 'lastname',
+etc.). If the names of the attributes are not matching the PVE properties, you
+can set a custom field-to-field map in the config with the 'sync_attributes'
+option.
 
 Sync Configuration
 ^^^^^^^^^^^^^^^^^^
@@ -334,7 +339,6 @@ NOTE: Filters allow you to create a set of additional match criteria, to narrow
 down the scope of a sync. Information on available LDAP filter types and their
 usage can be found at https://ldap.com/ldap-filters/[ldap.com].
 
-
 [[pveum_ldap_sync_options]]
 Sync Options
 ^^^^^^^^^^^^
@@ -366,10 +370,10 @@ The main options for syncing are:
     - `Entry` (`entry`): Removes entries (i.e. users and groups) when they are
       not returned in the sync response.
 
-    - `Properties` (`properties`): Removes properties of entries which were
-      not returned in the sync response. This includes custom properties
-      which were never set by the sync. Exceptions are tokens and the enable
-      flag. Those will be retained even with this option.
+    - `Properties` (`properties`): Removes properties of entries where the user
+      in the sync response did not contain those attributes. This includes
+      all properties, even those never set by a sync. Exceptions are tokens
+      and the enable flag, these will be retained even with this option enabled.
 
 * `Preview` (`dry-run`): No data is written to the config. This is useful if you
   want to see which users and groups would get synced to the `user.cfg`.
