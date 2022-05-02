@@ -295,11 +295,20 @@ pveum realm sync <realm>
 Users and groups are synced to the cluster-wide configuration file,
 `/etc/pve/user.cfg`.
 
+
+Attributes to Properties
+^^^^^^^^^^^^^^^^^^^^^^^^
+
 If the sync response includes user attributes, they will be synced into the
-matching user property in the `user.cfg` (for example: 'firstname', 'lastname',
-etc.). If the names of the attributes are not matching the PVE properties, you
-can set a custom field-to-field map in the config with the 'sync_attributes'
+matching user property in the `user.cfg`. For example: `firstname` or
+`lastname`.
+
+If the names of the attributes are not matching the {pve} properties, you can
+set a custom field-to-field map in the config by using the `sync_attributes`
 option.
+
+How such properties are handled if anything vanishes can be controlled via the
+sync options, see below.
 
 Sync Configuration
 ^^^^^^^^^^^^^^^^^^
