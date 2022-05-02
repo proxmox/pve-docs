@@ -33406,6 +33406,15 @@ const apiSchema = [
                                           "optional" : 1,
                                           "title" : "PG Autoscale Target Ratio",
                                           "type" : "number"
+                                       },
+                                       "type" : {
+                                          "enum" : [
+                                             "replicated",
+                                             "erasure",
+                                             "unknown"
+                                          ],
+                                          "title" : "Type",
+                                          "type" : "string"
                                        }
                                     },
                                     "type" : "object"
@@ -33428,7 +33437,8 @@ const apiSchema = [
                                  "additionalProperties" : 0,
                                  "properties" : {
                                     "add_storages" : {
-                                       "description" : "Configure VM and CT storage using the new pool. Always enabled for erasure coded pools.",
+                                       "default" : "0; for erasure coded pools: 1",
+                                       "description" : "Configure VM and CT storage using the new pool.",
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
@@ -33453,6 +33463,7 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "erasure-coding" : {
+                                       "description" : "Create an erasure coded pool for RBD with an accompaning replicated pool for metadata storage.",
                                        "format" : {
                                           "device-class" : {
                                              "description" : "CRUSH device class. Will create an erasure coded pool plus a replicated pool for metadata.",
@@ -33461,6 +33472,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "failure-domain" : {
+                                             "default" : "host",
                                              "description" : "CRUSH failure domain. Default is 'host'. Will create an erasure coded pool plus a replicated pool for metadata.",
                                              "format_description" : "domain",
                                              "optional" : 1,
@@ -33468,7 +33480,7 @@ const apiSchema = [
                                           },
                                           "k" : {
                                              "description" : "Number of data chunks. Will create an erasure coded pool plus a replicated pool for metadata.",
-                                             "minimum" : 1,
+                                             "minimum" : 2,
                                              "type" : "integer"
                                           },
                                           "m" : {

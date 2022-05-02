@@ -242,9 +242,9 @@ Create Ceph pool
 
 The name of the pool. It must be unique.
 
-`--add_storages` `<boolean>` ::
+`--add_storages` `<boolean>` ('default =' `0; for erasure coded pools: 1`)::
 
-Configure VM and CT storage using the new pool. Always enabled for erasure coded pools.
+Configure VM and CT storage using the new pool.
 
 `--application` `<cephfs | rbd | rgw>` ('default =' `rbd`)::
 
@@ -256,7 +256,7 @@ The rule to use for mapping object placement in the cluster.
 
 `--erasure-coding` `k=<integer> ,m=<integer> [,device-class=<class>] [,failure-domain=<domain>] [,profile=<profile>]` ::
 
-no description available
+Create an erasure coded pool for RBD with an accompaning replicated pool for metadata storage.
 
 `--min_size` `<integer> (1 - 7)` ('default =' `2`)::
 
