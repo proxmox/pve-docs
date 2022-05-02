@@ -10,7 +10,7 @@ single expression.
 Such a calendar event uses the following format:
 
 ----
-[day(s)] [[start-time(s)][/repetition-time(s)]]
+[WEEKDAY] [[YEARS-]MONTHS-DAYS] [HOURS:MINUTES[:SECONDS]]
 ----
 
 This format allows you to configure a set of days on which the job should run.
@@ -39,7 +39,7 @@ xref:pvesr_schedule_format_examples[more Examples below].
 Detailed Specification
 ----------------------
 
-days:: Days are specified with an abbreviated English version: `sun, mon,
+weekdays:: Days are specified with an abbreviated English version: `sun, mon,
 tue, wed, thu, fri and sat`. You may use multiple days as a comma-separated
 list. A range of days can also be set by specifying the start and end day
 separated by ``..'', for example `mon..fri`. These formats can be mixed.
@@ -56,6 +56,22 @@ The valid range for values is `0-23` for hours and `0-59` for minutes.
 Examples:
 ~~~~~~~~~
 
+There are some special values that have a specific meaning:
+
+.Special Values
+[width="100%",options="header"]
+|================================================================
+|Value					|Syntax
+|`minutely`				|`*-*-* *:*:00`
+|`hourly`				|`*-*-* *:00:00`
+|`daily`				|`*-*-* 00:00:00`
+|`weekly`				|`mon *-*-* 00:00:00`
+|`monthly`				|`*-*-01 00:00:00`
+|`yearly` or `annually`			| `*-01-01 00:00:00`
+|`quarterly`				|`*-01,04,07,10-01 00:00:00`
+|`semiannually` or `semi-annually`	|`*-01,07-01 00:00:00`
+|================================================================
+
 .Schedule Examples
 [width="100%",options="header"]
 |==============================================================================
@@ -70,4 +86,7 @@ Examples:
 |fri 12..13:5/20	|fri 12,13:5/20		|Friday at 12:05, 12:25, 12:45, 13:05, 13:25 and 13:45
 |12,14,16,18,20,22:5	|12/2:5			|Every day starting at 12:05 until 22:05, every 2 hours
 |*			|*/1			|Every minute (minimum interval)
+|*-05			|--			|On the 5th day of every Month
+|Sat *-1..7 15:00	|--			|First Saturday each Month at 15:00
+|2015-10-21		|--			|21st October 2015 at 00:00
 |==============================================================================
