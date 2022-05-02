@@ -82,7 +82,7 @@ Proxmox Backup Server only supports backups, they can be block-level or
 file-level based. {pve} uses block-level for virtual machines and file-level for
 container.
 
-.Storage features for backend `cifs`
+.Storage features for backend `pbs`
 [width="100%",cols="m,4*d",options="header"]
 |===============================================================
 |Content types |Image formats |Shared |Snapshots |Clones
