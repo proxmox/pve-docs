@@ -595,6 +595,12 @@ providing the '--add_storages 0' parameter.  When configuring the storage
 configuration manually, keep in mind that the 'data-pool' parameter needs to be
 set. Only then will the EC pool be used to store the data objects. For example:
 
+NOTE: The optional parameters '--size', '--min_size' and '--crush_rule' will be
+used for the replicated metadata pool, but not for the erasure coded data pool.
+If you need to change the 'min_size' on the data pool, you can do it later.
+The 'size' and 'crush_rule' parameters cannot be changed on erasure coded
+pools.
+
 [source,bash]
 ----
 pvesm add rbd <storage name> --pool <replicated pool> --data-pool <ec pool>
