@@ -32,6 +32,8 @@ See Also
 
 * link:/wiki/System_Software_Updates[System Software Updates]
 
+* link:/wiki/Host_Bootloader[Host Bootloader]
+
 * link:/wiki/External_Metric_Server[External Metric Server]
 
 * link:/wiki/Disk_Health_Monitoring[Disk Health Monitoring]
@@ -41,6 +43,9 @@ See Also
 * link:/wiki/ZFS_on_Linux[ZFS on Linux]
 
 * link:/wiki/Certificate_Management[Certificate Management]
+
+* link:/wiki/Kernel_Samepage_Merging_(KSM)[Kernel Samepage Merging (KSM)]
+
 endif::wiki[]
 
 
