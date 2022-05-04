@@ -94,7 +94,7 @@ Lower, inclusive boundary for free next-id API range.
 
 `upper`=`<integer>` ('default =' `1000000`);;
 
-Upper, inclusive boundary for free next-id API range.
+Upper, exclusive boundary for free next-id API range.
 
 `u2f`: `[appid=<APPID>] [,origin=<URL>]` ::
 

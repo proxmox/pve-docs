@@ -8810,7 +8810,7 @@ const apiSchema = [
                               },
                               "upper" : {
                                  "default" : 1000000,
-                                 "description" : "Upper, inclusive boundary for free next-id API range.",
+                                 "description" : "Upper, exclusive boundary for free next-id API range.",
                                  "max" : 999999999,
                                  "min" : 100,
                                  "optional" : 1,
@@ -33463,7 +33463,7 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "erasure-coding" : {
-                                       "description" : "Create an erasure coded pool for RBD with an accompaning replicated pool for metadata storage.",
+                                       "description" : "Create an erasure coded pool for RBD with an accompaning replicated pool for metadata storage. With EC, the common ceph options 'size', 'min_size' and 'crush_rule' parameters will be applied to the metadata pool.",
                                        "format" : {
                                           "device-class" : {
                                              "description" : "CRUSH device class. Will create an erasure coded pool plus a replicated pool for metadata.",

@@ -256,7 +256,7 @@ The rule to use for mapping object placement in the cluster.
 
 `--erasure-coding` `k=<integer> ,m=<integer> [,device-class=<class>] [,failure-domain=<domain>] [,profile=<profile>]` ::
 
-Create an erasure coded pool for RBD with an accompaning replicated pool for metadata storage.
+Create an erasure coded pool for RBD with an accompaning replicated pool for metadata storage. With EC, the common ceph options 'size', 'min_size' and 'crush_rule' parameters will be applied to the metadata pool.
 
 `--min_size` `<integer> (1 - 7)` ('default =' `2`)::
 
