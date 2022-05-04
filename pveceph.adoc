@@ -499,7 +499,7 @@ make better decisions.
 .Example for creating a pool over the CLI
 [source,bash]
 ----
-pveceph pool create <name> --add_storages
+pveceph pool create <pool-name> --add_storages
 ----
 
 TIP: If you would also like to automatically define a storage for your
@@ -548,16 +548,28 @@ manual.
 
 
 [[pve_ceph_ec_pools]]
-Erasure Coded (EC) Pools
-~~~~~~~~~~~~~~~~~~~~~~~~
+Erasure Coded Pools
+~~~~~~~~~~~~~~~~~~~
 
-Erasure coded (EC) pools can offer more usable space for the price of
-performance. In replicated pools, multiple replicas of the data are stored
-(`size`). In erasure coded pool, data is split into `k` data chunks with
-additional `m` coding chunks.  The coding chunks can be used to recreate data
-should data chunks be missing.  The number of coding chunks, `m`, defines how
-many OSDs can be lost without losing any data.  The total amount of objects
-stored is `k + m`.
+Erasure coding (EC) is a form of `forward error correction' codes that allows
+to recover from a certain amount of data loss. Erasure coded pools can offer
+more usable space compared to replicated pools, but they do that for the price
+of performance.
+
+For comparision: in classic, replicated pools, multiple replicas of the data
+are stored (`size`) while in erasure coded pool, data is split into `k` data
+chunks with additional `m` coding (checking) chunks. Those coding chunks can be
+used to recreate data should data chunks be missing.
+
+The number of coding chunks, `m`, defines how many OSDs can be lost without
+losing any data. The total amount of objects stored is `k + m`.
+
+Creating EC Pools
+^^^^^^^^^^^^^^^^^
+
+You can create erasuce coded (EC) through using the `pveceph` CLI tooling. As
+EC code work different than replicated pools, planning a setup and the pool
+parameters used needs to adapt.
 
 The default `min_size` of an EC pool depends on the `m` parameter. If `m = 1`,
 the `min_size` of the EC pool will be `k`. The `min_size` will be `k + 1` if
@@ -580,7 +592,7 @@ To create a new EC pool, run the following command:
 
 [source,bash]
 ----
-pceveph pool create <pool name> --erasure-coding k=2,m=1
+pceveph pool create <pool-name> --erasure-coding k=2,m=1
 ----
 
 Optional parameters are `failure-domain` and `device-class`. If you
@@ -601,11 +613,6 @@ If you need to change the `min_size` on the data pool, you can do it later.
 The `size` and `crush_rule` parameters cannot be changed on erasure coded
 pools.
 
-[source,bash]
-----
-pvesm add rbd <storage name> --pool <replicated pool> --data-pool <ec pool>
-----
-
 If there is a need to further customize the EC profile, you can do so by
 creating it with the Ceph tools directly footnote:[Ceph Erasure Code Profile
 {cephdocs-url}/rados/operations/erasure-code/#erasure-code-profiles], and
@@ -614,9 +621,23 @@ specify the profile to use with the `profile` parameter.
 For example:
 [source,bash]
 ----
-pceveph pool create <pool name> --erasure-coding profile=<profile name>
+pceveph pool create <pool-name> --erasure-coding profile=<profile-name>
 ----
 
+Adding EC Pools as Storage
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can also add an already existing EC pool as storage to {pve}, it works the
+same as adding any `RBD` pool but requires to pass the extra `data-pool`
+option.
+
+[source,bash]
+----
+pvesm add rbd <storage-name> --pool <replicated-pool> --data-pool <ec-pool>
+----
+
+TIP: Do not forget to add the `keyring` and `monhost` option for any external
+ceph clusters, not managed by the local {pve} cluster.
 
 Destroy Pools
 ~~~~~~~~~~~~~
