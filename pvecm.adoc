@@ -58,7 +58,7 @@ Grouping nodes into a cluster has the following advantages:
 Requirements
 ------------
 
-* All nodes must be able to connect to each other via UDP ports 5404 and 5405
+* All nodes must be able to connect to each other via UDP ports 5405-5412
  for corosync to work.
 
 * Date and time must be synchronized.

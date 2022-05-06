@@ -426,7 +426,7 @@ following traffic is still allowed for all {pve} hosts in the cluster:
 * TCP traffic from management hosts to port 3128 for connections to the SPICE
   proxy
 * TCP traffic from management hosts to port 22 to allow ssh access
-* UDP traffic in the cluster network to port 5404 and 5405 for corosync
+* UDP traffic in the cluster network to ports 5405-5412 for corosync
 * UDP multicast traffic in the cluster network
 * ICMP traffic type 3 (Destination Unreachable), 4 (congestion control) or 11
   (Time Exceeded)
@@ -435,7 +435,7 @@ The following traffic is dropped, but not logged even with logging enabled:
 
 * TCP connections with invalid connection state
 * Broadcast, multicast and anycast traffic not related to corosync, i.e., not
-  coming through port 5404 or 5405
+  coming through ports 5405-5412
 * TCP traffic to port 43
 * UDP traffic to ports 135 and 445
 * UDP traffic to the port range 137 to 139
@@ -634,7 +634,7 @@ Ports used by {pve}
 * sshd (used for cluster actions): 22 (TCP)
 * rpcbind: 111 (UDP)
 * sendmail: 25 (TCP, outgoing)
-* corosync cluster traffic: 5404, 5405 UDP
+* corosync cluster traffic: 5405-5412 UDP
 * live migration (VM memory and local-disk data): 60000-60050 (TCP)
 
 ifdef::manvolnum[]
