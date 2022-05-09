@@ -592,7 +592,7 @@ To create a new EC pool, run the following command:
 
 [source,bash]
 ----
-pceveph pool create <pool-name> --erasure-coding k=2,m=1
+pveceph pool create <pool-name> --erasure-coding k=2,m=1
 ----
 
 Optional parameters are `failure-domain` and `device-class`. If you
@@ -621,7 +621,7 @@ specify the profile to use with the `profile` parameter.
 For example:
 [source,bash]
 ----
-pceveph pool create <pool-name> --erasure-coding profile=<profile-name>
+pveceph pool create <pool-name> --erasure-coding profile=<profile-name>
 ----
 
 Adding EC Pools as Storage
