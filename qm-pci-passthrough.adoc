@@ -62,6 +62,24 @@ The command line parameters are:
 ----
 * for AMD CPUs it should be enabled automatically.
 
+
+If your hardware supports it, enabling IOMMU passthrough mode might increase
+performance, because then the VMs bypass the (default) DMA translation
+which is normally done by the hypervisor, before handing DMA requests off to
+the hardware IOMMU. You can enable it with adding
+
+----
+ iommu.passthrough=1
+----
+
+or
+
+----
+ iommu=pt
+----
+
+to the kernel commandline.
+
 .Kernel Modules
 
 You have to make sure the following modules are loaded. This can be achieved by
