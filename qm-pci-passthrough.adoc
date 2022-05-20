@@ -49,8 +49,9 @@ First, the IOMMU support has to be enabled in your BIOS/UEFI. Most often, that
 options is named `IOMMU` or `VT-d`, but check the manual for your motherboard
 for the exact option you need to enable.
 
-Then, the IOMMU has to be activated on the
+Then, the IOMMU might need to be activated on the
 xref:sysboot_edit_kernel_cmdline[kernel commandline].
+(On newer kernels, this should not be necessary.)
 
 The command line parameters are:
 
