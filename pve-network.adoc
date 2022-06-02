@@ -12,9 +12,6 @@ complete format description. All {pve} tools try hard to keep direct
 user modifications, but using the GUI is still preferable, because it
 protects you from errors.
 
-Once the network is configured, you can use the Debian traditional tools `ifup`
-and `ifdown` commands to bring interfaces up and down.
-
 Apply Network Changes
 ~~~~~~~~~~~~~~~~~~~~~
 
