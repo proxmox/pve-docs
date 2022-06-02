@@ -5,12 +5,25 @@ ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]
 
-Network configuration can be done either via the GUI, or by manually
-editing the file `/etc/network/interfaces`, which contains the
-whole network configuration. The  `interfaces(5)` manual page contains the
-complete format description. All {pve} tools try hard to keep direct
-user modifications, but using the GUI is still preferable, because it
+{pve} is using the Linux network stack. This provides a lot of flexibility on
+how to set up the network on the {pve} nodes. The configuration can be done
+either via the GUI, or by manually editing the file `/etc/network/interfaces`,
+which contains the whole network configuration. The  `interfaces(5)` manual
+page contains the complete format description. All {pve} tools try hard to keep
+direct user modifications, but using the GUI is still preferable, because it
 protects you from errors.
+
+A 'vmbr' interface is needed to connect guests to the underlying physical
+network.  They are a Linux bridge which can be thought of as a virtual switch
+to which the guests and physical interfaces are connected to.  This section
+provides some examples on how the network can be set up to accomodate different
+use cases like redundancy with a xref:sysadmin_network_bond['bond'],
+xref:sysadmin_network_vlan['vlans'] or
+xref:sysadmin_network_routed['routed'] and
+xref:sysadmin_network_masquerading['NAT'] setups.
+
+The xref:chapter_pvesdn[Software Defined Network] is an option for more complex
+virtual networks in {pve} clusters.
 
 WARNING: It's discourage to use the Debian traditional tools `ifup` and `ifdown`
 if unsure, as they have some pitfalls like interupting all guest traffic on
@@ -158,6 +171,7 @@ physical network. The network, in turn, sees each virtual machine as
 having its own MAC, even though there is only one network cable
 connecting all of these VMs to the network.
 
+[[sysadmin_network_routed]]
 Routed Configuration
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -200,6 +214,7 @@ iface vmbr0 inet static
 ----
 
 
+[[sysadmin_network_masquerading]]
 Masquerading (NAT) with `iptables`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -252,7 +267,7 @@ https://lwn.net/Articles/370152/[Patch on netdev-list introducing conntrack zone
 https://blog.lobraun.de/2019/05/19/prox/[Blog post with a good explanation by using TRACE in the raw table]
 
 
-
+[[sysadmin_network_bond]]
 Linux Bond
 ~~~~~~~~~~
 
@@ -390,6 +405,7 @@ iface vmbr0 inet static
 ----
 
 
+[[sysadmin_network_vlan]]
 VLAN 802.1Q
 ~~~~~~~~~~~
 
