@@ -29,34 +29,23 @@ inaccessible.
 Reboot Node to apply
 ^^^^^^^^^^^^^^^^^^^^
 
-With the default installed `ifupdown` network managing package you need to
-reboot to commit any pending network changes. Most of the time, the basic {pve}
-network setup is stable and does not change often, so rebooting should not be
-required often.
+One way to apply a new network configuration is to reboot the node.
 
 Reload Network with ifupdown2
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-With the optional `ifupdown2` network managing package you also can reload the
-network configuration live, without requiring a reboot.
+With the 'ifupdown2' package (default since {pve} 7), it is possible to apply
+network configuration changes without a reboot. If you change the network
+configuration via the GUI, you can click the 'Apply Configuration' button. Run
+the following command if you make changes directly to the
+`/etc/network/interfaces` file:
 
-Since {pve} 6.1 you can apply pending network changes over the web-interface,
-using the 'Apply Configuration' button in the 'Network' panel of a node.
+----
+ ifreload -a
+----
 
-To install 'ifupdown2' ensure you have the latest {pve} updates installed, then
-
-WARNING: installing 'ifupdown2' will remove 'ifupdown', but as the removal
-scripts of 'ifupdown' before version '0.8.35+pve1' have a issue where network
-is fully stopped on removal footnote:[Introduced with Debian Buster:
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=945877] you *must* ensure
-that you have a up to date 'ifupdown' package version.
-
-For the installation itself you can then simply do:
-
- apt install ifupdown2
-
-With that you're all set. You can also switch back to the 'ifupdown' variant at
-any time, if you run into issues.
+NOTE: If you installed {pve} on top of Debian, make sure 'ifupdown2' is
+installed: 'apt install ifupdown2'
 
 Naming Conventions
 ~~~~~~~~~~~~~~~~~~
