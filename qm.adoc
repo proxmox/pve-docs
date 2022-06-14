@@ -1377,23 +1377,13 @@ Suppose you created a Debian/Ubuntu disk image with the 'vmdebootstrap' tool:
   --customize=./copy_pub_ssh.sh \
   --sparse --image vm600.raw
 
-You can now create a new target VM for this image.
+You can now create a new target VM, importing the image to the storage `pvedir`
+and attaching it to the VM's SCSI controller:
 
 ----
 # qm create 600 --net0 virtio,bridge=vmbr0 --name vm600 --serial0 socket \
-   --boot order=scsi0 --scsihw virtio-scsi-pci --ostype l26
-----
-
-Add the disk image as +unused0+ to the VM, using the storage +pvedir+:
-
-----
-# qm importdisk 600 vm600.raw pvedir
-----
-
-Finally attach the unused disk to the SCSI controller of the VM:
-
-----
-# qm set 600 --scsi0 pvedir:600/vm-600-disk-1.raw
+   --boot order=scsi0 --scsihw virtio-scsi-pci --ostype l26 \
+   --scsi0 pvedir:0,import-from=/path/to/dir/vm600.raw
 ----
 
 The VM is ready to be started.
