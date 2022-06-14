@@ -1381,7 +1381,7 @@ You can now create a new target VM for this image.
 
 ----
 # qm create 600 --net0 virtio,bridge=vmbr0 --name vm600 --serial0 socket \
-   --bootdisk scsi0 --scsihw virtio-scsi-pci --ostype l26
+   --boot order=scsi0 --scsihw virtio-scsi-pci --ostype l26
 ----
 
 Add the disk image as +unused0+ to the VM, using the storage +pvedir+:
