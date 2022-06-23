@@ -496,7 +496,7 @@ If your root file system is ZFS, you must update your initramfs every
 time this value changes:
 
 ----
-# update-initramfs -u
+# update-initramfs -u -k all
 ----
 
 You *must reboot* to activate these changes.
