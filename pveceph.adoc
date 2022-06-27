@@ -556,7 +556,7 @@ to recover from a certain amount of data loss. Erasure coded pools can offer
 more usable space compared to replicated pools, but they do that for the price
 of performance.
 
-For comparision: in classic, replicated pools, multiple replicas of the data
+For comparison: in classic, replicated pools, multiple replicas of the data
 are stored (`size`) while in erasure coded pool, data is split into `k` data
 chunks with additional `m` coding (checking) chunks. Those coding chunks can be
 used to recreate data should data chunks be missing.
@@ -567,9 +567,9 @@ losing any data. The total amount of objects stored is `k + m`.
 Creating EC Pools
 ^^^^^^^^^^^^^^^^^
 
-You can create erasuce coded (EC) through using the `pveceph` CLI tooling. As
-EC code work different than replicated pools, planning a setup and the pool
-parameters used needs to adapt.
+Erasure coded (EC) pools can be created with the `pveceph` CLI tooling.
+Planning an EC pool needs to account for the fact, that they work differently
+than replicated pools.
 
 The default `min_size` of an EC pool depends on the `m` parameter. If `m = 1`,
 the `min_size` of the EC pool will be `k`. The `min_size` will be `k + 1` if
@@ -627,9 +627,8 @@ pveceph pool create <pool-name> --erasure-coding profile=<profile-name>
 Adding EC Pools as Storage
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You can also add an already existing EC pool as storage to {pve}, it works the
-same as adding any `RBD` pool but requires to pass the extra `data-pool`
-option.
+You can add an already existing EC pool as storage to {pve}. It works the same
+way as adding an `RBD` pool but requires the extra `data-pool` option.
 
 [source,bash]
 ----
