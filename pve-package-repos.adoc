@@ -119,6 +119,33 @@ WARNING: The `pvetest` repository should (as the name implies) only be used for
 testing new features or bug fixes.
 
 [[sysadmin_package_repositories_ceph]]
+Ceph Quincy Repository
+~~~~~~~~~~~~~~~~~~~~~~
+
+NOTE: Ceph Quincy (17.2) was declared stable with {pve} 7.3 or after using the
+Ceph 17.2.1 version.
+
+This repository holds the main {pve} Ceph Quincy packages. They are suitable
+for production. Use this repository if you run the Ceph client or a full Ceph
+cluster on {pve}.
+
+.File `/etc/apt/sources.list.d/ceph.list`
+----
+deb http://download.proxmox.com/debian/ceph-quincy bullseye main
+----
+
+
+Ceph Quincy Test Repository
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This Ceph repository contains the Ceph Quincy packages before they are moved
+to the main repository. It is used to test new Ceph releases on {pve}.
+
+.File `/etc/apt/sources.list.d/ceph.list`
+----
+deb http://download.proxmox.com/debian/ceph-quincy bullseye test
+----
+
 Ceph Pacific Repository
 ~~~~~~~~~~~~~~~~~~~~~~~
 
