@@ -547,6 +547,12 @@ improve performance when sufficient memory exists in a system.
 Encrypted ZFS Datasets
 ~~~~~~~~~~~~~~~~~~~~~~
 
+WARNING: Native ZFS encryption in {pve} is experimental. Known limitations and
+issues include Replication with encrypted datasets
+footnote:[https://bugzilla.proxmox.com/show_bug.cgi?id=2350],
+as well as checksum errors when using Snapshots or ZVOLs.
+footnote:[https://github.com/openzfs/zfs/issues/11688]
+
 ZFS on Linux version 0.8.0 introduced support for native encryption of
 datasets. After an upgrade from previous ZFS on Linux versions, the encryption
 feature can be enabled per pool:
