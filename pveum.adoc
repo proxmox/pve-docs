@@ -624,8 +624,7 @@ registrations unusable!
 This is done via `/etc/pve/datacenter.cfg`. For instance:
 
 ----
-webauthn:
-rp=mypve.example.com,origin=https://mypve.example.com:8006,id=mypve.example.com
+webauthn: rp=mypve.example.com,origin=https://mypve.example.com:8006,id=mypve.example.com
 ----
 
 [[pveum_configure_u2f]]
