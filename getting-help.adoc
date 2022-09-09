@@ -49,7 +49,7 @@ portal provides help and support with guaranteed response times from the {pve}
 developers.
 
 For volume discounts, or more information in general, please contact
-mailto:office@proxmox.com[office@proxmox.com].
+mailto:sales@proxmox.com[sales@proxmox.com].
 
 
 Bug Tracker
