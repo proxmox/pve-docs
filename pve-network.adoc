@@ -39,26 +39,29 @@ can do many related changes at once. This also allows to ensure your changes
 are correct before applying, as a wrong network configuration may render a node
 inaccessible.
 
-Reboot Node to apply
+Live-Reload Network with ifupdown2
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+With the recommended 'ifupdown2' package (default for new installations since
+{pve} 7.0), it is possible to apply network configuration changes without a
+reboot. If you change the network configuration via the GUI, you can click the
+'Apply Configuration' button. This will move changes from the staging
+`interfaces.new` file to `/etc/network/interfaces` and apply them live.
+
+If you made manual changes directly to the `/etc/network/interfaces` file, you
+can apply them by running `ifreload -a`
+
+NOTE: If you installed {pve} on top of Debian, or upgraded to {pve} 7.0 from an
+older {pve} installation, make sure 'ifupdown2' is installed: `apt install
+ifupdown2`
+
+Reboot Node to Apply
 ^^^^^^^^^^^^^^^^^^^^
 
-One way to apply a new network configuration is to reboot the node.
-
-Reload Network with ifupdown2
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-With the 'ifupdown2' package (default since {pve} 7), it is possible to apply
-network configuration changes without a reboot. If you change the network
-configuration via the GUI, you can click the 'Apply Configuration' button. Run
-the following command if you make changes directly to the
-`/etc/network/interfaces` file:
-
-----
- ifreload -a
-----
-
-NOTE: If you installed {pve} on top of Debian, make sure 'ifupdown2' is
-installed: 'apt install ifupdown2'
+Another way to apply a new network configuration is to reboot the node.
+In that case the systemd service `pvenetcommit` will activate the staging
+`interfaces.new` file before the `networking` service will apply that
+configuration.
 
 Naming Conventions
 ~~~~~~~~~~~~~~~~~~
