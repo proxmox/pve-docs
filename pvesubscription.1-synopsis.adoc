@@ -28,6 +28,14 @@ Set subscription key.
 
 Proxmox VE subscription key
 
+*pvesubscription set-offline-key* `<data>`
+
+(Internal use only!) Set a signed subscription info blob as offline key
+
+`<data>`: `<string>` ::
+
+no description available
+
 *pvesubscription update* `[OPTIONS]`
 
 Update subscription info.

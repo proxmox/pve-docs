@@ -295,9 +295,7 @@ Set a name for the VM. Only used on the configuration web interface.
 
 `--nameserver` `<string>` ::
 
-cloud-init: Sets DNS server IP address for a container. Create will'
-	    .' automatically use the setting from the host if neither searchdomain nor nameserver'
-	    .' are set.
+cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.
 
 `--net[n]` `[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
 
@@ -353,9 +351,7 @@ SCSI controller model
 
 `--searchdomain` `<string>` ::
 
-cloud-init: Sets DNS search domains for a container. Create will'
-	    .' automatically use the setting from the host if neither searchdomain nor nameserver'
-	    .' are set.
+cloud-init: Sets DNS search domains for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.
 
 `--serial[n]` `(/dev/.+|socket)` ::
 
@@ -1048,9 +1044,7 @@ Set a name for the VM. Only used on the configuration web interface.
 
 `--nameserver` `<string>` ::
 
-cloud-init: Sets DNS server IP address for a container. Create will'
-	    .' automatically use the setting from the host if neither searchdomain nor nameserver'
-	    .' are set.
+cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.
 
 `--net[n]` `[model=]<enum> [,bridge=<bridge>] [,firewall=<1|0>] [,link_down=<1|0>] [,macaddr=<XX:XX:XX:XX:XX:XX>] [,mtu=<integer>] [,queues=<integer>] [,rate=<number>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,<model>=<macaddr>]` ::
 
@@ -1106,9 +1100,7 @@ SCSI controller model
 
 `--searchdomain` `<string>` ::
 
-cloud-init: Sets DNS search domains for a container. Create will'
-	    .' automatically use the setting from the host if neither searchdomain nor nameserver'
-	    .' are set.
+cloud-init: Sets DNS search domains for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.
 
 `--serial[n]` `(/dev/.+|socket)` ::
 

@@ -26,9 +26,9 @@ Restart the Proxmox VE firewall service.
 
 *pve-firewall simulate* `[OPTIONS]`
 
-Simulate firewall rules. This does not simulate kernel 'routing' table.
-Instead, this simply assumes that routing from source zone to destination
-zone is possible.
+Simulate firewall rules. This does not simulates the kernel 'routing'
+table, but simply assumes that routing from source zone to destination zone
+is possible.
 
 `--dest` `<string>` ::
 
@@ -76,7 +76,8 @@ Get firewall status.
 
 *pve-firewall stop*
 
-Stop firewall. This removes all Proxmox VE related iptable rules. The host
-is unprotected afterwards.
+Stop the Proxmox VE firewall service. Note, stopping actively removes all
+Proxmox VE related iptable rules rendering the host potentially
+unprotected.
 
 

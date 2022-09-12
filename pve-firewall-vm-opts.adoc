@@ -18,7 +18,7 @@ Log level for incoming traffic.
 
 Log level for outgoing traffic.
 
-`macfilter`: `<boolean>` ('default =' `0`)::
+`macfilter`: `<boolean>` ('default =' `1`)::
 
 Enable/disable MAC address filter.
 

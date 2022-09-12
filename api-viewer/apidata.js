@@ -1162,6 +1162,7 @@ const apiSchema = [
                               ]
                            ]
                         },
+                        "protected" : 1,
                         "returns" : {
                            "type" : "object"
                         }
@@ -3741,6 +3742,13 @@ const apiSchema = [
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
                               },
+                              "repeat-missed" : {
+                                 "default" : 0,
+                                 "description" : "If true, the job will be run as soon as possible if it was missed while the scheduler was not running.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
                               "schedule" : {
                                  "description" : "Backup schedule. The format is a subset of `systemd` calendar events.",
                                  "format" : "pve-calendar-event",
@@ -4062,6 +4070,13 @@ const apiSchema = [
                         "remove" : {
                            "default" : 1,
                            "description" : "Prune older backups according to 'prune-backups'.",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "repeat-missed" : {
+                           "default" : 0,
+                           "description" : "If true, the job will be run as soon as possible if it was missed while the scheduler was not running.",
                            "optional" : 1,
                            "type" : "boolean",
                            "typetext" : "<boolean>"
@@ -8811,7 +8826,7 @@ const apiSchema = [
                               "upper" : {
                                  "default" : 1000000,
                                  "description" : "Upper, exclusive boundary for free next-id API range.",
-                                 "max" : 999999999,
+                                 "max" : 1000000000,
                                  "min" : 100,
                                  "optional" : 1,
                                  "type" : "integer"
@@ -10504,7 +10519,7 @@ const apiSchema = [
                                                    "type" : "string"
                                                 },
                                                 "macfilter" : {
-                                                   "default" : 0,
+                                                   "default" : 1,
                                                    "description" : "Enable/disable MAC address filter.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
@@ -10619,7 +10634,7 @@ const apiSchema = [
                                                    "type" : "string"
                                                 },
                                                 "macfilter" : {
-                                                   "default" : 0,
+                                                   "default" : 1,
                                                    "description" : "Enable/disable MAC address filter.",
                                                    "optional" : 1,
                                                    "type" : "boolean",
@@ -13179,7 +13194,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "nameserver" : {
-                                             "description" : "cloud-init: Sets DNS server IP address for a container. Create will'\n\t    .' automatically use the setting from the host if neither searchdomain nor nameserver'\n\t    .' are set.",
+                                             "description" : "cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
                                              "format" : "address-list",
                                              "optional" : 1,
                                              "type" : "string"
@@ -14114,7 +14129,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "searchdomain" : {
-                                             "description" : "cloud-init: Sets DNS search domains for a container. Create will'\n\t    .' automatically use the setting from the host if neither searchdomain nor nameserver'\n\t    .' are set.",
+                                             "description" : "cloud-init: Sets DNS search domains for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
                                              "optional" : 1,
                                              "type" : "string"
                                           },
@@ -15483,7 +15498,7 @@ const apiSchema = [
                                              "typetext" : "<string>"
                                           },
                                           "nameserver" : {
-                                             "description" : "cloud-init: Sets DNS server IP address for a container. Create will'\n\t    .' automatically use the setting from the host if neither searchdomain nor nameserver'\n\t    .' are set.",
+                                             "description" : "cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
                                              "format" : "address-list",
                                              "optional" : 1,
                                              "type" : "string",
@@ -16455,7 +16470,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "searchdomain" : {
-                                             "description" : "cloud-init: Sets DNS search domains for a container. Create will'\n\t    .' automatically use the setting from the host if neither searchdomain nor nameserver'\n\t    .' are set.",
+                                             "description" : "cloud-init: Sets DNS search domains for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -17885,7 +17900,7 @@ const apiSchema = [
                                              "typetext" : "<string>"
                                           },
                                           "nameserver" : {
-                                             "description" : "cloud-init: Sets DNS server IP address for a container. Create will'\n\t    .' automatically use the setting from the host if neither searchdomain nor nameserver'\n\t    .' are set.",
+                                             "description" : "cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
                                              "format" : "address-list",
                                              "optional" : 1,
                                              "type" : "string",
@@ -18857,7 +18872,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "searchdomain" : {
-                                             "description" : "cloud-init: Sets DNS search domains for a container. Create will'\n\t    .' automatically use the setting from the host if neither searchdomain nor nameserver'\n\t    .' are set.",
+                                             "description" : "cloud-init: Sets DNS search domains for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -23543,7 +23558,7 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "nameserver" : {
-                                 "description" : "cloud-init: Sets DNS server IP address for a container. Create will'\n\t    .' automatically use the setting from the host if neither searchdomain nor nameserver'\n\t    .' are set.",
+                                 "description" : "cloud-init: Sets DNS server IP address for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
                                  "format" : "address-list",
                                  "optional" : 1,
                                  "type" : "string",
@@ -24515,7 +24530,7 @@ const apiSchema = [
                                  "type" : "string"
                               },
                               "searchdomain" : {
-                                 "description" : "cloud-init: Sets DNS search domains for a container. Create will'\n\t    .' automatically use the setting from the host if neither searchdomain nor nameserver'\n\t    .' are set.",
+                                 "description" : "cloud-init: Sets DNS search domains for a container. Create will automatically use the setting from the host if neither searchdomain nor nameserver are set.",
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -28588,7 +28603,7 @@ const apiSchema = [
                                                    "type" : "string"
                                                 },
                                                 "macfilter" : {
-                                                   "default" : 0,
+                                                   "default" : 1,
                                                    "description" : "Enable/disable MAC address filter.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
@@ -28703,7 +28718,7 @@ const apiSchema = [
                                                    "type" : "string"
                                                 },
                                                 "macfilter" : {
-                                                   "default" : 0,
+                                                   "default" : 1,
                                                    "description" : "Enable/disable MAC address filter.",
                                                    "optional" : 1,
                                                    "type" : "boolean",
@@ -39708,6 +39723,9 @@ const apiSchema = [
                                           "optional" : 1,
                                           "type" : "string"
                                        },
+                                       "mounted" : {
+                                          "type" : "boolean"
+                                       },
                                        "osdid" : {
                                           "type" : "integer"
                                        },
@@ -42853,8 +42871,10 @@ const apiSchema = [
                            "properties" : {
                               "commands" : {
                                  "description" : "JSON encoded array of commands.",
+                                 "format" : "pve-command-batch",
                                  "type" : "string",
-                                 "typetext" : "<string>"
+                                 "typetext" : "<string>",
+                                 "verbose_description" : "JSON encoded array of commands, where each command is an object with the following properties:\n  args:      <object>\n\n\t     A set of parameter names and their values.\n\n  method:    (GET|POST|PUT|DELETE)\n\n\t     A method related to the API endpoint (GET, POST etc.).\n\n  path:      <string>\n\n\t     A relative path to an API endpoint on this node.\n\n"
                               },
                               "node" : {
                                  "description" : "The cluster node name.",
@@ -42876,6 +42896,10 @@ const apiSchema = [
                         "protected" : 1,
                         "proxyto" : "node",
                         "returns" : {
+                           "items" : {
+                              "properties" : {},
+                              "type" : "object"
+                           },
                            "type" : "array"
                         }
                      }
@@ -43222,9 +43246,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "ceph_install",
                                     "upgrade",
-                                    "login"
+                                    "login",
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -43318,9 +43342,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "ceph_install",
                                     "upgrade",
-                                    "login"
+                                    "login",
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -43444,9 +43468,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "ceph_install",
                                     "upgrade",
-                                    "login"
+                                    "login",
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -44556,7 +44580,7 @@ const apiSchema = [
                            "typetext" : "<string>"
                         },
                         "namespace" : {
-                           "description" : "RBD Namespace.",
+                           "description" : "Namespace.",
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
@@ -45060,7 +45084,7 @@ const apiSchema = [
                      "typetext" : "<string>"
                   },
                   "namespace" : {
-                     "description" : "RBD Namespace.",
+                     "description" : "Namespace.",
                      "optional" : 1,
                      "type" : "string",
                      "typetext" : "<string>"
@@ -45477,8 +45501,7 @@ const apiSchema = [
                                              "self"
                                           ],
                                           [
-                                             "perm",
-                                             "/access/users/{userid}",
+                                             "userid-group",
                                              [
                                                 "User.Modify"
                                              ]
@@ -45520,8 +45543,7 @@ const apiSchema = [
                                              "self"
                                           ],
                                           [
-                                             "perm",
-                                             "/access/users/{userid}",
+                                             "userid-group",
                                              [
                                                 "User.Modify"
                                              ]
@@ -45601,8 +45623,7 @@ const apiSchema = [
                                              "self"
                                           ],
                                           [
-                                             "perm",
-                                             "/access/users/{userid}",
+                                             "userid-group",
                                              [
                                                 "User.Modify"
                                              ]
@@ -45698,8 +45719,7 @@ const apiSchema = [
                                              "self"
                                           ],
                                           [
-                                             "perm",
-                                             "/access/users/{userid}",
+                                             "userid-group",
                                              [
                                                 "User.Modify"
                                              ]
@@ -45763,8 +45783,7 @@ const apiSchema = [
                                        "self"
                                     ],
                                     [
-                                       "perm",
-                                       "/access/users/{userid}",
+                                       "userid-group",
                                        [
                                           "User.Modify"
                                        ]
@@ -47778,7 +47797,7 @@ const apiSchema = [
                            "properties" : {
                               "code" : {
                                  "description" : "OpenId authorization code.",
-                                 "maxLength" : 1024,
+                                 "maxLength" : 4096,
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },

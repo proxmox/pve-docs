@@ -122,7 +122,7 @@ Allow experimental versions. Use with care!
 
 Use the test, not the main repository. Use with care!
 
-`--version` `<octopus | pacific>` ('default =' `pacific`)::
+`--version` `<octopus | pacific | quincy>` ('default =' `pacific`)::
 
 Ceph version to install.
 
