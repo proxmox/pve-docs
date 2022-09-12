@@ -12,6 +12,11 @@ complete format description. All {pve} tools try hard to keep direct
 user modifications, but using the GUI is still preferable, because it
 protects you from errors.
 
+WARNING: It's discourage to use the Debian traditional tools `ifup` and `ifdown`
+if unsure, as they have some pitfalls like interupting all guest traffic on
+`ifdown vmbrX` but not reconnecting those guest again when doing `ifup` on the
+same bridge later.
+
 Apply Network Changes
 ~~~~~~~~~~~~~~~~~~~~~
 
