@@ -694,7 +694,7 @@ WARNING: Adding a `special` device to a pool cannot be undone!
 
 ZFS datasets expose the `special_small_blocks=<size>` property. `size` can be
 `0` to disable storing small file blocks on the `special` device or a power of
-two in the range between `512B` to `128K`. After setting the property new file
+two in the range between `512B` to `1M`. After setting the property new file
 blocks smaller than `size` will be allocated on the `special` device.
 
 IMPORTANT: If the value for `special_small_blocks` is greater than or equal to
