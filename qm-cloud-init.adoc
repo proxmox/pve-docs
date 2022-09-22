@@ -48,6 +48,9 @@ prepare. On Debian/Ubuntu based systems this is as simple as:
 apt-get install cloud-init
 ----
 
+WARNING: This command is *not* intended to be executed on the {pve} host, but
+only inside the VM.
+
 Already many distributions provide ready-to-use Cloud-Init images (provided
 as `.qcow2` files), so alternatively you can simply download and
 import such images. For the following example, we will use the cloud
