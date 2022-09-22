@@ -33,8 +33,10 @@ Cloud-Init data.
 
 {pve} generates an ISO image to pass the Cloud-Init data to the VM. For
 that purpose, all Cloud-Init VMs need to have an assigned CD-ROM drive.
-Also many Cloud-Init images assume to have a serial console, so it is
-recommended to add a serial console and use it as display for those VMs.
+Usually, a serial console should be added and used as a display. Many Cloud-Init
+images rely on this, it is a requirement for OpenStack. However, other images
+might have problems with this configuration. Switch back to the default display
+configuration if using a serial console doesn't work.
 
 
 Preparing Cloud-Init Templates
@@ -93,8 +95,9 @@ a bootable CD-ROM.
 qm set 9000 --boot c --bootdisk scsi0
 ----
 
-Also configure a serial console and use it as a display. Many Cloud-Init
-images rely on this, as it is an requirement for OpenStack images.
+For many Cloud-Init images, it is required to configure a serial console and use
+it as a display. If the configuration doesn't work for a given image however,
+switch back to the default display instead.
 
 ----
 qm set 9000 --serial0 socket --vga serial0
