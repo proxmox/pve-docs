@@ -753,6 +753,7 @@ Node / System related privileges::
 * `Sys.Syslog`: view syslog
 * `Sys.Audit`: view node status/config, Corosync cluster config, and HA config
 * `Sys.Modify`: create/modify/remove node network parameters
+* `Sys.Incoming`: allow incoming data streams from other clusters (experimental)
 * `Group.Allocate`: create/modify/remove groups
 * `Pool.Allocate`: create/modify/remove a pool
 * `Pool.Audit`: view a pool
