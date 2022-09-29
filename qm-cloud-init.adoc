@@ -86,13 +86,12 @@ the Cloud-Init data to the VM.
 qm set 9000 --ide2 local-lvm:cloudinit
 ----
 
-To be able to boot directly from the Cloud-Init image, set the
-`bootdisk` parameter to `scsi0`, and restrict BIOS to boot from disk
-only. This will speed up booting, because VM BIOS skips the testing for
-a bootable CD-ROM.
+To be able to boot directly from the Cloud-Init image, set the `boot` parameter
+to `order=scsi0` to restrict BIOS to boot from this disk only. This will speed
+up booting, because VM BIOS skips the testing for a bootable CD-ROM.
 
 ----
-qm set 9000 --boot c --bootdisk scsi0
+qm set 9000 --boot order=scsi0
 ----
 
 For many Cloud-Init images, it is required to configure a serial console and use
