@@ -60,7 +60,7 @@ the behaviour for catching up. By enabling the `Repeat missed` option
 (`repeat-missed` in the config), you can tell the scheduler that it should run
 missed jobs as soon as possible.
 
-Backup modes
+Backup Modes
 ------------
 
 There are several ways to provide consistency (option `mode`), 
@@ -193,6 +193,14 @@ Backup Encryption
 
 For Proxmox Backup Server storages, you can optionally set up client-side
 encryption of backups, see xref:storage_pbs_encryption[the corresponding section.]
+
+Backup Jobs
+-----------
+
+Besides triggering a backup manually, you can also setup periodic jobs that
+backup all, or a selection of virtual guest to a storage.
+
+// TODO: extend, link to retention below, ... di & document perf max-worker settings
 
 [[vzdump_retention]]
 Backup Retention
