@@ -200,9 +200,27 @@ Backup Jobs
 -----------
 
 Besides triggering a backup manually, you can also setup periodic jobs that
-backup all, or a selection of virtual guest to a storage.
+backup all, or a selection of virtual guest to a storage. You can manage the
+jobs in the UI under 'Datacenter' -> 'Backup' or via the `/cluster/backup` API
+endpoint.
 
-// TODO: extend, link to retention below, ... di & document perf max-worker settings
+A job is either configured for all cluster nodes or a specific node, and is
+executed according to a given schedule. The format for the schedule is very
+similar to `systemd` calendar events, see the
+xref:chapter_calendar_events[calendar events] section for details. The
+'Schedule' field in the UI can be freely edited, and it contains several
+examples that can be used as a starting point in its drop-down list.
+
+You can configure job-specific xref:vzdump_retention[retention options]
+overriding those from the storage or node configuration, as well as a
+xref:vzdump_notes[template for notes] for additional information to be saved
+together with the backup.
+
+There are a few settings for tuning backup performance not exposed in the UI.
+The most notable is `bwlimit` for limiting IO bandwidth. The amount of threads
+used for the compressor can be controlled with the `pigz` (replacing `gzip`),
+respectively, `zstd` setting. Furthermore, there is `ionice`. See the
+xref:vzdump_configuration[configuration options] for details.
 
 [[vzdump_retention]]
 Backup Retention
