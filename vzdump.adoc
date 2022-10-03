@@ -37,12 +37,14 @@ the `vzdump` command line tool.
 
 .Backup Storage
 
-Before a backup can run, a backup storage must be defined. Refer to
-the Storage documentation on how to add a storage. A backup storage
-must be a file level storage, as backups are stored as regular files.
-In most situations, using a NFS server is a good way to store backups.
-You can save those backups later to a tape drive, for off-site
-archiving.
+Before a backup can run, a backup storage must be defined. Refer to the
+xref:chapter_storage[storage documentation] on how to add a storage. It can
+either be a Proxmox Backup Server storage, where backups are stored as
+de-duplicated chunks and metadata, or a file-level storage, where backups are
+stored as regular files. Using Proxmox Backup Server on a dedicated host is
+recommended, because of its advanced features. Using an NFS server is a good
+alternative. In both cases, you might want to save those backups later to a tape
+drive, for off-site archiving.
 
 .Scheduled Backup
 
