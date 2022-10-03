@@ -48,19 +48,9 @@ drive, for off-site archiving.
 
 .Scheduled Backup
 
-Backup jobs can be scheduled so that they are executed automatically
-on specific days and times, for selectable nodes and guest systems.
-Configuration of scheduled backups is done at the Datacenter level in
-the GUI, which will generate a job entry in /etc/pve/jobs.cfg, which
-will in turn be parsed and executed by the `pvescheduler` daemon.
-These jobs use the xref:chapter_calendar_events[calendar events] for
-defining the schedule.
-
-Since scheduled backups miss their execution when the host was offline or the
-pvescheduler was disabled during the scheduled time, it is possible to configure
-the behaviour for catching up. By enabling the `Repeat missed` option
-(`repeat-missed` in the config), you can tell the scheduler that it should run
-missed jobs as soon as possible.
+Backup jobs can be scheduled so that they are executed automatically on specific
+days and times, for selectable nodes and guest systems. See the
+xref:vzdump_jobs[Backup Jobs] section for more.
 
 Backup Modes
 ------------
@@ -196,13 +186,15 @@ Backup Encryption
 For Proxmox Backup Server storages, you can optionally set up client-side
 encryption of backups, see xref:storage_pbs_encryption[the corresponding section.]
 
+[[vzdump_jobs]]
 Backup Jobs
 -----------
 
 Besides triggering a backup manually, you can also setup periodic jobs that
 backup all, or a selection of virtual guest to a storage. You can manage the
 jobs in the UI under 'Datacenter' -> 'Backup' or via the `/cluster/backup` API
-endpoint.
+endpoint. Both will generate job entries in `/etc/pve/jobs.cfg`, which are
+parsed and executed by the `pvescheduler` daemon.
 
 A job is either configured for all cluster nodes or a specific node, and is
 executed according to a given schedule. The format for the schedule is very
@@ -215,6 +207,12 @@ You can configure job-specific xref:vzdump_retention[retention options]
 overriding those from the storage or node configuration, as well as a
 xref:vzdump_notes[template for notes] for additional information to be saved
 together with the backup.
+
+Since scheduled backups miss their execution when the host was offline or the
+pvescheduler was disabled during the scheduled time, it is possible to configure
+the behaviour for catching up. By enabling the `Repeat missed` option
+(`repeat-missed` in the config), you can tell the scheduler that it should run
+missed jobs as soon as possible.
 
 There are a few settings for tuning backup performance not exposed in the UI.
 The most notable is `bwlimit` for limiting IO bandwidth. The amount of threads
