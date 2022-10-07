@@ -325,7 +325,7 @@ changed to `2048`, the latter VM 200 would receive twice the CPU bandwidth than
 the first VM 100.
 
 For more information see `man systemd.resource-control`, here `CPUQuota`
-corresponds to `cpulimit` and `CPUShares` corresponds to our `cpuunits`
+corresponds to `cpulimit` and `CPUWeight` corresponds to our `cpuunits`
 setting, visit its Notes section for references and implementation details.
 
 CPU Type
