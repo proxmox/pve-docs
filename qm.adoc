@@ -317,12 +317,12 @@ never uses more CPU time than virtual CPUs assigned set the *cpulimit* setting
 to the same value as the total core count.
 
 The second CPU resource limiting setting, *cpuunits* (nowadays often called CPU
-shares or CPU weight), controls how much CPU time a VM gets in regards to other
-VMs running.  It is a relative weight which defaults to `1024`, if you increase
-this for a VM it will be prioritized by the scheduler in comparison to other
-VMs with lower weight. E.g., if VM 100 has set the default 1024 and VM 200 was
-changed to `2048`, the latter VM 200 would receive twice the CPU bandwidth than
-the first VM 100.
+shares or CPU weight), controls how much CPU time a VM gets compared to other
+running VMs. It is a relative weight which defaults to `100` (or `1024` if the
+host uses legacy cgroup v1). If you increase this for a VM it will be
+prioritized by the scheduler in comparison to other VMs with lower weight. E.g.,
+if VM 100 has set the default `100` and VM 200 was changed to `200`, the latter
+VM 200 would receive twice the CPU bandwidth than the first VM 100.
 
 For more information see `man systemd.resource-control`, here `CPUQuota`
 corresponds to `cpulimit` and `CPUWeight` corresponds to our `cpuunits`
