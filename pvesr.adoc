@@ -46,7 +46,6 @@ but not twice to the same target node.
 Each replications bandwidth can be limited, to avoid overloading a storage
 or server.
 
-Guests with replication enabled can currently only be migrated offline.
 Only changes since the last replication (so-called `deltas`) need to be
 transferred if the guest is migrated to a node to which it already is
 replicated. This reduces the time needed significantly. The replication
