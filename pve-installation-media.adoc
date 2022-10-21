@@ -70,7 +70,8 @@ Instructions for macOS
 
 Open the terminal (query Terminal in Spotlight).
 
-Convert the .iso file to .img using the convert option of `hdiutil` for example.
+Convert the `.iso` file to `.dmg` format using the convert option of `hdiutil`,
+for example:
 
 ----
 # hdiutil convert -format UDRW -o proxmox-ve_*.dmg proxmox-ve_*.iso
@@ -95,7 +96,7 @@ device node has been assigned to it. (e.g., /dev/diskX).
 NOTE: replace X with the disk number from the last command.
 
 ----
-# sudo dd if=proxmox-ve_*.dmg of=/dev/rdiskX bs=1m
+# sudo dd if=proxmox-ve_*.dmg bs=1M of=/dev/rdiskX
 ----
 
 NOTE: 'rdiskX', instead of 'diskX', in the last command is intended. It will
