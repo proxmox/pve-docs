@@ -1133,45 +1133,62 @@ There are generally two mechanisms for this
 Online Migration
 ~~~~~~~~~~~~~~~~
 
-When your VM is running and it has no local resources defined (such as disks
-on local storage, passed through devices, etc.) you can initiate a live
-migration with the -online flag.
+If your VM is running and no locally bound resources are configured (such as
+passed-through devices), you can initiate a live migration with the `--online`
+flag in the `qm migration` command evocation. The web-interface defaults to
+live migration when the VM is running.
 
 How it works
 ^^^^^^^^^^^^
 
-This starts a Qemu Process on the target host with the 'incoming' flag, which
-means that the process starts and waits for the memory data and device states
-from the source Virtual Machine (since all other resources, e.g. disks,
-are shared, the memory content and device state are the only things left
-to transmit).
+Online migration first starts a new QEMU process on the target host with the
+'incoming' flag, which performs only basic initialization with the guest vCPUs
+still paused and then waits for the guest memory and device state data streams
+of the source Virtual Machine.
+All other resources, such as disks, are either shared or got already sent
+before runtime state migration of the VMs begins; so only the memory content
+and device state remain to be transferred.
 
-Once this connection is established, the source begins to send the memory
-content asynchronously to the target. If the memory on the source changes,
-those sections are marked dirty and there will be another pass of sending data.
-This happens until the amount of data to send is so small that it can
-pause the VM on the source, send the remaining data to the target and start
-the VM on the target in under a second.
+Once this connection is established, the source begins asynchronously sending
+the memory content to the target. If the guest memory on the source changes,
+those sections are marked dirty and another pass is made to send the guest
+memory data.
+This loop is repeated until the data difference between running source VM
+and incoming target VM is small enough to be sent in a few milliseconds,
+because then the source VM can be paused completely, without a user or program
+noticing the pause, so that the remaining data can be sent to the target, and
+then unpause the targets VM's CPU to make it the new running VM in well under a
+second.
 
 Requirements
 ^^^^^^^^^^^^
 
 For Live Migration to work, there are some things required:
 
-* The VM has no local resources (e.g. passed through devices, local disks, etc.)
-* The hosts are in the same {pve} cluster.
-* The hosts have a working (and reliable) network connection.
-* The target host must have the same or higher versions of the
-  {pve} packages. (It *might* work the other way, but this is never guaranteed)
-* The hosts have CPUs from the same vendor. (It *might* work otherwise, but this
-  is never guaranteed)
+* The VM has no local resources that cannot be migrated. For example,
+  PCI or USB devices that are passed through currently block live-migration.
+  Local Disks, on the other hand, can be migrated by sending them to the target
+  just fine.
+* The hosts are located in the same {pve} cluster.
+* The hosts have a working (and reliable) network connection between them.
+* The target host must have the same, or higher versions of the
+  {pve} packages. Although it can sometimes work the other way around, this
+  cannot be guaranteed.
+* The hosts have CPUs from the same vendor with similar capabilities. Different
+  vendor  *might* work depending on the actual models and VMs CPU type
+  configured, but it cannot be guaranteed - so please test before deploying
+  such a setup in production.
 
 Offline Migration
 ~~~~~~~~~~~~~~~~~
 
-If you have local resources, you can still offline migrate your VMs,
-as long as all disk are on storages, which are defined on both hosts.
-Then the migration will copy the disk over the network to the target host.
+If you have local resources, you can still migrate your VMs offline as long as
+all disk are on storage defined on both hosts.
+Migration then copies the disks to the target host over the network, as with
+online migration. Note that any hardware pass-through configuration may need to
+be adapted to the device location on the target host.
+
+// TODO: mention hardware map IDs as better way to solve that, once available
 
 [[qm_copy_and_clone]]
 Copies and Clones
