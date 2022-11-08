@@ -279,12 +279,13 @@ execution on the host system. If you're not sure about the workload of your VM,
 it is usually a safe bet to set the number of *Total cores* to 2.
 
 NOTE: It is perfectly safe if the _overall_ number of cores of all your VMs
-is greater than the number of cores on the server (e.g., 4 VMs with each 4
-cores on a machine with only 8 cores). In that case the host system will
-balance the Qemu execution threads between your server cores, just like if you
-were running a standard multi-threaded application. However, {pve} will prevent
-you from starting VMs with more virtual CPU cores than physically available, as
-this will only bring the performance down due to the cost of context switches.
+is greater than the number of cores on the server (for example, 4 VMs each with
+4 cores (= total 16) on a machine with only 8 cores). In that case the host
+system will balance the QEMU execution threads between your server cores, just
+like if you were running a standard multi-threaded application. However, {pve}
+will prevent you from starting VMs with more virtual CPU cores than physically
+available, as this will only bring the performance down due to the cost of
+context switches.
 
 [[qm_cpu_resource_limits]]
 Resource Limits
@@ -310,19 +311,19 @@ other VMs and CTs would get to less CPU. So, we set the *cpulimit* limit to
 real host cores CPU time. But, if only 4 would do work they could still get
 almost 100% of a real core each.
 
-NOTE: VMs can, depending on their configuration, use additional threads e.g.,
-for networking or IO operations but also live migration. Thus a VM can show up
-to use more CPU time than just its virtual CPUs could use. To ensure that a VM
-never uses more CPU time than virtual CPUs assigned set the *cpulimit* setting
-to the same value as the total core count.
+NOTE: VMs can, depending on their configuration, use additional threads, such
+as for networking or IO operations but also live migration. Thus a VM can show
+up to use more CPU time than just its virtual CPUs could use. To ensure that a
+VM never uses more CPU time than virtual CPUs assigned set the *cpulimit*
+setting to the same value as the total core count.
 
 The second CPU resource limiting setting, *cpuunits* (nowadays often called CPU
 shares or CPU weight), controls how much CPU time a VM gets compared to other
 running VMs. It is a relative weight which defaults to `100` (or `1024` if the
 host uses legacy cgroup v1). If you increase this for a VM it will be
-prioritized by the scheduler in comparison to other VMs with lower weight. E.g.,
-if VM 100 has set the default `100` and VM 200 was changed to `200`, the latter
-VM 200 would receive twice the CPU bandwidth than the first VM 100.
+prioritized by the scheduler in comparison to other VMs with lower weight. For
+example, if VM 100 has set the default `100` and VM 200 was changed to `200`,
+the latter VM 200 would receive twice the CPU bandwidth than the first VM 100.
 
 For more information see `man systemd.resource-control`, here `CPUQuota`
 corresponds to `cpulimit` and `CPUWeight` corresponds to our `cpuunits`
@@ -516,10 +517,10 @@ SUBSYSTEM=="cpu", ACTION=="add", TEST=="online", ATTR{online}=="0", ATTR{online}
 
 Save this under /etc/udev/rules.d/ as a file ending in `.rules`.
 
-Note: CPU hot-remove is machine dependent and requires guest cooperation.
-The deletion command does not guarantee CPU removal to actually happen,
-typically it's a request forwarded to guest using target dependent mechanism,
-e.g., ACPI on x86/amd64.
+Note: CPU hot-remove is machine dependent and requires guest cooperation.  The
+deletion command does not guarantee CPU removal to actually happen, typically
+it's a request forwarded to guest OS using target dependent mechanism, such as
+ACPI on x86/amd64.
 
 
 [[qm_memory]]
@@ -540,8 +541,7 @@ Even when using a fixed memory size, the ballooning device gets added to the
 VM, because it delivers useful information such as how much memory the guest
 really uses.
 In general, you should leave *ballooning* enabled, but if you want to disable
-it (e.g. for debugging purposes), simply uncheck
-*Ballooning Device* or set
+it (like for debugging purposes), simply uncheck *Ballooning Device* or set
 
  balloon: 0
 
@@ -659,7 +659,8 @@ QEMU can virtualize a few types of VGA hardware. Some examples are:
 * *cirrus*, this was once the default, it emulates a very old hardware module
 with all its problems. This display type should only be used if really
 necessary footnote:[https://www.kraxel.org/blog/2014/10/qemu-using-cirrus-considered-harmful/
-qemu: using cirrus considered harmful], e.g., if using Windows XP or earlier
+qemu: using cirrus considered harmful], for example, if using Windows XP or
+earlier
 * *vmware*, is a VMWare SVGA-II compatible adapter.
 * *qxl*, is the QXL paravirtualized graphics card. Selecting this also
 enables https://www.spice-space.org/[SPICE] (a remote viewer protocol) for the
@@ -679,7 +680,7 @@ the 'memory' option. This can enable higher resolutions inside the VM,
 especially with SPICE/QXL.
 
 As the memory is reserved by display device, selecting Multi-Monitor mode
-for SPICE (e.g., `qxl2` for dual monitors) has some implications:
+for SPICE (such as `qxl2` for dual monitors) has some implications:
 
 * Windows needs a device for each monitor, so if your 'ostype' is some
 version of Windows, {pve} gives the VM an extra device per monitor.
@@ -746,9 +747,10 @@ Some operating systems (such as Windows 11) may require use of an UEFI
 compatible implementation instead. In such cases, you must rather use *OVMF*,
 which is an open-source UEFI implementation. footnote:[See the OVMF Project https://github.com/tianocore/tianocore.github.io/wiki/OVMF]
 
-There are other scenarios in which a BIOS is not a good firmware to boot from,
-e.g. if you want to do VGA passthrough. footnote:[Alex Williamson has a very
-good blog entry about this https://vfio.blogspot.co.at/2014/08/primary-graphics-assignment-without-vga.html]
+There are other scenarios in which the SeaBIOS may not be the ideal firmware to
+boot from, for example if you want to do VGA passthrough. footnote:[Alex
+Williamson has a good blog entry about this
+https://vfio.blogspot.co.at/2014/08/primary-graphics-assignment-without-vga.html]
 
 If you want to use OVMF, there are several things to consider:
 
@@ -794,8 +796,8 @@ A *Trusted Platform Module* is a device which stores secret data - such as
 encryption keys - securely and provides tamper-resistance functions for
 validating system boot.
 
-Certain operating systems (e.g. Windows 11) require such a device to be attached
-to a machine (be it physical or virtual).
+Certain operating systems (such as Windows 11) require such a device to be
+attached to a machine (be it physical or virtual).
 
 A TPM is added by specifying a *tpmstate* volume. This works similar to an
 efidisk, in that it cannot be changed (only removed) once created. You can add
@@ -914,7 +916,7 @@ Device Boot Order
 ~~~~~~~~~~~~~~~~~
 
 QEMU can tell the guest which devices it should boot from, and in which order.
-This can be specified in the config via the `boot` property, e.g.:
+This can be specified in the config via the `boot` property, for example:
 
 ----
 boot: order=scsi0;net0;hostpci0
@@ -964,19 +966,20 @@ VMs, for instance if one of your VM is providing firewalling or DHCP
 to other guest systems.  For this you can use the following
 parameters:
 
-* *Start/Shutdown order*: Defines the start order priority. E.g. set it to 1 if
+* *Start/Shutdown order*: Defines the start order priority. For example, set it
+* to 1 if
 you want the VM to be the first to be started. (We use the reverse startup
 order for shutdown, so a machine with a start order of 1 would be the last to
 be shut down). If multiple VMs have the same order defined on a host, they will
 additionally be ordered by 'VMID' in ascending order.
 * *Startup delay*: Defines the interval between this VM start and subsequent
-VMs starts . E.g. set it to 240 if you want to wait 240 seconds before starting
-other VMs.
+VMs starts. For example, set it to 240 if you want to wait 240 seconds before
+starting other VMs.
 * *Shutdown timeout*: Defines the duration in seconds {pve} should wait
-for the VM to be offline after issuing a shutdown command.
-By default this value is set to 180, which means that {pve} will issue a
-shutdown request and wait 180 seconds for the machine to be offline. If
-the machine is still online after the timeout it will be stopped forcefully.
+for the VM to be offline after issuing a shutdown command. By default this
+value is set to 180, which means that {pve} will issue a shutdown request and
+wait 180 seconds for the machine to be offline. If the machine is still online
+after the timeout it will be stopped forcefully.
 
 NOTE: VMs managed by the HA stack do not follow the 'start on boot' and
 'boot order' options currently. Those VMs will be skipped by the startup and
@@ -1286,8 +1289,8 @@ in its configuration file.
 
 To create and add a 'vmgenid' to an already existing VM one can pass the
 special value `1' to let {pve} autogenerate one or manually set the 'UUID'
-footnote:[Online GUID generator http://guid.one/] by using it as value,
-e.g.:
+footnote:[Online GUID generator http://guid.one/] by using it as value, for
+example:
 
 ----
 # qm set VMID -vmgenid 1
@@ -1308,7 +1311,7 @@ configuration with:
 
 The most prominent use case for 'vmgenid' are newer Microsoft Windows
 operating systems, which use it to avoid problems in time sensitive or
-replicate services (e.g., databases, domain controller
+replicate services (such as databases or domain controller
 footnote:[https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/get-started/virtual-dc/virtualized-domain-controller-architecture])
 on snapshot rollback, backup restore or a whole VM clone operation.
 
@@ -1606,9 +1609,9 @@ include::qm.conf.5-opts.adoc[]
 Locks
 -----
 
-Online migrations, snapshots and backups (`vzdump`) set a lock to
-prevent incompatible concurrent actions on the affected VMs. Sometimes
-you need to remove such a lock manually (e.g., after a power failure).
+Online migrations, snapshots and backups (`vzdump`) set a lock to prevent
+incompatible concurrent actions on the affected VMs. Sometimes you need to
+remove such a lock manually (for example after a power failure).
 
 ----
 # qm unlock <vmid>
