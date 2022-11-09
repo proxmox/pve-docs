@@ -11,7 +11,7 @@ The following sections will focus on common virtualization tasks and explain the
 {pve} is based on https://www.debian.org/[Debian GNU/Linux] with additional
 repositories to provide the {pve} related packages. This means that the full
 range of Debian packages is available including security updates and bug fixes.
-{pve} provides it's own Linux kernel based on the Ubuntu kernel. It has all the
+{pve} provides its own Linux kernel based on the Ubuntu kernel. It has all the
 necessary virtualization and container features enabled and includes
 https://zfsonlinux.org[ZFS] and several extra hardware drivers.
 
