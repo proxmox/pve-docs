@@ -636,7 +636,7 @@ pvesm add rbd <storage-name> --pool <replicated-pool> --data-pool <ec-pool>
 ----
 
 TIP: Do not forget to add the `keyring` and `monhost` option for any external
-ceph clusters, not managed by the local {pve} cluster.
+Ceph clusters, not managed by the local {pve} cluster.
 
 Destroy Pools
 ~~~~~~~~~~~~~
@@ -761,7 +761,7 @@ ceph osd crush rule create-replicated <rule-name> <root> <failure-domain> <class
 [frame="none",grid="none", align="left", cols="30%,70%"]
 |===
 |<rule-name>|name of the rule, to connect with a pool (seen in GUI & CLI)
-|<root>|which crush root it should belong to (default ceph root "default")
+|<root>|which crush root it should belong to (default Ceph root "default")
 |<failure-domain>|at which failure-domain the objects should be distributed (usually host)
 |<class>|what type of OSD backing store to use (e.g., nvme, ssd, hdd)
 |===
@@ -943,7 +943,7 @@ servers.
 pveceph fs destroy NAME --remove-storages --remove-pools
 ----
 +
-This will automatically destroy the underlying ceph pools as well as remove
+This will automatically destroy the underlying Ceph pools as well as remove
 the storages from pve config.
 
 After these steps, the CephFS should be completely removed and if you have
