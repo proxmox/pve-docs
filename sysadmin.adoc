@@ -17,7 +17,7 @@ https://zfsonlinux.org[ZFS] and several extra hardware drivers.
 
 For other topics not included in the following sections, please refer to the
 Debian documentation. The
-https://debian-handbook.info/download/stable/debian-handbook.pdf[Debian
+https://debian-handbook.info/get[Debian
 Administrator\'s Handbook] is available online, and provides a comprehensive
 introduction to the Debian operating system (see xref:Hertzog13[]).
 
