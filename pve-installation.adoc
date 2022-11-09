@@ -75,7 +75,7 @@ TIP: It's possible to use the installation wizard with a keyboard only. Buttons
 can be clicked by pressing the `ALT` key combined with the underlined character
 from the respective button. For example, `ALT + N` to press a `Next` button.
 
-Install {pve} (Debug mode)::
+Advanced Options: Install {pve} (Debug mode)::
 
 Starts the installation in debug mode. A console will be opened at several
 installation steps. This helps to debug the situation if something goes wrong.
@@ -84,7 +84,7 @@ system with all basic tools available. You can use it, for example, to
 xref:chapter_zfs[repair a degraded ZFS 'rpool'] or fix the
 xref:sysboot[bootloader] for an existing {pve} setup.
 
-Rescue Boot::
+Advanced Options: Rescue Boot::
 
 With this option you can boot an existing installation. It searches all attached
 hard disks. If it finds an existing installation, it boots directly into that
@@ -92,7 +92,7 @@ disk using the Linux kernel from the ISO. This can be useful if there are
 problems with the boot block (grub) or the BIOS is unable to read the boot block
 from the disk.
 
-Test Memory::
+Advanced Options: Test Memory::
 
 Runs `memtest86+`. This is useful to check if the memory is functional and free
 of errors.
