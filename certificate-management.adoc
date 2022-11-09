@@ -33,7 +33,7 @@ the cluster CA and therefore not automatically trusted by browsers and
 operating systems.
 2. use an externally provided certificate (e.g. signed by a commercial CA).
 3. use ACME (Let's Encrypt) to get a trusted certificate with automatic
-renewal, this is also integrated in the {pve} API and Webinterface.
+renewal, this is also integrated in the {pve} API and web interface.
 
 For options 2 and 3 the file `/etc/pve/local/pveproxy-ssl.pem` (and
 `/etc/pve/local/pveproxy-ssl.key`, which needs to be without password) is used.

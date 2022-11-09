@@ -46,7 +46,7 @@ Hyper-Converged Infrastructure: Storage
 
 {pve} has tightly integrated support for deploying a hyper-converged storage
 infrastructure. You can, for example, deploy and manage the following two
-storage technologies by using the Webinterface only:
+storage technologies by using the web interface only:
 
 - *ceph*: a both, self-healing and self-managing shared, reliable and highly
   scalable storage system. Checkout
