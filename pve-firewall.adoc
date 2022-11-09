@@ -528,7 +528,7 @@ Further, the log-level can also be set via the firewall configuration file by
 appending a `-log <loglevel>` to the selected rule (see
 xref:pve_firewall_log_levels[possible log-levels]).
 
-For example, the following two are ident:
+For example, the following two are identical:
 
 ----
 IN REJECT -p icmp -log nolog
