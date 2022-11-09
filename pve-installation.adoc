@@ -161,15 +161,15 @@ the installation medium and restart your system.
 
 [thumbnail="screenshot/pve-install-summary.png"]
 
-If the installation failed check out specific errors on the second TTY
-(`CTRL + ALT + F2'), ensure that the systems meets the
+If the installation failed, check out specific errors on the second TTY
+(`CTRL + ALT + F2') and ensure that the systems meets the
 xref:install_minimal_requirements[minimum requirements]. If the installation
-is still not working look at the xref:getting_help[how to get help chapter].
+is still not working, look at the xref:getting_help[how to get help chapter].
 
 Further configuration is done via the Proxmox web interface. Point your browser
 to the IP address given during installation (https://youripaddress:8006).
 
-NOTE: Default login is "root" (realm 'PAM') and the root password is defined
+NOTE: Default login is "root" (realm 'PAM') and the root password was defined
 during the installation process.
 
 [[advanced_lvm_options]]
@@ -278,7 +278,7 @@ ifndef::wiki[]
 Install {pve} on Debian
 -----------------------
 
-{pve} ships as a set of Debian packages and can be installed on to of a standard
+{pve} ships as a set of Debian packages and can be installed on top of a standard
 Debian installation.
 xref:sysadmin_package_repositories[After configuring the repositories] you need
 to run the following commands:
