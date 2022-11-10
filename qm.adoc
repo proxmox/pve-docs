@@ -329,6 +329,21 @@ For more information see `man systemd.resource-control`, here `CPUQuota`
 corresponds to `cpulimit` and `CPUWeight` corresponds to our `cpuunits`
 setting, visit its Notes section for references and implementation details.
 
+The third CPU resource limiting setting, *affinity*, controls what host cores
+the virtual machine will be permitted to execute on. E.g., if an affinity value
+of `0-3,8-11` is provided, the virtual machine will be restricted to using the
+host cores `0,1,2,3,8,9,10,` and `11`. Valid *affinity* values are written in
+cpuset `List Format`. List Format is a comma-separated list of CPU numbers and
+ranges of numbers, in ASCII decimal.
+
+NOTE: CPU *affinity* uses the `taskset` command to restrict virtual machines to
+a given set of cores. This restriction will not take effect for some types of
+processes that may be created for IO. *CPU affinity is not a security feature.*
+
+For more information regarding *affinity* see `man cpuset`. Here the
+`List Format` corresponds to valid *affinity* values. Visit its `Formats`
+section for more examples.
+
 CPU Type
 ^^^^^^^^
 
