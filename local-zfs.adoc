@@ -32,7 +32,8 @@ management.
 
 * Copy-on-write clone
 
-* Various raid levels: RAID0, RAID1, RAID10, RAIDZ-1, RAIDZ-2 and RAIDZ-3
+* Various raid levels: RAID0, RAID1, RAID10, RAIDZ-1, RAIDZ-2, RAIDZ-3,
+dRAID, dRAID2, dRAID3
 
 * Can use SSD for cache
 
@@ -242,6 +243,47 @@ performance, depending on the disks underneath, and cannot be changed later on.
 Mirror vdevs (RAID1, RAID10) have favorable behavior for VM workloads. Use
 them, unless your environment has specific needs and characteristics where
 RAIDZ performance characteristics are acceptable.
+
+
+ZFS dRAID
+~~~~~~~~~
+
+In a ZFS dRAID (declustered RAID) the hot spare drive(s) participate in the RAID.
+Their spare capacity is reserved and used for rebuilding when one drive fails.
+This provides, depending on the configuration, faster rebuilding compared to a
+RAIDZ in case of drive failure. More information can be found in the official
+OpenZFS documentation. footnote:[OpenZFS dRAID
+https://openzfs.github.io/openzfs-docs/Basic%20Concepts/dRAID%20Howto.html]
+
+NOTE: dRAID is intended for more than 10-15 disks in a dRAID. A RAIDZ
+setup should be better for a lower amount of disks in most use cases.
+
+NOTE: The GUI requires one more disk than the minimum (i.e. dRAID1 needs 3). It
+expects that a spare disk is added as well.
+
+ * `dRAID1` or `dRAID`: requires at least 2 disks, one can fail before data is
+lost
+ * `dRAID2`: requires at least 3 disks, two can fail before data is lost
+ * `dRAID3`: requires at least 4 disks, three can fail before data is lost
+
+
+Additional information can be found on the manual page:
+
+----
+# man zpoolconcepts
+----
+
+Spares and Data
+^^^^^^^^^^^^^^^
+The number of `spares` tells the system how many disks it should keep ready in
+case of a disk failure. The default value is 0 `spares`. Without spares,
+rebuilding won't get any speed benefits.
+
+`data` defines the number of devices in a redundancy group. The default value is
+8. Except when `disks - parity - spares` equal something less than 8, the lower
+number is used. In general, a smaller number of `data` devices leads to higher
+IOPS, better compression ratios and faster resilvering, but defining fewer data
+devices reduces the available storage capacity of the pool.
 
 
 Bootloader
