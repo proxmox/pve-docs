@@ -465,7 +465,7 @@ sub scan_extjs_file {
     debug("scan-extjs $filename");
 
     while(defined(my $line = <$fh>)) {
-	if ($line =~ m/\s+onlineHelp:\s*[\'\"](.*?)[\'\"]/) {
+	if ($line =~ m/\s+onlineHelp:\s*[\'\"]([^{}\[\]\'\"]+)[\'\"]/) {
 	    my $blockid = $1;
 	    my $link = $fileinfo->{blockid_target}->{default}->{$blockid};
 	    die "undefined blockid '$blockid' ($filename, line $.)\n"
