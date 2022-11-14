@@ -2,6 +2,10 @@
 
 Enable/disable ACPI.
 
+`affinity`: `<string>` ::
+
+List of host cores used to execute guest processes.
+
 `agent`: `[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
 
 Enable/disable communication with the Qemu Guest Agent and its properties.
@@ -155,10 +159,6 @@ Limit of CPU usage.
 +
 NOTE: If the computer has 2 CPUs, it has total of '2' CPU time. Value '0' indicates no CPU limit.
 
-`affinity`: `<string>`::
-
-Set of CPU cores to pin the virtual machine processes to. This is a comma sepparated list of numbers or ranges in list format as defined by the Linux man page for cpuset. ( e.g `0,4-6,9` )
-
 `cpuunits`: `<integer> (1 - 262144)` ('default =' `cgroup v1: 1024, cgroup v2: 100`)::
 
 CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to weights of all the other running VMs.
@@ -261,7 +261,7 @@ Enable vfio-vga device support.
 
 `hotplug`: `<string>` ('default =' `network,disk,usb`)::
 
-Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to disable hotplug completely. Using '1' as value is an alias for the default `network,disk,usb`.
+Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory', 'usb' and 'cloudinit'. Use '0' to disable hotplug completely. Using '1' as value is an alias for the default `network,disk,usb`. USB hotplugging is possible for guests with machine version >= 7.1 and ostype l26 or windows > 7.
 
 `hugepages`: `<1024 | 2 | any>` ::
 
@@ -1170,7 +1170,7 @@ The drive's backing volume.
 
 `usb[n]`: `[host=]<HOSTUSBDEVICE|spice> [,usb3=<1|0>]` ::
 
-Configure an USB device (n is 0 to 4).
+Configure an USB device (n is 0 to 4, for machine version >= 7.1 and ostype l26 or windows > 7, n can be up to 14).
 
 `host`=`<HOSTUSBDEVICE|spice>` ;;
 
@@ -1189,7 +1189,7 @@ The value 'spice' can be used to add a usb redirection devices for spice.
 
 `usb3`=`<boolean>` ('default =' `0`);;
 
-Specifies whether if given host option is a USB3 device or port.
+Specifies whether if given host option is a USB3 device or port. For modern guests (machine version >= 7.1 and ostype l26 and windows > 7), this flag is irrelevant (all devices are plugged into a xhci controller).
 
 `vcpus`: `<integer> (1 - N)` ('default =' `0`)::
 

@@ -20,11 +20,9 @@ Limit of CPU usage.
 +
 NOTE: If the computer has 2 CPUs, it has a total of '2' CPU time. Value '0' indicates no CPU limit.
 
-`cpuunits`: `<integer> (0 - 500000)` ('default =' `1024`)::
+`cpuunits`: `<integer> (0 - 500000)` ('default =' `cgroup v1: 1024, cgroup v2: 100`)::
 
-CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to the weights of all the other running VMs.
-+
-NOTE: You can disable fair-scheduler configuration by setting this to 0.
+CPU weight for a container. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this container gets. Number is relative to the weights of all the other running guests.
 
 `debug`: `<boolean>` ('default =' `0`)::
 
@@ -72,11 +70,11 @@ Set a host name for the container.
 
 `lock`: `<backup | create | destroyed | disk | fstrim | migrate | mounted | rollback | snapshot | snapshot-delete>` ::
 
-Lock/unlock the VM.
+Lock/unlock the container.
 
 `memory`: `<integer> (16 - N)` ('default =' `512`)::
 
-Amount of RAM for the VM in MB.
+Amount of RAM for the container in MB.
 
 `mp[n]`: `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
@@ -188,7 +186,7 @@ Network interface type.
 
 `onboot`: `<boolean>` ('default =' `0`)::
 
-Specifies whether a VM will be started during system bootup.
+Specifies whether a container will be started during system bootup.
 
 `ostype`: `<alpine | archlinux | centos | debian | devuan | fedora | gentoo | nixos | opensuse | ubuntu | unmanaged>` ::
 
@@ -246,7 +244,7 @@ Startup and shutdown behavior. Order is a non-negative number defining the gener
 
 `swap`: `<integer> (0 - N)` ('default =' `512`)::
 
-Amount of SWAP for the VM in MB.
+Amount of SWAP for the container in MB.
 
 `tags`: `<string>` ::
 

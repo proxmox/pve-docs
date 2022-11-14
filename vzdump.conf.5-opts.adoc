@@ -40,9 +40,17 @@ Backup mode.
 
 `notes-template`: `<string>` ::
 
-Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are \{\{cluster\}\}, \{\{guestname\}\}, \{\{node\}\}, and \{\{vmid\}\}, but more might be added in the future.
+Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are \{\{cluster\}\}, \{\{guestname\}\}, \{\{node\}\}, and \{\{vmid\}\}, but more might be added in the future. Needs to be a single line, newline and backslash need to be escaped as '\n' and '\\' respectively.
 +
 NOTE: Requires option(s): `storage`
+
+`performance`: `[max-workers=<integer>]` ::
+
+Other performance-related settings.
+
+`max-workers`=`<integer> (1 - 256)` ('default =' `16`);;
+
+Applies to VMs. Allow up to this many IO workers at the same time.
 
 `pigz`: `<integer>` ('default =' `0`)::
 

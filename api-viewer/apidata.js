@@ -3694,11 +3694,19 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "notes-template" : {
-                                 "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, and {{vmid}}, but more might be added in the future.",
+                                 "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, and {{vmid}}, but more might be added in the future. Needs to be a single line, newline and backslash need to be escaped as '\\n' and '\\\\' respectively.",
+                                 "maxLength" : 1024,
                                  "optional" : 1,
                                  "requires" : "storage",
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "performance" : {
+                                 "description" : "Other performance-related settings.",
+                                 "format" : "backup-performance",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "[max-workers=<integer>]"
                               },
                               "pigz" : {
                                  "default" : 0,
@@ -4026,11 +4034,19 @@ const apiSchema = [
                            "typetext" : "<string>"
                         },
                         "notes-template" : {
-                           "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, and {{vmid}}, but more might be added in the future.",
+                           "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, and {{vmid}}, but more might be added in the future. Needs to be a single line, newline and backslash need to be escaped as '\\n' and '\\\\' respectively.",
+                           "maxLength" : 1024,
                            "optional" : 1,
                            "requires" : "storage",
                            "type" : "string",
                            "typetext" : "<string>"
+                        },
+                        "performance" : {
+                           "description" : "Other performance-related settings.",
+                           "format" : "backup-performance",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "[max-workers=<integer>]"
                         },
                         "pigz" : {
                            "default" : 0,
@@ -8426,15 +8442,17 @@ const apiSchema = [
                            },
                            "cpu" : {
                               "description" : "CPU utilization (when type in node,qemu,lxc).",
+                              "minimum" : 0,
                               "optional" : 1,
                               "renderer" : "fraction_as_percentage",
                               "type" : "number"
                            },
                            "disk" : {
                               "description" : "Used disk space in bytes (when type in storage), used root image spave for VMs (type in qemu,lxc).",
+                              "minimum" : 0,
                               "optional" : 1,
                               "renderer" : "bytes",
-                              "type" : "string"
+                              "type" : "integer"
                            },
                            "hastate" : {
                               "description" : "HA service status (for HA managed VMs).",
@@ -8451,11 +8469,13 @@ const apiSchema = [
                            },
                            "maxcpu" : {
                               "description" : "Number of available CPUs (when type in node,qemu,lxc).",
+                              "minimum" : 0,
                               "optional" : 1,
                               "type" : "number"
                            },
                            "maxdisk" : {
                               "description" : "Storage size in bytes (when type in storage), root image size for VMs (type in qemu,lxc).",
+                              "minimum" : 0,
                               "optional" : 1,
                               "renderer" : "bytes",
                               "type" : "integer"
@@ -8468,9 +8488,10 @@ const apiSchema = [
                            },
                            "mem" : {
                               "description" : "Used memory in bytes (when type in node,qemu,lxc).",
+                              "minimum" : 0,
                               "optional" : 1,
                               "renderer" : "bytes",
-                              "type" : "string"
+                              "type" : "integer"
                            },
                            "name" : {
                               "description" : "Name of the resource.",
@@ -8521,6 +8542,12 @@ const apiSchema = [
                               "description" : "Node uptime in seconds (when type in node,qemu,lxc).",
                               "optional" : 1,
                               "renderer" : "duration",
+                              "type" : "integer"
+                           },
+                           "vmid" : {
+                              "description" : "The numerical vmid (when type in qemu,lxc).",
+                              "minimum" : 1,
+                              "optional" : 1,
                               "type" : "integer"
                            }
                         },
@@ -12475,6 +12502,12 @@ const apiSchema = [
                                              "optional" : 1,
                                              "type" : "boolean"
                                           },
+                                          "affinity" : {
+                                             "description" : "List of host cores used to execute guest processes.",
+                                             "format" : "pve-cpuset",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
                                           "agent" : {
                                              "description" : "Enable/disable communication with the Qemu Guest Agent and its properties.",
                                              "format" : {
@@ -12728,7 +12761,7 @@ const apiSchema = [
                                           },
                                           "hotplug" : {
                                              "default" : "network,disk,usb",
-                                             "description" : "Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to disable hotplug completely. Using '1' as value is an alias for the default `network,disk,usb`.",
+                                             "description" : "Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory', 'usb' and 'cloudinit'. Use '0' to disable hotplug completely. Using '1' as value is an alias for the default `network,disk,usb`. USB hotplugging is possible for guests with machine version >= 7.1 and ostype l26 or windows > 7.",
                                              "format" : "pve-hotplug-features",
                                              "optional" : 1,
                                              "type" : "string"
@@ -14291,7 +14324,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "usb[n]" : {
-                                             "description" : "Configure an USB device (n is 0 to 4).",
+                                             "description" : "Configure an USB device (n is 0 to 4, for machine version >= 7.1 and ostype l26 or windows > 7, n can be up to 14).",
                                              "format" : {
                                                 "host" : {
                                                    "default_key" : 1,
@@ -14302,7 +14335,7 @@ const apiSchema = [
                                                 },
                                                 "usb3" : {
                                                    "default" : 0,
-                                                   "description" : "Specifies whether if given host option is a USB3 device or port.",
+                                                   "description" : "Specifies whether if given host option is a USB3 device or port. For modern guests (machine version >= 7.1 and ostype l26 and windows > 7), this flag is irrelevant (all devices are plugged into a xhci controller).",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 }
@@ -14711,6 +14744,13 @@ const apiSchema = [
                                              "type" : "boolean",
                                              "typetext" : "<boolean>"
                                           },
+                                          "affinity" : {
+                                             "description" : "List of host cores used to execute guest processes.",
+                                             "format" : "pve-cpuset",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
                                           "agent" : {
                                              "description" : "Enable/disable communication with the Qemu Guest Agent and its properties.",
                                              "format" : {
@@ -15014,7 +15054,7 @@ const apiSchema = [
                                           },
                                           "hotplug" : {
                                              "default" : "network,disk,usb",
-                                             "description" : "Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to disable hotplug completely. Using '1' as value is an alias for the default `network,disk,usb`.",
+                                             "description" : "Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory', 'usb' and 'cloudinit'. Use '0' to disable hotplug completely. Using '1' as value is an alias for the default `network,disk,usb`. USB hotplugging is possible for guests with machine version >= 7.1 and ostype l26 or windows > 7.",
                                              "format" : "pve-hotplug-features",
                                              "optional" : 1,
                                              "type" : "string",
@@ -16658,7 +16698,7 @@ const apiSchema = [
                                              "typetext" : "[file=]<volume>"
                                           },
                                           "usb[n]" : {
-                                             "description" : "Configure an USB device (n is 0 to 4).",
+                                             "description" : "Configure an USB device (n is 0 to 4, for machine version >= 7.1 and ostype l26 or windows > 7, n can be up to 14).",
                                              "format" : {
                                                 "host" : {
                                                    "default_key" : 1,
@@ -16669,7 +16709,7 @@ const apiSchema = [
                                                 },
                                                 "usb3" : {
                                                    "default" : 0,
-                                                   "description" : "Specifies whether if given host option is a USB3 device or port.",
+                                                   "description" : "Specifies whether if given host option is a USB3 device or port. For modern guests (machine version >= 7.1 and ostype l26 and windows > 7), this flag is irrelevant (all devices are plugged into a xhci controller).",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 }
@@ -17121,6 +17161,13 @@ const apiSchema = [
                                              "type" : "boolean",
                                              "typetext" : "<boolean>"
                                           },
+                                          "affinity" : {
+                                             "description" : "List of host cores used to execute guest processes.",
+                                             "format" : "pve-cpuset",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
                                           "agent" : {
                                              "description" : "Enable/disable communication with the Qemu Guest Agent and its properties.",
                                              "format" : {
@@ -17416,7 +17463,7 @@ const apiSchema = [
                                           },
                                           "hotplug" : {
                                              "default" : "network,disk,usb",
-                                             "description" : "Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to disable hotplug completely. Using '1' as value is an alias for the default `network,disk,usb`.",
+                                             "description" : "Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory', 'usb' and 'cloudinit'. Use '0' to disable hotplug completely. Using '1' as value is an alias for the default `network,disk,usb`. USB hotplugging is possible for guests with machine version >= 7.1 and ostype l26 or windows > 7.",
                                              "format" : "pve-hotplug-features",
                                              "optional" : 1,
                                              "type" : "string",
@@ -19060,7 +19107,7 @@ const apiSchema = [
                                              "typetext" : "[file=]<volume>"
                                           },
                                           "usb[n]" : {
-                                             "description" : "Configure an USB device (n is 0 to 4).",
+                                             "description" : "Configure an USB device (n is 0 to 4, for machine version >= 7.1 and ostype l26 or windows > 7, n can be up to 14).",
                                              "format" : {
                                                 "host" : {
                                                    "default_key" : 1,
@@ -19071,7 +19118,7 @@ const apiSchema = [
                                                 },
                                                 "usb3" : {
                                                    "default" : 0,
-                                                   "description" : "Specifies whether if given host option is a USB3 device or port.",
+                                                   "description" : "Specifies whether if given host option is a USB3 device or port. For modern guests (machine version >= 7.1 and ostype l26 and windows > 7), this flag is irrelevant (all devices are plugged into a xhci controller).",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 }
@@ -19581,6 +19628,167 @@ const apiSchema = [
                               "leaf" : 1,
                               "path" : "/nodes/{node}/qemu/{vmid}/pending",
                               "text" : "pending"
+                           },
+                           {
+                              "children" : [
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "allowtoken" : 1,
+                                          "description" : "Get automatically generated cloudinit config.",
+                                          "method" : "GET",
+                                          "name" : "cloudinit_generated_config_dump",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "type" : {
+                                                   "description" : "Config type.",
+                                                   "enum" : [
+                                                      "user",
+                                                      "network",
+                                                      "meta"
+                                                   ],
+                                                   "type" : "string"
+                                                },
+                                                "vmid" : {
+                                                   "description" : "The (unique) ID of the VM.",
+                                                   "format" : "pve-vmid",
+                                                   "minimum" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - N)"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/vms/{vmid}",
+                                                [
+                                                   "VM.Audit"
+                                                ]
+                                             ]
+                                          },
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "type" : "string"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/qemu/{vmid}/cloudinit/dump",
+                                    "text" : "dump"
+                                 }
+                              ],
+                              "info" : {
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Get the cloudinit configuration with both current and pending values.",
+                                    "method" : "GET",
+                                    "name" : "cloudinit_pending",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "minimum" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - N)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/vms/{vmid}",
+                                          [
+                                             "VM.Audit"
+                                          ]
+                                       ]
+                                    },
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "items" : {
+                                          "properties" : {
+                                             "delete" : {
+                                                "description" : "Indicates a pending delete request if present and not 0. The value 2 indicates a force-delete request.",
+                                                "maximum" : 2,
+                                                "minimum" : 0,
+                                                "optional" : 1,
+                                                "type" : "integer"
+                                             },
+                                             "key" : {
+                                                "description" : "Configuration option name.",
+                                                "type" : "string"
+                                             },
+                                             "pending" : {
+                                                "description" : "Pending value.",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "value" : {
+                                                "description" : "Current value.",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "type" : "array"
+                                    }
+                                 },
+                                 "PUT" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Regenerate and change cloudinit config drive.",
+                                    "method" : "PUT",
+                                    "name" : "cloudinit_update",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "minimum" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - N)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/vms/{vmid}",
+                                          "VM.Config.Cloudinit"
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "null"
+                                    }
+                                 }
+                              },
+                              "leaf" : 0,
+                              "path" : "/nodes/{node}/qemu/{vmid}/cloudinit",
+                              "text" : "cloudinit"
                            },
                            {
                               "info" : {
@@ -22080,6 +22288,13 @@ const apiSchema = [
                                                          "type" : "string",
                                                          "typetext" : "<string>"
                                                       },
+                                                      "start" : {
+                                                         "default" : 0,
+                                                         "description" : "Whether the VM should get started after rolling back successfully",
+                                                         "optional" : 1,
+                                                         "type" : "boolean",
+                                                         "typetext" : "<boolean>"
+                                                      },
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
@@ -22469,66 +22684,6 @@ const apiSchema = [
                               "leaf" : 1,
                               "path" : "/nodes/{node}/qemu/{vmid}/template",
                               "text" : "template"
-                           },
-                           {
-                              "children" : [
-                                 {
-                                    "info" : {
-                                       "GET" : {
-                                          "allowtoken" : 1,
-                                          "description" : "Get automatically generated cloudinit config.",
-                                          "method" : "GET",
-                                          "name" : "cloudinit_generated_config_dump",
-                                          "parameters" : {
-                                             "additionalProperties" : 0,
-                                             "properties" : {
-                                                "node" : {
-                                                   "description" : "The cluster node name.",
-                                                   "format" : "pve-node",
-                                                   "type" : "string",
-                                                   "typetext" : "<string>"
-                                                },
-                                                "type" : {
-                                                   "description" : "Config type.",
-                                                   "enum" : [
-                                                      "user",
-                                                      "network",
-                                                      "meta"
-                                                   ],
-                                                   "type" : "string"
-                                                },
-                                                "vmid" : {
-                                                   "description" : "The (unique) ID of the VM.",
-                                                   "format" : "pve-vmid",
-                                                   "minimum" : 1,
-                                                   "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
-                                                }
-                                             }
-                                          },
-                                          "permissions" : {
-                                             "check" : [
-                                                "perm",
-                                                "/vms/{vmid}",
-                                                [
-                                                   "VM.Audit"
-                                                ]
-                                             ]
-                                          },
-                                          "proxyto" : "node",
-                                          "returns" : {
-                                             "type" : "string"
-                                          }
-                                       }
-                                    },
-                                    "leaf" : 1,
-                                    "path" : "/nodes/{node}/qemu/{vmid}/cloudinit/dump",
-                                    "text" : "dump"
-                                 }
-                              ],
-                              "leaf" : 0,
-                              "path" : "/nodes/{node}/qemu/{vmid}/cloudinit",
-                              "text" : "cloudinit"
                            }
                         ],
                         "info" : {
@@ -22770,6 +22925,13 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
+                              },
+                              "affinity" : {
+                                 "description" : "List of host cores used to execute guest processes.",
+                                 "format" : "pve-cpuset",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               },
                               "agent" : {
                                  "description" : "Enable/disable communication with the Qemu Guest Agent and its properties.",
@@ -23067,7 +23229,7 @@ const apiSchema = [
                               },
                               "hotplug" : {
                                  "default" : "network,disk,usb",
-                                 "description" : "Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to disable hotplug completely. Using '1' as value is an alias for the default `network,disk,usb`.",
+                                 "description" : "Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory', 'usb' and 'cloudinit'. Use '0' to disable hotplug completely. Using '1' as value is an alias for the default `network,disk,usb`. USB hotplugging is possible for guests with machine version >= 7.1 and ostype l26 or windows > 7.",
                                  "format" : "pve-hotplug-features",
                                  "optional" : 1,
                                  "type" : "string",
@@ -24733,7 +24895,7 @@ const apiSchema = [
                                  "typetext" : "[file=]<volume>"
                               },
                               "usb[n]" : {
-                                 "description" : "Configure an USB device (n is 0 to 4).",
+                                 "description" : "Configure an USB device (n is 0 to 4, for machine version >= 7.1 and ostype l26 or windows > 7, n can be up to 14).",
                                  "format" : {
                                     "host" : {
                                        "default_key" : 1,
@@ -24744,7 +24906,7 @@ const apiSchema = [
                                     },
                                     "usb3" : {
                                        "default" : 0,
-                                       "description" : "Specifies whether if given host option is a USB3 device or port.",
+                                       "description" : "Specifies whether if given host option is a USB3 device or port. For modern guests (machine version >= 7.1 and ostype l26 and windows > 7), this flag is irrelevant (all devices are plugged into a xhci controller).",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     }
@@ -25272,12 +25434,13 @@ const apiSchema = [
                                              "type" : "number"
                                           },
                                           "cpuunits" : {
-                                             "default" : 1024,
-                                             "description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to the weights of all the other running VMs.\n\nNOTE: You can disable fair-scheduler configuration by setting this to 0.",
+                                             "default" : "cgroup v1: 1024, cgroup v2: 100",
+                                             "description" : "CPU weight for a container, will be clamped to [1, 10000] in cgroup v2.",
                                              "maximum" : 500000,
                                              "minimum" : 0,
                                              "optional" : 1,
-                                             "type" : "integer"
+                                             "type" : "integer",
+                                             "verbose_description" : "CPU weight for a container. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this container gets. Number is relative to the weights of all the other running guests."
                                           },
                                           "debug" : {
                                              "default" : 0,
@@ -25353,7 +25516,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "lock" : {
-                                             "description" : "Lock/unlock the VM.",
+                                             "description" : "Lock/unlock the container.",
                                              "enum" : [
                                                 "backup",
                                                 "create",
@@ -25382,7 +25545,7 @@ const apiSchema = [
                                           },
                                           "memory" : {
                                              "default" : 512,
-                                             "description" : "Amount of RAM for the VM in MB.",
+                                             "description" : "Amount of RAM for the container in MB.",
                                              "minimum" : 16,
                                              "optional" : 1,
                                              "type" : "integer"
@@ -25559,7 +25722,7 @@ const apiSchema = [
                                           },
                                           "onboot" : {
                                              "default" : 0,
-                                             "description" : "Specifies whether a VM will be started during system bootup.",
+                                             "description" : "Specifies whether a container will be started during system bootup.",
                                              "optional" : 1,
                                              "type" : "boolean"
                                           },
@@ -25658,7 +25821,7 @@ const apiSchema = [
                                           },
                                           "swap" : {
                                              "default" : 512,
-                                             "description" : "Amount of SWAP for the VM in MB.",
+                                             "description" : "Amount of SWAP for the container in MB.",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer"
@@ -25769,13 +25932,14 @@ const apiSchema = [
                                              "typetext" : "<number> (0 - 8192)"
                                           },
                                           "cpuunits" : {
-                                             "default" : 1024,
-                                             "description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to the weights of all the other running VMs.\n\nNOTE: You can disable fair-scheduler configuration by setting this to 0.",
+                                             "default" : "cgroup v1: 1024, cgroup v2: 100",
+                                             "description" : "CPU weight for a container, will be clamped to [1, 10000] in cgroup v2.",
                                              "maximum" : 500000,
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (0 - 500000)"
+                                             "typetext" : "<integer> (0 - 500000)",
+                                             "verbose_description" : "CPU weight for a container. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this container gets. Number is relative to the weights of all the other running guests."
                                           },
                                           "debug" : {
                                              "default" : 0,
@@ -25866,7 +26030,7 @@ const apiSchema = [
                                              "typetext" : "<string>"
                                           },
                                           "lock" : {
-                                             "description" : "Lock/unlock the VM.",
+                                             "description" : "Lock/unlock the container.",
                                              "enum" : [
                                                 "backup",
                                                 "create",
@@ -25884,7 +26048,7 @@ const apiSchema = [
                                           },
                                           "memory" : {
                                              "default" : 512,
-                                             "description" : "Amount of RAM for the VM in MB.",
+                                             "description" : "Amount of RAM for the container in MB.",
                                              "minimum" : 16,
                                              "optional" : 1,
                                              "type" : "integer",
@@ -26071,7 +26235,7 @@ const apiSchema = [
                                           },
                                           "onboot" : {
                                              "default" : 0,
-                                             "description" : "Specifies whether a VM will be started during system bootup.",
+                                             "description" : "Specifies whether a container will be started during system bootup.",
                                              "optional" : 1,
                                              "type" : "boolean",
                                              "typetext" : "<boolean>"
@@ -26181,7 +26345,7 @@ const apiSchema = [
                                           },
                                           "swap" : {
                                              "default" : 512,
-                                             "description" : "Amount of SWAP for the VM in MB.",
+                                             "description" : "Amount of SWAP for the container in MB.",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
@@ -26775,6 +26939,13 @@ const apiSchema = [
                                                          "maxLength" : 40,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
+                                                      },
+                                                      "start" : {
+                                                         "default" : 0,
+                                                         "description" : "Whether the container should get started after rolling back successfully",
+                                                         "optional" : 1,
+                                                         "type" : "boolean",
+                                                         "typetext" : "<boolean>"
                                                       },
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
@@ -31519,13 +31690,14 @@ const apiSchema = [
                                  "typetext" : "<number> (0 - 8192)"
                               },
                               "cpuunits" : {
-                                 "default" : 1024,
-                                 "description" : "CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this VM gets. Number is relative to the weights of all the other running VMs.\n\nNOTE: You can disable fair-scheduler configuration by setting this to 0.",
+                                 "default" : "cgroup v1: 1024, cgroup v2: 100",
+                                 "description" : "CPU weight for a container, will be clamped to [1, 10000] in cgroup v2.",
                                  "maximum" : 500000,
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "<integer> (0 - 500000)"
+                                 "typetext" : "<integer> (0 - 500000)",
+                                 "verbose_description" : "CPU weight for a container. Argument is used in the kernel fair scheduler. The larger the number is, the more CPU time this container gets. Number is relative to the weights of all the other running guests."
                               },
                               "debug" : {
                                  "default" : 0,
@@ -31614,7 +31786,7 @@ const apiSchema = [
                                  "typetext" : "<boolean>"
                               },
                               "lock" : {
-                                 "description" : "Lock/unlock the VM.",
+                                 "description" : "Lock/unlock the container.",
                                  "enum" : [
                                     "backup",
                                     "create",
@@ -31632,7 +31804,7 @@ const apiSchema = [
                               },
                               "memory" : {
                                  "default" : 512,
-                                 "description" : "Amount of RAM for the VM in MB.",
+                                 "description" : "Amount of RAM for the container in MB.",
                                  "minimum" : 16,
                                  "optional" : 1,
                                  "type" : "integer",
@@ -31819,7 +31991,7 @@ const apiSchema = [
                               },
                               "onboot" : {
                                  "default" : 0,
-                                 "description" : "Specifies whether a VM will be started during system bootup.",
+                                 "description" : "Specifies whether a container will be started during system bootup.",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
@@ -31969,7 +32141,7 @@ const apiSchema = [
                               },
                               "swap" : {
                                  "default" : 512,
-                                 "description" : "Amount of SWAP for the VM in MB.",
+                                 "description" : "Amount of SWAP for the container in MB.",
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
@@ -34318,9 +34490,16 @@ const apiSchema = [
                                        "type" : "string"
                                     },
                                     "notes-template" : {
-                                       "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, and {{vmid}}, but more might be added in the future.",
+                                       "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, and {{vmid}}, but more might be added in the future. Needs to be a single line, newline and backslash need to be escaped as '\\n' and '\\\\' respectively.",
+                                       "maxLength" : 1024,
                                        "optional" : 1,
                                        "requires" : "storage",
+                                       "type" : "string"
+                                    },
+                                    "performance" : {
+                                       "description" : "Other performance-related settings.",
+                                       "format" : "backup-performance",
+                                       "optional" : 1,
                                        "type" : "string"
                                     },
                                     "pigz" : {
@@ -34571,11 +34750,19 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "notes-template" : {
-                                 "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, and {{vmid}}, but more might be added in the future.",
+                                 "description" : "Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are {{cluster}}, {{guestname}}, {{node}}, and {{vmid}}, but more might be added in the future. Needs to be a single line, newline and backslash need to be escaped as '\\n' and '\\\\' respectively.",
+                                 "maxLength" : 1024,
                                  "optional" : 1,
                                  "requires" : "storage",
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "performance" : {
+                                 "description" : "Other performance-related settings.",
+                                 "format" : "backup-performance",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "[max-workers=<integer>]"
                               },
                               "pigz" : {
                                  "default" : 0,
@@ -34683,7 +34870,7 @@ const apiSchema = [
                            }
                         },
                         "permissions" : {
-                           "description" : "The user needs 'VM.Backup' permissions on any VM, and 'Datastore.AllocateSpace' on the backup storage. The 'maxfiles', 'prune-backups', 'tmpdir', 'dumpdir', 'script', 'bwlimit' and 'ionice' parameters are restricted to the 'root@pam' user.",
+                           "description" : "The user needs 'VM.Backup' permissions on any VM, and 'Datastore.AllocateSpace' on the backup storage. The 'maxfiles', 'prune-backups', 'tmpdir', 'dumpdir', 'script', 'bwlimit', 'performance' and 'ionice' parameters are restricted to the 'root@pam' user.",
                            "user" : "all"
                         },
                         "protected" : 1,

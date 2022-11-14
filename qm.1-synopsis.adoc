@@ -81,6 +81,22 @@ The (unique) ID of the VM.
 
 Config type.
 
+*qm cloudinit pending* `<vmid>`
+
+Get the cloudinit configuration with both current and pending values.
+
+`<vmid>`: `<integer> (1 - N)` ::
+
+The (unique) ID of the VM.
+
+*qm cloudinit update* `<vmid>`
+
+Regenerate and change cloudinit config drive.
+
+`<vmid>`: `<integer> (1 - N)` ::
+
+The (unique) ID of the VM.
+
 *qm config* `<vmid>` `[OPTIONS]`
 
 Get the virtual machine configuration with pending configuration changes
@@ -110,6 +126,10 @@ The (unique) ID of the VM.
 `--acpi` `<boolean>` ('default =' `1`)::
 
 Enable/disable ACPI.
+
+`--affinity` `<string>` ::
+
+List of host cores used to execute guest processes.
 
 `--agent` `[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
 
@@ -219,7 +239,7 @@ Map host PCI devices into guest.
 
 `--hotplug` `<string>` ('default =' `network,disk,usb`)::
 
-Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to disable hotplug completely. Using '1' as value is an alias for the default `network,disk,usb`.
+Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory', 'usb' and 'cloudinit'. Use '0' to disable hotplug completely. Using '1' as value is an alias for the default `network,disk,usb`. USB hotplugging is possible for guests with machine version >= 7.1 and ostype l26 or windows > 7.
 
 `--hugepages` `<1024 | 2 | any>` ::
 
@@ -429,7 +449,7 @@ Reference to unused volumes. This is used internally, and should not be modified
 
 `--usb[n]` `[host=]<HOSTUSBDEVICE|spice> [,usb3=<1|0>]` ::
 
-Configure an USB device (n is 0 to 4).
+Configure an USB device (n is 0 to 4, for machine version >= 7.1 and ostype l26 or windows > 7, n can be up to 14).
 
 `--vcpus` `<integer> (1 - N)` ('default =' `0`)::
 
@@ -491,6 +511,125 @@ Remove VMID from configurations, like backup & replication jobs and HA.
 `--skiplock` `<boolean>` ::
 
 Ignore locks - only root is allowed to use this option.
+
+*qm disk import* `<vmid> <source> <storage>` `[OPTIONS]`
+
+Import an external disk image as an unused disk in a VM. The
+ image format has to be supported by qemu-img(1).
+
+`<vmid>`: `<integer> (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`<source>`: `<string>` ::
+
+Path to the disk image to import
+
+`<storage>`: `<string>` ::
+
+Target storage ID
+
+`--format` `<qcow2 | raw | vmdk>` ::
+
+Target format
+
+*qm disk move* `<vmid> <disk> [<storage>]` `[OPTIONS]`
+
+Move volume to different storage or to a different VM.
+
+`<vmid>`: `<integer> (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`<disk>`: `<efidisk0 | ide0 | ide1 | ide2 | ide3 | sata0 | sata1 | sata2 | sata3 | sata4 | sata5 | scsi0 | scsi1 | scsi10 | scsi11 | scsi12 | scsi13 | scsi14 | scsi15 | scsi16 | scsi17 | scsi18 | scsi19 | scsi2 | scsi20 | scsi21 | scsi22 | scsi23 | scsi24 | scsi25 | scsi26 | scsi27 | scsi28 | scsi29 | scsi3 | scsi30 | scsi4 | scsi5 | scsi6 | scsi7 | scsi8 | scsi9 | tpmstate0 | unused0 | unused1 | unused10 | unused100 | unused101 | unused102 | unused103 | unused104 | unused105 | unused106 | unused107 | unused108 | unused109 | unused11 | unused110 | unused111 | unused112 | unused113 | unused114 | unused115 | unused116 | unused117 | unused118 | unused119 | unused12 | unused120 | unused121 | unused122 | unused123 | unused124 | unused125 | unused126 | unused127 | unused128 | unused129 | unused13 | unused130 | unused131 | unused132 | unused133 | unused134 | unused135 | unused136 | unused137 | unused138 | unused139 | unused14 | unused140 | unused141 | unused142 | unused143 | unused144 | unused145 | unused146 | unused147 | unused148 | unused149 | unused15 | unused150 | unused151 | unused152 | unused153 | unused154 | unused155 | unused156 | unused157 | unused158 | unused159 | unused16 | unused160 | unused161 | unused162 | unused163 | unused164 | unused165 | unused166 | unused167 | unused168 | unused169 | unused17 | unused170 | unused171 | unused172 | unused173 | unused174 | unused175 | unused176 | unused177 | unused178 | unused179 | unused18 | unused180 | unused181 | unused182 | unused183 | unused184 | unused185 | unused186 | unused187 | unused188 | unused189 | unused19 | unused190 | unused191 | unused192 | unused193 | unused194 | unused195 | unused196 | unused197 | unused198 | unused199 | unused2 | unused20 | unused200 | unused201 | unused202 | unused203 | unused204 | unused205 | unused206 | unused207 | unused208 | unused209 | unused21 | unused210 | unused211 | unused212 | unused213 | unused214 | unused215 | unused216 | unused217 | unused218 | unused219 | unused22 | unused220 | unused221 | unused222 | unused223 | unused224 | unused225 | unused226 | unused227 | unused228 | unused229 | unused23 | unused230 | unused231 | unused232 | unused233 | unused234 | unused235 | unused236 | unused237 | unused238 | unused239 | unused24 | unused240 | unused241 | unused242 | unused243 | unused244 | unused245 | unused246 | unused247 | unused248 | unused249 | unused25 | unused250 | unused251 | unused252 | unused253 | unused254 | unused255 | unused26 | unused27 | unused28 | unused29 | unused3 | unused30 | unused31 | unused32 | unused33 | unused34 | unused35 | unused36 | unused37 | unused38 | unused39 | unused4 | unused40 | unused41 | unused42 | unused43 | unused44 | unused45 | unused46 | unused47 | unused48 | unused49 | unused5 | unused50 | unused51 | unused52 | unused53 | unused54 | unused55 | unused56 | unused57 | unused58 | unused59 | unused6 | unused60 | unused61 | unused62 | unused63 | unused64 | unused65 | unused66 | unused67 | unused68 | unused69 | unused7 | unused70 | unused71 | unused72 | unused73 | unused74 | unused75 | unused76 | unused77 | unused78 | unused79 | unused8 | unused80 | unused81 | unused82 | unused83 | unused84 | unused85 | unused86 | unused87 | unused88 | unused89 | unused9 | unused90 | unused91 | unused92 | unused93 | unused94 | unused95 | unused96 | unused97 | unused98 | unused99 | virtio0 | virtio1 | virtio10 | virtio11 | virtio12 | virtio13 | virtio14 | virtio15 | virtio2 | virtio3 | virtio4 | virtio5 | virtio6 | virtio7 | virtio8 | virtio9>` ::
+
+The disk you want to move.
+
+`<storage>`: `<string>` ::
+
+Target storage.
+
+`--bwlimit` `<integer> (0 - N)` ('default =' `move limit from datacenter or storage config`)::
+
+Override I/O bandwidth limit (in KiB/s).
+
+`--delete` `<boolean>` ('default =' `0`)::
+
+Delete the original disk after successful copy. By default the original disk is kept as unused disk.
+
+`--digest` `<string>` ::
+
+Prevent changes if current configuration file has different SHA1"
+		    ." digest. This can be used to prevent concurrent modifications.
+
+`--format` `<qcow2 | raw | vmdk>` ::
+
+Target Format.
+
+`--target-digest` `<string>` ::
+
+Prevent changes if the current config file of the target VM has a"
+		    ." different SHA1 digest. This can be used to detect concurrent modifications.
+
+`--target-disk` `<efidisk0 | ide0 | ide1 | ide2 | ide3 | sata0 | sata1 | sata2 | sata3 | sata4 | sata5 | scsi0 | scsi1 | scsi10 | scsi11 | scsi12 | scsi13 | scsi14 | scsi15 | scsi16 | scsi17 | scsi18 | scsi19 | scsi2 | scsi20 | scsi21 | scsi22 | scsi23 | scsi24 | scsi25 | scsi26 | scsi27 | scsi28 | scsi29 | scsi3 | scsi30 | scsi4 | scsi5 | scsi6 | scsi7 | scsi8 | scsi9 | tpmstate0 | unused0 | unused1 | unused10 | unused100 | unused101 | unused102 | unused103 | unused104 | unused105 | unused106 | unused107 | unused108 | unused109 | unused11 | unused110 | unused111 | unused112 | unused113 | unused114 | unused115 | unused116 | unused117 | unused118 | unused119 | unused12 | unused120 | unused121 | unused122 | unused123 | unused124 | unused125 | unused126 | unused127 | unused128 | unused129 | unused13 | unused130 | unused131 | unused132 | unused133 | unused134 | unused135 | unused136 | unused137 | unused138 | unused139 | unused14 | unused140 | unused141 | unused142 | unused143 | unused144 | unused145 | unused146 | unused147 | unused148 | unused149 | unused15 | unused150 | unused151 | unused152 | unused153 | unused154 | unused155 | unused156 | unused157 | unused158 | unused159 | unused16 | unused160 | unused161 | unused162 | unused163 | unused164 | unused165 | unused166 | unused167 | unused168 | unused169 | unused17 | unused170 | unused171 | unused172 | unused173 | unused174 | unused175 | unused176 | unused177 | unused178 | unused179 | unused18 | unused180 | unused181 | unused182 | unused183 | unused184 | unused185 | unused186 | unused187 | unused188 | unused189 | unused19 | unused190 | unused191 | unused192 | unused193 | unused194 | unused195 | unused196 | unused197 | unused198 | unused199 | unused2 | unused20 | unused200 | unused201 | unused202 | unused203 | unused204 | unused205 | unused206 | unused207 | unused208 | unused209 | unused21 | unused210 | unused211 | unused212 | unused213 | unused214 | unused215 | unused216 | unused217 | unused218 | unused219 | unused22 | unused220 | unused221 | unused222 | unused223 | unused224 | unused225 | unused226 | unused227 | unused228 | unused229 | unused23 | unused230 | unused231 | unused232 | unused233 | unused234 | unused235 | unused236 | unused237 | unused238 | unused239 | unused24 | unused240 | unused241 | unused242 | unused243 | unused244 | unused245 | unused246 | unused247 | unused248 | unused249 | unused25 | unused250 | unused251 | unused252 | unused253 | unused254 | unused255 | unused26 | unused27 | unused28 | unused29 | unused3 | unused30 | unused31 | unused32 | unused33 | unused34 | unused35 | unused36 | unused37 | unused38 | unused39 | unused4 | unused40 | unused41 | unused42 | unused43 | unused44 | unused45 | unused46 | unused47 | unused48 | unused49 | unused5 | unused50 | unused51 | unused52 | unused53 | unused54 | unused55 | unused56 | unused57 | unused58 | unused59 | unused6 | unused60 | unused61 | unused62 | unused63 | unused64 | unused65 | unused66 | unused67 | unused68 | unused69 | unused7 | unused70 | unused71 | unused72 | unused73 | unused74 | unused75 | unused76 | unused77 | unused78 | unused79 | unused8 | unused80 | unused81 | unused82 | unused83 | unused84 | unused85 | unused86 | unused87 | unused88 | unused89 | unused9 | unused90 | unused91 | unused92 | unused93 | unused94 | unused95 | unused96 | unused97 | unused98 | unused99 | virtio0 | virtio1 | virtio10 | virtio11 | virtio12 | virtio13 | virtio14 | virtio15 | virtio2 | virtio3 | virtio4 | virtio5 | virtio6 | virtio7 | virtio8 | virtio9>` ::
+
+The config key the disk will be moved to on the target VM (for example, ide0 or scsi1). Default is the source disk key.
+
+`--target-vmid` `<integer> (1 - N)` ::
+
+The (unique) ID of the VM.
+
+*qm disk rescan* `[OPTIONS]`
+
+Rescan all storages and update disk sizes and unused disk images.
+
+`--dryrun` `<boolean>` ('default =' `0`)::
+
+Do not actually write changes out to VM config(s).
+
+`--vmid` `<integer> (1 - N)` ::
+
+The (unique) ID of the VM.
+
+*qm disk resize* `<vmid> <disk> <size>` `[OPTIONS]`
+
+Extend volume size.
+
+`<vmid>`: `<integer> (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`<disk>`: `<efidisk0 | ide0 | ide1 | ide2 | ide3 | sata0 | sata1 | sata2 | sata3 | sata4 | sata5 | scsi0 | scsi1 | scsi10 | scsi11 | scsi12 | scsi13 | scsi14 | scsi15 | scsi16 | scsi17 | scsi18 | scsi19 | scsi2 | scsi20 | scsi21 | scsi22 | scsi23 | scsi24 | scsi25 | scsi26 | scsi27 | scsi28 | scsi29 | scsi3 | scsi30 | scsi4 | scsi5 | scsi6 | scsi7 | scsi8 | scsi9 | tpmstate0 | virtio0 | virtio1 | virtio10 | virtio11 | virtio12 | virtio13 | virtio14 | virtio15 | virtio2 | virtio3 | virtio4 | virtio5 | virtio6 | virtio7 | virtio8 | virtio9>` ::
+
+The disk you want to resize.
+
+`<size>`: `\+?\d+(\.\d+)?[KMGT]?` ::
+
+The new size. With the `+` sign the value is added to the actual size of the volume and without it, the value is taken as an absolute one. Shrinking disk size is not supported.
+
+`--digest` `<string>` ::
+
+Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
+
+`--skiplock` `<boolean>` ::
+
+Ignore locks - only root is allowed to use this option.
+
+*qm disk unlink* `<vmid> --idlist <string>` `[OPTIONS]`
+
+Unlink/delete disk images.
+
+`<vmid>`: `<integer> (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`--force` `<boolean>` ::
+
+Force physical removal. Without this, we simple remove the disk from the config file and create an additional configuration entry called 'unused[n]', which contains the volume ID. Unlink of unused[n] always cause physical removal.
+
+`--idlist` `<string>` ::
+
+A list of disk IDs you want to delete.
 
 *qm guest cmd* `<vmid> <command>`
 
@@ -568,26 +707,9 @@ Shows help for a specific command
 
 Verbose output format.
 
-*qm importdisk* `<vmid> <source> <storage>` `[OPTIONS]`
+*qm importdisk*
 
-Import an external disk image as an unused disk in a VM. The
- image format has to be supported by qemu-img(1).
-
-`<vmid>`: `<integer> (1 - N)` ::
-
-The (unique) ID of the VM.
-
-`<source>`: `<string>` ::
-
-Path to the disk image to import
-
-`<storage>`: `<string>` ::
-
-Target storage ID
-
-`--format` `<qcow2 | raw | vmdk>` ::
-
-Target format
+An alias for 'qm disk import'.
 
 *qm importovf* `<vmid> <manifest> <storage>` `[OPTIONS]`
 
@@ -677,55 +799,13 @@ Enter Qemu Monitor interface.
 
 The (unique) ID of the VM.
 
-*qm move-disk* `<vmid> <disk> [<storage>]` `[OPTIONS]`
+*qm move-disk*
 
-Move volume to different storage or to a different VM.
-
-`<vmid>`: `<integer> (1 - N)` ::
-
-The (unique) ID of the VM.
-
-`<disk>`: `<efidisk0 | ide0 | ide1 | ide2 | ide3 | sata0 | sata1 | sata2 | sata3 | sata4 | sata5 | scsi0 | scsi1 | scsi10 | scsi11 | scsi12 | scsi13 | scsi14 | scsi15 | scsi16 | scsi17 | scsi18 | scsi19 | scsi2 | scsi20 | scsi21 | scsi22 | scsi23 | scsi24 | scsi25 | scsi26 | scsi27 | scsi28 | scsi29 | scsi3 | scsi30 | scsi4 | scsi5 | scsi6 | scsi7 | scsi8 | scsi9 | tpmstate0 | unused0 | unused1 | unused10 | unused100 | unused101 | unused102 | unused103 | unused104 | unused105 | unused106 | unused107 | unused108 | unused109 | unused11 | unused110 | unused111 | unused112 | unused113 | unused114 | unused115 | unused116 | unused117 | unused118 | unused119 | unused12 | unused120 | unused121 | unused122 | unused123 | unused124 | unused125 | unused126 | unused127 | unused128 | unused129 | unused13 | unused130 | unused131 | unused132 | unused133 | unused134 | unused135 | unused136 | unused137 | unused138 | unused139 | unused14 | unused140 | unused141 | unused142 | unused143 | unused144 | unused145 | unused146 | unused147 | unused148 | unused149 | unused15 | unused150 | unused151 | unused152 | unused153 | unused154 | unused155 | unused156 | unused157 | unused158 | unused159 | unused16 | unused160 | unused161 | unused162 | unused163 | unused164 | unused165 | unused166 | unused167 | unused168 | unused169 | unused17 | unused170 | unused171 | unused172 | unused173 | unused174 | unused175 | unused176 | unused177 | unused178 | unused179 | unused18 | unused180 | unused181 | unused182 | unused183 | unused184 | unused185 | unused186 | unused187 | unused188 | unused189 | unused19 | unused190 | unused191 | unused192 | unused193 | unused194 | unused195 | unused196 | unused197 | unused198 | unused199 | unused2 | unused20 | unused200 | unused201 | unused202 | unused203 | unused204 | unused205 | unused206 | unused207 | unused208 | unused209 | unused21 | unused210 | unused211 | unused212 | unused213 | unused214 | unused215 | unused216 | unused217 | unused218 | unused219 | unused22 | unused220 | unused221 | unused222 | unused223 | unused224 | unused225 | unused226 | unused227 | unused228 | unused229 | unused23 | unused230 | unused231 | unused232 | unused233 | unused234 | unused235 | unused236 | unused237 | unused238 | unused239 | unused24 | unused240 | unused241 | unused242 | unused243 | unused244 | unused245 | unused246 | unused247 | unused248 | unused249 | unused25 | unused250 | unused251 | unused252 | unused253 | unused254 | unused255 | unused26 | unused27 | unused28 | unused29 | unused3 | unused30 | unused31 | unused32 | unused33 | unused34 | unused35 | unused36 | unused37 | unused38 | unused39 | unused4 | unused40 | unused41 | unused42 | unused43 | unused44 | unused45 | unused46 | unused47 | unused48 | unused49 | unused5 | unused50 | unused51 | unused52 | unused53 | unused54 | unused55 | unused56 | unused57 | unused58 | unused59 | unused6 | unused60 | unused61 | unused62 | unused63 | unused64 | unused65 | unused66 | unused67 | unused68 | unused69 | unused7 | unused70 | unused71 | unused72 | unused73 | unused74 | unused75 | unused76 | unused77 | unused78 | unused79 | unused8 | unused80 | unused81 | unused82 | unused83 | unused84 | unused85 | unused86 | unused87 | unused88 | unused89 | unused9 | unused90 | unused91 | unused92 | unused93 | unused94 | unused95 | unused96 | unused97 | unused98 | unused99 | virtio0 | virtio1 | virtio10 | virtio11 | virtio12 | virtio13 | virtio14 | virtio15 | virtio2 | virtio3 | virtio4 | virtio5 | virtio6 | virtio7 | virtio8 | virtio9>` ::
-
-The disk you want to move.
-
-`<storage>`: `<string>` ::
-
-Target storage.
-
-`--bwlimit` `<integer> (0 - N)` ('default =' `move limit from datacenter or storage config`)::
-
-Override I/O bandwidth limit (in KiB/s).
-
-`--delete` `<boolean>` ('default =' `0`)::
-
-Delete the original disk after successful copy. By default the original disk is kept as unused disk.
-
-`--digest` `<string>` ::
-
-Prevent changes if current configuration file has different SHA1"
-		    ." digest. This can be used to prevent concurrent modifications.
-
-`--format` `<qcow2 | raw | vmdk>` ::
-
-Target Format.
-
-`--target-digest` `<string>` ::
-
-Prevent changes if the current config file of the target VM has a"
-		    ." different SHA1 digest. This can be used to detect concurrent modifications.
-
-`--target-disk` `<efidisk0 | ide0 | ide1 | ide2 | ide3 | sata0 | sata1 | sata2 | sata3 | sata4 | sata5 | scsi0 | scsi1 | scsi10 | scsi11 | scsi12 | scsi13 | scsi14 | scsi15 | scsi16 | scsi17 | scsi18 | scsi19 | scsi2 | scsi20 | scsi21 | scsi22 | scsi23 | scsi24 | scsi25 | scsi26 | scsi27 | scsi28 | scsi29 | scsi3 | scsi30 | scsi4 | scsi5 | scsi6 | scsi7 | scsi8 | scsi9 | tpmstate0 | unused0 | unused1 | unused10 | unused100 | unused101 | unused102 | unused103 | unused104 | unused105 | unused106 | unused107 | unused108 | unused109 | unused11 | unused110 | unused111 | unused112 | unused113 | unused114 | unused115 | unused116 | unused117 | unused118 | unused119 | unused12 | unused120 | unused121 | unused122 | unused123 | unused124 | unused125 | unused126 | unused127 | unused128 | unused129 | unused13 | unused130 | unused131 | unused132 | unused133 | unused134 | unused135 | unused136 | unused137 | unused138 | unused139 | unused14 | unused140 | unused141 | unused142 | unused143 | unused144 | unused145 | unused146 | unused147 | unused148 | unused149 | unused15 | unused150 | unused151 | unused152 | unused153 | unused154 | unused155 | unused156 | unused157 | unused158 | unused159 | unused16 | unused160 | unused161 | unused162 | unused163 | unused164 | unused165 | unused166 | unused167 | unused168 | unused169 | unused17 | unused170 | unused171 | unused172 | unused173 | unused174 | unused175 | unused176 | unused177 | unused178 | unused179 | unused18 | unused180 | unused181 | unused182 | unused183 | unused184 | unused185 | unused186 | unused187 | unused188 | unused189 | unused19 | unused190 | unused191 | unused192 | unused193 | unused194 | unused195 | unused196 | unused197 | unused198 | unused199 | unused2 | unused20 | unused200 | unused201 | unused202 | unused203 | unused204 | unused205 | unused206 | unused207 | unused208 | unused209 | unused21 | unused210 | unused211 | unused212 | unused213 | unused214 | unused215 | unused216 | unused217 | unused218 | unused219 | unused22 | unused220 | unused221 | unused222 | unused223 | unused224 | unused225 | unused226 | unused227 | unused228 | unused229 | unused23 | unused230 | unused231 | unused232 | unused233 | unused234 | unused235 | unused236 | unused237 | unused238 | unused239 | unused24 | unused240 | unused241 | unused242 | unused243 | unused244 | unused245 | unused246 | unused247 | unused248 | unused249 | unused25 | unused250 | unused251 | unused252 | unused253 | unused254 | unused255 | unused26 | unused27 | unused28 | unused29 | unused3 | unused30 | unused31 | unused32 | unused33 | unused34 | unused35 | unused36 | unused37 | unused38 | unused39 | unused4 | unused40 | unused41 | unused42 | unused43 | unused44 | unused45 | unused46 | unused47 | unused48 | unused49 | unused5 | unused50 | unused51 | unused52 | unused53 | unused54 | unused55 | unused56 | unused57 | unused58 | unused59 | unused6 | unused60 | unused61 | unused62 | unused63 | unused64 | unused65 | unused66 | unused67 | unused68 | unused69 | unused7 | unused70 | unused71 | unused72 | unused73 | unused74 | unused75 | unused76 | unused77 | unused78 | unused79 | unused8 | unused80 | unused81 | unused82 | unused83 | unused84 | unused85 | unused86 | unused87 | unused88 | unused89 | unused9 | unused90 | unused91 | unused92 | unused93 | unused94 | unused95 | unused96 | unused97 | unused98 | unused99 | virtio0 | virtio1 | virtio10 | virtio11 | virtio12 | virtio13 | virtio14 | virtio15 | virtio2 | virtio3 | virtio4 | virtio5 | virtio6 | virtio7 | virtio8 | virtio9>` ::
-
-The config key the disk will be moved to on the target VM (for example, ide0 or scsi1). Default is the source disk key.
-
-`--target-vmid` `<integer> (1 - N)` ::
-
-The (unique) ID of the VM.
+An alias for 'qm disk move'.
 
 *qm move_disk*
 
-An alias for 'qm move-disk'.
+An alias for 'qm disk move'.
 
 *qm mtunnel*
 
@@ -760,17 +840,9 @@ The (unique) ID of the VM.
 
 Wait maximal timeout seconds for the shutdown.
 
-*qm rescan* `[OPTIONS]`
+*qm rescan*
 
-Rescan all storages and update disk sizes and unused disk images.
-
-`--dryrun` `<boolean>` ('default =' `0`)::
-
-Do not actually write changes out to VM config(s).
-
-`--vmid` `<integer> (1 - N)` ::
-
-The (unique) ID of the VM.
+An alias for 'qm disk rescan'.
 
 *qm reset* `<vmid>` `[OPTIONS]`
 
@@ -784,29 +856,9 @@ The (unique) ID of the VM.
 
 Ignore locks - only root is allowed to use this option.
 
-*qm resize* `<vmid> <disk> <size>` `[OPTIONS]`
+*qm resize*
 
-Extend volume size.
-
-`<vmid>`: `<integer> (1 - N)` ::
-
-The (unique) ID of the VM.
-
-`<disk>`: `<efidisk0 | ide0 | ide1 | ide2 | ide3 | sata0 | sata1 | sata2 | sata3 | sata4 | sata5 | scsi0 | scsi1 | scsi10 | scsi11 | scsi12 | scsi13 | scsi14 | scsi15 | scsi16 | scsi17 | scsi18 | scsi19 | scsi2 | scsi20 | scsi21 | scsi22 | scsi23 | scsi24 | scsi25 | scsi26 | scsi27 | scsi28 | scsi29 | scsi3 | scsi30 | scsi4 | scsi5 | scsi6 | scsi7 | scsi8 | scsi9 | tpmstate0 | virtio0 | virtio1 | virtio10 | virtio11 | virtio12 | virtio13 | virtio14 | virtio15 | virtio2 | virtio3 | virtio4 | virtio5 | virtio6 | virtio7 | virtio8 | virtio9>` ::
-
-The disk you want to resize.
-
-`<size>`: `\+?\d+(\.\d+)?[KMGT]?` ::
-
-The new size. With the `+` sign the value is added to the actual size of the volume and without it, the value is taken as an absolute one. Shrinking disk size is not supported.
-
-`--digest` `<string>` ::
-
-Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
-
-`--skiplock` `<boolean>` ::
-
-Ignore locks - only root is allowed to use this option.
+An alias for 'qm disk resize'.
 
 *qm resume* `<vmid>` `[OPTIONS]`
 
@@ -824,7 +876,7 @@ no description available
 
 Ignore locks - only root is allowed to use this option.
 
-*qm rollback* `<vmid> <snapname>`
+*qm rollback* `<vmid> <snapname>` `[OPTIONS]`
 
 Rollback VM state to specified snapshot.
 
@@ -835,6 +887,10 @@ The (unique) ID of the VM.
 `<snapname>`: `<string>` ::
 
 The name of the snapshot.
+
+`--start` `<boolean>` ('default =' `0`)::
+
+Whether the VM should get started after rolling back successfully
 
 *qm sendkey* `<vmid> <key>` `[OPTIONS]`
 
@@ -865,6 +921,10 @@ The (unique) ID of the VM.
 `--acpi` `<boolean>` ('default =' `1`)::
 
 Enable/disable ACPI.
+
+`--affinity` `<string>` ::
+
+List of host cores used to execute guest processes.
 
 `--agent` `[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
 
@@ -974,7 +1034,7 @@ Map host PCI devices into guest.
 
 `--hotplug` `<string>` ('default =' `network,disk,usb`)::
 
-Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory' and 'usb'. Use '0' to disable hotplug completely. Using '1' as value is an alias for the default `network,disk,usb`.
+Selectively enable hotplug features. This is a comma separated list of hotplug features: 'network', 'disk', 'cpu', 'memory', 'usb' and 'cloudinit'. Use '0' to disable hotplug completely. Using '1' as value is an alias for the default `network,disk,usb`. USB hotplugging is possible for guests with machine version >= 7.1 and ostype l26 or windows > 7.
 
 `--hugepages` `<1024 | 2 | any>` ::
 
@@ -1168,7 +1228,7 @@ Reference to unused volumes. This is used internally, and should not be modified
 
 `--usb[n]` `[host=]<HOSTUSBDEVICE|spice> [,usb3=<1|0>]` ::
 
-Configure an USB device (n is 0 to 4).
+Configure an USB device (n is 0 to 4, for machine version >= 7.1 and ostype l26 or windows > 7, n can be up to 14).
 
 `--vcpus` `<integer> (1 - N)` ('default =' `0`)::
 
@@ -1388,21 +1448,9 @@ Escape character.
 
 Select the serial device. By default we simply use the first suitable device.
 
-*qm unlink* `<vmid> --idlist <string>` `[OPTIONS]`
+*qm unlink*
 
-Unlink/delete disk images.
-
-`<vmid>`: `<integer> (1 - N)` ::
-
-The (unique) ID of the VM.
-
-`--force` `<boolean>` ::
-
-Force physical removal. Without this, we simple remove the disk from the config file and create an additional configuration entry called 'unused[n]', which contains the volume ID. Unlink of unused[n] always cause physical removal.
-
-`--idlist` `<string>` ::
-
-A list of disk IDs you want to delete.
+An alias for 'qm disk unlink'.
 
 *qm unlock* `<vmid>`
 

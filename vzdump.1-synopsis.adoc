@@ -62,9 +62,13 @@ Only run if executed on this node.
 
 `--notes-template` `<string>` ::
 
-Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are \{\{cluster\}\}, \{\{guestname\}\}, \{\{node\}\}, and \{\{vmid\}\}, but more might be added in the future.
+Template string for generating notes for the backup(s). It can contain variables which will be replaced by their values. Currently supported are \{\{cluster\}\}, \{\{guestname\}\}, \{\{node\}\}, and \{\{vmid\}\}, but more might be added in the future. Needs to be a single line, newline and backslash need to be escaped as '\n' and '\\' respectively.
 +
 NOTE: Requires option(s): `storage`
+
+`--performance` `[max-workers=<integer>]` ::
+
+Other performance-related settings.
 
 `--pigz` `<integer>` ('default =' `0`)::
 
