@@ -1,3 +1,52 @@
+pve-docs (7.2-3) bullseye; urgency=medium
+
+  * close #4031: vm: import: simplify example for creating VM from existing
+    disk
+
+  * sysadmin: update links for wiki target
+
+  * limit zfs arc: add '-k all' to 'update-initramfs' command
+
+  * ceph ec: fix typos and reword some sections
+
+  * ceph: add quincy repo reference
+
+  * add clarification of experimental zfs encryption status
+
+  * update static/schema information
+
+  * network: add warning to ifup and ifdown sequence, as it won't reattach
+    guests network device to the underlying bridge
+
+  * network: rework introduction for people with less experience
+
+  * cloud init: add warning to not install cloud-init on the host
+
+  * backup: rework storage section, mentioning and recommending PBS
+
+  * backup: expand section for jobs
+
+  * backup: mention new `max-workers` performance setting
+
+  * fix #4307: installation: correct typos in prepare macOS medium section
+
+  * pvesr: remove outdated note about offline migration
+
+  * qm: rework migration sections, drop mentioning outdated limitations
+
+  * asciidoc: fix capitalization of GmbH
+
+  * installation: add note that secure boot currently needs to be disabled
+
+  * fix #3593: document the new `affinity` VM setting for configuring the CPU
+    task set
+
+  * asciidoc-pve: disallow certain characters in onlineHelp keys
+
+  * various grammar and typo fixes
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 14 Nov 2022 20:29:50 +0100
+
 pve-docs (7.2-2) bullseye; urgency=medium
 
   * pveceph: erasure coded pool: add note about parameter usage affecting
