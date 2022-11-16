@@ -781,6 +781,7 @@ Virtual machine related privileges::
 * `VM.Config.Network`: add/modify/remove network devices
 * `VM.Config.HWType`: modify emulated hardware types
 * `VM.Config.Options`: modify any other VM configuration
+* `VM.Config.Cloudinit`: modify Cloud-init parameters
 * `VM.Snapshot`: create/delete VM snapshots
 
 Storage related privileges::
