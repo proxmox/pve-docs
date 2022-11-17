@@ -966,6 +966,9 @@ The number of active HA serivces on each node is used to choose a recovery node.
 Static
 ^^^^^^
 
+WARNING: The static mode is still a technology preview. It is not recommended to
+use it if you have thousands of HA managed services.
+
 Static usage information from HA serivces on each node is used to choose a
 recovery node.
 
