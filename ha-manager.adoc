@@ -933,6 +933,51 @@ NOTE: Please do not 'kill' services like `pve-ha-crm`, `pve-ha-lrm` or
 immediate node reboot or even reset.
 
 
+Scheduler Mode
+--------------
+
+The scheduler mode controls how HA selects nodes for the recovery of a service
+as well as for migrations that are triggered by a shutdown policy. The default
+mode is `basic`, you can change it in `datacenter.cfg`:
+
+----
+crs: ha=static
+----
+
+The change will be in effect when a new master takes over. This can be triggered
+by executing the following on the current master's node:
+
+----
+systemctl reload-or-restart pve-ha-crm.service
+----
+
+For each service that needs to be recovered or migrated, the scheduler
+iteratively chooses the best node among the nodes with the highest priority in
+the service's group.
+
+NOTE: There are plans to add modes for (static and dynamic) load-balancing in
+the future.
+
+Basic
+^^^^^
+
+The number of active HA serivces on each node is used to choose a recovery node.
+
+Static
+^^^^^^
+
+Static usage information from HA serivces on each node is used to choose a
+recovery node.
+
+For this selection, each node in turn is considered as if the service was
+already running on it, using CPU and memory usage from the associated guest
+configuration. Then for each such alternative, CPU and memory usage of all nodes
+are considered, with memory being weighted much more, because it's a truly
+limited resource. For both, CPU and memory, highest usage among nodes (weighted
+more, as ideally no node should be overcommitted) and average usage of all nodes
+(to still be able to distinguish in case there already is a more highly
+committed node) are considered.
+
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
 endif::manvolnum[]
