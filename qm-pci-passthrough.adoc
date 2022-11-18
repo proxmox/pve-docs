@@ -42,7 +42,6 @@ Configuration
 Once you ensured that your hardware supports passthrough, you will need to do
 some configuration to enable PCI(e) passthrough.
 
-
 .IOMMU
 
 First, the IOMMU support has to be enabled in your BIOS/UEFI. Most often, that
@@ -67,12 +66,6 @@ If your hardware supports it, enabling IOMMU passthrough mode might increase
 performance, because then the VMs bypass the (default) DMA translation
 which is normally done by the hypervisor, before handing DMA requests off to
 the hardware IOMMU. You can enable it with adding
-
-----
- iommu.passthrough=1
-----
-
-or
 
 ----
  iommu=pt
