@@ -60,7 +60,7 @@ practice, use as much as you can get for your hardware/budget. To prevent
 data corruption, we recommend the use of high quality ECC RAM.
 
 If you use a dedicated cache and/or log disk, you should use an
-enterprise class SSD (e.g. Intel SSD DC S3700 Series). This can
+enterprise class SSD. This can
 increase the overall performance significantly.
 
 IMPORTANT: Do not use ZFS on top of a hardware RAID controller which has its
