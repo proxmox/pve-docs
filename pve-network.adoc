@@ -25,7 +25,7 @@ xref:sysadmin_network_masquerading['NAT'] setups.
 The xref:chapter_pvesdn[Software Defined Network] is an option for more complex
 virtual networks in {pve} clusters.
 
-WARNING: It's discourage to use the Debian traditional tools `ifup` and `ifdown`
+WARNING: It's discouraged to use the traditional Debian tools `ifup` and `ifdown`
 if unsure, as they have some pitfalls like interupting all guest traffic on
 `ifdown vmbrX` but not reconnecting those guest again when doing `ifup` on the
 same bridge later.
