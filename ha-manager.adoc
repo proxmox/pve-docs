@@ -959,12 +959,12 @@ NOTE: There are plans to add modes for (static and dynamic) load-balancing in
 the future.
 
 Basic
-^^^^^
+~~~~~
 
 The number of active HA serivces on each node is used to choose a recovery node.
 
 Static
-^^^^^^
+~~~~~~
 
 IMPORTANT: The static mode is still a technology preview.
 
