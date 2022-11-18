@@ -108,7 +108,7 @@ deb http://security.debian.org/debian-security bullseye-security main contrib
 
 This repository contains the latest packages and is primarily used by developers
 to test new features. To configure it, add the following line to
-`etc/apt/sources.list`:
+`/etc/apt/sources.list`:
 
 .sources.list entry for `pvetest`
 ----
@@ -176,7 +176,7 @@ deb http://download.proxmox.com/debian/ceph-pacific bullseye test
 Ceph Octopus Repository
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-NOTE: Ceph Octopus (15.2) was declared stable with {pve} 6.3 it will continue
+NOTE: Ceph Octopus (15.2) was declared stable with {pve} 6.3. It will continue
 to get updates for the xref:faq-support-table[remaining life time of the 6.x release]
 and also for {pve} 7.x until Ceph Octopus upstream EOL (~ 2022-07).
 
