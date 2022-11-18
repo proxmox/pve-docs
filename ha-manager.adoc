@@ -933,8 +933,8 @@ NOTE: Please do not 'kill' services like `pve-ha-crm`, `pve-ha-lrm` or
 immediate node reboot or even reset.
 
 
-Scheduler Mode
---------------
+Cluster Resource Scheduling
+---------------------------
 
 The scheduler mode controls how HA selects nodes for the recovery of a service
 as well as for migrations that are triggered by a shutdown policy. The default
@@ -966,8 +966,7 @@ The number of active HA serivces on each node is used to choose a recovery node.
 Static
 ^^^^^^
 
-WARNING: The static mode is still a technology preview. It is not recommended to
-use it if you have thousands of HA managed services.
+IMPORTANT: The static mode is still a technology preview.
 
 Static usage information from HA serivces on each node is used to choose a
 recovery node.
@@ -980,6 +979,11 @@ limited resource. For both, CPU and memory, highest usage among nodes (weighted
 more, as ideally no node should be overcommitted) and average usage of all nodes
 (to still be able to distinguish in case there already is a more highly
 committed node) are considered.
+
+IMPORTANT: The more services the more possible combinations there are, so it's
+currently not recommended to use it if you have thousands of HA managed
+services.
+
 
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
