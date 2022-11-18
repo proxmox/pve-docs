@@ -167,17 +167,17 @@ Each `vdev` type has different performance behaviors. The two
 parameters of interest are the IOPS (Input/Output Operations per Second) and
 the bandwidth with which data can be written or read.
 
-A 'mirror' vdev (RAID1) will approximately behave like a single disk in regards
-to both parameters when writing data. When reading data if will behave like the
-number of disks in the mirror.
+A 'mirror' vdev (RAID1) will approximately behave like a single disk in regard
+to both parameters when writing data. When reading data the performance will
+scale linearly with the number of disks in the mirror.
 
 A common situation is to have 4 disks. When setting it up as 2 mirror vdevs
 (RAID10) the pool will have the write characteristics as two single disks in
-regard of IOPS and bandwidth. For read operations it will resemble 4 single
+regard to IOPS and bandwidth. For read operations it will resemble 4 single
 disks.
 
 A 'RAIDZ' of any redundancy level will approximately behave like a single disk
-in regard of IOPS with a lot of bandwidth. How much bandwidth depends on the
+in regard to IOPS with a lot of bandwidth. How much bandwidth depends on the
 size of the RAIDZ vdev and the redundancy level.
 
 For running VMs, IOPS is the more important metric in most situations.
