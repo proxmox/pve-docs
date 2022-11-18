@@ -47,7 +47,7 @@ Features
 
 * Two-Factor Authentication (OATH, Yubikey)
 
-* Based on ExtJS 6.x JavaScript framework
+* Based on ExtJS 7.x JavaScript framework
 
 
 Login
