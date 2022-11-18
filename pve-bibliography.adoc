@@ -36,10 +36,10 @@ endif::manvolnum[]
 [bibliography]
 .Books about related technology
 
-- [[[Hertzog13]]] Raphaël Hertzog & Roland Mas.
-  https://debian-handbook.info/get[The Debian Administrator\'s Handbook: Debian Jessie from Discovery to Mastery],
-  Freexian, 2013.
-  ISBN 979-1091414050
+- [[[Hertzog13]]] Raphaël Hertzog, Roland Mas., Freexian SARL
+  https://debian-handbook.info/get[The Debian Administrator\'s Handbook: Debian Bullseye from Discovery to Mastery],
+  Freexian, 2021.
+  ISBN 979-10-91414-20-3
   
 - [[[Bir96]]] Kenneth P. Birman.
   'Building Secure and Reliable Network Applications'.
