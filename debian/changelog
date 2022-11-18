@@ -1,3 +1,23 @@
+pve-docs (7.2-5) bullseye; urgency=medium
+
+  * fix #4319: use corred port range for corosync v3.x
+
+  * pcie-passthrough: note that iommu activation is not always necessary
+
+  * pcie-passthrough: add short note about iommu passthrough mode
+
+  * local-zfs Remove SSD model suggestion as it's outdated
+
+  * local-zfs: rephrase ZFS RAID description
+
+  * qm: add documentation for vm network MTU setting
+
+  * ha: add basic section about cluster resource scheduling
+
+  * gui: document tags with screenshots
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 18 Nov 2022 17:00:26 +0100
+
 pve-docs (7.2-4) bullseye; urgency=medium
 
   * cloud init: use 'order' variant for 'boot' property, use expected disk
