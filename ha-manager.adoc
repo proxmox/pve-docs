@@ -933,6 +933,7 @@ NOTE: Please do not 'kill' services like `pve-ha-crm`, `pve-ha-lrm` or
 immediate node reboot or even reset.
 
 
+[[ha_manager_crs]]
 Cluster Resource Scheduling
 ---------------------------
 
