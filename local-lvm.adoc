@@ -7,7 +7,7 @@ endif::wiki[]
 
 Most people install {pve} directly on a local disk. The {pve}
 installation CD offers several options for local disk management, and
-the current default setup uses LVM. The installer let you select a
+the current default setup uses LVM. The installer lets you select a
 single disk for such setup, and uses that disk as physical volume for
 the **V**olume **G**roup (VG) `pve`. The following output is from a
 test installation using a small 8GB disk:
@@ -120,8 +120,7 @@ To make it always accessible add the following line in `/etc/fstab`.
 Resizing the thin pool
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Resize the LV and the metadata pool can be achieved with the following
-command.
+Resize the LV and the metadata pool with the following command:
 
  # lvresize --size +<size[\M,G,T]> --poolmetadatasize +<size[\M,G]> <VG>/<LVThin_pool>
 
