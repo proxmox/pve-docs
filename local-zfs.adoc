@@ -235,7 +235,7 @@ There are a few options to counter the increased use of space:
 The `volblocksize` property can only be set when creating a ZVOL. The default
 value can be changed in the storage configuration. When doing this, the guest
 needs to be tuned accordingly and depending on the use case, the problem of
-write amplification if just moved from the ZFS layer up to the guest.
+write amplification is just moved from the ZFS layer up to the guest.
 
 Using `ashift=9` when creating the pool can lead to bad
 performance, depending on the disks underneath, and cannot be changed later on.
@@ -406,8 +406,8 @@ As `<device>` it is possible to use more devices, like it's shown in
 Add cache and log to an existing pool
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you have a pool without cache and log. First partition the SSD in
-2 partition with `parted` or `gdisk`
+If you have a pool without cache and log, first create 2 partitions on the SSD
+with `parted` or `gdisk`.
 
 IMPORTANT: Always use GPT partition tables.
 
