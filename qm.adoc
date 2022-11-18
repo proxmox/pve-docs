@@ -637,7 +637,7 @@ You can also skip adding a network device when creating a VM by selecting *No
 network device*.
 
 You can overwrite the *MTU* setting for each VM network device. The option
-*mtu=1* represents a special case, in which the MTU value will be inherited
+`mtu=1` represents a special case, in which the MTU value will be inherited
 from the underlying bridge.
 This option is only available for *VirtIO* network devices.
 
