@@ -26,6 +26,14 @@ bandwidth limit in KiB/s for restoring guests from backups
 
 Select the default Console viewer. You can either use the builtin java applet (VNC; deprecated and maps to html5), an external virt-viewer comtatible application (SPICE), an HTML5 based vnc viewer (noVNC), or an HTML5 based console client (xtermjs). If the selected viewer is not available (e.g. SPICE not activated for the VM), the fallback is noVNC.
 
+`crs`: `ha=<basic|static>` ::
+
+Cluster resource scheduling settings.
+
+`ha`=`<basic | static>` ('default =' `basic`);;
+
+Configures how the HA manager should select nodes to start or recover services. With 'basic', only the number of services is used, with 'static', static CPU and memory configuration of services is considered.
+
 `description`: `<string>` ::
 
 Datacenter description. Shown in the web-interface datacenter notes panel. This is saved as comment inside the configuration file.
@@ -96,6 +104,26 @@ Lower, inclusive boundary for free next-id API range.
 
 Upper, exclusive boundary for free next-id API range.
 
+`registered-tags`: `<tag>[;<tag>...]` ::
+
+A list of tags that require a `Sys.Modify` on '/' to set and delete. Tags set here that are also in 'user-tag-access' also require `Sys.Modify`.
+
+`tag-style`: `[color-map=<tag>:<hex-color>[:<hex-color-for-text>][;<tag>=...]] [,ordering=<config|alphabetical>] [,shape=<enum>]` ::
+
+Tag style options.
+
+`color-map`=`<tag>:<hex-color>[:<hex-color-for-text>][;<tag>=...]` ;;
+
+Manual color mapping for tags (semicolon separated).
+
+`ordering`=`<alphabetical | config>` ('default =' `alphabetical`);;
+
+Controls the sorting of the tags in the web ui.
+
+`shape`=`<circle | dense | full | none>` ('default =' `circle`);;
+
+Tag shape for the web ui tree. 'full' draws the full tag. 'circle' draws only a circle with the background color. 'dense' only draws a small rectancle (useful when many tags are assigned to each guest).'none' disables showing the tags.
+
 `u2f`: `[appid=<APPID>] [,origin=<URL>]` ::
 
 u2f
@@ -108,13 +136,29 @@ U2F AppId URL override. Defaults to the origin.
 
 U2F Origin override. Mostly useful for single nodes with a single URL.
 
-`webauthn`: `[id=<DOMAINNAME>] [,origin=<URL>] [,rp=<RELYING_PARTY>]` ::
+`user-tag-access`: `[user-allow=<enum>] [,user-allow-list=<tag>[;<tag>...]]` ::
+
+Privilege options for user-settable tags
+
+`user-allow`=`<existing | free | list | none>` ('default =' `free`);;
+
+Controls which tags can be set or deleted on resources a user controls (such as guests). Users with the `Sys.Modify` privilege on `/` are always  unrestricted. 'none' no tags are usable. 'list' tasg from 'user-allow'list' are usable. 'existing' like list, but already existing tags of resources are also usable.'free' no tag restrictions.
+
+`user-allow-list`=`<tag>[;<tag>...]` ;;
+
+List of tags users are allowed to set and delete (semicolon separated) for 'user-allow' values 'list' and 'existing'.
+
+`webauthn`: `[allow-subdomains=<1|0>] [,id=<DOMAINNAME>] [,origin=<URL>] [,rp=<RELYING_PARTY>]` ::
 
 webauthn configuration
 
+`allow-subdomains`=`<boolean>` ('default =' `1`);;
+
+Whether to allow the origin to be a subdomain, rather than the exact URL.
+
 `id`=`<DOMAINNAME>` ;;
 
-Relying part ID. Must be the domain name without protocol, port or location. Changing this *will* break existing credentials.
+Relying party ID. Must be the domain name without protocol, port or location. Changing this *will* break existing credentials.
 
 `origin`=`<URL>` ;;
 

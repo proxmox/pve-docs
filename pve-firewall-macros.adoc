@@ -638,6 +638,15 @@
 |===========================================================
 
 [horizontal]
+'SPICEproxy':: Proxmox VE SPICE display proxy traffic
+
+[width="100%",options="header"]
+|===========================================================
+|Action|proto|dport|sport
+|PARAM|tcp|3128|
+|===========================================================
+
+[horizontal]
 'SSH':: Secure shell traffic
 
 [width="100%",options="header"]

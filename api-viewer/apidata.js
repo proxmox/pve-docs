@@ -2596,6 +2596,12 @@ const apiSchema = [
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
+                                    "force" : {
+                                       "description" : "Delete all members of the IPSet, if there are any.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
                                     "name" : {
                                        "description" : "IP set name.",
                                        "maxLength" : 64,
@@ -8434,6 +8440,11 @@ const apiSchema = [
                   "returns" : {
                      "items" : {
                         "properties" : {
+                           "cgroup-mode" : {
+                              "description" : "The cgroup mode the node operates under (when type == node).",
+                              "optional" : 1,
+                              "type" : "integer"
+                           },
                            "content" : {
                               "description" : "Allowed storage content types (when type == storage).",
                               "format" : "pve-storage-content-list",
@@ -8595,7 +8606,7 @@ const apiSchema = [
             "info" : {
                "GET" : {
                   "allowtoken" : 1,
-                  "description" : "Get datacenter options.",
+                  "description" : "Get datacenter options. Without 'Sys.Audit' on '/' not all options are returned.",
                   "method" : "GET",
                   "name" : "get_options",
                   "parameters" : {
@@ -8608,7 +8619,8 @@ const apiSchema = [
                         [
                            "Sys.Audit"
                         ]
-                     ]
+                     ],
+                     "user" : "all"
                   },
                   "returns" : {
                      "type" : "object"
@@ -8675,6 +8687,24 @@ const apiSchema = [
                            ],
                            "optional" : 1,
                            "type" : "string"
+                        },
+                        "crs" : {
+                           "description" : "Cluster resource scheduling settings.",
+                           "format" : {
+                              "ha" : {
+                                 "default" : "basic",
+                                 "description" : "Use this resource scheduler mode for HA.",
+                                 "enum" : [
+                                    "basic",
+                                    "static"
+                                 ],
+                                 "type" : "string",
+                                 "verbose_description" : "Configures how the HA manager should select nodes to start or recover services. With 'basic', only the number of services is used, with 'static', static CPU and memory configuration of services is considered."
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "ha=<basic|static>"
                         },
                         "delete" : {
                            "description" : "A list of settings you want to delete.",
@@ -8863,6 +8893,50 @@ const apiSchema = [
                            "type" : "string",
                            "typetext" : "[lower=<integer>] [,upper=<integer>]"
                         },
+                        "registered-tags" : {
+                           "description" : "A list of tags that require a `Sys.Modify` on '/' to set and delete. Tags set here that are also in 'user-tag-access' also require `Sys.Modify`.",
+                           "optional" : 1,
+                           "pattern" : "(?:(?^i:[a-z0-9_][a-z0-9_\\-\\+\\.]*);)*(?^i:[a-z0-9_][a-z0-9_\\-\\+\\.]*)",
+                           "type" : "string",
+                           "typetext" : "<tag>[;<tag>...]"
+                        },
+                        "tag-style" : {
+                           "description" : "Tag style options.",
+                           "format" : {
+                              "color-map" : {
+                                 "description" : "Manual color mapping for tags (semicolon separated).",
+                                 "optional" : 1,
+                                 "pattern" : "(?:(?^i:[a-z0-9_][a-z0-9_\\-\\+\\.]*):[0-9a-fA-F]{6}(?::[0-9a-fA-F]{6})?)(?:;(?:(?^i:[a-z0-9_][a-z0-9_\\-\\+\\.]*):[0-9a-fA-F]{6}(?::[0-9a-fA-F]{6})?))*",
+                                 "type" : "string",
+                                 "typetext" : "<tag>:<hex-color>[:<hex-color-for-text>][;<tag>=...]"
+                              },
+                              "ordering" : {
+                                 "default" : "alphabetical",
+                                 "description" : "Controls the sorting of the tags in the web ui.",
+                                 "enum" : [
+                                    "config",
+                                    "alphabetical"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "shape" : {
+                                 "default" : "circle",
+                                 "description" : "Tag shape for the web ui tree. 'full' draws the full tag. 'circle' draws only a circle with the background color. 'dense' only draws a small rectancle (useful when many tags are assigned to each guest).'none' disables showing the tags.",
+                                 "enum" : [
+                                    "full",
+                                    "circle",
+                                    "dense",
+                                    "none"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "[color-map=<tag>:<hex-color>[:<hex-color-for-text>][;<tag>=...]] [,ordering=<config|alphabetical>] [,shape=<enum>]"
+                        },
                         "u2f" : {
                            "description" : "u2f",
                            "format" : {
@@ -8883,11 +8957,45 @@ const apiSchema = [
                            "type" : "string",
                            "typetext" : "[appid=<APPID>] [,origin=<URL>]"
                         },
+                        "user-tag-access" : {
+                           "description" : "Privilege options for user-settable tags",
+                           "format" : {
+                              "user-allow" : {
+                                 "default" : "free",
+                                 "description" : "Controls tag usage for users without `Sys.Modify` on `/` by either allowing `none`, a `list`, already `existing` or anything (`free`).",
+                                 "enum" : [
+                                    "none",
+                                    "list",
+                                    "existing",
+                                    "free"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "verbose_description" : "Controls which tags can be set or deleted on resources a user controls (such as guests). Users with the `Sys.Modify` privilege on `/` are always  unrestricted. 'none' no tags are usable. 'list' tasg from 'user-allow'list' are usable. 'existing' like list, but already existing tags of resources are also usable.'free' no tag restrictions."
+                              },
+                              "user-allow-list" : {
+                                 "description" : "List of tags users are allowed to set and delete (semicolon separated) for 'user-allow' values 'list' and 'existing'.",
+                                 "optional" : 1,
+                                 "pattern" : "(?^i:[a-z0-9_][a-z0-9_\\-\\+\\.]*)(?:;(?^i:[a-z0-9_][a-z0-9_\\-\\+\\.]*))*",
+                                 "type" : "string",
+                                 "typetext" : "<tag>[;<tag>...]"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "[user-allow=<enum>] [,user-allow-list=<tag>[;<tag>...]]"
+                        },
                         "webauthn" : {
                            "description" : "webauthn configuration",
                            "format" : {
+                              "allow-subdomains" : {
+                                 "default" : 1,
+                                 "description" : "Whether to allow the origin to be a subdomain, rather than the exact URL.",
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
                               "id" : {
-                                 "description" : "Relying part ID. Must be the domain name without protocol, port or location. Changing this *will* break existing credentials.",
+                                 "description" : "Relying party ID. Must be the domain name without protocol, port or location. Changing this *will* break existing credentials.",
                                  "format_description" : "DOMAINNAME",
                                  "optional" : 1,
                                  "type" : "string"
@@ -8907,7 +9015,7 @@ const apiSchema = [
                            },
                            "optional" : 1,
                            "type" : "string",
-                           "typetext" : "[id=<DOMAINNAME>] [,origin=<URL>] [,rp=<RELYING_PARTY>]"
+                           "typetext" : "[allow-subdomains=<1|0>] [,id=<DOMAINNAME>] [,origin=<URL>] [,rp=<RELYING_PARTY>]"
                         }
                      }
                   },
@@ -10152,6 +10260,12 @@ const apiSchema = [
                                                 "parameters" : {
                                                    "additionalProperties" : 0,
                                                    "properties" : {
+                                                      "force" : {
+                                                         "description" : "Delete all members of the IPSet, if there are any.",
+                                                         "optional" : 1,
+                                                         "type" : "boolean",
+                                                         "typetext" : "<boolean>"
+                                                      },
                                                       "name" : {
                                                          "description" : "IP set name.",
                                                          "maxLength" : 64,
@@ -12503,7 +12617,7 @@ const apiSchema = [
                                              "type" : "boolean"
                                           },
                                           "affinity" : {
-                                             "description" : "List of host cores used to execute guest processes.",
+                                             "description" : "List of host cores used to execute guest processes, for example: 0,5,8-11",
                                              "format" : "pve-cpuset",
                                              "optional" : 1,
                                              "type" : "string"
@@ -13334,7 +13448,7 @@ const apiSchema = [
                                                 },
                                                 "queues" : {
                                                    "description" : "Number of packet queues to be used on the device.",
-                                                   "maximum" : 16,
+                                                   "maximum" : 64,
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -14745,7 +14859,7 @@ const apiSchema = [
                                              "typetext" : "<boolean>"
                                           },
                                           "affinity" : {
-                                             "description" : "List of host cores used to execute guest processes.",
+                                             "description" : "List of host cores used to execute guest processes, for example: 0,5,8-11",
                                              "format" : "pve-cpuset",
                                              "optional" : 1,
                                              "type" : "string",
@@ -15646,7 +15760,7 @@ const apiSchema = [
                                                 },
                                                 "queues" : {
                                                    "description" : "Number of packet queues to be used on the device.",
-                                                   "maximum" : 16,
+                                                   "maximum" : 64,
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -17162,7 +17276,7 @@ const apiSchema = [
                                              "typetext" : "<boolean>"
                                           },
                                           "affinity" : {
-                                             "description" : "List of host cores used to execute guest processes.",
+                                             "description" : "List of host cores used to execute guest processes, for example: 0,5,8-11",
                                              "format" : "pve-cpuset",
                                              "optional" : 1,
                                              "type" : "string",
@@ -18055,7 +18169,7 @@ const apiSchema = [
                                                 },
                                                 "queues" : {
                                                    "description" : "Number of packet queues to be used on the device.",
-                                                   "maximum" : 16,
+                                                   "maximum" : 64,
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -19722,24 +19836,17 @@ const apiSchema = [
                                     "returns" : {
                                        "items" : {
                                           "properties" : {
-                                             "delete" : {
-                                                "description" : "Indicates a pending delete request if present and not 0. The value 2 indicates a force-delete request.",
-                                                "maximum" : 2,
-                                                "minimum" : 0,
-                                                "optional" : 1,
-                                                "type" : "integer"
-                                             },
                                              "key" : {
                                                 "description" : "Configuration option name.",
                                                 "type" : "string"
                                              },
-                                             "pending" : {
-                                                "description" : "Pending value.",
+                                             "new" : {
+                                                "description" : "The new pending value.",
                                                 "optional" : 1,
                                                 "type" : "string"
                                              },
-                                             "value" : {
-                                                "description" : "Current value.",
+                                             "old" : {
+                                                "description" : "Value as it was used to generate the current cloudinit image.",
                                                 "optional" : 1,
                                                 "type" : "string"
                                              }
@@ -21980,6 +22087,100 @@ const apiSchema = [
                               "info" : {
                                  "POST" : {
                                     "allowtoken" : 1,
+                                    "description" : "Migrate virtual machine to a remote cluster. Creates a new migration task. EXPERIMENTAL feature!",
+                                    "method" : "POST",
+                                    "name" : "remote_migrate_vm",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "bwlimit" : {
+                                             "default" : "migrate limit from datacenter or storage config",
+                                             "description" : "Override I/O bandwidth limit (in KiB/s).",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (0 - N)"
+                                          },
+                                          "delete" : {
+                                             "default" : 0,
+                                             "description" : "Delete the original VM and related data after successful migration. By default the original VM is kept on the source cluster in a stopped state.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "online" : {
+                                             "description" : "Use online/live migration if VM is running. Ignored if VM is stopped.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "target-bridge" : {
+                                             "description" : "Mapping from source to target bridges. Providing only a single bridge ID maps all source bridges to that bridge. Providing the special value '1' will map each source bridge to itself.",
+                                             "format" : "bridge-pair-list",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "target-endpoint" : {
+                                             "description" : "Remote target endpoint",
+                                             "format" : "proxmox-remote",
+                                             "type" : "string",
+                                             "typetext" : "apitoken=<A full Proxmox API token including the secret value.> ,host=<Remote Proxmox hostname or IP> [,fingerprint=<Remote host's certificate fingerprint, if not trusted by system store.>] [,port=<integer>]"
+                                          },
+                                          "target-storage" : {
+                                             "description" : "Mapping from source to target storages. Providing only a single storage ID maps all source storages to that storage. Providing the special value '1' will map each source storage to itself.",
+                                             "format" : "storage-pair-list",
+                                             "optional" : 0,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "target-vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - N)"
+                                          },
+                                          "vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "minimum" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - N)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/vms/{vmid}",
+                                          [
+                                             "VM.Migrate"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "description" : "the task ID.",
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/qemu/{vmid}/remote_migrate",
+                              "text" : "remote_migrate"
+                           },
+                           {
+                              "info" : {
+                                 "POST" : {
+                                    "allowtoken" : 1,
                                     "description" : "Execute Qemu monitor commands.",
                                     "method" : "POST",
                                     "name" : "monitor",
@@ -22684,6 +22885,144 @@ const apiSchema = [
                               "leaf" : 1,
                               "path" : "/nodes/{node}/qemu/{vmid}/template",
                               "text" : "template"
+                           },
+                           {
+                              "info" : {
+                                 "POST" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Migration tunnel endpoint - only for internal use by VM migration.",
+                                    "method" : "POST",
+                                    "name" : "mtunnel",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "bridges" : {
+                                             "description" : "List of network bridges to check availability. Will be checked again for actually used bridges during migration.",
+                                             "format" : "pve-bridge-id-list",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "storages" : {
+                                             "description" : "List of storages to check permission and availability. Will be checked again for all actually used storages during migration.",
+                                             "format" : "pve-storage-id-list",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "minimum" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - N)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "and",
+                                          [
+                                             "perm",
+                                             "/vms/{vmid}",
+                                             [
+                                                "VM.Allocate"
+                                             ]
+                                          ],
+                                          [
+                                             "perm",
+                                             "/",
+                                             [
+                                                "Sys.Incoming"
+                                             ]
+                                          ]
+                                       ],
+                                       "description" : "You need 'VM.Allocate' permissions on '/vms/{vmid}' and Sys.Incoming on '/'. Further permission checks happen during the actual migration."
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "socket" : {
+                                             "type" : "string"
+                                          },
+                                          "ticket" : {
+                                             "type" : "string"
+                                          },
+                                          "upid" : {
+                                             "type" : "string"
+                                          }
+                                       }
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/qemu/{vmid}/mtunnel",
+                              "text" : "mtunnel"
+                           },
+                           {
+                              "info" : {
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Migration tunnel endpoint for websocket upgrade - only for internal use by VM migration.",
+                                    "method" : "GET",
+                                    "name" : "mtunnelwebsocket",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "socket" : {
+                                             "description" : "unix socket to forward to",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "ticket" : {
+                                             "description" : "ticket return by initial 'mtunnel' API call, or retrieved via 'ticket' tunnel command",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "minimum" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - N)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "description" : "You need to pass a ticket valid for the selected socket. Tickets can be created via the mtunnel API call, which will check permissions accordingly.",
+                                       "user" : "all"
+                                    },
+                                    "returns" : {
+                                       "properties" : {
+                                          "port" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "socket" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/qemu/{vmid}/mtunnelwebsocket",
+                              "text" : "mtunnelwebsocket"
                            }
                         ],
                         "info" : {
@@ -22927,7 +23266,7 @@ const apiSchema = [
                                  "typetext" : "<boolean>"
                               },
                               "affinity" : {
-                                 "description" : "List of host cores used to execute guest processes.",
+                                 "description" : "List of host cores used to execute guest processes, for example: 0,5,8-11",
                                  "format" : "pve-cpuset",
                                  "optional" : 1,
                                  "type" : "string",
@@ -23828,7 +24167,7 @@ const apiSchema = [
                                     },
                                     "queues" : {
                                        "description" : "Number of packet queues to be used on the device.",
-                                       "maximum" : 16,
+                                       "maximum" : 64,
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer"
@@ -25678,6 +26017,7 @@ const apiSchema = [
                                                 },
                                                 "mtu" : {
                                                    "description" : "Maximum transfer unit of the interface. (lxc.network.mtu)",
+                                                   "maximum" : 65535,
                                                    "minimum" : 64,
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -26184,6 +26524,7 @@ const apiSchema = [
                                                 },
                                                 "mtu" : {
                                                    "description" : "Maximum transfer unit of the interface. (lxc.network.mtu)",
+                                                   "maximum" : 65535,
                                                    "minimum" : 64,
                                                    "optional" : 1,
                                                    "type" : "integer"
@@ -28380,6 +28721,12 @@ const apiSchema = [
                                                 "parameters" : {
                                                    "additionalProperties" : 0,
                                                    "properties" : {
+                                                      "force" : {
+                                                         "description" : "Delete all members of the IPSet, if there are any.",
+                                                         "optional" : 1,
+                                                         "type" : "boolean",
+                                                         "typetext" : "<boolean>"
+                                                      },
                                                       "name" : {
                                                          "description" : "IP set name.",
                                                          "maxLength" : 64,
@@ -29566,6 +29913,113 @@ const apiSchema = [
                               "leaf" : 1,
                               "path" : "/nodes/{node}/lxc/{vmid}/spiceproxy",
                               "text" : "spiceproxy"
+                           },
+                           {
+                              "info" : {
+                                 "POST" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Migrate the container to another cluster. Creates a new migration task. EXPERIMENTAL feature!",
+                                    "method" : "POST",
+                                    "name" : "remote_migrate_vm",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "bwlimit" : {
+                                             "default" : "migrate limit from datacenter or storage config",
+                                             "description" : "Override I/O bandwidth limit (in KiB/s).",
+                                             "minimum" : "0",
+                                             "optional" : 1,
+                                             "type" : "number",
+                                             "typetext" : "<number> (0 - N)"
+                                          },
+                                          "delete" : {
+                                             "default" : 0,
+                                             "description" : "Delete the original CT and related data after successful migration. By default the original CT is kept on the source cluster in a stopped state.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "online" : {
+                                             "description" : "Use online/live migration.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "restart" : {
+                                             "description" : "Use restart migration",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "target-bridge" : {
+                                             "description" : "Mapping from source to target bridges. Providing only a single bridge ID maps all source bridges to that bridge. Providing the special value '1' will map each source bridge to itself.",
+                                             "format" : "bridge-pair-list",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "target-endpoint" : {
+                                             "description" : "Remote target endpoint",
+                                             "format" : "proxmox-remote",
+                                             "type" : "string",
+                                             "typetext" : "apitoken=<A full Proxmox API token including the secret value.> ,host=<Remote Proxmox hostname or IP> [,fingerprint=<Remote host's certificate fingerprint, if not trusted by system store.>] [,port=<integer>]"
+                                          },
+                                          "target-storage" : {
+                                             "description" : "Mapping from source to target storages. Providing only a single storage ID maps all source storages to that storage. Providing the special value '1' will map each source storage to itself.",
+                                             "format" : "storage-pair-list",
+                                             "optional" : 0,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "target-vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - N)"
+                                          },
+                                          "timeout" : {
+                                             "default" : 180,
+                                             "description" : "Timeout in seconds for shutdown for restart migration",
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer>"
+                                          },
+                                          "vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "minimum" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - N)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/vms/{vmid}",
+                                          [
+                                             "VM.Migrate"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "description" : "the task ID.",
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/lxc/{vmid}/remote_migrate",
+                              "text" : "remote_migrate"
                            },
                            {
                               "info" : {
@@ -31418,6 +31872,144 @@ const apiSchema = [
                               "leaf" : 1,
                               "path" : "/nodes/{node}/lxc/{vmid}/pending",
                               "text" : "pending"
+                           },
+                           {
+                              "info" : {
+                                 "POST" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Migration tunnel endpoint - only for internal use by CT migration.",
+                                    "method" : "POST",
+                                    "name" : "mtunnel",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "bridges" : {
+                                             "description" : "List of network bridges to check availability. Will be checked again for actually used bridges during migration.",
+                                             "format" : "pve-bridge-id-list",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "storages" : {
+                                             "description" : "List of storages to check permission and availability. Will be checked again for all actually used storages during migration.",
+                                             "format" : "pve-storage-id-list",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "minimum" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - N)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "and",
+                                          [
+                                             "perm",
+                                             "/vms/{vmid}",
+                                             [
+                                                "VM.Allocate"
+                                             ]
+                                          ],
+                                          [
+                                             "perm",
+                                             "/",
+                                             [
+                                                "Sys.Incoming"
+                                             ]
+                                          ]
+                                       ],
+                                       "description" : "You need 'VM.Allocate' permissions on '/vms/{vmid}' and Sys.Incoming on '/'. Further permission checks happen during the actual migration."
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "socket" : {
+                                             "type" : "string"
+                                          },
+                                          "ticket" : {
+                                             "type" : "string"
+                                          },
+                                          "upid" : {
+                                             "type" : "string"
+                                          }
+                                       }
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/lxc/{vmid}/mtunnel",
+                              "text" : "mtunnel"
+                           },
+                           {
+                              "info" : {
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Migration tunnel endpoint for websocket upgrade - only for internal use by VM migration.",
+                                    "method" : "GET",
+                                    "name" : "mtunnelwebsocket",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "socket" : {
+                                             "description" : "unix socket to forward to",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "ticket" : {
+                                             "description" : "ticket return by initial 'mtunnel' API call, or retrieved via 'ticket' tunnel command",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "minimum" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - N)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "description" : "You need to pass a ticket valid for the selected socket. Tickets can be created via the mtunnel API call, which will check permissions accordingly.",
+                                       "user" : "all"
+                                    },
+                                    "returns" : {
+                                       "properties" : {
+                                          "port" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "socket" : {
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/lxc/{vmid}/mtunnelwebsocket",
+                              "text" : "mtunnelwebsocket"
                            }
                         ],
                         "info" : {
@@ -31940,6 +32532,7 @@ const apiSchema = [
                                     },
                                     "mtu" : {
                                        "description" : "Maximum transfer unit of the interface. (lxc.network.mtu)",
+                                       "maximum" : 65535,
                                        "minimum" : 64,
                                        "optional" : 1,
                                        "type" : "integer"
@@ -33528,6 +34121,11 @@ const apiSchema = [
                               "returns" : {
                                  "items" : {
                                     "properties" : {
+                                       "application_metadata" : {
+                                          "optional" : 1,
+                                          "title" : "Associated Applications",
+                                          "type" : "object"
+                                       },
                                        "autoscale_status" : {
                                           "optional" : 1,
                                           "title" : "Autoscale Status",
@@ -34307,6 +34905,77 @@ const apiSchema = [
                         "leaf" : 1,
                         "path" : "/nodes/{node}/ceph/rules",
                         "text" : "rules"
+                     },
+                     {
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Heuristical check if it is safe to perform an action.",
+                              "method" : "GET",
+                              "name" : "cmd_safety",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "action" : {
+                                       "description" : "Action to check",
+                                       "enum" : [
+                                          "stop",
+                                          "destroy"
+                                       ],
+                                       "type" : "string"
+                                    },
+                                    "id" : {
+                                       "description" : "ID of the service",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "service" : {
+                                       "description" : "Service type",
+                                       "enum" : [
+                                          "osd",
+                                          "mon",
+                                          "mds"
+                                       ],
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.audit"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "properties" : {
+                                    "safe" : {
+                                       "description" : "If it is safe to run the command.",
+                                       "type" : "boolean"
+                                    },
+                                    "status" : {
+                                       "description" : "Status message given by Ceph.",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/nodes/{node}/ceph/cmd-safety",
+                        "text" : "cmd-safety"
                      }
                   ],
                   "info" : {
@@ -39777,6 +40446,23 @@ const apiSchema = [
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
+                                    "draid-config" : {
+                                       "format" : {
+                                          "data" : {
+                                             "description" : "The number of data devices per redundancy group. (dRAID)",
+                                             "minimum" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "spares" : {
+                                             "description" : "Number of dRAID spares.",
+                                             "minimum" : 0,
+                                             "type" : "integer"
+                                          }
+                                       },
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "data=<integer> ,spares=<integer>"
+                                    },
                                     "name" : {
                                        "description" : "The storage identifier.",
                                        "format" : "pve-storage-id",
@@ -39797,7 +40483,10 @@ const apiSchema = [
                                           "raid10",
                                           "raidz",
                                           "raidz2",
-                                          "raidz3"
+                                          "raidz3",
+                                          "draid",
+                                          "draid2",
+                                          "draid3"
                                        ],
                                        "type" : "string"
                                     }
@@ -43433,9 +44122,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "upgrade",
                                     "login",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -43529,9 +44218,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "upgrade",
                                     "login",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -43655,9 +44344,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "upgrade",
                                     "login",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -46783,6 +47472,10 @@ const apiSchema = [
                                  "type" : "boolean"
                               },
                               "Sys.Console" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Sys.Incoming" : {
                                  "optional" : 1,
                                  "type" : "boolean"
                               },

@@ -30,7 +30,7 @@ IPv4 address in CIDR format.
 
 IPv6 address in CIDR format.
 
-`mtu`=`<integer> (64 - N)` ;;
+`mtu`=`<integer> (64 - 65535)` ;;
 
 Maximum transfer unit of the interface. (lxc.network.mtu)
 

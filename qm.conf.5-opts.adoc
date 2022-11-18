@@ -4,7 +4,7 @@ Enable/disable ACPI.
 
 `affinity`: `<string>` ::
 
-List of host cores used to execute guest processes.
+List of host cores used to execute guest processes, for example: 0,5,8-11
 
 `agent`: `[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
 
@@ -574,7 +574,7 @@ Network Card Model. The 'virtio' model provides the best performance with very l
 
 Force MTU, for VirtIO only. Set to '1' to use the bridge MTU
 
-`queues`=`<integer> (0 - 16)` ;;
+`queues`=`<integer> (0 - 64)` ;;
 
 Number of packet queues to be used on the device.
 

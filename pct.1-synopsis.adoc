@@ -531,6 +531,51 @@ The (unique) ID of the VM.
 
 Wait maximal timeout seconds for the shutdown.
 
+*pct remote-migrate* `<vmid> [<target-vmid>] <target-endpoint> --target-bridge <string> --target-storage <string>` `[OPTIONS]`
+
+Migrate container to a remote cluster. Creates a new migration task.
+EXPERIMENTAL feature!
+
+`<vmid>`: `<integer> (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`<target-vmid>`: `<integer> (1 - N)` ::
+
+The (unique) ID of the VM.
+
+`<target-endpoint>`: `apitoken=<A full Proxmox API token including the secret value.> ,host=<Remote Proxmox hostname or IP> [,fingerprint=<Remote host's certificate fingerprint, if not trusted by system store.>] [,port=<integer>]` ::
+
+Remote target endpoint
+
+`--bwlimit` `<integer> (0 - N)` ('default =' `migrate limit from datacenter or storage config`)::
+
+Override I/O bandwidth limit (in KiB/s).
+
+`--delete` `<boolean>` ('default =' `0`)::
+
+Delete the original CT and related data after successful migration. By default the original CT is kept on the source cluster in a stopped state.
+
+`--online` `<boolean>` ::
+
+Use online/live migration.
+
+`--restart` `<boolean>` ::
+
+Use restart migration
+
+`--target-bridge` `<string>` ::
+
+Mapping from source to target bridges. Providing only a single bridge ID maps all source bridges to that bridge. Providing the special value '1' will map each source bridge to itself.
+
+`--target-storage` `<string>` ::
+
+Mapping from source to target storages. Providing only a single storage ID maps all source storages to that storage. Providing the special value '1' will map each source storage to itself.
+
+`--timeout` `<integer>` ('default =' `180`)::
+
+Timeout in seconds for shutdown for restart migration
+
 *pct rescan* `[OPTIONS]`
 
 Rescan all storages and update disk sizes and unused disk images.
