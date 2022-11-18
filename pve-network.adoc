@@ -267,7 +267,7 @@ https://commons.wikimedia.org/wiki/File:Netfilter-packet-flow.svg[Netfilter Pack
 
 https://lwn.net/Articles/370152/[Patch on netdev-list introducing conntrack zones]
 
-https://blog.lobraun.de/2019/05/19/prox/[Blog post with a good explanation by using TRACE in the raw table]
+https://web.archive.org/web/20220610151210/https://blog.lobraun.de/2019/05/19/prox/[Blog post with a good explanation by using TRACE in the raw table]
 
 
 [[sysadmin_network_bond]]
