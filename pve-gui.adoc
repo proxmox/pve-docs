@@ -381,6 +381,75 @@ and the corresponding interfaces for each menu item on the right.
 * *Permissions:* manage the permissions for the pool.
 
 
+Tags
+----
+
+[thumbnail="screenshot/gui-qemu-summary-tags-edit.png", float="left"]
+
+For organizational purposes, it is possible to set `tags` on guests. These have
+currently only informational value and they are display by default in the gui
+in two places, the `Resource Tree` and in the status line when a guest is
+selected.
+
+They can be added, edited and removed in that status line of the guest by
+clicking on the `pencil` icon. After the tags have the desired values, you
+can click on the `check mark` button to apply the changes, or click the
+`X` button to cancel you editing.
+
+The tags can also be set via the CLI, where multiple tags are semi-colon
+separated, for example:
+
+----
+# qm set ID --tags myfirsttag;mysecondtag
+----
+
+Styling
+~~~~~~~
+
+[thumbnail="screenshot/gui-datacenter-tag-style.png"]
+
+To adapt to various use cases and preferences, there are some options in the
+datacenter configuration that helps an admin control the behaviour and style
+of tags, such as the colors, ordering, and basic permission settings.
+
+
+By default the tag colors are derived from their text in a deterministic way,
+but can be overridden in the datacenter configuration (The background color as
+well as the text color) as hexadecimal RGB values. You can also set these
+overrides via the CLI, for example:
+
+----
+# pvesh set /cluster/options --tag-style color-map=example:000000:FFFFFF
+----
+
+Sets the background color of the tag `example` to black (#000000) and the text
+color to white (#FFFFFF).
+
+You can also change the style of the tags in the tree and if the tags should
+be alphabetically sorted (the default) or should retain their order from the
+guest configuration.
+
+Permissions
+~~~~~~~~~~~
+
+[thumbnail="screenshot/gui-datacenter-options.png"]
+
+By default, users with the privilege `VM.Config.Options` on a guest (`/vms/ID`)
+can set any tags they want. If you want to restrict this behaviour, it is
+possible to set various modes via the datacenter configuration:
+
+* a list of allowed tags
+* existing tags
+* no tags at all
+
+Note that a user with `Sys.Modify` on `/` is always able to set or delete
+any tags, regardless of the settings here. Additionally, there is a configurable
+list of `registered tags` which will also require the privilege `Sys.Modify`
+on `/` to be added or removed independent of the mode.
+
+For more details on the exact options, see the
+xref:datacenter_configuration_file[Datacenter Configuration].
+
 ifdef::wiki[]
 
 See Also
