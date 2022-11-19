@@ -567,6 +567,34 @@ net.ipv6.conf.default.disable_ipv6 = 1
 This method is preferred to disabling the loading of the IPv6 module on the
 https://www.kernel.org/doc/Documentation/networking/ipv6.rst[kernel commandline].
 
+
+Disabling MAC Learning on a Bridge
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By default, MAC learning is enabled on a bridge to ensure a smooth experience
+with virtual guests and their networks.
+
+But in some environments this can be undesired. Since {pve} 7.3 you can disable
+MAC learning on the bridge by setting the `bridge-disable-mac-learning 1`
+configuration on a bridge in `/etc/network/interfaces', for example:
+
+----
+# ...
+
+auto vmbr0
+iface vmbr0 inet static
+        address  10.10.10.2/24
+        gateway  10.10.10.1
+        bridge-ports ens18
+        bridge-stp off
+        bridge-fd 0
+        bridge-disable-mac-learning 1
+----
+
+Once enabled, {pve} will manually add the configured MAC address from VMs and
+Containers to the bridges forwarding database to ensure that guest can still
+use the network - but only when they are using their actual MAC address.
+
 ////
 TODO: explain IPv6 support?
 TODO: explain OVS
