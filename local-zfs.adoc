@@ -311,13 +311,22 @@ manual pages, which can be read with:
 Create a new zpool
 ^^^^^^^^^^^^^^^^^^
 
-To create a new pool, at least one disk is needed. The `ashift` should
-have the same sector-size (2 power of `ashift`) or larger as the
-underlying disk.
+To create a new pool, at least one disk is needed. The `ashift` should have the
+same sector-size (2 power of `ashift`) or larger as the underlying disk.
 
 ----
 # zpool create -f -o ashift=12 <pool> <device>
 ----
+
+[TIP]
+====
+Pool names must adhere to the following rules:
+
+* begin with a letter (a-z or A-Z)
+* contain only alphanumeric, `-`, `_`, `.`, `:` or ` ` (space) characters
+* must *not begin* with one of `mirror`, `raidz`, `draid` or `spare`
+* must not be `log`
+====
 
 To activate compression (see section <<zfs_compression,Compression in ZFS>>):
 
