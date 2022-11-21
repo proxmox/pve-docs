@@ -959,6 +959,7 @@ Basic
 ~~~~~
 
 The number of active HA services on each node is used to choose a recovery node.
+Non-HA-managed services are currently not counted.
 
 Static
 ~~~~~~
@@ -966,7 +967,7 @@ Static
 IMPORTANT: The static mode is still a technology preview.
 
 Static usage information from HA services on each node is used to choose a
-recovery node.
+recovery node. Usage of non-HA-managed services is currently not considered.
 
 For this selection, each node in turn is considered as if the service was
 already running on it, using CPU and memory usage from the associated guest
