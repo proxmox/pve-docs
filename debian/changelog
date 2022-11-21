@@ -1,3 +1,18 @@
+pve-docs (7.3-1) bullseye; urgency=medium
+
+  * sysadmin zfs: document pool naming rules
+
+  * sysadmin network: document disabling mac-learning on a bridge
+
+  * ha: crs: remove outdated comment about the need to restart the manager
+    services to apply any change to the scheduler mode
+
+  * update static/schema information
+
+  * various grammar and typo fixes
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 21 Nov 2022 12:23:41 +0100
+
 pve-docs (7.2-5) bullseye; urgency=medium
 
   * fix #4319: use corred port range for corosync v3.x
