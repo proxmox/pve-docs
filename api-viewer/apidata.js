@@ -8903,6 +8903,12 @@ const apiSchema = [
                         "tag-style" : {
                            "description" : "Tag style options.",
                            "format" : {
+                              "case-sensitive" : {
+                                 "default" : 0,
+                                 "description" : "Controls if filtering for unique tags on update should check case-sensitive.",
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
                               "color-map" : {
                                  "description" : "Manual color mapping for tags (semicolon separated).",
                                  "optional" : 1,
@@ -8912,7 +8918,7 @@ const apiSchema = [
                               },
                               "ordering" : {
                                  "default" : "alphabetical",
-                                 "description" : "Controls the sorting of the tags in the web ui.",
+                                 "description" : "Controls the sorting of the tags in the web-interface and the API update.",
                                  "enum" : [
                                     "config",
                                     "alphabetical"
@@ -8935,7 +8941,7 @@ const apiSchema = [
                            },
                            "optional" : 1,
                            "type" : "string",
-                           "typetext" : "[color-map=<tag>:<hex-color>[:<hex-color-for-text>][;<tag>=...]] [,ordering=<config|alphabetical>] [,shape=<enum>]"
+                           "typetext" : "[case-sensitive=<1|0>] [,color-map=<tag>:<hex-color>[:<hex-color-for-text>][;<tag>=...]] [,ordering=<config|alphabetical>] [,shape=<enum>]"
                         },
                         "u2f" : {
                            "description" : "u2f",
@@ -8971,7 +8977,7 @@ const apiSchema = [
                                  ],
                                  "optional" : 1,
                                  "type" : "string",
-                                 "verbose_description" : "Controls which tags can be set or deleted on resources a user controls (such as guests). Users with the `Sys.Modify` privilege on `/` are always  unrestricted. 'none' no tags are usable. 'list' tasg from 'user-allow'list' are usable. 'existing' like list, but already existing tags of resources are also usable.'free' no tag restrictions."
+                                 "verbose_description" : "Controls which tags can be set or deleted on resources a user controls (such as guests). Users with the `Sys.Modify` privilege on `/` are always  unrestricted. 'none' no tags are usable. 'list' tags from 'user-allow-list' are usable. 'existing' like list, but already existing tags of resources are also usable.'free' no tag restrictions."
                               },
                               "user-allow-list" : {
                                  "description" : "List of tags users are allowed to set and delete (semicolon separated) for 'user-allow' values 'list' and 'existing'.",
@@ -44122,8 +44128,8 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "login",
                                     "ceph_install",
+                                    "login",
                                     "upgrade"
                                  ],
                                  "optional" : 1,
@@ -44218,8 +44224,8 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "login",
                                     "ceph_install",
+                                    "login",
                                     "upgrade"
                                  ],
                                  "optional" : 1,
@@ -44344,8 +44350,8 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "login",
                                     "ceph_install",
+                                    "login",
                                     "upgrade"
                                  ],
                                  "optional" : 1,

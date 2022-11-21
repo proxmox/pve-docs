@@ -108,9 +108,13 @@ Upper, exclusive boundary for free next-id API range.
 
 A list of tags that require a `Sys.Modify` on '/' to set and delete. Tags set here that are also in 'user-tag-access' also require `Sys.Modify`.
 
-`tag-style`: `[color-map=<tag>:<hex-color>[:<hex-color-for-text>][;<tag>=...]] [,ordering=<config|alphabetical>] [,shape=<enum>]` ::
+`tag-style`: `[case-sensitive=<1|0>] [,color-map=<tag>:<hex-color>[:<hex-color-for-text>][;<tag>=...]] [,ordering=<config|alphabetical>] [,shape=<enum>]` ::
 
 Tag style options.
+
+`case-sensitive`=`<boolean>` ('default =' `0`);;
+
+Controls if filtering for unique tags on update should check case-sensitive.
 
 `color-map`=`<tag>:<hex-color>[:<hex-color-for-text>][;<tag>=...]` ;;
 
@@ -118,7 +122,7 @@ Manual color mapping for tags (semicolon separated).
 
 `ordering`=`<alphabetical | config>` ('default =' `alphabetical`);;
 
-Controls the sorting of the tags in the web ui.
+Controls the sorting of the tags in the web-interface and the API update.
 
 `shape`=`<circle | dense | full | none>` ('default =' `circle`);;
 
@@ -142,7 +146,7 @@ Privilege options for user-settable tags
 
 `user-allow`=`<existing | free | list | none>` ('default =' `free`);;
 
-Controls which tags can be set or deleted on resources a user controls (such as guests). Users with the `Sys.Modify` privilege on `/` are always  unrestricted. 'none' no tags are usable. 'list' tasg from 'user-allow'list' are usable. 'existing' like list, but already existing tags of resources are also usable.'free' no tag restrictions.
+Controls which tags can be set or deleted on resources a user controls (such as guests). Users with the `Sys.Modify` privilege on `/` are always  unrestricted. 'none' no tags are usable. 'list' tags from 'user-allow-list' are usable. 'existing' like list, but already existing tags of resources are also usable.'free' no tag restrictions.
 
 `user-allow-list`=`<tag>[;<tag>...]` ;;
 
