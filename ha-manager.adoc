@@ -945,12 +945,8 @@ mode is `basic`, you can change it in `datacenter.cfg`:
 crs: ha=static
 ----
 
-The change will be in effect when a new master takes over. This can be triggered
-by executing the following on the current master's node:
-
-----
-systemctl reload-or-restart pve-ha-crm.service
-----
+The change will be in effect starting with the next manager round (after a few
+seconds).
 
 For each service that needs to be recovered or migrated, the scheduler
 iteratively chooses the best node among the nodes with the highest priority in
