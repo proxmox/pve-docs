@@ -172,11 +172,14 @@ infrastructure for bigger clusters.
 Adding Nodes to the Cluster
 ---------------------------
 
-CAUTION: A node that is about to be added to the cluster cannot hold any guests.
-All existing configuration in `/etc/pve` is overwritten when joining a cluster,
-since guest IDs could otherwise conflict. As a workaround, you can create a
-backup of the guest (`vzdump`) and restore it under a different ID, after the
-node has been added to the cluster.
+CAUTION: All existing configuration in `/etc/pve` is overwritten when joining a
+cluster. In particular, a joining node cannot hold any guests, since guest IDs
+could otherwise conflict, and the node will inherit the cluster's storage
+configuration. To join a node with existing guest, as a workaround, you can
+create a backup of each guest (using `vzdump`) and restore it under a different
+ID after joining. If the node's storage layout differs, you will need to re-add
+the node's storages, and adapt each storage's node restriction to reflect on
+which nodes the storage is actually available.
 
 Join Node to Cluster via GUI
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
