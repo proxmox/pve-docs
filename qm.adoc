@@ -252,7 +252,7 @@ IO Thread
 The option *IO Thread* can only be used when using a disk with the *VirtIO*
 controller, or with the *SCSI* controller, when the emulated controller type is
 *VirtIO SCSI single*. With *IO Thread* enabled, QEMU creates one I/O thread per
-storage controller, rather than handling all I/O in the main event loop or vCPU
+storage controller rather than handling all I/O in the main event loop or vCPU
 threads. One benefit is better work distribution and utilization of the
 underlying storage. Another benefit is reduced latency (hangs) in the guest for
 very I/O-intensive host workloads, since neither the main thread nor a vCPU
@@ -765,7 +765,7 @@ open-source, x86 BIOS implementation. SeaBIOS is a good choice for most
 standard setups.
 
 Some operating systems (such as Windows 11) may require use of an UEFI
-compatible implementation instead. In such cases, you must rather use *OVMF*,
+compatible implementation. In such cases, you must use *OVMF* instead,
 which is an open-source UEFI implementation. footnote:[See the OVMF Project https://github.com/tianocore/tianocore.github.io/wiki/OVMF]
 
 There are other scenarios in which the SeaBIOS may not be the ideal firmware to
