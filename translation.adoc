@@ -17,6 +17,7 @@ translation files. Tools like https://poedit.net/[Poedit] offer a nice user
 interface to edit the translation files, but you can use whatever editor you're
 comfortable with. No programming knowledge is required for translating.
 
+[[i18n_with_git]]
 Translating with git
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -37,6 +38,7 @@ Or you can edit an existing translation, using the editor of your choice:
  # poedit <LANG>.po
 
 
+[[i18n_without_git]]
 Translating without git
 ~~~~~~~~~~~~~~~~~~~~~~~
 

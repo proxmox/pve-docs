@@ -16,6 +16,7 @@ management interface, and even a novice user can setup and install
 image::images/pve-software-stack.svg["Proxmox Software Stack",align="center"]
 
 
+[[intro_central_management]]
 Central Management
 ------------------
 
@@ -200,6 +201,7 @@ Your benefits with {pve}
 include::getting-help.adoc[]
 
 
+[[intro_project_history]]
 Project History
 ---------------
 
