@@ -8,9 +8,9 @@ endif::wiki[]
 
 Storage pool type: `iscsidirect`
 
-This backend provides basically the same functionality as the
-Open-iSCSI backed, but uses a user-level library (package `libiscsi2`)
-to implement it.
+This backend provides basically the same functionality as the Open-iSCSI backed,
+but uses a user-level library to implement it. You need to install the
+`libiscsi-bin` package in order to use this backend.
 
 It should be noted that there are no kernel drivers involved, so this
 can be viewed as performance optimization. But this comes with the
