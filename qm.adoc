@@ -249,12 +249,11 @@ Note that *SSD emulation* is not supported on *VirtIO Block* drives.
 [[qm_hard_disk_iothread]]
 IO Thread
 ^^^^^^^^^
-The option *IO Thread* can only be used when using a disk with the
-*VirtIO* controller, or with the *SCSI* controller, when the emulated controller
- type is  *VirtIO SCSI single*.
-With this enabled, QEMU creates one I/O thread per storage controller,
-rather than a single thread for all I/O. This can increase performance when
-multiple disks are used and each disk has its own storage controller.
+The option *IO Thread* can only be used when using a disk with the *VirtIO*
+controller, or with the *SCSI* controller, when the emulated controller type is
+*VirtIO SCSI single*. With *IO Thread* enabled, QEMU creates one I/O thread per
+storage controller, rather than handling all I/O in the main event loop or vCPU
+threads. This can increase performance, because of improved work distribution.
 
 
 [[qm_cpu]]
