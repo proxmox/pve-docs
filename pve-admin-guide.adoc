@@ -149,7 +149,7 @@ include::pvesh.1-synopsis.adoc[]
 
 :leveloffset: 0
 
-*qm* - Qemu/KVM Virtual Machine Manager
+*qm* - QEMU/KVM Virtual Machine Manager
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1

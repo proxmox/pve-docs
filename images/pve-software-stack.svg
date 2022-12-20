@@ -60,7 +60,7 @@
 <polygon fill="#00617f" stroke="none" points="144,-100.5 144,-132.5 247,-132.5 247,-100.5 144,-100.5"/>
 <text text-anchor="start" x="151.5" y="-111.5" font-family="Helvetica,sans-Serif" font-size="20.00" fill="white">Guest OS</text>
 <polygon fill="#ff9100" stroke="none" points="18,-65.5 18,-91.5 254,-91.5 254,-65.5 18,-65.5"/>
-<text text-anchor="start" x="108.5" y="-73.5" font-family="Helvetica,sans-Serif" font-size="20.00" fill="white">Qemu</text>
+<text text-anchor="start" x="108.5" y="-73.5" font-family="Helvetica,sans-Serif" font-size="20.00" fill="white">QEMU</text>
 <text text-anchor="start" x="320.5" y="-192.8" font-family="Helvetica,sans-Serif" font-size="14.00"> </text>
 <text text-anchor="start" x="320.5" y="-170.8" font-family="Helvetica,sans-Serif" font-size="14.00"> </text>
 <text text-anchor="start" x="320.5" y="-149.3" font-family="Helvetica,sans-Serif" font-size="14.00"> </text>

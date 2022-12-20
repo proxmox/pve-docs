@@ -7,7 +7,7 @@ qm(1)
 NAME
 ----
 
-qm - Qemu/KVM Virtual Machine Manager
+qm - QEMU/KVM Virtual Machine Manager
 
 
 SYNOPSIS
@@ -19,7 +19,7 @@ DESCRIPTION
 -----------
 endif::manvolnum[]
 ifndef::manvolnum[]
-Qemu/KVM Virtual Machines
+QEMU/KVM Virtual Machines
 =========================
 :pve-toplevel:
 endif::manvolnum[]
@@ -29,52 +29,52 @@ endif::manvolnum[]
 // http://pve.proxmox.com/wiki/KVM
 // http://pve.proxmox.com/wiki/Qemu_Server
 
-Qemu (short form for Quick Emulator) is an open source hypervisor that emulates a
-physical computer. From the perspective of the host system where Qemu is
-running, Qemu is a user program which has access to a number of local resources
+QEMU (short form for Quick Emulator) is an open source hypervisor that emulates a
+physical computer. From the perspective of the host system where QEMU is
+running, QEMU is a user program which has access to a number of local resources
 like partitions, files, network cards which are then passed to an
 emulated computer which sees them as if they were real devices.
 
 A guest operating system running in the emulated computer accesses these
 devices, and runs as if it were running on real hardware. For instance, you can pass
-an ISO image as a parameter to Qemu, and the OS running in the emulated computer
+an ISO image as a parameter to QEMU, and the OS running in the emulated computer
 will see a real CD-ROM inserted into a CD drive.
 
-Qemu can emulate a great variety of hardware from ARM to Sparc, but {pve} is
+QEMU can emulate a great variety of hardware from ARM to Sparc, but {pve} is
 only concerned with 32 and 64 bits PC clone emulation, since it represents the
 overwhelming majority of server hardware. The emulation of PC clones is also one
 of the fastest due to the availability of processor extensions which greatly
-speed up Qemu when the emulated architecture is the same as the host
+speed up QEMU when the emulated architecture is the same as the host
 architecture.
 
 NOTE: You may sometimes encounter the term _KVM_ (Kernel-based Virtual Machine).
-It means that Qemu is running with the support of the virtualization processor
-extensions, via the Linux KVM module. In the context of {pve} _Qemu_ and
-_KVM_ can be used interchangeably, as Qemu in {pve} will always try to load the KVM
+It means that QEMU is running with the support of the virtualization processor
+extensions, via the Linux KVM module. In the context of {pve} _QEMU_ and
+_KVM_ can be used interchangeably, as QEMU in {pve} will always try to load the KVM
 module.
 
-Qemu inside {pve} runs as a root process, since this is required to access block
+QEMU inside {pve} runs as a root process, since this is required to access block
 and PCI devices.
 
 
 Emulated devices and paravirtualized devices
 --------------------------------------------
 
-The PC hardware emulated by Qemu includes a mainboard, network controllers,
+The PC hardware emulated by QEMU includes a mainboard, network controllers,
 SCSI, IDE and SATA controllers, serial ports (the complete list can be seen in
 the `kvm(1)` man page) all of them emulated in software. All these devices
 are the exact software equivalent of existing hardware devices, and if the OS
 running in the guest has the proper drivers it will use the devices as if it
-were running on real hardware. This allows Qemu to runs _unmodified_ operating
+were running on real hardware. This allows QEMU to runs _unmodified_ operating
 systems.
 
 This however has a performance cost, as running in software what was meant to
 run in hardware involves a lot of extra work for the host CPU. To mitigate this,
-Qemu can present to the guest operating system _paravirtualized devices_, where
-the guest OS recognizes it is running inside Qemu and cooperates with the
+QEMU can present to the guest operating system _paravirtualized devices_, where
+the guest OS recognizes it is running inside QEMU and cooperates with the
 hypervisor.
 
-Qemu relies on the virtio virtualization standard, and is thus able to present
+QEMU relies on the virtio virtualization standard, and is thus able to present
 paravirtualized virtio devices, which includes a paravirtualized generic disk
 controller, a paravirtualized network card, a paravirtualized serial port,
 a paravirtualized SCSI controller, etc ...
@@ -131,7 +131,7 @@ can specify which xref:qm_display[display type] you want to use.
 [thumbnail="screenshot/gui-create-vm-system.png"]
 Additionally, the xref:qm_hard_disk[SCSI controller] can be changed.
 If you plan to install the QEMU Guest Agent, or if your selected ISO image
-already ships and installs it automatically, you may want to tick the 'Qemu
+already ships and installs it automatically, you may want to tick the 'QEMU
 Agent' box, which lets {pve} know that it can use its features to show some
 more information, and complete some actions (for example, shutdown or
 snapshots) more intelligently.
@@ -153,7 +153,7 @@ Hard Disk
 [[qm_hard_disk_bus]]
 Bus/Controller
 ^^^^^^^^^^^^^^
-Qemu can emulate a number of storage controllers:
+QEMU can emulate a number of storage controllers:
 
 * the *IDE* controller, has a design which goes back to the 1984 PC/AT disk
 controller. Even if this controller has been superseded by recent designs,
@@ -177,7 +177,7 @@ containing the drivers during the installation.
 // https://pve.proxmox.com/wiki/Paravirtualized_Block_Drivers_for_Windows#During_windows_installation.
 If you aim at maximum performance, you can select a SCSI controller of type
 _VirtIO SCSI single_ which will allow you to select the *IO Thread* option.
-When selecting _VirtIO SCSI single_ Qemu will create a new controller for
+When selecting _VirtIO SCSI single_ QEMU will create a new controller for
 each disk, instead of adding all disks to the same controller.
 
 * The *VirtIO Block* controller, often just called VirtIO or virtio-blk,
@@ -252,7 +252,7 @@ IO Thread
 The option *IO Thread* can only be used when using a disk with the
 *VirtIO* controller, or with the *SCSI* controller, when the emulated controller
  type is  *VirtIO SCSI single*.
-With this enabled, Qemu creates one I/O thread per storage controller,
+With this enabled, QEMU creates one I/O thread per storage controller,
 rather than a single thread for all I/O. This can increase performance when
 multiple disks are used and each disk has its own storage controller.
 
@@ -274,7 +274,7 @@ allows you.
 Increasing the number of virtual CPUs (cores and sockets) will usually provide a
 performance improvement though that is heavily dependent on the use of the VM.
 Multi-threaded applications will of course benefit from a large number of
-virtual CPUs, as for each virtual cpu you add, Qemu will create a new thread of
+virtual CPUs, as for each virtual cpu you add, QEMU will create a new thread of
 execution on the host system. If you're not sure about the workload of your VM,
 it is usually a safe bet to set the number of *Total cores* to 2.
 
@@ -299,7 +299,7 @@ the whole VM can use on the host. It is a floating point value representing CPU
 time in percent, so `1.0` is equal to `100%`, `2.5` to `250%` and so on. If a
 single process would fully use one single core it would have `100%` CPU Time
 usage. If a VM with four cores utilizes all its cores fully it would
-theoretically use `400%`. In reality the usage may be even a bit higher as Qemu
+theoretically use `400%`. In reality the usage may be even a bit higher as QEMU
 can have additional threads for VM peripherals besides the vCPU core ones.
 This setting can be useful if a VM should have multiple vCPUs, as it runs a few
 processes in parallel, but the VM as a whole should not be able to run all
@@ -347,7 +347,7 @@ section for more examples.
 CPU Type
 ^^^^^^^^
 
-Qemu can emulate a number different of *CPU types* from 486 to the latest Xeon
+QEMU can emulate a number different of *CPU types* from 486 to the latest Xeon
 processors. Each new processor generation adds new features, like hardware
 assisted 3d rendering, random number generation, memory protection, etc ...
 Usually you should select for your VM a processor type which closely matches the
@@ -359,7 +359,7 @@ as your host system.
 This has a downside though. If you want to do a live migration of VMs between
 different hosts, your VM might end up on a new system with a different CPU type.
 If the CPU flags passed to the guest are missing, the qemu process will stop. To
-remedy this Qemu has also its own CPU type *kvm64*, that {pve} uses by defaults.
+remedy this QEMU has also its own CPU type *kvm64*, that {pve} uses by defaults.
 kvm64 is a Pentium 4 look a like CPU type, which has a reduced CPU flags set,
 but is guaranteed to work everywhere.
 
@@ -627,7 +627,7 @@ _tap device_, ( a software loopback device simulating an Ethernet NIC ). This
 tap device is added to a bridge, by default vmbr0 in {pve}. In this mode, VMs
 have direct access to the Ethernet LAN on which the host is located.
  * in the alternative *NAT mode*, each virtual NIC will only communicate with
-the Qemu user networking stack, where a built-in router and DHCP server can
+the QEMU user networking stack, where a built-in router and DHCP server can
 provide network access. This built-in DHCP will serve addresses in the private
 10.0.2.0/24 range. The NAT mode is much slower than the bridged mode, and
 should only be used for testing. This mode is only available via CLI or the API,
@@ -1016,10 +1016,10 @@ see the section on xref:first_guest_boot_delay[Proxmox VE Node Management].
 
 
 [[qm_qemu_agent]]
-Qemu Guest Agent
+QEMU Guest Agent
 ~~~~~~~~~~~~~~~~
 
-The Qemu Guest Agent is a service which runs inside the VM, providing a
+The QEMU Guest Agent is a service which runs inside the VM, providing a
 communication channel between the host and the guest. It is used to exchange
 information and allows the host to issue commands to the guest.
 
@@ -1477,7 +1477,7 @@ chosen, the first of:
 Managing Virtual Machines with `qm`
 ------------------------------------
 
-qm is the tool to manage Qemu/Kvm virtual machines on {pve}. You can
+qm is the tool to manage QEMU/KVM virtual machines on {pve}. You can
 create and destroy virtual machines, and control execution
 (start/stop/suspend/resume). Besides that, you can use qm to set
 parameters in the associated config file. It is also possible to

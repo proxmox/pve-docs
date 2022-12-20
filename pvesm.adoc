@@ -93,7 +93,7 @@ That way you get a `shared` LVM storage.
 Thin Provisioning
 ~~~~~~~~~~~~~~~~~
 
-A number of storages, and the Qemu image format `qcow2`, support 'thin
+A number of storages, and the QEMU image format `qcow2`, support 'thin
 provisioning'.  With thin provisioning activated, only the blocks that
 the guest system actually use will be written to the storage.
 
@@ -195,7 +195,7 @@ this property to select what this storage is used for.
 
 images:::
 
-KVM-Qemu VM images.
+QEMU/KVM VM images.
 
 rootdir:::
 

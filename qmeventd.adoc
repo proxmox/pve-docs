@@ -6,7 +6,7 @@ qmeventd(8)
 NAME
 ----
 
-qmeventd - PVE Qemu Eventd Daemon
+qmeventd - PVE QEMU Eventd Daemon
 
 SYNOPSIS
 --------
@@ -18,7 +18,7 @@ DESCRIPTION
 endif::manvolnum[]
 
 ifndef::manvolnum[]
-PVE Qemu Event Daemon
+PVE QEMU Event Daemon
 =====================
 :pve-toplevel:
 endif::manvolnum[]

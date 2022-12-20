@@ -59,7 +59,7 @@ VM, but without the additional overhead. This means that Proxmox Containers can
 be categorized as ``System Containers'', rather than ``Application Containers''.
 
 NOTE: If you want to run application containers, for example, 'Docker' images, it
-is recommended that you run them inside a Proxmox Qemu VM. This will give you
+is recommended that you run them inside a Proxmox QEMU VM. This will give you
 all the advantages of application containerization, while also providing the
 benefits that VMs offer, such as strong isolation from the host and the ability
 to live-migrate, which otherwise isn't possible with containers. 

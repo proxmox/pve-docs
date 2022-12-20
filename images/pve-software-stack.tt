@@ -59,7 +59,7 @@ graph pve_software_stack {
 
 	  </tr>
 
-	  <tr><td border='0' BGCOLOR="#FF9100" colspan='2'><font point-size='20' color="white">Qemu</font></td>
+	  <tr><td border='0' BGCOLOR="#FF9100" colspan='2'><font point-size='20' color="white">QEMU</font></td>
 
 	  </tr></table></td>
 

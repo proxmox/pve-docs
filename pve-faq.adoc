@@ -161,4 +161,4 @@ Docker Engine command line interface. It is not recommended to run docker
 directly on your {pve} host.
 +
 NOTE: If you want to run application containers, for example, 'Docker' images, it
-is best to run them inside a Proxmox Qemu VM.
+is best to run them inside a Proxmox QEMU VM.

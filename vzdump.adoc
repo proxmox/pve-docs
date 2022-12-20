@@ -64,7 +64,7 @@ depending on the guest type.
 
 This mode provides the highest consistency of the backup, at the cost
 of a short downtime in the VM operation. It works by executing an
-orderly shutdown of the VM, and then runs a background Qemu process to
+orderly shutdown of the VM, and then runs a background QEMU process to
 backup the VM data. After the backup is started, the VM goes to full
 operation mode if it was previously running. Consistency is guaranteed
 by using the live backup feature.
@@ -92,8 +92,8 @@ https://git.proxmox.com/?p=pve-qemu.git;a=blob_plain;f=backup.txt[here].
 NOTE: {pve} live backup provides snapshot-like semantics on any
 storage type. It does not require that the underlying storage supports
 snapshots. Also please note that since the backups are done via 
-a background Qemu process, a stopped VM will appear as running for a 
-short amount of time while the VM disks are being read by Qemu.
+a background QEMU process, a stopped VM will appear as running for a
+short amount of time while the VM disks are being read by QEMU.
 However the VM itself is not booted, only its disk(s) are read.
 
 .Backup modes for Containers:
