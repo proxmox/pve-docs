@@ -253,10 +253,10 @@ The option *IO Thread* can only be used when using a disk with the *VirtIO*
 controller, or with the *SCSI* controller, when the emulated controller type is
 *VirtIO SCSI single*. With *IO Thread* enabled, QEMU creates one I/O thread per
 storage controller, rather than handling all I/O in the main event loop or vCPU
-threads. This can increase performance, because of improved work distribution
-and also avoid hangs under very I/O-intensive host workloads, because other
-threads won't be blocked waiting for I/O.
-
+threads. One benefit is better work distribution and utilization of the
+underlying storage. Another benefit is reduced latency (hangs) in the guest for
+very I/O-intensive host workloads, since neither the main thread nor a vCPU
+thread can be blocked by disk I/O.
 
 [[qm_cpu]]
 CPU
