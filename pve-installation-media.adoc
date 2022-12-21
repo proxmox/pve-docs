@@ -74,7 +74,7 @@ Convert the `.iso` file to `.dmg` format using the convert option of `hdiutil`,
 for example:
 
 ----
-# hdiutil convert -format UDRW -o proxmox-ve_*.dmg proxmox-ve_*.iso
+# hdiutil convert proxmox-ve_*.iso -format UDRW -o proxmox-ve_*.dmg
 ----
 
 TIP: macOS tends to automatically add '.dmg' to the output file name.
