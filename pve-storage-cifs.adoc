@@ -57,6 +57,10 @@ path::
 
 The local mount point. Optional, defaults to `/mnt/pve/<STORAGE_ID>/`.
 
+dirs::
+
+Overrides for the default directory layout. Optional.
+
 .Configuration Example (`/etc/pve/storage.cfg`)
 ----
 cifs: backup

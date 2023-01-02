@@ -40,6 +40,10 @@ path::
 
 The local mount point (defaults to `/mnt/pve/<STORAGE_ID>/`).
 
+dirs::
+
+Overrides for the default directory layout. Optional.
+
 options::
 
 NFS mount options (see `man nfs`).

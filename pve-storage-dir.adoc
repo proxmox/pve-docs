@@ -46,9 +46,18 @@ storage backends.
 Configuration
 ~~~~~~~~~~~~~
 
-This backend supports all common storage properties, and adds an
-additional property called `path` to specify the directory. This
-needs to be an absolute file system path.
+This backend supports all common storage properties, and adds two
+additional properties. The `path` property is used to specify the
+directory. This needs to be an absolute file system path.
+
+The optional `dirs` property allows for the default layout to be
+changed. It consists of a comma-separated list of identifiers in
+the following format:
+
+ vtype:path
+
+Where `vtype` is one of the allowed content types for the storage, and
+`path` is an absolute file system path.
 
 .Configuration Example (`/etc/pve/storage.cfg`)
 ----
@@ -57,12 +66,12 @@ dir: backup
         content backup
         prune-backups keep-last=7
         max-protected-backups 3
+        dirs backup:/custom/backup/dir
 ----
 
 The above configuration defines a storage pool called `backup`. That pool can be
 used to store up to 7 regular backups (`keep-last=7`) and 3 protected backups
-per VM. The real path for the backup files is `/mnt/backup/dump/...`.
-
+per VM. The real path for the backup files is `/mnt/backup/custom/backup/dir/...`.
 
 File naming conventions
 ~~~~~~~~~~~~~~~~~~~~~~~
