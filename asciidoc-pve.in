@@ -259,16 +259,14 @@ sub compile_asciidoc {
 
     my $outfile;
 
-    GetOptions ("outfile=s" => \$outfile,
-		"keep-artifacts" => \$keep_artifacts,
-		"verbose"   => \$verbose) or
-		    die("Error in command line arguments\n");
+    GetOptions (
+        "outfile=s" => \$outfile,
+        "keep-artifacts" => \$keep_artifacts,
+        "verbose"   => \$verbose
+    ) or die("Error in command line arguments\n");
 
-    my $infile = shift(@ARGV) or
-	die "no input file specified\n";
-
-    scalar(@ARGV) == 0 or
-	die "too many arguments...\n";
+    my $infile = shift(@ARGV) or die "no input file specified\n";
+    scalar(@ARGV) == 0 or die "too many arguments...\n";
 
     my $outfilemap = $fileinfo->{outfile}->{$env}->{$infile} ||
 	die "no output file mapping for '$infile' ($env)";
@@ -280,14 +278,12 @@ sub compile_asciidoc {
     }
 
     if (defined($outfile)) {
-	die "wrong output file name '$outfile != $outfilemap' ($env)"
-	    if $outfile ne $outfilemap;
+	die "wrong output file name '$outfile != $outfilemap' ($env)" if $outfile ne $outfilemap;
     } else {
 	$outfile = $outfilemap;
     }
 
-    defined($fileinfo->{titles}->{$env}) ||
-	die "unknown environment '$env'";
+    defined($fileinfo->{titles}->{$env}) || die "unknown environment '$env'";
 
     my $title = $fileinfo->{titles}->{$env}->{$infile} or
 	die "unable to get title for '$infile'$env\n";
@@ -350,9 +346,13 @@ sub compile_asciidoc {
 	# section like footnotes, so we cannot use a2x.
 	# We use xmlto instead.
 
-	my $cmd = ['asciidoc', '-dmanpage', '-bdocbook',
-		   '-f', "$adoc_source_dir/asciidoc/asciidoc-pve.conf",
-		   '-a', 'docinfo1'];
+	my $cmd = [
+	    'asciidoc',
+	    '-dmanpage',
+	    '-bdocbook',
+	    '-f', "$adoc_source_dir/asciidoc/asciidoc-pve.conf",
+	    '-a', 'docinfo1',
+	];
 
 	foreach my $key (keys %$attributes) {
 	    my $value = $attributes->{$key};
@@ -377,8 +377,7 @@ sub compile_asciidoc {
 
 	debug("run " . join(' ', @$cmd));
 
-	system(@$cmd) == 0 or
-	    die "aciidoc error";
+	system(@$cmd) == 0 or die "aciidoc error";
 
 	$cmd = ['xmlto', 'man', $tmpxmlfile];
 
@@ -386,17 +385,14 @@ sub compile_asciidoc {
 
 	debug("run " . join(' ', @$cmd));
 
-	system(@$cmd) == 0 or
-	    die "xmlto error";
+	system(@$cmd) == 0 or die "xmlto error";
 
     } else {
 
 	$attributes->{icons} = undef;
 	$attributes->{'data-uri'} = undef;
 
-	my $cmd = ['asciidoc',
-		   '-f', "$adoc_source_dir/asciidoc/asciidoc-pve.conf",
-	    ];
+	my $cmd = [ 'asciidoc', '-f', "$adoc_source_dir/asciidoc/asciidoc-pve.conf" ];
 
 	if (($env eq 'wiki') ||
 	    (($env eq 'manvolnum') && ($man_target eq 'wiki'))) {
@@ -425,8 +421,7 @@ sub compile_asciidoc {
 
 	debug("run " . join(' ', @$cmd));
 
-	system(@$cmd) == 0 or
-	    die "aciidoc error";
+	system(@$cmd) == 0 or die "aciidoc error";
     }
 }
 
