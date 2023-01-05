@@ -50,14 +50,15 @@ This backend supports all common storage properties, and adds two
 additional properties. The `path` property is used to specify the
 directory. This needs to be an absolute file system path.
 
-The optional `dirs` property allows for the default layout to be
-changed. It consists of a comma-separated list of identifiers in
-the following format:
+The optional `content-dirs` property allows for the default layout 
+to be changed. It consists of a comma-separated list of identifiers 
+in the following format:
 
- vtype:path
+ vtype=path
 
 Where `vtype` is one of the allowed content types for the storage, and
-`path` is an absolute file system path.
+`path` is a path relative to the mountpoint of the storage, preceded
+with /.
 
 .Configuration Example (`/etc/pve/storage.cfg`)
 ----
@@ -66,7 +67,7 @@ dir: backup
         content backup
         prune-backups keep-last=7
         max-protected-backups 3
-        dirs backup:/custom/backup/dir
+        content-dirs backup=/custom/backup/dir
 ----
 
 The above configuration defines a storage pool called `backup`. That pool can be

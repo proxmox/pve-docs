@@ -57,7 +57,7 @@ path::
 
 The local mount point. Optional, defaults to `/mnt/pve/<STORAGE_ID>/`.
 
-dirs::
+content-dirs::
 
 Overrides for the default directory layout. Optional.
 
