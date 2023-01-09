@@ -50,8 +50,8 @@ This backend supports all common storage properties, and adds two
 additional properties. The `path` property is used to specify the
 directory. This needs to be an absolute file system path.
 
-The optional `content-dirs` property allows for the default layout 
-to be changed. It consists of a comma-separated list of identifiers 
+The optional `content-dirs` property allows for the default layout
+to be changed. It consists of a comma-separated list of identifiers
 in the following format:
 
  vtype=path
