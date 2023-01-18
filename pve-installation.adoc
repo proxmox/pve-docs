@@ -306,12 +306,8 @@ ifdef::wiki[]
 Video Tutorials
 ---------------
 
-* List of all official tutorials on our
-  https://www.youtube.com/proxmoxve[{pve} YouTube Channel]
-
-* Tutorials in Spanish language on
-  https://www.youtube.com/playlist?list=PLUULBIhA5QDBdNf1pcTZ5UXhek63Fij8z[ITexperts.es
-  YouTube Play List]
+See the list of all official tutorials on our
+https://www.youtube.com/proxmoxve[{pve} YouTube Channel]
 
 
 See Also
