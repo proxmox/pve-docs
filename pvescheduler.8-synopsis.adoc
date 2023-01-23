@@ -1,0 +1,35 @@
+*pvescheduler* `<COMMAND> [ARGS] [OPTIONS]`
+
+*pvescheduler help* `[OPTIONS]`
+
+Get help about specified command.
+
+`--extra-args` `<array>` ::
+
+Shows help for a specific command
+
+`--verbose` `<boolean>` ::
+
+Verbose output format.
+
+*pvescheduler restart*
+
+Restart the daemon (or start if not running).
+
+*pvescheduler start* `[OPTIONS]`
+
+Start the daemon.
+
+`--debug` `<boolean>` ('default =' `0`)::
+
+Debug mode - stay in foreground
+
+*pvescheduler status*
+
+Get daemon status.
+
+*pvescheduler stop*
+
+Stop the daemon.
+
+
