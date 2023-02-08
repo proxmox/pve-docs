@@ -61,6 +61,10 @@ content-dirs::
 
 Overrides for the default directory layout. Optional.
 
+subdir::
+
+The subdirectory of the share to mount. Optional, defaults to the root directory of the share.
+
 .Configuration Example (`/etc/pve/storage.cfg`)
 ----
 cifs: backup
@@ -70,6 +74,7 @@ cifs: backup
 	content backup
 	username anna
 	smbversion 3
+	subdir /data
 
 ----
 
