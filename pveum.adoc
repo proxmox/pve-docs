@@ -895,9 +895,9 @@ The `path` is a templated parameter (see
 `Permissions.Modify` privilege or,
 depending on the path, the following privileges as a possible substitute:
 +
-* `/storage/...`: additionally requires 'Datastore.Allocate`
-* `/vms/...`: additionally requires 'VM.Allocate`
-* `/pool/...`: additionally requires 'Pool.Allocate`
+* `/storage/...`: requires 'Datastore.Allocate`
+* `/vms/...`: requires 'VM.Allocate`
+* `/pool/...`: requires 'Pool.Allocate`
 +
 If the path is empty, `Permission.Modify` on `/access` is required.
 
