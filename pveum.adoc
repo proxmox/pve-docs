@@ -461,7 +461,7 @@ example, you need to replace the `--issuer-url` and `--client-id` with
 your information:
 
 ----
-pveum realm add myrealm2 --type openid --issuer-url  https://your.server:8080/auth/realms/your-realm --client-id XXX --username-claim username
+pveum realm add myrealm2 --type openid --issuer-url  https://your.server:8080/realms/your-realm --client-id XXX --username-claim username
 ----
 
 Using `--username-claim username` enables simple usernames on the
