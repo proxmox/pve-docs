@@ -174,6 +174,7 @@ live-migration for local disks enabled, you can run:
 pvenode migrateall pve2 --vms 100,101,102 --with-local-disks
 ----
 
+// TODO: explain node shutdown (stopall is used there) and maintenance options
 
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
