@@ -261,7 +261,7 @@ Nodes in your cluster can be managed individually at this level.
 The top header has useful buttons such as 'Reboot', 'Shutdown', 'Shell',
 'Bulk Actions' and 'Help'.
 'Shell' has the options 'noVNC', 'SPICE' and 'xterm.js'.
-'Bulk Actions' has the options 'Bulk Start', 'Bulk Stop' and 'Bulk Migrate'.
+'Bulk Actions' has the options 'Bulk Start', 'Bulk Shutdown' and 'Bulk Migrate'.
 
 * *Search:* search a node for VMs, containers, storage devices, and pools.
 

@@ -135,6 +135,12 @@ command:
 pvenode stopall
 ----
 
+NOTE: The stopall command first attempts to perform a clean shutdown and then
+waits until either all guests have successfully shut down or an overridable
+timeout (3 minutes by default) has expired. Once that happens and the
+force-stop parameter is not explicitly set to 0 (false), all virtual guests
+that are still running are hard stopped.
+
 
 [[first_guest_boot_delay]]
 First Guest Boot Delay
