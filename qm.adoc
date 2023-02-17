@@ -155,6 +155,9 @@ Bus/Controller
 ^^^^^^^^^^^^^^
 QEMU can emulate a number of storage controllers:
 
+TIP: It is highly recommended to use the *VirtIO SCSI* or *VirtIO Block*
+controller for performance reasons and because they are better maintained.
+
 * the *IDE* controller, has a design which goes back to the 1984 PC/AT disk
 controller. Even if this controller has been superseded by recent designs,
 each and every OS you can think of has support for it, making it a great choice
