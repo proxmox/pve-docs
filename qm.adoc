@@ -169,16 +169,15 @@ connected. You can connect up to 6 devices on this controller.
 hardware, and can connect up to 14 storage devices. {pve} emulates by default a
 LSI 53C895A controller.
 +
-A SCSI controller of type _VirtIO SCSI_ is the recommended setting if you aim for
-performance and is automatically selected for newly created Linux VMs since
-{pve} 4.3. Linux distributions have support for this controller since 2012, and
-FreeBSD since 2014. For Windows OSes, you need to provide an extra iso
-containing the drivers during the installation.
+A SCSI controller of type _VirtIO SCSI single_ and enabling the
+xref:qm_hard_disk_iothread[IO Thread] setting for the attached disks is
+recommended if you aim for performance. This is the default for newly created
+Linux VMs since {pve} 7.3. Each disk will have its own _VirtIO SCSI_ controller,
+and QEMU will handle the disks IO in a dedicated thread. Linux distributions
+have support for this controller since 2012, and FreeBSD since 2014. For Windows
+OSes, you need to provide an extra ISO containing the drivers during the
+installation.
 // https://pve.proxmox.com/wiki/Paravirtualized_Block_Drivers_for_Windows#During_windows_installation.
-If you aim at maximum performance, you can select a SCSI controller of type
-_VirtIO SCSI single_ which will allow you to select the *IO Thread* option.
-When selecting _VirtIO SCSI single_ QEMU will create a new controller for
-each disk, instead of adding all disks to the same controller.
 
 * The *VirtIO Block* controller, often just called VirtIO or virtio-blk,
 is an older type of paravirtualized controller. It has been superseded by the
