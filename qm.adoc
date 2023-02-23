@@ -1069,6 +1069,28 @@ know about the change in the underlying storage, only the first guest-trim will
 run as expected. Subsequent ones, until the next reboot, will only consider
 parts of the filesystem that changed since then.
 
+Filesystem Freeze & Thaw on Backup
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+By default, guest filesystems are synced via the 'fs-freeze' QEMU Guest Agent
+Command when a backup is performed, to provide consistency.
+
+On Windows guests, some applications might handle consistent backups themselves
+by hooking into the Windows VSS (Volume Shadow Copy Service) layer, a
+'fs-freeze' then might interfere with that. For example, it has been observed
+that calling 'fs-freeze' with some SQL Servers triggers VSS to call the SQL
+Writer VSS module in a mode that breaks the SQL Server backup chain for
+differential backups.
+
+For such setups you can configure {pve} to not issue a freeze-and-thaw cycle on
+backup by setting the `freeze-fs-on-backup` QGA option to `0`. This can also be
+done via the GUI with the 'Freeze/thaw guest filesystems on backup for
+consistency' option.
+
+NOTE: Disabling this option can potentially lead to backups with inconsistent
+filesystems and should therefore only be disabled if you know what you are
+doing.
+
 Troubleshooting
 ^^^^^^^^^^^^^^^
 
