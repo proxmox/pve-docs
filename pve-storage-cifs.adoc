@@ -61,9 +61,17 @@ content-dirs::
 
 Overrides for the default directory layout. Optional.
 
+options::
+
+Additional CIFS mount options (see `man mount.cifs`). Some options are set
+automatically and shouldn't be set here. {pve} will always set the option
+`soft`. Depending on the configuration, these options are set automatically:
+`username`, `credentials`, `guest`, `domain`, `vers`.
+
 subdir::
 
-The subdirectory of the share to mount. Optional, defaults to the root directory of the share.
+The subdirectory of the share to mount. Optional, defaults to the root directory
+of the share.
 
 .Configuration Example (`/etc/pve/storage.cfg`)
 ----
@@ -72,6 +80,7 @@ cifs: backup
 	server 10.0.0.11
 	share VMData
 	content backup
+	options noserverino,echo_interval=30
 	username anna
 	smbversion 3
 	subdir /data
