@@ -1063,6 +1063,12 @@ operations that have the potential to write out zeros to the storage:
 
 On a thin provisioned storage, this can help to free up unused space.
 
+NOTE: There is a caveat with ext4 on Linux, because it uses an in-memory
+optimization to avoid issuing duplicate TRIM requests. Since the guest doesn't
+know about the change in the underlying storage, only the first guest-trim will
+run as expected. Subsequent ones, until the next reboot, will only consider
+parts of the filesystem that changed since then.
+
 Troubleshooting
 ^^^^^^^^^^^^^^^
 
