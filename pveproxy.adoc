@@ -23,20 +23,20 @@ pveproxy - Proxmox VE API Proxy Daemon
 ======================================
 endif::manvolnum[]
 
-This daemon exposes the whole {pve} API on TCP port 8006 using
-HTTPS. It runs as user `www-data` and has very limited permissions.
-Operation requiring more permissions are forwarded to the local
-`pvedaemon`.
+This daemon exposes the whole {pve} API on TCP port 8006 using HTTPS. It runs
+as user `www-data` and has very limited permissions.  Operation requiring more
+permissions are forwarded to the local `pvedaemon`.
 
-Requests targeted for other nodes are automatically forwarded to those
-nodes. This means that you can manage your whole cluster by connecting
-to a single {pve} node.
+Requests targeted for other nodes are automatically forwarded to those nodes.
+This means that you can manage your whole cluster by connecting to a single
+{pve} node.
 
+[[pveproxy_host_acls]]
 Host based Access Control
 -------------------------
 
-It is possible to configure ``apache2''-like access control
-lists. Values are read from file `/etc/default/pveproxy`. For example:
+It is possible to configure ``apache2''-like access control lists. Values are
+read from file `/etc/default/pveproxy`. For example:
 
 ----
 ALLOW_FROM="10.0.0.1-10.0.0.5,192.168.0.0/22"
@@ -59,9 +59,9 @@ The default policy is `allow`.
 | Match Both Allow & Deny    | deny        | allow
 |===========================================================
 
-
-Listening IP
-------------
+[[pveproxy_listening_address]]
+Listening IP Address
+--------------------
 
 By default the `pveproxy` and `spiceproxy` daemons listen on the wildcard
 address and accept connections from both IPv4 and IPv6 clients.
@@ -167,6 +167,7 @@ used.
 NOTE: DH parameters are only used if a cipher suite utilizing the DH key
 exchange algorithm is negotiated.
 
+[[pveproxy_custom_tls_cert]]
 Alternative HTTPS certificate
 -----------------------------
 
@@ -188,8 +189,9 @@ NOTE: The included ACME integration does not honor this setting.
 
 See the Host System Administration chapter of the documentation for details.
 
-COMPRESSION
------------
+[[pveproxy_response_compression]]
+Response Compression
+--------------------
 
 By default `pveproxy` uses gzip HTTP-level compression for compressible
 content, if the client supports it. This can disabled in `/etc/default/pveproxy`
