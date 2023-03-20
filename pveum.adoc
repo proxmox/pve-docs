@@ -398,8 +398,8 @@ The main options for syncing are:
 Reserved characters
 ^^^^^^^^^^^^^^^^^^^
 
-Certain characters are reserved and cannot be easily used in attribute values
-in DNs without being escaped properly.
+Certain characters are reserved (see https://www.ietf.org/rfc/rfc2253.txt[RFC2253]) and cannot be
+easily used in attribute values in DNs without being escaped properly.
 
 Following characters need escaping:
 
