@@ -837,10 +837,69 @@ case, may result in a reset triggered by the watchdog.
 Node Maintenance
 ----------------
 
-It is sometimes necessary to shutdown or reboot a node to do maintenance tasks,
-such as to replace hardware, or simply to install a new kernel image. This is
-also true when using the HA stack. The behaviour of the HA stack during a
-shutdown can be configured.
+Sometimes it is necessary to perform maintenance on a node, such as replacing
+hardware or simply installing a new kernel image. This also applies while the
+HA stack is in use.
+
+The HA stack can support you mainly in two types of maintenance:
+
+* for general shutdowns or reboots, the behavior can be configured, see
+  xref:ha_manager_shutdown_policy[Shutdown Policy].
+* for maintenance that does not require a shutdown or reboot, or that should
+  not be switched off automatically after only one reboot, you can enable the
+  manual maintenance mode.
+
+
+Maintenance Mode
+~~~~~~~~~~~~~~~~
+
+Enabling the manual maintenance mode will mark the node as unavailable for
+operation, this in turn will migrate away all services to other nodes, which
+are selected through the configured cluster resource scheduler (CRS) mode.
+During migration the original node will be recorded, so that the service can be
+moved back to to that node as soon as the maintenance mode is disabled, and it
+becomes online again.
+
+Currently you can enabled or disable the maintenance mode using the ha-manager
+CLI tool.
+
+.Enabling maintenance mode for a node
+----
+# ha-manager crm-command node-maintenance enable NODENAME
+----
+
+This will queue a CRM command, when the manager processes this command it will
+record the request for maintenance-mode in the manager status. This allows you
+to submit the command on any node, not just on the one you want to place in, or
+out of the maintenance mode.
+
+Once the LRM on the respective node picks the command up it will mark itself as
+unavailable, but still process all migration commands. This means that the LRM
+self-fencing watchdog will stay active until all active services got moved, and
+all running workers finished.
+
+Note that the LRM status will read `maintenance` mode as soon as the LRM
+picked the requested state up, not only when all services got moved away, this
+user experience is planned to be improved in the future.
+For now, you can check for any active HA service left on the node, or watching
+out for a log line like: `pve-ha-lrm[PID]: watchdog closed (disabled)` to know
+when the node finished its transition into the maintenance mode.
+
+NOTE: The manual maintenance mode is not automatically deleted on node reboot,
+but only if it is either manually deactivated using the `ha-manager` CLI or if
+the manager-status is manually cleared.
+
+.Disabling maintenance mode for a node
+----
+# ha-manager crm-command node-maintenance disable NODENAME
+----
+
+The process of disabling the manual maintenance mode is similar to enabling it.
+Using the `ha-manager` CLI command shown above will queue a CRM command that,
+once processed, marks the respective LRM node as available again.
+
+If you deactivate the maintenance mode, all services that were on the node when
+the maintenance mode was activated will be moved back.
 
 [[ha_manager_shutdown_policy]]
 Shutdown Policy
