@@ -403,20 +403,13 @@ in DNs without being escaped properly.
 
 Following characters need escaping:
 
-* Space (` `)
-
+* Space ( )
 * Comma (`,`)
-
 * Plus sign (`+`)
-
 * Double quote (`"`)
-
 * Forward slashes (`/`)
-
 * Angle brackets (`<>`)
-
 * Semicolon (`;`)
-
 * Equals sign (`=`)
 
 To use such characters in DNs, surround the attribute value in double quotes.
