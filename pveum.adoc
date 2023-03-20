@@ -164,6 +164,7 @@ OpenID Connect is implemented as an identity layer on top of the OATH 2.0
 protocol. It allows clients to verify the identity of the user, based on
 authentication performed by an external authorization server.
 
+[[user-realms-pam]]
 Linux PAM Standard Authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -175,6 +176,7 @@ authentication with logins from the realm and to set the realm as the default
 authentication realm.
 
 
+[[user-realms-pve]]
 {pve} Authentication Server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -188,6 +190,7 @@ through {pve}, rather than authenticating against another system. Hence, you are
 required to set a password for this type of user upon creation.
 
 
+[[user-realms-ldap]]
 LDAP
 ~~~~
 
@@ -252,6 +255,7 @@ you must also add them as a user of that realm from the {pve} server. This can
 be carried out automatically with <<pveum_ldap_sync, syncing>>.
 
 
+[[user-realms-ad]]
 Microsoft Active Directory (AD)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
