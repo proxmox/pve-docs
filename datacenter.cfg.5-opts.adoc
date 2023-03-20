@@ -26,13 +26,17 @@ bandwidth limit in KiB/s for restoring guests from backups
 
 Select the default Console viewer. You can either use the builtin java applet (VNC; deprecated and maps to html5), an external virt-viewer comtatible application (SPICE), an HTML5 based vnc viewer (noVNC), or an HTML5 based console client (xtermjs). If the selected viewer is not available (e.g. SPICE not activated for the VM), the fallback is noVNC.
 
-`crs`: `ha=<basic|static>` ::
+`crs`: `[ha=<basic|static>] [,ha-rebalance-on-start=<1|0>]` ::
 
 Cluster resource scheduling settings.
 
 `ha`=`<basic | static>` ('default =' `basic`);;
 
 Configures how the HA manager should select nodes to start or recover services. With 'basic', only the number of services is used, with 'static', static CPU and memory configuration of services is considered.
+
+`ha-rebalance-on-start`=`<boolean>` ('default =' `0`);;
+
+Set to use CRS for selecting a suited node when a HA services request-state changes from stop to start.
 
 `description`: `<string>` ::
 
@@ -104,6 +108,17 @@ Lower, inclusive boundary for free next-id API range.
 
 Upper, exclusive boundary for free next-id API range.
 
+`notify`: `package-updates=<auto|always|never>` ::
+
+Cluster-wide notification settings.
+
+`package-updates`=`<always | auto | never>` ('default =' `auto`);;
+
+Control how often the daily update job should send out notification mails:
+* 'auto' daily for systems with a valid subscription, as those are assumed to be  production-ready and thus should know about pending updates.
+* 'always' every update, if there are new pending updates.
+* 'never' never send a notification for new pending updates.
+
 `registered-tags`: `<tag>[;<tag>...]` ::
 
 A list of tags that require a `Sys.Modify` on '/' to set and delete. Tags set here that are also in 'user-tag-access' also require `Sys.Modify`.
@@ -146,7 +161,7 @@ Privilege options for user-settable tags
 
 `user-allow`=`<existing | free | list | none>` ('default =' `free`);;
 
-Controls which tags can be set or deleted on resources a user controls (such as guests). Users with the `Sys.Modify` privilege on `/` are always  unrestricted. 'none' no tags are usable. 'list' tags from 'user-allow-list' are usable. 'existing' like list, but already existing tags of resources are also usable.'free' no tag restrictions.
+Controls which tags can be set or deleted on resources a user controls (such as guests). Users with the `Sys.Modify` privilege on `/` are always  unrestricted. * 'none' no tags are usable. * 'list' tags from 'user-allow-list' are usable. * 'existing' like list, but already existing tags of resources are also usable.* 'free' no tag restrictions.
 
 `user-allow-list`=`<tag>[;<tag>...]` ;;
 

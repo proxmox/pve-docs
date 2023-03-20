@@ -5193,20 +5193,24 @@ const apiSchema = [
                                           "aws",
                                           "azion",
                                           "azure",
+                                          "bunny",
                                           "cf",
                                           "clouddns",
                                           "cloudns",
                                           "cn",
                                           "conoha",
                                           "constellix",
-                                          "cx",
+                                          "cpanel",
+                                          "curanet",
                                           "cyon",
                                           "da",
                                           "ddnss",
                                           "desec",
                                           "df",
                                           "dgon",
+                                          "dnshome",
                                           "dnsimple",
+                                          "dnsservices",
                                           "do",
                                           "doapi",
                                           "domeneshop",
@@ -5222,11 +5226,12 @@ const apiSchema = [
                                           "edgedns",
                                           "euserv",
                                           "exoscale",
+                                          "fornex",
                                           "freedns",
                                           "gandi_livedns",
                                           "gcloud",
                                           "gd",
-                                          "gdnsdk",
+                                          "geoscaling",
                                           "he",
                                           "hetzner",
                                           "hexonet",
@@ -5244,6 +5249,7 @@ const apiSchema = [
                                           "kas",
                                           "kinghost",
                                           "knot",
+                                          "la",
                                           "leaseweb",
                                           "lexicon",
                                           "linode",
@@ -5257,6 +5263,7 @@ const apiSchema = [
                                           "myapi",
                                           "mydevil",
                                           "mydnsjp",
+                                          "mythic_beasts",
                                           "namecheap",
                                           "namecom",
                                           "namesilo",
@@ -5284,24 +5291,29 @@ const apiSchema = [
                                           "porkbun",
                                           "rackcorp",
                                           "rackspace",
+                                          "rage4",
                                           "rcode0",
                                           "regru",
                                           "scaleway",
                                           "schlundtech",
                                           "selectel",
+                                          "selfhost",
                                           "servercow",
                                           "simply",
                                           "tele3",
                                           "transip",
+                                          "udr",
                                           "ultra",
                                           "unoeuro",
                                           "variomedia",
                                           "veesp",
+                                          "vercel",
                                           "vscale",
                                           "vultr",
                                           "websupport",
                                           "world4you",
                                           "yandex",
+                                          "yc",
                                           "zilore",
                                           "zone",
                                           "zonomi"
@@ -5455,20 +5467,24 @@ const apiSchema = [
                                     "aws",
                                     "azion",
                                     "azure",
+                                    "bunny",
                                     "cf",
                                     "clouddns",
                                     "cloudns",
                                     "cn",
                                     "conoha",
                                     "constellix",
-                                    "cx",
+                                    "cpanel",
+                                    "curanet",
                                     "cyon",
                                     "da",
                                     "ddnss",
                                     "desec",
                                     "df",
                                     "dgon",
+                                    "dnshome",
                                     "dnsimple",
+                                    "dnsservices",
                                     "do",
                                     "doapi",
                                     "domeneshop",
@@ -5484,11 +5500,12 @@ const apiSchema = [
                                     "edgedns",
                                     "euserv",
                                     "exoscale",
+                                    "fornex",
                                     "freedns",
                                     "gandi_livedns",
                                     "gcloud",
                                     "gd",
-                                    "gdnsdk",
+                                    "geoscaling",
                                     "he",
                                     "hetzner",
                                     "hexonet",
@@ -5506,6 +5523,7 @@ const apiSchema = [
                                     "kas",
                                     "kinghost",
                                     "knot",
+                                    "la",
                                     "leaseweb",
                                     "lexicon",
                                     "linode",
@@ -5519,6 +5537,7 @@ const apiSchema = [
                                     "myapi",
                                     "mydevil",
                                     "mydnsjp",
+                                    "mythic_beasts",
                                     "namecheap",
                                     "namecom",
                                     "namesilo",
@@ -5546,24 +5565,29 @@ const apiSchema = [
                                     "porkbun",
                                     "rackcorp",
                                     "rackspace",
+                                    "rage4",
                                     "rcode0",
                                     "regru",
                                     "scaleway",
                                     "schlundtech",
                                     "selectel",
+                                    "selfhost",
                                     "servercow",
                                     "simply",
                                     "tele3",
                                     "transip",
+                                    "udr",
                                     "ultra",
                                     "unoeuro",
                                     "variomedia",
                                     "veesp",
+                                    "vercel",
                                     "vscale",
                                     "vultr",
                                     "websupport",
                                     "world4you",
                                     "yandex",
+                                    "yc",
                                     "zilore",
                                     "zone",
                                     "zonomi"
@@ -6000,6 +6024,230 @@ const apiSchema = [
                         },
                         "protected" : 1,
                         "returns" : {
+                           "description" : "Items for each type of service containing objects for each instance.",
+                           "properties" : {
+                              "mds" : {
+                                 "description" : "Metadata servers configured in the cluster and their properties.",
+                                 "properties" : {
+                                    "{id}" : {
+                                       "description" : "Useful properties are listed, but not the full list.",
+                                       "properties" : {
+                                          "addr" : {
+                                             "description" : "Bind addresses and ports.",
+                                             "type" : "string"
+                                          },
+                                          "ceph_release" : {
+                                             "description" : "Ceph release codename currently used.",
+                                             "type" : "string"
+                                          },
+                                          "ceph_version" : {
+                                             "description" : "Version info currently used by the service.",
+                                             "type" : "string"
+                                          },
+                                          "ceph_version_short" : {
+                                             "description" : "Short version (numerical) info currently used by the service.",
+                                             "type" : "string"
+                                          },
+                                          "hostname" : {
+                                             "description" : "Hostname on which the service is running.",
+                                             "type" : "string"
+                                          },
+                                          "mem_swap_kb" : {
+                                             "description" : "Memory of the service currently in swap.",
+                                             "type" : "integer"
+                                          },
+                                          "mem_total_kb" : {
+                                             "description" : "Memory consumption of the service.",
+                                             "type" : "integer"
+                                          },
+                                          "name" : {
+                                             "description" : "Name of the service instance.",
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
+                              "mgr" : {
+                                 "description" : "Managers configured in the cluster and their properties.",
+                                 "properties" : {
+                                    "{id}" : {
+                                       "description" : "Useful properties are listed, but not the full list.",
+                                       "properties" : {
+                                          "addr" : {
+                                             "description" : "Bind address",
+                                             "type" : "string"
+                                          },
+                                          "ceph_release" : {
+                                             "description" : "Ceph release codename currently used.",
+                                             "type" : "string"
+                                          },
+                                          "ceph_version" : {
+                                             "description" : "Version info currently used by the service.",
+                                             "type" : "string"
+                                          },
+                                          "ceph_version_short" : {
+                                             "description" : "Short version (numerical) info currently used by the service.",
+                                             "type" : "string"
+                                          },
+                                          "hostname" : {
+                                             "description" : "Hostname on which the service is running.",
+                                             "type" : "string"
+                                          },
+                                          "mem_swap_kb" : {
+                                             "description" : "Memory of the service currently in swap.",
+                                             "type" : "integer"
+                                          },
+                                          "mem_total_kb" : {
+                                             "description" : "Memory consumption of the service.",
+                                             "type" : "integer"
+                                          },
+                                          "name" : {
+                                             "description" : "Name of the service instance.",
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
+                              "mon" : {
+                                 "description" : "Monitors configured in the cluster and their properties.",
+                                 "properties" : {
+                                    "{id}" : {
+                                       "description" : "Useful properties are listed, but not the full list.",
+                                       "properties" : {
+                                          "addrs" : {
+                                             "description" : "Bind addresses and ports.",
+                                             "type" : "string"
+                                          },
+                                          "ceph_release" : {
+                                             "description" : "Ceph release codename currently used.",
+                                             "type" : "string"
+                                          },
+                                          "ceph_version" : {
+                                             "description" : "Version info currently used by the service.",
+                                             "type" : "string"
+                                          },
+                                          "ceph_version_short" : {
+                                             "description" : "Short version (numerical) info currently used by the service.",
+                                             "type" : "string"
+                                          },
+                                          "hostname" : {
+                                             "description" : "Hostname on which the service is running.",
+                                             "type" : "string"
+                                          },
+                                          "mem_swap_kb" : {
+                                             "description" : "Memory of the service currently in swap.",
+                                             "type" : "integer"
+                                          },
+                                          "mem_total_kb" : {
+                                             "description" : "Memory consumption of the service.",
+                                             "type" : "integer"
+                                          },
+                                          "name" : {
+                                             "description" : "Name of the service instance.",
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
+                              "node" : {
+                                 "description" : "Ceph version installed on the nodes.",
+                                 "properties" : {
+                                    "{node}" : {
+                                       "properties" : {
+                                          "buildcommit" : {
+                                             "description" : "GIT commit used for the build.",
+                                             "type" : "string"
+                                          },
+                                          "version" : {
+                                             "description" : "Version info.",
+                                             "properties" : {
+                                                "parts" : {
+                                                   "description" : "major, minor & patch",
+                                                   "type" : "array"
+                                                },
+                                                "str" : {
+                                                   "description" : "Version as single string.",
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
+                              "osd" : {
+                                 "description" : "OSDs configured in the cluster and their properties.",
+                                 "properties" : {
+                                    "{id}" : {
+                                       "description" : "Useful properties are listed, but not the full list.",
+                                       "properties" : {
+                                          "back_addr" : {
+                                             "description" : "Bind addresses and ports for backend inter OSD traffic.",
+                                             "type" : "string"
+                                          },
+                                          "ceph_release" : {
+                                             "description" : "Ceph release codename currently used.",
+                                             "type" : "string"
+                                          },
+                                          "ceph_version" : {
+                                             "description" : "Version info currently used by the service.",
+                                             "type" : "string"
+                                          },
+                                          "ceph_version_short" : {
+                                             "description" : "Short version (numerical) info currently used by the service.",
+                                             "type" : "string"
+                                          },
+                                          "device_id" : {
+                                             "description" : "Devices used by the OSD.",
+                                             "type" : "string"
+                                          },
+                                          "front_addr" : {
+                                             "description" : "Bind addresses and ports for frontend traffic to OSDs.",
+                                             "type" : "string"
+                                          },
+                                          "hostname" : {
+                                             "description" : "Hostname on which the service is running.",
+                                             "type" : "string"
+                                          },
+                                          "id" : {
+                                             "description" : "OSD ID.",
+                                             "type" : "integer"
+                                          },
+                                          "mem_swap_kb" : {
+                                             "description" : "Memory of the service currently in swap.",
+                                             "type" : "integer"
+                                          },
+                                          "mem_total_kb" : {
+                                             "description" : "Memory consumption of the service.",
+                                             "type" : "integer"
+                                          },
+                                          "osd_data" : {
+                                             "description" : "Path to the OSD data directory.",
+                                             "type" : "string"
+                                          },
+                                          "osd_objectstore" : {
+                                             "description" : "OSD objectstore type.",
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 },
+                                 "type" : "array"
+                              }
+                           },
                            "type" : "object"
                         }
                      }
@@ -6160,6 +6408,10 @@ const apiSchema = [
                            "items" : {
                               "additionalProperties" : 1,
                               "properties" : {
+                                 "description" : {
+                                    "description" : "Flag description.",
+                                    "type" : "string"
+                                 },
                                  "name" : {
                                     "description" : "Flag name.",
                                     "enum" : [
@@ -6176,6 +6428,10 @@ const apiSchema = [
                                        "pause"
                                     ],
                                     "type" : "string"
+                                 },
+                                 "value" : {
+                                    "description" : "Flag value.",
+                                    "type" : "boolean"
                                  }
                               },
                               "type" : "object"
@@ -8698,13 +8954,20 @@ const apiSchema = [
                                     "basic",
                                     "static"
                                  ],
+                                 "optional" : 1,
                                  "type" : "string",
                                  "verbose_description" : "Configures how the HA manager should select nodes to start or recover services. With 'basic', only the number of services is used, with 'static', static CPU and memory configuration of services is considered."
+                              },
+                              "ha-rebalance-on-start" : {
+                                 "default" : 0,
+                                 "description" : "Set to use CRS for selecting a suited node when a HA services request-state changes from stop to start.",
+                                 "optional" : 1,
+                                 "type" : "boolean"
                               }
                            },
                            "optional" : 1,
                            "type" : "string",
-                           "typetext" : "ha=<basic|static>"
+                           "typetext" : "[ha=<basic|static>] [,ha-rebalance-on-start=<1|0>]"
                         },
                         "delete" : {
                            "description" : "A list of settings you want to delete.",
@@ -8893,6 +9156,25 @@ const apiSchema = [
                            "type" : "string",
                            "typetext" : "[lower=<integer>] [,upper=<integer>]"
                         },
+                        "notify" : {
+                           "description" : "Cluster-wide notification settings.",
+                           "format" : {
+                              "package-updates" : {
+                                 "default" : "auto",
+                                 "description" : "Control when the daily update job should send out notification mails.",
+                                 "enum" : [
+                                    "auto",
+                                    "always",
+                                    "never"
+                                 ],
+                                 "type" : "string",
+                                 "verbose_description" : "Control how often the daily update job should send out notification mails:\n* 'auto' daily for systems with a valid subscription, as those are assumed to be  production-ready and thus should know about pending updates.\n* 'always' every update, if there are new pending updates.\n* 'never' never send a notification for new pending updates.\n"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "package-updates=<auto|always|never>"
+                        },
                         "registered-tags" : {
                            "description" : "A list of tags that require a `Sys.Modify` on '/' to set and delete. Tags set here that are also in 'user-tag-access' also require `Sys.Modify`.",
                            "optional" : 1,
@@ -8977,7 +9259,7 @@ const apiSchema = [
                                  ],
                                  "optional" : 1,
                                  "type" : "string",
-                                 "verbose_description" : "Controls which tags can be set or deleted on resources a user controls (such as guests). Users with the `Sys.Modify` privilege on `/` are always  unrestricted. 'none' no tags are usable. 'list' tags from 'user-allow-list' are usable. 'existing' like list, but already existing tags of resources are also usable.'free' no tag restrictions."
+                                 "verbose_description" : "Controls which tags can be set or deleted on resources a user controls (such as guests). Users with the `Sys.Modify` privilege on `/` are always  unrestricted. * 'none' no tags are usable. * 'list' tags from 'user-allow-list' are usable. * 'existing' like list, but already existing tags of resources are also usable.* 'free' no tag restrictions."
                               },
                               "user-allow-list" : {
                                  "description" : "List of tags users are allowed to set and delete (semicolon separated) for 'user-allow' values 'list' and 'existing'.",
@@ -10877,7 +11159,21 @@ const apiSchema = [
                                                    "type" : "string",
                                                    "typetext" : "<string>"
                                                 },
+                                                "since" : {
+                                                   "description" : "Display log since this UNIX epoch.",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (0 - N)"
+                                                },
                                                 "start" : {
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (0 - N)"
+                                                },
+                                                "until" : {
+                                                   "description" : "Display log until this UNIX epoch.",
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer",
@@ -12310,7 +12606,7 @@ const apiSchema = [
                               "info" : {
                                  "GET" : {
                                     "allowtoken" : 1,
-                                    "description" : "Qemu Agent command index.",
+                                    "description" : "QEMU Guest Agent command index.",
                                     "method" : "GET",
                                     "name" : "index",
                                     "parameters" : {
@@ -12336,7 +12632,7 @@ const apiSchema = [
                                     },
                                     "proxyto" : "node",
                                     "returns" : {
-                                       "description" : "Returns the list of Qemu Agent commands",
+                                       "description" : "Returns the list of QEMU Guest Agent commands",
                                        "items" : {
                                           "properties" : {},
                                           "type" : "object"
@@ -12352,7 +12648,7 @@ const apiSchema = [
                                  },
                                  "POST" : {
                                     "allowtoken" : 1,
-                                    "description" : "Execute Qemu Guest Agent commands.",
+                                    "description" : "Execute QEMU Guest Agent commands.",
                                     "method" : "POST",
                                     "name" : "agent",
                                     "parameters" : {
@@ -12629,12 +12925,18 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "agent" : {
-                                             "description" : "Enable/disable communication with the Qemu Guest Agent and its properties.",
+                                             "description" : "Enable/disable communication with the QEMU Guest Agent and its properties.",
                                              "format" : {
                                                 "enabled" : {
                                                    "default" : 0,
                                                    "default_key" : 1,
-                                                   "description" : "Enable/disable communication with a Qemu Guest Agent (QGA) running in the VM.",
+                                                   "description" : "Enable/disable communication with a QEMU Guest Agent (QGA) running in the VM.",
+                                                   "type" : "boolean"
+                                                },
+                                                "freeze-fs-on-backup" : {
+                                                   "default" : 1,
+                                                   "description" : "Freeze/thaw guest filesystems on backup for consistency.",
+                                                   "optional" : 1,
                                                    "type" : "boolean"
                                                 },
                                                 "fstrim_cloned_disks" : {
@@ -12705,7 +13007,7 @@ const apiSchema = [
                                              "type" : "boolean"
                                           },
                                           "balloon" : {
-                                             "description" : "Amount of target RAM for the VM in MB. Using zero disables the ballon driver.",
+                                             "description" : "Amount of target RAM for the VM in MiB. Using zero disables the ballon driver.",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer"
@@ -12808,11 +13110,11 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "efidisk0" : {
-                                             "description" : "Configure a Disk for storing EFI vars.",
+                                             "description" : "Configure a disk for storing EFI vars.",
                                              "format" : {
                                                 "efitype" : {
                                                    "default" : "2m",
-                                                   "description" : "Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified.",
+                                                   "description" : "Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified. Ignored for VMs with arch=aarc64 (ARM).",
                                                    "enum" : [
                                                       "2m",
                                                       "4m"
@@ -13313,7 +13615,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "machine" : {
-                                             "description" : "Specifies the Qemu machine type.",
+                                             "description" : "Specifies the QEMU machine type.",
                                              "maxLength" : 40,
                                              "optional" : 1,
                                              "pattern" : "(pc|pc(-i440fx)?-\\d+(\\.\\d+)+(\\+pve\\d+)?(\\.pxe)?|q35|pc-q35-\\d+(\\.\\d+)+(\\+pve\\d+)?(\\.pxe)?|virt(?:-\\d+(\\.\\d+)+)?(\\+pve\\d+)?)",
@@ -13321,7 +13623,7 @@ const apiSchema = [
                                           },
                                           "memory" : {
                                              "default" : 512,
-                                             "description" : "Amount of RAM for the VM in MB. This is the maximum available memory when you use the balloon device.",
+                                             "description" : "Amount of RAM for the VM in MiB. This is the maximum available memory when you use the balloon device.",
                                              "minimum" : 16,
                                              "optional" : 1,
                                              "type" : "integer"
@@ -13561,7 +13863,7 @@ const apiSchema = [
                                              ],
                                              "optional" : 1,
                                              "type" : "string",
-                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016/2019\nwin11;; Microsoft Windows 11/2022\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6 - 5.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
+                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016/2019\nwin11;; Microsoft Windows 11/2022\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6 - 6.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
                                           },
                                           "parallel[n]" : {
                                              "description" : "Map host parallel devices (n is 0 to 2).",
@@ -14872,12 +15174,18 @@ const apiSchema = [
                                              "typetext" : "<string>"
                                           },
                                           "agent" : {
-                                             "description" : "Enable/disable communication with the Qemu Guest Agent and its properties.",
+                                             "description" : "Enable/disable communication with the QEMU Guest Agent and its properties.",
                                              "format" : {
                                                 "enabled" : {
                                                    "default" : 0,
                                                    "default_key" : 1,
-                                                   "description" : "Enable/disable communication with a Qemu Guest Agent (QGA) running in the VM.",
+                                                   "description" : "Enable/disable communication with a QEMU Guest Agent (QGA) running in the VM.",
+                                                   "type" : "boolean"
+                                                },
+                                                "freeze-fs-on-backup" : {
+                                                   "default" : 1,
+                                                   "description" : "Freeze/thaw guest filesystems on backup for consistency.",
+                                                   "optional" : 1,
                                                    "type" : "boolean"
                                                 },
                                                 "fstrim_cloned_disks" : {
@@ -14899,7 +15207,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]"
+                                             "typetext" : "[enabled=]<1|0> [,freeze-fs-on-backup=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]"
                                           },
                                           "arch" : {
                                              "description" : "Virtual processor architecture. Defaults to the host.",
@@ -14960,7 +15268,7 @@ const apiSchema = [
                                              "typetext" : "<integer> (1 - 30)"
                                           },
                                           "balloon" : {
-                                             "description" : "Amount of target RAM for the VM in MB. Using zero disables the ballon driver.",
+                                             "description" : "Amount of target RAM for the VM in MiB. Using zero disables the ballon driver.",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
@@ -15083,11 +15391,11 @@ const apiSchema = [
                                              "typetext" : "<string>"
                                           },
                                           "efidisk0" : {
-                                             "description" : "Configure a Disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
+                                             "description" : "Configure a disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
                                              "format" : {
                                                 "efitype" : {
                                                    "default" : "2m",
-                                                   "description" : "Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified.",
+                                                   "description" : "Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified. Ignored for VMs with arch=aarc64 (ARM).",
                                                    "enum" : [
                                                       "2m",
                                                       "4m"
@@ -15620,7 +15928,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "machine" : {
-                                             "description" : "Specifies the Qemu machine type.",
+                                             "description" : "Specifies the QEMU machine type.",
                                              "maxLength" : 40,
                                              "optional" : 1,
                                              "pattern" : "(pc|pc(-i440fx)?-\\d+(\\.\\d+)+(\\+pve\\d+)?(\\.pxe)?|q35|pc-q35-\\d+(\\.\\d+)+(\\+pve\\d+)?(\\.pxe)?|virt(?:-\\d+(\\.\\d+)+)?(\\+pve\\d+)?)",
@@ -15628,7 +15936,7 @@ const apiSchema = [
                                           },
                                           "memory" : {
                                              "default" : 512,
-                                             "description" : "Amount of RAM for the VM in MB. This is the maximum available memory when you use the balloon device.",
+                                             "description" : "Amount of RAM for the VM in MiB. This is the maximum available memory when you use the balloon device.",
                                              "minimum" : 16,
                                              "optional" : 1,
                                              "type" : "integer",
@@ -15883,7 +16191,7 @@ const apiSchema = [
                                              ],
                                              "optional" : 1,
                                              "type" : "string",
-                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016/2019\nwin11;; Microsoft Windows 11/2022\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6 - 5.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
+                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016/2019\nwin11;; Microsoft Windows 11/2022\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6 - 6.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
                                           },
                                           "parallel[n]" : {
                                              "description" : "Map host parallel devices (n is 0 to 2).",
@@ -17289,12 +17597,18 @@ const apiSchema = [
                                              "typetext" : "<string>"
                                           },
                                           "agent" : {
-                                             "description" : "Enable/disable communication with the Qemu Guest Agent and its properties.",
+                                             "description" : "Enable/disable communication with the QEMU Guest Agent and its properties.",
                                              "format" : {
                                                 "enabled" : {
                                                    "default" : 0,
                                                    "default_key" : 1,
-                                                   "description" : "Enable/disable communication with a Qemu Guest Agent (QGA) running in the VM.",
+                                                   "description" : "Enable/disable communication with a QEMU Guest Agent (QGA) running in the VM.",
+                                                   "type" : "boolean"
+                                                },
+                                                "freeze-fs-on-backup" : {
+                                                   "default" : 1,
+                                                   "description" : "Freeze/thaw guest filesystems on backup for consistency.",
+                                                   "optional" : 1,
                                                    "type" : "boolean"
                                                 },
                                                 "fstrim_cloned_disks" : {
@@ -17316,7 +17630,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]"
+                                             "typetext" : "[enabled=]<1|0> [,freeze-fs-on-backup=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]"
                                           },
                                           "arch" : {
                                              "description" : "Virtual processor architecture. Defaults to the host.",
@@ -17369,7 +17683,7 @@ const apiSchema = [
                                              "typetext" : "<boolean>"
                                           },
                                           "balloon" : {
-                                             "description" : "Amount of target RAM for the VM in MB. Using zero disables the ballon driver.",
+                                             "description" : "Amount of target RAM for the VM in MiB. Using zero disables the ballon driver.",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
@@ -17492,11 +17806,11 @@ const apiSchema = [
                                              "typetext" : "<string>"
                                           },
                                           "efidisk0" : {
-                                             "description" : "Configure a Disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
+                                             "description" : "Configure a disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
                                              "format" : {
                                                 "efitype" : {
                                                    "default" : "2m",
-                                                   "description" : "Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified.",
+                                                   "description" : "Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified. Ignored for VMs with arch=aarc64 (ARM).",
                                                    "enum" : [
                                                       "2m",
                                                       "4m"
@@ -18029,7 +18343,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "machine" : {
-                                             "description" : "Specifies the Qemu machine type.",
+                                             "description" : "Specifies the QEMU machine type.",
                                              "maxLength" : 40,
                                              "optional" : 1,
                                              "pattern" : "(pc|pc(-i440fx)?-\\d+(\\.\\d+)+(\\+pve\\d+)?(\\.pxe)?|q35|pc-q35-\\d+(\\.\\d+)+(\\+pve\\d+)?(\\.pxe)?|virt(?:-\\d+(\\.\\d+)+)?(\\+pve\\d+)?)",
@@ -18037,7 +18351,7 @@ const apiSchema = [
                                           },
                                           "memory" : {
                                              "default" : 512,
-                                             "description" : "Amount of RAM for the VM in MB. This is the maximum available memory when you use the balloon device.",
+                                             "description" : "Amount of RAM for the VM in MiB. This is the maximum available memory when you use the balloon device.",
                                              "minimum" : 16,
                                              "optional" : 1,
                                              "type" : "integer",
@@ -18292,7 +18606,7 @@ const apiSchema = [
                                              ],
                                              "optional" : 1,
                                              "type" : "string",
-                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016/2019\nwin11;; Microsoft Windows 11/2022\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6 - 5.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
+                                             "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016/2019\nwin11;; Microsoft Windows 11/2022\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6 - 6.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
                                           },
                                           "parallel[n]" : {
                                              "description" : "Map host parallel devices (n is 0 to 2).",
@@ -20281,7 +20595,7 @@ const apiSchema = [
                                           "returns" : {
                                              "properties" : {
                                                 "agent" : {
-                                                   "description" : "Qemu GuestAgent enabled in config.",
+                                                   "description" : "QEMU Guest Agent is enabled in config.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -20322,7 +20636,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "qmpstatus" : {
-                                                   "description" : "Qemu QMP agent status.",
+                                                   "description" : "QEMU QMP agent status.",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -20337,12 +20651,12 @@ const apiSchema = [
                                                    "type" : "string"
                                                 },
                                                 "spice" : {
-                                                   "description" : "Qemu VGA configuration supports spice.",
+                                                   "description" : "QEMU VGA configuration supports spice.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
                                                 "status" : {
-                                                   "description" : "Qemu process status.",
+                                                   "description" : "QEMU process status.",
                                                    "enum" : [
                                                       "stopped",
                                                       "running"
@@ -20392,7 +20706,7 @@ const apiSchema = [
                                                    "typetext" : "<string>"
                                                 },
                                                 "machine" : {
-                                                   "description" : "Specifies the Qemu machine type.",
+                                                   "description" : "Specifies the QEMU machine type.",
                                                    "maxLength" : 40,
                                                    "optional" : 1,
                                                    "pattern" : "(pc|pc(-i440fx)?-\\d+(\\.\\d+)+(\\+pve\\d+)?(\\.pxe)?|q35|pc-q35-\\d+(\\.\\d+)+(\\+pve\\d+)?(\\.pxe)?|virt(?:-\\d+(\\.\\d+)+)?(\\+pve\\d+)?)",
@@ -22187,7 +22501,7 @@ const apiSchema = [
                               "info" : {
                                  "POST" : {
                                     "allowtoken" : 1,
-                                    "description" : "Execute Qemu monitor commands.",
+                                    "description" : "Execute QEMU monitor commands.",
                                     "method" : "POST",
                                     "name" : "monitor",
                                     "parameters" : {
@@ -22497,7 +22811,7 @@ const apiSchema = [
                                                       },
                                                       "start" : {
                                                          "default" : 0,
-                                                         "description" : "Whether the VM should get started after rolling back successfully",
+                                                         "description" : "Whether the VM should get started after rolling back successfully. (Note: VMs will be automatically started if the snapshot includes RAM.)",
                                                          "optional" : 1,
                                                          "type" : "boolean",
                                                          "typetext" : "<boolean>"
@@ -23205,7 +23519,7 @@ const apiSchema = [
                                     "type" : "integer"
                                  },
                                  "qmpstatus" : {
-                                    "description" : "Qemu QMP agent status.",
+                                    "description" : "QEMU QMP agent status.",
                                     "optional" : 1,
                                     "type" : "string"
                                  },
@@ -23220,7 +23534,7 @@ const apiSchema = [
                                     "type" : "string"
                                  },
                                  "status" : {
-                                    "description" : "Qemu process status.",
+                                    "description" : "QEMU process status.",
                                     "enum" : [
                                        "stopped",
                                        "running"
@@ -23279,12 +23593,18 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "agent" : {
-                                 "description" : "Enable/disable communication with the Qemu Guest Agent and its properties.",
+                                 "description" : "Enable/disable communication with the QEMU Guest Agent and its properties.",
                                  "format" : {
                                     "enabled" : {
                                        "default" : 0,
                                        "default_key" : 1,
-                                       "description" : "Enable/disable communication with a Qemu Guest Agent (QGA) running in the VM.",
+                                       "description" : "Enable/disable communication with a QEMU Guest Agent (QGA) running in the VM.",
+                                       "type" : "boolean"
+                                    },
+                                    "freeze-fs-on-backup" : {
+                                       "default" : 1,
+                                       "description" : "Freeze/thaw guest filesystems on backup for consistency.",
+                                       "optional" : 1,
                                        "type" : "boolean"
                                     },
                                     "fstrim_cloned_disks" : {
@@ -23306,7 +23626,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]"
+                                 "typetext" : "[enabled=]<1|0> [,freeze-fs-on-backup=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]"
                               },
                               "arch" : {
                                  "description" : "Virtual processor architecture. Defaults to the host.",
@@ -23366,7 +23686,7 @@ const apiSchema = [
                                  "typetext" : "<boolean>"
                               },
                               "balloon" : {
-                                 "description" : "Amount of target RAM for the VM in MB. Using zero disables the ballon driver.",
+                                 "description" : "Amount of target RAM for the VM in MiB. Using zero disables the ballon driver.",
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
@@ -23483,11 +23803,11 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "efidisk0" : {
-                                 "description" : "Configure a Disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
+                                 "description" : "Configure a disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
                                  "format" : {
                                     "efitype" : {
                                        "default" : "2m",
-                                       "description" : "Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified.",
+                                       "description" : "Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified. Ignored for VMs with arch=aarc64 (ARM).",
                                        "enum" : [
                                           "2m",
                                           "4m"
@@ -24027,7 +24347,7 @@ const apiSchema = [
                                  "type" : "string"
                               },
                               "machine" : {
-                                 "description" : "Specifies the Qemu machine type.",
+                                 "description" : "Specifies the QEMU machine type.",
                                  "maxLength" : 40,
                                  "optional" : 1,
                                  "pattern" : "(pc|pc(-i440fx)?-\\d+(\\.\\d+)+(\\+pve\\d+)?(\\.pxe)?|q35|pc-q35-\\d+(\\.\\d+)+(\\+pve\\d+)?(\\.pxe)?|virt(?:-\\d+(\\.\\d+)+)?(\\+pve\\d+)?)",
@@ -24035,7 +24355,7 @@ const apiSchema = [
                               },
                               "memory" : {
                                  "default" : 512,
-                                 "description" : "Amount of RAM for the VM in MB. This is the maximum available memory when you use the balloon device.",
+                                 "description" : "Amount of RAM for the VM in MiB. This is the maximum available memory when you use the balloon device.",
                                  "minimum" : 16,
                                  "optional" : 1,
                                  "type" : "integer",
@@ -24290,7 +24610,7 @@ const apiSchema = [
                                  ],
                                  "optional" : 1,
                                  "type" : "string",
-                                 "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016/2019\nwin11;; Microsoft Windows 11/2022\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6 - 5.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
+                                 "verbose_description" : "Specify guest operating system. This is used to enable special\noptimization/features for specific operating systems:\n\n[horizontal]\nother;; unspecified OS\nwxp;; Microsoft Windows XP\nw2k;; Microsoft Windows 2000\nw2k3;; Microsoft Windows 2003\nw2k8;; Microsoft Windows 2008\nwvista;; Microsoft Windows Vista\nwin7;; Microsoft Windows 7\nwin8;; Microsoft Windows 8/2012/2012r2\nwin10;; Microsoft Windows 10/2016/2019\nwin11;; Microsoft Windows 11/2022\nl24;; Linux 2.4 Kernel\nl26;; Linux 2.6 - 6.X Kernel\nsolaris;; Solaris/OpenSolaris/OpenIndiania kernel\n"
                               },
                               "parallel[n]" : {
                                  "description" : "Map host parallel devices (n is 0 to 2).",
@@ -25741,7 +26061,9 @@ const apiSchema = [
                                                 "amd64",
                                                 "i386",
                                                 "arm64",
-                                                "armhf"
+                                                "armhf",
+                                                "riscv32",
+                                                "riscv64"
                                              ],
                                              "optional" : 1,
                                              "type" : "string"
@@ -26021,6 +26343,11 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "link_down" : {
+                                                   "description" : "Whether this interface should be disconnected (like pulling the plug).",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "mtu" : {
                                                    "description" : "Maximum transfer unit of the interface. (lxc.network.mtu)",
                                                    "maximum" : 65535,
@@ -26237,7 +26564,9 @@ const apiSchema = [
                                                 "amd64",
                                                 "i386",
                                                 "arm64",
-                                                "armhf"
+                                                "armhf",
+                                                "riscv32",
+                                                "riscv64"
                                              ],
                                              "optional" : 1,
                                              "type" : "string"
@@ -26528,6 +26857,11 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "link_down" : {
+                                                   "description" : "Whether this interface should be disconnected (like pulling the plug).",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "mtu" : {
                                                    "description" : "Maximum transfer unit of the interface. (lxc.network.mtu)",
                                                    "maximum" : 65535,
@@ -26572,7 +26906,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<(IPv4/CIDR|dhcp|manual)>] [,ip6=<(IPv6/CIDR|auto|dhcp|manual)>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]"
+                                             "typetext" : "name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<(IPv4/CIDR|dhcp|manual)>] [,ip6=<(IPv6/CIDR|auto|dhcp|manual)>] [,link_down=<1|0>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]"
                                           },
                                           "node" : {
                                              "description" : "The cluster node name.",
@@ -29338,7 +29672,21 @@ const apiSchema = [
                                                    "type" : "string",
                                                    "typetext" : "<string>"
                                                 },
+                                                "since" : {
+                                                   "description" : "Display log since this UNIX epoch.",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (0 - N)"
+                                                },
                                                 "start" : {
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (0 - N)"
+                                                },
+                                                "until" : {
+                                                   "description" : "Display log until this UNIX epoch.",
                                                    "minimum" : 0,
                                                    "optional" : 1,
                                                    "type" : "integer",
@@ -32239,7 +32587,9 @@ const apiSchema = [
                                     "amd64",
                                     "i386",
                                     "arm64",
-                                    "armhf"
+                                    "armhf",
+                                    "riscv32",
+                                    "riscv64"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -32536,6 +32886,11 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
+                                    "link_down" : {
+                                       "description" : "Whether this interface should be disconnected (like pulling the plug).",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
                                     "mtu" : {
                                        "description" : "Maximum transfer unit of the interface. (lxc.network.mtu)",
                                        "maximum" : 65535,
@@ -32580,7 +32935,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<(IPv4/CIDR|dhcp|manual)>] [,ip6=<(IPv6/CIDR|auto|dhcp|manual)>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]"
+                                 "typetext" : "name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<(IPv4/CIDR|dhcp|manual)>] [,ip6=<(IPv6/CIDR|auto|dhcp|manual)>] [,link_down=<1|0>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]"
                               },
                               "node" : {
                                  "description" : "The cluster node name.",
@@ -32834,7 +33189,370 @@ const apiSchema = [
                      {
                         "children" : [
                            {
+                              "info" : {
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Get the Ceph configuration file.",
+                                    "method" : "GET",
+                                    "name" : "raw",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/",
+                                          [
+                                             "Sys.Audit",
+                                             "Datastore.Audit"
+                                          ],
+                                          "any",
+                                          1
+                                       ]
+                                    },
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/ceph/cfg/raw",
+                              "text" : "raw"
+                           },
+                           {
+                              "info" : {
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Get the Ceph configuration database.",
+                                    "method" : "GET",
+                                    "name" : "db",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/",
+                                          [
+                                             "Sys.Audit",
+                                             "Datastore.Audit"
+                                          ],
+                                          "any",
+                                          1
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "items" : {
+                                          "properties" : {
+                                             "can_update_at_runtime" : {
+                                                "type" : "boolean"
+                                             },
+                                             "level" : {
+                                                "type" : "string"
+                                             },
+                                             "mask" : {
+                                                "type" : "string"
+                                             },
+                                             "name" : {
+                                                "type" : "string"
+                                             },
+                                             "section" : {
+                                                "type" : "string"
+                                             },
+                                             "value" : {
+                                                "type" : "string"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "type" : "array"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/ceph/cfg/db",
+                              "text" : "db"
+                           }
+                        ],
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Directory index.",
+                              "method" : "GET",
+                              "name" : "index",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "user" : "all"
+                              },
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {},
+                                    "type" : "object"
+                                 },
+                                 "links" : [
+                                    {
+                                       "href" : "{name}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
+                        "path" : "/nodes/{node}/ceph/cfg",
+                        "text" : "cfg"
+                     },
+                     {
+                        "children" : [
+                           {
                               "children" : [
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "allowtoken" : 1,
+                                          "description" : "Get OSD details",
+                                          "method" : "GET",
+                                          "name" : "osddetails",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "osdid" : {
+                                                   "description" : "OSD ID",
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer>"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/",
+                                                [
+                                                   "Sys.Audit"
+                                                ],
+                                                "any",
+                                                1
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "properties" : {
+                                                "devices" : {
+                                                   "description" : "Array containing data about devices",
+                                                   "items" : {
+                                                      "properties" : {
+                                                         "dev_node" : {
+                                                            "description" : "Device node",
+                                                            "type" : "string"
+                                                         },
+                                                         "device" : {
+                                                            "description" : "Kind of OSD device",
+                                                            "enum" : [
+                                                               "block",
+                                                               "db",
+                                                               "wal"
+                                                            ],
+                                                            "type" : "string"
+                                                         },
+                                                         "devices" : {
+                                                            "description" : "Physical disks used",
+                                                            "type" : "string"
+                                                         },
+                                                         "size" : {
+                                                            "description" : "Size in bytes",
+                                                            "type" : "integer"
+                                                         },
+                                                         "support_discard" : {
+                                                            "description" : "Discard support of the physical device",
+                                                            "type" : "boolean"
+                                                         },
+                                                         "type" : {
+                                                            "description" : "Type of device. For example, hdd or ssd",
+                                                            "type" : "string"
+                                                         }
+                                                      },
+                                                      "type" : "object"
+                                                   },
+                                                   "type" : "array"
+                                                },
+                                                "osd" : {
+                                                   "description" : "General information about the OSD",
+                                                   "properties" : {
+                                                      "back_addr" : {
+                                                         "description" : "Address and port used to talk to other OSDs.",
+                                                         "type" : "string"
+                                                      },
+                                                      "front_addr" : {
+                                                         "description" : "Address and port used to talk to clients and monitors.",
+                                                         "type" : "string"
+                                                      },
+                                                      "hb_back_addr" : {
+                                                         "description" : "Heartbeat address and port for other OSDs.",
+                                                         "type" : "string"
+                                                      },
+                                                      "hb_front_addr" : {
+                                                         "description" : "Heartbeat address and port for clients and monitors.",
+                                                         "type" : "string"
+                                                      },
+                                                      "hostname" : {
+                                                         "description" : "Name of the host containing the OSD.",
+                                                         "type" : "string"
+                                                      },
+                                                      "id" : {
+                                                         "description" : "ID of the OSD.",
+                                                         "type" : "integer"
+                                                      },
+                                                      "mem_usage" : {
+                                                         "description" : "Memory usage of the OSD service.",
+                                                         "type" : "integer"
+                                                      },
+                                                      "osd_data" : {
+                                                         "description" : "Path to the OSD's data directory.",
+                                                         "type" : "string"
+                                                      },
+                                                      "osd_objectstore" : {
+                                                         "description" : "The type of object store used.",
+                                                         "type" : "string"
+                                                      },
+                                                      "pid" : {
+                                                         "description" : "OSD process ID.",
+                                                         "type" : "integer"
+                                                      },
+                                                      "version" : {
+                                                         "description" : "Ceph version of the OSD service.",
+                                                         "type" : "string"
+                                                      }
+                                                   },
+                                                   "type" : "object"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/ceph/osd/{osdid}/metadata",
+                                    "text" : "metadata"
+                                 },
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "allowtoken" : 1,
+                                          "description" : "Get OSD volume details",
+                                          "method" : "GET",
+                                          "name" : "osdvolume",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "osdid" : {
+                                                   "description" : "OSD ID",
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer>"
+                                                },
+                                                "type" : {
+                                                   "default" : "block",
+                                                   "description" : "OSD device type",
+                                                   "enum" : [
+                                                      "block",
+                                                      "db",
+                                                      "wal"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/",
+                                                [
+                                                   "Sys.Audit"
+                                                ],
+                                                "any",
+                                                1
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "properties" : {
+                                                "creation_time" : {
+                                                   "description" : "Creation time as reported by `lvs`.",
+                                                   "type" : "string"
+                                                },
+                                                "lv_name" : {
+                                                   "description" : "Name of the logical volume (LV).",
+                                                   "type" : "string"
+                                                },
+                                                "lv_path" : {
+                                                   "description" : "Path to the logical volume (LV).",
+                                                   "type" : "string"
+                                                },
+                                                "lv_size" : {
+                                                   "description" : "Size of the logical volume (LV).",
+                                                   "type" : "integer"
+                                                },
+                                                "lv_uuid" : {
+                                                   "description" : "UUID of the logical volume (LV).",
+                                                   "type" : "string"
+                                                },
+                                                "vg_name" : {
+                                                   "description" : "Name of the volume group (VG).",
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/ceph/osd/{osdid}/lv-info",
+                                    "text" : "lv-info"
+                                 },
                                  {
                                     "info" : {
                                        "POST" : {
@@ -33006,6 +33724,44 @@ const apiSchema = [
                                     "returns" : {
                                        "type" : "string"
                                     }
+                                 },
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "OSD index.",
+                                    "method" : "GET",
+                                    "name" : "osdindex",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "osdid" : {
+                                             "description" : "OSD ID",
+                                             "type" : "integer",
+                                             "typetext" : "<integer>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "user" : "all"
+                                    },
+                                    "returns" : {
+                                       "items" : {
+                                          "properties" : {},
+                                          "type" : "object"
+                                       },
+                                       "links" : [
+                                          {
+                                             "href" : "{name}",
+                                             "rel" : "child"
+                                          }
+                                       ],
+                                       "type" : "array"
+                                    }
                                  }
                               },
                               "leaf" : 0,
@@ -33045,6 +33801,18 @@ const apiSchema = [
                               "protected" : 1,
                               "proxyto" : "node",
                               "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "flags" : {
+                                          "type" : "string"
+                                       },
+                                       "root" : {
+                                          "description" : "Tree with OSDs in the CRUSH map structure.",
+                                          "type" : "object"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
                                  "type" : "object"
                               }
                            },
@@ -33571,11 +34339,39 @@ const apiSchema = [
                                           "optional" : 1,
                                           "type" : "string"
                                        },
-                                       "host" : {
+                                       "ceph_version" : {
                                           "optional" : 1,
                                           "type" : "string"
                                        },
+                                       "ceph_version_short" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "direxists" : {
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "host" : {
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       },
                                        "name" : {
+                                          "type" : "string"
+                                       },
+                                       "quorum" : {
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       },
+                                       "rank" : {
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "service" : {
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "state" : {
+                                          "optional" : 1,
                                           "type" : "string"
                                        }
                                     },
@@ -33725,6 +34521,204 @@ const apiSchema = [
                      {
                         "children" : [
                            {
+                              "children" : [
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "allowtoken" : 1,
+                                          "description" : "Show the current pool status.",
+                                          "method" : "GET",
+                                          "name" : "getpool",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "name" : {
+                                                   "description" : "The name of the pool. It must be unique.",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "node" : {
+                                                   "description" : "The cluster node name.",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "verbose" : {
+                                                   "default" : 0,
+                                                   "description" : "If enabled, will display additional data(eg. statistics).",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "typetext" : "<boolean>"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "perm",
+                                                "/",
+                                                [
+                                                   "Sys.Audit",
+                                                   "Datastore.Audit"
+                                                ],
+                                                "any",
+                                                1
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : "node",
+                                          "returns" : {
+                                             "properties" : {
+                                                "application" : {
+                                                   "default" : "rbd",
+                                                   "description" : "The application of the pool.",
+                                                   "enum" : [
+                                                      "rbd",
+                                                      "cephfs",
+                                                      "rgw"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "title" : "Application",
+                                                   "type" : "string"
+                                                },
+                                                "application_list" : {
+                                                   "optional" : 1,
+                                                   "title" : "Application",
+                                                   "type" : "array"
+                                                },
+                                                "autoscale_status" : {
+                                                   "optional" : 1,
+                                                   "title" : "Autoscale Status",
+                                                   "type" : "object"
+                                                },
+                                                "crush_rule" : {
+                                                   "description" : "The rule to use for mapping object placement in the cluster.",
+                                                   "optional" : 1,
+                                                   "title" : "Crush Rule Name",
+                                                   "type" : "string"
+                                                },
+                                                "fast_read" : {
+                                                   "title" : "Fast Read",
+                                                   "type" : "boolean"
+                                                },
+                                                "hashpspool" : {
+                                                   "title" : "hashpspool",
+                                                   "type" : "boolean"
+                                                },
+                                                "id" : {
+                                                   "title" : "ID",
+                                                   "type" : "integer"
+                                                },
+                                                "min_size" : {
+                                                   "default" : 2,
+                                                   "description" : "Minimum number of replicas per object",
+                                                   "maximum" : 7,
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "title" : "Min Size",
+                                                   "type" : "integer"
+                                                },
+                                                "name" : {
+                                                   "description" : "The name of the pool. It must be unique.",
+                                                   "title" : "Name",
+                                                   "type" : "string"
+                                                },
+                                                "nodeep-scrub" : {
+                                                   "title" : "nodeep-scrub",
+                                                   "type" : "boolean"
+                                                },
+                                                "nodelete" : {
+                                                   "title" : "nodelete",
+                                                   "type" : "boolean"
+                                                },
+                                                "nopgchange" : {
+                                                   "title" : "nopgchange",
+                                                   "type" : "boolean"
+                                                },
+                                                "noscrub" : {
+                                                   "title" : "noscrub",
+                                                   "type" : "boolean"
+                                                },
+                                                "nosizechange" : {
+                                                   "title" : "nosizechange",
+                                                   "type" : "boolean"
+                                                },
+                                                "pg_autoscale_mode" : {
+                                                   "default" : "warn",
+                                                   "description" : "The automatic PG scaling mode of the pool.",
+                                                   "enum" : [
+                                                      "on",
+                                                      "off",
+                                                      "warn"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "title" : "PG Autoscale Mode",
+                                                   "type" : "string"
+                                                },
+                                                "pg_num" : {
+                                                   "default" : 128,
+                                                   "description" : "Number of placement groups.",
+                                                   "maximum" : 32768,
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "title" : "PG Num",
+                                                   "type" : "integer"
+                                                },
+                                                "pg_num_min" : {
+                                                   "description" : "Minimal number of placement groups.",
+                                                   "maximum" : 32768,
+                                                   "optional" : 1,
+                                                   "title" : "min. PG Num",
+                                                   "type" : "integer"
+                                                },
+                                                "pgp_num" : {
+                                                   "title" : "PGP num",
+                                                   "type" : "integer"
+                                                },
+                                                "size" : {
+                                                   "default" : 3,
+                                                   "description" : "Number of replicas per object",
+                                                   "maximum" : 7,
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "title" : "Size",
+                                                   "type" : "integer"
+                                                },
+                                                "statistics" : {
+                                                   "optional" : 1,
+                                                   "title" : "Statistics",
+                                                   "type" : "object"
+                                                },
+                                                "target_size" : {
+                                                   "description" : "The estimated target size of the pool for the PG autoscaler.",
+                                                   "optional" : 1,
+                                                   "pattern" : "^(\\d+(\\.\\d+)?)([KMGT])?$",
+                                                   "title" : "PG Autoscale Target Size",
+                                                   "type" : "string"
+                                                },
+                                                "target_size_ratio" : {
+                                                   "description" : "The estimated target ratio of the pool for the PG autoscaler.",
+                                                   "optional" : 1,
+                                                   "title" : "PG Autoscale Target Ratio",
+                                                   "type" : "number"
+                                                },
+                                                "use_gmt_hitset" : {
+                                                   "title" : "use_gmt_hitset",
+                                                   "type" : "boolean"
+                                                },
+                                                "write_fadvise_dontneed" : {
+                                                   "title" : "write_fadvise_dontneed",
+                                                   "type" : "boolean"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/nodes/{node}/ceph/pool/{name}/status",
+                                    "text" : "status"
+                                 }
+                              ],
                               "info" : {
                                  "DELETE" : {
                                     "allowtoken" : 1,
@@ -33785,14 +34779,14 @@ const apiSchema = [
                                  },
                                  "GET" : {
                                     "allowtoken" : 1,
-                                    "description" : "List pool settings.",
+                                    "description" : "Pool index.",
                                     "method" : "GET",
-                                    "name" : "getpool",
+                                    "name" : "poolindex",
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
                                           "name" : {
-                                             "description" : "The name of the pool. It must be unique.",
+                                             "description" : "The name of the pool.",
                                              "type" : "string",
                                              "typetext" : "<string>"
                                           },
@@ -33801,13 +34795,6 @@ const apiSchema = [
                                              "format" : "pve-node",
                                              "type" : "string",
                                              "typetext" : "<string>"
-                                          },
-                                          "verbose" : {
-                                             "default" : 0,
-                                             "description" : "If enabled, will display additional data(eg. statistics).",
-                                             "optional" : 1,
-                                             "type" : "boolean",
-                                             "typetext" : "<boolean>"
                                           }
                                        }
                                     },
@@ -33823,153 +34810,18 @@ const apiSchema = [
                                           1
                                        ]
                                     },
-                                    "protected" : 1,
-                                    "proxyto" : "node",
                                     "returns" : {
-                                       "properties" : {
-                                          "application" : {
-                                             "default" : "rbd",
-                                             "description" : "The application of the pool.",
-                                             "enum" : [
-                                                "rbd",
-                                                "cephfs",
-                                                "rgw"
-                                             ],
-                                             "optional" : 1,
-                                             "title" : "Application",
-                                             "type" : "string"
-                                          },
-                                          "application_list" : {
-                                             "optional" : 1,
-                                             "title" : "Application",
-                                             "type" : "array"
-                                          },
-                                          "autoscale_status" : {
-                                             "optional" : 1,
-                                             "title" : "Autoscale Status",
-                                             "type" : "object"
-                                          },
-                                          "crush_rule" : {
-                                             "description" : "The rule to use for mapping object placement in the cluster.",
-                                             "optional" : 1,
-                                             "title" : "Crush Rule Name",
-                                             "type" : "string"
-                                          },
-                                          "fast_read" : {
-                                             "title" : "Fast Read",
-                                             "type" : "boolean"
-                                          },
-                                          "hashpspool" : {
-                                             "title" : "hashpspool",
-                                             "type" : "boolean"
-                                          },
-                                          "id" : {
-                                             "title" : "ID",
-                                             "type" : "integer"
-                                          },
-                                          "min_size" : {
-                                             "default" : 2,
-                                             "description" : "Minimum number of replicas per object",
-                                             "maximum" : 7,
-                                             "minimum" : 1,
-                                             "optional" : 1,
-                                             "title" : "Min Size",
-                                             "type" : "integer"
-                                          },
-                                          "name" : {
-                                             "description" : "The name of the pool. It must be unique.",
-                                             "title" : "Name",
-                                             "type" : "string"
-                                          },
-                                          "nodeep-scrub" : {
-                                             "title" : "nodeep-scrub",
-                                             "type" : "boolean"
-                                          },
-                                          "nodelete" : {
-                                             "title" : "nodelete",
-                                             "type" : "boolean"
-                                          },
-                                          "nopgchange" : {
-                                             "title" : "nopgchange",
-                                             "type" : "boolean"
-                                          },
-                                          "noscrub" : {
-                                             "title" : "noscrub",
-                                             "type" : "boolean"
-                                          },
-                                          "nosizechange" : {
-                                             "title" : "nosizechange",
-                                             "type" : "boolean"
-                                          },
-                                          "pg_autoscale_mode" : {
-                                             "default" : "warn",
-                                             "description" : "The automatic PG scaling mode of the pool.",
-                                             "enum" : [
-                                                "on",
-                                                "off",
-                                                "warn"
-                                             ],
-                                             "optional" : 1,
-                                             "title" : "PG Autoscale Mode",
-                                             "type" : "string"
-                                          },
-                                          "pg_num" : {
-                                             "default" : 128,
-                                             "description" : "Number of placement groups.",
-                                             "maximum" : 32768,
-                                             "minimum" : 1,
-                                             "optional" : 1,
-                                             "title" : "PG Num",
-                                             "type" : "integer"
-                                          },
-                                          "pg_num_min" : {
-                                             "description" : "Minimal number of placement groups.",
-                                             "maximum" : 32768,
-                                             "optional" : 1,
-                                             "title" : "min. PG Num",
-                                             "type" : "integer"
-                                          },
-                                          "pgp_num" : {
-                                             "title" : "PGP num",
-                                             "type" : "integer"
-                                          },
-                                          "size" : {
-                                             "default" : 3,
-                                             "description" : "Number of replicas per object",
-                                             "maximum" : 7,
-                                             "minimum" : 1,
-                                             "optional" : 1,
-                                             "title" : "Size",
-                                             "type" : "integer"
-                                          },
-                                          "statistics" : {
-                                             "optional" : 1,
-                                             "title" : "Statistics",
-                                             "type" : "object"
-                                          },
-                                          "target_size" : {
-                                             "description" : "The estimated target size of the pool for the PG autoscaler.",
-                                             "optional" : 1,
-                                             "pattern" : "^(\\d+(\\.\\d+)?)([KMGT])?$",
-                                             "title" : "PG Autoscale Target Size",
-                                             "type" : "string"
-                                          },
-                                          "target_size_ratio" : {
-                                             "description" : "The estimated target ratio of the pool for the PG autoscaler.",
-                                             "optional" : 1,
-                                             "title" : "PG Autoscale Target Ratio",
-                                             "type" : "number"
-                                          },
-                                          "use_gmt_hitset" : {
-                                             "title" : "use_gmt_hitset",
-                                             "type" : "boolean"
-                                          },
-                                          "write_fadvise_dontneed" : {
-                                             "title" : "write_fadvise_dontneed",
-                                             "type" : "boolean"
-                                          }
+                                       "items" : {
+                                          "properties" : {},
+                                          "type" : "object"
                                        },
-                                       "type" : "object"
+                                       "links" : [
+                                          {
+                                             "href" : "{name}",
+                                             "rel" : "child"
+                                          }
+                                       ],
+                                       "type" : "array"
                                     }
                                  },
                                  "PUT" : {
@@ -34088,15 +34940,15 @@ const apiSchema = [
                                     }
                                  }
                               },
-                              "leaf" : 1,
-                              "path" : "/nodes/{node}/ceph/pools/{name}",
+                              "leaf" : 0,
+                              "path" : "/nodes/{node}/ceph/pool/{name}",
                               "text" : "{name}"
                            }
                         ],
                         "info" : {
                            "GET" : {
                               "allowtoken" : 1,
-                              "description" : "List all pools.",
+                              "description" : "List all pools and their settings (which are settable by the POST/PUT endpoints).",
                               "method" : "GET",
                               "name" : "lspools",
                               "parameters" : {
@@ -34385,6 +35237,672 @@ const apiSchema = [
                            }
                         },
                         "leaf" : 0,
+                        "path" : "/nodes/{node}/ceph/pool",
+                        "text" : "pool"
+                     },
+                     {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "DELETE" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Destroy pool. Deprecated, please use `/nodes/{node}/ceph/pool/{name}`.",
+                                    "method" : "DELETE",
+                                    "name" : "destroypool",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "force" : {
+                                             "default" : 0,
+                                             "description" : "If true, destroys pool even if in use",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "name" : {
+                                             "description" : "The name of the pool. It must be unique.",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "remove_ecprofile" : {
+                                             "default" : 1,
+                                             "description" : "Remove the erasure code profile. Defaults to true, if applicable.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "remove_storages" : {
+                                             "default" : 0,
+                                             "description" : "Remove all pveceph-managed storages configured for this pool",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/",
+                                          [
+                                             "Sys.Modify"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "List pool settings. Deprecated, please use `/nodes/{node}/ceph/pool/{pool}/status`.",
+                                    "method" : "GET",
+                                    "name" : "getpool",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "name" : {
+                                             "description" : "The name of the pool. It must be unique.",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "verbose" : {
+                                             "default" : 0,
+                                             "description" : "If enabled, will display additional data(eg. statistics).",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/",
+                                          [
+                                             "Sys.Audit",
+                                             "Datastore.Audit"
+                                          ],
+                                          "any",
+                                          1
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "properties" : {
+                                          "application" : {
+                                             "default" : "rbd",
+                                             "description" : "The application of the pool.",
+                                             "enum" : [
+                                                "rbd",
+                                                "cephfs",
+                                                "rgw"
+                                             ],
+                                             "optional" : 1,
+                                             "title" : "Application",
+                                             "type" : "string"
+                                          },
+                                          "application_list" : {
+                                             "optional" : 1,
+                                             "title" : "Application",
+                                             "type" : "array"
+                                          },
+                                          "autoscale_status" : {
+                                             "optional" : 1,
+                                             "title" : "Autoscale Status",
+                                             "type" : "object"
+                                          },
+                                          "crush_rule" : {
+                                             "description" : "The rule to use for mapping object placement in the cluster.",
+                                             "optional" : 1,
+                                             "title" : "Crush Rule Name",
+                                             "type" : "string"
+                                          },
+                                          "fast_read" : {
+                                             "title" : "Fast Read",
+                                             "type" : "boolean"
+                                          },
+                                          "hashpspool" : {
+                                             "title" : "hashpspool",
+                                             "type" : "boolean"
+                                          },
+                                          "id" : {
+                                             "title" : "ID",
+                                             "type" : "integer"
+                                          },
+                                          "min_size" : {
+                                             "default" : 2,
+                                             "description" : "Minimum number of replicas per object",
+                                             "maximum" : 7,
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "title" : "Min Size",
+                                             "type" : "integer"
+                                          },
+                                          "name" : {
+                                             "description" : "The name of the pool. It must be unique.",
+                                             "title" : "Name",
+                                             "type" : "string"
+                                          },
+                                          "nodeep-scrub" : {
+                                             "title" : "nodeep-scrub",
+                                             "type" : "boolean"
+                                          },
+                                          "nodelete" : {
+                                             "title" : "nodelete",
+                                             "type" : "boolean"
+                                          },
+                                          "nopgchange" : {
+                                             "title" : "nopgchange",
+                                             "type" : "boolean"
+                                          },
+                                          "noscrub" : {
+                                             "title" : "noscrub",
+                                             "type" : "boolean"
+                                          },
+                                          "nosizechange" : {
+                                             "title" : "nosizechange",
+                                             "type" : "boolean"
+                                          },
+                                          "pg_autoscale_mode" : {
+                                             "default" : "warn",
+                                             "description" : "The automatic PG scaling mode of the pool.",
+                                             "enum" : [
+                                                "on",
+                                                "off",
+                                                "warn"
+                                             ],
+                                             "optional" : 1,
+                                             "title" : "PG Autoscale Mode",
+                                             "type" : "string"
+                                          },
+                                          "pg_num" : {
+                                             "default" : 128,
+                                             "description" : "Number of placement groups.",
+                                             "maximum" : 32768,
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "title" : "PG Num",
+                                             "type" : "integer"
+                                          },
+                                          "pg_num_min" : {
+                                             "description" : "Minimal number of placement groups.",
+                                             "maximum" : 32768,
+                                             "optional" : 1,
+                                             "title" : "min. PG Num",
+                                             "type" : "integer"
+                                          },
+                                          "pgp_num" : {
+                                             "title" : "PGP num",
+                                             "type" : "integer"
+                                          },
+                                          "size" : {
+                                             "default" : 3,
+                                             "description" : "Number of replicas per object",
+                                             "maximum" : 7,
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "title" : "Size",
+                                             "type" : "integer"
+                                          },
+                                          "statistics" : {
+                                             "optional" : 1,
+                                             "title" : "Statistics",
+                                             "type" : "object"
+                                          },
+                                          "target_size" : {
+                                             "description" : "The estimated target size of the pool for the PG autoscaler.",
+                                             "optional" : 1,
+                                             "pattern" : "^(\\d+(\\.\\d+)?)([KMGT])?$",
+                                             "title" : "PG Autoscale Target Size",
+                                             "type" : "string"
+                                          },
+                                          "target_size_ratio" : {
+                                             "description" : "The estimated target ratio of the pool for the PG autoscaler.",
+                                             "optional" : 1,
+                                             "title" : "PG Autoscale Target Ratio",
+                                             "type" : "number"
+                                          },
+                                          "use_gmt_hitset" : {
+                                             "title" : "use_gmt_hitset",
+                                             "type" : "boolean"
+                                          },
+                                          "write_fadvise_dontneed" : {
+                                             "title" : "write_fadvise_dontneed",
+                                             "type" : "boolean"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 },
+                                 "PUT" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Change POOL settings. Deprecated, please use `/nodes/{node}/ceph/pool/{name}`.",
+                                    "method" : "PUT",
+                                    "name" : "setpool",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "application" : {
+                                             "description" : "The application of the pool.",
+                                             "enum" : [
+                                                "rbd",
+                                                "cephfs",
+                                                "rgw"
+                                             ],
+                                             "optional" : 1,
+                                             "title" : "Application",
+                                             "type" : "string"
+                                          },
+                                          "crush_rule" : {
+                                             "description" : "The rule to use for mapping object placement in the cluster.",
+                                             "optional" : 1,
+                                             "title" : "Crush Rule Name",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "min_size" : {
+                                             "description" : "Minimum number of replicas per object",
+                                             "maximum" : 7,
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "title" : "Min Size",
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - 7)"
+                                          },
+                                          "name" : {
+                                             "description" : "The name of the pool. It must be unique.",
+                                             "title" : "Name",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "pg_autoscale_mode" : {
+                                             "description" : "The automatic PG scaling mode of the pool.",
+                                             "enum" : [
+                                                "on",
+                                                "off",
+                                                "warn"
+                                             ],
+                                             "optional" : 1,
+                                             "title" : "PG Autoscale Mode",
+                                             "type" : "string"
+                                          },
+                                          "pg_num" : {
+                                             "description" : "Number of placement groups.",
+                                             "maximum" : 32768,
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "title" : "PG Num",
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - 32768)"
+                                          },
+                                          "pg_num_min" : {
+                                             "description" : "Minimal number of placement groups.",
+                                             "maximum" : 32768,
+                                             "optional" : 1,
+                                             "title" : "min. PG Num",
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (-N - 32768)"
+                                          },
+                                          "size" : {
+                                             "description" : "Number of replicas per object",
+                                             "maximum" : 7,
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "title" : "Size",
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (1 - 7)"
+                                          },
+                                          "target_size" : {
+                                             "description" : "The estimated target size of the pool for the PG autoscaler.",
+                                             "optional" : 1,
+                                             "pattern" : "^(\\d+(\\.\\d+)?)([KMGT])?$",
+                                             "title" : "PG Autoscale Target Size",
+                                             "type" : "string"
+                                          },
+                                          "target_size_ratio" : {
+                                             "description" : "The estimated target ratio of the pool for the PG autoscaler.",
+                                             "optional" : 1,
+                                             "title" : "PG Autoscale Target Ratio",
+                                             "type" : "number",
+                                             "typetext" : "<number>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/",
+                                          [
+                                             "Sys.Modify"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/ceph/pools/{name}",
+                              "text" : "{name}"
+                           }
+                        ],
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "List all pools. Deprecated, please use `/nodes/{node}/ceph/pool`.",
+                              "method" : "GET",
+                              "name" : "lspools",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Audit",
+                                       "Datastore.Audit"
+                                    ],
+                                    "any",
+                                    1
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "application_metadata" : {
+                                          "optional" : 1,
+                                          "title" : "Associated Applications",
+                                          "type" : "object"
+                                       },
+                                       "autoscale_status" : {
+                                          "optional" : 1,
+                                          "title" : "Autoscale Status",
+                                          "type" : "object"
+                                       },
+                                       "bytes_used" : {
+                                          "title" : "Used",
+                                          "type" : "integer"
+                                       },
+                                       "crush_rule" : {
+                                          "title" : "Crush Rule",
+                                          "type" : "integer"
+                                       },
+                                       "crush_rule_name" : {
+                                          "title" : "Crush Rule Name",
+                                          "type" : "string"
+                                       },
+                                       "min_size" : {
+                                          "title" : "Min Size",
+                                          "type" : "integer"
+                                       },
+                                       "percent_used" : {
+                                          "title" : "%-Used",
+                                          "type" : "number"
+                                       },
+                                       "pg_autoscale_mode" : {
+                                          "optional" : 1,
+                                          "title" : "PG Autoscale Mode",
+                                          "type" : "string"
+                                       },
+                                       "pg_num" : {
+                                          "title" : "PG Num",
+                                          "type" : "integer"
+                                       },
+                                       "pg_num_final" : {
+                                          "optional" : 1,
+                                          "title" : "Optimal PG Num",
+                                          "type" : "integer"
+                                       },
+                                       "pg_num_min" : {
+                                          "optional" : 1,
+                                          "title" : "min. PG Num",
+                                          "type" : "integer"
+                                       },
+                                       "pool" : {
+                                          "title" : "ID",
+                                          "type" : "integer"
+                                       },
+                                       "pool_name" : {
+                                          "title" : "Name",
+                                          "type" : "string"
+                                       },
+                                       "size" : {
+                                          "title" : "Size",
+                                          "type" : "integer"
+                                       },
+                                       "target_size" : {
+                                          "optional" : 1,
+                                          "title" : "PG Autoscale Target Size",
+                                          "type" : "integer"
+                                       },
+                                       "target_size_ratio" : {
+                                          "optional" : 1,
+                                          "title" : "PG Autoscale Target Ratio",
+                                          "type" : "number"
+                                       },
+                                       "type" : {
+                                          "enum" : [
+                                             "replicated",
+                                             "erasure",
+                                             "unknown"
+                                          ],
+                                          "title" : "Type",
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "links" : [
+                                    {
+                                       "href" : "{pool_name}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
+                              }
+                           },
+                           "POST" : {
+                              "allowtoken" : 1,
+                              "description" : "Create Ceph pool. Deprecated, please use `/nodes/{node}/ceph/pool`.",
+                              "method" : "POST",
+                              "name" : "createpool",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "add_storages" : {
+                                       "default" : "0; for erasure coded pools: 1",
+                                       "description" : "Configure VM and CT storage using the new pool.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "application" : {
+                                       "default" : "rbd",
+                                       "description" : "The application of the pool.",
+                                       "enum" : [
+                                          "rbd",
+                                          "cephfs",
+                                          "rgw"
+                                       ],
+                                       "optional" : 1,
+                                       "title" : "Application",
+                                       "type" : "string"
+                                    },
+                                    "crush_rule" : {
+                                       "description" : "The rule to use for mapping object placement in the cluster.",
+                                       "optional" : 1,
+                                       "title" : "Crush Rule Name",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "erasure-coding" : {
+                                       "description" : "Create an erasure coded pool for RBD with an accompaning replicated pool for metadata storage. With EC, the common ceph options 'size', 'min_size' and 'crush_rule' parameters will be applied to the metadata pool.",
+                                       "format" : {
+                                          "device-class" : {
+                                             "description" : "CRUSH device class. Will create an erasure coded pool plus a replicated pool for metadata.",
+                                             "format_description" : "class",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "failure-domain" : {
+                                             "default" : "host",
+                                             "description" : "CRUSH failure domain. Default is 'host'. Will create an erasure coded pool plus a replicated pool for metadata.",
+                                             "format_description" : "domain",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "k" : {
+                                             "description" : "Number of data chunks. Will create an erasure coded pool plus a replicated pool for metadata.",
+                                             "minimum" : 2,
+                                             "type" : "integer"
+                                          },
+                                          "m" : {
+                                             "description" : "Number of coding chunks. Will create an erasure coded pool plus a replicated pool for metadata.",
+                                             "minimum" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "profile" : {
+                                             "description" : "Override the erasure code (EC) profile to use. Will create an erasure coded pool plus a replicated pool for metadata.",
+                                             "format_description" : "profile",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "k=<integer> ,m=<integer> [,device-class=<class>] [,failure-domain=<domain>] [,profile=<profile>]"
+                                    },
+                                    "min_size" : {
+                                       "default" : 2,
+                                       "description" : "Minimum number of replicas per object",
+                                       "maximum" : 7,
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "title" : "Min Size",
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (1 - 7)"
+                                    },
+                                    "name" : {
+                                       "description" : "The name of the pool. It must be unique.",
+                                       "title" : "Name",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "node" : {
+                                       "description" : "The cluster node name.",
+                                       "format" : "pve-node",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "pg_autoscale_mode" : {
+                                       "default" : "warn",
+                                       "description" : "The automatic PG scaling mode of the pool.",
+                                       "enum" : [
+                                          "on",
+                                          "off",
+                                          "warn"
+                                       ],
+                                       "optional" : 1,
+                                       "title" : "PG Autoscale Mode",
+                                       "type" : "string"
+                                    },
+                                    "pg_num" : {
+                                       "default" : 128,
+                                       "description" : "Number of placement groups.",
+                                       "maximum" : 32768,
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "title" : "PG Num",
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (1 - 32768)"
+                                    },
+                                    "pg_num_min" : {
+                                       "description" : "Minimal number of placement groups.",
+                                       "maximum" : 32768,
+                                       "optional" : 1,
+                                       "title" : "min. PG Num",
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (-N - 32768)"
+                                    },
+                                    "size" : {
+                                       "default" : 3,
+                                       "description" : "Number of replicas per object",
+                                       "maximum" : 7,
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "title" : "Size",
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (1 - 7)"
+                                    },
+                                    "target_size" : {
+                                       "description" : "The estimated target size of the pool for the PG autoscaler.",
+                                       "optional" : 1,
+                                       "pattern" : "^(\\d+(\\.\\d+)?)([KMGT])?$",
+                                       "title" : "PG Autoscale Target Size",
+                                       "type" : "string"
+                                    },
+                                    "target_size_ratio" : {
+                                       "description" : "The estimated target ratio of the pool for the PG autoscaler.",
+                                       "optional" : 1,
+                                       "title" : "PG Autoscale Target Ratio",
+                                       "type" : "number",
+                                       "typetext" : "<number>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "proxyto" : "node",
+                              "returns" : {
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
                         "path" : "/nodes/{node}/ceph/pools",
                         "text" : "pools"
                      },
@@ -34392,7 +35910,7 @@ const apiSchema = [
                         "info" : {
                            "GET" : {
                               "allowtoken" : 1,
-                              "description" : "Get Ceph configuration.",
+                              "description" : "Get the Ceph configuration file. Deprecated, please use `/nodes/{node}/ceph/cfg/raw.",
                               "method" : "GET",
                               "name" : "config",
                               "parameters" : {
@@ -34432,7 +35950,7 @@ const apiSchema = [
                         "info" : {
                            "GET" : {
                               "allowtoken" : 1,
-                              "description" : "Get Ceph configuration database.",
+                              "description" : "Get the Ceph configuration database. Deprecated, please use `/nodes/{node}/ceph/cfg/db.",
                               "method" : "GET",
                               "name" : "configdb",
                               "parameters" : {
@@ -34895,7 +36413,12 @@ const apiSchema = [
                               "proxyto" : "node",
                               "returns" : {
                                  "items" : {
-                                    "properties" : {},
+                                    "properties" : {
+                                       "name" : {
+                                          "description" : "Name of the CRUSH rule.",
+                                          "type" : "string"
+                                       }
+                                    },
                                     "type" : "object"
                                  },
                                  "links" : [
@@ -34957,7 +36480,7 @@ const apiSchema = [
                                     "perm",
                                     "/",
                                     [
-                                       "Sys.audit"
+                                       "Sys.Audit"
                                     ]
                                  ]
                               },
@@ -35545,7 +37068,7 @@ const apiSchema = [
                            }
                         },
                         "permissions" : {
-                           "description" : "The user needs 'VM.Backup' permissions on any VM, and 'Datastore.AllocateSpace' on the backup storage. The 'maxfiles', 'prune-backups', 'tmpdir', 'dumpdir', 'script', 'bwlimit', 'performance' and 'ionice' parameters are restricted to the 'root@pam' user.",
+                           "description" : "The user needs 'VM.Backup' permissions on any VM, and 'Datastore.AllocateSpace' on the backup storage. The 'tmpdir', 'dumpdir' and 'script' parameters are restricted to the 'root@pam' user. The 'maxfiles' and 'prune-backups' settings require 'Datastore.Allocate' on the backup storage. The 'bwlimit', 'performance' and 'ionice' parameters require 'Sys.Modify' on '/'.",
                            "user" : "all"
                         },
                         "protected" : 1,
@@ -36867,9 +38390,15 @@ const apiSchema = [
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
+                                          "download" : {
+                                             "description" : "Whether the tasklog file should be downloaded. This parameter can't be used in conjunction with other parameters",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
                                           "limit" : {
                                              "default" : 50,
-                                             "description" : "The maximum amount of lines that should be printed.",
+                                             "description" : "The amount of lines to read from the tasklog.",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
@@ -36883,7 +38412,7 @@ const apiSchema = [
                                           },
                                           "start" : {
                                              "default" : 0,
-                                             "description" : "The line number to start printing at.",
+                                             "description" : "Start at this line when reading the tasklog",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
@@ -37778,8 +39307,11 @@ const apiSchema = [
                                                 "perm",
                                                 "/",
                                                 [
+                                                   "Sys.Audit",
                                                    "Sys.Modify"
-                                                ]
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -37895,8 +39427,11 @@ const apiSchema = [
                                     "perm",
                                     "/",
                                     [
+                                       "Sys.Audit",
                                        "Sys.Modify"
-                                    ]
+                                    ],
+                                    "any",
+                                    1
                                  ]
                               },
                               "protected" : 1,
@@ -41996,6 +43531,13 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
+                                    "nf_conntrack_helpers" : {
+                                       "default" : "",
+                                       "description" : "Enable conntrack helpers for specific protocols. Supported protocols: amanda, ftp, irc, netbios-ns, pptp, sane, sip, snmp, tftp",
+                                       "format" : "pve-fw-conntrack-helper",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
                                     "nf_conntrack_max" : {
                                        "default" : 262144,
                                        "description" : "Maximum number of tracked connections.",
@@ -42164,6 +43706,14 @@ const apiSchema = [
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
                                     },
+                                    "nf_conntrack_helpers" : {
+                                       "default" : "",
+                                       "description" : "Enable conntrack helpers for specific protocols. Supported protocols: amanda, ftp, irc, netbios-ns, pptp, sane, sip, snmp, tftp",
+                                       "format" : "pve-fw-conntrack-helper",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
                                     "nf_conntrack_max" : {
                                        "default" : 262144,
                                        "description" : "Maximum number of tracked connections.",
@@ -42305,7 +43855,21 @@ const apiSchema = [
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
+                                    "since" : {
+                                       "description" : "Display log since this UNIX epoch.",
+                                       "minimum" : 0,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (0 - N)"
+                                    },
                                     "start" : {
+                                       "minimum" : 0,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (0 - N)"
+                                    },
+                                    "until" : {
+                                       "description" : "Display log until this UNIX epoch.",
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
@@ -44129,8 +45693,8 @@ const apiSchema = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "ceph_install",
-                                    "login",
-                                    "upgrade"
+                                    "upgrade",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -44225,8 +45789,8 @@ const apiSchema = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "ceph_install",
-                                    "login",
-                                    "upgrade"
+                                    "upgrade",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -44351,8 +45915,8 @@ const apiSchema = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "ceph_install",
-                                    "login",
-                                    "upgrade"
+                                    "upgrade",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -44842,13 +46406,8 @@ const apiSchema = [
                            }
                         },
                         "permissions" : {
-                           "check" : [
-                              "perm",
-                              "/",
-                              [
-                                 "VM.PowerMgmt"
-                              ]
-                           ]
+                           "description" : "The 'VM.PowerMgmt' permission is required on '/' or on '/vms/<ID>' for each ID passed via the 'vms' parameter.",
+                           "user" : "all"
                         },
                         "protected" : 1,
                         "proxyto" : "node",
@@ -44871,11 +46430,27 @@ const apiSchema = [
                         "parameters" : {
                            "additionalProperties" : 0,
                            "properties" : {
+                              "force-stop" : {
+                                 "default" : 1,
+                                 "description" : "Force a hard-stop after the timeout.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
                               "node" : {
                                  "description" : "The cluster node name.",
                                  "format" : "pve-node",
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "timeout" : {
+                                 "default" : 180,
+                                 "description" : "Timeout for each guest shutdown task. Depending on `force-stop`, the shutdown gets then simply aborted or a hard-stop is forced.",
+                                 "maximum" : 7200,
+                                 "minimum" : 0,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (0 - 7200)"
                               },
                               "vms" : {
                                  "description" : "Only consider Guests with these IDs.",
@@ -44887,13 +46462,8 @@ const apiSchema = [
                            }
                         },
                         "permissions" : {
-                           "check" : [
-                              "perm",
-                              "/",
-                              [
-                                 "VM.PowerMgmt"
-                              ]
-                           ]
+                           "description" : "The 'VM.PowerMgmt' permission is required on '/' or on '/vms/<ID>' for each ID passed via the 'vms' parameter.",
+                           "user" : "all"
                         },
                         "protected" : 1,
                         "proxyto" : "node",
@@ -44917,7 +46487,7 @@ const apiSchema = [
                            "additionalProperties" : 0,
                            "properties" : {
                               "maxworkers" : {
-                                 "description" : "Maximal number of parallel migration job. If not set use 'max_workers' from datacenter.cfg, one of both must be set!",
+                                 "description" : "Maximal number of parallel migration job. If not set, uses'max_workers' from datacenter.cfg. One of both must be set!",
                                  "minimum" : 1,
                                  "optional" : 1,
                                  "type" : "integer",
@@ -44951,13 +46521,8 @@ const apiSchema = [
                            }
                         },
                         "permissions" : {
-                           "check" : [
-                              "perm",
-                              "/",
-                              [
-                                 "VM.Migrate"
-                              ]
-                           ]
+                           "description" : "The 'VM.Migrate' permission is required on '/' or on '/vms/<ID>' for each ID passed via the 'vms' parameter.",
+                           "user" : "all"
                         },
                         "protected" : 1,
                         "proxyto" : "node",
@@ -45324,6 +46889,13 @@ const apiSchema = [
                         "content" : {
                            "description" : "Allowed content types.\n\nNOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs.\n",
                            "format" : "pve-storage-content-list",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "content-dirs" : {
+                           "description" : "Overrides for default content type directories.",
+                           "format" : "pve-dir-override-list",
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
@@ -45828,6 +47400,13 @@ const apiSchema = [
                      "type" : "string",
                      "typetext" : "<string>"
                   },
+                  "content-dirs" : {
+                     "description" : "Overrides for default content type directories.",
+                     "format" : "pve-dir-override-list",
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
                   "data-pool" : {
                      "description" : "Data Pool (for erasure coding only)",
                      "optional" : 1,
@@ -46278,7 +47857,7 @@ const apiSchema = [
                                        "typetext" : "<boolean>"
                                     },
                                     "userid" : {
-                                       "description" : "User ID",
+                                       "description" : "Full User ID, in the `name@realm` format.",
                                        "format" : "pve-userid",
                                        "maxLength" : 64,
                                        "type" : "string",
@@ -46367,7 +47946,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "userid" : {
-                                             "description" : "User ID",
+                                             "description" : "Full User ID, in the `name@realm` format.",
                                              "format" : "pve-userid",
                                              "maxLength" : 64,
                                              "type" : "string",
@@ -46409,7 +47988,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "userid" : {
-                                             "description" : "User ID",
+                                             "description" : "Full User ID, in the `name@realm` format.",
                                              "format" : "pve-userid",
                                              "maxLength" : 64,
                                              "type" : "string",
@@ -46489,7 +48068,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "userid" : {
-                                             "description" : "User ID",
+                                             "description" : "Full User ID, in the `name@realm` format.",
                                              "format" : "pve-userid",
                                              "maxLength" : 64,
                                              "type" : "string",
@@ -46585,7 +48164,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "userid" : {
-                                             "description" : "User ID",
+                                             "description" : "Full User ID, in the `name@realm` format.",
                                              "format" : "pve-userid",
                                              "maxLength" : 64,
                                              "type" : "string",
@@ -46649,7 +48228,7 @@ const apiSchema = [
                                  "additionalProperties" : 0,
                                  "properties" : {
                                     "userid" : {
-                                       "description" : "User ID",
+                                       "description" : "Full User ID, in the `name@realm` format.",
                                        "format" : "pve-userid",
                                        "maxLength" : 64,
                                        "type" : "string",
@@ -46725,7 +48304,7 @@ const apiSchema = [
                            "additionalProperties" : 0,
                            "properties" : {
                               "userid" : {
-                                 "description" : "User ID",
+                                 "description" : "Full User ID, in the `name@realm` format.",
                                  "format" : "pve-userid",
                                  "maxLength" : 64,
                                  "type" : "string",
@@ -46762,7 +48341,7 @@ const apiSchema = [
                            "additionalProperties" : 0,
                            "properties" : {
                               "userid" : {
-                                 "description" : "User ID",
+                                 "description" : "Full User ID, in the `name@realm` format.",
                                  "format" : "pve-userid",
                                  "maxLength" : 64,
                                  "type" : "string",
@@ -46916,7 +48495,7 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "userid" : {
-                                 "description" : "User ID",
+                                 "description" : "Full User ID, in the `name@realm` format.",
                                  "format" : "pve-userid",
                                  "maxLength" : 64,
                                  "type" : "string",
@@ -47053,7 +48632,7 @@ const apiSchema = [
                               "type" : "array"
                            },
                            "userid" : {
-                              "description" : "User ID",
+                              "description" : "Full User ID, in the `name@realm` format.",
                               "format" : "pve-userid",
                               "maxLength" : 64,
                               "type" : "string"
@@ -47134,7 +48713,7 @@ const apiSchema = [
                            "typetext" : "<string>"
                         },
                         "userid" : {
-                           "description" : "User ID",
+                           "description" : "Full User ID, in the `name@realm` format.",
                            "format" : "pve-userid",
                            "maxLength" : 64,
                            "type" : "string",
@@ -47239,7 +48818,7 @@ const apiSchema = [
                               },
                               "members" : {
                                  "items" : {
-                                    "description" : "User ID",
+                                    "description" : "Full User ID, in the `name@realm` format.",
                                     "format" : "pve-userid",
                                     "maxLength" : 64,
                                     "type" : "string"
@@ -47872,11 +49451,12 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "remove-vanished" : {
-                                       "description" : "A semicolon-seperated list of things to remove when they or the user vanishes during a sync. The following values are possible: 'entry' removes the user/group when not returned from the sync. 'properties' removes the set properties on existing user/group that do not appear in the source (even custom ones). 'acl' removes acls when the user/group is not returned from the sync.",
+                                       "default" : "none",
+                                       "description" : "A semicolon-seperated list of things to remove when they or the user vanishes during a sync. The following values are possible: 'entry' removes the user/group when not returned from the sync. 'properties' removes the set properties on existing user/group that do not appear in the source (even custom ones). 'acl' removes acls when the user/group is not returned from the sync. Instead of a list it also can be 'none' (the default).",
                                        "optional" : "1",
-                                       "pattern" : "(?:(?:acl|properties|entry);)*(?:acl|properties|entry)",
+                                       "pattern" : "(?:(?:(?:acl|properties|entry);)*(?:acl|properties|entry))|none",
                                        "type" : "string",
-                                       "typetext" : "[acl];[properties];[entry]"
+                                       "typetext" : "([acl];[properties];[entry])|none"
                                     },
                                     "scope" : {
                                        "description" : "Select what to sync.",
@@ -48010,14 +49590,14 @@ const apiSchema = [
                                  "description" : "LDAP base domain name",
                                  "maxLength" : 256,
                                  "optional" : 1,
-                                 "pattern" : "\\w+=[^,]+(,\\s*\\w+=[^,]+)*",
+                                 "pattern" : "(?^:\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+)(,\\s*\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+))*)",
                                  "type" : "string"
                               },
                               "bind_dn" : {
                                  "description" : "LDAP bind domain name",
                                  "maxLength" : 256,
                                  "optional" : 1,
-                                 "pattern" : "\\w+=[^,]+(,\\s*\\w+=[^,]+)*",
+                                 "pattern" : "(?^:\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+)(,\\s*\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+))*)",
                                  "type" : "string"
                               },
                               "capath" : {
@@ -48114,7 +49694,7 @@ const apiSchema = [
                                  "description" : "LDAP base domain name for group sync. If not set, the base_dn will be used.",
                                  "maxLength" : 256,
                                  "optional" : 1,
-                                 "pattern" : "\\w+=[^,]+(,\\s*\\w+=[^,]+)*",
+                                 "pattern" : "(?^:\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+)(,\\s*\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+))*)",
                                  "type" : "string"
                               },
                               "group_filter" : {
@@ -48222,7 +49802,7 @@ const apiSchema = [
                                  "format" : "realm-sync-options",
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,remove-vanished=[acl];[properties];[entry]] [,scope=<users|groups|both>]"
+                                 "typetext" : "[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,remove-vanished=([acl];[properties];[entry])|none] [,scope=<users|groups|both>]"
                               },
                               "sync_attributes" : {
                                  "description" : "Comma separated list of key=value pairs for specifying which LDAP attributes map to which PVE user field. For example, to map the LDAP attribute 'mail' to PVEs 'email', write  'email=mail'. By default, each PVE user field is represented  by an LDAP attribute of the same name.",
@@ -48356,14 +49936,14 @@ const apiSchema = [
                            "description" : "LDAP base domain name",
                            "maxLength" : 256,
                            "optional" : 1,
-                           "pattern" : "\\w+=[^,]+(,\\s*\\w+=[^,]+)*",
+                           "pattern" : "(?^:\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+)(,\\s*\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+))*)",
                            "type" : "string"
                         },
                         "bind_dn" : {
                            "description" : "LDAP bind domain name",
                            "maxLength" : 256,
                            "optional" : 1,
-                           "pattern" : "\\w+=[^,]+(,\\s*\\w+=[^,]+)*",
+                           "pattern" : "(?^:\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+)(,\\s*\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+))*)",
                            "type" : "string"
                         },
                         "capath" : {
@@ -48445,7 +50025,7 @@ const apiSchema = [
                            "description" : "LDAP base domain name for group sync. If not set, the base_dn will be used.",
                            "maxLength" : 256,
                            "optional" : 1,
-                           "pattern" : "\\w+=[^,]+(,\\s*\\w+=[^,]+)*",
+                           "pattern" : "(?^:\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+)(,\\s*\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+))*)",
                            "type" : "string"
                         },
                         "group_filter" : {
@@ -48553,7 +50133,7 @@ const apiSchema = [
                            "format" : "realm-sync-options",
                            "optional" : 1,
                            "type" : "string",
-                           "typetext" : "[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,remove-vanished=[acl];[properties];[entry]] [,scope=<users|groups|both>]"
+                           "typetext" : "[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,remove-vanished=([acl];[properties];[entry])|none] [,scope=<users|groups|both>]"
                         },
                         "sync_attributes" : {
                            "description" : "Comma separated list of key=value pairs for specifying which LDAP attributes map to which PVE user field. For example, to map the LDAP attribute 'mail' to PVEs 'email', write  'email=mail'. By default, each PVE user field is represented  by an LDAP attribute of the same name.",
@@ -48795,7 +50375,7 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "userid" : {
-                                       "description" : "User ID",
+                                       "description" : "Full User ID, in the `name@realm` format.",
                                        "format" : "pve-userid",
                                        "maxLength" : 64,
                                        "type" : "string",
@@ -48837,7 +50417,7 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "userid" : {
-                                       "description" : "User ID",
+                                       "description" : "Full User ID, in the `name@realm` format.",
                                        "format" : "pve-userid",
                                        "maxLength" : 64,
                                        "type" : "string",
@@ -48933,7 +50513,7 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "userid" : {
-                                       "description" : "User ID",
+                                       "description" : "Full User ID, in the `name@realm` format.",
                                        "format" : "pve-userid",
                                        "maxLength" : 64,
                                        "type" : "string",
@@ -48977,7 +50557,7 @@ const apiSchema = [
                            "additionalProperties" : 0,
                            "properties" : {
                               "userid" : {
-                                 "description" : "User ID",
+                                 "description" : "Full User ID, in the `name@realm` format.",
                                  "format" : "pve-userid",
                                  "maxLength" : 64,
                                  "type" : "string",
@@ -49089,7 +50669,7 @@ const apiSchema = [
                                  "type" : "string"
                               },
                               "userid" : {
-                                 "description" : "User ID",
+                                 "description" : "Full User ID, in the `name@realm` format.",
                                  "format" : "pve-userid",
                                  "maxLength" : 64,
                                  "type" : "string",
@@ -49379,7 +50959,7 @@ const apiSchema = [
                            "typetext" : "<string>"
                         },
                         "userid" : {
-                           "description" : "User ID",
+                           "description" : "Full User ID, in the `name@realm` format.",
                            "format" : "pve-userid",
                            "maxLength" : 64,
                            "type" : "string",

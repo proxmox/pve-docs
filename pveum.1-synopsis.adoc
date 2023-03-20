@@ -134,7 +134,7 @@ Change user password.
 
 `<userid>`: `<string>` ::
 
-User ID
+Full User ID, in the `name@realm` format.
 
 *pveum pool add* `<poolid>` `[OPTIONS]`
 
@@ -200,11 +200,11 @@ Specifies the Authentication Context Class Reference values that theAuthorizatio
 
 Automatically create users if they do not exist.
 
-`--base_dn` `\w+=[^,]+(,\s*\w+=[^,]+)*` ::
+`--base_dn` `(?^:\w+=("[\w ,+/<>;=]+"|[^ ,+"/<>;=]+)(,\s*\w+=("[\w ,+/<>;=]+"|[^ ,+"/<>;=]+))*)` ::
 
 LDAP base domain name
 
-`--bind_dn` `\w+=[^,]+(,\s*\w+=[^,]+)*` ::
+`--bind_dn` `(?^:\w+=("[\w ,+/<>;=]+"|[^ ,+"/<>;=]+)(,\s*\w+=("[\w ,+/<>;=]+"|[^ ,+"/<>;=]+))*)` ::
 
 LDAP bind domain name
 
@@ -252,7 +252,7 @@ LDAP filter for user sync.
 
 The objectclasses for groups.
 
-`--group_dn` `\w+=[^,]+(,\s*\w+=[^,]+)*` ::
+`--group_dn` `(?^:\w+=("[\w ,+/<>;=]+"|[^ ,+"/<>;=]+)(,\s*\w+=("[\w ,+/<>;=]+"|[^ ,+"/<>;=]+))*)` ::
 
 LDAP base domain name for group sync. If not set, the base_dn will be used.
 
@@ -304,7 +304,7 @@ Fallback Server IP address (or DNS name)
 
 LDAPS TLS/SSL version. It's not recommended to use version older than 1.2!
 
-`--sync-defaults-options` `[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,remove-vanished=[acl];[properties];[entry]] [,scope=<users|groups|both>]` ::
+`--sync-defaults-options` `[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,remove-vanished=([acl];[properties];[entry])|none] [,scope=<users|groups|both>]` ::
 
 The default options for behavior of synchronizations.
 
@@ -364,11 +364,11 @@ Specifies the Authentication Context Class Reference values that theAuthorizatio
 
 Automatically create users if they do not exist.
 
-`--base_dn` `\w+=[^,]+(,\s*\w+=[^,]+)*` ::
+`--base_dn` `(?^:\w+=("[\w ,+/<>;=]+"|[^ ,+"/<>;=]+)(,\s*\w+=("[\w ,+/<>;=]+"|[^ ,+"/<>;=]+))*)` ::
 
 LDAP base domain name
 
-`--bind_dn` `\w+=[^,]+(,\s*\w+=[^,]+)*` ::
+`--bind_dn` `(?^:\w+=("[\w ,+/<>;=]+"|[^ ,+"/<>;=]+)(,\s*\w+=("[\w ,+/<>;=]+"|[^ ,+"/<>;=]+))*)` ::
 
 LDAP bind domain name
 
@@ -424,7 +424,7 @@ LDAP filter for user sync.
 
 The objectclasses for groups.
 
-`--group_dn` `\w+=[^,]+(,\s*\w+=[^,]+)*` ::
+`--group_dn` `(?^:\w+=("[\w ,+/<>;=]+"|[^ ,+"/<>;=]+)(,\s*\w+=("[\w ,+/<>;=]+"|[^ ,+"/<>;=]+))*)` ::
 
 LDAP base domain name for group sync. If not set, the base_dn will be used.
 
@@ -476,7 +476,7 @@ Fallback Server IP address (or DNS name)
 
 LDAPS TLS/SSL version. It's not recommended to use version older than 1.2!
 
-`--sync-defaults-options` `[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,remove-vanished=[acl];[properties];[entry]] [,scope=<users|groups|both>]` ::
+`--sync-defaults-options` `[enable-new=<1|0>] [,full=<1|0>] [,purge=<1|0>] [,remove-vanished=([acl];[properties];[entry])|none] [,scope=<users|groups|both>]` ::
 
 The default options for behavior of synchronizations.
 
@@ -526,9 +526,9 @@ DEPRECATED: use 'remove-vanished' instead. If set, uses the LDAP Directory as so
 
 DEPRECATED: use 'remove-vanished' instead. Remove ACLs for users or groups which were removed from the config during a sync.
 
-`--remove-vanished` `[acl];[properties];[entry]` ::
+`--remove-vanished` `([acl];[properties];[entry])|none` ('default =' `none`)::
 
-A semicolon-seperated list of things to remove when they or the user vanishes during a sync. The following values are possible: 'entry' removes the user/group when not returned from the sync. 'properties' removes the set properties on existing user/group that do not appear in the source (even custom ones). 'acl' removes acls when the user/group is not returned from the sync.
+A semicolon-seperated list of things to remove when they or the user vanishes during a sync. The following values are possible: 'entry' removes the user/group when not returned from the sync. 'properties' removes the set properties on existing user/group that do not appear in the source (even custom ones). 'acl' removes acls when the user/group is not returned from the sync. Instead of a list it also can be 'none' (the default).
 
 `--scope` `<both | groups | users>` ::
 
@@ -630,7 +630,7 @@ Create new user.
 
 `<userid>`: `<string>` ::
 
-User ID
+Full User ID, in the `name@realm` format.
 
 `--comment` `<string>` ::
 
@@ -674,7 +674,7 @@ Delete user.
 
 `<userid>`: `<string>` ::
 
-User ID
+Full User ID, in the `name@realm` format.
 
 *pveum user list* `[OPTIONS]` `[FORMAT_OPTIONS]`
 
@@ -694,7 +694,7 @@ Update user configuration.
 
 `<userid>`: `<string>` ::
 
-User ID
+Full User ID, in the `name@realm` format.
 
 `--append` `<boolean>` ::
 
@@ -752,7 +752,7 @@ Delete TFA entries from a user.
 
 `<userid>`: `<string>` ::
 
-User ID
+Full User ID, in the `name@realm` format.
 
 `--id` `<string>` ::
 
@@ -765,7 +765,7 @@ value, which needs to be stored as it cannot be retrieved afterwards!
 
 `<userid>`: `<string>` ::
 
-User ID
+Full User ID, in the `name@realm` format.
 
 `<tokenid>`: `(?^:[A-Za-z][A-Za-z0-9\.\-_]+)` ::
 
@@ -789,7 +789,7 @@ Get user API tokens.
 
 `<userid>`: `<string>` ::
 
-User ID
+Full User ID, in the `name@realm` format.
 
 *pveum user token modify* `<userid> <tokenid>` `[OPTIONS]` `[FORMAT_OPTIONS]`
 
@@ -797,7 +797,7 @@ Update API token for a specific user.
 
 `<userid>`: `<string>` ::
 
-User ID
+Full User ID, in the `name@realm` format.
 
 `<tokenid>`: `(?^:[A-Za-z][A-Za-z0-9\.\-_]+)` ::
 
@@ -821,7 +821,7 @@ Retrieve effective permissions of given token.
 
 `<userid>`: `<string>` ::
 
-User ID
+Full User ID, in the `name@realm` format.
 
 `<tokenid>`: `(?^:[A-Za-z][A-Za-z0-9\.\-_]+)` ::
 
@@ -837,7 +837,7 @@ Remove API token for a specific user.
 
 `<userid>`: `<string>` ::
 
-User ID
+Full User ID, in the `name@realm` format.
 
 `<tokenid>`: `(?^:[A-Za-z][A-Za-z0-9\.\-_]+)` ::
 

@@ -6,13 +6,17 @@ Enable/disable ACPI.
 
 List of host cores used to execute guest processes, for example: 0,5,8-11
 
-`agent`: `[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
+`agent`: `[enabled=]<1|0> [,freeze-fs-on-backup=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
 
-Enable/disable communication with the Qemu Guest Agent and its properties.
+Enable/disable communication with the QEMU Guest Agent and its properties.
 
 `enabled`=`<boolean>` ('default =' `0`);;
 
-Enable/disable communication with a Qemu Guest Agent (QGA) running in the VM.
+Enable/disable communication with a QEMU Guest Agent (QGA) running in the VM.
+
+`freeze-fs-on-backup`=`<boolean>` ('default =' `1`);;
+
+Freeze/thaw guest filesystems on backup for consistency.
 
 `fstrim_cloned_disks`=`<boolean>` ('default =' `0`);;
 
@@ -52,7 +56,7 @@ Automatic restart after crash (currently ignored).
 
 `balloon`: `<integer> (0 - N)` ::
 
-Amount of target RAM for the VM in MB. Using zero disables the ballon driver.
+Amount of target RAM for the VM in MiB. Using zero disables the ballon driver.
 
 `bios`: `<ovmf | seabios>` ('default =' `seabios`)::
 
@@ -99,15 +103,15 @@ Specify a custom file containing all meta data passed to the VM via"
 
 `network`=`<volume>` ;;
 
-Specify a custom file containing all network data passed to the VM via cloud-init.
+To pass a custom file containing all network data to the VM via cloud-init.
 
 `user`=`<volume>` ;;
 
-Specify a custom file containing all user data passed to the VM via cloud-init.
+To pass a custom file containing all user data to the VM via cloud-init.
 
 `vendor`=`<volume>` ;;
 
-Specify a custom file containing all vendor data passed to the VM via cloud-init.
+To pass a custom file containing all vendor data to the VM via cloud-init.
 
 `cipassword`: `<string>` ::
 
@@ -169,11 +173,11 @@ Description for the VM. Shown in the web-interface VM's summary. This is saved a
 
 `efidisk0`: `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
 
-Configure a Disk for storing EFI vars.
+Configure a disk for storing EFI vars.
 
 `efitype`=`<2m | 4m>` ('default =' `2m`);;
 
-Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified.
+Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified. Ignored for VMs with arch=aarc64 (ARM).
 
 `file`=`<volume>` ;;
 
@@ -513,11 +517,11 @@ Lock/unlock the VM.
 
 `machine`: `(pc|pc(-i440fx)?-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|q35|pc-q35-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|virt(?:-\d+(\.\d+)+)?(\+pve\d+)?)` ::
 
-Specifies the Qemu machine type.
+Specifies the QEMU machine type.
 
 `memory`: `<integer> (16 - N)` ('default =' `512`)::
 
-Amount of RAM for the VM in MB. This is the maximum available memory when you use the balloon device.
+Amount of RAM for the VM in MiB. This is the maximum available memory when you use the balloon device.
 
 `migrate_downtime`: `<number> (0 - N)` ('default =' `0.1`)::
 
@@ -635,7 +639,7 @@ win8;; Microsoft Windows 8/2012/2012r2
 win10;; Microsoft Windows 10/2016/2019
 win11;; Microsoft Windows 11/2022
 l24;; Linux 2.4 Kernel
-l26;; Linux 2.6 - 5.X Kernel
+l26;; Linux 2.6 - 6.X Kernel
 solaris;; Solaris/OpenSolaris/OpenIndiania kernel
 
 `parallel[n]`: `/dev/parport\d+|/dev/usb/lp\d+` ::

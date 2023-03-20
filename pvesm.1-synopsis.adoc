@@ -42,6 +42,10 @@ Allowed content types.
 +
 NOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs.
 
+`--content-dirs` `<string>` ::
+
+Overrides for default content type directories.
+
 `--data-pool` `<string>` ::
 
 Data Pool (for erasure coding only)
@@ -593,6 +597,10 @@ target group for comstar views
 Allowed content types.
 +
 NOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs.
+
+`--content-dirs` `<string>` ::
+
+Overrides for default content type directories.
 
 `--data-pool` `<string>` ::
 

@@ -88,7 +88,7 @@ The (unique) ID of the VM.
 
 The OS template or backup file.
 
-`--arch` `<amd64 | arm64 | armhf | i386>` ('default =' `amd64`)::
+`--arch` `<amd64 | arm64 | armhf | i386 | riscv32 | riscv64>` ('default =' `amd64`)::
 
 OS architecture type.
 
@@ -162,7 +162,7 @@ Use volume as container mount point. Use the special syntax STORAGE_ID:SIZE_IN_G
 
 Sets DNS server IP address for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.
 
-`--net[n]` `name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<(IPv4/CIDR|dhcp|manual)>] [,ip6=<(IPv6/CIDR|auto|dhcp|manual)>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]` ::
+`--net[n]` `name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<(IPv4/CIDR|dhcp|manual)>] [,ip6=<(IPv6/CIDR|auto|dhcp|manual)>] [,link_down=<1|0>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]` ::
 
 Specifies network interfaces for the container.
 
@@ -330,7 +330,8 @@ Force checking, even if the filesystem seems clean
 
 *pct fstrim* `<vmid>` `[OPTIONS]`
 
-Run fstrim on a chosen CT and its mountpoints.
+Run fstrim on a chosen CT and its mountpoints, except bind or read-only
+mountpoints.
 
 `<vmid>`: `<integer> (1 - N)` ::
 
@@ -620,7 +621,7 @@ The (unique) ID of the VM.
 
 The OS template or backup file.
 
-`--arch` `<amd64 | arm64 | armhf | i386>` ('default =' `amd64`)::
+`--arch` `<amd64 | arm64 | armhf | i386 | riscv32 | riscv64>` ('default =' `amd64`)::
 
 OS architecture type.
 
@@ -694,7 +695,7 @@ Use volume as container mount point. Use the special syntax STORAGE_ID:SIZE_IN_G
 
 Sets DNS server IP address for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.
 
-`--net[n]` `name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<(IPv4/CIDR|dhcp|manual)>] [,ip6=<(IPv6/CIDR|auto|dhcp|manual)>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]` ::
+`--net[n]` `name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<(IPv4/CIDR|dhcp|manual)>] [,ip6=<(IPv6/CIDR|auto|dhcp|manual)>] [,link_down=<1|0>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]` ::
 
 Specifies network interfaces for the container.
 
@@ -808,7 +809,7 @@ Set container options.
 
 The (unique) ID of the VM.
 
-`--arch` `<amd64 | arm64 | armhf | i386>` ('default =' `amd64`)::
+`--arch` `<amd64 | arm64 | armhf | i386 | riscv32 | riscv64>` ('default =' `amd64`)::
 
 OS architecture type.
 
@@ -878,7 +879,7 @@ Use volume as container mount point. Use the special syntax STORAGE_ID:SIZE_IN_G
 
 Sets DNS server IP address for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.
 
-`--net[n]` `name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<(IPv4/CIDR|dhcp|manual)>] [,ip6=<(IPv6/CIDR|auto|dhcp|manual)>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]` ::
+`--net[n]` `name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<(IPv4/CIDR|dhcp|manual)>] [,ip6=<(IPv6/CIDR|auto|dhcp|manual)>] [,link_down=<1|0>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]` ::
 
 Specifies network interfaces for the container.
 

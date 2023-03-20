@@ -308,7 +308,7 @@ Remove all pveceph-managed storages configured for this pool
 
 *pveceph pool get* `<name>` `[OPTIONS]` `[FORMAT_OPTIONS]`
 
-List pool settings.
+Show the current pool status.
 
 `<name>`: `<string>` ::
 
@@ -320,7 +320,8 @@ If enabled, will display additional data(eg. statistics).
 
 *pveceph pool ls* `[FORMAT_OPTIONS]`
 
-List all pools.
+List all pools and their settings (which are settable by the POST/PUT
+endpoints).
 
 *pveceph pool set* `<name>` `[OPTIONS]`
 

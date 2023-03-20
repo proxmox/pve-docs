@@ -52,6 +52,22 @@ HA resource ID. This consists of a resource type followed by a resource specific
 
 Target node.
 
+*ha-manager crm-command node-maintenance disable* `<node>`
+
+Change the node-maintenance request state.
+
+`<node>`: `<string>` ::
+
+The cluster node name.
+
+*ha-manager crm-command node-maintenance enable* `<node>`
+
+Change the node-maintenance request state.
+
+`<node>`: `<string>` ::
+
+The cluster node name.
+
 *ha-manager crm-command relocate* `<sid> <node>`
 
 Request resource relocatzion to another node. This stops the service on the

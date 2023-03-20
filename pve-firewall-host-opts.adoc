@@ -22,6 +22,10 @@ Enable NDP (Neighbor Discovery Protocol).
 
 Allow invalid packets on connection tracking.
 
+`nf_conntrack_helpers`: `<string>` ('default =' ``)::
+
+Enable conntrack helpers for specific protocols. Supported protocols: amanda, ftp, irc, netbios-ns, pptp, sane, sip, snmp, tftp
+
 `nf_conntrack_max`: `<integer> (32768 - N)` ('default =' `262144`)::
 
 Maximum number of tracked connections.

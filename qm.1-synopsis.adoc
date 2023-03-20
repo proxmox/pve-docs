@@ -131,9 +131,9 @@ Enable/disable ACPI.
 
 List of host cores used to execute guest processes, for example: 0,5,8-11
 
-`--agent` `[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
+`--agent` `[enabled=]<1|0> [,freeze-fs-on-backup=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
 
-Enable/disable communication with the Qemu Guest Agent and its properties.
+Enable/disable communication with the QEMU Guest Agent and its properties.
 
 `--arch` `<aarch64 | x86_64>` ::
 
@@ -157,7 +157,7 @@ Automatic restart after crash (currently ignored).
 
 `--balloon` `<integer> (0 - N)` ::
 
-Amount of target RAM for the VM in MB. Using zero disables the ballon driver.
+Amount of target RAM for the VM in MiB. Using zero disables the ballon driver.
 
 `--bios` `<ovmf | seabios>` ('default =' `seabios`)::
 
@@ -217,7 +217,7 @@ Description for the VM. Shown in the web-interface VM's summary. This is saved a
 
 `--efidisk0` `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
 
-Configure a Disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.
+Configure a disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.
 
 `--force` `<boolean>` ::
 
@@ -295,11 +295,11 @@ Lock/unlock the VM.
 
 `--machine` `(pc|pc(-i440fx)?-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|q35|pc-q35-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|virt(?:-\d+(\.\d+)+)?(\+pve\d+)?)` ::
 
-Specifies the Qemu machine type.
+Specifies the QEMU machine type.
 
 `--memory` `<integer> (16 - N)` ('default =' `512`)::
 
-Amount of RAM for the VM in MB. This is the maximum available memory when you use the balloon device.
+Amount of RAM for the VM in MiB. This is the maximum available memory when you use the balloon device.
 
 `--migrate_downtime` `<number> (0 - N)` ('default =' `0.1`)::
 
@@ -633,7 +633,7 @@ A list of disk IDs you want to delete.
 
 *qm guest cmd* `<vmid> <command>`
 
-Execute Qemu Guest Agent commands.
+Execute QEMU Guest Agent commands.
 
 `<vmid>`: `<integer> (1 - N)` ::
 
@@ -793,7 +793,7 @@ Enable live storage migration for local disk
 
 *qm monitor* `<vmid>`
 
-Enter Qemu Monitor interface.
+Enter QEMU Monitor interface.
 
 `<vmid>`: `<integer> (1 - N)` ::
 
@@ -927,7 +927,7 @@ The name of the snapshot.
 
 `--start` `<boolean>` ('default =' `0`)::
 
-Whether the VM should get started after rolling back successfully
+Whether the VM should get started after rolling back successfully. (Note: VMs will be automatically started if the snapshot includes RAM.)
 
 *qm sendkey* `<vmid> <key>` `[OPTIONS]`
 
@@ -963,9 +963,9 @@ Enable/disable ACPI.
 
 List of host cores used to execute guest processes, for example: 0,5,8-11
 
-`--agent` `[enabled=]<1|0> [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
+`--agent` `[enabled=]<1|0> [,freeze-fs-on-backup=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
 
-Enable/disable communication with the Qemu Guest Agent and its properties.
+Enable/disable communication with the QEMU Guest Agent and its properties.
 
 `--arch` `<aarch64 | x86_64>` ::
 
@@ -985,7 +985,7 @@ Automatic restart after crash (currently ignored).
 
 `--balloon` `<integer> (0 - N)` ::
 
-Amount of target RAM for the VM in MB. Using zero disables the ballon driver.
+Amount of target RAM for the VM in MiB. Using zero disables the ballon driver.
 
 `--bios` `<ovmf | seabios>` ('default =' `seabios`)::
 
@@ -1049,7 +1049,7 @@ Prevent changes if current configuration file has different SHA1 digest. This ca
 
 `--efidisk0` `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
 
-Configure a Disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.
+Configure a disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.
 
 `--force` `<boolean>` ::
 
@@ -1121,11 +1121,11 @@ Lock/unlock the VM.
 
 `--machine` `(pc|pc(-i440fx)?-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|q35|pc-q35-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|virt(?:-\d+(\.\d+)+)?(\+pve\d+)?)` ::
 
-Specifies the Qemu machine type.
+Specifies the QEMU machine type.
 
 `--memory` `<integer> (16 - N)` ('default =' `512`)::
 
-Amount of RAM for the VM in MB. This is the maximum available memory when you use the balloon device.
+Amount of RAM for the VM in MiB. This is the maximum available memory when you use the balloon device.
 
 `--migrate_downtime` `<number> (0 - N)` ('default =' `0.1`)::
 
@@ -1367,7 +1367,7 @@ Override QEMU's -cpu argument with the given string.
 
 `--machine` `(pc|pc(-i440fx)?-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|q35|pc-q35-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|virt(?:-\d+(\.\d+)+)?(\+pve\d+)?)` ::
 
-Specifies the Qemu machine type.
+Specifies the QEMU machine type.
 
 `--migratedfrom` `<string>` ::
 
