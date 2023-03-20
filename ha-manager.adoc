@@ -1017,14 +1017,14 @@ the service's group.
 NOTE: There are plans to add modes for (static and dynamic) load-balancing in
 the future.
 
-Basic
-~~~~~
+Basic Scheduler
+~~~~~~~~~~~~~~~
 
 The number of active HA services on each node is used to choose a recovery node.
 Non-HA-managed services are currently not counted.
 
-Static
-~~~~~~
+Static-Load Scheduler
+~~~~~~~~~~~~~~~~~~~~~
 
 IMPORTANT: The static mode is still a technology preview.
 
@@ -1044,6 +1044,34 @@ IMPORTANT: The more services the more possible combinations there are, so it's
 currently not recommended to use it if you have thousands of HA managed
 services.
 
+
+CRS Scheduling Points
+~~~~~~~~~~~~~~~~~~~~~
+
+The CRS algorithm is not applied for every service in every round, since this
+would mean a large number of constant migrations. Depending on the workload,
+this could put more strain on the cluster than could be avoided by constant
+balancing.
+That's why the {pve} HA manager favors keeping services on their current node.
+
+The CRS is currently used at the following scheduling points:
+
+- Service recovery (always active). When a node with active HA services fails,
+  all its services need to be recovered to other nodes. The CRS algorithm will
+  be used here to balance that recovery over the remaining nodes.
+
+- HA group config changes (always active). If a node is removed from a group,
+  or its priority is reduced, the HA stack will use the CRS algorithm to find a
+  new target node for the HA services in that group, matching the adapted
+  priority constraints.
+
+- HA service stopped -> start transtion (opt-in). Requesting that a stopped
+  service should be started is an good opportunity to check for the best suited
+  node as per the CRS algorithm, as moving stopped services is  cheaper to do
+  than moving them started, especially if their disk volumes reside on shared
+  storage. You can enable this by setting the **`ha-rebalance-on-start`**
+  CRS option in the datacenter config. You can change that option also in the
+  Web UI, under `Datacenter` -> `Options` -> `Cluster Resource Scheduling`.
 
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
