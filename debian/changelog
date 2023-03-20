@@ -1,3 +1,50 @@
+pve-docs (7.4-1) bullseye; urgency=medium
+
+  * qm: IO thread: be more precise about how QEMU handles IO and mention that
+    setting can also help with hangs/stalls
+
+  * docs: document 'content-dirs' parameter for directory storage
+
+  * cluster join: mention that storage config from cluster is inherited
+
+  * access control: remove misleading 'additionally' in perm-modify
+    description
+
+  * pveum: remove `auth` part from Keycloak issuer URL to adapt to newer
+    versions
+
+  * fix #4194: clarify that its a bulk shutdown, not immediate hard stop
+
+  * qm: hard disk controllers: recommend VirtIO controllers and mention that
+    virtio devices are better maintained
+
+  * docs: add dark-mode support to the documentation and the api viewer. The
+    theme is chosen automatically depending on the browser/OS's
+    preferred-color-scheme media query
+
+  * qm: guest trim: add note mentioning issue when the ext4 file system is
+    used
+
+  * user management: document reserved characters and quoting of LDAP DNs
+
+  * user management: add RFC reference for reserved characters
+
+  * tree-wide: switch to offical spelling of QEMU
+
+  * fix #4422: correct hdiutil parameter order
+
+  * introduction: add some references
+
+  * installation: update wiki link for debian bullseye guide
+
+  * ha: document manual maintenance mode
+
+  * ha crs: improve introduction and add screenshot of option
+
+  * ha crs: document scheduling points and new ha-rebalance-on-start option
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 20 Mar 2023 20:04:17 +0100
+
 pve-docs (7.3-1) bullseye; urgency=medium
 
   * sysadmin zfs: document pool naming rules
