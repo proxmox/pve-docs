@@ -928,6 +928,19 @@ and 10.0.2.0/24 in this example), will be announced dynamically.
 Notes
 -----
 
+Multiple EVPN Exit Nodes
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you have multiple gateway nodes, disable rp_filter as packet could incoming in a 1 node, and outgoing
+to another node.
+
+
+sysctl.conf
+-----
+net.ipv4.conf.default.rp_filter=0
+net.ipv4.conf.all.rp_filter=0
+-----
+
 VXLAN IPSEC Encryption
 ~~~~~~~~~~~~~~~~~~~~~~
 
