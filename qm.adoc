@@ -1047,12 +1047,17 @@ For Windows, it can be installed from the
 https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso[Fedora
 VirtIO driver ISO].
 
+[[qm_qga_enable]]
 Enable Guest Agent Communication
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Communication from {pve} with the guest agent can be enabled in the VM's
 *Options* panel. A fresh start of the VM is necessary for the changes to take
 effect.
+
+[[qm_qga_auto_trim]]
+Automatic TRIM Using QGA
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 It is possible to enable the 'Run guest-trim' option. With this enabled,
 {pve} will issue a trim command to the guest after the following
@@ -1069,6 +1074,7 @@ know about the change in the underlying storage, only the first guest-trim will
 run as expected. Subsequent ones, until the next reboot, will only consider
 parts of the filesystem that changed since then.
 
+[[qm_qga_fsfreeze]]
 Filesystem Freeze & Thaw on Backup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -1087,7 +1093,7 @@ backup by setting the `freeze-fs-on-backup` QGA option to `0`. This can also be
 done via the GUI with the 'Freeze/thaw guest filesystems on backup for
 consistency' option.
 
-NOTE: Disabling this option can potentially lead to backups with inconsistent
+IMPORTANT: Disabling this option can potentially lead to backups with inconsistent
 filesystems and should therefore only be disabled if you know what you are
 doing.
 
