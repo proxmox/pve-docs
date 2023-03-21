@@ -931,11 +931,11 @@ Notes
 Multiple EVPN Exit Nodes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you have multiple gateway nodes, disable rp_filter as packet could incoming in a 1 node, and outgoing
-to another node.
+If you have multiple gateway nodes, you should disable the `rp_filter` (Strict
+Reverse Path Filter) option, because packets can arrive at one node but go out
+from another node.
 
-
-sysctl.conf
+.sysctl.conf disabling `rp_filter`
 -----
 net.ipv4.conf.default.rp_filter=0
 net.ipv4.conf.all.rp_filter=0
