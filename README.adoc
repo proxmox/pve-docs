@@ -233,9 +233,11 @@ characters, its content is formatted as listing.
 Use this for formatting file contents or command output.
 ----
 
-Specially highlighted 'notes', 'warnings' and 'important' information
-can be created by starting a paragraph with `NOTE:`, `WARNING:` or
+Specially highlighted 'tips', 'notes', 'warnings' and 'important' information
+can be created by starting a paragraph with `TIP`, `NOTE:`, `WARNING:` or
 `IMPORTANT:`:
+
+TIP: this is a tip
 
 NOTE: this is a note
 
