@@ -175,8 +175,6 @@ Server View:: Shows all kinds of objects, grouped by nodes.
 
 Folder View:: Shows all kinds of objects, grouped by object type.
 
-Storage View:: Only shows storage objects, grouped by nodes.
-
 Pool View:: Show VMs and containers, grouped by pool.
 
 
