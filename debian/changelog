@@ -1,3 +1,20 @@
+pve-docs (7.4-2) bullseye; urgency=medium
+
+  * config: remove reference to preceeding / from content-dirs
+
+  * sdn: document the `rp_filter` sysctl knob, useful for when mulitple evpn
+    nodes are used
+
+  * qm: add section explaining the new option for controling the QGA fs-freeze
+    and fs-thaw during backup
+
+  * fix #2641: document subdir parameter for CIFS backend
+
+  * ui overview: remove references to storage view, got dropped recently due
+    to not being useful on its own
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 22 Mar 2023 14:52:09 +0100
+
 pve-docs (7.4-1) bullseye; urgency=medium
 
   * qm: IO thread: be more precise about how QEMU handles IO and mention that
