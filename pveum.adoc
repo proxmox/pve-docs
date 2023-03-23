@@ -403,7 +403,8 @@ easily used in attribute values in DNs without being escaped properly.
 
 Following characters need escaping:
 
-* Space ( )
+* Space ( ) at the beginning or end
+* Number sign (`#`) at the beginning
 * Comma (`,`)
 * Plus sign (`+`)
 * Double quote (`"`)
