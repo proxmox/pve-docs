@@ -1089,8 +1089,9 @@ Writer VSS module in a mode that breaks the SQL Server backup chain for
 differential backups.
 
 For such setups you can configure {pve} to not issue a freeze-and-thaw cycle on
-backup by setting the `freeze-fs-on-backup` QGA option to `0`. This option can
-be set via the CLI or the API.
+backup by setting the `freeze-fs-on-backup` QGA option to `0`. This can also be
+done via the GUI with the 'Freeze/thaw guest filesystems on backup for
+consistency' option.
 
 IMPORTANT: Disabling this option can potentially lead to backups with inconsistent
 filesystems and should therefore only be disabled if you know what you are
