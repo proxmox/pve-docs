@@ -1,11 +1,11 @@
 pve-docs (7.4-2) bullseye; urgency=medium
 
-  * config: remove reference to preceeding / from content-dirs
+  * config: remove reference to preceding / from content-dirs
 
-  * sdn: document the `rp_filter` sysctl knob, useful for when mulitple evpn
+  * sdn: document the `rp_filter` sysctl knob, useful for when multiple evpn
     nodes are used
 
-  * qm: add section explaining the new option for controling the QGA fs-freeze
+  * qm: add section explaining the new option for controlling the QGA fs-freeze
     and fs-thaw during backup
 
   * fix #2641: document subdir parameter for CIFS backend
