@@ -71,10 +71,10 @@ Supported Storage Types
 
 .Storage Types
 [width="100%",options="header"]
-|============================================
-|Description    |PVE type    |Snapshots|Stable
+|=============================================
+|Description    |Plugin type |Snapshots|Stable
 |ZFS (local)    |zfspool     |yes      |yes
-|============================================
+|=============================================
 
 [[pvesr_schedule_time_format]]
 Schedule Format

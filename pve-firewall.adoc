@@ -324,7 +324,7 @@ Standard IP set `management`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This IP set applies only to host firewalls (not VM firewalls).  Those
-IPs are allowed to do normal management tasks (PVE GUI, VNC, SPICE,
+IPs are allowed to do normal management tasks ({PVE} GUI, VNC, SPICE,
 SSH).
 
 The local cluster network is automatically added to this IP set (alias

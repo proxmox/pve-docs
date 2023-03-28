@@ -27,13 +27,13 @@ Mailing Lists
 This is a fast way to communicate with the {pve} community via email.
 
 * Mailing list for users:
-  http://lists.proxmox.com/cgi-bin/mailman/listinfo/pve-user[PVE User List]
+  http://lists.proxmox.com/cgi-bin/mailman/listinfo/pve-user[{PVE} User List]
 
 {pve} is fully open source and contributions are welcome! The primary
 communication channel for developers is the:
 
 * Mailing list for developers:
-  http://lists.proxmox.com/cgi-bin/mailman/listinfo/pve-devel[PVE development
+  http://lists.proxmox.com/cgi-bin/mailman/listinfo/pve-devel[{PVE} development
   discussion]
 
 
