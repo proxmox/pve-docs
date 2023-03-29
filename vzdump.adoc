@@ -398,7 +398,7 @@ limit. A bigger per-job limit will only overwrite the per-storage limit if
 you have `Data.Allocate' permissions on the affected storage.
 
 You can use the `--bwlimit <integer>` option from the restore CLI commands
-to set up a restore job specific bandwidth limit.  Kibit/s is used as unit
+to set up a restore job specific bandwidth limit. KiB/s is used as unit
 for the limit, this means passing `10240' will limit the read speed of the
 backup to 10 MiB/s, ensuring that the rest of the possible storage bandwidth
 is available for the already running virtual guests, and thus the backup
