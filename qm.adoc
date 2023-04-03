@@ -65,7 +65,7 @@ SCSI, IDE and SATA controllers, serial ports (the complete list can be seen in
 the `kvm(1)` man page) all of them emulated in software. All these devices
 are the exact software equivalent of existing hardware devices, and if the OS
 running in the guest has the proper drivers it will use the devices as if it
-were running on real hardware. This allows QEMU to runs _unmodified_ operating
+were running on real hardware. This allows QEMU to run _unmodified_ operating
 systems.
 
 This however has a performance cost, as running in software what was meant to
