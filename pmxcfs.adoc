@@ -29,10 +29,10 @@ system for storing configuration files, replicated in real time to all
 cluster nodes using `corosync`. We use this to store all PVE related
 configuration files.
 
-Although the file system stores all data inside a persistent database
-on disk, a copy of the data resides in RAM. This imposes restrictions
-on the maximum size, which is currently 30MB. This is still enough to
-store the configuration of several thousand virtual machines.
+Although the file system stores all data inside a persistent database on disk,
+a copy of the data resides in RAM. This imposes restrictions on the maximum
+size, which is currently 128 MiB. This is still enough to store the
+configuration of several thousand virtual machines.
 
 This system provides the following advantages:
 
