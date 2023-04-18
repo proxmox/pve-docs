@@ -42,11 +42,11 @@ Get the list of nodes in my cluster
 
  # pvesh get /nodes
 
-Get a list of available options for the data center
+Get a list of available options for the datacenter
 
  # pvesh usage cluster/options -v
 
-Set the HTMl5 NoVNC console as the default console for the data center
+Set the HTMl5 NoVNC console as the default console for the datacenter
 
  # pvesh set cluster/options -console html5
 

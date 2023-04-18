@@ -96,7 +96,7 @@ Files
 |`authkey.pub`                          | Public key used by the ticket system
 |`ceph.conf`                            | Ceph configuration file (note: /etc/ceph/ceph.conf is a symbolic link to this)
 |`corosync.conf`                        | Corosync cluster configuration file (prior to {pve} 4.x, this file was called cluster.conf)
-|`datacenter.cfg`                       | {pve} data center-wide configuration (keyboard layout, proxy, ...)
+|`datacenter.cfg`                       | {pve} datacenter-wide configuration (keyboard layout, proxy, ...)
 |`domains.cfg`                          | {pve} authentication domains
 |`firewall/cluster.fw`                  | Firewall configuration applied to all nodes
 |`firewall/<NAME>.fw`                   | Firewall configuration for individual nodes
