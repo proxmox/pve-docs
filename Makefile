@@ -4,6 +4,8 @@ include /usr/share/dpkg/pkg-info.mk
 DGDIR=.
 ASCIIDOC_PVE=./asciidoc-pve
 
+BUILDDIR ?= $(DEB_SOURCE)-$(DEB_VERSION)
+
 GEN_PACKAGE=pve-doc-generator
 DOC_PACKAGE=pve-docs
 MEDIAWIKI_PACKAGE=pve-docs-mediawiki
@@ -158,20 +160,26 @@ api-viewer/apidoc.js: $(API_VIEWER_FILES)
 	cat $(API_VIEWER_FILES) >$@.tmp
 	mv $@.tmp $@
 
+$(BUILDDIR):
+	rm -rf $@ $@.tmp
+	rsync -a * $@.tmp/
+	echo "git clone git://git.proxmox.com/git/pve-docs.git\\ngit checkout $(GITVERSION)" > $@.tmp/debian/SOURCE
+	mv $@.tmp $@
+
+.PHONY: deb
+deb:
+	rm -f $(GEN_DEB) $(DOC_DEB) $(MEDIAWIKI_DEB)
+	rm -rf $(BUILDDIR)
+	$(MAKE) $(DOC_DEB)
+
+$(MEDIAWIKI_DEB) $(GEN_DEB): $(DOC_DEB)
+$(DOC_DEB): $(BUILDDIR)
+	cd $(BUILDDIR); dpkg-buildpackage -b -us -uc
+	lintian $(DOC_DEB) $(GEN_DEB) $(MEDIAWIKI_DEB)
+
 .PHONY: dinstall
 dinstall: $(GEN_DEB) $(DOC_DEB) $(MEDIAWIKI_DEB)
 	dpkg -i $(GEN_DEB) $(DOC_DEB) # $(MEDIAWIKI_DEB)
-
-.PHONY: deb
-deb: $(DOC_DEB)
-$(MEDIAWIKI_DEB) $(GEN_DEB): $(DOC_DEB)
-$(DOC_DEB):
-	rm -f $(GEN_DEB) $(DOC_DEB) $(MEDIAWIKI_DEB)
-	rm -rf build
-	rsync -a * build/
-	echo "git clone git://git.proxmox.com/git/pve-docs.git\\ngit checkout $(GITVERSION)" > build/debian/SOURCE
-	cd build; dpkg-buildpackage -b -us -uc
-	lintian $(DOC_DEB) $(GEN_DEB) $(MEDIAWIKI_DEB)
 
 .PHONY: clean-build
 clean-build:
@@ -246,8 +254,8 @@ clean-static:
 
 clean:
 	rm -rf *.html *.pdf *.epub *.tmp *.1 *.5 *.8
-	rm -f *.deb *.changes *.buildinfo
+	rm -f *.deb *.dsc *.tar.* *.changes *.buildinfo *.build
 	rm -f api-viewer/apidoc.js chapter-*.html *-plain.html chapter-*.html pve-admin-guide.chunked asciidoc-pve link-refs.json .asciidoc-pve-tmp_* pve-docs-mediawiki-import
 	rm -rf .pve-doc-depends
 	rm -f pve-doc-generator.mk chapter-index-table.adoc man1-index-table.adoc man5-index-table.adoc man8-index-table.adoc pve-admin-guide-docinfo.xml
-	rm -rf build
+	rm -rf $(DEB_SOURCE)-[0-9]*/
