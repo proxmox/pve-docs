@@ -14,7 +14,7 @@ Build-Depends: asciidoc-dblatex,
                proxmox-widget-toolkit-dev,
                rsync,
                source-highlight,
-Standards-Version: 4.3.0
+Standards-Version: 4.6.2
 
 Package: pve-doc-generator
 Section: perl
