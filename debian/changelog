@@ -1,3 +1,21 @@
+pve-docs (8.0.0) bookworm; urgency=medium
+
+  * bump version for Proxmox VE 8 / Debian 12 Bookworm
+
+  * change to native version
+
+  * user management: specify space and number sign escaping for LDAP DNs
+
+  * fix #4641: qm: fix typo
+
+  * pmxcfs: record that file size limit is now 128 MiB (since a while)
+
+  * update static/schema information
+
+  * general wording improvements and typo fixes
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 18 May 2023 15:47:08 +0200
+
 pve-docs (7.4-2) bullseye; urgency=medium
 
   * config: remove reference to preceding / from content-dirs
