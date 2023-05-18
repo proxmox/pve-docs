@@ -23,6 +23,7 @@ Depends: asciidoc-base,
          libpve-common-perl,
          source-highlight,
          xmlto,
+         ${misc:Depends},
          ${perl:Depends},
 Description: Proxmox VE Documentation helpers
  Tool to auto-generate various Proxmox VE Documentation files and
@@ -31,7 +32,7 @@ Description: Proxmox VE Documentation helpers
 
 Package: pve-docs
 Section: doc
-Depends: libjs-extjs, ${perl:Depends}
+Depends: libjs-extjs, ${misc:Depends}, ${perl:Depends},
 Architecture: all
 Description: Proxmox VE Documentation
  This package contains the Proxmox VE Documentation files.
@@ -44,6 +45,6 @@ Depends: libhtml-parser-perl,
          pve-docs,
          ${misc:Depends},
          ${perl:Depends},
-Suggests: apache2
+Suggests: apache2,
 Description: Proxmox VE Documentation - mediawiki plugin
  This package contains tools to view Proxmox VE Documentation with mediakiki.
