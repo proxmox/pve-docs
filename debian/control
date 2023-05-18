@@ -3,7 +3,7 @@ Section: perl
 Priority: optional
 Maintainer: Proxmox Support Team <support@proxmox.com>
 Build-Depends: asciidoc-dblatex,
-               debhelper (>= 10~),
+               debhelper-compat (= 13),
                docbook-xsl,
                git,
                graphviz,
