@@ -18,7 +18,7 @@ Standards-Version: 4.6.2
 
 Package: pve-doc-generator
 Section: perl
-Architecture: any
+Architecture: all
 Depends: asciidoc-base,
          libpve-common-perl,
          source-highlight,
