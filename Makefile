@@ -95,14 +95,8 @@ INDEX_INCLUDES=								\
 
 ADOC_STDARG=-b $(shell pwd)/asciidoc/pve-html -f asciidoc/asciidoc-pve.conf -a icons -a data-uri -a "date=$(SOURCE_DATE_HUMAN)" -a "revnumber=$(DOCRELEASE)" -a footer-style=revdate
 
-BROWSER?=xdg-open
-
 README.html: README.adoc
 	asciidoc -a toc $(ADOC_STDARG) -o $@ $<
-
-.PHONY: index
-index: index.html
-	test -z "$${PVE_DOC_INSTANTVIEW}" || $(BROWSER) index.html &
 
 chapter-index-table.adoc: asciidoc-pve
 	./asciidoc-pve chapter-table >$@.tmp
