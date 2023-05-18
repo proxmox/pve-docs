@@ -5,6 +5,7 @@ DGDIR=.
 ASCIIDOC_PVE=./asciidoc-pve
 
 BUILDDIR ?= $(DEB_SOURCE)-$(DEB_VERSION)
+DSC=$(DEB_SOURCE)_$(DEB_VERSION).dsc
 
 GEN_PACKAGE=pve-doc-generator
 DOC_PACKAGE=pve-docs
@@ -166,7 +167,15 @@ $(BUILDDIR):
 	echo "git clone git://git.proxmox.com/git/pve-docs.git\\ngit checkout $(GITVERSION)" > $@.tmp/debian/SOURCE
 	mv $@.tmp $@
 
-.PHONY: deb
+.PHONY: dsc deb
+dsc: $(DSC)
+$(DSC): $(BUILDDIR)
+	cd $(BUILDDIR); dpkg-buildpackage -S -us -uc -d
+	lintian $(DSC)
+
+sbuild: $(DSC)
+	sbuild $(DSC)
+
 deb:
 	rm -f $(GEN_DEB) $(DOC_DEB) $(MEDIAWIKI_DEB)
 	rm -rf $(BUILDDIR)
