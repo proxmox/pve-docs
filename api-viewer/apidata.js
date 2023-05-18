@@ -1498,7 +1498,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "icmp-type" : {
-                                             "description" : "Specify icmp-type. Only valid if proto equals 'icmp'.",
+                                             "description" : "Specify icmp-type. Only valid if proto equals 'icmp' or 'icmpv6'/'ipv6-icmp'.",
                                              "format" : "pve-fw-icmp-type-spec",
                                              "optional" : 1,
                                              "type" : "string",
@@ -1741,7 +1741,7 @@ const apiSchema = [
                                        "type" : "string"
                                     },
                                     "icmp-type" : {
-                                       "description" : "Specify icmp-type. Only valid if proto equals 'icmp'.",
+                                       "description" : "Specify icmp-type. Only valid if proto equals 'icmp' or 'icmpv6'/'ipv6-icmp'.",
                                        "format" : "pve-fw-icmp-type-spec",
                                        "optional" : 1,
                                        "type" : "string",
@@ -2145,7 +2145,7 @@ const apiSchema = [
                                        "typetext" : "<integer> (0 - N)"
                                     },
                                     "icmp-type" : {
-                                       "description" : "Specify icmp-type. Only valid if proto equals 'icmp'.",
+                                       "description" : "Specify icmp-type. Only valid if proto equals 'icmp' or 'icmpv6'/'ipv6-icmp'.",
                                        "format" : "pve-fw-icmp-type-spec",
                                        "optional" : 1,
                                        "type" : "string",
@@ -2341,7 +2341,7 @@ const apiSchema = [
                                  "typetext" : "<integer> (0 - N)"
                               },
                               "icmp-type" : {
-                                 "description" : "Specify icmp-type. Only valid if proto equals 'icmp'.",
+                                 "description" : "Specify icmp-type. Only valid if proto equals 'icmp' or 'icmpv6'/'ipv6-icmp'.",
                                  "format" : "pve-fw-icmp-type-spec",
                                  "optional" : 1,
                                  "type" : "string",
@@ -8727,6 +8727,7 @@ const apiSchema = [
                               "type" : "string"
                            },
                            "id" : {
+                              "description" : "Resource id.",
                               "type" : "string"
                            },
                            "level" : {
@@ -9719,7 +9720,7 @@ const apiSchema = [
                                                          "typetext" : "<integer> (0 - N)"
                                                       },
                                                       "icmp-type" : {
-                                                         "description" : "Specify icmp-type. Only valid if proto equals 'icmp'.",
+                                                         "description" : "Specify icmp-type. Only valid if proto equals 'icmp' or 'icmpv6'/'ipv6-icmp'.",
                                                          "format" : "pve-fw-icmp-type-spec",
                                                          "optional" : 1,
                                                          "type" : "string",
@@ -9943,7 +9944,7 @@ const apiSchema = [
                                                    "typetext" : "<integer> (0 - N)"
                                                 },
                                                 "icmp-type" : {
-                                                   "description" : "Specify icmp-type. Only valid if proto equals 'icmp'.",
+                                                   "description" : "Specify icmp-type. Only valid if proto equals 'icmp' or 'icmpv6'/'ipv6-icmp'.",
                                                    "format" : "pve-fw-icmp-type-spec",
                                                    "optional" : 1,
                                                    "type" : "string",
@@ -28232,7 +28233,7 @@ const apiSchema = [
                                                          "typetext" : "<integer> (0 - N)"
                                                       },
                                                       "icmp-type" : {
-                                                         "description" : "Specify icmp-type. Only valid if proto equals 'icmp'.",
+                                                         "description" : "Specify icmp-type. Only valid if proto equals 'icmp' or 'icmpv6'/'ipv6-icmp'.",
                                                          "format" : "pve-fw-icmp-type-spec",
                                                          "optional" : 1,
                                                          "type" : "string",
@@ -28456,7 +28457,7 @@ const apiSchema = [
                                                    "typetext" : "<integer> (0 - N)"
                                                 },
                                                 "icmp-type" : {
-                                                   "description" : "Specify icmp-type. Only valid if proto equals 'icmp'.",
+                                                   "description" : "Specify icmp-type. Only valid if proto equals 'icmp' or 'icmpv6'/'ipv6-icmp'.",
                                                    "format" : "pve-fw-icmp-type-spec",
                                                    "optional" : 1,
                                                    "type" : "string",
@@ -43131,7 +43132,7 @@ const apiSchema = [
                                              "typetext" : "<integer> (0 - N)"
                                           },
                                           "icmp-type" : {
-                                             "description" : "Specify icmp-type. Only valid if proto equals 'icmp'.",
+                                             "description" : "Specify icmp-type. Only valid if proto equals 'icmp' or 'icmpv6'/'ipv6-icmp'.",
                                              "format" : "pve-fw-icmp-type-spec",
                                              "optional" : 1,
                                              "type" : "string",
@@ -43341,7 +43342,7 @@ const apiSchema = [
                                        "typetext" : "<integer> (0 - N)"
                                     },
                                     "icmp-type" : {
-                                       "description" : "Specify icmp-type. Only valid if proto equals 'icmp'.",
+                                       "description" : "Specify icmp-type. Only valid if proto equals 'icmp' or 'icmpv6'/'ipv6-icmp'.",
                                        "format" : "pve-fw-icmp-type-spec",
                                        "optional" : 1,
                                        "type" : "string",
@@ -45692,9 +45693,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "ceph_install",
+                                    "login",
                                     "upgrade",
-                                    "login"
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -45788,9 +45789,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "ceph_install",
+                                    "login",
                                     "upgrade",
-                                    "login"
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -45914,9 +45915,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "ceph_install",
+                                    "login",
                                     "upgrade",
-                                    "login"
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -49590,14 +49591,14 @@ const apiSchema = [
                                  "description" : "LDAP base domain name",
                                  "maxLength" : 256,
                                  "optional" : 1,
-                                 "pattern" : "(?^:\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+)(,\\s*\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+))*)",
+                                 "pattern" : "(?^:\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#]))(,\\s*\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#])))*)",
                                  "type" : "string"
                               },
                               "bind_dn" : {
                                  "description" : "LDAP bind domain name",
                                  "maxLength" : 256,
                                  "optional" : 1,
-                                 "pattern" : "(?^:\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+)(,\\s*\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+))*)",
+                                 "pattern" : "(?^:\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#]))(,\\s*\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#])))*)",
                                  "type" : "string"
                               },
                               "capath" : {
@@ -49694,7 +49695,7 @@ const apiSchema = [
                                  "description" : "LDAP base domain name for group sync. If not set, the base_dn will be used.",
                                  "maxLength" : 256,
                                  "optional" : 1,
-                                 "pattern" : "(?^:\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+)(,\\s*\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+))*)",
+                                 "pattern" : "(?^:\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#]))(,\\s*\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#])))*)",
                                  "type" : "string"
                               },
                               "group_filter" : {
@@ -49936,14 +49937,14 @@ const apiSchema = [
                            "description" : "LDAP base domain name",
                            "maxLength" : 256,
                            "optional" : 1,
-                           "pattern" : "(?^:\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+)(,\\s*\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+))*)",
+                           "pattern" : "(?^:\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#]))(,\\s*\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#])))*)",
                            "type" : "string"
                         },
                         "bind_dn" : {
                            "description" : "LDAP bind domain name",
                            "maxLength" : 256,
                            "optional" : 1,
-                           "pattern" : "(?^:\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+)(,\\s*\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+))*)",
+                           "pattern" : "(?^:\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#]))(,\\s*\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#])))*)",
                            "type" : "string"
                         },
                         "capath" : {
@@ -50025,7 +50026,7 @@ const apiSchema = [
                            "description" : "LDAP base domain name for group sync. If not set, the base_dn will be used.",
                            "maxLength" : 256,
                            "optional" : 1,
-                           "pattern" : "(?^:\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+)(,\\s*\\w+=(\"[\\w ,+/<>;=]+\"|[^ ,+\"/<>;=]+))*)",
+                           "pattern" : "(?^:\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#]))(,\\s*\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#])))*)",
                            "type" : "string"
                         },
                         "group_filter" : {

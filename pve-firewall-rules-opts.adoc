@@ -8,7 +8,7 @@ Restrict TCP/UDP destination port. You can use service names or simple numbers (
 
 `--icmp-type` `<string>` ::
 
-Specify icmp-type. Only valid if proto equals 'icmp'.
+Specify icmp-type. Only valid if proto equals 'icmp' or 'icmpv6'/'ipv6-icmp'.
 
 `--iface` `<string>` ::
 
