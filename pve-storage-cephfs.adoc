@@ -34,6 +34,10 @@ Configuration
 This backend supports the common storage properties `nodes`,
 `disable`, `content`, as well as the following `cephfs` specific properties:
 
+fs-name::
+
+Name of the Ceph FS.
+
 monhost::
 
 List of monitor daemon addresses. Optional, only needed if Ceph is not running
@@ -64,6 +68,7 @@ cephfs: cephfs-external
         path /mnt/pve/cephfs-external
         content backup
         username admin
+        fs-name cephfs
 ----
 NOTE: Don't forget to set up the client's secret key file, if cephx was not
 disabled.
