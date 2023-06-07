@@ -596,9 +596,9 @@ Create or verify authentication ticket.
 
 User name
 
-`--new-format` `<boolean>` ('default =' `0`)::
+`--new-format` `<boolean>` ('default =' `1`)::
 
-With webauthn the format of half-authenticated tickts changed. New clients should pass 1 here and not worry about the old format. The old format is deprecated and will be retired with PVE-8.0
+This parameter is now ignored and assumed to be 1.
 
 `--otp` `<string>` ::
 
@@ -757,6 +757,22 @@ Full User ID, in the `name@realm` format.
 `--id` `<string>` ::
 
 The TFA ID, if none provided, all TFA entries will be deleted.
+
+*pveum user tfa list* `[<userid>]`
+
+List TFA entries.
+
+`<userid>`: `<string>` ::
+
+Full User ID, in the `name@realm` format.
+
+*pveum user tfa unlock* `<userid>`
+
+Unlock a user's TFA authentication.
+
+`<userid>`: `<string>` ::
+
+Full User ID, in the `name@realm` format.
 
 *pveum user token add* `<userid> <tokenid>` `[OPTIONS]` `[FORMAT_OPTIONS]`
 

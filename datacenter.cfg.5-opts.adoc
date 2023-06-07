@@ -1,6 +1,6 @@
 `bwlimit`: `[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]` ::
 
-Set bandwidth/io limits various operations.
+Set I/O bandwidth limit for various operations (in KiB/s).
 
 `clone`=`<LIMIT>` ;;
 

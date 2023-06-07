@@ -26,7 +26,7 @@ block size
 
 `--bwlimit` `[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]` ::
 
-Set bandwidth/io limits various operations.
+Set I/O bandwidth limit for various operations (in KiB/s).
 
 `--comstar_hg` `<string>` ::
 
@@ -45,6 +45,14 @@ NOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs.
 `--content-dirs` `<string>` ::
 
 Overrides for default content type directories.
+
+`--create-base-path` `<boolean>` ('default =' `yes`)::
+
+Create the base directory if it doesn't exist.
+
+`--create-subdirs` `<boolean>` ('default =' `yes`)::
+
+Populate the directory with the default structure.
 
 `--data-pool` `<string>` ::
 
@@ -120,7 +128,7 @@ Deprecated: use 'prune-backups' instead. Maximal number of backup files per VM. 
 
 `--mkdir` `<boolean>` ('default =' `yes`)::
 
-Create the directory if it doesn't exist.
+Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.
 
 `--monhost` `<string>` ::
 
@@ -582,7 +590,7 @@ block size
 
 `--bwlimit` `[clone=<LIMIT>] [,default=<LIMIT>] [,migration=<LIMIT>] [,move=<LIMIT>] [,restore=<LIMIT>]` ::
 
-Set bandwidth/io limits various operations.
+Set I/O bandwidth limit for various operations (in KiB/s).
 
 `--comstar_hg` `<string>` ::
 
@@ -601,6 +609,14 @@ NOTE: the value 'rootdir' is used for Containers, and value 'images' for VMs.
 `--content-dirs` `<string>` ::
 
 Overrides for default content type directories.
+
+`--create-base-path` `<boolean>` ('default =' `yes`)::
+
+Create the base directory if it doesn't exist.
+
+`--create-subdirs` `<boolean>` ('default =' `yes`)::
+
+Populate the directory with the default structure.
 
 `--data-pool` `<string>` ::
 
@@ -672,7 +688,7 @@ Deprecated: use 'prune-backups' instead. Maximal number of backup files per VM. 
 
 `--mkdir` `<boolean>` ('default =' `yes`)::
 
-Create the directory if it doesn't exist.
+Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.
 
 `--monhost` `<string>` ::
 

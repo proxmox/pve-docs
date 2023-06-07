@@ -14,7 +14,7 @@ The (unique) ID of the VM.
 
 `--bwlimit` `<number> (0 - N)` ::
 
-Override i/o bandwidth limit (in KiB/s).
+Override I/O bandwidth limit (in KiB/s).
 
 `--force` `<boolean>` ::
 

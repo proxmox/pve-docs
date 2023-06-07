@@ -118,11 +118,11 @@ Install ceph related packages.
 
 Allow experimental versions. Use with care!
 
-`--test-repository` `<boolean>` ('default =' `0`)::
+`--repository` `<enterprise | no-subscription | test>` ('default =' `enterprise`)::
 
-Use the test, not the main repository. Use with care!
+Ceph repository to use.
 
-`--version` `<octopus | pacific | quincy>` ('default =' `pacific`)::
+`--version` `<quincy>` ('default =' `quincy`)::
 
 Ceph version to install.
 

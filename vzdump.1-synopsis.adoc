@@ -14,7 +14,7 @@ Backup all known guest systems on this host.
 
 `--bwlimit` `<integer> (0 - N)` ('default =' `0`)::
 
-Limit I/O bandwidth (KBytes per second).
+Limit I/O bandwidth (in KiB/s).
 
 `--compress` `<0 | 1 | gzip | lzo | zstd>` ('default =' `0`)::
 
@@ -28,7 +28,7 @@ Store resulting files to specified directory.
 
 Exclude specified guest systems (assumes --all)
 
-`--exclude-path` `<string>` ::
+`--exclude-path` `<array>` ::
 
 Exclude certain files/directories (shell globs). Paths starting with '/' are anchored to the container's root,  other paths match relative to each subdirectory.
 
