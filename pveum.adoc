@@ -601,7 +601,9 @@ An admin can unlock a user's Two-Factor Authentication at any time via the user
 list in the UI or the command line:
 
 [source,bash]
+----
  pveum user tfa unlock joe@pve
+----
 
 [[pveum_user_configured_totp]]
 User Configured TOTP Authentication
@@ -968,37 +970,51 @@ functions through the REST API.
 Here are some simple usage examples. To show help, type:
 
 [source,bash]
+----
  pveum
+----
 
 or (to show detailed help about a specific command)
 
 [source,bash]
+----
  pveum help user add
+----
 
 Create a new user:
 
 [source,bash]
+----
  pveum user add testuser@pve -comment "Just a test"
+----
 
 Set or change the password (not all realms support this):
 
 [source,bash]
+----
  pveum passwd testuser@pve
+----
 
 Disable a user:
 
 [source,bash]
+----
  pveum user modify testuser@pve -enable 0
+----
 
 Create a new group:
 
 [source,bash]
+----
  pveum group add testgroup
+----
 
 Create a new role:
 
 [source,bash]
+----
  pveum role add PVE_Power-only -privs "VM.PowerMgmt VM.Console"
+----
 
 
 Real World Examples
@@ -1014,17 +1030,23 @@ full administrator rights (without using the root account).
 To do this, first define the group:
 
 [source,bash]
+----
  pveum group add admin -comment "System Administrators"
+----
 
 Then assign the role:
 
 [source,bash]
+----
  pveum acl modify / -group admin -role Administrator
+----
 
 Finally, you can add users to the new 'admin' group:
 
 [source,bash]
+----
  pveum user modify testuser@pve -group admin
+----
 
 
 Auditors
@@ -1036,12 +1058,16 @@ role to users or groups.
 Example 1: Allow user `joe@pve` to see everything
 
 [source,bash]
+----
  pveum acl modify / -user joe@pve -role PVEAuditor
+----
 
 Example 2: Allow user `joe@pve` to see all virtual machines
 
 [source,bash]
+----
  pveum acl modify /vms -user joe@pve -role PVEAuditor
+----
 
 
 Delegate User Management
@@ -1051,7 +1077,9 @@ If you want to delegate user management to user `joe@pve`, you can do
 that with:
 
 [source,bash]
+----
  pveum acl modify /access -user joe@pve -role PVEUserAdmin
+----
 
 User `joe@pve` can now add and remove users, and change other user attributes,
 such as passwords. This is a very powerful role, and you most
@@ -1060,8 +1088,10 @@ example allows `joe@pve` to modify users within the realm `pve`, if they
 are members of group `customers`:
 
 [source,bash]
+----
  pveum acl modify /access/realm/pve -user joe@pve -role PVEUserAdmin
  pveum acl modify /access/groups/customers -user joe@pve -role PVEUserAdmin
+----
 
 NOTE: The user is able to add other users, but only if they are
 members of the group `customers` and within the realm `pve`.
@@ -1078,20 +1108,26 @@ permissions further.
 Give the user `joe@pve` the role PVEVMAdmin on all VMs:
 
 [source,bash]
+----
  pveum acl modify /vms -user joe@pve -role PVEVMAdmin
+----
 
 Add a new API token with separate privileges, which is only allowed to view VM
 information (for example, for monitoring purposes):
 
 [source,bash]
+----
  pveum user token add joe@pve monitoring -privsep 1
  pveum acl modify /vms -token 'joe@pve!monitoring' -role PVEAuditor
+----
 
 Verify the permissions of the user and token:
 
 [source,bash]
+----
  pveum user permissions joe@pve
  pveum user token permissions joe@pve monitoring
+----
 
 Resource Pools
 ~~~~~~~~~~~~~~
@@ -1102,24 +1138,32 @@ of these. Let's assume that you want to set up a pool for a software development
 department. First, create a group:
 
 [source,bash]
+----
  pveum group add developers -comment "Our software developers"
+----
 
 Now we create a new user which is a member of that group:
 
 [source,bash]
+----
  pveum user add developer1@pve -group developers -password
+----
 
 NOTE: The "-password" parameter will prompt you for a password
 
 Then we create a resource pool for our development department to use:
 
 [source,bash]
+----
  pveum pool add dev-pool --comment "IT development pool"
+----
 
 Finally, we can assign permissions to that pool:
 
 [source,bash]
+----
  pveum acl modify /pool/dev-pool/ -group developers -role PVEAdmin
+----
 
 Our software developers can now administer the resources assigned to
 that pool.
