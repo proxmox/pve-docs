@@ -89,7 +89,8 @@ recommended.
 [width="100%",cols="5*d",options="header"]
 |===============================================================================
 | {pve} Version | Debian Version      | First Release | Debian EOL | Proxmox EOL
-| {pve} 7.x     | Debian 11 (Bullseye)| 2021-07       | tba        | tba
+| {pve} 8.x     | Debian 12 (Bokworm) | 2023-06       | tba        | tba
+| {pve} 7.x     | Debian 11 (Bullseye)| 2021-07       | 2024-07    | 2024-07
 | {pve} 6.x     | Debian 10 (Buster)  | 2019-07       | 2022-07    | 2022-07
 | {pve} 5.x     | Debian 9 (Stretch)  | 2017-07       | 2020-07    | 2020-07
 | {pve} 4.x     | Debian 8 (Jessie)   | 2015-10       | 2018-06    | 2018-06
