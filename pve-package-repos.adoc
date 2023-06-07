@@ -25,7 +25,7 @@ Repository Management
 
 [thumbnail="screenshot/gui-node-repositories.png"]
 
-Since Proxmox VE 7.0 you can check the repository state in the web interface.
+Since Proxmox VE 7, you can check the repository state in the web interface.
 The node summary panel shows a high level status overview, while the separate
 'Repository' panel shows in-depth status and list of all configured
 repositories.
@@ -44,11 +44,11 @@ directly using `apt-get`, or via the GUI (Node -> Updates).
 
 .File `/etc/apt/sources.list`
 ----
-deb http://ftp.debian.org/debian bullseye main contrib
-deb http://ftp.debian.org/debian bullseye-updates main contrib
+deb http://deb.debian.org/debian bookworm main contrib
+deb http://deb.debian.org/debian bookworm-updates main contrib
 
 # security updates
-deb http://security.debian.org/debian-security bullseye-security main contrib
+deb http://security.debian.org/debian-security bookworm-security main contrib
 ----
 
 {pve} provides three different package repositories.
@@ -63,7 +63,7 @@ production use. The `pve-enterprise` repository is enabled by default:
 
 .File `/etc/apt/sources.list.d/pve-enterprise.list`
 ----
-deb https://enterprise.proxmox.com/debian/pve bullseye pve-enterprise
+deb https://enterprise.proxmox.com/debian/pve bookworm pve-enterprise
 ----
 
 The `root@pam` user is notified via email about available updates. Click the
@@ -74,9 +74,9 @@ Different support levels are available. Further details can be found at
 https://www.proxmox.com/en/proxmox-ve/pricing.
 
 NOTE: You can disable this repository by commenting out the above line using a
-`#` (at the start of the line). This prevents error messages if you do not have
-a subscription key. Please configure the `pve-no-subscription` repository in
-that case.
+`#` (at the start of the line). This prevents error messages if your host does
+not have a subscription key. Please configure the `pve-no-subscription`
+repository in that case.
 
 [[sysadmin_no_subscription_repo]]
 {pve} No-Subscription Repository
@@ -90,15 +90,15 @@ We recommend to configure this repository in `/etc/apt/sources.list`.
 
 .File `/etc/apt/sources.list`
 ----
-deb http://ftp.debian.org/debian bullseye main contrib
-deb http://ftp.debian.org/debian bullseye-updates main contrib
+deb http://ftp.debian.org/debian bookworm main contrib
+deb http://ftp.debian.org/debian bookworm-updates main contrib
 
 # Proxmox VE pve-no-subscription repository provided by proxmox.com,
 # NOT recommended for production use
-deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription
+deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription
 
 # security updates
-deb http://security.debian.org/debian-security bullseye-security main contrib
+deb http://security.debian.org/debian-security bookworm-security main contrib
 ----
 
 
@@ -112,26 +112,38 @@ to test new features. To configure it, add the following line to
 
 .sources.list entry for `pvetest`
 ----
-deb http://download.proxmox.com/debian/pve bullseye pvetest
+deb http://download.proxmox.com/debian/pve bookworm pvetest
 ----
 
 WARNING: The `pvetest` repository should (as the name implies) only be used for
 testing new features or bug fixes.
 
 [[sysadmin_package_repositories_ceph]]
-Ceph Quincy Repository
-~~~~~~~~~~~~~~~~~~~~~~
+Ceph Quincy Enterprise Repository
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-NOTE: Ceph Quincy (17.2) was declared stable with {pve} 7.3 or after using the
-Ceph 17.2.1 version.
-
-This repository holds the main {pve} Ceph Quincy packages. They are suitable
-for production. Use this repository if you run the Ceph client or a full Ceph
-cluster on {pve}.
+This repository holds the enterprise {pve} Ceph Quincy packages. They are
+suitable for production. Use this repository if you run the Ceph client or a
+full Ceph cluster on {pve}.
 
 .File `/etc/apt/sources.list.d/ceph.list`
 ----
-deb http://download.proxmox.com/debian/ceph-quincy bullseye main
+deb http://download.proxmox.com/debian/ceph-quincy bookworm enterprise
+----
+
+
+Ceph Quincy No-Subscription Repository
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This Ceph repository contains the Ceph Quincy packages before they are moved
+to the enterprise repository and after they where on the test repository.
+
+NOTE: It's recommended to use the enterprise repository for production
+machines.
+
+.File `/etc/apt/sources.list.d/ceph.list`
+----
+deb http://download.proxmox.com/debian/ceph-quincy bookworm no-subscription
 ----
 
 
@@ -143,66 +155,19 @@ to the main repository. It is used to test new Ceph releases on {pve}.
 
 .File `/etc/apt/sources.list.d/ceph.list`
 ----
-deb http://download.proxmox.com/debian/ceph-quincy bullseye test
+deb http://download.proxmox.com/debian/ceph-quincy bookworm test
 ----
 
-Ceph Pacific Repository
+Older Ceph Repositories
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-NOTE: Ceph Pacific (16.2) was declared stable with {pve} 7.0.
+{pve} 8 doesn't support Ceph Pacific, Ceph Octopus, or even older releases for
+hyper-converged setups. For those releases, you need to first upgrade Ceph to a
+newer release before upgrading to Proxmox VE 8.
 
-This repository holds the main {pve} Ceph Pacific packages. They are suitable
-for production. Use this repository if you run the Ceph client or a full Ceph
-cluster on {pve}.
+See the respective
+https://pve.proxmox.com/wiki/Category:Ceph_Upgrade[upgrade guide] for details.
 
-.File `/etc/apt/sources.list.d/ceph.list`
-----
-deb http://download.proxmox.com/debian/ceph-pacific bullseye main
-----
-
-
-Ceph Pacific Test Repository
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This Ceph repository contains the Ceph Pacific packages before they are moved
-to the main repository. It is used to test new Ceph releases on {pve}.
-
-.File `/etc/apt/sources.list.d/ceph.list`
-----
-deb http://download.proxmox.com/debian/ceph-pacific bullseye test
-----
-
-[[sysadmin_package_repositories_ceph_octopus]]
-Ceph Octopus Repository
-~~~~~~~~~~~~~~~~~~~~~~~
-
-NOTE: Ceph Octopus (15.2) was declared stable with {pve} 6.3. It will continue
-to get updates for the xref:faq-support-table[remaining life time of the 6.x release]
-and also for {pve} 7.x until Ceph Octopus upstream EOL (~ 2022-07).
-
-This repository holds the main {pve} Ceph Octopus packages. They are suitable
-for production. Use this repository if you run the Ceph client or a full Ceph
-cluster on {pve}.
-
-.File `/etc/apt/sources.list.d/ceph.list`
-----
-deb http://download.proxmox.com/debian/ceph-octopus bullseye main
-----
-
-Note that on an older {pve} 6.x you need to change `bullseye` to `buster` in
-the repository specification above.
-
-
-Ceph Octopus Test Repository
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This Ceph repository contains the Ceph packages before they are moved to the
-main repository. It is used to test new Ceph releases on {pve}.
-
-.File `/etc/apt/sources.list.d/ceph.list`
-----
-deb http://download.proxmox.com/debian/ceph-octopus bullseye test
-----
 
 [[repos_secure_apt]]
 
@@ -219,27 +184,58 @@ If you install {pve} on top of Debian, download and install
 the key with the following commands:
 
 ----
- # wget https://enterprise.proxmox.com/debian/proxmox-release-bullseye.gpg -O /etc/apt/trusted.gpg.d/proxmox-release-bullseye.gpg
+ # wget https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg -O /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
 ----
 
 Verify the checksum afterwards with the `sha512sum` CLI tool:
 
 ----
-# sha512sum /etc/apt/trusted.gpg.d/proxmox-release-bullseye.gpg
-7fb03ec8a1675723d2853b84aa4fdb49a46a3bb72b9951361488bfd19b29aab0a789a4f8c7406e71a69aabbc727c936d3549731c4659ffa1a08f44db8fdcebfa /etc/apt/trusted.gpg.d/proxmox-release-bullseye.gpg
+# sha512sum /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
+7da6fe34168adc6e479327ba517796d4702fa2f8b4f0a9833f5ea6e6b48f6507a6da403a274fe201595edc86a84463d50383d07f64bdde2e3658108db7d6dc87 /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
 ----
 
 or the `md5sum` CLI tool:
 
 ----
-# md5sum /etc/apt/trusted.gpg.d/proxmox-release-bullseye.gpg
-bcc35c7173e0845c0d6ad6470b70f50e /etc/apt/trusted.gpg.d/proxmox-release-bullseye.gpg
+# md5sum /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
+41558dc019ef90bd0f6067644a51cf5b /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
 ----
 
 
 ifdef::wiki[]
 
 // include note about older releases, but only for wiki
+
+{pve} 7.x Repositories
+~~~~~~~~~~~~~~~~~~~~~~
+
+{pve} 7.x is based on Debian 11.x (``bullseye''). Please note that this release
+is out of date (see the xref:faq-support-table[FAQ support table]). Existing
+installations should be updated. Nevertheless access to these repositories is
+still provided.
+
+[width="100%",cols="<d,3m",options="header"]
+|===========================================================
+|Repository                 | sources.list entry
+|{pve} 7.x Enterprise       |
+deb https://enterprise.proxmox.com/debian/pve bullseye pve-enterprise
+|{pve} 7.x No-Subscription  |
+deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription
+|{pve} 7.x Test             |
+deb http://download.proxmox.com/debian/pve bullseye pvetest
+|===========================================================
+
+Release key URL: https://enterprise.proxmox.com/debian/proxmox-release-bullseye.gpg
+
+Release key hash sums:
+
+----
+sha512sum /etc/apt/trusted.gpg.d/proxmox-release-bullseye.gpg
+7fb03ec8a1675723d2853b84aa4fdb49a46a3bb72b9951361488bfd19b29aab0a789a4f8c7406e71a69aabbc727c936d3549731c4659ffa1a08f44db8fdcebfa
+
+md5sum /etc/apt/trusted.gpg.d/proxmox-release-bullseye.gpg
+bcc35c7173e0845c0d6ad6470b70f50e
+----
 
 
 {pve} 6.x Repositories
