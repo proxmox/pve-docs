@@ -579,6 +579,30 @@ documentation for how to use the
 https://www.yubico.com/products/services-software/yubicloud/[YubiCloud] or
 https://developers.yubico.com/Software_Projects/Yubico_OTP/YubiCloud_Validation_Servers/[host your own verification server].
 
+[[pveum_tfa_lockout]]
+Limits and lockout of Two-Factor Authentication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A second factor is meant to protect users if their password is somehow leaked
+or guessed. However, some factors could still be broken by brute force. For
+this reason, users will be locked out after too many failed 2nd factor login
+attempts.
+
+For TOTP 8 failed attempts will disable the user's TOTP factors. They are
+unlocked when logging in with a recovery key. If TOTP was the only available
+factor, admin intervention is required, and it is highly recommended to require
+the user to change their password immediately.
+
+Since FIDO2/Webauthn and recovery keys are less susceptible to brute force
+attacks, the limit there is higher, but block all second factors for an hour
+when exceeded.
+
+An admin can unlock a user's Two-Factor Authentication at any time via the user
+list in the UI or the command line:
+
+[source,bash]
+ pveum user tfa unlock joe@pve
+
 [[pveum_user_configured_totp]]
 User Configured TOTP Authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
