@@ -100,11 +100,15 @@ recommended.
 |===============================================================================
 
 [[faq-upgrade]]
-How can I upgrade {pve} to the next release?::
+How can I upgrade {pve} to the next point release?::
 
-Minor version upgrades, for example upgrading from {pve} in version 5.1
-to 5.2, can be done just like any normal update, either through the Web
-GUI __Node -> Updates__ panel or through the CLI with:
+Minor version upgrades, for example upgrading from {pve} in version 7.1
+to 7.2 or 7.3, can be done just like any normal update.
+But you should still check the https://pve.proxmox.com/wiki/Roadmap[release notes]
+for any relevant noteable, or breaking change.
++
+For the update itself use either the Web UI __Node -> Updates__ panel or
+through the CLI with:
 +
 ----
 apt update
@@ -114,21 +118,25 @@ apt full-upgrade
 NOTE: Always ensure you correctly setup the
 xref:sysadmin_package_repositories[package repositories] and only
 continue with the actual upgrade if `apt update` did not hit any error.
+
+[[faq-upgrade-major]]
+How can I upgrade {pve} to the next major release?::
+
+Major version upgrades, for example going from {pve} 4.4 to 5.0, are also
+supported.
+They must be carefully planned and tested and should *never* be started without
+having a current backup ready.
 +
-Major version upgrades, for example going from {pve} 4.4 to 5.0, are
-also supported. They must be carefully planned and tested and should
-*never* be started without having a current backup ready.
-Although the specific upgrade steps depend on your respective setup, we
-provide general instructions and advice of how a upgrade should be
-performed:
+Although the specific upgrade steps depend on your respective setup, we provide
+general instructions and advice of how a upgrade should be performed:
 +
-* https://pve.proxmox.com/wiki/Upgrade_from_6.x_to_7.0[Upgrade from {pve} 6.x to 7.0]
+* https://pve.proxmox.com/wiki/Upgrade_from_6.x_to_7.0[Upgrade from {pve} 6 to 7]
 
-* https://pve.proxmox.com/wiki/Upgrade_from_5.x_to_6.0[Upgrade from {pve} 5.x to 6.0]
+* https://pve.proxmox.com/wiki/Upgrade_from_5.x_to_6.0[Upgrade from {pve} 5 to 6]
 
-* https://pve.proxmox.com/wiki/Upgrade_from_4.x_to_5.0[Upgrade from {pve} 4.x to 5.0]
+* https://pve.proxmox.com/wiki/Upgrade_from_4.x_to_5.0[Upgrade from {pve} 4 to 5]
 
-* https://pve.proxmox.com/wiki/Upgrade_from_3.x_to_4.0[Upgrade from {pve} 3.x to 4.0]
+* https://pve.proxmox.com/wiki/Upgrade_from_3.x_to_4.0[Upgrade from {pve} 3 to 4]
 
 LXC vs LXD vs Proxmox Containers vs Docker::
 
