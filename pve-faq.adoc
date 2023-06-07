@@ -130,6 +130,8 @@ having a current backup ready.
 Although the specific upgrade steps depend on your respective setup, we provide
 general instructions and advice of how a upgrade should be performed:
 +
+* https://pve.proxmox.com/wiki/Upgrade_from_7_to_8[Upgrade from {pve} 7 to 8]
+
 * https://pve.proxmox.com/wiki/Upgrade_from_6.x_to_7.0[Upgrade from {pve} 6 to 7]
 
 * https://pve.proxmox.com/wiki/Upgrade_from_5.x_to_6.0[Upgrade from {pve} 5 to 6]
