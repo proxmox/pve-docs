@@ -156,7 +156,7 @@ disable write caching on the target
 
 `--options` `<string>` ::
 
-NFS mount options (see 'man nfs')
+NFS/CIFS mount options (see 'man nfs' or 'man mount.cifs')
 
 `--password` `<password>` ::
 
@@ -716,7 +716,7 @@ disable write caching on the target
 
 `--options` `<string>` ::
 
-NFS mount options (see 'man nfs')
+NFS/CIFS mount options (see 'man nfs' or 'man mount.cifs')
 
 `--password` `<password>` ::
 

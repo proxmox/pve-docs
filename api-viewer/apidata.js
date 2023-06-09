@@ -3644,7 +3644,7 @@ const apiSchema = [
                               },
                               "ionice" : {
                                  "default" : 7,
-                                 "description" : "Set CFQ ionice priority.",
+                                 "description" : "Set IO priority when using the BFQ scheduler. For snapshot and suspend mode backups of VMs, this only affects the compressor. A value of 8 means the idle priority is used, otherwise the best-effort priority is used with the specified value.",
                                  "maximum" : 8,
                                  "minimum" : 0,
                                  "optional" : 1,
@@ -3986,7 +3986,7 @@ const apiSchema = [
                         },
                         "ionice" : {
                            "default" : 7,
-                           "description" : "Set CFQ ionice priority.",
+                           "description" : "Set IO priority when using the BFQ scheduler. For snapshot and suspend mode backups of VMs, this only affects the compressor. A value of 8 means the idle priority is used, otherwise the best-effort priority is used with the specified value.",
                            "maximum" : 8,
                            "minimum" : 0,
                            "optional" : 1,
@@ -4997,6 +4997,72 @@ const apiSchema = [
                                  ]
                               },
                               "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "crm_state" : {
+                                          "description" : "For type 'service'. Service state as seen by the CRM.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "id" : {
+                                          "description" : "Status entry ID (quorum, master, lrm:<node>, service:<sid>).",
+                                          "type" : "string"
+                                       },
+                                       "max_relocate" : {
+                                          "description" : "For type 'service'.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "max_restart" : {
+                                          "description" : "For type 'service'.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "node" : {
+                                          "description" : "Node associated to status entry.",
+                                          "type" : "string"
+                                       },
+                                       "quorate" : {
+                                          "description" : "For type 'quorum'. Whether the cluster is quorate or not.",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       },
+                                       "request_state" : {
+                                          "description" : "For type 'service'. Requested service state.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "sid" : {
+                                          "description" : "For type 'service'. Service ID.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "state" : {
+                                          "description" : "For type 'service'. Verbose service state.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "status" : {
+                                          "description" : "Status of the entry (value depends on type).",
+                                          "type" : "string"
+                                       },
+                                       "timestamp" : {
+                                          "description" : "For type 'lrm','master'. Timestamp of the status information.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "type" : {
+                                          "description" : "Type of status entry.",
+                                          "enum" : [
+                                             "quorum",
+                                             "master",
+                                             "lrm",
+                                             "service"
+                                          ]
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
                                  "type" : "array"
                               }
                            }
@@ -6578,6 +6644,356 @@ const apiSchema = [
          },
          {
             "children" : [
+               {
+                  "children" : [
+                     {
+                        "info" : {
+                           "DELETE" : {
+                              "allowtoken" : 1,
+                              "description" : "Delete realm-sync job definition.",
+                              "method" : "DELETE",
+                              "name" : "delete_job",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "id" : {
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           },
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Read realm-sync job definition.",
+                              "method" : "GET",
+                              "name" : "read_job",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "id" : {
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Audit"
+                                    ]
+                                 ]
+                              },
+                              "returns" : {
+                                 "type" : "object"
+                              }
+                           },
+                           "POST" : {
+                              "allowtoken" : 1,
+                              "description" : "Create new realm-sync job.",
+                              "method" : "POST",
+                              "name" : "create_job",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "comment" : {
+                                       "description" : "Description for the Job.",
+                                       "maxLength" : 512,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "enable-new" : {
+                                       "default" : "1",
+                                       "description" : "Enable newly synced users immediately.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "enabled" : {
+                                       "default" : 1,
+                                       "description" : "Determines if the job is enabled.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "id" : {
+                                       "description" : "The ID of the job.",
+                                       "format" : "pve-configid",
+                                       "maxLength" : 64,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "realm" : {
+                                       "description" : "Authentication domain ID",
+                                       "format" : "pve-realm",
+                                       "maxLength" : 32,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "remove-vanished" : {
+                                       "default" : "none",
+                                       "description" : "A semicolon-seperated list of things to remove when they or the user vanishes during a sync. The following values are possible: 'entry' removes the user/group when not returned from the sync. 'properties' removes the set properties on existing user/group that do not appear in the source (even custom ones). 'acl' removes acls when the user/group is not returned from the sync. Instead of a list it also can be 'none' (the default).",
+                                       "optional" : 1,
+                                       "pattern" : "(?:(?:(?:acl|properties|entry);)*(?:acl|properties|entry))|none",
+                                       "type" : "string",
+                                       "typetext" : "([acl];[properties];[entry])|none"
+                                    },
+                                    "schedule" : {
+                                       "description" : "Backup schedule. The format is a subset of `systemd` calendar events.",
+                                       "format" : "pve-calendar-event",
+                                       "maxLength" : 128,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "scope" : {
+                                       "description" : "Select what to sync.",
+                                       "enum" : [
+                                          "users",
+                                          "groups",
+                                          "both"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "and",
+                                    [
+                                       "perm",
+                                       "/access/realm/{realm}",
+                                       [
+                                          "Realm.AllocateUser"
+                                       ]
+                                    ],
+                                    [
+                                       "perm",
+                                       "/access/groups",
+                                       [
+                                          "User.Modify"
+                                       ]
+                                    ]
+                                 ],
+                                 "description" : "'Realm.AllocateUser' on '/access/realm/<realm>' and 'User.Modify' permissions to '/access/groups/'."
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           },
+                           "PUT" : {
+                              "allowtoken" : 1,
+                              "description" : "Update realm-sync job definition.",
+                              "method" : "PUT",
+                              "name" : "update_job",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "comment" : {
+                                       "description" : "Description for the Job.",
+                                       "maxLength" : 512,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "delete" : {
+                                       "description" : "A list of settings you want to delete.",
+                                       "format" : "pve-configid-list",
+                                       "maxLength" : 4096,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "enable-new" : {
+                                       "default" : "1",
+                                       "description" : "Enable newly synced users immediately.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "enabled" : {
+                                       "default" : 1,
+                                       "description" : "Determines if the job is enabled.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "id" : {
+                                       "description" : "The ID of the job.",
+                                       "format" : "pve-configid",
+                                       "maxLength" : 64,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "remove-vanished" : {
+                                       "default" : "none",
+                                       "description" : "A semicolon-seperated list of things to remove when they or the user vanishes during a sync. The following values are possible: 'entry' removes the user/group when not returned from the sync. 'properties' removes the set properties on existing user/group that do not appear in the source (even custom ones). 'acl' removes acls when the user/group is not returned from the sync. Instead of a list it also can be 'none' (the default).",
+                                       "optional" : 1,
+                                       "pattern" : "(?:(?:(?:acl|properties|entry);)*(?:acl|properties|entry))|none",
+                                       "type" : "string",
+                                       "typetext" : "([acl];[properties];[entry])|none"
+                                    },
+                                    "schedule" : {
+                                       "description" : "Backup schedule. The format is a subset of `systemd` calendar events.",
+                                       "format" : "pve-calendar-event",
+                                       "maxLength" : 128,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "scope" : {
+                                       "description" : "Select what to sync.",
+                                       "enum" : [
+                                          "users",
+                                          "groups",
+                                          "both"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "and",
+                                    [
+                                       "perm",
+                                       "/access/realm/{realm}",
+                                       [
+                                          "Realm.AllocateUser"
+                                       ]
+                                    ],
+                                    [
+                                       "perm",
+                                       "/access/groups",
+                                       [
+                                          "User.Modify"
+                                       ]
+                                    ]
+                                 ],
+                                 "description" : "'Realm.AllocateUser' on '/access/realm/<realm>' and 'User.Modify' permissions to '/access/groups/'."
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/cluster/jobs/realm-sync/{id}",
+                        "text" : "{id}"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "List configured realm-sync-jobs.",
+                        "method" : "GET",
+                        "name" : "syncjob_index",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Audit"
+                              ]
+                           ]
+                        },
+                        "returns" : {
+                           "items" : {
+                              "properties" : {
+                                 "comment" : {
+                                    "description" : "A comment for the job.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "enabled" : {
+                                    "description" : "If the job is enabled or not.",
+                                    "type" : "boolean"
+                                 },
+                                 "id" : {
+                                    "description" : "The ID of the entry.",
+                                    "type" : "string"
+                                 },
+                                 "last-run" : {
+                                    "description" : "Last execution time of the job in seconds since the beginning of the UNIX epoch",
+                                    "optional" : 1,
+                                    "type" : "integer"
+                                 },
+                                 "next-run" : {
+                                    "description" : "Next planned execution time of the job in seconds since the beginning of the UNIX epoch.",
+                                    "optional" : 1,
+                                    "type" : "integer"
+                                 },
+                                 "realm" : {
+                                    "description" : "Authentication domain ID",
+                                    "format" : "pve-realm",
+                                    "maxLength" : 32,
+                                    "type" : "string"
+                                 },
+                                 "remove-vanished" : {
+                                    "default" : "none",
+                                    "description" : "A semicolon-seperated list of things to remove when they or the user vanishes during a sync. The following values are possible: 'entry' removes the user/group when not returned from the sync. 'properties' removes the set properties on existing user/group that do not appear in the source (even custom ones). 'acl' removes acls when the user/group is not returned from the sync. Instead of a list it also can be 'none' (the default).",
+                                    "optional" : "1",
+                                    "pattern" : "(?:(?:(?:acl|properties|entry);)*(?:acl|properties|entry))|none",
+                                    "type" : "string",
+                                    "typetext" : "([acl];[properties];[entry])|none"
+                                 },
+                                 "schedule" : {
+                                    "description" : "The configured sync schedule.",
+                                    "type" : "string"
+                                 },
+                                 "scope" : {
+                                    "description" : "Select what to sync.",
+                                    "enum" : [
+                                       "users",
+                                       "groups",
+                                       "both"
+                                    ],
+                                    "optional" : "1",
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{id}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/cluster/jobs/realm-sync",
+                  "text" : "realm-sync"
+               },
                {
                   "info" : {
                      "GET" : {
@@ -12995,7 +13411,7 @@ const apiSchema = [
                                              "description" : "Arbitrary arguments passed to kvm.",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "verbose_description" : "Arbitrary arguments passed to kvm, for example:\n\nargs: -no-reboot -no-hpet\n\nNOTE: this option is for experts only.\n"
+                                             "verbose_description" : "Arbitrary arguments passed to kvm, for example:\n\nargs: -no-reboot -smbios 'type=0,vendor=FOO'\n\nNOTE: this option is for experts only.\n"
                                           },
                                           "audio0" : {
                                              "description" : "Configure a audio device, useful in combination with QXL/Spice.",
@@ -13085,6 +13501,11 @@ const apiSchema = [
                                              ],
                                              "optional" : 1,
                                              "type" : "string"
+                                          },
+                                          "ciupgrade" : {
+                                             "description" : "cloud-init: do an automatic package upgrade after the first boot.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
                                           },
                                           "ciuser" : {
                                              "description" : "cloud-init: User name to change ssh keys and password for instead of the image's configured default user.",
@@ -15246,7 +15667,7 @@ const apiSchema = [
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>",
-                                             "verbose_description" : "Arbitrary arguments passed to kvm, for example:\n\nargs: -no-reboot -no-hpet\n\nNOTE: this option is for experts only.\n"
+                                             "verbose_description" : "Arbitrary arguments passed to kvm, for example:\n\nargs: -no-reboot -smbios 'type=0,vendor=FOO'\n\nNOTE: this option is for experts only.\n"
                                           },
                                           "audio0" : {
                                              "description" : "Configure a audio device, useful in combination with QXL/Spice.",
@@ -15350,6 +15771,12 @@ const apiSchema = [
                                              ],
                                              "optional" : 1,
                                              "type" : "string"
+                                          },
+                                          "ciupgrade" : {
+                                             "description" : "cloud-init: do an automatic package upgrade after the first boot.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
                                           },
                                           "ciuser" : {
                                              "description" : "cloud-init: User name to change ssh keys and password for instead of the image's configured default user.",
@@ -17669,7 +18096,7 @@ const apiSchema = [
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>",
-                                             "verbose_description" : "Arbitrary arguments passed to kvm, for example:\n\nargs: -no-reboot -no-hpet\n\nNOTE: this option is for experts only.\n"
+                                             "verbose_description" : "Arbitrary arguments passed to kvm, for example:\n\nargs: -no-reboot -smbios 'type=0,vendor=FOO'\n\nNOTE: this option is for experts only.\n"
                                           },
                                           "audio0" : {
                                              "description" : "Configure a audio device, useful in combination with QXL/Spice.",
@@ -17765,6 +18192,12 @@ const apiSchema = [
                                              ],
                                              "optional" : 1,
                                              "type" : "string"
+                                          },
+                                          "ciupgrade" : {
+                                             "description" : "cloud-init: do an automatic package upgrade after the first boot.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
                                           },
                                           "ciuser" : {
                                              "description" : "cloud-init: User name to change ssh keys and password for instead of the image's configured default user.",
@@ -20179,16 +20612,23 @@ const apiSchema = [
                                     "returns" : {
                                        "items" : {
                                           "properties" : {
+                                             "delete" : {
+                                                "description" : "Indicates a pending delete request if present and not 0. ",
+                                                "maximum" : 1,
+                                                "minimum" : 0,
+                                                "optional" : 1,
+                                                "type" : "integer"
+                                             },
                                              "key" : {
                                                 "description" : "Configuration option name.",
                                                 "type" : "string"
                                              },
-                                             "new" : {
+                                             "pending" : {
                                                 "description" : "The new pending value.",
                                                 "optional" : 1,
                                                 "type" : "string"
                                              },
-                                             "old" : {
+                                             "value" : {
                                                 "description" : "Value as it was used to generate the current cloudinit image.",
                                                 "optional" : 1,
                                                 "type" : "string"
@@ -21500,7 +21940,7 @@ const apiSchema = [
                                              ]
                                           ]
                                        ],
-                                       "description" : "You need 'VM.Clone' permissions on /vms/{vmid}, and 'VM.Allocate' permissions on /vms/{newid} (or on the VM pool /pool/{pool}). You also need 'Datastore.AllocateSpace' on any used storage."
+                                       "description" : "You need 'VM.Clone' permissions on /vms/{vmid}, and 'VM.Allocate' permissions on /vms/{newid} (or on the VM pool /pool/{pool}). You also need 'Datastore.AllocateSpace' on any used storage and 'SDN.Use' on any used bridge/vnet"
                                     },
                                     "protected" : 1,
                                     "proxyto" : "node",
@@ -22691,7 +23131,8 @@ const apiSchema = [
                                     "protected" : 1,
                                     "proxyto" : "node",
                                     "returns" : {
-                                       "type" : "null"
+                                       "description" : "the task ID.",
+                                       "type" : "string"
                                     }
                                  }
                               },
@@ -23672,7 +24113,7 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>",
-                                 "verbose_description" : "Arbitrary arguments passed to kvm, for example:\n\nargs: -no-reboot -no-hpet\n\nNOTE: this option is for experts only.\n"
+                                 "verbose_description" : "Arbitrary arguments passed to kvm, for example:\n\nargs: -no-reboot -smbios 'type=0,vendor=FOO'\n\nNOTE: this option is for experts only.\n"
                               },
                               "audio0" : {
                                  "description" : "Configure a audio device, useful in combination with QXL/Spice.",
@@ -23776,6 +24217,12 @@ const apiSchema = [
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
+                              },
+                              "ciupgrade" : {
+                                 "description" : "cloud-init: do an automatic package upgrade after the first boot.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
                               },
                               "ciuser" : {
                                  "description" : "cloud-init: User name to change ssh keys and password for instead of the image's configured default user.",
@@ -26007,7 +26454,7 @@ const apiSchema = [
                            }
                         },
                         "permissions" : {
-                           "description" : "You need 'VM.Allocate' permissions on /vms/{vmid} or on the VM pool /pool/{pool}. For restore (option 'archive'), it is enough if the user has 'VM.Backup' permission and the VM already exists. If you create disks you need 'Datastore.AllocateSpace' on any used storage.",
+                           "description" : "You need 'VM.Allocate' permissions on /vms/{vmid} or on the VM pool /pool/{pool}. For restore (option 'archive'), it is enough if the user has 'VM.Backup' permission and the VM already exists. If you create disks you need 'Datastore.AllocateSpace' on any used storage.If you use a bridge/vlan, you need 'SDN.Use' on any used bridge/vlan.",
                            "user" : "all"
                         },
                         "protected" : 1,
@@ -30715,7 +31162,7 @@ const apiSchema = [
                                              ]
                                           ]
                                        ],
-                                       "description" : "You need 'VM.Clone' permissions on /vms/{vmid}, and 'VM.Allocate' permissions on /vms/{newid} (or on the VM pool /pool/{pool}). You also need 'Datastore.AllocateSpace' on any used storage."
+                                       "description" : "You need 'VM.Clone' permissions on /vms/{vmid}, and 'VM.Allocate' permissions on /vms/{newid} (or on the VM pool /pool/{pool}). You also need 'Datastore.AllocateSpace' on any used storage, and 'SDN.Use' on any bridge."
                                     },
                                     "protected" : 1,
                                     "proxyto" : "node",
@@ -36660,7 +37107,7 @@ const apiSchema = [
                                     },
                                     "ionice" : {
                                        "default" : 7,
-                                       "description" : "Set CFQ ionice priority.",
+                                       "description" : "Set IO priority when using the BFQ scheduler. For snapshot and suspend mode backups of VMs, this only affects the compressor. A value of 8 means the idle priority is used, otherwise the best-effort priority is used with the specified value.",
                                        "maximum" : 8,
                                        "minimum" : 0,
                                        "optional" : 1,
@@ -36917,7 +37364,7 @@ const apiSchema = [
                               },
                               "ionice" : {
                                  "default" : 7,
-                                 "description" : "Set CFQ ionice priority.",
+                                 "description" : "Set IO priority when using the BFQ scheduler. For snapshot and suspend mode backups of VMs, this only affects the compressor. A value of 8 means the idle priority is used, otherwise the best-effort priority is used with the specified value.",
                                  "maximum" : 8,
                                  "minimum" : 0,
                                  "optional" : 1,
@@ -38095,7 +38542,8 @@ const apiSchema = [
                                     "OVSBond",
                                     "OVSPort",
                                     "OVSIntPort",
-                                    "any_bridge"
+                                    "any_bridge",
+                                    "any_local_bridge"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -45336,7 +45784,7 @@ const apiSchema = [
                   "info" : {
                      "POST" : {
                         "allowtoken" : 1,
-                        "description" : "Execute multiple commands in order.",
+                        "description" : "Execute multiple commands in order, root only.",
                         "method" : "POST",
                         "name" : "execute",
                         "parameters" : {
@@ -45356,15 +45804,6 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               }
                            }
-                        },
-                        "permissions" : {
-                           "check" : [
-                              "perm",
-                              "/nodes/{node}",
-                              [
-                                 "Sys.Audit"
-                              ]
-                           ]
                         },
                         "protected" : 1,
                         "proxyto" : "node",
@@ -45719,9 +46158,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "login",
                                     "upgrade",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -45815,9 +46254,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "login",
                                     "upgrade",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -45941,9 +46380,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "login",
                                     "upgrade",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -47101,7 +47540,7 @@ const apiSchema = [
                            "typetext" : "<boolean>"
                         },
                         "options" : {
-                           "description" : "NFS mount options (see 'man nfs')",
+                           "description" : "NFS/CIFS mount options (see 'man nfs' or 'man mount.cifs')",
                            "format" : "pve-storage-options",
                            "optional" : 1,
                            "type" : "string",
@@ -47626,7 +48065,7 @@ const apiSchema = [
                      "typetext" : "<boolean>"
                   },
                   "options" : {
-                     "description" : "NFS mount options (see 'man nfs')",
+                     "description" : "NFS/CIFS mount options (see 'man nfs' or 'man mount.cifs')",
                      "format" : "pve-storage-options",
                      "optional" : 1,
                      "type" : "string",
@@ -49127,6 +49566,18 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "boolean"
                               },
+                              "Mapping.Audit" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Mapping.Modify" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Mapping.Use" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
                               "Permissions.Modify" : {
                                  "optional" : 1,
                                  "type" : "boolean"
@@ -49152,6 +49603,10 @@ const apiSchema = [
                                  "type" : "boolean"
                               },
                               "SDN.Audit" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "SDN.Use" : {
                                  "optional" : 1,
                                  "type" : "boolean"
                               },

@@ -34,7 +34,7 @@ Virtual processor architecture. Defaults to the host.
 
 Arbitrary arguments passed to kvm, for example:
 +
-args: -no-reboot -no-hpet
+args: -no-reboot -smbios 'type=0,vendor=FOO'
 +
 NOTE: this option is for experts only.
 
@@ -120,6 +120,10 @@ cloud-init: Password to assign the user. Using this is generally not recommended
 `citype`: `<configdrive2 | nocloud | opennebula>` ::
 
 Specifies the cloud-init configuration format. The default depends on the configured operating system type (`ostype`. We use the `nocloud` format for Linux, and `configdrive2` for windows.
+
+`ciupgrade`: `<boolean>` ::
+
+cloud-init: do an automatic package upgrade after the first boot.
 
 `ciuser`: `<string>` ::
 

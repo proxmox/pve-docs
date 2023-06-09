@@ -34,7 +34,7 @@ Exclude certain files/directories (shell globs). Paths starting with '/' are anc
 
 `--ionice` `<integer> (0 - 8)` ('default =' `7`)::
 
-Set CFQ ionice priority.
+Set IO priority when using the BFQ scheduler. For snapshot and suspend mode backups of VMs, this only affects the compressor. A value of 8 means the idle priority is used, otherwise the best-effort priority is used with the specified value.
 
 `--lockwait` `<integer> (0 - N)` ('default =' `180`)::
 

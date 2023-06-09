@@ -234,6 +234,18 @@ OSD ID
 
 If set, we remove partition table entries.
 
+*pveceph osd details* `<osdid>` `[OPTIONS]` `[FORMAT_OPTIONS]`
+
+Get OSD details.
+
+`<osdid>`: `<string>` ::
+
+ID of the OSD
+
+`--verbose` `<boolean>` ('default =' `0`)::
+
+Print verbose information, same as json-pretty output format.
+
 *pveceph pool create* `<name>` `[OPTIONS]`
 
 Create Ceph pool
