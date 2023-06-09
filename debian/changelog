@@ -1,3 +1,27 @@
+pve-docs (8.0.1) bookworm; urgency=medium
+
+  * network: rephrase corosync and bonds recommendations
+
+  * backup: Fix wrong unit for bandwidth limit
+
+  * storage clients: mark ZFS level as both
+
+  * package repos: update for upcoming PVE 8 and Ceph enterprise repo
+
+  * faq: update future Proxmox VE 7 EOL date and track 8
+
+  * faq: split upgrade Q into minor and major upgrades
+
+  * faq: add link for 7 to 8 upgrade
+
+  * user management: document TFA lockout
+
+  * cephfs: mention fs-name parameter
+
+  * update static/schema information
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 09 Jun 2023 11:20:48 +0200
+
 pve-docs (8.0.0) bookworm; urgency=medium
 
   * bump version for Proxmox VE 8 / Debian 12 Bookworm
