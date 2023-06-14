@@ -766,16 +766,20 @@ of predefined roles, which satisfy most requirements.
 
 * `Administrator`: has full privileges
 * `NoAccess`: has no privileges (used to forbid access)
-* `PVEAdmin`: can do most tasks, but has no rights to modify system settings (`Sys.PowerMgmt`, `Sys.Modify`, `Realm.Allocate`)
+* `PVEAdmin`: can do most tasks, but has no rights to modify system settings
+  (`Sys.PowerMgmt`, `Sys.Modify`, `Realm.Allocate`) or permissions
+  (`Permissions.Modify`)
 * `PVEAuditor`: has read only access
 * `PVEDatastoreAdmin`: create and allocate backup space and templates
 * `PVEDatastoreUser`: allocate backup space and view storage
 * `PVEPoolAdmin`: allocate pools
-* `PVESysAdmin`: User ACLs, audit, system console and system logs
+* `PVESysAdmin`: audit, system console and system logs
 * `PVETemplateUser`: view and clone templates
 * `PVEUserAdmin`: manage users
 * `PVEVMAdmin`: fully administer VMs
 * `PVEVMUser`: view, backup, configure CD-ROM, VM console, VM power management
+* `PVESDNAdmin`: manage SDN configuration
+* `PVESDNUser`: access to bridges/vnets
 
 You can see the whole set of predefined roles in the GUI.
 
@@ -790,10 +794,12 @@ To add a role through the command line, you can use the 'pveum' CLI tool, for
 example:
 [source,bash]
 ----
-pveum role add PVE_Power-only --privs "VM.PowerMgmt VM.Console"
+pveum role add VM_Power-only --privs "VM.PowerMgmt VM.Console"
 pveum role add Sys_Power-only --privs "Sys.PowerMgmt Sys.Console"
 ----
 
+NOTE: Roles starting with `PVE` are always builtin, custom roles are not
+allowed use this reserved prefix.
 
 Privileges
 ~~~~~~~~~~
@@ -820,6 +826,8 @@ Node / System related privileges::
 * `Realm.Allocate`: create/modify/remove authentication realms
 * `Realm.AllocateUser`: assign user to a realm
 * `User.Modify`: create/modify/remove user access and details.
+* `SDN.Allocate`: manage SDN configuration
+* `SDN.Audit`: view SDN configuration
 
 Virtual machine related privileges::
 
@@ -840,6 +848,7 @@ Virtual machine related privileges::
 * `VM.Config.Options`: modify any other VM configuration
 * `VM.Config.Cloudinit`: modify Cloud-init parameters
 * `VM.Snapshot`: create/delete VM snapshots
+* `SDN.Use`: access SDN vnets and local network bridges
 
 Storage related privileges::
 
@@ -848,6 +857,12 @@ Storage related privileges::
 * `Datastore.AllocateTemplate`: allocate/upload templates and ISO images
 * `Datastore.Audit`: view/browse a datastore
 
+WARNING: Both `Permissions.Modify` and `Sys.Modify` should be handled with
+care, as they allow modifying aspects of the system and its configuration that
+are dangerous or sensitive.
+
+WARNING: Carefully read the section about inheritance below to understand how
+assigned roles (and their privileges) are propagated along the ACL tree.
 
 Objects and Paths
 ~~~~~~~~~~~~~~~~~
@@ -888,6 +903,7 @@ set by default). We use the following inheritance rules:
 * Permissions for individual users always replace group permissions.
 * Permissions for groups apply when the user is member of that group.
 * Permissions on deeper levels replace those inherited from an upper level.
+* `NoAccess` cancels all other roles on a given path.
 
 Additionally, privilege separated tokens can never have permissions on any
 given path that their associated user does not have.
@@ -956,7 +972,11 @@ depending on the path, the following privileges as a possible substitute:
 * `/vms/...`: requires 'VM.Allocate`
 * `/pool/...`: requires 'Pool.Allocate`
 +
-If the path is empty, `Permission.Modify` on `/access` is required.
+If the path is empty, `Permissions.Modify` on `/access` is required.
++
+If the user does not have the `Permissions.Modify` privilege, they can only
+delegate subsets of their own privileges on the given path (e.g., a user with
+`PVEVMAdmin` could assign `PVEVMUser`, but not `PVEAdmin`).
 
 Command Line Tool
 -----------------
