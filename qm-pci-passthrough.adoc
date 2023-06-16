@@ -400,6 +400,14 @@ Example configuration with an `Intel GVT-g vGPU` (`Intel Skylake 6700k`):
 With this set, {pve} automatically creates such a device on VM start, and
 cleans it up again when the VM stops.
 
+Use in Clusters
+~~~~~~~~~~~~~~~
+
+It is also possible to map devices on a cluster level, so that they can be
+properly used with HA and hardware changes are detected and non root users
+can configure them. See xref:resource_mapping[Resource Mapping]
+for details on that.
+
 ifdef::wiki[]
 
 See Also

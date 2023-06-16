@@ -753,6 +753,10 @@ if you use a SPICE client which supports it. If you add a SPICE USB port
 to your VM, you can passthrough a USB device from where your SPICE client is,
 directly to the VM (for example an input device or hardware dongle).
 
+It is also possible to map devices on a cluster level, so that they can be
+properly used with HA and hardware changes are detected and non root users
+can configure them. See xref:resource_mapping[Resource Mapping]
+for details on that.
 
 [[qm_bios_and_uefi]]
 BIOS and UEFI
@@ -1510,6 +1514,89 @@ chosen, the first of:
 2. The first shared storage from any VM disk.
 3. The first non-shared storage from any VM disk.
 4. The storage `local` as a fallback.
+
+[[resource_mapping]]
+Resource Mapping
+~~~~~~~~~~~~~~~~
+
+When using or referencing local resources (e.g. address of a pci device), using
+the raw address or id is sometimes problematic, for example:
+
+* when using HA, a different device with the same id or path may exist on the
+  target node, and if one is not careful when assigning such guests to HA
+  groups, the wrong device could be used, breaking configurations.
+
+* changing hardware can change ids and paths, so one would have to check all
+  assigned devices and see if the path or id is still correct.
+
+To handle this better, one can define cluster wide resource mappings, such that
+a resource has a cluster unique, user selected identifier which can correspond
+to different devices on different hosts. With this, HA won't start a guest with
+a wrong device, and hardware changes can be detected.
+
+Creating such a mapping can be done with the {pve} web GUI under `Datacenter`
+in the relevant tab in the `Resource Mappings` category, or on the cli with
+
+----
+# pvesh create /cluster/mapping/TYPE OPTIONS
+----
+
+Where `TYPE` is the hardware type (currently either `pci` or `usb`) and
+`OPTIONS` are the device mappings and other configuration parameters.
+
+Note that the options must include a map property with all identifying
+properties of that hardware, so that it's possible to verify the hardware did
+not change and the correct device is passed through.
+
+For example to add a PCI device as `device1` with the path `0000:01:00.0` that
+has the device id `0001` and the vendor id `0002` on the node `node1`, and
+`0000:02:00.0` on `node2` you can add it with:
+
+----
+# pvesh create /cluster/mapping/pci --id device1 \
+ --map node=node1,path=0000:01:00.0,id=0002:0001 \
+ --map node=node2,path=0000:02:00.0,id=0002:0001
+----
+
+You must repeat the `map` parameter for each node where that device should have
+a mapping (note that you can currently only map one USB device per node per
+mapping).
+
+Using the GUI makes this much easier, as the correct properties are
+automatically picked up and sent to the API.
+
+It's also possible for PCI devices to provide multiple devices per node with
+multiple map properties for the nodes. If such a device is assigned to a guest,
+the first free one will be used when the guest is started. The order of the
+paths given is also the order in which they are tried, so arbitrary allocation
+policies can be implemented.
+
+This is useful for devices with SR-IOV, since some times it is not important
+which exact virtual function is passed through.
+
+You can assign such a device to a guest either with the GUI or with
+
+----
+# qm set ID -hostpci0 NAME
+----
+
+for PCI devices, or
+
+----
+# qm set ID -usb0 NAME
+----
+
+for USB devices.
+
+Where `ID` is the guests id and `NAME` is the chosen name for the created
+mapping. All usual options for passing through the devices are allowed, such as
+`mdev`.
+
+To create mappings `Mapping.Modify` on `/mapping/TYPE/NAME` is necessary
+(where `TYPE` is the device type and `NAME` is the name of the mapping).
+
+To use these mappings, `Mapping.Use` on `/mapping/TYPE/NAME` is necessary (in
+addition to the normal guest privileges to edit the configuration).
 
 Managing Virtual Machines with `qm`
 ------------------------------------
