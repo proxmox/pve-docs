@@ -1538,11 +1538,11 @@ Creating such a mapping can be done with the {pve} web GUI under `Datacenter`
 in the relevant tab in the `Resource Mappings` category, or on the cli with
 
 ----
-# pvesh create /cluster/mapping/TYPE OPTIONS
+# pvesh create /cluster/mapping/<type> <options>
 ----
 
-Where `TYPE` is the hardware type (currently either `pci` or `usb`) and
-`OPTIONS` are the device mappings and other configuration parameters.
+Where `<type>` is the hardware type (currently either `pci` or `usb`) and
+`<options>` are the device mappings and other configuration parameters.
 
 Note that the options must include a map property with all identifying
 properties of that hardware, so that it's possible to verify the hardware did
@@ -1577,26 +1577,26 @@ which exact virtual function is passed through.
 You can assign such a device to a guest either with the GUI or with
 
 ----
-# qm set ID -hostpci0 NAME
+# qm set ID -hostpci0 <name>
 ----
 
 for PCI devices, or
 
 ----
-# qm set ID -usb0 NAME
+# qm set <vmid> -usb0 <name>
 ----
 
 for USB devices.
 
-Where `ID` is the guests id and `NAME` is the chosen name for the created
+Where `<vmid>` is the guests id and `<name>` is the chosen name for the created
 mapping. All usual options for passing through the devices are allowed, such as
 `mdev`.
 
-To create mappings `Mapping.Modify` on `/mapping/TYPE/NAME` is necessary
-(where `TYPE` is the device type and `NAME` is the name of the mapping).
+To create mappings `Mapping.Modify` on `/mapping/<type>/<name>` is necessary
+(where `<type>` is the device type and `<name>` is the name of the mapping).
 
-To use these mappings, `Mapping.Use` on `/mapping/TYPE/NAME` is necessary (in
-addition to the normal guest privileges to edit the configuration).
+To use these mappings, `Mapping.Use` on `/mapping/<type>/<name>` is necessary
+(in addition to the normal guest privileges to edit the configuration).
 
 Managing Virtual Machines with `qm`
 ------------------------------------
