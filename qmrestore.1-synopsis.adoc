@@ -8,7 +8,7 @@ Restore QemuServer vzdump backups.
 
 The backup file. You can pass '-' to read from standard input.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 

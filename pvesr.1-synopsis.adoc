@@ -174,7 +174,7 @@ Replication Job ID. The ID is composed of a Guest ID and a job number, separated
 Set the job replication state on migration. This call is for internal use.
 It will accept the job state as ja JSON obj.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -186,7 +186,7 @@ Job state as JSON decoded string.
 
 List status of all replication jobs on this node.
 
-`--guest` `<integer> (1 - N)` ::
+`--guest` `<integer> (100 - 999999999)` ::
 
 Only list replication jobs for this guest.
 

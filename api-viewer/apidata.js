@@ -5300,8 +5300,10 @@ const apiSchema = [
                                           "freedns",
                                           "gandi_livedns",
                                           "gcloud",
+                                          "gcore",
                                           "gd",
                                           "geoscaling",
+                                          "googledomains",
                                           "he",
                                           "hetzner",
                                           "hexonet",
@@ -5312,6 +5314,7 @@ const apiSchema = [
                                           "internetbs",
                                           "inwx",
                                           "ionos",
+                                          "ipv64",
                                           "ispconfig",
                                           "jd",
                                           "joker",
@@ -5337,6 +5340,7 @@ const apiSchema = [
                                           "namecheap",
                                           "namecom",
                                           "namesilo",
+                                          "nanelo",
                                           "nederhost",
                                           "neodigit",
                                           "netcup",
@@ -5574,8 +5578,10 @@ const apiSchema = [
                                     "freedns",
                                     "gandi_livedns",
                                     "gcloud",
+                                    "gcore",
                                     "gd",
                                     "geoscaling",
+                                    "googledomains",
                                     "he",
                                     "hetzner",
                                     "hexonet",
@@ -5586,6 +5592,7 @@ const apiSchema = [
                                     "internetbs",
                                     "inwx",
                                     "ionos",
+                                    "ipv64",
                                     "ispconfig",
                                     "jd",
                                     "joker",
@@ -5611,6 +5618,7 @@ const apiSchema = [
                                     "namecheap",
                                     "namecom",
                                     "namesilo",
+                                    "nanelo",
                                     "nederhost",
                                     "neodigit",
                                     "netcup",
@@ -9864,10 +9872,11 @@ const apiSchema = [
                         "vmid" : {
                            "description" : "The (unique) ID of the VM.",
                            "format" : "pve-vmid",
-                           "minimum" : 1,
+                           "maximum" : 999999999,
+                           "minimum" : 100,
                            "optional" : 1,
                            "type" : "integer",
-                           "typetext" : "<integer> (1 - N)"
+                           "typetext" : "<integer> (100 - 999999999)"
                         }
                      }
                   },
@@ -9961,9 +9970,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -10006,9 +10016,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -10249,9 +10260,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -10294,9 +10306,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -10466,9 +10479,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -10527,9 +10541,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -10571,9 +10586,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -10640,9 +10656,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -10684,9 +10701,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -10765,9 +10783,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -10833,9 +10852,10 @@ const apiSchema = [
                                                             "vmid" : {
                                                                "description" : "The (unique) ID of the VM.",
                                                                "format" : "pve-vmid",
-                                                               "minimum" : 1,
+                                                               "maximum" : 999999999,
+                                                               "minimum" : 100,
                                                                "type" : "integer",
-                                                               "typetext" : "<integer> (1 - N)"
+                                                               "typetext" : "<integer> (100 - 999999999)"
                                                             }
                                                          }
                                                       },
@@ -10883,9 +10903,10 @@ const apiSchema = [
                                                             "vmid" : {
                                                                "description" : "The (unique) ID of the VM.",
                                                                "format" : "pve-vmid",
-                                                               "minimum" : 1,
+                                                               "maximum" : 999999999,
+                                                               "minimum" : 100,
                                                                "type" : "integer",
-                                                               "typetext" : "<integer> (1 - N)"
+                                                               "typetext" : "<integer> (100 - 999999999)"
                                                             }
                                                          }
                                                       },
@@ -10950,9 +10971,10 @@ const apiSchema = [
                                                             "vmid" : {
                                                                "description" : "The (unique) ID of the VM.",
                                                                "format" : "pve-vmid",
-                                                               "minimum" : 1,
+                                                               "maximum" : 999999999,
+                                                               "minimum" : 100,
                                                                "type" : "integer",
-                                                               "typetext" : "<integer> (1 - N)"
+                                                               "typetext" : "<integer> (100 - 999999999)"
                                                             }
                                                          }
                                                       },
@@ -11007,9 +11029,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -11051,9 +11074,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -11138,9 +11162,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -11182,9 +11207,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -11273,9 +11299,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -11317,9 +11344,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -11548,9 +11576,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -11619,9 +11648,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -11686,9 +11716,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -11748,9 +11779,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -11797,9 +11829,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -11843,9 +11876,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -11889,9 +11923,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -11935,9 +11970,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -11981,9 +12017,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -12027,9 +12064,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -12073,9 +12111,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -12119,9 +12158,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -12165,9 +12205,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -12211,9 +12252,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -12257,9 +12299,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -12303,9 +12346,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -12349,9 +12393,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -12395,9 +12440,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -12441,9 +12487,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -12487,9 +12534,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -12533,9 +12581,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -12579,9 +12628,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -12625,9 +12675,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -12671,9 +12722,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -12736,9 +12788,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -12798,9 +12851,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -12854,9 +12908,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -12940,9 +12995,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -13015,9 +13071,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -13060,9 +13117,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -13128,9 +13186,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -13200,9 +13259,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -13269,9 +13329,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -13332,9 +13393,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -17978,9 +18040,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           },
                                           "vmstatestorage" : {
                                              "description" : "Default storage for VM state volumes/files.",
@@ -20399,9 +20462,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           },
                                           "vmstatestorage" : {
                                              "description" : "Default storage for VM state volumes/files.",
@@ -20468,9 +20532,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -20549,9 +20614,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -20593,9 +20659,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -20656,9 +20723,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -20711,9 +20779,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -20763,9 +20832,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           },
                                           "websocket" : {
                                              "description" : "starts websockify instead of vncproxy",
@@ -20846,9 +20916,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -20911,9 +20982,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           },
                                           "vncticket" : {
                                              "description" : "Ticket from previous call to vncproxy.",
@@ -20973,9 +21045,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -21038,9 +21111,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -21140,7 +21214,8 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer"
                                                 }
                                              },
@@ -21235,9 +21310,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -21307,9 +21383,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -21358,9 +21435,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -21430,9 +21508,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -21482,9 +21561,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -21548,9 +21628,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -21605,9 +21686,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -21650,9 +21732,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -21713,9 +21796,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -21775,9 +21859,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -21862,9 +21947,10 @@ const apiSchema = [
                                           "newid" : {
                                              "description" : "VMID for the clone.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           },
                                           "node" : {
                                              "description" : "The cluster node name.",
@@ -21904,9 +21990,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -22661,17 +22748,19 @@ const apiSchema = [
                                           "target-vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           },
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -22723,9 +22812,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -22833,9 +22923,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           },
                                           "with-local-disks" : {
                                              "description" : "Enable live storage migration for local disk",
@@ -22925,17 +23016,19 @@ const apiSchema = [
                                           "target-vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           },
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -22984,9 +23077,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -23113,9 +23207,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -23170,9 +23265,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -23224,9 +23320,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -23283,9 +23380,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -23345,9 +23443,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -23391,9 +23490,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -23438,9 +23538,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -23524,9 +23625,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           },
                                           "vmstate" : {
                                              "description" : "Save the vmstate",
@@ -23642,9 +23744,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -23703,9 +23806,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -23779,9 +23883,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -23846,9 +23951,10 @@ const apiSchema = [
                                     "vmid" : {
                                        "description" : "The (unique) ID of the VM.",
                                        "format" : "pve-vmid",
-                                       "minimum" : 1,
+                                       "maximum" : 999999999,
+                                       "minimum" : 100,
                                        "type" : "integer",
-                                       "typetext" : "<integer> (1 - N)"
+                                       "typetext" : "<integer> (100 - 999999999)"
                                     }
                                  }
                               },
@@ -23884,9 +23990,10 @@ const apiSchema = [
                                     "vmid" : {
                                        "description" : "The (unique) ID of the VM.",
                                        "format" : "pve-vmid",
-                                       "minimum" : 1,
+                                       "maximum" : 999999999,
+                                       "minimum" : 100,
                                        "type" : "integer",
-                                       "typetext" : "<integer> (1 - N)"
+                                       "typetext" : "<integer> (100 - 999999999)"
                                     }
                                  }
                               },
@@ -24019,7 +24126,8 @@ const apiSchema = [
                                  "vmid" : {
                                     "description" : "The (unique) ID of the VM.",
                                     "format" : "pve-vmid",
-                                    "minimum" : 1,
+                                    "maximum" : 999999999,
+                                    "minimum" : 100,
                                     "type" : "integer"
                                  }
                               },
@@ -26432,9 +26540,10 @@ const apiSchema = [
                               "vmid" : {
                                  "description" : "The (unique) ID of the VM.",
                                  "format" : "pve-vmid",
-                                 "minimum" : 1,
+                                 "maximum" : 999999999,
+                                 "minimum" : 100,
                                  "type" : "integer",
-                                 "typetext" : "<integer> (1 - N)"
+                                 "typetext" : "<integer> (100 - 999999999)"
                               },
                               "vmstatestorage" : {
                                  "description" : "Default storage for VM state volumes/files.",
@@ -26506,9 +26615,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -27557,9 +27667,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -27611,9 +27722,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -27689,7 +27801,8 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer"
                                                 }
                                              },
@@ -27733,9 +27846,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -27784,9 +27898,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -27844,9 +27959,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -27889,9 +28005,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -27934,9 +28051,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -27986,9 +28104,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -28031,9 +28150,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -28101,9 +28221,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -28157,9 +28278,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -28211,9 +28333,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -28269,9 +28392,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -28315,9 +28439,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -28362,9 +28487,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -28443,9 +28569,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -28507,9 +28634,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -28552,9 +28680,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -28795,9 +28924,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -28840,9 +28970,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -29012,9 +29143,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -29073,9 +29205,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -29117,9 +29250,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -29186,9 +29320,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -29230,9 +29365,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -29311,9 +29447,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -29379,9 +29516,10 @@ const apiSchema = [
                                                             "vmid" : {
                                                                "description" : "The (unique) ID of the VM.",
                                                                "format" : "pve-vmid",
-                                                               "minimum" : 1,
+                                                               "maximum" : 999999999,
+                                                               "minimum" : 100,
                                                                "type" : "integer",
-                                                               "typetext" : "<integer> (1 - N)"
+                                                               "typetext" : "<integer> (100 - 999999999)"
                                                             }
                                                          }
                                                       },
@@ -29429,9 +29567,10 @@ const apiSchema = [
                                                             "vmid" : {
                                                                "description" : "The (unique) ID of the VM.",
                                                                "format" : "pve-vmid",
-                                                               "minimum" : 1,
+                                                               "maximum" : 999999999,
+                                                               "minimum" : 100,
                                                                "type" : "integer",
-                                                               "typetext" : "<integer> (1 - N)"
+                                                               "typetext" : "<integer> (100 - 999999999)"
                                                             }
                                                          }
                                                       },
@@ -29496,9 +29635,10 @@ const apiSchema = [
                                                             "vmid" : {
                                                                "description" : "The (unique) ID of the VM.",
                                                                "format" : "pve-vmid",
-                                                               "minimum" : 1,
+                                                               "maximum" : 999999999,
+                                                               "minimum" : 100,
                                                                "type" : "integer",
-                                                               "typetext" : "<integer> (1 - N)"
+                                                               "typetext" : "<integer> (100 - 999999999)"
                                                             }
                                                          }
                                                       },
@@ -29553,9 +29693,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -29597,9 +29738,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -29684,9 +29826,10 @@ const apiSchema = [
                                                       "vmid" : {
                                                          "description" : "The (unique) ID of the VM.",
                                                          "format" : "pve-vmid",
-                                                         "minimum" : 1,
+                                                         "maximum" : 999999999,
+                                                         "minimum" : 100,
                                                          "type" : "integer",
-                                                         "typetext" : "<integer> (1 - N)"
+                                                         "typetext" : "<integer> (100 - 999999999)"
                                                       }
                                                    }
                                                 },
@@ -29728,9 +29871,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -29819,9 +29963,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -29863,9 +30008,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -30094,9 +30240,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -30165,9 +30312,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -30232,9 +30380,10 @@ const apiSchema = [
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
                                                    "format" : "pve-vmid",
-                                                   "minimum" : 1,
+                                                   "maximum" : 999999999,
+                                                   "minimum" : 100,
                                                    "type" : "integer",
-                                                   "typetext" : "<integer> (1 - N)"
+                                                   "typetext" : "<integer> (100 - 999999999)"
                                                 }
                                              }
                                           },
@@ -30294,9 +30443,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -30367,9 +30517,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -30436,9 +30587,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -30492,9 +30644,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           },
                                           "websocket" : {
                                              "description" : "use websocket instead of standard VNC.",
@@ -30567,9 +30720,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -30632,9 +30786,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           },
                                           "vncticket" : {
                                              "description" : "Ticket from previous call to vncproxy.",
@@ -30694,9 +30849,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -30803,10 +30959,11 @@ const apiSchema = [
                                           "target-vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           },
                                           "timeout" : {
                                              "default" : 180,
@@ -30818,9 +30975,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -30904,9 +31062,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -30967,9 +31126,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -31017,9 +31177,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -31084,9 +31245,10 @@ const apiSchema = [
                                           "newid" : {
                                              "description" : "VMID for the clone.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           },
                                           "node" : {
                                              "description" : "The cluster node name.",
@@ -31126,9 +31288,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -31469,9 +31632,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -31553,10 +31717,11 @@ const apiSchema = [
                                           "target-vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           },
                                           "target-volume" : {
                                              "description" : "The config key the volume will be moved to. Default is the source volume key.",
@@ -32081,9 +32246,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           },
                                           "volume" : {
                                              "description" : "Volume which will be moved.",
@@ -32646,9 +32812,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -32730,9 +32897,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -32806,9 +32974,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "The (unique) ID of the VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -32874,9 +33043,10 @@ const apiSchema = [
                                     "vmid" : {
                                        "description" : "The (unique) ID of the VM.",
                                        "format" : "pve-vmid",
-                                       "minimum" : 1,
+                                       "maximum" : 999999999,
+                                       "minimum" : 100,
                                        "type" : "integer",
-                                       "typetext" : "<integer> (1 - N)"
+                                       "typetext" : "<integer> (100 - 999999999)"
                                     }
                                  }
                               },
@@ -32912,9 +33082,10 @@ const apiSchema = [
                                     "vmid" : {
                                        "description" : "The (unique) ID of the VM.",
                                        "format" : "pve-vmid",
-                                       "minimum" : 1,
+                                       "maximum" : 999999999,
+                                       "minimum" : 100,
                                        "type" : "integer",
-                                       "typetext" : "<integer> (1 - N)"
+                                       "typetext" : "<integer> (100 - 999999999)"
                                     }
                                  }
                               },
@@ -33027,7 +33198,8 @@ const apiSchema = [
                                  "vmid" : {
                                     "description" : "The (unique) ID of the VM.",
                                     "format" : "pve-vmid",
-                                    "minimum" : 1,
+                                    "maximum" : 999999999,
+                                    "minimum" : 100,
                                     "type" : "integer"
                                  }
                               },
@@ -33633,9 +33805,10 @@ const apiSchema = [
                               "vmid" : {
                                  "description" : "The (unique) ID of the VM.",
                                  "format" : "pve-vmid",
-                                 "minimum" : 1,
+                                 "maximum" : 999999999,
+                                 "minimum" : 100,
                                  "type" : "integer",
-                                 "typetext" : "<integer> (1 - N)"
+                                 "typetext" : "<integer> (100 - 999999999)"
                               }
                            }
                         },
@@ -39158,10 +39331,11 @@ const apiSchema = [
                               "vmid" : {
                                  "description" : "Only list tasks for this VM.",
                                  "format" : "pve-vmid",
-                                 "minimum" : 1,
+                                 "maximum" : 999999999,
+                                 "minimum" : 100,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "<integer> (1 - N)"
+                                 "typetext" : "<integer> (100 - 999999999)"
                               }
                            }
                         },
@@ -40345,10 +40519,11 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "Only prune backups for this VM.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -40401,10 +40576,11 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "Only consider backups for this guest.",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -40715,10 +40891,11 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "Only list images for this VM",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "optional" : 1,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -40859,9 +41036,10 @@ const apiSchema = [
                                           "vmid" : {
                                              "description" : "Specify owner VM",
                                              "format" : "pve-vmid",
-                                             "minimum" : 1,
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
                                              "type" : "integer",
-                                             "typetext" : "<integer> (1 - N)"
+                                             "typetext" : "<integer> (100 - 999999999)"
                                           }
                                        }
                                     },
@@ -41683,11 +41861,8 @@ const apiSchema = [
                                     "perm",
                                     "/",
                                     [
-                                       "Sys.Audit",
-                                       "Datastore.Audit"
-                                    ],
-                                    "any",
-                                    1
+                                       "Sys.Audit"
+                                    ]
                                  ]
                               },
                               "protected" : 1,
@@ -41894,11 +42069,8 @@ const apiSchema = [
                                     "perm",
                                     "/",
                                     [
-                                       "Sys.Audit",
-                                       "Datastore.Audit"
-                                    ],
-                                    "any",
-                                    1
+                                       "Sys.Audit"
+                                    ]
                                  ]
                               },
                               "protected" : 1,
@@ -42075,11 +42247,8 @@ const apiSchema = [
                                     "perm",
                                     "/",
                                     [
-                                       "Sys.Audit",
-                                       "Datastore.Audit"
-                                    ],
-                                    "any",
-                                    1
+                                       "Sys.Audit"
+                                    ]
                                  ]
                               },
                               "protected" : 1,
@@ -42223,8 +42392,7 @@ const apiSchema = [
                                           "perm",
                                           "/",
                                           [
-                                             "Sys.Modify",
-                                             "Datastore.Allocate"
+                                             "Sys.Modify"
                                           ]
                                        ]
                                     },
@@ -42261,11 +42429,8 @@ const apiSchema = [
                                           "perm",
                                           "/",
                                           [
-                                             "Sys.Audit",
-                                             "Datastore.Audit"
-                                          ],
-                                          "any",
-                                          1
+                                             "Sys.Audit"
+                                          ]
                                        ]
                                     },
                                     "protected" : 1,
@@ -42365,11 +42530,8 @@ const apiSchema = [
                                     "perm",
                                     "/",
                                     [
-                                       "Sys.Audit",
-                                       "Datastore.Audit"
-                                    ],
-                                    "any",
-                                    1
+                                       "Sys.Audit"
+                                    ]
                                  ]
                               },
                               "protected" : 1,
@@ -42513,8 +42675,7 @@ const apiSchema = [
                                     "perm",
                                     "/",
                                     [
-                                       "Sys.Modify",
-                                       "Datastore.Allocate"
+                                       "Sys.Modify"
                                     ]
                                  ]
                               },
@@ -42577,21 +42738,15 @@ const apiSchema = [
                                        "perm",
                                        "/",
                                        [
-                                          "Sys.Audit",
-                                          "Datastore.Audit"
-                                       ],
-                                       "any",
-                                       1
+                                          "Sys.Audit"
+                                       ]
                                     ],
                                     [
                                        "perm",
                                        "/nodes/{node}",
                                        [
-                                          "Sys.Audit",
-                                          "Datastore.Audit"
-                                       ],
-                                       "any",
-                                       1
+                                          "Sys.Audit"
+                                       ]
                                     ]
                                  ]
                               },
@@ -42690,11 +42845,8 @@ const apiSchema = [
                                     "perm",
                                     "/",
                                     [
-                                       "Sys.Audit",
-                                       "Datastore.Audit"
-                                    ],
-                                    "any",
-                                    1
+                                       "Sys.Audit"
+                                    ]
                                  ]
                               },
                               "protected" : 1,
@@ -44635,10 +44787,11 @@ const apiSchema = [
                               "guest" : {
                                  "description" : "Only list replication jobs for this guest.",
                                  "format" : "pve-vmid",
-                                 "minimum" : 1,
+                                 "maximum" : 999999999,
+                                 "minimum" : 100,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "<integer> (1 - N)"
+                                 "typetext" : "<integer> (100 - 999999999)"
                               },
                               "node" : {
                                  "description" : "The cluster node name.",
@@ -46158,9 +46311,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
+                                    "login",
                                     "upgrade",
-                                    "ceph_install",
-                                    "login"
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -46254,9 +46407,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
+                                    "login",
                                     "upgrade",
-                                    "ceph_install",
-                                    "login"
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -46380,9 +46533,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
+                                    "login",
                                     "upgrade",
-                                    "ceph_install",
-                                    "login"
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"

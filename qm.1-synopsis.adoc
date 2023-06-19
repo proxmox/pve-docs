@@ -9,7 +9,7 @@ An alias for 'qm guest cmd'.
 Cleans up resources like tap devices, vgpus, etc. Called after a vm shuts
 down, crashes, etc.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -25,11 +25,11 @@ Indicates if the shutdown was requested by the guest or via qmp.
 
 Create a copy of virtual machine/template.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
-`<newid>`: `<integer> (1 - N)` ::
+`<newid>`: `<integer> (100 - 999999999)` ::
 
 VMID for the clone.
 
@@ -73,7 +73,7 @@ Target node. Only allowed if the original VM is on shared storage.
 
 Get automatically generated cloudinit config.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -85,7 +85,7 @@ Config type.
 
 Get the cloudinit configuration with both current and pending values.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -93,7 +93,7 @@ The (unique) ID of the VM.
 
 Regenerate and change cloudinit config drive.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -103,7 +103,7 @@ Get the virtual machine configuration with pending configuration changes
 applied. Set the 'current' parameter to get the current configuration
 instead.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -119,7 +119,7 @@ Fetch config values from given snapshot.
 
 Create or restore a virtual machine.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -483,7 +483,7 @@ Create a virtual hardware watchdog device.
 
 Delete a VM snapshot.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -500,7 +500,7 @@ For removal from config file, even if removing disk snapshots fails.
 Destroy the VM and  all used/owned volumes. Removes any VM specific
 permissions and firewall rules
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -521,7 +521,7 @@ Ignore locks - only root is allowed to use this option.
 Import an external disk image as an unused disk in a VM. The
  image format has to be supported by qemu-img(1).
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -541,7 +541,7 @@ Target format
 
 Move volume to different storage or to a different VM.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -579,7 +579,7 @@ Prevent changes if the current config file of the target VM has a"
 
 The config key the disk will be moved to on the target VM (for example, ide0 or scsi1). Default is the source disk key.
 
-`--target-vmid` `<integer> (1 - N)` ::
+`--target-vmid` `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -591,7 +591,7 @@ Rescan all storages and update disk sizes and unused disk images.
 
 Do not actually write changes out to VM config(s).
 
-`--vmid` `<integer> (1 - N)` ::
+`--vmid` `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -599,7 +599,7 @@ The (unique) ID of the VM.
 
 Extend volume size.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -623,7 +623,7 @@ Ignore locks - only root is allowed to use this option.
 
 Unlink/delete disk images.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -639,7 +639,7 @@ A list of disk IDs you want to delete.
 
 Execute QEMU Guest Agent commands.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -651,7 +651,7 @@ The QGA command.
 
 Executes the given command via the guest agent
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -675,7 +675,7 @@ The maximum time to wait synchronously for the command to finish. If reached, th
 
 Gets the status of the given pid started by the guest-agent
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -687,7 +687,7 @@ The PID to query
 
 Sets the password for the given user to the given password
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -719,7 +719,7 @@ An alias for 'qm disk import'.
 
 Create a new VM using parameters read from an OVF manifest
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -751,7 +751,7 @@ Determine the full status of active VMs.
 
 List all snapshots.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -759,7 +759,7 @@ The (unique) ID of the VM.
 
 Migrate virtual machine. Creates a new migration task.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -799,7 +799,7 @@ Enable live storage migration for local disk
 
 Enter QEMU Monitor interface.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -819,7 +819,7 @@ Used by qmigrate - do not use manually.
 
 Stop embedded nbd server.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -827,7 +827,7 @@ The (unique) ID of the VM.
 
 Get the virtual machine configuration with both current and pending values.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -836,7 +836,7 @@ The (unique) ID of the VM.
 Reboot the VM by shutting it down, and starting it again. Applies pending
 changes.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -849,11 +849,11 @@ Wait maximal timeout seconds for the shutdown.
 Migrate virtual machine to a remote cluster. Creates a new migration task.
 EXPERIMENTAL feature!
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
-`<target-vmid>`: `<integer> (1 - N)` ::
+`<target-vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -889,7 +889,7 @@ An alias for 'qm disk rescan'.
 
 Reset virtual machine.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -905,7 +905,7 @@ An alias for 'qm disk resize'.
 
 Resume virtual machine.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -921,7 +921,7 @@ Ignore locks - only root is allowed to use this option.
 
 Rollback VM state to specified snapshot.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -937,7 +937,7 @@ Whether the VM should get started after rolling back successfully. (Note: VMs wi
 
 Send key event to virtual machine.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -955,7 +955,7 @@ Set virtual machine options (synchrounous API) - You should consider using
 the POST method instead for any actions involving hotplug or storage
 allocation.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -1303,7 +1303,7 @@ Create a virtual hardware watchdog device.
 
 Show command line which is used to start the VM (debug info).
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -1321,7 +1321,7 @@ Shutdown virtual machine. This is similar to pressing the power button on a
 physical machine.This will send an ACPI event for the guest OS, which
 should then proceed to a clean shutdown.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -1345,7 +1345,7 @@ Wait maximal timeout seconds.
 
 Snapshot a VM.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -1365,7 +1365,7 @@ Save the vmstate
 
 Start virtual machine.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -1409,7 +1409,7 @@ Wait maximal timeout seconds.
 
 Show VM status.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -1422,7 +1422,7 @@ Verbose output format
 Stop virtual machine. The qemu process will exit immediately. Thisis akin
 to pulling the power plug of a running computer and may damage the VM data
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -1446,7 +1446,7 @@ Wait maximal timeout seconds.
 
 Suspend virtual machine.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -1468,7 +1468,7 @@ If set, suspends the VM to disk. Will be resumed on next VM start.
 
 Create a Template.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -1481,7 +1481,7 @@ If you want to convert only 1 disk to base image.
 Open a terminal using a serial device (The VM need to have a serial device
 configured, for example 'serial0: socket')
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -1501,7 +1501,7 @@ An alias for 'qm disk unlink'.
 
 Unlock the VM.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -1509,7 +1509,7 @@ The (unique) ID of the VM.
 
 Proxy VM VNC traffic to stdin/stdout
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -1517,7 +1517,7 @@ The (unique) ID of the VM.
 
 Wait until the VM is stopped.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 

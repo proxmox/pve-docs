@@ -4,11 +4,11 @@
 
 Create a container clone/copy
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
-`<newid>`: `<integer> (1 - N)` ::
+`<newid>`: `<integer> (100 - 999999999)` ::
 
 VMID for the clone.
 
@@ -48,7 +48,7 @@ Target node. Only allowed if the original VM is on shared storage.
 
 Get container configuration.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -64,7 +64,7 @@ Fetch config values from given snapshot.
 
 Launch a console for the specified container.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -80,7 +80,7 @@ Print the list of assigned CPU sets.
 
 Create or restore a container.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -252,7 +252,7 @@ Reference to unused volumes. This is used internally, and should not be modified
 
 Delete a LXC snapshot.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -268,7 +268,7 @@ For removal from config file, even if removing disk snapshots fails.
 
 Destroy the container (also delete all uses files).
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -288,7 +288,7 @@ Remove container from all related configurations. For example, backup jobs, repl
 
 Get the container's current disk usage.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -296,7 +296,7 @@ The (unique) ID of the VM.
 
 Launch a shell for the specified container.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -304,7 +304,7 @@ The (unique) ID of the VM.
 
 Launch a command inside the specified container.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -316,7 +316,7 @@ Extra arguments as array
 
 Run a filesystem check (fsck) on a container volume.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -333,7 +333,7 @@ Force checking, even if the filesystem seems clean
 Run fstrim on a chosen CT and its mountpoints, except bind or read-only
 mountpoints.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -361,7 +361,7 @@ LXC container index (per node).
 
 List all snapshots.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -369,7 +369,7 @@ The (unique) ID of the VM.
 
 Migrate the container to another node. Creates a new migration task.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -403,7 +403,7 @@ Mount the container's filesystem on the host. This will hold a lock on the
 container and is meant for emergency maintenance only as it will prevent
 further operations on the container other than start and stop.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -412,7 +412,7 @@ The (unique) ID of the VM.
 Move a rootfs-/mp-volume to a different storage or to a different
 container.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -424,7 +424,7 @@ Volume which will be moved.
 
 Target Storage.
 
-`<target-vmid>`: `<integer> (1 - N)` ::
+`<target-vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -459,7 +459,7 @@ An alias for 'pct move-volume'.
 
 Get container configuration, including pending changes.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -467,7 +467,7 @@ The (unique) ID of the VM.
 
 Copy a file from the container to the local system.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -495,7 +495,7 @@ Owner user name or id.
 
 Copy a local file to the container.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -524,7 +524,7 @@ Owner user name or id. When using a name it must exist inside the container.
 Reboot the container by shutting it down, and starting it again. Applies
 pending changes.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -537,11 +537,11 @@ Wait maximal timeout seconds for the shutdown.
 Migrate container to a remote cluster. Creates a new migration task.
 EXPERIMENTAL feature!
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
-`<target-vmid>`: `<integer> (1 - N)` ::
+`<target-vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -585,7 +585,7 @@ Rescan all storages and update disk sizes and unused disk images.
 
 Do not actually write changes out to conifg.
 
-`--vmid` `<integer> (1 - N)` ::
+`--vmid` `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -593,7 +593,7 @@ The (unique) ID of the VM.
 
 Resize a container mount point.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -613,7 +613,7 @@ Prevent changes if current configuration file has different SHA1 digest. This ca
 
 Create or restore a container.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -781,7 +781,7 @@ Reference to unused volumes. This is used internally, and should not be modified
 
 Resume the container.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -789,7 +789,7 @@ The (unique) ID of the VM.
 
 Rollback LXC state to specified snapshot.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -805,7 +805,7 @@ Whether the container should get started after rolling back successfully
 
 Set container options.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -944,7 +944,7 @@ Reference to unused volumes. This is used internally, and should not be modified
 Shutdown the container. This will trigger a clean shutdown of the
 container, see lxc-stop(1) for details.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -960,7 +960,7 @@ Wait maximal timeout seconds.
 
 Snapshot a container.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -976,7 +976,7 @@ A textual description or comment.
 
 Start the container.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -992,7 +992,7 @@ Ignore locks - only root is allowed to use this option.
 
 Show CT status.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -1005,7 +1005,7 @@ Verbose output format
 Stop the container. This will abruptly stop all processes running in the
 container.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -1017,7 +1017,7 @@ Ignore locks - only root is allowed to use this option.
 
 Suspend the container. This is experimental.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -1025,7 +1025,7 @@ The (unique) ID of the VM.
 
 Create a Template.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -1033,7 +1033,7 @@ The (unique) ID of the VM.
 
 Unlock the VM.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
@@ -1041,7 +1041,7 @@ The (unique) ID of the VM.
 
 Unmount the container's filesystem.
 
-`<vmid>`: `<integer> (1 - N)` ::
+`<vmid>`: `<integer> (100 - 999999999)` ::
 
 The (unique) ID of the VM.
 
