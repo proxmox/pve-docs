@@ -177,6 +177,12 @@ zfspool: local-zfs
 	content images,rootdir
 ----
 
+CAUTION: It is problematic to have multiple storage configurations pointing to
+the exact same underlying storage. Such an _aliased_ storage configuration can
+lead to two different volume IDs ('volid') pointing to the exact same disk
+image. {pve} expects that the images' volume IDs point to, are unique. Choosing
+different content types for _aliased_ storage configurations can be fine, but
+is not recommended.
 
 Common Storage Properties
 ~~~~~~~~~~~~~~~~~~~~~~~~~
