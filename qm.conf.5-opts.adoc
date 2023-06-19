@@ -207,7 +207,7 @@ Freeze CPU at startup (use 'c' monitor command to start execution).
 
 Script that will be executed during various steps in the vms lifetime.
 
-`hostpci[n]`: `[host=]<HOSTPCIID[;HOSTPCIID2...]> [,device-id=<hex id>] [,legacy-igd=<1|0>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,sub-device-id=<hex id>] [,sub-vendor-id=<hex id>] [,vendor-id=<hex id>] [,x-vga=<1|0>]` ::
+`hostpci[n]`: `[[host=]<HOSTPCIID[;HOSTPCIID2...]>] [,device-id=<hex id>] [,legacy-igd=<1|0>] [,mapping=<mapping-id>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,sub-device-id=<hex id>] [,sub-vendor-id=<hex id>] [,vendor-id=<hex id>] [,x-vga=<1|0>]` ::
 
 Map host PCI devices into guest.
 +
@@ -228,10 +228,16 @@ of PCI virtual functions of the host. HOSTPCIID syntax is:
 'bus:dev.func' (hexadecimal numbers)
 +
 You can us the 'lspci' command to list existing PCI devices.
++
+Either this or the 'mapping' key must be set.
 
 `legacy-igd`=`<boolean>` ('default =' `0`);;
 
 Pass this device in legacy IGD mode, making it the primary and exclusive graphics device in the VM. Requires 'pc-i440fx' machine type and VGA set to 'none'.
+
+`mapping`=`<mapping-id>` ;;
+
+The ID of a cluster wide mapping. Either this or the default-key 'host' must be set.
 
 `mdev`=`<string>` ;;
 
@@ -1176,7 +1182,7 @@ Reference to unused volumes. This is used internally, and should not be modified
 
 The drive's backing volume.
 
-`usb[n]`: `[host=]<HOSTUSBDEVICE|spice> [,usb3=<1|0>]` ::
+`usb[n]`: `[[host=]<HOSTUSBDEVICE|spice>] [,mapping=<mapping-id>] [,usb3=<1|0>]` ::
 
 Configure an USB device (n is 0 to 4, for machine version >= 7.1 and ostype l26 or windows > 7, n can be up to 14).
 
@@ -1194,6 +1200,12 @@ NOTE: This option allows direct access to host hardware. So it is no longer poss
 machines - use with special care.
 +
 The value 'spice' can be used to add a usb redirection devices for spice.
++
+Either this or the 'mapping' key must be set.
+
+`mapping`=`<mapping-id>` ;;
+
+The ID of a cluster wide mapping. Either this or the default-key 'host' must be set.
 
 `usb3`=`<boolean>` ('default =' `0`);;
 

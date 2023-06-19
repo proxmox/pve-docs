@@ -7105,6 +7105,705 @@ const apiSchema = [
                {
                   "children" : [
                      {
+                        "info" : {
+                           "DELETE" : {
+                              "allowtoken" : 1,
+                              "description" : "Remove Hardware Mapping.",
+                              "method" : "DELETE",
+                              "name" : "delete",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "id" : {
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/mapping/pci",
+                                    [
+                                       "Mapping.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           },
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Get PCI Mapping.",
+                              "method" : "GET",
+                              "name" : "get",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "id" : {
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "or",
+                                    [
+                                       "perm",
+                                       "/mapping/pci/{id}",
+                                       [
+                                          "Mapping.Use"
+                                       ]
+                                    ],
+                                    [
+                                       "perm",
+                                       "/mapping/pci/{id}",
+                                       [
+                                          "Mapping.Modify"
+                                       ]
+                                    ],
+                                    [
+                                       "perm",
+                                       "/mapping/pci/{id}",
+                                       [
+                                          "Mapping.Audit"
+                                       ]
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "object"
+                              }
+                           },
+                           "PUT" : {
+                              "allowtoken" : 1,
+                              "description" : "Update a hardware mapping.",
+                              "method" : "PUT",
+                              "name" : "update",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "delete" : {
+                                       "description" : "A list of settings you want to delete.",
+                                       "format" : "pve-configid-list",
+                                       "maxLength" : 4096,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "description" : {
+                                       "description" : "Description of the logical PCI device.",
+                                       "maxLength" : 4096,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "digest" : {
+                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 40,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "id" : {
+                                       "description" : "The ID of the logical PCI mapping.",
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "map" : {
+                                       "description" : "A list of maps for the cluster nodes.",
+                                       "items" : {
+                                          "format" : {
+                                             "description" : {
+                                                "description" : "Description of the node specific device.",
+                                                "maxLength" : 4096,
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "id" : {
+                                                "description" : "The vendor and device ID that is expected. Used for detecting hardware changes",
+                                                "pattern" : "(?^:^[0-9A-Fa-f]{4}:[0-9A-Fa-f]{4}$)",
+                                                "type" : "string"
+                                             },
+                                             "iommugroup" : {
+                                                "description" : "The IOMMU group in which the device is to be expected in.Used for detecting hardware changes.",
+                                                "optional" : 1,
+                                                "type" : "integer"
+                                             },
+                                             "node" : {
+                                                "description" : "The cluster node name.",
+                                                "format" : "pve-node",
+                                                "type" : "string"
+                                             },
+                                             "path" : {
+                                                "description" : "The path to the device. If the function is omitted, the whole device is mapped. In that case use the attributes of the first device. You can give multiple paths as a semicolon seperated list, the first available will then be chosen on guest start.",
+                                                "pattern" : "(?:[a-f0-9]{4,}:[a-f0-9]{2}:[a-f0-9]{2}(?:.[a-f0-9])?;)*[a-f0-9]{4,}:[a-f0-9]{2}:[a-f0-9]{2}(?:.[a-f0-9])?",
+                                                "type" : "string"
+                                             },
+                                             "subsystem-id" : {
+                                                "description" : "The subsystem vendor and device ID that is expected. Used for detecting hardware changes.",
+                                                "optional" : 1,
+                                                "pattern" : "(?^:^[0-9A-Fa-f]{4}:[0-9A-Fa-f]{4}$)",
+                                                "type" : "string"
+                                             }
+                                          },
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array",
+                                       "typetext" : "<array>"
+                                    },
+                                    "mdev" : {
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/mapping/pci/{id}",
+                                    [
+                                       "Mapping.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/cluster/mapping/pci/{id}",
+                        "text" : "{id}"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "List PCI Hardware Mapping",
+                        "method" : "GET",
+                        "name" : "index",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "check-node" : {
+                                 "description" : "If given, checks the configurations on the given node for correctness, and adds relevant diagnostics for the devices to the response.",
+                                 "format" : "pve-node",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "description" : "Only lists entries where you have 'Mapping.Modify', 'Mapping.Use' or 'Mapping.Audit' permissions on '/mapping/pci/<id>'.",
+                           "user" : "all"
+                        },
+                        "returns" : {
+                           "items" : {
+                              "properties" : {
+                                 "checks" : {
+                                    "description" : "A list of checks, only present if 'check_node' is set.",
+                                    "items" : {
+                                       "properties" : {
+                                          "message" : {
+                                             "description" : "The message of the error",
+                                             "type" : "string"
+                                          },
+                                          "severity" : {
+                                             "description" : "The severity of the error",
+                                             "enum" : [
+                                                "warning",
+                                                "error"
+                                             ],
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    },
+                                    "optional" : 1,
+                                    "type" : "array"
+                                 },
+                                 "description" : {
+                                    "description" : "A description of the logical mapping.",
+                                    "type" : "string"
+                                 },
+                                 "id" : {
+                                    "description" : "The logical ID of the mapping.",
+                                    "type" : "string"
+                                 },
+                                 "map" : {
+                                    "description" : "The entries of the mapping.",
+                                    "items" : {
+                                       "description" : "A mapping for a node.",
+                                       "type" : "string"
+                                    },
+                                    "type" : "array"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{id}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     },
+                     "POST" : {
+                        "allowtoken" : 1,
+                        "description" : "Create a new hardware mapping.",
+                        "method" : "POST",
+                        "name" : "create",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "description" : {
+                                 "description" : "Description of the logical PCI device.",
+                                 "maxLength" : 4096,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "id" : {
+                                 "description" : "The ID of the logical PCI mapping.",
+                                 "format" : "pve-configid",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "map" : {
+                                 "description" : "A list of maps for the cluster nodes.",
+                                 "items" : {
+                                    "format" : {
+                                       "description" : {
+                                          "description" : "Description of the node specific device.",
+                                          "maxLength" : 4096,
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "id" : {
+                                          "description" : "The vendor and device ID that is expected. Used for detecting hardware changes",
+                                          "pattern" : "(?^:^[0-9A-Fa-f]{4}:[0-9A-Fa-f]{4}$)",
+                                          "type" : "string"
+                                       },
+                                       "iommugroup" : {
+                                          "description" : "The IOMMU group in which the device is to be expected in.Used for detecting hardware changes.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "node" : {
+                                          "description" : "The cluster node name.",
+                                          "format" : "pve-node",
+                                          "type" : "string"
+                                       },
+                                       "path" : {
+                                          "description" : "The path to the device. If the function is omitted, the whole device is mapped. In that case use the attributes of the first device. You can give multiple paths as a semicolon seperated list, the first available will then be chosen on guest start.",
+                                          "pattern" : "(?:[a-f0-9]{4,}:[a-f0-9]{2}:[a-f0-9]{2}(?:.[a-f0-9])?;)*[a-f0-9]{4,}:[a-f0-9]{2}:[a-f0-9]{2}(?:.[a-f0-9])?",
+                                          "type" : "string"
+                                       },
+                                       "subsystem-id" : {
+                                          "description" : "The subsystem vendor and device ID that is expected. Used for detecting hardware changes.",
+                                          "optional" : 1,
+                                          "pattern" : "(?^:^[0-9A-Fa-f]{4}:[0-9A-Fa-f]{4}$)",
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "string"
+                                 },
+                                 "optional" : 0,
+                                 "type" : "array",
+                                 "typetext" : "<array>"
+                              },
+                              "mdev" : {
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              }
+                           },
+                           "type" : "object"
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/mapping/pci",
+                              [
+                                 "Mapping.Modify"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/cluster/mapping/pci",
+                  "text" : "pci"
+               },
+               {
+                  "children" : [
+                     {
+                        "info" : {
+                           "DELETE" : {
+                              "allowtoken" : 1,
+                              "description" : "Remove Hardware Mapping.",
+                              "method" : "DELETE",
+                              "name" : "delete",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "id" : {
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/mapping/usb",
+                                    [
+                                       "Mapping.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           },
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Get USB Mapping.",
+                              "method" : "GET",
+                              "name" : "get",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "id" : {
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "or",
+                                    [
+                                       "perm",
+                                       "/mapping/usb/{id}",
+                                       [
+                                          "Mapping.Audit"
+                                       ]
+                                    ],
+                                    [
+                                       "perm",
+                                       "/mapping/usb/{id}",
+                                       [
+                                          "Mapping.Use"
+                                       ]
+                                    ],
+                                    [
+                                       "perm",
+                                       "/mapping/usb/{id}",
+                                       [
+                                          "Mapping.Modify"
+                                       ]
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "object"
+                              }
+                           },
+                           "PUT" : {
+                              "allowtoken" : 1,
+                              "description" : "Update a hardware mapping.",
+                              "method" : "PUT",
+                              "name" : "update",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "delete" : {
+                                       "description" : "A list of settings you want to delete.",
+                                       "format" : "pve-configid-list",
+                                       "maxLength" : 4096,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "description" : {
+                                       "description" : "Description of the logical PCI device.",
+                                       "maxLength" : 4096,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "digest" : {
+                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 40,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "id" : {
+                                       "description" : "The ID of the logical PCI mapping.",
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "map" : {
+                                       "description" : "A list of maps for the cluster nodes.",
+                                       "items" : {
+                                          "format" : {
+                                             "description" : {
+                                                "description" : "Description of the node specific device.",
+                                                "maxLength" : 4096,
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "id" : {
+                                                "description" : "The vendor and device ID that is expected. If a USB path is given, it is only used for detecting hardware changes",
+                                                "pattern" : "(?^:^[0-9A-Fa-f]{4}:[0-9A-Fa-f]{4}$)",
+                                                "type" : "string"
+                                             },
+                                             "node" : {
+                                                "description" : "The cluster node name.",
+                                                "format" : "pve-node",
+                                                "type" : "string"
+                                             },
+                                             "path" : {
+                                                "description" : "The path to the usb device.",
+                                                "optional" : 1,
+                                                "pattern" : "(?^:^(\\d+)\\-(\\d+(\\.\\d+)*)$)",
+                                                "type" : "string"
+                                             }
+                                          },
+                                          "type" : "string"
+                                       },
+                                       "type" : "array",
+                                       "typetext" : "<array>"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/mapping/usb/{id}",
+                                    [
+                                       "Mapping.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/cluster/mapping/usb/{id}",
+                        "text" : "{id}"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "List USB Hardware Mappings",
+                        "method" : "GET",
+                        "name" : "index",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "check-node" : {
+                                 "description" : "If given, checks the configurations on the given node for correctness, and adds relevant errors to the devices.",
+                                 "format" : "pve-node",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "description" : "Only lists entries where you have 'Mapping.Modify', 'Mapping.Use' or 'Mapping.Audit' permissions on '/mapping/usb/<id>'.",
+                           "user" : "all"
+                        },
+                        "returns" : {
+                           "items" : {
+                              "properties" : {
+                                 "description" : {
+                                    "description" : "A description of the logical mapping.",
+                                    "type" : "string"
+                                 },
+                                 "error" : {
+                                    "description" : "A list of errors when 'check_node' is given.",
+                                    "items" : {
+                                       "properties" : {
+                                          "message" : {
+                                             "description" : "The message of the error",
+                                             "type" : "string"
+                                          },
+                                          "severity" : {
+                                             "description" : "The severity of the error",
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 },
+                                 "id" : {
+                                    "description" : "The logical ID of the mapping.",
+                                    "type" : "string"
+                                 },
+                                 "map" : {
+                                    "description" : "The entries of the mapping.",
+                                    "items" : {
+                                       "description" : "A mapping for a node.",
+                                       "type" : "string"
+                                    },
+                                    "type" : "array"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{id}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     },
+                     "POST" : {
+                        "allowtoken" : 1,
+                        "description" : "Create a new hardware mapping.",
+                        "method" : "POST",
+                        "name" : "create",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "description" : {
+                                 "description" : "Description of the logical PCI device.",
+                                 "maxLength" : 4096,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "id" : {
+                                 "description" : "The ID of the logical PCI mapping.",
+                                 "format" : "pve-configid",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "map" : {
+                                 "description" : "A list of maps for the cluster nodes.",
+                                 "items" : {
+                                    "format" : {
+                                       "description" : {
+                                          "description" : "Description of the node specific device.",
+                                          "maxLength" : 4096,
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "id" : {
+                                          "description" : "The vendor and device ID that is expected. If a USB path is given, it is only used for detecting hardware changes",
+                                          "pattern" : "(?^:^[0-9A-Fa-f]{4}:[0-9A-Fa-f]{4}$)",
+                                          "type" : "string"
+                                       },
+                                       "node" : {
+                                          "description" : "The cluster node name.",
+                                          "format" : "pve-node",
+                                          "type" : "string"
+                                       },
+                                       "path" : {
+                                          "description" : "The path to the usb device.",
+                                          "optional" : 1,
+                                          "pattern" : "(?^:^(\\d+)\\-(\\d+(\\.\\d+)*)$)",
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "string"
+                                 },
+                                 "type" : "array",
+                                 "typetext" : "<array>"
+                              }
+                           },
+                           "type" : "object"
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/mapping/usb",
+                              [
+                                 "Mapping.Modify"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/cluster/mapping/usb",
+                  "text" : "usb"
+               }
+            ],
+            "info" : {
+               "GET" : {
+                  "allowtoken" : 1,
+                  "description" : "List resource types.",
+                  "method" : "GET",
+                  "name" : "index",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "permissions" : {
+                     "user" : "all"
+                  },
+                  "returns" : {
+                     "items" : {
+                        "type" : "object"
+                     },
+                     "links" : [
+                        {
+                           "href" : "{name}",
+                           "rel" : "child"
+                        }
+                     ],
+                     "type" : "array"
+                  }
+               }
+            },
+            "leaf" : 0,
+            "path" : "/cluster/mapping",
+            "text" : "mapping"
+         },
+         {
+            "children" : [
+               {
+                  "children" : [
+                     {
                         "children" : [
                            {
                               "children" : [
@@ -15256,9 +15955,17 @@ const apiSchema = [
                                              "format" : {
                                                 "host" : {
                                                    "default_key" : 1,
-                                                   "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n",
-                                                   "format" : "pve-qm-usb-device",
+                                                   "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n\nEither this or the 'mapping' key must be set.\n",
                                                    "format_description" : "HOSTUSBDEVICE|spice",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:(?:(?:(?^:(0x)?([0-9A-Fa-f]{4}):(0x)?([0-9A-Fa-f]{4})))|(?:(?^:(\\d+)\\-(\\d+(\\.\\d+)*)))|[Ss][Pp][Ii][Cc][Ee]))",
+                                                   "type" : "string"
+                                                },
+                                                "mapping" : {
+                                                   "description" : "The ID of a cluster wide mapping. Either this or the default-key 'host' must be set.",
+                                                   "format" : "pve-configid",
+                                                   "format_description" : "mapping-id",
+                                                   "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "usb3" : {
@@ -15989,7 +16696,7 @@ const apiSchema = [
                                              "format" : "pve-qm-hostpci",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,device-id=<hex id>] [,legacy-igd=<1|0>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,sub-device-id=<hex id>] [,sub-vendor-id=<hex id>] [,vendor-id=<hex id>] [,x-vga=<1|0>]",
+                                             "typetext" : "[[host=]<HOSTPCIID[;HOSTPCIID2...]>] [,device-id=<hex id>] [,legacy-igd=<1|0>] [,mapping=<mapping-id>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,sub-device-id=<hex id>] [,sub-vendor-id=<hex id>] [,vendor-id=<hex id>] [,x-vga=<1|0>]",
                                              "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer\npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "hotplug" : {
@@ -17642,9 +18349,17 @@ const apiSchema = [
                                              "format" : {
                                                 "host" : {
                                                    "default_key" : 1,
-                                                   "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n",
-                                                   "format" : "pve-qm-usb-device",
+                                                   "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n\nEither this or the 'mapping' key must be set.\n",
                                                    "format_description" : "HOSTUSBDEVICE|spice",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:(?:(?:(?^:(0x)?([0-9A-Fa-f]{4}):(0x)?([0-9A-Fa-f]{4})))|(?:(?^:(\\d+)\\-(\\d+(\\.\\d+)*)))|[Ss][Pp][Ii][Cc][Ee]))",
+                                                   "type" : "string"
+                                                },
+                                                "mapping" : {
+                                                   "description" : "The ID of a cluster wide mapping. Either this or the default-key 'host' must be set.",
+                                                   "format" : "pve-configid",
+                                                   "format_description" : "mapping-id",
+                                                   "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "usb3" : {
@@ -17656,7 +18371,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[host=]<HOSTUSBDEVICE|spice> [,usb3=<1|0>]"
+                                             "typetext" : "[[host=]<HOSTUSBDEVICE|spice>] [,mapping=<mapping-id>] [,usb3=<1|0>]"
                                           },
                                           "vcpus" : {
                                              "default" : 0,
@@ -18411,7 +19126,7 @@ const apiSchema = [
                                              "format" : "pve-qm-hostpci",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,device-id=<hex id>] [,legacy-igd=<1|0>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,sub-device-id=<hex id>] [,sub-vendor-id=<hex id>] [,vendor-id=<hex id>] [,x-vga=<1|0>]",
+                                             "typetext" : "[[host=]<HOSTPCIID[;HOSTPCIID2...]>] [,device-id=<hex id>] [,legacy-igd=<1|0>] [,mapping=<mapping-id>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,sub-device-id=<hex id>] [,sub-vendor-id=<hex id>] [,vendor-id=<hex id>] [,x-vga=<1|0>]",
                                              "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer\npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                                           },
                                           "hotplug" : {
@@ -20064,9 +20779,17 @@ const apiSchema = [
                                              "format" : {
                                                 "host" : {
                                                    "default_key" : 1,
-                                                   "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n",
-                                                   "format" : "pve-qm-usb-device",
+                                                   "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n\nEither this or the 'mapping' key must be set.\n",
                                                    "format_description" : "HOSTUSBDEVICE|spice",
+                                                   "optional" : 1,
+                                                   "pattern" : "(?^:(?:(?:(?^:(0x)?([0-9A-Fa-f]{4}):(0x)?([0-9A-Fa-f]{4})))|(?:(?^:(\\d+)\\-(\\d+(\\.\\d+)*)))|[Ss][Pp][Ii][Cc][Ee]))",
+                                                   "type" : "string"
+                                                },
+                                                "mapping" : {
+                                                   "description" : "The ID of a cluster wide mapping. Either this or the default-key 'host' must be set.",
+                                                   "format" : "pve-configid",
+                                                   "format_description" : "mapping-id",
+                                                   "optional" : 1,
                                                    "type" : "string"
                                                 },
                                                 "usb3" : {
@@ -20078,7 +20801,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[host=]<HOSTUSBDEVICE|spice> [,usb3=<1|0>]"
+                                             "typetext" : "[[host=]<HOSTUSBDEVICE|spice>] [,mapping=<mapping-id>] [,usb3=<1|0>]"
                                           },
                                           "vcpus" : {
                                              "default" : 0,
@@ -21173,7 +21896,7 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "qmpstatus" : {
-                                                   "description" : "QEMU QMP agent status.",
+                                                   "description" : "VM run state from the 'query-status' QMP monitor command.",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -22845,6 +23568,10 @@ const apiSchema = [
                                              "description" : "List local resources e.g. pci, usb",
                                              "type" : "array"
                                           },
+                                          "mapped-resources" : {
+                                             "description" : "List of mapped resources e.g. pci, usb",
+                                             "type" : "array"
+                                          },
                                           "not_allowed_nodes" : {
                                              "description" : "List not allowed nodes with additional informations, only passed if VM is offline",
                                              "optional" : 1,
@@ -24090,7 +24817,7 @@ const apiSchema = [
                                     "type" : "integer"
                                  },
                                  "qmpstatus" : {
-                                    "description" : "QEMU QMP agent status.",
+                                    "description" : "VM run state from the 'query-status' QMP monitor command.",
                                     "optional" : 1,
                                     "type" : "string"
                                  },
@@ -24467,7 +25194,7 @@ const apiSchema = [
                                  "format" : "pve-qm-hostpci",
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[host=]<HOSTPCIID[;HOSTPCIID2...]> [,device-id=<hex id>] [,legacy-igd=<1|0>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,sub-device-id=<hex id>] [,sub-vendor-id=<hex id>] [,vendor-id=<hex id>] [,x-vga=<1|0>]",
+                                 "typetext" : "[[host=]<HOSTPCIID[;HOSTPCIID2...]>] [,device-id=<hex id>] [,legacy-igd=<1|0>] [,mapping=<mapping-id>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,sub-device-id=<hex id>] [,sub-vendor-id=<hex id>] [,vendor-id=<hex id>] [,x-vga=<1|0>]",
                                  "verbose_description" : "Map host PCI devices into guest.\n\nNOTE: This option allows direct access to host hardware. So it is no longer\npossible to migrate such machines - use with special care.\n\nCAUTION: Experimental! User reported problems with this option.\n"
                               },
                               "hotplug" : {
@@ -26142,9 +26869,17 @@ const apiSchema = [
                                  "format" : {
                                     "host" : {
                                        "default_key" : 1,
-                                       "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n",
-                                       "format" : "pve-qm-usb-device",
+                                       "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n\nEither this or the 'mapping' key must be set.\n",
                                        "format_description" : "HOSTUSBDEVICE|spice",
+                                       "optional" : 1,
+                                       "pattern" : "(?^:(?:(?:(?^:(0x)?([0-9A-Fa-f]{4}):(0x)?([0-9A-Fa-f]{4})))|(?:(?^:(\\d+)\\-(\\d+(\\.\\d+)*)))|[Ss][Pp][Ii][Cc][Ee]))",
+                                       "type" : "string"
+                                    },
+                                    "mapping" : {
+                                       "description" : "The ID of a cluster wide mapping. Either this or the default-key 'host' must be set.",
+                                       "format" : "pve-configid",
+                                       "format_description" : "mapping-id",
+                                       "optional" : 1,
                                        "type" : "string"
                                     },
                                     "usb3" : {
@@ -26156,7 +26891,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[host=]<HOSTUSBDEVICE|spice> [,usb3=<1|0>]"
+                                 "typetext" : "[[host=]<HOSTUSBDEVICE|spice>] [,mapping=<mapping-id>] [,usb3=<1|0>]"
                               },
                               "vcpus" : {
                                  "default" : 0,
@@ -41822,10 +42557,10 @@ const apiSchema = [
                                           "perm",
                                           "/",
                                           [
-                                             "Sys.Modify",
-                                             "Datastore.Allocate"
+                                             "Sys.Modify"
                                           ]
-                                       ]
+                                       ],
+                                       "description" : "Requires additionally 'Datastore.Allocate' on /storage when setting 'cleanup-config'"
                                     },
                                     "protected" : 1,
                                     "proxyto" : "node",
@@ -41963,10 +42698,10 @@ const apiSchema = [
                                     "perm",
                                     "/",
                                     [
-                                       "Sys.Modify",
-                                       "Datastore.Allocate"
+                                       "Sys.Modify"
                                     ]
-                                 ]
+                                 ],
+                                 "description" : "Requires additionally 'Datastore.Allocate' on /storage when setting 'add_storage'"
                               },
                               "protected" : 1,
                               "proxyto" : "node",
@@ -42030,10 +42765,10 @@ const apiSchema = [
                                           "perm",
                                           "/",
                                           [
-                                             "Sys.Modify",
-                                             "Datastore.Allocate"
+                                             "Sys.Modify"
                                           ]
-                                       ]
+                                       ],
+                                       "description" : "Requires additionally 'Datastore.Allocate' on /storage when setting 'cleanup-config'"
                                     },
                                     "protected" : 1,
                                     "proxyto" : "node",
@@ -42147,10 +42882,10 @@ const apiSchema = [
                                     "perm",
                                     "/",
                                     [
-                                       "Sys.Modify",
-                                       "Datastore.Allocate"
+                                       "Sys.Modify"
                                     ]
-                                 ]
+                                 ],
+                                 "description" : "Requires additionally 'Datastore.Allocate' on /storage when setting 'add_storage'"
                               },
                               "protected" : 1,
                               "proxyto" : "node",
@@ -42208,10 +42943,10 @@ const apiSchema = [
                                           "perm",
                                           "/",
                                           [
-                                             "Sys.Modify",
-                                             "Datastore.Allocate"
+                                             "Sys.Modify"
                                           ]
-                                       ]
+                                       ],
+                                       "description" : "Requires additionally 'Datastore.Allocate' on /storage when setting 'cleanup-config'"
                                     },
                                     "protected" : 1,
                                     "proxyto" : "node",
@@ -42331,10 +43066,10 @@ const apiSchema = [
                                     "perm",
                                     "/",
                                     [
-                                       "Sys.Modify",
-                                       "Datastore.Allocate"
+                                       "Sys.Modify"
                                     ]
-                                 ]
+                                 ],
+                                 "description" : "Requires additionally 'Datastore.Allocate' on /storage when setting 'add_storage'"
                               },
                               "protected" : 1,
                               "proxyto" : "node",
@@ -42394,7 +43129,8 @@ const apiSchema = [
                                           [
                                              "Sys.Modify"
                                           ]
-                                       ]
+                                       ],
+                                       "description" : "Requires additionally 'Datastore.Allocate' on /storage when setting 'cleanup-config'"
                                     },
                                     "protected" : 1,
                                     "proxyto" : "node",
@@ -42677,7 +43413,8 @@ const apiSchema = [
                                     [
                                        "Sys.Modify"
                                     ]
-                                 ]
+                                 ],
+                                 "description" : "Requires additionally 'Datastore.Allocate' on /storage when setting 'add_storage'"
                               },
                               "protected" : 1,
                               "proxyto" : "node",
@@ -46311,9 +47048,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "login",
                                     "upgrade",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -46407,9 +47144,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "login",
                                     "upgrade",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -46533,9 +47270,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "login",
                                     "upgrade",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"

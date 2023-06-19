@@ -237,7 +237,7 @@ Freeze CPU at startup (use 'c' monitor command to start execution).
 
 Script that will be executed during various steps in the vms lifetime.
 
-`--hostpci[n]` `[host=]<HOSTPCIID[;HOSTPCIID2...]> [,device-id=<hex id>] [,legacy-igd=<1|0>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,sub-device-id=<hex id>] [,sub-vendor-id=<hex id>] [,vendor-id=<hex id>] [,x-vga=<1|0>]` ::
+`--hostpci[n]` `[[host=]<HOSTPCIID[;HOSTPCIID2...]>] [,device-id=<hex id>] [,legacy-igd=<1|0>] [,mapping=<mapping-id>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,sub-device-id=<hex id>] [,sub-vendor-id=<hex id>] [,vendor-id=<hex id>] [,x-vga=<1|0>]` ::
 
 Map host PCI devices into guest.
 
@@ -451,7 +451,7 @@ NOTE: Requires option(s): `archive`
 
 Reference to unused volumes. This is used internally, and should not be modified manually.
 
-`--usb[n]` `[host=]<HOSTUSBDEVICE|spice> [,usb3=<1|0>]` ::
+`--usb[n]` `[[host=]<HOSTUSBDEVICE|spice>] [,mapping=<mapping-id>] [,usb3=<1|0>]` ::
 
 Configure an USB device (n is 0 to 4, for machine version >= 7.1 and ostype l26 or windows > 7, n can be up to 14).
 
@@ -1073,7 +1073,7 @@ Freeze CPU at startup (use 'c' monitor command to start execution).
 
 Script that will be executed during various steps in the vms lifetime.
 
-`--hostpci[n]` `[host=]<HOSTPCIID[;HOSTPCIID2...]> [,device-id=<hex id>] [,legacy-igd=<1|0>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,sub-device-id=<hex id>] [,sub-vendor-id=<hex id>] [,vendor-id=<hex id>] [,x-vga=<1|0>]` ::
+`--hostpci[n]` `[[host=]<HOSTPCIID[;HOSTPCIID2...]>] [,device-id=<hex id>] [,legacy-igd=<1|0>] [,mapping=<mapping-id>] [,mdev=<string>] [,pcie=<1|0>] [,rombar=<1|0>] [,romfile=<string>] [,sub-device-id=<hex id>] [,sub-vendor-id=<hex id>] [,vendor-id=<hex id>] [,x-vga=<1|0>]` ::
 
 Map host PCI devices into guest.
 
@@ -1271,7 +1271,7 @@ Configure a Disk for storing TPM state. The format is fixed to 'raw'. Use the sp
 
 Reference to unused volumes. This is used internally, and should not be modified manually.
 
-`--usb[n]` `[host=]<HOSTUSBDEVICE|spice> [,usb3=<1|0>]` ::
+`--usb[n]` `[[host=]<HOSTUSBDEVICE|spice>] [,mapping=<mapping-id>] [,usb3=<1|0>]` ::
 
 Configure an USB device (n is 0 to 4, for machine version >= 7.1 and ostype l26 or windows > 7, n can be up to 14).
 
