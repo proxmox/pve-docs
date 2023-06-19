@@ -4,7 +4,7 @@ pve-docs (8.0.2) bookworm; urgency=medium
 
   * virtual machines: add documentation about cluster-wide device mappings
 
- -- Proxmox Support Team <support@proxmox.com>  Mon, 19 Jun 2023 08:42:19 +0200
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 19 Jun 2023 09:11:37 +0200
 
 pve-docs (8.0.1) bookworm; urgency=medium
 
