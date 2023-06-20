@@ -388,77 +388,83 @@ cluster, choose the lowest compatible virtual QEMU CPU type.
 NOTE: Live migrations between Intel and AMD host CPUs have no guarantee to work.
 
 
-Intel CPU Types since 2007
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+Intel CPU Types Since 2007 as Defined in QEMU
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors[Intel Processors]
+https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors[Intel processors]
 
-* 'Nahelem' : https://fr.wikipedia.org/wiki/Nehalem[1th generation of the Intel Core Processor]
+* 'Nahelem' : https://en.wikipedia.org/wiki/Nehalem_(microarchitecture)[1st generation of the Intel Core processor]
 +
-* 'Nahelem-IBRS (v2)' : add spectre (+spec-ctrl)
+* 'Nahelem-IBRS (v2)' : add Spectre v1 protection ('+spec-ctrl')
 +
-* 'Westmere' : https://en.wikipedia.org/wiki/Westmere_(microarchitecture)[1th generation of the Intel Core Processor (Xeon E7-)]
+* 'Westmere' : https://en.wikipedia.org/wiki/Westmere_(microarchitecture)[1st generation of the Intel Core processor (Xeon E7-)]
 +
-* 'Westmere-IBRS (v2)' : add spectre (+spec-ctrl)
+* 'Westmere-IBRS (v2)' : add Spectre v1 protection ('+spec-ctrl')
 +
-* 'SandyBridge' : https://fr.wikipedia.org/wiki/Sandy_Bridge[2th generation of the Intel Core Processor]
+* 'SandyBridge' : https://en.wikipedia.org/wiki/Sandy_Bridge[2nd generation of the Intel Core processor]
 +
-* 'SandyBridge-IBRS (v2)' : add spectre v1 protection (+spec-ctrl)
+* 'SandyBridge-IBRS (v2)' : add Spectre v1 protection ('+spec-ctrl')
 +
-* 'IvyBridge' : https://en.wikipedia.org/wiki/Ivy_Bridge_(microarchitecture)[3th generation of the Intel Core Processor]
+* 'IvyBridge' : https://en.wikipedia.org/wiki/Ivy_Bridge_(microarchitecture)[3rd generation of the Intel Core processor]
 +
-* 'IvyBridge-IBRS (v2)': add spectre v1 protection (+spec-ctrl)
+* 'IvyBridge-IBRS (v2)': add Spectre v1 protection ('+spec-ctrl')
 +
-* 'Haswell' : https://fr.wikipedia.org/wiki/Haswell_(microarchitecture)[4th generation of the Intel Core Processor]
+* 'Haswell' : https://en.wikipedia.org/wiki/Haswell_(microarchitecture)[4th generation of the Intel Core processor]
 +
-* 'Haswell-noTSX (v2)' : disable TSX (-hle,-rtm)
+* 'Haswell-noTSX (v2)' : disable TSX ('-hle', '-rtm')
 +
-* 'Haswell-IBRS (v3)' : readd TSX, add spectre (+hle,+rtm, +spec-ctrl)
+* 'Haswell-IBRS (v3)' : re-add TSX, add Spectre v1 protection ('+hle', '+rtm',
+'+spec-ctrl')
 +
-* 'Harwell-noTSX-IBRS (v4)' : disable TSX (-hle,-rtm)
+* 'Haswell-noTSX-IBRS (v4)' : disable TSX ('-hle', '-rtm')
 +
-* 'Broadwell': https://en.wikipedia.org/wiki/Broadwell_(microarchitecture)[5th generation of the Intel Core Processor]
+* 'Broadwell': https://en.wikipedia.org/wiki/Broadwell_(microarchitecture)[5th generation of the Intel Core processor]
 +
 * 'Skylake': https://en.wikipedia.org/wiki/Skylake_(microarchitecture)[1st generation Xeon Scalable server processors]
 +
-* 'Skylake-IBRS (v2)' : add +spec-ctrl,-clflushopt
+* 'Skylake-IBRS (v2)' : add Spectre v1 protection, disable CLFLUSHOPT
+('+spec-ctrl', '-clflushopt')
 +
-* 'Skylake-noTSX-IBRS (v3)' : disable TSX (-hle, -rtm)
+* 'Skylake-noTSX-IBRS (v3)' : disable TSX ('-hle', '-rtm')
 +
-* 'Skylake-v4': add EPT switching (+vmx-eptp-switching)
+* 'Skylake-v4': add EPT switching ('+vmx-eptp-switching')
 +
-* 'Cascadelake': https://en.wikipedia.org/wiki/Cascade_Lake_(microprocessor)[2nd generation Xeon scalable processor]
+* 'Cascadelake': https://en.wikipedia.org/wiki/Cascade_Lake_(microprocessor)[2nd generation Xeon Scalable processor]
 +
-* 'Cascadelake-v2' : add arch_capabilities msr (+arch-capabilities,+rdctl-no,+ibrs-all,+skip-l1dfl-vmentry,+mds-no)
+* 'Cascadelake-v2' : add arch_capabilities msr ('+arch-capabilities',
+'+rdctl-no', '+ibrs-all', '+skip-l1dfl-vmentry', '+mds-no')
 +
-* 'Cascadelake-v3' : disable TSX (-hle, -rtm)
+* 'Cascadelake-v3' : disable TSX ('-hle', '-rtm')
 +
-* 'Cascadelake-v4' : add EPT switching (+vmx-eptp-switching)
+* 'Cascadelake-v4' : add EPT switching ('+vmx-eptp-switching')
 +
-* 'Cascadelake-v5' : add XSAVES (+xsaves,+vmx-xsaves)
+* 'Cascadelake-v5' : add XSAVES ('+xsaves', '+vmx-xsaves')
 +
-* 'CooperLake' : https://en.wikipedia.org/wiki/Cooper_Lake_(microprocessor)[3rd generation Xeon scalable processors for 4 & 8 sockets servers]
+* 'Cooperlake' : https://en.wikipedia.org/wiki/Cooper_Lake_(microprocessor)[3rd generation Xeon Scalable processors for 4 & 8 sockets servers]
 +
-* 'CooperLake-v2' : add XSAVES (+xsaves,+vmx-xsaves)
+* 'Cooperlake-v2' : add XSAVES ('+xsaves', '+vmx-xsaves')
 +
-* 'IceLake': https://en.wikipedia.org/wiki/Ice_Lake_(microprocessor)[3rd generation Xeon Scalable server processors]
+* 'Icelake': https://en.wikipedia.org/wiki/Ice_Lake_(microprocessor)[3rd generation Xeon Scalable server processors]
 +
-* 'Icelake-v2' : disable TSX(-hle,-rtm)
+* 'Icelake-v2' : disable TSX ('-hle', '-rtm')
 +
-* 'Icelake-v3' : add arch_capabilities msr (+arch-capabilities, +rdctl-no, +ibrs-all, +skip-l1dfl-vmentry,+mds-no,+pschange-mc-no,+taa-no)
+* 'Icelake-v3' : add arch_capabilities msr ('+arch-capabilities', '+rdctl-no',
+'+ibrs-all', '+skip-l1dfl-vmentry', '+mds-no', '+pschange-mc-no', '+taa-no')
 +
-* 'Icelake-v4' : add missing flags (+sha-ni,+avx512ifma,+rdpid,+fsrm,+vmx-rdseed-exit,+vmx-pml,+vmx-eptp-switching)
+* 'Icelake-v4' : add missing flags ('+sha-ni', '+avx512ifma', '+rdpid', '+fsrm',
+'+vmx-rdseed-exit', '+vmx-pml', '+vmx-eptp-switching')
 +
-* 'Icelake-v5' : add XSAVES (+xsaves,+vmx-xsaves)
+* 'Icelake-v5' : add XSAVES ('+xsaves', '+vmx-xsaves')
 +
-* 'Icelake-v6' : add "5-level EPT" (+vmx-page-walk-5)
+* 'Icelake-v6' : add "5-level EPT" ('+vmx-page-walk-5')
 +
-* 'Sapphire Rapids' : https://en.wikipedia.org/wiki/Sapphire_Rapids[4th generation Xeon Scalable server processors]
+* 'SapphireRapids' : https://en.wikipedia.org/wiki/Sapphire_Rapids[4th generation Xeon Scalable server processors]
 
-AMD CPU Types since 2007
-^^^^^^^^^^^^^^^^^^^^^^^^
 
-https://en.wikipedia.org/wiki/List_of_AMD_processors[AMD Processors]
+AMD CPU Types Since 2007 as Defined in QEMU
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+https://en.wikipedia.org/wiki/List_of_AMD_processors[AMD processors]
 
 * 'Opteron_G3' : https://en.wikipedia.org/wiki/AMD_10h[K10]
 +
@@ -466,19 +472,22 @@ https://en.wikipedia.org/wiki/List_of_AMD_processors[AMD Processors]
 +
 * 'Opteron_G5' :  https://en.wikipedia.org/wiki/Piledriver_(microarchitecture)[Piledriver]
 +
-* 'EPYC' : https://en.wikipedia.org/wiki/Zen_(first_generation)[1st Generation of Zen Processors]
+* 'EPYC' : https://en.wikipedia.org/wiki/Zen_(first_generation)[1st generation of Zen processors]
 +
-* 'EPYC-IBPB (v2)' : add spectre v1 protection (+ibpb)
+* 'EPYC-IBPB (v2)' : add Spectre v1 protection ('+ibpb')
 +
-* 'EPYC-v3' : add missing flags (+perfctr-core,+clzero,+xsaveerptr,+xsaves)
+* 'EPYC-v3' : add missing flags ('+perfctr-core', '+clzero', '+xsaveerptr',
+'+xsaves')
 +
-* 'EPYC-Rome' : https://en.wikipedia.org/wiki/Zen_2[2nd Generation of Zen Processors]
+* 'EPYC-Rome' : https://en.wikipedia.org/wiki/Zen_2[2nd generation of Zen processors]
 +
-* 'EPYC-Rome-v2' : add spectre v2,v4 protection (+ibrs,+amd-ssbd)
+* 'EPYC-Rome-v2' : add Spectre v2, v4 protection ('+ibrs', '+amd-ssbd')
 +
-* 'EPYC-Milan' : https://en.wikipedia.org/wiki/Zen_3[3th Generation of Zen Processors]
+* 'EPYC-Milan' : https://en.wikipedia.org/wiki/Zen_3[3rd generation of Zen processors]
 +
-* 'EPYC-Milan-v2' : add missing flags (+vaes,+vpclmulqdq,+stibp-always-on,+amd-psfd,+no-nested-data-bp,+lfence-always-serializing,+null-sel-clr-base
+* 'EPYC-Milan-v2' : add missing flags ('+vaes', '+vpclmulqdq',
+'+stibp-always-on', '+amd-psfd', '+no-nested-data-bp',
+'+lfence-always-serializing', '+null-sel-clr-base')
 
 QEMU CPU Types
 ^^^^^^^^^^^^^^
