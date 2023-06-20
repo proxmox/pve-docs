@@ -352,9 +352,9 @@ CPU Type
 
 QEMU can emulate a number different of *CPU types* from 486 to the latest Xeon
 processors. Each new processor generation adds new features, like hardware
-assisted 3d rendering, random number generation, memory protection, etc ...
-Also, a current generation can be upgraded through microcode update with bugs
-or security fixes.
+assisted 3d rendering, random number generation, memory protection, etc.. Also,
+a current generation can be upgraded through microcode update with bug or
+security fixes.
 
 Usually you should select for your VM a processor type which closely matches the
 CPU of the host system, as it means that the host CPU features (also called _CPU
@@ -364,25 +364,28 @@ as your host system.
 
 This has a downside though. If you want to do a live migration of VMs between
 different hosts, your VM might end up on a new system with a different CPU type
-or a different microcode.
-If the CPU flags passed to the guest are missing, the qemu process will stop. To
-remedy this QEMU has also its own virtual CPU types, that {pve} uses by defaults.
+or a different microcode version.
+If the CPU flags passed to the guest are missing, the QEMU process will stop. To
+remedy this QEMU has also its own virtual CPU types, that {pve} uses by default.
 
-Default is x86-64-v2-AES, compatible with Intel >= Westmere and Amd >= Opteron_G4
+The backend default is 'kvm64' which works on essentially all x86_64 host CPUs
+and the UI default when creating a new VM is 'x86-64-v2-AES', which requires a
+host CPU starting from Westmere for Intel or at least a fourth generation
+Opteron for AMD.
 
 In short:
 
-If you don’t care about live migration or have a homogeneous cluster where 
-all nodes have the same CPU and same microcode version, set the CPU type to host, as in
-theory this will give your guests maximum performance.
+If you don’t care about live migration or have a homogeneous cluster where all
+nodes have the same CPU and same microcode version, set the CPU type to host, as
+in theory this will give your guests maximum performance.
 
-if you care about live migration and security, and you have only Intel CPU or only AMD CPU,
-choose the lowest generation cpu model of your cluster.
+If you care about live migration and security, and you have only Intel CPUs or
+only AMD CPUs, choose the lowest generation CPU model of your cluster.
 
-if you care about live migration without security, or have mixed intel/amd cluster,
-choose the lowest compatible virtual qemu type.
+If you care about live migration without security, or have mixed Intel/AMD
+cluster, choose the lowest compatible virtual QEMU CPU type.
 
-NOTE: Intel <> AMD migrations have no guarantee to work
+NOTE: Live migrations between Intel and AMD host CPUs have no guarantee to work.
 
 
 Intel CPU Types since 2007
