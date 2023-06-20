@@ -480,30 +480,44 @@ https://en.wikipedia.org/wiki/List_of_AMD_processors[AMD Processors]
 +
 * 'EPYC-Milan-v2' : add missing flags (+vaes,+vpclmulqdq,+stibp-always-on,+amd-psfd,+no-nested-data-bp,+lfence-always-serializing,+null-sel-clr-base
 
-Qemu CPU Types
+QEMU CPU Types
 ^^^^^^^^^^^^^^
 
-Qemu also provide virtual cpu types, compatible with both intel/amd.
+QEMU also provide virtual CPU types, compatible with both Intel and AMD host
+CPUs.
 
-NOTE: To keep best compatibility, no security flag for spectre/meltdown/... exist in qemu virtual types, so you need to do it manually
+NOTE: To mitigate the Spectre vulnerability for virtual CPU types, you need to
+add the relevant CPU flags, see
+xref:qm_meltdown_spectre[Meltdown / Spectre related CPU flags].
 
-Historically, Proxmox had the kvm64 cpu model, with only pentium4 cpu flags enabled, so performance was not great for some workload.
+Historically, {pve} had the 'kvm64' CPU model, with CPU flags at the level of
+Pentium 4 enabled, so performance was not great for certain workloads.
 
-In the summer of 2020, AMD, Intel, Red Hat, and SUSE collaborated to define three x86-64 microarchitecture levels on top of the x86-64 baseline, 
-with modern flags enabled. https://gitlab.com/x86-psABIs/x86-64-ABI[x86-64-ABI specs]
+In the summer of 2020, AMD, Intel, Red Hat, and SUSE collaborated to define
+three x86-64 microarchitecture levels on top of the x86-64 baseline, with modern
+flags enabled. For details, see the
+https://gitlab.com/x86-psABIs/x86-64-ABI[x86-64-ABI specification].
 
-Some newer distro like Centos9 are now built with x86-64-v2 flags as minimum requirement !
+NOTE: Some newer distributions like CentOS 9 are now built with 'x86-64-v2'
+flags as a minimum requirement.
 
-
-* 'kvm64 (v1)' : Compatible >=pentium4 , >= phenom
+* 'kvm64 (x86-64-v1)': Compatible with Intel CPU >= Pentium 4, AMD CPU >=
+Phenom.
 +
-* 'x86-64-v2' : Compatible >= Nehalem, >= Opteron_G3. add cx16,lahf-lm,popcnt,pni,sse4.1,sse4.2,ssse3
+* 'x86-64-v2': Compatible with Intel CPU >= Nehalem, AMD CPU >= Opteron_G3.
+Added CPU flags compared to 'x86-64-v1': '+cx16', '+lahf-lm', '+popcnt', '+pni',
+'+sse4.1', '+sse4.2', '+ssse3'.
 +
-* 'x86-64-v2-AES' : Compatible >= Westmere, >= Opteron_G4 : add aes
+* 'x86-64-v2-AES': Compatible with Intel CPU >= Westmere, AMD CPU >= Opteron_G4.
+Added CPU flags compared to 'x86-64-v2': '+aes'.
 +
-* 'x86-64-v3' : Compatible >= Broadwell, >= Epyc : add +avx,+avx2,+bmi1,+bmi2,+f16c,+fma,+movbe,xsave
+* 'x86-64-v3': Compatible with Intel CPU >= Broadwell, AMD CPU >= EPYC. Added
+CPU flags compared to 'x86-64-v2-AES': '+avx', '+avx2', '+bmi1', '+bmi2',
+'+f16c', '+fma', '+movbe', '+xsave'.
 +
-* 'x86-64-v4' : Compatible >= Skylake , >= EPYC-Genoa(V4) : add +avx512f, +avx512bw, +avx512cd,+avx512dq,+avx512vl
+* 'x86-64-v4': Compatible with Intel CPU >= Skylake, AMD CPU >= EPYC v4 Genoa.
+Added CPU flags compared to 'x86-64-v3': '+avx512f', '+avx512bw', '+avx512cd',
+'+avx512dq', '+avx512vl'.
 
 Custom CPU Types
 ^^^^^^^^^^^^^^^^
@@ -516,6 +530,7 @@ Specified custom types can be selected by any user with the `Sys.Audit`
 privilege on `/nodes`. When configuring a custom CPU type for a VM via the CLI
 or API, the name needs to be prefixed with 'custom-'.
 
+[[qm_meltdown_spectre]]
 Meltdown / Spectre related CPU flags
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
