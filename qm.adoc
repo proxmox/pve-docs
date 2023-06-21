@@ -1576,7 +1576,7 @@ chosen, the first of:
 
 [[resource_mapping]]
 Resource Mapping
-~~~~~~~~~~~~~~~~
+----------------
 
 When using or referencing local resources (e.g. address of a pci device), using
 the raw address or id is sometimes problematic, for example:
