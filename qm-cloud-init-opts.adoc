@@ -27,7 +27,7 @@ Password to assign the user. Using this is generally not recommended. Use ssh ke
 
 Specifies the cloud-init configuration format. The default depends on the configured operating system type (`ostype`. We use the `nocloud` format for Linux, and `configdrive2` for windows.
 
-`ciupgrade`: `<boolean>` ::
+`ciupgrade`: `<boolean>` ('default =' `1`)::
 
 do an automatic package upgrade after the first boot.
 

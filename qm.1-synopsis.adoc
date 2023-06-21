@@ -191,7 +191,7 @@ cloud-init: Password to assign the user. Using this is generally not recommended
 
 Specifies the cloud-init configuration format. The default depends on the configured operating system type (`ostype`. We use the `nocloud` format for Linux, and `configdrive2` for windows.
 
-`--ciupgrade` `<boolean>` ::
+`--ciupgrade` `<boolean>` ('default =' `1`)::
 
 cloud-init: do an automatic package upgrade after the first boot.
 
@@ -1019,7 +1019,7 @@ cloud-init: Password to assign the user. Using this is generally not recommended
 
 Specifies the cloud-init configuration format. The default depends on the configured operating system type (`ostype`. We use the `nocloud` format for Linux, and `configdrive2` for windows.
 
-`--ciupgrade` `<boolean>` ::
+`--ciupgrade` `<boolean>` ('default =' `1`)::
 
 cloud-init: do an automatic package upgrade after the first boot.
 

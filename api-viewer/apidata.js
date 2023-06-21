@@ -14264,6 +14264,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "ciupgrade" : {
+                                             "default" : 1,
                                              "description" : "cloud-init: do an automatic package upgrade after the first boot.",
                                              "optional" : 1,
                                              "type" : "boolean"
@@ -16542,6 +16543,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "ciupgrade" : {
+                                             "default" : 1,
                                              "description" : "cloud-init: do an automatic package upgrade after the first boot.",
                                              "optional" : 1,
                                              "type" : "boolean",
@@ -18972,6 +18974,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "ciupgrade" : {
+                                             "default" : 1,
                                              "description" : "cloud-init: do an automatic package upgrade after the first boot.",
                                              "optional" : 1,
                                              "type" : "boolean",
@@ -25054,6 +25057,7 @@ const apiSchema = [
                                  "type" : "string"
                               },
                               "ciupgrade" : {
+                                 "default" : 1,
                                  "description" : "cloud-init: do an automatic package upgrade after the first boot.",
                                  "optional" : 1,
                                  "type" : "boolean",
@@ -46278,9 +46282,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
+                                    "login",
                                     "ceph_install",
-                                    "upgrade",
-                                    "login"
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -46374,9 +46378,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
+                                    "login",
                                     "ceph_install",
-                                    "upgrade",
-                                    "login"
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -46500,9 +46504,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
+                                    "login",
                                     "ceph_install",
-                                    "upgrade",
-                                    "login"
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
