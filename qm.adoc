@@ -1602,6 +1602,8 @@ in the relevant tab in the `Resource Mappings` category, or on the cli with
 # pvesh create /cluster/mapping/<type> <options>
 ----
 
+[thumbnail="screenshot/gui-datacenter-mapping-pci-edit.png"]
+
 Where `<type>` is the hardware type (currently either `pci` or `usb`) and
 `<options>` are the device mappings and other configuration parameters.
 
@@ -1622,8 +1624,6 @@ has the device id `0001` and the vendor id `0002` on the node `node1`, and
 You must repeat the `map` parameter for each node where that device should have
 a mapping (note that you can currently only map one USB device per node per
 mapping).
-
-[thumbnail="screenshot/gui-datacenter-mapping-pci-edit.png"]
 
 Using the GUI makes this much easier, as the correct properties are
 automatically picked up and sent to the API.
