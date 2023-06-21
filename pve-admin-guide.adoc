@@ -320,6 +320,15 @@ include::calendar-events.adoc[]
 :leveloffset: 0
 
 [appendix]
+QEMU vCPU List
+--------------
+
+:leveloffset: 1
+include::qm-vcpu-list.adoc[]
+
+:leveloffset: 0
+
+[appendix]
 Firewall Macro Definitions
 --------------------------
 
