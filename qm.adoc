@@ -1578,6 +1578,8 @@ chosen, the first of:
 Resource Mapping
 ----------------
 
+[thumbnail="screenshot/gui-datacenter-resource-mappings.png"]
+
 When using or referencing local resources (e.g. address of a pci device), using
 the raw address or id is sometimes problematic, for example:
 
@@ -1621,8 +1623,12 @@ You must repeat the `map` parameter for each node where that device should have
 a mapping (note that you can currently only map one USB device per node per
 mapping).
 
+[thumbnail="screenshot/gui-datacenter-mapping-pci-edit.png"]
+
 Using the GUI makes this much easier, as the correct properties are
 automatically picked up and sent to the API.
+
+[thumbnail="screenshot/gui-datacenter-mapping-usb-edit.png"]
 
 It's also possible for PCI devices to provide multiple devices per node with
 multiple map properties for the nodes. If such a device is assigned to a guest,
