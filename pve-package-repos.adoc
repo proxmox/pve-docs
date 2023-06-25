@@ -128,7 +128,7 @@ full Ceph cluster on {pve}.
 
 .File `/etc/apt/sources.list.d/ceph.list`
 ----
-deb http://download.proxmox.com/debian/ceph-quincy bookworm enterprise
+deb https://enterprise.proxmox.com/debian/ceph-quincy bookworm enterprise
 ----
 
 
