@@ -1,3 +1,17 @@
+pve-docs (8.0.4) bookworm; urgency=medium
+
+  * faq: fix typo in release names
+
+  * package repos: fix ceph enterprise package repository URL
+
+  * docinfo: use https in link
+
+  * d/control: ensure docs are build with compatible asciidoc that uses our
+    docbook config with the thumbnail attributes. This fixes the missing
+    screenshots in the PDF and EPUB builds.
+
+ -- Proxmox Support Team <support@proxmox.com>  Sun, 25 Jun 2023 14:50:35 +0200
+
 pve-docs (8.0.3) bookworm; urgency=medium
 
   * qemu: add cpu models documentation
