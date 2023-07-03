@@ -74,9 +74,9 @@ Boot on floppy (a), hard disk (c), CD-ROM (d), or network (n). Deprecated, use '
 
 The guest will attempt to boot from devices in the order they appear here.
 +
-Disks, optical drives and passed-through storage USB devices will be directly
-booted from, NICs will load PXE, and PCIe devices will either behave like disks
-(e.g. NVMe) or load an option ROM (e.g. RAID controller, hardware NIC).
+Disks, optical drives and storage USB devices that are passed through will be
+directly booted from, NICs will load PXE, and PCIe devices will either behave
+like disks (e.g. NVMe) or load an option ROM (e.g. RAID controller, hardware NIC).
 +
 Note that only devices in this list will be marked as bootable and thus loaded
 by the guest firmware (BIOS/UEFI). If you require multiple disks for booting
@@ -222,7 +222,7 @@ Override PCI device ID visible to guest
 
 `host`=`<HOSTPCIID[;HOSTPCIID2...]>` ;;
 
-Host PCI device pass through. The PCI ID of a host's PCI device or a list
+Pass through host PCI device. The PCI ID of a host's PCI device or a list
 of PCI virtual functions of the host. HOSTPCIID syntax is:
 +
 'bus:dev.func' (hexadecimal numbers)

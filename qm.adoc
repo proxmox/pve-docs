@@ -848,10 +848,10 @@ WARNING: Using this kind of USB passthrough means that you cannot move
 a VM online to another host, since the hardware is only available
 on the host the VM is currently residing.
 
-The second type of passthrough is SPICE USB passthrough. This is useful
-if you use a SPICE client which supports it. If you add a SPICE USB port
-to your VM, you can passthrough a USB device from where your SPICE client is,
-directly to the VM (for example an input device or hardware dongle).
+The second type of passthrough is SPICE USB passthrough. If you add one or more
+SPICE USB ports to your VM, you can dynamically pass a local USB device from
+your SPICE client through to the VM. This can be useful to redirect an input
+device or hardware dongle temporarily.
 
 It is also possible to map devices on a cluster level, so that they can be
 properly used with HA and hardware changes are detected and non root users
@@ -1298,7 +1298,7 @@ Online Migration
 ~~~~~~~~~~~~~~~~
 
 If your VM is running and no locally bound resources are configured (such as
-passed-through devices), you can initiate a live migration with the `--online`
+devices that are passed through), you can initiate a live migration with the `--online`
 flag in the `qm migration` command evocation. The web-interface defaults to
 live migration when the VM is running.
 
@@ -1349,7 +1349,7 @@ Offline Migration
 If you have local resources, you can still migrate your VMs offline as long as
 all disk are on storage defined on both hosts.
 Migration then copies the disks to the target host over the network, as with
-online migration. Note that any hardware pass-through configuration may need to
+online migration. Note that any hardware passthrough configuration may need to
 be adapted to the device location on the target host.
 
 // TODO: mention hardware map IDs as better way to solve that, once available
