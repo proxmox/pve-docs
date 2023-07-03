@@ -72,7 +72,7 @@ Technology Overview
 
 * Integrated into {pve} graphical web user interface (GUI)
 
-* Easy to use command line tool `pct`
+* Easy to use command-line tool `pct`
 
 * Access via {pve} REST API
 
@@ -260,7 +260,7 @@ Container images, sometimes also referred to as ``templates'' or
 {pve} itself provides a variety of basic templates for the
 xref:pct_supported_distributions[most common Linux distributions].  They can be
 downloaded using the GUI or the `pveam` (short for {pve} Appliance Manager)
-command line utility.  Additionally, https://www.turnkeylinux.org/[TurnKey
+command-line utility.  Additionally, https://www.turnkeylinux.org/[TurnKey
 Linux] container templates are also available to download.
 
 The list of available templates is updated daily through the 'pve-daily-update'
@@ -680,7 +680,7 @@ https://www.kernel.org/doc/html/v5.11/admin-guide/cgroup-v2.html['cgroupv2'].
 Since {pve} 7.0, the default is a pure 'cgroupv2' environment. Previously a
 "hybrid" setup was used, where resource control was mainly done in 'cgroupv1'
 with an additional 'cgroupv2' controller which could take over some subsystems
-via the 'cgroup_no_v1' kernel command line parameter. (See the
+via the 'cgroup_no_v1' kernel command-line parameter. (See the
 https://www.kernel.org/doc/html/latest/admin-guide/kernel-parameters.html[kernel
 parameter documentation] for details.)
 
@@ -733,7 +733,7 @@ Changing CGroup Version
 TIP: If file system quotas are not required and all containers support 'cgroupv2',
 it is recommended to stick to the new default.
 
-To switch back to the previous version the following kernel command line
+To switch back to the previous version the following kernel command-line
 parameter can be used:
 
 ----
@@ -999,7 +999,7 @@ time, for example:
 Managing Containers with `pct`
 ------------------------------
 
-The ``Proxmox Container Toolkit'' (`pct`) is the command line tool to manage
+The ``Proxmox Container Toolkit'' (`pct`) is the command-line tool to manage
 {pve} containers. It enables you to create or destroy containers, as well as
 control the container execution (start, stop, reboot, migrate, etc.). It can be
 used to set parameters in the config file of a container, for example the

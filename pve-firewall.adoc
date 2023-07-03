@@ -457,7 +457,7 @@ Please inspect the output of the
 
 system command to see the firewall chains and rules active on your system.
 This output is also included in a `System Report`, accessible over a node's
-subscription tab in the web GUI, or through the `pvereport` command line tool.
+subscription tab in the web GUI, or through the `pvereport` command-line tool.
 
 VM/CT incoming/outgoing DROP/REJECT
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -88,7 +88,7 @@ use. The email address used for that account will serve as contact point for
 renewal-due or similar notifications from the ACME endpoint.
 
 You can register and deactivate ACME accounts over the web interface
-`Datacenter -> ACME` or using the `pvenode` command line tool.
+`Datacenter -> ACME` or using the `pvenode` command-line tool.
 ----
  pvenode acme account register account-name mail@example.com
 ----

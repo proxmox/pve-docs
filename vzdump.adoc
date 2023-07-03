@@ -33,7 +33,7 @@ of the backups and downtime of the guest system.
 
 {pve} backups are always full backups - containing the VM/CT
 configuration and all data.  Backups can be started via the GUI or via
-the `vzdump` command line tool.
+the `vzdump` command-line tool.
 
 .Backup Storage
 

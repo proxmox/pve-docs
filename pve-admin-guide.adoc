@@ -73,7 +73,7 @@ include::pvescheduler.adoc[]
 :leveloffset: 0
 
 
-Useful Command Line Tools
+Useful Command-line Tools
 -------------------------
 
 :leveloffset: 2
@@ -93,7 +93,7 @@ include::pve-bibliography.adoc[]
 :leveloffset: 0
 
 [appendix]
-Command Line Interface
+Command-line Interface
 ----------------------
 
 :leveloffset: 1

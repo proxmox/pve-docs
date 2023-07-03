@@ -564,7 +564,7 @@ pveceph pool create <pool-name> --add_storages
 
 TIP: If you would also like to automatically define a storage for your
 pool, keep the `Add as Storage' checkbox checked in the web-interface, or use the
-command line option '--add_storages' at pool creation.
+command-line option '--add_storages' at pool creation.
 
 Pool Options
 ^^^^^^^^^^^^
@@ -938,7 +938,7 @@ ensure that all CephFS related packages get installed.
 - xref:pveceph_fs_mds[Setup at least one MDS]
 
 After this is complete, you can simply create a CephFS through
-either the Web GUI's `Node -> CephFS` panel or the command line tool `pveceph`,
+either the Web GUI's `Node -> CephFS` panel or the command-line tool `pveceph`,
 for example:
 
 ----
@@ -978,7 +978,7 @@ Where `<STORAGE-NAME>` is the name of the CephFS storage in your {PVE}.
 
 * Now make sure that no metadata server (`MDS`) is running for that CephFS,
   either by stopping or destroying them. This can be done through the web
-  interface or via the command line interface, for the latter you would issue
+  interface or via the command-line interface, for the latter you would issue
   the following command:
 +
 ----

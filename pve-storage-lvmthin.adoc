@@ -13,7 +13,7 @@ instead allocates blocks when they are written. This behaviour is
 called thin-provisioning, because volumes can be much larger than
 physically available space.
 
-You can use the normal LVM command line tools to manage and create LVM
+You can use the normal LVM command-line tools to manage and create LVM
 thin pools (see `man lvmthin` for details). Assuming you already have
 a LVM volume group called `pve`, the following commands create a new
 LVM thin pool (size 100G) called `data`:

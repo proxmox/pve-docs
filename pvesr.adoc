@@ -24,7 +24,7 @@ Storage Replication
 :pve-toplevel:
 endif::manvolnum[]
 
-The `pvesr` command line tool manages the {PVE} storage replication
+The `pvesr` command-line tool manages the {PVE} storage replication
 framework. Storage replication brings redundancy for guests using
 local storage and reduces migration time.
 
@@ -164,7 +164,7 @@ Managing Jobs
 [thumbnail="screenshot/gui-qemu-add-replication-job.png"]
 
 You can use the web GUI to create, modify, and remove replication jobs
-easily. Additionally, the command line interface (CLI) tool `pvesr` can be
+easily. Additionally, the command-line interface (CLI) tool `pvesr` can be
 used to do this.
 
 You can find the replication panel on all levels (datacenter, node, virtual
@@ -182,7 +182,7 @@ composed of the VMID in addition to a job number.
 This ID must only be specified manually if the CLI tool is used.
 
 
-Command Line Interface Examples
+Command-line Interface Examples
 -------------------------------
 
 Create a replication job which runs every 5 minutes with a limited bandwidth

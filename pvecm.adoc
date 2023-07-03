@@ -1306,7 +1306,7 @@ Guest Migration
 Migrating virtual guests to other nodes is a useful feature in a
 cluster. There are settings to control the behavior of such
 migrations. This can be done via the configuration file
-`datacenter.cfg` or for a specific migration via API or command line
+`datacenter.cfg` or for a specific migration via API or command-line
 parameters.
 
 It makes a difference if a guest is online or offline, or if it has
@@ -1395,7 +1395,7 @@ iface eno3 inet static
 
 Here, we will use the network 10.1.2.0/24 as a migration network. For
 a single migration, you can do this using the `migration_network`
-parameter of the command line tool:
+parameter of the command-line tool:
 
 ----
 # qm migrate 106 tre --online --migration_network 10.1.2.0/24

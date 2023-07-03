@@ -61,9 +61,9 @@ restore jobs, live-migration or HA triggered activities.
 Command Line::
 
 For advanced users who are used to the comfort of the Unix shell or
-Windows Powershell, {pve} provides a command line interface to
-manage all the components of your virtual environment. This command
-line interface has intelligent tab completion and full documentation
+Windows Powershell, {pve} provides a command-line interface to
+manage all the components of your virtual environment. This command-line
+interface has intelligent tab completion and full documentation
 in the form of UNIX man pages.
 
 REST API::

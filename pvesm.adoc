@@ -295,7 +295,7 @@ When you remove a VM or Container, the system also removes all
 associated volumes which are owned by that VM or Container.
 
 
-Using the Command Line Interface
+Using the Command-line Interface
 --------------------------------
 
 It is recommended to familiarize yourself with the concept behind storage
@@ -304,7 +304,7 @@ of those low level operations on the command line. Normally,
 allocation and removal of volumes is done by the VM and Container
 management tools.
 
-Nevertheless, there is a command line tool called `pvesm` (``{pve}
+Nevertheless, there is a command-line tool called `pvesm` (``{pve}
 Storage Manager''), which is able to perform common storage management
 tasks.
 

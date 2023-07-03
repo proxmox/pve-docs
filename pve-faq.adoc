@@ -168,7 +168,7 @@ the {pve} API.
 Docker aims at running a *single* application in an isolated, self-contained
 environment. These are generally referred to as ``Application Containers'', rather
 than ``System Containers''. You manage a Docker instance from the host, using the
-Docker Engine command line interface. It is not recommended to run docker
+Docker Engine command-line interface. It is not recommended to run docker
 directly on your {pve} host.
 +
 NOTE: If you want to run application containers, for example, 'Docker' images, it

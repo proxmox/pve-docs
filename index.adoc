@@ -26,7 +26,7 @@ include::chapter-index-table.adoc[]
 {pve} Manual Pages
 ------------------
 
-Command Line Interface
+Command-line Interface
 ~~~~~~~~~~~~~~~~~~~~~~
 
 include::man1-index-table.adoc[]

@@ -571,7 +571,7 @@ can be specified in Base32 (RFC3548) or hexadecimal notation.
 +
 {pve} provides a key generation tool (`oathkeygen`) which prints out a random
 key in Base32 notation, that can be used directly with various OTP tools, such
-as the `oathtool` command line tool, or on Android Google Authenticator,
+as the `oathtool` command-line tool, or on Android Google Authenticator,
 FreeOTP, andOTP or similar applications.
 
 YubiKey OTP::
@@ -992,13 +992,13 @@ If the user does not have the `Permissions.Modify` privilege, they can only
 delegate subsets of their own privileges on the given path (e.g., a user with
 `PVEVMAdmin` could assign `PVEVMUser`, but not `PVEAdmin`).
 
-Command Line Tool
+Command-line Tool
 -----------------
 
 Most users will simply use the GUI to manage users. But there is also
-a fully featured command line tool called `pveum` (short for ``**P**roxmox
-**VE** **U**ser **M**anager''). Please note that all Proxmox VE command
-line tools are wrappers around the API, so you can also access those
+a fully featured command-line tool called `pveum` (short for ``**P**roxmox
+**VE** **U**ser **M**anager''). Please note that all Proxmox VE command-line
+tools are wrappers around the API, so you can also access those
 functions through the REST API.
 
 Here are some simple usage examples. To show help, type:

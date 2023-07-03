@@ -147,7 +147,7 @@ Management Tasks
 This section provides a short overview of common management tasks. The
 first step is to enable HA for a resource. This is done by adding the
 resource to the HA resource configuration. You can do this using the
-GUI, or simply use the command line tool, for example:
+GUI, or simply use the command-line tool, for example:
 
 ----
 # ha-manager add vm:100
@@ -266,7 +266,7 @@ Service States
 
 The CRM uses a service state enumeration to record the current service
 state. This state is displayed on the GUI and can be queried using
-the `ha-manager` command line tool:
+the `ha-manager` command-line tool:
 
 ----
 # ha-manager status
@@ -522,7 +522,7 @@ Configuration
 -------------
 
 The HA stack is well integrated into the {pve} API. So, for example,
-HA can be configured via the `ha-manager` command line interface, or
+HA can be configured via the `ha-manager` command-line interface, or
 the {pve} web interface - both interfaces provide an easy way to
 manage HA. Automation tools can use the API directly.
 
@@ -572,7 +572,7 @@ ct: 102
 
 [thumbnail="screenshot/gui-ha-manager-add-resource.png"]
 
-The above config was generated using the `ha-manager` command line tool:
+The above config was generated using the `ha-manager` command-line tool:
 
 ----
 # ha-manager add vm:501 --state started --max_relocate 2
