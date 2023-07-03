@@ -295,7 +295,7 @@ use the 'link0' parameter to set the nodes address on that network:
 
 [source,bash]
 ----
-pvecm add IP-ADDRESS-CLUSTER -link0 LOCAL-IP-ADDRESS-LINK0
+# pvecm add IP-ADDRESS-CLUSTER --link0 LOCAL-IP-ADDRESS-LINK0
 ----
 
 If you want to use the built-in xref:pvecm_redundancy[redundancy] of the
