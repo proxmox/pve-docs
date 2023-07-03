@@ -63,7 +63,7 @@ usually at higher price.
 
 * Eliminate single point of failure (redundant components)
 ** use an uninterruptible power supply (UPS)
-** use redundant power supplies on the main boards
+** use redundant power supplies in your servers
 ** use ECC-RAM
 ** use redundant network hardware
 ** use RAID for local storage

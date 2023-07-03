@@ -31,7 +31,7 @@ https://pve.proxmox.com/wiki/PCI_Passthrough[PCI Passthrough Examples].
 Hardware
 ^^^^^^^^
 Your hardware needs to support `IOMMU` (*I*/*O* **M**emory **M**anagement
-**U**nit) interrupt remapping, this includes the CPU and the mainboard.
+**U**nit) interrupt remapping, this includes the CPU and the motherboard.
 
 Generally, Intel systems with VT-d and AMD systems with AMD-Vi support this.
 But it is not guaranteed that everything will work out of the box, due

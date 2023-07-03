@@ -60,7 +60,7 @@ and PCI devices.
 Emulated devices and paravirtualized devices
 --------------------------------------------
 
-The PC hardware emulated by QEMU includes a mainboard, network controllers,
+The PC hardware emulated by QEMU includes a motherboard, network controllers,
 SCSI, IDE and SATA controllers, serial ports (the complete list can be seen in
 the `kvm(1)` man page) all of them emulated in software. All these devices
 are the exact software equivalent of existing hardware devices, and if the OS

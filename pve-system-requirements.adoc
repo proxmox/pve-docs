@@ -20,7 +20,7 @@ used in production.
 
 * CPU: 64bit (Intel EMT64 or AMD64)
 
-* Intel VT/AMD-V capable CPU/Mainboard for KVM full virtualization support
+* Intel VT/AMD-V capable CPU/motherboard for KVM full virtualization support
 
 * RAM: 1 GB RAM, plus additional RAM needed for guests
 
