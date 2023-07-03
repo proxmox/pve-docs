@@ -1194,7 +1194,7 @@ The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:
  'vendor_id:product_id' (hexadeciaml numbers) or
  'spice'
 +
-You can use the 'lsusb -t' command to list existing usb devices.
+You can use the 'lsusb -t' command to list existing USB devices.
 +
 NOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such
 machines - use with special care.

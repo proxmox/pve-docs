@@ -109,7 +109,7 @@ Using Etcher
 ^^^^^^^^^^^^
 
 Etcher works out of the box. Download Etcher from https://etcher.io. It will
-guide you through the process of selecting the ISO and your USB Drive.
+guide you through the process of selecting the ISO and your USB flash drive.
 
 Using Rufus
 ^^^^^^^^^^^
