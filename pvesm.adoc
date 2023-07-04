@@ -370,11 +370,11 @@ List volumes allocated by VMID
 
 List iso images
 
- pvesm list <STORAGE_ID> --iso
+ pvesm list <STORAGE_ID> --content iso
 
 List container templates
 
- pvesm list <STORAGE_ID> --vztmpl
+ pvesm list <STORAGE_ID> --content vztmpl
 
 Show file system path for a volume
 
