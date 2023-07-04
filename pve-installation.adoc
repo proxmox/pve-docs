@@ -67,7 +67,7 @@ enabled in your servers firmware settings and secure boot is disabled.
 After choosing the correct entry (e.g. Boot from USB) the {pve} menu will be
 displayed and one of the following options can be selected:
 
-Install {pve}::
+Install {pve} (Graphical)::
 
 Starts the normal installation.
 
@@ -75,7 +75,16 @@ TIP: It's possible to use the installation wizard with a keyboard only. Buttons
 can be clicked by pressing the `ALT` key combined with the underlined character
 from the respective button. For example, `ALT + N` to press a `Next` button.
 
-Advanced Options: Install {pve} (Debug mode)::
+Install {pve} (Console)::
+
+Starts the console-mode installation wizard. It provides the same overall
+installation experience as the graphical installer, but has generally better
+compatibility with very old and very new hardware.
+
+TIP: This option can be used in case the graphical installer does not work
+correctly, due to e.g. driver issues.
+
+Advanced Options: Install {pve} (Graphical Debug Mode)::
 
 Starts the installation in debug mode. A console will be opened at several
 installation steps. This helps to debug the situation if something goes wrong.
@@ -83,6 +92,17 @@ To exit a debug console, press `CTRL-D`. This option can be used to boot a live
 system with all basic tools available. You can use it, for example, to
 xref:chapter_zfs[repair a degraded ZFS 'rpool'] or fix the
 xref:sysboot[bootloader] for an existing {pve} setup.
+
+Advanced Options: Install {pve} (Console Debug Mode)::
+
+Same as the graphical debug mode, but preparing the system to run the
+console-mode installer instead.
+
+Advanced Options: Install {pve} (Console Debug - nomodeset)::
+
+Starts the normal console-mode installation, but prevents the Linux kernel from
+loading any graphics driver. Can be used as a last-resort option, if e.g. an
+incompatible driver is automatically loaded on boot.
 
 Advanced Options: Rescue Boot::
 
@@ -92,7 +112,7 @@ disk using the Linux kernel from the ISO. This can be useful if there are
 problems with the boot block (grub) or the BIOS is unable to read the boot block
 from the disk.
 
-Advanced Options: Test Memory::
+Advanced Options: Test Memory (memtest86+)::
 
 Runs `memtest86+`. This is useful to check if the memory is functional and free
 of errors.
