@@ -6,7 +6,8 @@ pve-select-location	\
 pve-select-target-disk	\
 pve-set-password	\
 pve-install-summary	\
-pve-setup-network
+pve-setup-network       \
+pve-tui-installer
 
 all: $(addsuffix .png, ${PPMS})
 

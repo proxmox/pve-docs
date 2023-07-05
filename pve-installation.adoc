@@ -81,6 +81,8 @@ Starts the console-mode installation wizard. It provides the same overall
 installation experience as the graphical installer, but has generally better
 compatibility with very old and very new hardware.
 
+image::images/screenshot/pve-tui-installer.png[width=250,float="right"]
+
 TIP: This option can be used in case the graphical installer does not work
 correctly, due to e.g. driver issues.
 
