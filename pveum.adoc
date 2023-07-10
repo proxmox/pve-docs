@@ -776,13 +776,13 @@ of predefined roles, which satisfy most requirements.
 * `PVEMappingUser`: view and use resource mappings
 * `PVEPoolAdmin`: allocate pools
 * `PVEPoolUser`: view pools
+* `PVESDNAdmin`: manage SDN configuration
+* `PVESDNUser`: access to bridges/vnets
 * `PVESysAdmin`: audit, system console and system logs
 * `PVETemplateUser`: view and clone templates
 * `PVEUserAdmin`: manage users
 * `PVEVMAdmin`: fully administer VMs
 * `PVEVMUser`: view, backup, configure CD-ROM, VM console, VM power management
-* `PVESDNAdmin`: manage SDN configuration
-* `PVESDNUser`: access to bridges/vnets
 
 You can see the whole set of predefined roles in the GUI.
 
@@ -816,46 +816,46 @@ We currently support the following privileges:
 
 Node / System related privileges::
 
-* `Permissions.Modify`: modify access permissions
-* `Sys.PowerMgmt`: node power management (start, stop, reset, shutdown, ...)
-* `Sys.Console`: console access to node
-* `Sys.Syslog`: view syslog
-* `Sys.Audit`: view node status/config, Corosync cluster config, and HA config
-* `Sys.Modify`: create/modify/remove node network parameters
-* `Sys.Incoming`: allow incoming data streams from other clusters (experimental)
 * `Group.Allocate`: create/modify/remove groups
+* `Mapping.Audit`: view resource mappings
+* `Mapping.Modify`: manage resource mappings
+* `Mapping.Use`: use resource mappings
+* `Permissions.Modify`: modify access permissions
 * `Pool.Allocate`: create/modify/remove a pool
 * `Pool.Audit`: view a pool
-* `Realm.Allocate`: create/modify/remove authentication realms
 * `Realm.AllocateUser`: assign user to a realm
-* `User.Modify`: create/modify/remove user access and details.
+* `Realm.Allocate`: create/modify/remove authentication realms
 * `SDN.Allocate`: manage SDN configuration
 * `SDN.Audit`: view SDN configuration
-* `Mapping.Modify`: manage resource mappings
-* `Mapping.Audit`: view resource mappings
-* `Mapping.Use`: use resource mappings
+* `Sys.Audit`: view node status/config, Corosync cluster config, and HA config
+* `Sys.Console`: console access to node
+* `Sys.Incoming`: allow incoming data streams from other clusters (experimental)
+* `Sys.Modify`: create/modify/remove node network parameters
+* `Sys.PowerMgmt`: node power management (start, stop, reset, shutdown, ...)
+* `Sys.Syslog`: view syslog
+* `User.Modify`: create/modify/remove user access and details.
 
 Virtual machine related privileges::
 
+* `SDN.Use`: access SDN vnets and local network bridges
 * `VM.Allocate`: create/remove VM on a server
-* `VM.Migrate`: migrate VM to alternate server on cluster
-* `VM.PowerMgmt`: power management (start, stop, reset, shutdown, ...)
-* `VM.Console`: console access to VM
-* `VM.Monitor`: access to VM monitor (kvm)
-* `VM.Backup`: backup/restore VMs
 * `VM.Audit`: view VM config
+* `VM.Backup`: backup/restore VMs
 * `VM.Clone`: clone/copy a VM
-* `VM.Config.Disk`: add/modify/remove disks
 * `VM.Config.CDROM`: eject/change CD-ROM
 * `VM.Config.CPU`: modify CPU settings
+* `VM.Config.Cloudinit`: modify Cloud-init parameters
+* `VM.Config.Disk`: add/modify/remove disks
+* `VM.Config.HWType`: modify emulated hardware types
 * `VM.Config.Memory`: modify memory settings
 * `VM.Config.Network`: add/modify/remove network devices
-* `VM.Config.HWType`: modify emulated hardware types
 * `VM.Config.Options`: modify any other VM configuration
-* `VM.Config.Cloudinit`: modify Cloud-init parameters
-* `VM.Snapshot`: create/delete VM snapshots
+* `VM.Console`: console access to VM
+* `VM.Migrate`: migrate VM to alternate server on cluster
+* `VM.Monitor`: access to VM monitor (kvm)
+* `VM.PowerMgmt`: power management (start, stop, reset, shutdown, ...)
 * `VM.Snapshot.Rollback`: rollback VM to one of its snapshots
-* `SDN.Use`: access SDN vnets and local network bridges
+* `VM.Snapshot`: create/delete VM snapshots
 
 Storage related privileges::
 
