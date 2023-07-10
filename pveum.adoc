@@ -772,7 +772,10 @@ of predefined roles, which satisfy most requirements.
 * `PVEAuditor`: has read only access
 * `PVEDatastoreAdmin`: create and allocate backup space and templates
 * `PVEDatastoreUser`: allocate backup space and view storage
+* `PVEMappingAdmin`: manage resource mappings
+* `PVEMappingUser`: view and use resource mappings
 * `PVEPoolAdmin`: allocate pools
+* `PVEPoolUser`: view pools
 * `PVESysAdmin`: audit, system console and system logs
 * `PVETemplateUser`: view and clone templates
 * `PVEUserAdmin`: manage users
@@ -828,6 +831,9 @@ Node / System related privileges::
 * `User.Modify`: create/modify/remove user access and details.
 * `SDN.Allocate`: manage SDN configuration
 * `SDN.Audit`: view SDN configuration
+* `Mapping.Modify`: manage resource mappings
+* `Mapping.Audit`: view resource mappings
+* `Mapping.Use`: use resource mappings
 
 Virtual machine related privileges::
 
@@ -848,6 +854,7 @@ Virtual machine related privileges::
 * `VM.Config.Options`: modify any other VM configuration
 * `VM.Config.Cloudinit`: modify Cloud-init parameters
 * `VM.Snapshot`: create/delete VM snapshots
+* `VM.Snapshot.Rollback`: rollback VM to one of its snapshots
 * `SDN.Use`: access SDN vnets and local network bridges
 
 Storage related privileges::
