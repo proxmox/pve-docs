@@ -226,7 +226,7 @@ For example, recovering the VM with ID `100` from an offline `node1` to another
 node `node2` works by running the following command as root on any member node
 of the cluster:
 
- mv /etc/pve/nodes/node1/qemu-server/100.conf /etc/pve/nodes/node2/
+ mv /etc/pve/nodes/node1/qemu-server/100.conf /etc/pve/nodes/node2/qemu-server/
 
 WARNING: Before manually recovering a guest like this, make absolutely sure
 that the failed source node is really powered off/fenced. Otherwise {pve}'s
