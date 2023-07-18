@@ -82,7 +82,7 @@ You can view the currently configured ESPs and their state by running:
 
 To format and initialize a partition as synced ESP, e.g., after replacing a
 failed vdev in an rpool, or when converting an existing system that pre-dates
-the sync mechanism, `proxmox-boot-tool` from `pve-kernel-helpers` can be used.
+the sync mechanism, `proxmox-boot-tool` from `proxmox-kernel-helper` can be used.
 
 WARNING: the `format` command will format the `<partition>`, make sure to pass
 in the right device/partition!
