@@ -13,19 +13,27 @@ features (e.g., offloading).
 But, if you pass through a device to a virtual machine, you cannot use that
 device anymore on the host or in any other VM.
 
+Note that, while PCI passthrough is available for i440fx and q35 machines, PCIe
+passthrough is only available on q35 machines. This does not mean that
+PCIe capable devices that are passed through as PCI devices will only run at
+PCI speeds. Passing through devices as PCIe just sets a flag for the guest to
+tell it that the device is a  PCIe device instead of a "really fast legacy PCI
+device". Some guest applications benefit from this.
+
 General Requirements
 ~~~~~~~~~~~~~~~~~~~~
 
-Since passthrough is a feature which also needs hardware support, there are
-some requirements to check and preparations to be done to make it work.
-
+Since passthrough is performed on real hardware, it needs to fulfill some
+requirements. A brief overview of these requirements is given below, for more
+information on specific devices, see
+https://pve.proxmox.com/wiki/PCI_Passthrough[PCI Passthrough Examples].
 
 Hardware
 ^^^^^^^^
 Your hardware needs to support `IOMMU` (*I*/*O* **M**emory **M**anagement
 **U**nit) interrupt remapping, this includes the CPU and the mainboard.
 
-Generally, Intel systems with VT-d, and AMD systems with AMD-Vi support this.
+Generally, Intel systems with VT-d and AMD systems with AMD-Vi support this.
 But it is not guaranteed that everything will work out of the box, due
 to bad hardware implementation and missing or low quality drivers.
 
@@ -35,6 +43,17 @@ hardware, but even then, many modern system can support this.
 Please refer to your hardware vendor to check if they support this feature
 under Linux for your specific setup.
 
+Determining PCI Card Address
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The easiest way is to use the GUI to add a device of type "Host PCI" in the VM's
+hardware tab. Alternatively, you can use the command line.
+
+You can locate your card using
+
+----
+ lspci
+----
 
 Configuration
 ^^^^^^^^^^^^^
@@ -44,13 +63,12 @@ some configuration to enable PCI(e) passthrough.
 
 .IOMMU
 
-First, you have to enable IOMMU support in your BIOS/UEFI. Usually the
-corresponding setting is called `IOMMU` or `VT-d`,but you should find the exact
+First, you will have to enable IOMMU support in your BIOS/UEFI. Usually the
+corresponding setting is called `IOMMU` or `VT-d`, but you should find the exact
 option name in the manual of your motherboard.
 
-For Intel CPUs, you may also need to enable the IOMMU on the
-xref:sysboot_edit_kernel_cmdline[kernel command line] for older (pre-5.15)
-kernels by adding:
+For Intel CPUs, you also need to enable the IOMMU on the
+xref:sysboot_edit_kernel_cmdline[kernel command line] kernels by adding:
 
 ----
  intel_iommu=on
@@ -74,14 +92,17 @@ to the xref:sysboot_edit_kernel_cmdline[kernel commandline].
 
 .Kernel Modules
 
+//TODO: remove `vfio_virqfd` stuff with eol of pve 7
 You have to make sure the following modules are loaded. This can be achieved by
-adding them to `'/etc/modules''
+adding them to `'/etc/modules''. In kernels newer than 6.2 ({pve} 8 and onward)
+the 'vfio_virqfd' module is part of the 'vfio' module, therefore loading
+'vfio_virqfd' in {pve} 8 and newer is not necessary.
 
 ----
  vfio
  vfio_iommu_type1
  vfio_pci
- vfio_virqfd
+ vfio_virqfd #not needed if on kernel 6.2 or newer
 ----
 
 [[qm_pci_passthrough_update_initramfs]]
@@ -91,6 +112,14 @@ After changing anything modules related, you need to refresh your
 ----
 # update-initramfs -u -k all
 ----
+
+To check if the modules are being loaded, the output of
+
+----
+# lsmod | grep vfio
+----
+
+should include the four modules from above.
 
 .Finish Configuration
 
@@ -104,11 +133,16 @@ enabled.
 should display that `IOMMU`, `Directed I/O` or `Interrupt Remapping` is
 enabled, depending on hardware and kernel the exact message can vary.
 
+For notes on how to troubleshoot or verify if IOMMU is working as intended, please
+see the https://pve.proxmox.com/wiki/PCI_Passthrough#Verifying_IOMMU_parameters[Verifying IOMMU Parameters]
+section in our wiki.
+
 It is also important that the device(s) you want to pass through
-are in a *separate* `IOMMU` group. This can be checked with:
+are in a *separate* `IOMMU` group. This can be checked with a call to the {pve}
+API:
 
 ----
-# find /sys/kernel/iommu_groups/ -type l
+# pvesh get /nodes/{nodename}/hardware/pci --pci-class-blacklist ""
 ----
 
 It is okay if the device is in an `IOMMU` group together with its functions
@@ -159,8 +193,8 @@ PCI(e) card, for example a GPU or a network card.
 Host Configuration
 ^^^^^^^^^^^^^^^^^^
 
-In this case, the host must not use the card. There are two methods to achieve
-this:
+{pve} tries to automatically make the PCI(e) device unavailable for the host.
+However, if this doesn't work, there are two things that can be done:
 
 * pass the device IDs to the options of the 'vfio-pci' modules by adding
 +
@@ -175,7 +209,7 @@ the vendor and device IDs obtained by:
 # lspci -nn
 ----
 
-* blacklist the driver completely on the host, ensuring that it is free to bind
+* blacklist the driver on the host completely, ensuring that it is free to bind
 for passthrough, with
 +
 ----
@@ -183,10 +217,48 @@ for passthrough, with
 ----
 +
 in a .conf file in */etc/modprobe.d/*.
++
+To find the drivername, execute
++
+----
+# lspci -k
+----
++
+for example:
++
+----
+# lspci -k | grep -A 3 "VGA"
+----
++
+will output something similar to
++
+----
+01:00.0 VGA compatible controller: NVIDIA Corporation GP108 [GeForce GT 1030] (rev a1)
+	Subsystem: Micro-Star International Co., Ltd. [MSI] GP108 [GeForce GT 1030]
+	Kernel driver in use: <some-module>
+	Kernel modules: <some-module>
+----
++
+Now we can blacklist the drivers by writing them into a .conf file:
++
+----
+echo "blacklist <some-module>" >> /etc/modprobe.d/blacklist.conf
+----
 
 For both methods you need to
 xref:qm_pci_passthrough_update_initramfs[update the `initramfs`] again and
 reboot after that.
+
+Should this not work, you might need to set a soft dependency to load the gpu
+modules before loading 'vfio-pci'. This can be done with the 'softdep' flag, see
+also the manpages on 'modprobe.d' for more information.
+
+For example, if you are using drivers named <some-module>:
+
+----
+# echo "softdep <some-module> pre: vfio-pci" >> /etc/modprobe.d/<some-module>.conf
+----
+
 
 .Verify Configuration
 
@@ -208,12 +280,41 @@ passthrough.
 [[qm_pci_passthrough_vm_config]]
 VM Configuration
 ^^^^^^^^^^^^^^^^
-To pass through the device you need to set the *hostpciX* option in the VM
+When passing through a GPU, the best compatibility is reached when using
+'q35' as machine type, 'OVMF' ('UEFI' for VMs) instead of SeaBIOS and PCIe
+instead of PCI. Note that if you want to use 'OVMF' for GPU passthrough, the
+GPU needs to have an UEFI capable ROM, otherwise use SeaBIOS instead. To check if
+the ROM is UEFI capable, see the
+https://pve.proxmox.com/wiki/PCI_Passthrough#How_to_know_if_a_graphics_card_is_UEFI_.28OVMF.29_compatible[PCI Passthrough Examples]
+wiki.
+
+Furthermore, using OVMF, disabling vga arbitration may be possible, reducing the
+amount of legacy code needed to be run during boot. To disable vga arbitration:
+
+----
+ echo "options vfio-pci ids=<vendor-id>,<device-id> disable_vga=1" > /etc/modprobe.d/vfio.conf
+----
+
+replacing the <vendor-id> and <device-id> with the ones obtained from:
+
+----
+# lspci -nn
+----
+
+PCI devices can be added in the web interface in the hardware section of the VM.
+Alternatively, you can use the command line; set the *hostpciX* option in the VM
 configuration, for example by executing:
 
 ----
 # qm set VMID -hostpci0 00:02.0
 ----
+
+or by adding a line to the VM configuration file:
+
+----
+ hostpci0: 00:02.0
+----
+
 
 If your device has multiple functions (e.g., ``00:02.0`' and ``00:02.1`' ),
 you can pass them through all together with the shortened syntax ``00:02`'.
@@ -262,20 +363,20 @@ For example:
 # qm set VMID -hostpci0 02:00,device-id=0x10f6,sub-vendor-id=0x0000
 ----
 
-
-Other considerations
-^^^^^^^^^^^^^^^^^^^^
-
-When passing through a GPU, the best compatibility is reached when using
-'q35' as machine type, 'OVMF' ('EFI' for VMs) instead of SeaBIOS and PCIe
-instead of PCI. Note that if you want to use 'OVMF' for GPU passthrough, the
-GPU needs to have an EFI capable ROM, otherwise use SeaBIOS instead.
-
 SR-IOV
 ~~~~~~
 
-Another variant for passing through PCI(e) devices, is to use the hardware
+Another variant for passing through PCI(e) devices is to use the hardware
 virtualization features of your devices, if available.
+
+.Enabling SR-IOV
+[NOTE]
+====
+To use SR-IOV, platform support is especially important. It may be necessary
+to enable this feature in the BIOS/UEFI first, or to use a specific PCI(e) port
+for it to work. In doubt, consult the manual of the platform or contact its
+vendor.
+====
 
 'SR-IOV' (**S**ingle-**R**oot **I**nput/**O**utput **V**irtualization) enables
 a single device to provide multiple 'VF' (**V**irtual **F**unctions) to the
@@ -287,7 +388,6 @@ Currently, the most common use case for this are NICs (**N**etwork
 **I**nterface **C**ard) with SR-IOV support, which can provide multiple VFs per
 physical port. This allows using features such as checksum offloading, etc. to
 be used inside a VM, reducing the (host) CPU overhead.
-
 
 Host Configuration
 ^^^^^^^^^^^^^^^^^^
@@ -326,14 +426,6 @@ After creating VFs, you should see them as separate PCI(e) devices when
 outputting them with `lspci`. Get their ID and pass them through like a
 xref:qm_pci_passthrough_vm_config[normal PCI(e) device].
 
-Other considerations
-^^^^^^^^^^^^^^^^^^^^
-
-For this feature, platform support is especially important. It may be necessary
-to enable this feature in the BIOS/EFI first, or to use a specific PCI(e) port
-for it to work. In doubt, consult the manual of the platform or contact its
-vendor.
-
 Mediated Devices (vGPU, GVT-g)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -345,7 +437,6 @@ GRID technology.
 With this, a physical Card is able to create virtual cards, similar to SR-IOV.
 The difference is that mediated devices do not appear as PCI(e) devices in the
 host, and are such only suited for using in virtual machines.
-
 
 Host Configuration
 ^^^^^^^^^^^^^^^^^^

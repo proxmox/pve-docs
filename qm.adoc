@@ -139,7 +139,7 @@ snapshots) more intelligently.
 {pve} allows to boot VMs with different firmware and machine types, namely
 xref:qm_bios_and_uefi[SeaBIOS and OVMF]. In most cases you want to switch from
 the default SeaBIOS to OVMF only if you plan to use
-xref:qm_pci_passthrough[PCIe pass through]. A VMs 'Machine Type' defines the
+xref:qm_pci_passthrough[PCIe passthrough]. A VMs 'Machine Type' defines the
 hardware layout of the VM's virtual motherboard. You can choose between the
 default https://en.wikipedia.org/wiki/Intel_440FX[Intel 440FX] or the
 https://ark.intel.com/content/www/us/en/ark/products/31918/intel-82q35-graphics-and-memory-controller.html[Q35]
