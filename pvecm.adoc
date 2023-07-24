@@ -1076,9 +1076,9 @@ Flags:            Quorate Qdevice
 Membership information
 ~~~~~~~~~~~~~~~~~~~~~~
     Nodeid      Votes    Qdevice Name
-    0x00000001          1    A,V,NMW 192.168.22.180 (local)
-    0x00000002          1    A,V,NMW 192.168.22.181
-    0x00000000          1            Qdevice
+    0x00000001      1    A,V,NMW 192.168.22.180 (local)
+    0x00000002      1    A,V,NMW 192.168.22.181
+    0x00000000      1            Qdevice
 
 ----
 
