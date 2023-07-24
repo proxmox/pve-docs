@@ -321,7 +321,7 @@ manually.
 In general, this is not trivial, especially when LVM or ZFS is used.
 
 A detailed step by step how-to can be found on the
-{webwiki-url}Install_Proxmox_VE_on_Debian_11_Bullseye[wiki].
+{webwiki-url}Install_Proxmox_VE_on_Debian_12_Bookworm[wiki].
 
 
 endif::wiki[]
