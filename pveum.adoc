@@ -282,6 +282,13 @@ The main configuration settings for Microsoft Active Directory are:
 
 * `Port` (`port`): The port that the Microsoft AD server listens on
 
+
+NOTE: Microsoft AD normally checks values like usernames without case
+sensitivity. To make {pve} do the same, you can disable the default
+`case-sensitive` option by editing the realm in the web UI, or using the CLI
+(change the `ID` with the realm ID):
+`pveum realm modify ID --case-sensitive 0`
+
 [[pveum_ldap_sync]]
 Syncing LDAP-Based Realms
 ~~~~~~~~~~~~~~~~~~~~~~~~~
