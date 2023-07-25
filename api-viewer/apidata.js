@@ -3342,6 +3342,9 @@ const apiSchema = [
                                  "ref" : {
                                     "type" : "string"
                                  },
+                                 "scope" : {
+                                    "type" : "string"
+                                 },
                                  "type" : {
                                     "enum" : [
                                        "alias",
@@ -12439,6 +12442,12 @@ const apiSchema = [
                                                       "type" : "string"
                                                    },
                                                    "name" : {
+                                                      "type" : "string"
+                                                   },
+                                                   "ref" : {
+                                                      "type" : "string"
+                                                   },
+                                                   "scope" : {
                                                       "type" : "string"
                                                    },
                                                    "type" : {
@@ -31145,6 +31154,12 @@ const apiSchema = [
                                                    "name" : {
                                                       "type" : "string"
                                                    },
+                                                   "ref" : {
+                                                      "type" : "string"
+                                                   },
+                                                   "scope" : {
+                                                      "type" : "string"
+                                                   },
                                                    "type" : {
                                                       "enum" : [
                                                          "alias",
@@ -46282,9 +46297,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "login",
+                                    "upgrade",
                                     "ceph_install",
-                                    "upgrade"
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -46378,9 +46393,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "login",
+                                    "upgrade",
                                     "ceph_install",
-                                    "upgrade"
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -46504,9 +46519,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
-                                    "login",
+                                    "upgrade",
                                     "ceph_install",
-                                    "upgrade"
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -51086,7 +51101,7 @@ const apiSchema = [
                               }
                            },
                            "GET" : {
-                              "allowtoken" : 0,
+                              "allowtoken" : 1,
                               "description" : "Fetch a requested TFA entry if present.",
                               "method" : "GET",
                               "name" : "get_tfa_entry",
@@ -51231,7 +51246,7 @@ const apiSchema = [
                   ],
                   "info" : {
                      "GET" : {
-                        "allowtoken" : 0,
+                        "allowtoken" : 1,
                         "description" : "List TFA configurations of users.",
                         "method" : "GET",
                         "name" : "list_user_tfa",
@@ -51301,6 +51316,12 @@ const apiSchema = [
                               },
                               "type" : "object"
                            },
+                           "links" : [
+                              {
+                                 "href" : "{id}",
+                                 "rel" : "child"
+                              }
+                           ],
                            "type" : "array"
                         }
                      },
@@ -51413,7 +51434,7 @@ const apiSchema = [
             ],
             "info" : {
                "GET" : {
-                  "allowtoken" : 0,
+                  "allowtoken" : 1,
                   "description" : "List TFA configurations of users.",
                   "method" : "GET",
                   "name" : "list_tfa",
@@ -51484,6 +51505,12 @@ const apiSchema = [
                         },
                         "type" : "object"
                      },
+                     "links" : [
+                        {
+                           "href" : "{userid}",
+                           "rel" : "child"
+                        }
+                     ],
                      "type" : "array"
                   }
                }
