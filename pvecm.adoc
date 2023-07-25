@@ -1082,6 +1082,24 @@ Membership information
 
 ----
 
+[[pvecm_qdevice_status_flags]]
+QDevice Status Flags
+^^^^^^^^^^^^^^^^^^^^
+
+The status output of the QDevice, as seen above, will usually contain three
+columns:
+
+* `A` / `NA`: Alive or Not Alive. Indicates if the communication to the external
+    `corosync-qndetd` daemon works.
+* `V` / `NV`: If the QDevice will cast a vote for the node. In a split-brain
+    situation, where the corosync connection between the nodes is down, but they
+    both can still communicate with the external `corosync-qnetd` daemon,
+    only one node will get the vote.
+* `MW` / `NMW`: Master wins (`MV`) or not (`NMW`). Default is `NMW`, see
+   footnote:[`votequorum_qdevice_master_wins` manual page
+   https://manpages.debian.org/bookworm/libvotequorum-dev/votequorum_qdevice_master_wins.3.en.html].
+* `NR`: QDevice is not registered.
+
 
 Frequently Asked Questions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
