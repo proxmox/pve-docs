@@ -68,16 +68,16 @@ Naming Conventions
 
 We currently use the following naming conventions for device names:
 
-* Ethernet devices: en*, systemd network interface names. This naming scheme is
+* Ethernet devices: `en*`, systemd network interface names. This naming scheme is
  used for new {pve} installations since version 5.0.
 
-* Ethernet devices: eth[N], where 0 ≤ N (`eth0`, `eth1`, ...) This naming
+* Ethernet devices: `eth[N]`, where 0 ≤ N (`eth0`, `eth1`, ...) This naming
 scheme is used for {pve} hosts which were installed before the 5.0
 release. When upgrading to 5.0, the names are kept as-is.
 
-* Bridge names: vmbr[N], where 0 ≤ N ≤ 4094 (`vmbr0` - `vmbr4094`)
+* Bridge names: `vmbr[N]`, where 0 ≤ N ≤ 4094 (`vmbr0` - `vmbr4094`)
 
-* Bonds: bond[N], where 0 ≤ N (`bond0`, `bond1`, ...)
+* Bonds: `bond[N]`, where 0 ≤ N (`bond0`, `bond1`, ...)
 
 * VLANs: Simply add the VLAN number to the device name,
   separated by a period (`eno1.50`, `bond1.30`)
@@ -88,25 +88,117 @@ name implies the device type.
 Systemd Network Interface Names
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Systemd uses the two character prefix 'en' for Ethernet network
-devices. The next characters depends on the device driver and the fact
-which schema matches first.
+Systemd defines a versioned naming scheme for network device names. The
+scheme uses the two-character prefix `en` for Ethernet network devices. The
+next characters depends on the device driver, device location and other
+attributes. Some possible patterns are:
 
-* o<index>[n<phys_port_name>|d<dev_port>] — devices on board
+* `o<index>[n<phys_port_name>|d<dev_port>]` — devices on board
 
-* s<slot>[f<function>][n<phys_port_name>|d<dev_port>] — device by hotplug id
+* `s<slot>[f<function>][n<phys_port_name>|d<dev_port>]` — devices by hotplug id
 
-* [P<domain>]p<bus>s<slot>[f<function>][n<phys_port_name>|d<dev_port>] — devices by bus id
+* `[P<domain>]p<bus>s<slot>[f<function>][n<phys_port_name>|d<dev_port>]` —
+devices by bus id
 
-* x<MAC> — device by MAC address
+* `x<MAC>` — devices by MAC address
 
-The most common patterns are:
+Some examples for the most common patterns are:
 
-* eno1 — is the first on board NIC
+* `eno1` — is the first on-board NIC
 
-* enp3s0f1 — is the NIC on pcibus 3 slot 0 and use the NIC function 1.
+* `enp3s0f1` — is function 1 of the NIC on PCI bus 3, slot 0
 
-For more information see https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/[Predictable Network Interface Names].
+For a full list of possible device name patterns, see the
+https://manpages.debian.org/stable/systemd/systemd.net-naming-scheme.7.en.html[
+systemd.net-naming-scheme(7) manpage].
+
+A new version of systemd may define a new version of the network device naming
+scheme, which it then uses by default. Consequently, updating to a newer
+systemd version, for example during a major {pve} upgrade, can change the names
+of network devices and require adjusting the network configuration. To avoid
+name changes due to a new version of the naming scheme, you can manually pin a
+particular naming scheme version (see
+xref:network_pin_naming_scheme_version[below]).
+
+However, even with a pinned naming scheme version, network device names can
+still change due to kernel or driver updates. In order to avoid name changes
+for a particular network device altogether, you can manually override its name
+using a link file (see xref:network_override_device_names[below]).
+
+For more information on network interface names, see
+https://systemd.io/PREDICTABLE_INTERFACE_NAMES/[Predictable Network Interface
+Names].
+
+[[network_pin_naming_scheme_version]]
+Pinning a specific naming scheme version
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can pin a specific version of the naming scheme for network devices by
+adding the `net.naming-scheme=<version>` parameter to the
+xref:sysboot_edit_kernel_cmdline[kernel command line]. For a list of naming
+scheme versions, see the
+https://manpages.debian.org/stable/systemd/systemd.net-naming-scheme.7.en.html[
+systemd.net-naming-scheme(7) manpage].
+
+For example, to pin the version `v252`, which is the latest naming scheme
+version for a fresh {pve} 8.0 installation, add the following kernel
+command-line parameter:
+
+----
+net.naming-scheme=v252
+----
+
+See also xref:sysboot_edit_kernel_cmdline[this section] on editing the kernel
+command line. You need to reboot for the changes to take effect.
+
+[[network_override_device_names]]
+Overriding network device names
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can manually assign a name to a particular network device using a custom
+https://manpages.debian.org/stable/udev/systemd.link.5.en.html[systemd.link
+file]. This overrides the name that would be assigned according to the latest
+network device naming scheme. This way, you can avoid naming changes due to
+kernel updates, driver updates or newer versions of the naming scheme.
+
+Custom link files should be placed in `/etc/systemd/network/` and named
+`<n>-<id>.link`, where `n` is a priority smaller than `99` and `id` is some
+identifier. A link file has two sections: `[Match]` determines which interfaces
+the file will apply to; `[Link]` determines how these interfaces should be
+configured, including their naming.
+
+To assign a name to a particular network device, you need a way to uniquely and
+permanently identify that device in the `[Match]` section. One possibility is
+to match the device's MAC address using the `MACAddress` option, as it is
+unlikely to change. Then, you can assign a name using the `Name` option in the
+`[Link]` section.
+
+For example, to assign the name `enwan0` to the device with MAC address
+`aa:bb:cc:dd:ee:ff`, create a file `/etc/systemd/network/10-enwan0.link` with
+the following contents:
+
+----
+[Match]
+MACAddress=aa:bb:cc:dd:ee:ff
+
+[Link]
+Name=enwan0
+----
+
+Do not forget to adjust `/etc/network/interfaces` to use the new name.
+You need to reboot the node for the change to take effect.
+
+NOTE: It is recommended to assign a name starting with `en` or `eth` so that
+{pve} recognizes the interface as a physical network device which can then be
+configured via the GUI. Also, you should ensure that the name will not clash
+with other interface names in the future. One possibility is to assign a name
+that does not match any name pattern that systemd uses for network interfaces
+(xref:systemd_network_interface_names[see above]), such as `enwan0` in the
+example above.
+
+For more information on link files, see the
+https://manpages.debian.org/stable/udev/systemd.link.5.en.html[systemd.link(5)
+manpage].
 
 Choosing a network configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
