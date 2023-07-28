@@ -218,7 +218,8 @@ There are a few settings for tuning backup performance not exposed in the UI.
 The most notable is `bwlimit` for limiting IO bandwidth. The amount of threads
 used for the compressor can be controlled with the `pigz` (replacing `gzip`),
 respectively, `zstd` setting. Furthermore, there are `ionice` and, as part of
-the `performance` setting, `max-workers` (affects VM backups only). See the
+the `performance` setting, `max-workers` (affects VM backups only) and
+`pbs-entries-max` (affects container backups only). See the
 xref:vzdump_configuration[configuration options] for details.
 
 [[vzdump_retention]]
