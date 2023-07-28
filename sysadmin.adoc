@@ -32,6 +32,8 @@ See Also
 
 * link:/wiki/System_Software_Updates[System Software Updates]
 
+* link:/wiki/Firmware_Updates[Firmware Updates]
+
 * link:/wiki/Host_Bootloader[Host Bootloader]
 
 * link:/wiki/Time_Synchronization[Time Synchronization]
@@ -58,6 +60,8 @@ ifndef::wiki[]
 include::pve-package-repos.adoc[]
 
 include::system-software-updates.adoc[]
+
+include::firmware-updates.adoc[]
 
 include::pve-network.adoc[]
 

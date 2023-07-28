@@ -1,0 +1,106 @@
+[[chapter_firmware_updates]]
+Firmware Updates
+----------------
+ifdef::wiki[]
+:pve-toplevel:
+endif::wiki[]
+
+Firmware updates from this chapter should be applied when running {pve} on a
+bare-metal server. Whether configuring firmware updates is appropriate within
+guests, e.g. when using device pass-through, depends strongly on your setup and
+is therefore out of scope.
+
+Regular firmware updates for devices are just as important for proper operation
+as regular software updates. There are several ways to obtain and apply those
+updates. The methods listed in this chapter can also be combined to minimize the
+chance of missing an important update.
+
+TIP: When a firmware was updated, a system reboot is the safest way to apply the
+new version.
+
+
+[[sysadmin_firmware_persistent]]
+Persistent Firmware
+~~~~~~~~~~~~~~~~~~~
+The following methods write the new firmware permanently to the respective
+device. The firmware therefore remains up to date regardless of the booted
+operating system.
+
+TIP: When using a user space application or 'fwupd', the hardware must usually
+have been manufactured after 2014, the system must have been booted with UEFI
+and the EFI partition manually mounted.
+
+CAUTION: When updating the BIOS/UEFI itself, its settings are usually reset. Be
+prepared to reconfigure them afterwards.
+
+
+[[sysadmin_firmware_persistent_vendor_specific]]
+Vendor-specific
+^^^^^^^^^^^^^^^
+Firmware updates are usually available from the vendor directly. Please check
+with your vendor what options are available.
+
+Depending on the platform and vendor, there are convenient methods available.
+For servers, for example, Dell's Lifecycle Manager or Service Packs from HPE.
+Sometimes there are Linux utilities available as well. Examples are
+https://network.nvidia.com/support/firmware/mlxup-mft/['mlxup'] for NVIDIA
+ConnectX or
+https://techdocs.broadcom.com/us/en/storage-and-ethernet-connectivity/ethernet-nic-controllers/bcm957xxx/adapters/software-installation/updating-the-firmware/manually-updating-the-adapter-firmware-on-linuxesx.html['bnxtnvm'/'niccli']
+for Broadcom network cards.
+
+
+[[sysadmin_firmware_persistent_lvfs_fwupd]]
+Linux Vendor Firmware Service (LVFS) via fwupd
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+On https://fwupd.org['LVFS'], vendors can make their firmware updates available
+in a standardized way to a wide range of Linux hosts. Here is the growing list
+of participating https://fwupd.org/lvfs/vendors/[vendors] and their currently
+supported https://fwupd.org/lvfs/devices/[devices].
+
+To use 'fwupd', manually mount your
+https://pve.proxmox.com/pve-docs/pve-admin-guide.html#sysboot_installer_part_scheme[EFI System Partition]
+(ESP) you booted from on `/boot/`. After installing the package 'fwupd', update
+firmware with the following commands:
+----
+# fwupdmgr refresh
+# fwupdmgr get-updates
+# fwupdmgr update
+# reboot
+----
+
+
+[[sysadmin_firmware_runtime_files]]
+Runtime Firmware Files
+~~~~~~~~~~~~~~~~~~~~~~
+The following methods keep the firmware files available at the {pve} host and do
+not persist it on the device itself. Whenever a device is initialized, usually
+during the boot process, the corresponding firmware is loaded into the RAM of
+the respective device. These methods do not provide and can not update firmware
+that is used in the very early boot process (e.g. BIOS/UEFI, hard disks).
+
+In {pve} the package `pve-firmware` is already installed by default. Therefore,
+with the normal system updates (APT), the included firmware of common hardware
+is automatically kept up to date. Be aware that CPU microcode updates are
+located in a separate Debian repository component, which is not configured by
+default.
+
+
+[[sysadmin_firmware_runtime_files_debian_repo]]
+Debian Firmware Repository
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+Starting with Debian Bookworm ({pve} 8) non-free firmware (as defined by
+https://www.debian.org/social_contract#guidelines[DFSG]) has been moved to the
+newly created Debian repository component `non-free-firmware`. It contains
+firmware for CPUs (called microcode) as well as other firmware. In the past,
+CPUs repeatedly had security vulnerabilities beside other issues. Using this
+update method (additional) to apply microcode updates is convenient, safe and
+fast.
+
+To be able to install microcode updates or other firmware from the
+`non-free-firmware` component, edit the file `/etc/apt/sources.list`, append
+`non-free-firmware` to the end of each of the three Debian repository lines and
+run `apt-get update`.
+
+To keep the CPU microcode up to date, depending on the vendor, install the
+package `intel-microcode` or `amd64-microcode` and reboot your {pve} host
+afterwards.

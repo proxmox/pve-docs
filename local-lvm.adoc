@@ -64,7 +64,9 @@ Bootloader
 
 We install two boot loaders by default. The first partition contains
 the standard GRUB boot loader. The second partition is an **E**FI **S**ystem
-**P**artition (ESP), which makes it possible to boot on EFI systems.
+**P**artition (ESP), which makes it possible to boot on EFI systems and to
+apply xref:sysadmin_firmware_persistent[persistent firmware updates] from the
+user space.
 
 
 Creating a Volume Group

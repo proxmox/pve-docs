@@ -352,9 +352,9 @@ CPU Type
 
 QEMU can emulate a number different of *CPU types* from 486 to the latest Xeon
 processors. Each new processor generation adds new features, like hardware
-assisted 3d rendering, random number generation, memory protection, etc.. Also,
-a current generation can be upgraded through microcode update with bug or
-security fixes.
+assisted 3d rendering, random number generation, memory protection, etc. Also,
+a current generation can be upgraded through
+xref:chapter_firmware_updates[microcode update] with bug or security fixes.
 
 Usually you should select for your VM a processor type which closely matches the
 CPU of the host system, as it means that the host CPU features (also called _CPU
@@ -460,10 +460,9 @@ editing the CPU options in the WebUI, or by setting the 'flags' property of the
 'cpu' option in the VM configuration file.
 
 For Spectre v1,v2,v4 fixes, your CPU or system vendor also needs to provide a
-so-called ``microcode update'' footnote:[You can use `intel-microcode' /
-`amd-microcode' from Debian non-free if your vendor does not provide such an
-update. Note that not all affected CPUs can be updated to support spec-ctrl.]
-for your CPU.
+so-called ``microcode update'' for your CPU, see
+xref:chapter_firmware_updates[chapter Firmware Updates]. Note that not all
+affected CPUs can be updated to support spec-ctrl.
 
 
 To check if the {pve} host is vulnerable, execute the following command as root:
@@ -472,7 +471,7 @@ To check if the {pve} host is vulnerable, execute the following command as root:
 for f in /sys/devices/system/cpu/vulnerabilities/*; do echo "${f##*/} -" $(cat "$f"); done
 ----
 
-A community script is also available to detect is the host is still vulnerable.
+A community script is also available to detect if the host is still vulnerable.
 footnote:[spectre-meltdown-checker https://meltdown.ovh/]
 
 Intel processors
