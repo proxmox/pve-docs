@@ -1,0 +1,159 @@
+[[chapter_notifications]]
+Notifications
+=============
+ifndef::manvolnum[]
+:pve-toplevel:
+endif::manvolnum[]
+
+[[notification_events]]
+Notification Events
+-------------------
+
+{pve} will attempt to notify system administrators in case of certain events,
+such as:
+
+[width="100%",options="header"]
+|===========================================================================
+| Event name        | Description                             | Severity
+| `package-updates` | System updates are available            | `info`
+| `fencing`         | The {pve} HA manager has fenced a node  | `error`
+| `replication`     | A storage replication job has failed    | `error`
+| `vzdump`          | vzdump backup finished                  | `info` (`error` on failure)
+|===========================================================================
+
+In the 'Notification' panel of the datacenter view, the system's behavior can be
+configured for all events except backup jobs. For backup jobs,
+the settings can be found in the respective backup job configuration.
+For every notification event there is an option to configure the notification
+behavior (*when* to send a notification) and the notification target (*where* to
+send the notification).
+
+
+See also:
+
+* xref:datacenter_configuration_file[Datacenter Configuration]
+* xref:datacenter_configuration_file[vzdump]
+
+[[notification_targets]]
+Notification Targets
+--------------------
+
+Notification targets can be configured in the 'Notification Targets' panel.
+
+NOTE: The `mail-to-root` target is always available and cannot be modified or
+removed. It sends a mail the `root@pam` user by using the `sendmail` command and
+serves as a fallback target if no other target is configured for an event.
+
+Sendmail
+~~~~~~~~
+The sendmail binary is a program commonly found on Unix-like operating systems
+that handles the sending of email messages.
+It is a command-line utility that allows users and applications to send emails
+directly from the command line or from within scripts.
+
+The sendmail notification target uses the `sendmail` binary to send emails.
+
+
+NOTE: In standard {pve} installations, the `sendmail` binary is provided by
+Postfix. For this type of target to work correctly, it might be necessary to
+change Postfix's configuration so that it can correctly deliver emails.
+For cluster setups it is necessary to have a working Postfix configuration on
+every single cluster node.
+
+The configuration for Sendmail target plugins has the following options:
+
+* `mailto`: E-Mail address to which the notification shall be sent to. Can be
+set multiple times to accomodate multiple recipients.
+* `mailto-user`: Users to which emails shall be sent to. The user's email
+address will be looked up in `users.cfg`. Can be set multiple times to
+accomodate multiple recipients.
+* `author`: Sets the author of the E-Mail. Defaults to `Proxmox VE`.
+* `from-address`: Sets the from address of the E-Mail. If the parameter is not
+set, the plugin will fall back to the `email_from` setting from
+`datacenter.cfg`. If that is also not set, the plugin will default to
+`root@$hostname`, where `$hostname` is the hostname of the node.
+
+* `filter`: The name of the filter to use for this target.
+
+Gotify
+~~~~~~
+
+http://gotify.net[Gotify] is an open-source self-hosted notification server that
+allows you to send and receive push notifications to various devices and
+applications. It provides a simple API and web interface, making it easy to
+integrate with different platforms and services.
+
+The configuration for Gotify target plugins has the following options:
+
+* `server`: The base URL of the Gotify server, e.g. `http://<ip>:8888`
+* `token`: The authentication token. Tokens can be generated within the Gotify
+web interface.
+* `filter`: The name of the filter to use for this target.
+
+NOTE: The Gotify target plugin will respect the HTTP proxy settings from the
+ xref:datacenter_configuration_file[datacenter configuration]
+
+Group
+~~~~~
+
+One can only select a single target for notification events.
+To notify via multiple targets at the same time, a group can be created.
+A group can reference multiple targets. If a group is used as a target,
+the notification will be sent to all referenced targets. Groups can reference
+all targets except other groups.
+
+
+Notification Filters
+--------------------
+A notification target can be configured to use a *notification filter*.
+If a notification is sent to a target with a filter, the
+filter will determine if the notification will be actually sent or not.
+
+The following matchers are available:
+
+* `min-severity`: Matches notifications with equal or higher severity
+
+It is also possible to configure the evaluation of the individual matchers:
+
+* `invert-match`: Inverts the result of the whole filter
+* `mode`: Sets the logical operator used to connect the individual matchers to
+`and` or `or`. Defaults to `and`.
+
+The `mode` option also influences the evaluation of filters without any
+matchers. If set to `or`, an empty filter evaluates to `false` (do not notify).
+If set to `and`, the result is `true` (send a notification).
+----
+filter: always-matches
+    mode and
+
+filter: never-matches
+    mode or
+----
+
+Permissions
+-----------
+
+For every target or filter, there exists a corresponding ACL path
+`/mapping/notification/<name>`.
+If an operation can be triggered by a user (e.g. via the GUI or API) and if
+that operation is configured to notify via a given target, then
+the user must have the `Mapping.Use` permission on the corresponding
+node in the ACL tree.
+`Mapping.Modify` and `Mapping.Audit` are needed for
+writing/reading the configuration of a target or filter.
+
+NOTE: For backwards-compatibility, the special `mail-to-root` target
+does not require `Mapping.Use`.
+
+NOTE: When sending notifications via a group target,
+the user must have the `Mapping.Use` permission for every single endpoint
+included in the group. If a group/endpoint is configured to
+use a filter, the user must have the `Mapping.Use` permission for the filter
+as well.
+
+
+
+
+
+
+

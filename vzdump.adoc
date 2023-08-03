@@ -552,6 +552,11 @@ Backup all guest systems and send notification mails to root and admin.
 
  # vzdump --all --mode suspend --mailto root --mailto admin
 
+Backup guest 777 and notify via the `notify-admins` notification target on
+failure.
+
+ # vzdump 777  --notification-target notify-admins --notification-policy failure
+
 Use snapshot mode (no downtime) and non-default dump directory.
 
  # vzdump 777 --dumpdir /mnt/backup --mode snapshot

@@ -51,6 +51,8 @@ include::ha-manager.adoc[]
 
 include::vzdump.adoc[]
 
+include::notifications.adoc[]
+
 // Return to normal title levels.
 :leveloffset: 0
 

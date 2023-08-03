@@ -246,6 +246,8 @@ On the datacenter level, you can access cluster-wide settings and information.
 
 * *Metric Server:* define external metric servers for {pve}.
 
+* *Notifications:* configurate notification behavior and targets for  {pve}.
+
 * *Support:* display information about your support subscription.
 
 
