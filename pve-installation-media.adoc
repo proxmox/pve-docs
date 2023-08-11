@@ -5,7 +5,7 @@ ifdef::wiki[]
 :pve-toplevel:
 endif::wiki[]
 
-Download the installer ISO image from: {website}en/downloads/category/iso-images-pve
+Download the installer ISO image from: {website}en/downloads/proxmox-virtual-environment/iso
 
 The {pve} installation media is a hybrid ISO image. It works in two ways:
 

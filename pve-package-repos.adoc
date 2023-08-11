@@ -71,7 +71,7 @@ The `root@pam` user is notified via email about available updates. Click the
 
 You need a valid subscription key to access the `pve-enterprise` repository.
 Different support levels are available. Further details can be found at
-https://www.proxmox.com/en/proxmox-ve/pricing.
+https://www.proxmox.com/en/proxmox-virtual-environment/pricing.
 
 NOTE: You can disable this repository by commenting out the above line using a
 `#` (at the start of the line). This prevents error messages if your host does
