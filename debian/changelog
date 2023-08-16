@@ -1,3 +1,41 @@
+pve-docs (8.0.5) bookworm; urgency=medium
+
+  * pvecm: add node: let parameter use two dashes
+
+  * pvesm: update documentation of the list feature
+
+  * installation: note that TUI uses same code and use thumbnail attribute
+
+  * installation: add screenshot of tui installer
+
+  * installation: update installer boot menu options and screenshot
+
+  * gitattributes: treat .ppm as binary
+
+  * add documentation for the new notification system
+
+  * update static/schema information
+
+  * pvecm: add qdevice status flag explanation
+
+  * pvecm: fix pvecm status indentation
+
+  * user management: add note about case-sensitivity for AD realm
+
+  * fix #4866: fix install on Debian wiki link
+
+  * fix proxmox-kernel-helper package name
+
+  * pveum: sort roles and privileges alphabetically
+
+  * pveum: add missing roles and privileges
+
+  * pmxcfs: fix incorrect exmple command
+
+  * cgroup: update note about legacy cgroup controller support
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 16 Aug 2023 12:03:55 +0200
+
 pve-docs (8.0.4) bookworm; urgency=medium
 
   * faq: fix typo in release names
