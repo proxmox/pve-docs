@@ -469,6 +469,11 @@ downloaded from such an archive is inherently safe, but it avoids exposing the
 hypervisor system to danger. The VM will stop itself after a timeout. This
 entire process happens transparently from a user's point of view.
 
+NOTE: For troubleshooting purposes, each temporary VM instance generates a log
+file in `/var/log/proxmox-backup/file-restore/`. The log file might contain
+additional information in case an attempt to restore individual files or
+accessing file systems contained in a backup archive fails.
+
 [[vzdump_configuration]]
 Configuration
 -------------
