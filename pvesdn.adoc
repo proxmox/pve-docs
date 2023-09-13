@@ -379,6 +379,27 @@ ebgp-mutltihop:: Increase the number of hops to reach peers, in case they are
 
 bgp-multipath-as-path-relax:: Allow ECMP if your peers have different ASN.
 
+
+[[pvesdn_controller_plugin_ISIS]]
+ISIS Controller
+~~~~~~~~~~~~~~~
+
+The ISIS controller is not used directly by a zone.
+You can use it to configure FRR to export evpn routes to an ISIS domain.
+
+Configuration options:
+
+node:: The node of this ISIS controller.
+
+domain:: A unique ISIS domain.
+
+network entity title:: A Unique ISIS network address that identifies this node.
+
+interfaces:: A list of physical interface(s) used by ISIS.
+
+loopback:: Use a loopback or dummy interface as the source of the EVPN network
+  (for multipath).
+
 [[pvesdn_config_ipam]]
 IPAMs
 -----
