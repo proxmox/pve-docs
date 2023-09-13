@@ -353,6 +353,10 @@ The BGP controller is not used directly by a zone.
 You can use it to configure FRR to manage BGP peers.
 
 For BGP-EVPN, it can be used to define a different ASN by node, so doing EBGP.
+It can also be used to export evpn routes to a external bgp peer.
+
+NOTE: By default, for a simple full mesh evpn, you don't need to define any extra
+BGP Controller.
 
 Configuration options:
 
