@@ -909,6 +909,13 @@ Below you will find a description of the different HA policies for a node
 shutdown. Currently 'Conditional' is the default due to backward compatibility.
 Some users may find that 'Migrate' behaves more as expected.
 
+The shutdown policy can be configured in the Web UI (`Datacenter` -> `Options`
+-> `HA Settings`), or directly in `datacenter.cfg`:
+
+----
+ha: shutdown_policy=<value>
+----
+
 Migrate
 ^^^^^^^
 
