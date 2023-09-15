@@ -119,6 +119,45 @@ WARNING: The `pvetest` repository should (as the name implies) only be used for
 testing new features or bug fixes.
 
 [[sysadmin_package_repositories_ceph]]
+Ceph Reef Enterprise Repository
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This repository holds the enterprise {pve} Ceph 18.2 Reef packages. They are
+suitable for production. Use this repository if you run the Ceph client or a
+full Ceph cluster on {pve}.
+
+.File `/etc/apt/sources.list.d/ceph.list`
+----
+deb https://enterprise.proxmox.com/debian/ceph-reef bookworm enterprise
+----
+
+
+Ceph Reef No-Subscription Repository
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This Ceph repository contains the Ceph 18.2 Reef packages before they are moved
+to the enterprise repository and after they where on the test repository.
+
+NOTE: It's recommended to use the enterprise repository for production
+machines.
+
+.File `/etc/apt/sources.list.d/ceph.list`
+----
+deb http://download.proxmox.com/debian/ceph-reef bookworm no-subscription
+----
+
+
+Ceph Reef Test Repository
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This Ceph repository contains the Ceph 18.2 Reef packages before they are moved
+to the main repository. It is used to test new Ceph releases on {pve}.
+
+.File `/etc/apt/sources.list.d/ceph.list`
+----
+deb http://download.proxmox.com/debian/ceph-reef bookworm test
+----
+
 Ceph Quincy Enterprise Repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

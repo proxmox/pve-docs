@@ -1,3 +1,7 @@
+ifdef::wiki[]
+:title: Schedule Format
+endif::wiki[]
+
 [[chapter_calendar_events]]
 Schedule Format
 ---------------
