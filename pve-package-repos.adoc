@@ -159,7 +159,7 @@ deb http://download.proxmox.com/debian/ceph-reef bookworm test
 ----
 
 Ceph Quincy Enterprise Repository
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This repository holds the enterprise {pve} Ceph Quincy packages. They are
 suitable for production. Use this repository if you run the Ceph client or a
