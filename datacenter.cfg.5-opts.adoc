@@ -108,16 +108,42 @@ Lower, inclusive boundary for free next-id API range.
 
 Upper, exclusive boundary for free next-id API range.
 
-`notify`: `package-updates=<auto|always|never>` ::
+`notify`: `[fencing=<always|never>] [,package-updates=<auto|always|never>] [,replication=<always|never>] [,target-fencing=<TARGET>] [,target-package-updates=<TARGET>] [,target-replication=<TARGET>]` ::
 
 Cluster-wide notification settings.
 
+`fencing`=`<always | never>` ('default =' `always`);;
+
+Control if notifications about node fencing should be sent.
+* 'always' always send out notifications
+* 'never' never send out notifications.
+For production systems, turning off node fencing notifications is notrecommended!
+
 `package-updates`=`<always | auto | never>` ('default =' `auto`);;
 
-Control how often the daily update job should send out notification mails:
+Control how often the daily update job should send out notifications:
 * 'auto' daily for systems with a valid subscription, as those are assumed to be  production-ready and thus should know about pending updates.
 * 'always' every update, if there are new pending updates.
 * 'never' never send a notification for new pending updates.
+
+`replication`=`<always | never>` ('default =' `always`);;
+
+Control if notifications for replication failures should be sent.
+* 'always' always send out notifications
+* 'never' never send out notifications.
+For production systems, turning off replication notifications is notrecommended!
+
+`target-fencing`=`<TARGET>` ;;
+
+Control where notifications about fenced cluster nodes should be sent to. Has to be the name of a notification target (endpoint or notification group). If the 'target-fencing' parameter is not set, the system will send mails to root via a 'sendmail' notification endpoint.
+
+`target-package-updates`=`<TARGET>` ;;
+
+Control where notifications about available updates should be sent to. Has to be the name of a notification target (endpoint or notification group). If the 'target-package-updates' parameter is not set, the system will send mails to root via a 'sendmail' notification endpoint.
+
+`target-replication`=`<TARGET>` ;;
+
+Control where notifications for failed storage replication jobs should be sent to. Has to be the name of a notification target (endpoint or notification group). If the 'target-replication' parameter is not set, the system will send mails to root via a 'sendmail' notification endpoint.
 
 `registered-tags`: `<tag>[;<tag>...]` ::
 

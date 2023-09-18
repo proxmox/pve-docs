@@ -24,11 +24,11 @@ Maximal time to wait for the global lock (minutes).
 
 `mailnotification`: `<always | failure>` ('default =' `always`)::
 
-Specify when to send an email
+Deprecated: use 'notification-policy' instead.
 
 `mailto`: `<string>` ::
 
-Comma-separated list of email addresses or users that should receive email notifications.
+Comma-separated list of email addresses or users that should receive email notifications. Has no effect if the 'notification-target' option  is set at the same time.
 
 `maxfiles`: `<integer> (1 - N)` ::
 
@@ -44,13 +44,25 @@ Template string for generating notes for the backup(s). It can contain variables
 +
 NOTE: Requires option(s): `storage`
 
-`performance`: `[max-workers=<integer>]` ::
+`notification-policy`: `<always | failure | never>` ('default =' `always`)::
+
+Specify when to send a notification
+
+`notification-target`: `<string>` ::
+
+Determine the target to which notifications should be sent. Can either be a notification endpoint or a notification group. This option takes precedence over 'mailto', meaning that if both are  set, the 'mailto' option will be ignored.
+
+`performance`: `[max-workers=<integer>] [,pbs-entries-max=<integer>]` ::
 
 Other performance-related settings.
 
 `max-workers`=`<integer> (1 - 256)` ('default =' `16`);;
 
 Applies to VMs. Allow up to this many IO workers at the same time.
+
+`pbs-entries-max`=`<integer> (1 - N)` ('default =' `1048576`);;
+
+Applies to container backups sent to PBS. Limits the number of entries allowed in memory at a given time to avoid unintended OOM situations. Increase it to enable backups of containers with a large amount of files.
 
 `pigz`: `<integer>` ('default =' `0`)::
 

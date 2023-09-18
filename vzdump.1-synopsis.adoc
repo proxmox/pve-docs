@@ -42,11 +42,11 @@ Maximal time to wait for the global lock (minutes).
 
 `--mailnotification` `<always | failure>` ('default =' `always`)::
 
-Specify when to send an email
+Deprecated: use 'notification-policy' instead.
 
 `--mailto` `<string>` ::
 
-Comma-separated list of email addresses or users that should receive email notifications.
+Comma-separated list of email addresses or users that should receive email notifications. Has no effect if the 'notification-target' option  is set at the same time.
 
 `--maxfiles` `<integer> (1 - N)` ::
 
@@ -66,7 +66,15 @@ Template string for generating notes for the backup(s). It can contain variables
 +
 NOTE: Requires option(s): `storage`
 
-`--performance` `[max-workers=<integer>]` ::
+`--notification-policy` `<always | failure | never>` ('default =' `always`)::
+
+Specify when to send a notification
+
+`--notification-target` `<string>` ::
+
+Determine the target to which notifications should be sent. Can either be a notification endpoint or a notification group. This option takes precedence over 'mailto', meaning that if both are  set, the 'mailto' option will be ignored.
+
+`--performance` `[max-workers=<integer>] [,pbs-entries-max=<integer>]` ::
 
 Other performance-related settings.
 

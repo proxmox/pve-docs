@@ -97,8 +97,8 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "digest" : {
-                                 "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                 "maxLength" : 40,
+                                 "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                 "maxLength" : 64,
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -525,8 +525,8 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "digest" : {
-                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                       "maxLength" : 40,
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -738,6 +738,1455 @@ const apiSchema = [
             "leaf" : 0,
             "path" : "/cluster/metrics",
             "text" : "metrics"
+         },
+         {
+            "children" : [
+               {
+                  "children" : [
+                     {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "DELETE" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Remove sendmail endpoint",
+                                    "method" : "DELETE",
+                                    "name" : "delete_sendmail_endpoint",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "name" : {
+                                             "format" : "pve-configid",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/mapping/notification",
+                                          [
+                                             "Mapping.Modify"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "type" : "null"
+                                    }
+                                 },
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Return a specific sendmail endpoint",
+                                    "method" : "GET",
+                                    "name" : "get_sendmail_endpoint",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "name" : {
+                                             "format" : "pve-configid",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "or",
+                                          [
+                                             "perm",
+                                             "/mapping/notification/{name}",
+                                             [
+                                                "Mapping.Modify"
+                                             ]
+                                          ],
+                                          [
+                                             "perm",
+                                             "/mapping/notification/{name}",
+                                             [
+                                                "Mapping.Audit"
+                                             ]
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "properties" : {
+                                          "author" : {
+                                             "description" : "Author of the mail",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "comment" : {
+                                             "description" : "Comment",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "digest" : {
+                                             "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                             "maxLength" : 64,
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "filter" : {
+                                             "description" : "Name of the filter that should be applied.",
+                                             "format" : "pve-configid",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "from-address" : {
+                                             "description" : "`From` address for the mail",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "mailto" : {
+                                             "description" : "List of email recipients",
+                                             "items" : {
+                                                "format" : "email-or-username",
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array"
+                                          },
+                                          "mailto-user" : {
+                                             "description" : "List of users",
+                                             "items" : {
+                                                "format" : "pve-userid",
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array"
+                                          },
+                                          "name" : {
+                                             "description" : "The name of the endpoint.",
+                                             "format" : "pve-configid",
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 },
+                                 "PUT" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Update existing sendmail endpoint",
+                                    "method" : "PUT",
+                                    "name" : "update_sendmail_endpoint",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "author" : {
+                                             "description" : "Author of the mail",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "comment" : {
+                                             "description" : "Comment",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "delete" : {
+                                             "description" : "A list of settings you want to delete.",
+                                             "items" : {
+                                                "format" : "pve-configid",
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array",
+                                             "typetext" : "<array>"
+                                          },
+                                          "digest" : {
+                                             "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                             "maxLength" : 64,
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "filter" : {
+                                             "description" : "Name of the filter that should be applied.",
+                                             "format" : "pve-configid",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "from-address" : {
+                                             "description" : "`From` address for the mail",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "mailto" : {
+                                             "description" : "List of email recipients",
+                                             "items" : {
+                                                "format" : "email-or-username",
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array",
+                                             "typetext" : "<array>"
+                                          },
+                                          "mailto-user" : {
+                                             "description" : "List of users",
+                                             "items" : {
+                                                "format" : "pve-userid",
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array",
+                                             "typetext" : "<array>"
+                                          },
+                                          "name" : {
+                                             "description" : "The name of the endpoint.",
+                                             "format" : "pve-configid",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/mapping/notification/{name}",
+                                          [
+                                             "Mapping.Modify"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "type" : "null"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/cluster/notifications/endpoints/sendmail/{name}",
+                              "text" : "{name}"
+                           }
+                        ],
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Returns a list of all sendmail endpoints",
+                              "method" : "GET",
+                              "name" : "get_sendmail_endpoints",
+                              "parameters" : {
+                                 "additionalProperties" : 0
+                              },
+                              "permissions" : {
+                                 "description" : "Only lists entries where you have 'Mapping.Modify', 'Mapping.Use' or 'Mapping.Audit' permissions on '/mapping/notification/<name>'.",
+                                 "user" : "all"
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "author" : {
+                                          "description" : "Author of the mail",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "comment" : {
+                                          "description" : "Comment",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "filter" : {
+                                          "description" : "Name of the filter that should be applied.",
+                                          "format" : "pve-configid",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "from-address" : {
+                                          "description" : "`From` address for the mail",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "mailto" : {
+                                          "description" : "List of email recipients",
+                                          "items" : {
+                                             "format" : "email-or-username",
+                                             "type" : "string"
+                                          },
+                                          "optional" : 1,
+                                          "type" : "array"
+                                       },
+                                       "mailto-user" : {
+                                          "description" : "List of users",
+                                          "items" : {
+                                             "format" : "pve-userid",
+                                             "type" : "string"
+                                          },
+                                          "optional" : 1,
+                                          "type" : "array"
+                                       },
+                                       "name" : {
+                                          "description" : "The name of the endpoint.",
+                                          "format" : "pve-configid",
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "links" : [
+                                    {
+                                       "href" : "{name}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
+                              }
+                           },
+                           "POST" : {
+                              "allowtoken" : 1,
+                              "description" : "Create a new sendmail endpoint",
+                              "method" : "POST",
+                              "name" : "create_sendmail_endpoint",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "author" : {
+                                       "description" : "Author of the mail",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "comment" : {
+                                       "description" : "Comment",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "filter" : {
+                                       "description" : "Name of the filter that should be applied.",
+                                       "format" : "pve-configid",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "from-address" : {
+                                       "description" : "`From` address for the mail",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "mailto" : {
+                                       "description" : "List of email recipients",
+                                       "items" : {
+                                          "format" : "email-or-username",
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array",
+                                       "typetext" : "<array>"
+                                    },
+                                    "mailto-user" : {
+                                       "description" : "List of users",
+                                       "items" : {
+                                          "format" : "pve-userid",
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array",
+                                       "typetext" : "<array>"
+                                    },
+                                    "name" : {
+                                       "description" : "The name of the endpoint.",
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/mapping/notification",
+                                    [
+                                       "Mapping.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
+                        "path" : "/cluster/notifications/endpoints/sendmail",
+                        "text" : "sendmail"
+                     },
+                     {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "DELETE" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Remove gotify endpoint",
+                                    "method" : "DELETE",
+                                    "name" : "delete_gotify_endpoint",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "name" : {
+                                             "format" : "pve-configid",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/mapping/notification/{name}",
+                                          [
+                                             "Mapping.Modify"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "type" : "null"
+                                    }
+                                 },
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Return a specific gotify endpoint",
+                                    "method" : "GET",
+                                    "name" : "get_gotify_endpoint",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "name" : {
+                                             "description" : "Name of the endpoint.",
+                                             "format" : "pve-configid",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "or",
+                                          [
+                                             "perm",
+                                             "/mapping/notification/{name}",
+                                             [
+                                                "Mapping.Modify"
+                                             ]
+                                          ],
+                                          [
+                                             "perm",
+                                             "/mapping/notification/{name}",
+                                             [
+                                                "Mapping.Audit"
+                                             ]
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "properties" : {
+                                          "comment" : {
+                                             "description" : "Comment",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "digest" : {
+                                             "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                             "maxLength" : 64,
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "filter" : {
+                                             "description" : "Name of the filter that should be applied.",
+                                             "format" : "pve-configid",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "name" : {
+                                             "description" : "The name of the endpoint.",
+                                             "format" : "pve-configid",
+                                             "type" : "string"
+                                          },
+                                          "server" : {
+                                             "description" : "Server URL",
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 },
+                                 "PUT" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Update existing gotify endpoint",
+                                    "method" : "PUT",
+                                    "name" : "update_gotify_endpoint",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "comment" : {
+                                             "description" : "Comment",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "delete" : {
+                                             "description" : "A list of settings you want to delete.",
+                                             "items" : {
+                                                "format" : "pve-configid",
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array",
+                                             "typetext" : "<array>"
+                                          },
+                                          "digest" : {
+                                             "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                             "maxLength" : 64,
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "filter" : {
+                                             "description" : "Name of the filter that should be applied.",
+                                             "format" : "pve-configid",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "name" : {
+                                             "description" : "The name of the endpoint.",
+                                             "format" : "pve-configid",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "server" : {
+                                             "description" : "Server URL",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "token" : {
+                                             "description" : "Secret token",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/mapping/notification/{name}",
+                                          [
+                                             "Mapping.Modify"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "type" : "null"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/cluster/notifications/endpoints/gotify/{name}",
+                              "text" : "{name}"
+                           }
+                        ],
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Returns a list of all gotify endpoints",
+                              "method" : "GET",
+                              "name" : "get_gotify_endpoints",
+                              "parameters" : {
+                                 "additionalProperties" : 0
+                              },
+                              "permissions" : {
+                                 "description" : "Only lists entries where you have 'Mapping.Modify', 'Mapping.Use' or 'Mapping.Audit' permissions on '/mapping/notification/<name>'.",
+                                 "user" : "all"
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "comment" : {
+                                          "description" : "Comment",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "filter" : {
+                                          "description" : "Name of the filter that should be applied.",
+                                          "format" : "pve-configid",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "name" : {
+                                          "description" : "The name of the endpoint.",
+                                          "format" : "pve-configid",
+                                          "type" : "string"
+                                       },
+                                       "server" : {
+                                          "description" : "Server URL",
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "links" : [
+                                    {
+                                       "href" : "{name}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
+                              }
+                           },
+                           "POST" : {
+                              "allowtoken" : 1,
+                              "description" : "Create a new gotify endpoint",
+                              "method" : "POST",
+                              "name" : "create_gotify_endpoint",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "comment" : {
+                                       "description" : "Comment",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "filter" : {
+                                       "description" : "Name of the filter that should be applied.",
+                                       "format" : "pve-configid",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "name" : {
+                                       "description" : "The name of the endpoint.",
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "server" : {
+                                       "description" : "Server URL",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "token" : {
+                                       "description" : "Secret token",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/mapping/notification",
+                                    [
+                                       "Mapping.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
+                        "path" : "/cluster/notifications/endpoints/gotify",
+                        "text" : "gotify"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Index for all available endpoint types.",
+                        "method" : "GET",
+                        "name" : "endpoints_index",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "user" : "all"
+                        },
+                        "returns" : {
+                           "items" : {
+                              "properties" : {},
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{name}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/cluster/notifications/endpoints",
+                  "text" : "endpoints"
+               },
+               {
+                  "children" : [
+                     {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "POST" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Send a test notification to a provided target.",
+                                    "method" : "POST",
+                                    "name" : "test_target",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "name" : {
+                                             "description" : "Name of the target.",
+                                             "format" : "pve-configid",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "description" : "The user requires 'Mapping.Modify', 'Mapping.Use' or 'Mapping.Audit' permissions on '/mapping/notification/<name>'. The special 'mail-to-root' target can be accessed by all users.",
+                                       "user" : "all"
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "type" : "null"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/cluster/notifications/targets/{name}/test",
+                              "text" : "test"
+                           }
+                        ],
+                        "leaf" : 0,
+                        "path" : "/cluster/notifications/targets/{name}",
+                        "text" : "{name}"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Returns a list of all entities that can be used as notification targets (endpoints and groups).",
+                        "method" : "GET",
+                        "name" : "get_all_targets",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "description" : "Only lists entries where you have 'Mapping.Modify', 'Mapping.Use' or 'Mapping.Audit' permissions on '/mapping/notification/<name>'. The special 'mail-to-root' target is available to all users.",
+                           "user" : "all"
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "items" : {
+                              "properties" : {
+                                 "comment" : {
+                                    "description" : "Comment",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "name" : {
+                                    "description" : "Name of the endpoint/group.",
+                                    "format" : "pve-configid",
+                                    "type" : "string"
+                                 },
+                                 "type" : {
+                                    "description" : "Type of the endpoint or group.",
+                                    "enum" : [
+                                       "sendmail",
+                                       "gotify",
+                                       "group"
+                                    ],
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{name}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/cluster/notifications/targets",
+                  "text" : "targets"
+               },
+               {
+                  "children" : [
+                     {
+                        "info" : {
+                           "DELETE" : {
+                              "allowtoken" : 1,
+                              "description" : "Remove group",
+                              "method" : "DELETE",
+                              "name" : "delete_group",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "name" : {
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/mapping/notification/{name}",
+                                    [
+                                       "Mapping.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           },
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Return a specific group",
+                              "method" : "GET",
+                              "name" : "get_group",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "name" : {
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "or",
+                                    [
+                                       "perm",
+                                       "/mapping/notification/{name}",
+                                       [
+                                          "Mapping.Modify"
+                                       ]
+                                    ],
+                                    [
+                                       "perm",
+                                       "/mapping/notification/{name}",
+                                       [
+                                          "Mapping.Audit"
+                                       ]
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "properties" : {
+                                    "comment" : {
+                                       "description" : "Comment",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "digest" : {
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "endpoint" : {
+                                       "description" : "List of included endpoints",
+                                       "items" : {
+                                          "format" : "pve-configid",
+                                          "type" : "string"
+                                       },
+                                       "type" : "array"
+                                    },
+                                    "filter" : {
+                                       "description" : "Name of the filter that should be applied.",
+                                       "format" : "pve-configid",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "name" : {
+                                       "description" : "Name of the group.",
+                                       "format" : "pve-configid",
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              }
+                           },
+                           "PUT" : {
+                              "allowtoken" : 1,
+                              "description" : "Update existing group",
+                              "method" : "PUT",
+                              "name" : "update_group",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "comment" : {
+                                       "description" : "Comment",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "delete" : {
+                                       "description" : "A list of settings you want to delete.",
+                                       "items" : {
+                                          "format" : "pve-configid",
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array",
+                                       "typetext" : "<array>"
+                                    },
+                                    "digest" : {
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "endpoint" : {
+                                       "description" : "List of included endpoints",
+                                       "items" : {
+                                          "format" : "pve-configid",
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array",
+                                       "typetext" : "<array>"
+                                    },
+                                    "filter" : {
+                                       "description" : "Name of the filter that should be applied.",
+                                       "format" : "pve-configid",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "name" : {
+                                       "description" : "Name of the group.",
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/mapping/notification/{name}",
+                                    [
+                                       "Mapping.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/cluster/notifications/groups/{name}",
+                        "text" : "{name}"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Returns a list of all groups",
+                        "method" : "GET",
+                        "name" : "get_groups",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "description" : "Only lists entries where you have 'Mapping.Modify', 'Mapping.Use' or 'Mapping.Audit' permissions on '/mapping/notification/<name>'.",
+                           "user" : "all"
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "items" : {
+                              "properties" : {
+                                 "comment" : {
+                                    "description" : "Comment",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "endpoint" : {
+                                    "description" : "List of included endpoints",
+                                    "items" : {
+                                       "format" : "pve-configid",
+                                       "type" : "string"
+                                    },
+                                    "type" : "array"
+                                 },
+                                 "filter" : {
+                                    "description" : "Name of the filter that should be applied.",
+                                    "format" : "pve-configid",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "name" : {
+                                    "description" : "Name of the group.",
+                                    "format" : "pve-configid",
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{name}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     },
+                     "POST" : {
+                        "allowtoken" : 1,
+                        "description" : "Create a new group",
+                        "method" : "POST",
+                        "name" : "create_group",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "comment" : {
+                                 "description" : "Comment",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "endpoint" : {
+                                 "description" : "List of included endpoints",
+                                 "items" : {
+                                    "format" : "pve-configid",
+                                    "type" : "string"
+                                 },
+                                 "type" : "array",
+                                 "typetext" : "<array>"
+                              },
+                              "filter" : {
+                                 "description" : "Name of the filter that should be applied.",
+                                 "format" : "pve-configid",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "name" : {
+                                 "description" : "Name of the group.",
+                                 "format" : "pve-configid",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/mapping/notification",
+                              [
+                                 "Mapping.Modify"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/cluster/notifications/groups",
+                  "text" : "groups"
+               },
+               {
+                  "children" : [
+                     {
+                        "info" : {
+                           "DELETE" : {
+                              "allowtoken" : 1,
+                              "description" : "Remove filter",
+                              "method" : "DELETE",
+                              "name" : "delete_filter",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "name" : {
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/mapping/notification/{name}",
+                                    [
+                                       "Mapping.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           },
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Return a specific filter",
+                              "method" : "GET",
+                              "name" : "get_filter",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "name" : {
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "or",
+                                    [
+                                       "perm",
+                                       "/mapping/notification/{name}",
+                                       [
+                                          "Mapping.Modify"
+                                       ]
+                                    ],
+                                    [
+                                       "perm",
+                                       "/mapping/notification/{name}",
+                                       [
+                                          "Mapping.Audit"
+                                       ]
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "properties" : {
+                                    "comment" : {
+                                       "description" : "Comment",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "digest" : {
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "invert-match" : {
+                                       "description" : "Invert match of the whole filter",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "min-severity" : {
+                                       "description" : "Minimum severity to match",
+                                       "enum" : [
+                                          "info",
+                                          "notice",
+                                          "warning",
+                                          "error"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "mode" : {
+                                       "default" : "and",
+                                       "description" : "Choose between 'and' and 'or' for when multiple properties are specified",
+                                       "enum" : [
+                                          "and",
+                                          "or"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "name" : {
+                                       "description" : "Name of the endpoint.",
+                                       "format" : "pve-configid",
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              }
+                           },
+                           "PUT" : {
+                              "allowtoken" : 1,
+                              "description" : "Update existing filter",
+                              "method" : "PUT",
+                              "name" : "update_filter",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "comment" : {
+                                       "description" : "Comment",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "delete" : {
+                                       "description" : "A list of settings you want to delete.",
+                                       "items" : {
+                                          "format" : "pve-configid",
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array",
+                                       "typetext" : "<array>"
+                                    },
+                                    "digest" : {
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "invert-match" : {
+                                       "description" : "Invert match of the whole filter",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "min-severity" : {
+                                       "description" : "Minimum severity to match",
+                                       "enum" : [
+                                          "info",
+                                          "notice",
+                                          "warning",
+                                          "error"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "mode" : {
+                                       "default" : "and",
+                                       "description" : "Choose between 'and' and 'or' for when multiple properties are specified",
+                                       "enum" : [
+                                          "and",
+                                          "or"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "name" : {
+                                       "description" : "Name of the endpoint.",
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/mapping/notification/{name}",
+                                    [
+                                       "Mapping.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/cluster/notifications/filters/{name}",
+                        "text" : "{name}"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Returns a list of all filters",
+                        "method" : "GET",
+                        "name" : "get_filters",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "description" : "Only lists entries where you have 'Mapping.Modify', 'Mapping.Use' or 'Mapping.Audit' permissions on '/mapping/notification/<name>'.",
+                           "user" : "all"
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "items" : {
+                              "properties" : {
+                                 "comment" : {
+                                    "description" : "Comment",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "invert-match" : {
+                                    "description" : "Invert match of the whole filter",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
+                                 "min-severity" : {
+                                    "description" : "Minimum severity to match",
+                                    "enum" : [
+                                       "info",
+                                       "notice",
+                                       "warning",
+                                       "error"
+                                    ],
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "mode" : {
+                                    "default" : "and",
+                                    "description" : "Choose between 'and' and 'or' for when multiple properties are specified",
+                                    "enum" : [
+                                       "and",
+                                       "or"
+                                    ],
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "name" : {
+                                    "description" : "Name of the endpoint.",
+                                    "format" : "pve-configid",
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{name}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     },
+                     "POST" : {
+                        "allowtoken" : 1,
+                        "description" : "Create a new filter",
+                        "method" : "POST",
+                        "name" : "create_filter",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "comment" : {
+                                 "description" : "Comment",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "invert-match" : {
+                                 "description" : "Invert match of the whole filter",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "min-severity" : {
+                                 "description" : "Minimum severity to match",
+                                 "enum" : [
+                                    "info",
+                                    "notice",
+                                    "warning",
+                                    "error"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "mode" : {
+                                 "default" : "and",
+                                 "description" : "Choose between 'and' and 'or' for when multiple properties are specified",
+                                 "enum" : [
+                                    "and",
+                                    "or"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "name" : {
+                                 "description" : "Name of the endpoint.",
+                                 "format" : "pve-configid",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/mapping/notification",
+                              [
+                                 "Mapping.Modify"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/cluster/notifications/filters",
+                  "text" : "filters"
+               }
+            ],
+            "info" : {
+               "GET" : {
+                  "allowtoken" : 1,
+                  "description" : "Index for notification-related API endpoints.",
+                  "method" : "GET",
+                  "name" : "index",
+                  "parameters" : {
+                     "additionalProperties" : 0
+                  },
+                  "permissions" : {
+                     "user" : "all"
+                  },
+                  "returns" : {
+                     "items" : {
+                        "properties" : {},
+                        "type" : "object"
+                     },
+                     "links" : [
+                        {
+                           "href" : "{name}",
+                           "rel" : "child"
+                        }
+                     ],
+                     "type" : "array"
+                  }
+               }
+            },
+            "leaf" : 0,
+            "path" : "/cluster/notifications",
+            "text" : "notifications"
          },
          {
             "children" : [
@@ -1286,8 +2735,8 @@ const apiSchema = [
                                        "additionalProperties" : 0,
                                        "properties" : {
                                           "digest" : {
-                                             "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                             "maxLength" : 40,
+                                             "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                             "maxLength" : 64,
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -1470,8 +2919,8 @@ const apiSchema = [
                                              "typetext" : "<string>"
                                           },
                                           "digest" : {
-                                             "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                             "maxLength" : 40,
+                                             "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                             "maxLength" : 64,
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -1713,8 +3162,8 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "digest" : {
-                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                       "maxLength" : 40,
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -1861,8 +3310,8 @@ const apiSchema = [
                                     "type" : "string"
                                  },
                                  "digest" : {
-                                    "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                    "maxLength" : 40,
+                                    "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                    "maxLength" : 64,
                                     "optional" : 0,
                                     "type" : "string"
                                  },
@@ -1899,8 +3348,8 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "digest" : {
-                                 "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                 "maxLength" : 40,
+                                 "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                 "maxLength" : 64,
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -1954,8 +3403,8 @@ const apiSchema = [
                                  "additionalProperties" : 0,
                                  "properties" : {
                                     "digest" : {
-                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                       "maxLength" : 40,
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -2124,8 +3573,8 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "digest" : {
-                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                       "maxLength" : 40,
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -2320,8 +3769,8 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "digest" : {
-                                 "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                 "maxLength" : 40,
+                                 "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                 "maxLength" : 64,
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -2461,8 +3910,8 @@ const apiSchema = [
                                              "typetext" : "<string>"
                                           },
                                           "digest" : {
-                                             "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                             "maxLength" : 40,
+                                             "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                             "maxLength" : 64,
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -2547,8 +3996,8 @@ const apiSchema = [
                                              "typetext" : "<string>"
                                           },
                                           "digest" : {
-                                             "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                             "maxLength" : 40,
+                                             "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                             "maxLength" : 64,
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -2662,8 +4111,8 @@ const apiSchema = [
                                           "type" : "string"
                                        },
                                        "digest" : {
-                                          "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                          "maxLength" : 40,
+                                          "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                          "maxLength" : 64,
                                           "optional" : 0,
                                           "type" : "string"
                                        },
@@ -2762,8 +4211,8 @@ const apiSchema = [
                                     "type" : "string"
                                  },
                                  "digest" : {
-                                    "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                    "maxLength" : 40,
+                                    "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                    "maxLength" : 64,
                                     "optional" : 0,
                                     "type" : "string"
                                  },
@@ -2800,8 +4249,8 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "digest" : {
-                                 "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                 "maxLength" : 40,
+                                 "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                 "maxLength" : 64,
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -2855,8 +4304,8 @@ const apiSchema = [
                                  "additionalProperties" : 0,
                                  "properties" : {
                                     "digest" : {
-                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                       "maxLength" : 40,
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -2934,8 +4383,8 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "digest" : {
-                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                       "maxLength" : 40,
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -3006,8 +4455,8 @@ const apiSchema = [
                                     "type" : "string"
                                  },
                                  "digest" : {
-                                    "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                    "maxLength" : 40,
+                                    "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                    "maxLength" : 64,
                                     "optional" : 0,
                                     "type" : "string"
                                  },
@@ -3174,8 +4623,8 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "digest" : {
-                                 "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                 "maxLength" : 40,
+                                 "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                 "maxLength" : 64,
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -3664,7 +5113,7 @@ const apiSchema = [
                               },
                               "mailnotification" : {
                                  "default" : "always",
-                                 "description" : "Specify when to send an email",
+                                 "description" : "Deprecated: use 'notification-policy' instead.",
                                  "enum" : [
                                     "always",
                                     "failure"
@@ -3673,7 +5122,7 @@ const apiSchema = [
                                  "type" : "string"
                               },
                               "mailto" : {
-                                 "description" : "Comma-separated list of email addresses or users that should receive email notifications.",
+                                 "description" : "Comma-separated list of email addresses or users that should receive email notifications. Has no effect if the 'notification-target' option  is set at the same time.",
                                  "format" : "email-or-username-list",
                                  "optional" : 1,
                                  "type" : "string",
@@ -3712,12 +5161,30 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "notification-policy" : {
+                                 "default" : "always",
+                                 "description" : "Specify when to send a notification",
+                                 "enum" : [
+                                    "always",
+                                    "failure",
+                                    "never"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "notification-target" : {
+                                 "description" : "Determine the target to which notifications should be sent. Can either be a notification endpoint or a notification group. This option takes precedence over 'mailto', meaning that if both are  set, the 'mailto' option will be ignored.",
+                                 "format" : "pve-configid",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "performance" : {
                                  "description" : "Other performance-related settings.",
                                  "format" : "backup-performance",
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[max-workers=<integer>]"
+                                 "typetext" : "[max-workers=<integer>] [,pbs-entries-max=<integer>]"
                               },
                               "pigz" : {
                                  "default" : 0,
@@ -4006,7 +5473,7 @@ const apiSchema = [
                         },
                         "mailnotification" : {
                            "default" : "always",
-                           "description" : "Specify when to send an email",
+                           "description" : "Deprecated: use 'notification-policy' instead.",
                            "enum" : [
                               "always",
                               "failure"
@@ -4015,7 +5482,7 @@ const apiSchema = [
                            "type" : "string"
                         },
                         "mailto" : {
-                           "description" : "Comma-separated list of email addresses or users that should receive email notifications.",
+                           "description" : "Comma-separated list of email addresses or users that should receive email notifications. Has no effect if the 'notification-target' option  is set at the same time.",
                            "format" : "email-or-username-list",
                            "optional" : 1,
                            "type" : "string",
@@ -4054,12 +5521,30 @@ const apiSchema = [
                            "type" : "string",
                            "typetext" : "<string>"
                         },
+                        "notification-policy" : {
+                           "default" : "always",
+                           "description" : "Specify when to send a notification",
+                           "enum" : [
+                              "always",
+                              "failure",
+                              "never"
+                           ],
+                           "optional" : 1,
+                           "type" : "string"
+                        },
+                        "notification-target" : {
+                           "description" : "Determine the target to which notifications should be sent. Can either be a notification endpoint or a notification group. This option takes precedence over 'mailto', meaning that if both are  set, the 'mailto' option will be ignored.",
+                           "format" : "pve-configid",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
                         "performance" : {
                            "description" : "Other performance-related settings.",
                            "format" : "backup-performance",
                            "optional" : 1,
                            "type" : "string",
-                           "typetext" : "[max-workers=<integer>]"
+                           "typetext" : "[max-workers=<integer>] [,pbs-entries-max=<integer>]"
                         },
                         "pigz" : {
                            "default" : 0,
@@ -4517,8 +6002,8 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "digest" : {
-                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                       "maxLength" : 40,
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -4810,8 +6295,8 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "digest" : {
-                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                       "maxLength" : 40,
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -5413,8 +6898,8 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "digest" : {
-                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                       "maxLength" : 40,
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -7208,8 +8693,8 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "digest" : {
-                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                       "maxLength" : 40,
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -7236,7 +8721,7 @@ const apiSchema = [
                                                 "type" : "string"
                                              },
                                              "iommugroup" : {
-                                                "description" : "The IOMMU group in which the device is to be expected in.Used for detecting hardware changes.",
+                                                "description" : "The IOMMU group in which the device is to be expected in. Used for detecting hardware changes.",
                                                 "optional" : 1,
                                                 "type" : "integer"
                                              },
@@ -7403,7 +8888,7 @@ const apiSchema = [
                                           "type" : "string"
                                        },
                                        "iommugroup" : {
-                                          "description" : "The IOMMU group in which the device is to be expected in.Used for detecting hardware changes.",
+                                          "description" : "The IOMMU group in which the device is to be expected in. Used for detecting hardware changes.",
                                           "optional" : 1,
                                           "type" : "integer"
                                        },
@@ -7553,21 +9038,21 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "description" : {
-                                       "description" : "Description of the logical PCI device.",
+                                       "description" : "Description of the logical USB device.",
                                        "maxLength" : 4096,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
                                     "digest" : {
-                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                       "maxLength" : 40,
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
                                     "id" : {
-                                       "description" : "The ID of the logical PCI mapping.",
+                                       "description" : "The ID of the logical USB mapping.",
                                        "format" : "pve-configid",
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -7705,14 +9190,14 @@ const apiSchema = [
                            "additionalProperties" : 0,
                            "properties" : {
                               "description" : {
-                                 "description" : "Description of the logical PCI device.",
+                                 "description" : "Description of the logical USB device.",
                                  "maxLength" : 4096,
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
                               "id" : {
-                                 "description" : "The ID of the logical PCI mapping.",
+                                 "description" : "The ID of the logical USB mapping.",
                                  "format" : "pve-configid",
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -7912,8 +9397,8 @@ const apiSchema = [
                                                    "typetext" : "<string>"
                                                 },
                                                 "digest" : {
-                                                   "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                   "maxLength" : 40,
+                                                   "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                   "maxLength" : 64,
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -8185,8 +9670,8 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "digest" : {
-                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                       "maxLength" : 40,
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -8463,8 +9948,8 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "digest" : {
-                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                       "maxLength" : 40,
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -9015,8 +10500,8 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "digest" : {
-                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                       "maxLength" : 40,
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -9310,8 +10795,8 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "digest" : {
-                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                       "maxLength" : 40,
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -9547,8 +11032,8 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "digest" : {
-                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                       "maxLength" : 40,
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -9960,7 +11445,9 @@ const apiSchema = [
                            },
                            "vmid" : {
                               "description" : "The numerical vmid (when type in qemu,lxc).",
-                              "minimum" : 1,
+                              "format" : "pve-vmid",
+                              "maximum" : 999999999,
+                              "minimum" : 100,
                               "optional" : 1,
                               "type" : "integer"
                            }
@@ -10306,21 +11793,65 @@ const apiSchema = [
                         "notify" : {
                            "description" : "Cluster-wide notification settings.",
                            "format" : {
+                              "fencing" : {
+                                 "default" : "always",
+                                 "description" : "Control if notifications about node fencing should be sent.",
+                                 "enum" : [
+                                    "always",
+                                    "never"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "verbose_description" : "Control if notifications about node fencing should be sent.\n* 'always' always send out notifications\n* 'never' never send out notifications.\nFor production systems, turning off node fencing notifications is notrecommended!\n"
+                              },
                               "package-updates" : {
                                  "default" : "auto",
-                                 "description" : "Control when the daily update job should send out notification mails.",
+                                 "description" : "Control when the daily update job should send out notifications.",
                                  "enum" : [
                                     "auto",
                                     "always",
                                     "never"
                                  ],
+                                 "optional" : 1,
                                  "type" : "string",
-                                 "verbose_description" : "Control how often the daily update job should send out notification mails:\n* 'auto' daily for systems with a valid subscription, as those are assumed to be  production-ready and thus should know about pending updates.\n* 'always' every update, if there are new pending updates.\n* 'never' never send a notification for new pending updates.\n"
+                                 "verbose_description" : "Control how often the daily update job should send out notifications:\n* 'auto' daily for systems with a valid subscription, as those are assumed to be  production-ready and thus should know about pending updates.\n* 'always' every update, if there are new pending updates.\n* 'never' never send a notification for new pending updates.\n"
+                              },
+                              "replication" : {
+                                 "default" : "always",
+                                 "description" : "Control if notifications for replication failures should be sent.",
+                                 "enum" : [
+                                    "always",
+                                    "never"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "verbose_description" : "Control if notifications for replication failures should be sent.\n* 'always' always send out notifications\n* 'never' never send out notifications.\nFor production systems, turning off replication notifications is notrecommended!\n"
+                              },
+                              "target-fencing" : {
+                                 "description" : "Control where notifications about fenced cluster nodes should be sent to.",
+                                 "format_description" : "TARGET",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "verbose_description" : "Control where notifications about fenced cluster nodes should be sent to. Has to be the name of a notification target (endpoint or notification group). If the 'target-fencing' parameter is not set, the system will send mails to root via a 'sendmail' notification endpoint."
+                              },
+                              "target-package-updates" : {
+                                 "description" : "Control where notifications about available updates should be sent to.",
+                                 "format_description" : "TARGET",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "verbose_description" : "Control where notifications about available updates should be sent to. Has to be the name of a notification target (endpoint or notification group). If the 'target-package-updates' parameter is not set, the system will send mails to root via a 'sendmail' notification endpoint."
+                              },
+                              "target-replication" : {
+                                 "description" : "Control where notifications for failed storage replication jobs should be sent to.",
+                                 "format_description" : "TARGET",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "verbose_description" : "Control where notifications for failed storage replication jobs should be sent to. Has to be the name of a notification target (endpoint or notification group). If the 'target-replication' parameter is not set, the system will send mails to root via a 'sendmail' notification endpoint."
                               }
                            },
                            "optional" : 1,
                            "type" : "string",
-                           "typetext" : "package-updates=<auto|always|never>"
+                           "typetext" : "[fencing=<always|never>] [,package-updates=<auto|always|never>] [,replication=<always|never>] [,target-fencing=<TARGET>] [,target-package-updates=<TARGET>] [,target-replication=<TARGET>]"
                         },
                         "registered-tags" : {
                            "description" : "A list of tags that require a `Sys.Modify` on '/' to set and delete. Tags set here that are also in 'user-tag-access' also require `Sys.Modify`.",
@@ -10650,8 +12181,8 @@ const apiSchema = [
                                                    "additionalProperties" : 0,
                                                    "properties" : {
                                                       "digest" : {
-                                                         "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                         "maxLength" : 40,
+                                                         "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                         "maxLength" : 64,
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -10848,8 +12379,8 @@ const apiSchema = [
                                                          "typetext" : "<string>"
                                                       },
                                                       "digest" : {
-                                                         "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                         "maxLength" : 40,
+                                                         "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                         "maxLength" : 64,
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -11074,8 +12605,8 @@ const apiSchema = [
                                                    "typetext" : "<string>"
                                                 },
                                                 "digest" : {
-                                                   "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                   "maxLength" : 40,
+                                                   "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                   "maxLength" : 64,
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -11221,8 +12752,8 @@ const apiSchema = [
                                                    "additionalProperties" : 0,
                                                    "properties" : {
                                                       "digest" : {
-                                                         "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                         "maxLength" : 40,
+                                                         "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                         "maxLength" : 64,
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -11328,8 +12859,8 @@ const apiSchema = [
                                                          "typetext" : "<string>"
                                                       },
                                                       "digest" : {
-                                                         "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                         "maxLength" : 40,
+                                                         "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                         "maxLength" : 64,
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -11430,8 +12961,8 @@ const apiSchema = [
                                                       "type" : "string"
                                                    },
                                                    "digest" : {
-                                                      "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                      "maxLength" : 40,
+                                                      "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                      "maxLength" : 64,
                                                       "optional" : 0,
                                                       "type" : "string"
                                                    },
@@ -11532,8 +13063,8 @@ const apiSchema = [
                                                                "typetext" : "<string>"
                                                             },
                                                             "digest" : {
-                                                               "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                               "maxLength" : 40,
+                                                               "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                               "maxLength" : 64,
                                                                "optional" : 1,
                                                                "type" : "string",
                                                                "typetext" : "<string>"
@@ -11646,8 +13177,8 @@ const apiSchema = [
                                                                "typetext" : "<string>"
                                                             },
                                                             "digest" : {
-                                                               "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                               "maxLength" : 40,
+                                                               "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                               "maxLength" : 64,
                                                                "optional" : 1,
                                                                "type" : "string",
                                                                "typetext" : "<string>"
@@ -11803,8 +13334,8 @@ const apiSchema = [
                                                             "type" : "string"
                                                          },
                                                          "digest" : {
-                                                            "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                            "maxLength" : 40,
+                                                            "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                            "maxLength" : 64,
                                                             "optional" : 0,
                                                             "type" : "string"
                                                          },
@@ -11933,8 +13464,8 @@ const apiSchema = [
                                                       "type" : "string"
                                                    },
                                                    "digest" : {
-                                                      "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                      "maxLength" : 40,
+                                                      "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                      "maxLength" : 64,
                                                       "optional" : 0,
                                                       "type" : "string"
                                                    },
@@ -11971,8 +13502,8 @@ const apiSchema = [
                                                    "typetext" : "<string>"
                                                 },
                                                 "digest" : {
-                                                   "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                   "maxLength" : 40,
+                                                   "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                   "maxLength" : 64,
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -12178,8 +13709,8 @@ const apiSchema = [
                                                    "typetext" : "<boolean>"
                                                 },
                                                 "digest" : {
-                                                   "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                   "maxLength" : 40,
+                                                   "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                   "maxLength" : 64,
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -21469,7 +23000,9 @@ const apiSchema = [
                                        "check" : [
                                           "perm",
                                           "/vms/{vmid}",
-                                          "VM.Config.Cloudinit"
+                                          [
+                                             "VM.Config.Cloudinit"
+                                          ]
                                        ]
                                     },
                                     "protected" : 1,
@@ -29360,8 +30893,8 @@ const apiSchema = [
                                                    "additionalProperties" : 0,
                                                    "properties" : {
                                                       "digest" : {
-                                                         "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                         "maxLength" : 40,
+                                                         "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                         "maxLength" : 64,
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -29558,8 +31091,8 @@ const apiSchema = [
                                                          "typetext" : "<string>"
                                                       },
                                                       "digest" : {
-                                                         "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                         "maxLength" : 40,
+                                                         "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                         "maxLength" : 64,
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -29784,8 +31317,8 @@ const apiSchema = [
                                                    "typetext" : "<string>"
                                                 },
                                                 "digest" : {
-                                                   "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                   "maxLength" : 40,
+                                                   "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                   "maxLength" : 64,
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -29931,8 +31464,8 @@ const apiSchema = [
                                                    "additionalProperties" : 0,
                                                    "properties" : {
                                                       "digest" : {
-                                                         "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                         "maxLength" : 40,
+                                                         "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                         "maxLength" : 64,
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -30038,8 +31571,8 @@ const apiSchema = [
                                                          "typetext" : "<string>"
                                                       },
                                                       "digest" : {
-                                                         "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                         "maxLength" : 40,
+                                                         "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                         "maxLength" : 64,
                                                          "optional" : 1,
                                                          "type" : "string",
                                                          "typetext" : "<string>"
@@ -30140,8 +31673,8 @@ const apiSchema = [
                                                       "type" : "string"
                                                    },
                                                    "digest" : {
-                                                      "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                      "maxLength" : 40,
+                                                      "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                      "maxLength" : 64,
                                                       "optional" : 0,
                                                       "type" : "string"
                                                    },
@@ -30242,8 +31775,8 @@ const apiSchema = [
                                                                "typetext" : "<string>"
                                                             },
                                                             "digest" : {
-                                                               "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                               "maxLength" : 40,
+                                                               "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                               "maxLength" : 64,
                                                                "optional" : 1,
                                                                "type" : "string",
                                                                "typetext" : "<string>"
@@ -30356,8 +31889,8 @@ const apiSchema = [
                                                                "typetext" : "<string>"
                                                             },
                                                             "digest" : {
-                                                               "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                               "maxLength" : 40,
+                                                               "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                               "maxLength" : 64,
                                                                "optional" : 1,
                                                                "type" : "string",
                                                                "typetext" : "<string>"
@@ -30513,8 +32046,8 @@ const apiSchema = [
                                                             "type" : "string"
                                                          },
                                                          "digest" : {
-                                                            "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                            "maxLength" : 40,
+                                                            "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                            "maxLength" : 64,
                                                             "optional" : 0,
                                                             "type" : "string"
                                                          },
@@ -30643,8 +32176,8 @@ const apiSchema = [
                                                       "type" : "string"
                                                    },
                                                    "digest" : {
-                                                      "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                      "maxLength" : 40,
+                                                      "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                      "maxLength" : 64,
                                                       "optional" : 0,
                                                       "type" : "string"
                                                    },
@@ -30681,8 +32214,8 @@ const apiSchema = [
                                                    "typetext" : "<string>"
                                                 },
                                                 "digest" : {
-                                                   "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                   "maxLength" : 40,
+                                                   "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                   "maxLength" : 64,
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -30888,8 +32421,8 @@ const apiSchema = [
                                                    "typetext" : "<boolean>"
                                                 },
                                                 "digest" : {
-                                                   "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                                   "maxLength" : 40,
+                                                   "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                   "maxLength" : 64,
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -37279,7 +38812,7 @@ const apiSchema = [
                                     },
                                     "mailnotification" : {
                                        "default" : "always",
-                                       "description" : "Specify when to send an email",
+                                       "description" : "Deprecated: use 'notification-policy' instead.",
                                        "enum" : [
                                           "always",
                                           "failure"
@@ -37288,7 +38821,7 @@ const apiSchema = [
                                        "type" : "string"
                                     },
                                     "mailto" : {
-                                       "description" : "Comma-separated list of email addresses or users that should receive email notifications.",
+                                       "description" : "Comma-separated list of email addresses or users that should receive email notifications. Has no effect if the 'notification-target' option  is set at the same time.",
                                        "format" : "email-or-username-list",
                                        "optional" : 1,
                                        "type" : "string"
@@ -37321,6 +38854,23 @@ const apiSchema = [
                                        "maxLength" : 1024,
                                        "optional" : 1,
                                        "requires" : "storage",
+                                       "type" : "string"
+                                    },
+                                    "notification-policy" : {
+                                       "default" : "always",
+                                       "description" : "Specify when to send a notification",
+                                       "enum" : [
+                                          "always",
+                                          "failure",
+                                          "never"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "notification-target" : {
+                                       "description" : "Determine the target to which notifications should be sent. Can either be a notification endpoint or a notification group. This option takes precedence over 'mailto', meaning that if both are  set, the 'mailto' option will be ignored.",
+                                       "format" : "pve-configid",
+                                       "optional" : 1,
                                        "type" : "string"
                                     },
                                     "performance" : {
@@ -37538,7 +39088,7 @@ const apiSchema = [
                               },
                               "mailnotification" : {
                                  "default" : "always",
-                                 "description" : "Specify when to send an email",
+                                 "description" : "Deprecated: use 'notification-policy' instead.",
                                  "enum" : [
                                     "always",
                                     "failure"
@@ -37547,7 +39097,7 @@ const apiSchema = [
                                  "type" : "string"
                               },
                               "mailto" : {
-                                 "description" : "Comma-separated list of email addresses or users that should receive email notifications.",
+                                 "description" : "Comma-separated list of email addresses or users that should receive email notifications. Has no effect if the 'notification-target' option  is set at the same time.",
                                  "format" : "email-or-username-list",
                                  "optional" : 1,
                                  "type" : "string",
@@ -37586,12 +39136,30 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "notification-policy" : {
+                                 "default" : "always",
+                                 "description" : "Specify when to send a notification",
+                                 "enum" : [
+                                    "always",
+                                    "failure",
+                                    "never"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "notification-target" : {
+                                 "description" : "Determine the target to which notifications should be sent. Can either be a notification endpoint or a notification group. This option takes precedence over 'mailto', meaning that if both are  set, the 'mailto' option will be ignored.",
+                                 "format" : "pve-configid",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "performance" : {
                                  "description" : "Other performance-related settings.",
                                  "format" : "backup-performance",
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[max-workers=<integer>]"
+                                 "typetext" : "[max-workers=<integer>] [,pbs-entries-max=<integer>]"
                               },
                               "pigz" : {
                                  "default" : 0,
@@ -37699,7 +39267,7 @@ const apiSchema = [
                            }
                         },
                         "permissions" : {
-                           "description" : "The user needs 'VM.Backup' permissions on any VM, and 'Datastore.AllocateSpace' on the backup storage. The 'tmpdir', 'dumpdir' and 'script' parameters are restricted to the 'root@pam' user. The 'maxfiles' and 'prune-backups' settings require 'Datastore.Allocate' on the backup storage. The 'bwlimit', 'performance' and 'ionice' parameters require 'Sys.Modify' on '/'.",
+                           "description" : "The user needs 'VM.Backup' permissions on any VM, and 'Datastore.AllocateSpace' on the backup storage. The 'tmpdir', 'dumpdir' and 'script' parameters are restricted to the 'root@pam' user. The 'maxfiles' and 'prune-backups' settings require 'Datastore.Allocate' on the backup storage. The 'bwlimit', 'performance' and 'ionice' parameters require 'Sys.Modify' on '/'. If 'notification-target' is set, then the 'Mapping.Use' permission is needed on '/mapping/notification/<target>'.",
                            "user" : "all"
                         },
                         "protected" : 1,
@@ -41496,6 +43064,13 @@ const apiSchema = [
                                              "requires" : "checksum",
                                              "type" : "string"
                                           },
+                                          "compression" : {
+                                             "description" : "Decompress the downloaded file using the specified compression algorithm.",
+                                             "enum" : null,
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
                                           "content" : {
                                              "description" : "Content type.",
                                              "enum" : [
@@ -43064,7 +44639,8 @@ const apiSchema = [
                                     [
                                        "Sys.Modify"
                                     ]
-                                 ]
+                                 ],
+                                 "description" : "If 'notify: target-package-updates' is set, then the user must have the 'Mapping.Use' permission on '/mapping/notification/<target>'"
                               },
                               "protected" : 1,
                               "proxyto" : "node",
@@ -43541,8 +45117,8 @@ const apiSchema = [
                                        "additionalProperties" : 0,
                                        "properties" : {
                                           "digest" : {
-                                             "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                             "maxLength" : 40,
+                                             "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                             "maxLength" : 64,
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -43723,8 +45299,8 @@ const apiSchema = [
                                              "typetext" : "<string>"
                                           },
                                           "digest" : {
-                                             "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                             "maxLength" : 40,
+                                             "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                             "maxLength" : 64,
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -43933,8 +45509,8 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "digest" : {
-                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                       "maxLength" : 40,
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -44254,8 +45830,8 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "digest" : {
-                                       "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                       "maxLength" : 40,
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -46298,8 +47874,8 @@ const apiSchema = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "upgrade",
-                                    "ceph_install",
-                                    "login"
+                                    "login",
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -46394,8 +47970,8 @@ const apiSchema = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "upgrade",
-                                    "ceph_install",
-                                    "login"
+                                    "login",
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -46520,8 +48096,8 @@ const apiSchema = [
                                  "description" : "Run specific command or default to login.",
                                  "enum" : [
                                     "upgrade",
-                                    "ceph_install",
-                                    "login"
+                                    "login",
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -47176,8 +48752,8 @@ const apiSchema = [
                                  "type" : "string"
                               },
                               "digest" : {
-                                 "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                 "maxLength" : 40,
+                                 "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                 "maxLength" : 64,
                                  "optional" : 1,
                                  "type" : "string"
                               }
@@ -47199,8 +48775,8 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "digest" : {
-                                 "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                 "maxLength" : 40,
+                                 "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                 "maxLength" : 64,
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -47534,8 +49110,8 @@ const apiSchema = [
                            "typetext" : "<string>"
                         },
                         "digest" : {
-                           "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                           "maxLength" : 40,
+                           "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                           "maxLength" : 64,
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
@@ -50287,15 +51863,15 @@ const apiSchema = [
                                  "description" : "LDAP base domain name",
                                  "maxLength" : 256,
                                  "optional" : 1,
-                                 "pattern" : "(?^:\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#]))(,\\s*\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#])))*)",
-                                 "type" : "string"
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               },
                               "bind_dn" : {
                                  "description" : "LDAP bind domain name",
                                  "maxLength" : 256,
                                  "optional" : 1,
-                                 "pattern" : "(?^:\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#]))(,\\s*\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#])))*)",
-                                 "type" : "string"
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               },
                               "capath" : {
                                  "default" : "/etc/ssl/certs",
@@ -50322,6 +51898,13 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "check-connection" : {
+                                 "default" : 0,
+                                 "description" : "Check bind connection to the server.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
                               },
                               "client-id" : {
                                  "description" : "OpenID Client ID",
@@ -50359,8 +51942,8 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "digest" : {
-                                 "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
-                                 "maxLength" : 40,
+                                 "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                 "maxLength" : 64,
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -50391,8 +51974,8 @@ const apiSchema = [
                                  "description" : "LDAP base domain name for group sync. If not set, the base_dn will be used.",
                                  "maxLength" : 256,
                                  "optional" : 1,
-                                 "pattern" : "(?^:\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#]))(,\\s*\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#])))*)",
-                                 "type" : "string"
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               },
                               "group_filter" : {
                                  "description" : "LDAP filter for group sync.",
@@ -50633,15 +52216,15 @@ const apiSchema = [
                            "description" : "LDAP base domain name",
                            "maxLength" : 256,
                            "optional" : 1,
-                           "pattern" : "(?^:\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#]))(,\\s*\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#])))*)",
-                           "type" : "string"
+                           "type" : "string",
+                           "typetext" : "<string>"
                         },
                         "bind_dn" : {
                            "description" : "LDAP bind domain name",
                            "maxLength" : 256,
                            "optional" : 1,
-                           "pattern" : "(?^:\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#]))(,\\s*\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#])))*)",
-                           "type" : "string"
+                           "type" : "string",
+                           "typetext" : "<string>"
                         },
                         "capath" : {
                            "default" : "/etc/ssl/certs",
@@ -50668,6 +52251,13 @@ const apiSchema = [
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
+                        },
+                        "check-connection" : {
+                           "default" : 0,
+                           "description" : "Check bind connection to the server.",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
                         },
                         "client-id" : {
                            "description" : "OpenID Client ID",
@@ -50722,8 +52312,8 @@ const apiSchema = [
                            "description" : "LDAP base domain name for group sync. If not set, the base_dn will be used.",
                            "maxLength" : 256,
                            "optional" : 1,
-                           "pattern" : "(?^:\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#]))(,\\s*\\w+=(?^:(\"[^\"]+\"|[^ ,+\"/<>;=#][^,+\"/<>;=]*[^ ,+\"/<>;=]|[^ ,+\"/<>;=#])))*)",
-                           "type" : "string"
+                           "type" : "string",
+                           "typetext" : "<string>"
                         },
                         "group_filter" : {
                            "description" : "LDAP filter for group sync.",
@@ -51883,13 +53473,21 @@ const apiSchema = [
                   "parameters" : {
                      "additionalProperties" : 0,
                      "properties" : {
+                        "allow-move" : {
+                           "default" : 0,
+                           "description" : "Allow adding a guest even if already in another pool. The guest will be removed from its current pool and added to this one.",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
                         "comment" : {
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
                         },
                         "delete" : {
-                           "description" : "Remove vms/storage (instead of adding it).",
+                           "default" : 0,
+                           "description" : "Remove the passed VMIDs and/or storage IDs instead of adding them.",
                            "optional" : 1,
                            "type" : "boolean",
                            "typetext" : "<boolean>"
@@ -51900,14 +53498,14 @@ const apiSchema = [
                            "typetext" : "<string>"
                         },
                         "storage" : {
-                           "description" : "List of storage IDs.",
+                           "description" : "List of storage IDs to add or remove from this pool.",
                            "format" : "pve-storage-id-list",
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
                         },
                         "vms" : {
-                           "description" : "List of virtual machines.",
+                           "description" : "List of guest VMIDs to add or remove from this pool.",
                            "format" : "pve-vmid-list",
                            "optional" : 1,
                            "type" : "string",

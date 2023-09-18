@@ -151,7 +151,7 @@ A list of settings you want to delete.
 
 `--digest` `<string>` ::
 
-Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
+Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.
 
 `--nodes` `<node>[:<pri>]{,<node>[:<pri>]}*` ::
 
@@ -211,7 +211,7 @@ A list of settings you want to delete.
 
 `--digest` `<string>` ::
 
-Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
+Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.
 
 `--group` `<string>` ::
 

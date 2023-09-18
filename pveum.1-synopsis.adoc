@@ -168,21 +168,25 @@ Update pool data.
 
 no description available
 
+`--allow-move` `<boolean>` ('default =' `0`)::
+
+Allow adding a guest even if already in another pool. The guest will be removed from its current pool and added to this one.
+
 `--comment` `<string>` ::
 
 no description available
 
-`--delete` `<boolean>` ::
+`--delete` `<boolean>` ('default =' `0`)::
 
-Remove vms/storage (instead of adding it).
+Remove the passed VMIDs and/or storage IDs instead of adding them.
 
 `--storage` `<string>` ::
 
-List of storage IDs.
+List of storage IDs to add or remove from this pool.
 
 `--vms` `<string>` ::
 
-List of virtual machines.
+List of guest VMIDs to add or remove from this pool.
 
 *pveum realm add* `<realm> --type <string>` `[OPTIONS]`
 
@@ -200,11 +204,11 @@ Specifies the Authentication Context Class Reference values that theAuthorizatio
 
 Automatically create users if they do not exist.
 
-`--base_dn` `(?^:\w+=(?^:("[^"]+"|[^ ,+"/<>;=#][^,+"/<>;=]*[^ ,+"/<>;=]|[^ ,+"/<>;=#]))(,\s*\w+=(?^:("[^"]+"|[^ ,+"/<>;=#][^,+"/<>;=]*[^ ,+"/<>;=]|[^ ,+"/<>;=#])))*)` ::
+`--base_dn` `<string>` ::
 
 LDAP base domain name
 
-`--bind_dn` `(?^:\w+=(?^:("[^"]+"|[^ ,+"/<>;=#][^,+"/<>;=]*[^ ,+"/<>;=]|[^ ,+"/<>;=#]))(,\s*\w+=(?^:("[^"]+"|[^ ,+"/<>;=#][^,+"/<>;=]*[^ ,+"/<>;=]|[^ ,+"/<>;=#])))*)` ::
+`--bind_dn` `<string>` ::
 
 LDAP bind domain name
 
@@ -223,6 +227,10 @@ Path to the client certificate
 `--certkey` `<string>` ::
 
 Path to the client certificate key
+
+`--check-connection` `<boolean>` ('default =' `0`)::
+
+Check bind connection to the server.
 
 `--client-id` `<string>` ::
 
@@ -252,7 +260,7 @@ LDAP filter for user sync.
 
 The objectclasses for groups.
 
-`--group_dn` `(?^:\w+=(?^:("[^"]+"|[^ ,+"/<>;=#][^,+"/<>;=]*[^ ,+"/<>;=]|[^ ,+"/<>;=#]))(,\s*\w+=(?^:("[^"]+"|[^ ,+"/<>;=#][^,+"/<>;=]*[^ ,+"/<>;=]|[^ ,+"/<>;=#])))*)` ::
+`--group_dn` `<string>` ::
 
 LDAP base domain name for group sync. If not set, the base_dn will be used.
 
@@ -364,11 +372,11 @@ Specifies the Authentication Context Class Reference values that theAuthorizatio
 
 Automatically create users if they do not exist.
 
-`--base_dn` `(?^:\w+=(?^:("[^"]+"|[^ ,+"/<>;=#][^,+"/<>;=]*[^ ,+"/<>;=]|[^ ,+"/<>;=#]))(,\s*\w+=(?^:("[^"]+"|[^ ,+"/<>;=#][^,+"/<>;=]*[^ ,+"/<>;=]|[^ ,+"/<>;=#])))*)` ::
+`--base_dn` `<string>` ::
 
 LDAP base domain name
 
-`--bind_dn` `(?^:\w+=(?^:("[^"]+"|[^ ,+"/<>;=#][^,+"/<>;=]*[^ ,+"/<>;=]|[^ ,+"/<>;=#]))(,\s*\w+=(?^:("[^"]+"|[^ ,+"/<>;=#][^,+"/<>;=]*[^ ,+"/<>;=]|[^ ,+"/<>;=#])))*)` ::
+`--bind_dn` `<string>` ::
 
 LDAP bind domain name
 
@@ -387,6 +395,10 @@ Path to the client certificate
 `--certkey` `<string>` ::
 
 Path to the client certificate key
+
+`--check-connection` `<boolean>` ('default =' `0`)::
+
+Check bind connection to the server.
 
 `--client-id` `<string>` ::
 
@@ -410,7 +422,7 @@ A list of settings you want to delete.
 
 `--digest` `<string>` ::
 
-Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
+Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.
 
 `--domain` `\S+` ::
 
@@ -424,7 +436,7 @@ LDAP filter for user sync.
 
 The objectclasses for groups.
 
-`--group_dn` `(?^:\w+=(?^:("[^"]+"|[^ ,+"/<>;=#][^,+"/<>;=]*[^ ,+"/<>;=]|[^ ,+"/<>;=#]))(,\s*\w+=(?^:("[^"]+"|[^ ,+"/<>;=#][^,+"/<>;=]*[^ ,+"/<>;=]|[^ ,+"/<>;=#])))*)` ::
+`--group_dn` `<string>` ::
 
 LDAP base domain name for group sync. If not set, the base_dn will be used.
 
