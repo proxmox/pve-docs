@@ -1,8 +1,10 @@
+[[chapter_calendar_events]]
 ifdef::wiki[]
-:title: Schedule Format
+Calendar Events
+===============
+:pve-toplevel:
 endif::wiki[]
 
-[[chapter_calendar_events]]
 Schedule Format
 ---------------
 
