@@ -419,7 +419,7 @@ management (DCIM) tool. See the source code repository for details:
 https://github.com/netbox-community/netbox
 
 You need to create an API token in NetBox to use it:
-https://netbox.readthedocs.io/en/stable/api/authentication
+https://docs.netbox.dev/en/stable/integrations/rest-api/#tokens
 
 The NetBox configuration properties are:
 
