@@ -141,7 +141,7 @@ ____
 
 For currently supported releases see:
 
-https://wiki.centos.org/About/Product
+https://en.wikipedia.org/wiki/CentOS#End-of-support_schedule
 
 Almalinux
 ^^^^^^^^^
