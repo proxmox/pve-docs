@@ -89,14 +89,14 @@ recommended.
 [width="100%",cols="5*d",options="header"]
 |===============================================================================
 | {pve} Version | Debian Version      | First Release | Debian EOL | Proxmox EOL
-| {pve} 8.x     | Debian 12 (Bookworm)| 2023-06       | tba        | tba
-| {pve} 7.x     | Debian 11 (Bullseye)| 2021-07       | 2024-07    | 2024-07
-| {pve} 6.x     | Debian 10 (Buster)  | 2019-07       | 2022-07    | 2022-07
-| {pve} 5.x     | Debian 9 (Stretch)  | 2017-07       | 2020-07    | 2020-07
-| {pve} 4.x     | Debian 8 (Jessie)   | 2015-10       | 2018-06    | 2018-06
-| {pve} 3.x     | Debian 7 (Wheezy)   | 2013-05       | 2016-04    | 2017-02
-| {pve} 2.x     | Debian 6 (Squeeze)  | 2012-04       | 2014-05    | 2014-05
-| {pve} 1.x     | Debian 5 (Lenny)    | 2008-10       | 2012-03    | 2013-01
+| {pve} 8       | Debian 12 (Bookworm)| 2023-06       | tba        | tba
+| {pve} 7       | Debian 11 (Bullseye)| 2021-07       | 2024-07    | 2024-07
+| {pve} 6       | Debian 10 (Buster)  | 2019-07       | 2022-09    | 2022-09
+| {pve} 5       | Debian 9 (Stretch)  | 2017-07       | 2020-07    | 2020-07
+| {pve} 4       | Debian 8 (Jessie)   | 2015-10       | 2018-06    | 2018-06
+| {pve} 3       | Debian 7 (Wheezy)   | 2013-05       | 2016-04    | 2017-02
+| {pve} 2       | Debian 6 (Squeeze)  | 2012-04       | 2014-05    | 2014-05
+| {pve} 1       | Debian 5 (Lenny)    | 2008-10       | 2012-03    | 2013-01
 |===============================================================================
 
 [[faq-upgrade]]
