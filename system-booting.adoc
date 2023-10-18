@@ -290,12 +290,18 @@ To apply your changes, run `proxmox-boot-tool refresh`, which sets it as the
 
 A complete list of kernel parameters can be found at
 'https://www.kernel.org/doc/html/v<YOUR-KERNEL-VERSION>/admin-guide/kernel-parameters.html'.
-replace <YOUR-KERNEL-VERSION> with the major.minor version (e.g. 5.15). You can
-find your kernel version by running
+replace <YOUR-KERNEL-VERSION> with the major.minor version, for example, for
+kernels based on version 6.5 the URL would be:
+https://www.kernel.org/doc/html/v6.5/admin-guide/kernel-parameters.html
+
+You can find your kernel version by checking the web interface ('Node ->
+Summary'), or by running
 
 ----
 # uname -r
 ----
+
+Use the first two numbers at the front of the output.
 
 [[sysboot_kernel_pin]]
 Override the Kernel-Version for next Boot
