@@ -172,9 +172,10 @@ For example:
 
 [thumbnail="screenshot/pve-setup-network.png"]
 
-The last step is the network configuration. Please note that during installation
-you can either use an IPv4 or IPv6 address, but not both. To configure a dual
-stack node, add additional IP addresses after the installation.
+The last step is the network configuration. Network interfaces that are UP show
+a filled circle in front of their name in the drop down menu. Please note that
+during installation you can either use an IPv4 or IPv6 address, but not both. To
+configure a dual stack node, add additional IP addresses after the installation.
 
 [thumbnail="screenshot/pve-installation.png", float="left"]
 
