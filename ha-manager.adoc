@@ -854,7 +854,7 @@ Maintenance Mode
 ~~~~~~~~~~~~~~~~
 
 Enabling the manual maintenance mode will mark the node as unavailable for
-operation, this in turn will migrate away all services to other nodes, which
+operation, this in turn will migrate away all HA services to other nodes, which
 are selected through the configured cluster resource scheduler (CRS) mode.
 During migration the original node will be recorded, so that the service can be
 moved back to to that node as soon as the maintenance mode is disabled, and it
