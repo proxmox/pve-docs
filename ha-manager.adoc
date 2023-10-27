@@ -853,12 +853,15 @@ The HA stack can support you mainly in two types of maintenance:
 Maintenance Mode
 ~~~~~~~~~~~~~~~~
 
-Enabling the manual maintenance mode will mark the node as unavailable for
-operation, this in turn will migrate away all HA services to other nodes, which
-are selected through the configured cluster resource scheduler (CRS) mode.
-During migration the original node will be recorded, so that the service can be
-moved back to to that node as soon as the maintenance mode is disabled, and it
-becomes online again.
+You can use the manual maintenance mode to mark the node as unavailable for HA
+operation, prompting all services managed by HA to migrate to other nodes.
+
+The target nodes for these migrations are selected from the other currently
+available nodes, and determined by the HA group configuration and the configured
+cluster resource scheduler (CRS) mode.
+During each migration, the original node will be recorded in the HA managers'
+state, so that the service can be moved back again automatically once the
+maintenance mode is disabled and the node is back online.
 
 Currently you can enabled or disable the maintenance mode using the ha-manager
 CLI tool.
