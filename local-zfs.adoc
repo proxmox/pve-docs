@@ -383,6 +383,11 @@ Minimum 4 disks
 # zpool create -f -o ashift=12 <pool> raidz2 <device1> <device2> <device3> <device4>
 ----
 
+Please read the section for
+xref:sysadmin_zfs_raid_considerations[ZFS RAID Level Considerations]
+to get a rough estimate on how IOPS and bandwidth expectations before setting up
+a pool, especially when wanting to use a RAID-Z mode.
+
 [[sysadmin_zfs_create_new_zpool_with_cache]]
 Create a new pool with cache (L2ARC)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
