@@ -124,14 +124,15 @@ purposes:
 microcode	: 0xf0
 ----
 
-Since a microcode package contains microcode for different CPU types, an updated
-microcode for your CPU will only be included occasionally. Therefore, date
-information from the package can also not be matched to a specific release date
-from the vendor.
+A microcode package has updates for many different CPUs. But updates
+specifically for your CPU might not come often. So, just looking at the date on
+the package won't tell you when the company actually released an update for your
+specific CPU.
 
-If the microcode package is installed, the system has been rebooted, and the
-microcode included in the package is more recent than that on the motherboard
-and CPU, the message "microcode updated early" appears in the log:
+If you've installed a new microcode package and rebooted your {pve} host, and
+this new microcode is newer than both, the version baked into the CPU and the
+one from the motherboard's firmware, you'll see a message in the system log
+saying "microcode updated early".
 
 ----
 # dmesg | grep microcode
