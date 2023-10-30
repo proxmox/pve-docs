@@ -101,13 +101,18 @@ microcode update.
 
 Set up Early OS Microcode Updates
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-After enabling the
-xref:sysadmin_debian_firmware_repo[Debian Firmware Repository], run
-`apt install <intel-microcode|amd64-microcode>` and reboot the {pve} host
-xref:ha_manager_node_maintenance[safely] afterwards.
+To set up microcode updates that are applied early on boot by the Linux kernel,
+you need to:
 
-Infrequent future microcode updates also require a reboot to be loaded.
+. Enable the xref:sysadmin_debian_firmware_repo[Debian Firmware Repository]
+. Get the latest available packages `apt update` (or use the web interface,
+  under Node -> Updates)
+. Install the CPU-vendor specific microcode package:
+  - For Intel CPUs:  `apt install intel-microcode`
+  - For AMD CPUs:  `apt install amd64-microcode`
+. Reboot the {pve} host
 
+Any future microcode update will also require a reboot to be loaded.
 
 Microcode Version
 ^^^^^^^^^^^^^^^^^
