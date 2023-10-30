@@ -208,6 +208,24 @@ See the respective
 https://pve.proxmox.com/wiki/Category:Ceph_Upgrade[upgrade guide] for details.
 
 
+[[sysadmin_debian_firmware_repo]]
+Debian Firmware Repository
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Starting with Debian Bookworm ({pve} 8) non-free firmware (as defined by
+https://www.debian.org/social_contract#guidelines[DFSG]) has been moved to the
+newly created Debian repository component `non-free-firmware`.
+
+Enable this repository if you want to set up
+xref:sysadmin_firmware_cpu[Early OS Microcode Updates] or need additional
+xref:sysadmin_firmware_runtime_files[Runtime Firmware Files] not already
+included in the pre-installed package `pve-firmware`.
+
+To be able to install packages from this component, run
+`editor /etc/apt/sources.list`, append `non-free-firmware` to the end of each
+`.debian.org` repository line and run `apt update`.
+
+
 [[repos_secure_apt]]
 
 SecureApt
