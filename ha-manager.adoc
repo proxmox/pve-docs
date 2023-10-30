@@ -260,6 +260,7 @@ This all gets supervised by the CRM which currently holds the manager master
 lock.
 
 
+[[ha_manager_service_states]]
 Service States
 ~~~~~~~~~~~~~~
 
@@ -352,6 +353,7 @@ disabled::
 Service is stopped and marked as `disabled`
 
 
+[[ha_manager_lrm]]
 Local Resource Manager
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -416,6 +418,8 @@ what both daemons, the LRM and the CRM, did. You may use
 `journalctl -u pve-ha-lrm` on the node(s) where the service is and
 the same command for the pve-ha-crm on the node which is the current master.
 
+
+[[ha_manager_crm]]
 Cluster Resource Manager
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -834,6 +838,7 @@ this is not the case the update process can take too long which, in the worst
 case, may result in a reset triggered by the watchdog.
 
 
+[[ha_manager_node_maintenance]]
 Node Maintenance
 ----------------
 
