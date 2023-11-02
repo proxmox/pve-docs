@@ -110,14 +110,14 @@ Create&nbsp;VM :: Opens the virtual machine creation wizard.
 
 Create&nbsp;CT :: Open the container creation wizard.
 
-Identity&nbsp;Menu :: Displays the identity and contains user specific options.
-
-The identity menu contains various user specific options, such as the 'My
-Settings' dialog. There you can customize some client side user interface
-setting (reset the saved login name, reset saved layout).
-
-It also contains a shortcut to the 'TFA', 'Language' and 'Color Theme'
-settings, as well as the Logout option.
+User&nbsp;Menu :: Displays the identity of the user you're currently logged in
+with, and clicking it opens a menu with user-specific options.
++
+In the user menu, you'll find the 'My Settings' dialog, which provides local UI
+settings. Below that, there are shortcuts for 'TFA' (Two-Factor Authentication)
+and 'Password' self-service. You'll also find options to change the 'Language'
+and the 'Color Theme.' Finally, at the bottom of the menu is the 'Logout'
+option.
 
 
 [[gui_my_settings]]
