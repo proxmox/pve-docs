@@ -101,21 +101,23 @@ search bar nearside you can search for specific objects (VMs,
 containers, nodes, ...). This is sometimes faster than selecting an
 object in the resource tree.
 
-To the right of the search bar we see the identity (login name). The
-gear symbol is a button opening the 'My Settings' dialog. There you
-can customize some client side user interface setting (reset the saved
-login name, reset saved layout).
-
-The rightmost part of the header contains four buttons:
+The right part of the header contains four buttons:
 
 [horizontal]
-Help :: Opens a new browser window showing the reference documentation.
+Documentation :: Opens a new browser window showing the reference documentation.
 
 Create&nbsp;VM :: Opens the virtual machine creation wizard.
 
 Create&nbsp;CT :: Open the container creation wizard.
 
-Logout :: Logout, and show the login dialog again.
+Identity&nbsp;Menu :: Displays the identity and contains user specific options.
+
+The identity menu contains various user specific options, such as the 'My
+Settings' dialog. There you can customize some client side user interface
+setting (reset the saved login name, reset saved layout).
+
+It also contains a shortcut to the 'TFA', 'Language' and 'Color Theme'
+settings, as well as the Logout option.
 
 
 [[gui_my_settings]]
