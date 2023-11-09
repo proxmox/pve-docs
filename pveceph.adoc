@@ -21,6 +21,9 @@ ifndef::manvolnum[]
 Deploy Hyper-Converged Ceph Cluster
 ===================================
 :pve-toplevel:
+
+Introduction
+------------
 endif::manvolnum[]
 
 [thumbnail="screenshot/gui-ceph-status-dashboard.png"]
@@ -43,25 +46,33 @@ excellent performance, reliability and scalability.
 - Snapshot support
 - Self healing
 - Scalable to the exabyte level
+- Provides block, file system, and object storage
 - Setup pools with different performance and redundancy characteristics
 - Data is replicated, making it fault tolerant
 - Runs on commodity hardware
 - No need for hardware RAID controllers
 - Open source
 
-For small to medium-sized deployments, it is possible to install a Ceph server for
-RADOS Block Devices (RBD) directly on your {pve} cluster nodes (see
-xref:ceph_rados_block_devices[Ceph RADOS Block Devices (RBD)]). Recent
-hardware has a lot of CPU power and RAM, so running storage services
-and VMs on the same node is possible.
+For small to medium-sized deployments, it is possible to install a Ceph server
+for using RADOS Block Devices (RBD) or CephFS directly on your {pve} cluster
+nodes (see xref:ceph_rados_block_devices[Ceph RADOS Block Devices (RBD)]).
+Recent hardware has a lot of CPU power and RAM, so running storage services and
+virtual guests on the same node is possible.
 
-To simplify management, we provide 'pveceph' - a tool for installing and
-managing {ceph} services on {pve} nodes.
+To simplify management, {pve} provides you native integration to install and
+manage {ceph} services on {pve} nodes either via the built-in web interface, or
+using the 'pveceph' command line tool.
 
+
+Terminology
+-----------
+
+// TODO: extend and also describe basic architecture here.
 .Ceph consists of multiple Daemons, for use as an RBD storage:
-- Ceph Monitor (ceph-mon)
-- Ceph Manager (ceph-mgr)
-- Ceph OSD (ceph-osd; Object Storage Daemon)
+- Ceph Monitor (ceph-mon, or MON)
+- Ceph Manager (ceph-mgr, or MGS)
+- Ceph Metadata Service (ceph-mds, or MDS)
+- Ceph Object Storage Daemon (ceph-osd, or OSD)
 
 TIP: We highly recommend to get familiar with Ceph
 footnote:[Ceph intro {cephdocs-url}/start/intro/],
@@ -71,48 +82,93 @@ and vocabulary
 footnote:[Ceph glossary {cephdocs-url}/glossary].
 
 
-Precondition
-------------
+Recommendations for a Healthy Ceph Cluster
+------------------------------------------
 
-To build a hyper-converged Proxmox + Ceph Cluster, you must use at least
-three (preferably) identical servers for the setup.
+To build a hyper-converged Proxmox + Ceph Cluster, you must use at least three
+(preferably) identical servers for the setup.
 
 Check also the recommendations from
 {cephdocs-url}/start/hardware-recommendations/[Ceph's website].
 
+NOTE: The recommendations below should be seen as a rough guidance for choosing
+hardware. Therefore, it is still essential to adapt it to your specific needs.
+You should test your setup and monitor health and performance continuously.
+
 .CPU
-A high CPU core frequency reduces latency and should be preferred. As a simple
-rule of thumb, you should assign a CPU core (or thread) to each Ceph service to
-provide enough resources for stable and durable Ceph performance.
+Ceph services can be classified into two categories:
+* Intensive CPU usage, benefiting from high CPU base frequencies and multiple
+  cores. Members of that category are:
+** Object Storage Daemon (OSD) services
+** Meta Data Service (MDS) used for CephFS
+* Moderate CPU usage, not needing multiple CPU cores. These are:
+** Monitor (MON) services
+** Manager (MGR) services
+
+As a simple rule of thumb, you should assign at least one CPU core (or thread)
+to each Ceph service to provide the minimum resources required for stable and
+durable Ceph performance.
+
+For example, if you plan to run a Ceph monitor, a Ceph manager and 6 Ceph OSDs
+services on a node you should reserve 8 CPU cores purely for Ceph when targeting
+basic and stable performance.
+
+Note that OSDs CPU usage depend mostly from the disks performance. The higher
+the possible IOPS (**IO** **O**perations per **S**econd) of a disk, the more CPU
+can be utilized by a OSD service.
+For modern enterprise SSD disks, like NVMe's that can permanently sustain a high
+IOPS load over 100'000 with sub millisecond latency, each OSD can use multiple
+CPU threads, e.g., four to six CPU threads utilized per NVMe backed OSD is
+likely for very high performance disks.
 
 .Memory
 Especially in a hyper-converged setup, the memory consumption needs to be
-carefully monitored. In addition to the predicted memory usage of virtual
-machines and containers, you must also account for having enough memory
-available for Ceph to provide excellent and stable performance.
+carefully planned out and monitored. In addition to the predicted memory usage
+of virtual machines and containers, you must also account for having enough
+memory available for Ceph to provide excellent and stable performance.
 
 As a rule of thumb, for roughly **1 TiB of data, 1 GiB of memory** will be used
-by an OSD. Especially during recovery, re-balancing or backfilling.
+by an OSD. While the usage might be less under normal conditions, it will use
+most during critical operations like recovery, re-balancing or backfilling.
+That means that you should avoid maxing out your available memory already on
+normal operation, but rather leave some headroom to cope with outages.
 
-The daemon itself will use additional memory. The Bluestore backend of the
-daemon requires by default **3-5 GiB of memory** (adjustable). In contrast, the
-legacy Filestore backend uses the OS page cache and the memory consumption is
-generally related to PGs of an OSD daemon.
+The OSD service itself will use additional memory. The Ceph BlueStore backend of
+the daemon requires by default **3-5 GiB of memory**, b (adjustable).
 
 .Network
-We recommend a network bandwidth of at least 10 GbE or more, which is used
-exclusively for Ceph. A meshed network setup
+We recommend a network bandwidth of at least 10 Gbps, or more, to be used
+exclusively for Ceph traffic. A meshed network setup
 footnote:[Full Mesh Network for Ceph {webwiki-url}Full_Mesh_Network_for_Ceph_Server]
-is also an option if there are no 10 GbE switches available.
+is also an option for three to five node clusters, if there are no 10+ Gbps
+switches available.
 
-The volume of traffic, especially during recovery, will interfere with other
-services on the same network and may even break the {pve} cluster stack.
+[IMPORTANT]
+The volume of traffic, especially during recovery, will interfere
+with other services on the same network, especially the latency sensitive {pve}
+corosync cluster stack can be affected, resulting in possible loss of cluster
+quorum.  Moving the Ceph traffic to dedicated and physical separated networks
+will avoid such interference, not only for corosync, but also for the networking
+services provided by any virtual guests.
 
-Furthermore, you should estimate your bandwidth needs. While one HDD might not
-saturate a 1 Gb link, multiple HDD OSDs per node can, and modern NVMe SSDs will
-even saturate 10 Gbps of bandwidth quickly. Deploying a network capable of even
-more bandwidth will ensure that this isn't your bottleneck and won't be anytime
-soon. 25, 40 or even 100 Gbps are possible.
+For estimating your bandwidth needs, you need to take the performance of your
+disks into account.. While a single HDD might not saturate a 1 Gb link, multiple
+HDD OSDs per node can already saturate 10 Gbps too.
+If modern NVMe-attached SSDs are used, a single one can already saturate 10 Gbps
+of bandwidth, or more. For such high-performance setups we recommend at least
+a 25 Gpbs, while even 40 Gbps or 100+ Gbps might be required to utilize the full
+performance potential of the underlying disks.
+
+If unsure, we recommend using three (physical) separate networks for
+high-performance setups:
+* one very high bandwidth (25+ Gbps) network for Ceph (internal) cluster
+  traffic.
+* one high bandwidth (10+ Gpbs) network for Ceph (public) traffic between the
+  ceph server and ceph client storage traffic. Depending on your needs this can
+  also be used to host the virtual guest traffic and the VM live-migration
+  traffic.
+* one medium bandwidth (1 Gbps) exclusive for the latency sensitive corosync
+  cluster communication.
 
 .Disks
 When planning the size of your Ceph cluster, it is important to take the
@@ -131,9 +187,9 @@ If a faster disk is used for multiple OSDs, a proper balance between OSD
 and WAL / DB (or journal) disk must be selected, otherwise the faster disk
 becomes the bottleneck for all linked OSDs.
 
-Aside from the disk type, Ceph performs best with an even sized and distributed
-amount of disks per node. For example, 4 x 500 GB disks within each node is
-better than a mixed setup with a single 1 TB and three 250 GB disk.
+Aside from the disk type, Ceph performs best with an evenly sized, and an evenly
+distributed amount of disks per node. For example, 4 x 500 GB disks within each
+node is better than a mixed setup with a single 1 TB and three 250 GB disk.
 
 You also need to balance OSD count and single OSD capacity. More capacity
 allows you to increase storage density, but it also means that a single OSD
@@ -149,10 +205,6 @@ reduce performance, as their write and caching algorithms may interfere with
 the ones from Ceph.
 
 WARNING: Avoid RAID controllers. Use host bus adapter (HBA) instead.
-
-NOTE: The above recommendations should be seen as a rough guidance for choosing
-hardware. Therefore, it is still essential to adapt it to your specific needs.
-You should test your setup and monitor health and performance continuously.
 
 [[pve_ceph_install_wizard]]
 Initial Ceph Installation & Configuration
