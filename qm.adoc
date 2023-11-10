@@ -139,12 +139,44 @@ snapshots) more intelligently.
 {pve} allows to boot VMs with different firmware and machine types, namely
 xref:qm_bios_and_uefi[SeaBIOS and OVMF]. In most cases you want to switch from
 the default SeaBIOS to OVMF only if you plan to use
-xref:qm_pci_passthrough[PCIe passthrough]. A VMs 'Machine Type' defines the
-hardware layout of the VM's virtual motherboard. You can choose between the
-default https://en.wikipedia.org/wiki/Intel_440FX[Intel 440FX] or the
+xref:qm_pci_passthrough[PCIe passthrough].
+
+Machine Type
+^^^^^^^^^^^^
+
+A VM's 'Machine Type' defines the hardware layout of the VM's virtual
+motherboard. You can choose between the default
+https://en.wikipedia.org/wiki/Intel_440FX[Intel 440FX] or the
 https://ark.intel.com/content/www/us/en/ark/products/31918/intel-82q35-graphics-and-memory-controller.html[Q35]
-chipset, which also provides a virtual PCIe bus, and thus may be desired if
-one wants to pass through PCIe hardware.
+chipset, which also provides a virtual PCIe bus, and thus may be
+desired if you want to pass through PCIe hardware.
+
+Each machine type is versioned in QEMU and a given QEMU binary supports many
+machine versions. New versions might bring support for new features, fixes or
+general improvements. However, they also change properties of the virtual
+hardware. To avoid sudden changes from the guest's perspective and ensure
+compatibility of the VM state, live-migration and snapshots with RAM will keep
+using the same machine version in the new QEMU instance.
+
+For Windows guests, the machine version is pinned during creation, because
+Windows is sensitive to changes in the virtual hardware - even between cold
+boots. For example, the enumeration of network devices might be different with
+different machine versions. Other OSes like Linux can usually deal with such
+changes just fine. For those, the 'Latest' machine version is used by default.
+This means that after a fresh start, the newest machine version supported by the
+QEMU binary is used (e.g. the newest machine version QEMU 8.1 supports is
+version 8.1 for each machine type).
+
+Very old machine versions might become deprecated in QEMU. For example, this is
+the case for versions 1.4 to 1.7 for the i440fx machine type. It is expected
+that support for these machine versions will be dropped at some point. If you
+see a deprecation warning, you should change the machine version to a newer one.
+Be sure to have a working backup first and be prepared for changes to how the
+guest sees hardware. In some scenarios, re-installing certain drivers might be
+required. You should also check for snapshots with RAM that were taken with
+these machine versions (i.e. the `runningmachine` configuration entry).
+Unfortunately, there is no way to change the machine version of a snapshot, so
+you'd need to load the snapshot to salvage any data from it.
 
 [[qm_hard_disk]]
 Hard Disk
