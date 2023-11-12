@@ -238,24 +238,32 @@ xref:chapter_pmxcfs[configuration file system (pmxcfs)].
 
 The configuration step includes the following settings:
 
-* *Public Network:* You can set up a dedicated network for Ceph. This
-setting is required. Separating your Ceph traffic is highly recommended.
-Otherwise, it could cause trouble with other latency dependent services,
-for example, cluster communication may decrease Ceph's performance.
+[[pve_ceph_wizard_networks]]
+
+* *Public Network:* This network will be used for public storage communication
+  (e.g., for virtual machines using a Ceph RBD backed disk, or a CephFS mount).
+  This setting is required.
+  +
+  Separating your Ceph traffic from cluster communication, and possible the
+  front-facing (public) networks of your virtual gusts, is highly recommended.
+  Otherwise, Ceph's high-bandwidth IO-traffic could cause interference with
+  other low-latency dependent services.
 
 [thumbnail="screenshot/gui-node-ceph-install-wizard-step2.png"]
 
-* *Cluster Network:* As an optional step, you can go even further and
-separate the xref:pve_ceph_osds[OSD] replication & heartbeat traffic
-as well. This will relieve the public network and could lead to
-significant performance improvements, especially in large clusters.
+* *Cluster Network:* Specify to separate the xref:pve_ceph_osds[OSD] replication
+  and heartbeat traffic as well.
+  +
+  Using a physically separated network is recommended, as it will relieve the
+  Ceph public and the virtual guests network, while also providing a significant
+  Ceph performance improvements.
 
-You have two more options which are considered advanced and therefore
-should only changed if you know what you are doing.
+You have two more options which are considered advanced and therefore should
+only changed if you know what you are doing.
 
-* *Number of replicas*: Defines how often an object is replicated
-* *Minimum replicas*: Defines the minimum number of required replicas
-for I/O to be marked as complete.
+* *Number of replicas*: Defines how often an object is replicated.
+* *Minimum replicas*: Defines the minimum number of required replicas for I/O to
+  be marked as complete.
 
 Additionally, you need to choose your first monitor node. This step is required.
 
