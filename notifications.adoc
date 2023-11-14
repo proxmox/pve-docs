@@ -281,6 +281,7 @@ Notification Events
 | Cluster node fenced          |`fencing`          | `error`  | `hostname`
 | Storage replication failed   |`replication`      | `error`  | -
 | Backup finished              |`vzdump`           | `info` (`error` on failure) | `hostname`
+| Mail for root                |`system-mail`      | `unknown`| -
 |===========================================================================
 
 [width="100%",options="header"]
@@ -289,6 +290,21 @@ Notification Events
 | `type`     | Type of the notifcation
 | `hostname` | Hostname, including domain (e.g. `pve1.example.com`)
 |=======================================================================
+
+System Mail Forwarding
+---------------------
+
+Certain local system daemons, such as `smartd`, generate notification emails
+that are initially directed to the local `root` user. {pve} will
+feed these mails into the notification system as a notification of
+type `system-mail` and with severity `unknown`.
+
+When the forwarding process involves an email-based target
+(like `sendmail` or `smtp`), the email is forwarded exactly as received, with all
+original mail headers remaining intact. For all other targets,
+the system tries to extract both a subject line and the main text body
+from the email content. In instances where emails solely consist of HTML
+content, they will be transformed into plain text format during this process.
 
 Permissions
 -----------
