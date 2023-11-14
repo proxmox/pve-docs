@@ -67,6 +67,7 @@ accomodate multiple recipients.
 set, the plugin will fall back to the `email_from` setting from
 `datacenter.cfg`. If that is also not set, the plugin will default to
 `root@$hostname`, where `$hostname` is the hostname of the node.
+The `From` header in the email will be set to `$author <$from-address>`.
 
 Example configuration (`/etc/pve/notifications.cfg`):
 ----
@@ -76,6 +77,52 @@ sendmail: example
         mailto max@example.com
         from-address pve1@example.com
         comment Send to multiple users/addresses
+----
+
+SMTP
+~~~~
+
+SMTP notification targets can send emails directly to an SMTP mail relay.
+
+The configuration for SMTP target plugins has the following options:
+
+* `mailto`: E-Mail address to which the notification shall be sent to. Can be
+set multiple times to accomodate multiple recipients.
+* `mailto-user`: Users to which emails shall be sent to. The user's email
+address will be looked up in `users.cfg`. Can be set multiple times to
+accomodate multiple recipients.
+* `author`: Sets the author of the E-Mail. Defaults to `Proxmox VE`.
+* `from-address`: Sets the From-addresss of the email. SMTP relays might require
+that this address is owned by the user in order to avoid spoofing.
+The `From` header in the email will be set to `$author <$from-address>`.
+* `username`: Username to use during authentication. If no username is set,
+no authentication will be performed. The PLAIN and LOGIN authentication methods
+are supported.
+* `password`: Password to use when authenticating.
+* `mode`: Sets the encryption mode (`insecure`, `starttls` or `tls`). Defaults
+to `tls`.
+* `server`: Address/IP of the SMTP relay
+* `port`: The port to connect to. If not set, the used port
+defaults to 25 (`insecure`), 465 (`tls`) or 587 (`starttls`), depending on the
+value of `mode`.
+* `comment`: Comment for this target
+
+Example configuration (`/etc/pve/notifications.cfg`):
+----
+smtp: example
+        mailto-user root@pam
+        mailto-user admin@pve
+        mailto max@example.com
+        from-address pve1@example.com
+        username pve1
+        server mail.example.com
+        mode starttls
+----
+The matching entry in `/etc/pve/priv/notifications.cfg`, containing the
+secret token:
+----
+smtp: example
+        password somepassword
 ----
 
 Gotify
