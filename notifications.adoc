@@ -67,6 +67,7 @@ accomodate multiple recipients.
 set, the plugin will fall back to the `email_from` setting from
 `datacenter.cfg`. If that is also not set, the plugin will default to
 `root@$hostname`, where `$hostname` is the hostname of the node.
+* `comment`: Comment for this target
 The `From` header in the email will be set to `$author <$from-address>`.
 
 Example configuration (`/etc/pve/notifications.cfg`):
@@ -138,6 +139,7 @@ The configuration for Gotify target plugins has the following options:
 * `server`: The base URL of the Gotify server, e.g. `http://<ip>:8888`
 * `token`: The authentication token. Tokens can be generated within the Gotify
 web interface.
+* `comment`: Comment for this target
 
 NOTE: The Gotify target plugin will respect the HTTP proxy settings from the
  xref:datacenter_configuration_file[datacenter configuration]
@@ -192,6 +194,7 @@ a matcher must be true. Defaults to `all`.
 * `match-calendar`: Match the notification's timestamp against a schedule
 * `match-field`: Match the notification's metadata fields
 * `match-severity`: Match the notification's severity
+* `comment`: Comment for this matcher
 
 Calendar Matching Rules
 ~~~~~~~~~~~~~~~~~~~~~~~
