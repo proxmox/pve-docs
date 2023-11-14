@@ -309,11 +309,9 @@ content, they will be transformed into plain text format during this process.
 Permissions
 -----------
 
-For every target, there exists a corresponding ACL path
-`/mapping/notification/targets/<name>`. Matchers use
-a seperate namespace in the ACL tree: `/mapping/notification/matchers/<name>`.
+In order to modify/view the configuration for notification targets,
+the `Mapping.Modify/Mapping.Audit` permissions are required for the
+`/mapping/notifications` ACL node.
 
-To test a target, a user must have the `Mapping.Use` permission on the corresponding
-node in the ACL tree.
-`Mapping.Modify` and `Mapping.Audit` are needed to read/modify the
-configuration of a target or matcher.
+Testing a target requires `Mapping.Use`, `Mapping.Audit` or `Mapping.Modify`
+permissions on `/mapping/notifications`
