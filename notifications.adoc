@@ -5,44 +5,39 @@ ifndef::manvolnum[]
 :pve-toplevel:
 endif::manvolnum[]
 
-[[notification_events]]
-Notification Events
--------------------
+Overview
+--------
 
-{pve} will attempt to notify system administrators in case of certain events,
-such as:
+{pve} will send notifications if case of noteworthy events in the system.
 
-[width="100%",options="header"]
-|===========================================================================
-| Event name        | Description                             | Severity
-| `package-updates` | System updates are available            | `info`
-| `fencing`         | The {pve} HA manager has fenced a node  | `error`
-| `replication`     | A storage replication job has failed    | `error`
-| `vzdump`          | vzdump backup finished                  | `info` (`error` on failure)
-|===========================================================================
+There are a number of different xref:notification_events[notification events],
+each with their own set of metadata fields that can be used in
+notification matchers.
 
-In the 'Notification' panel of the datacenter view, the system's behavior can be
-configured for all events except backup jobs. For backup jobs,
-the settings can be found in the respective backup job configuration.
-For every notification event there is an option to configure the notification
-behavior (*when* to send a notification) and the notification target (*where* to
-send the notification).
+A xref:notification_matchers[notification matcher] determines
+_which_ notifications shall be sent _where_.
+A matcher has _match rules_, that can be used to
+match on certain notification properties (e.g. timestamp, severity,
+metadata fields).
+If a matcher matches a notification, the notification will be routed
+to a configurable set of notification targets.
 
+A xref:notification_targets[notification target] is an abstraction for a
+destination where a notification should be sent to - for instance,
+a Gotify server instance, or a set of email addresses.
+There are multiple types of notification targets, including
+`sendmail`, which uses the system's sendmail command to send emails,
+or `gotify`, which sends a notification to a Gotify instance.
 
-See also:
-
-* xref:datacenter_configuration_file[Datacenter Configuration]
-* xref:datacenter_configuration_file[vzdump]
+The notification system can be configured in the GUI under
+Datacenter -> Notifications. The configuration is stored in
+`/etc/pve/notifications.cfg` and `/etc/pve/priv/notifications.cfg` -
+the latter contains sensitive configuration options such as
+passwords or authentication tokens for notification targets.
 
 [[notification_targets]]
 Notification Targets
 --------------------
-
-Notification targets can be configured in the 'Notification Targets' panel.
-
-NOTE: The `mail-to-root` target is always available and cannot be modified or
-removed. It sends a mail the `root@pam` user by using the `sendmail` command and
-serves as a fallback target if no other target is configured for an event.
 
 Sendmail
 ~~~~~~~~
@@ -73,7 +68,15 @@ set, the plugin will fall back to the `email_from` setting from
 `datacenter.cfg`. If that is also not set, the plugin will default to
 `root@$hostname`, where `$hostname` is the hostname of the node.
 
-* `filter`: The name of the filter to use for this target.
+Example configuration (`/etc/pve/notifications.cfg`):
+----
+sendmail: example
+        mailto-user root@pam
+        mailto-user admin@pve
+        mailto max@example.com
+        from-address pve1@example.com
+        comment Send to multiple users/addresses
+----
 
 Gotify
 ~~~~~~
@@ -88,72 +91,163 @@ The configuration for Gotify target plugins has the following options:
 * `server`: The base URL of the Gotify server, e.g. `http://<ip>:8888`
 * `token`: The authentication token. Tokens can be generated within the Gotify
 web interface.
-* `filter`: The name of the filter to use for this target.
 
 NOTE: The Gotify target plugin will respect the HTTP proxy settings from the
  xref:datacenter_configuration_file[datacenter configuration]
 
-Group
-~~~~~
-
-One can only select a single target for notification events.
-To notify via multiple targets at the same time, a group can be created.
-A group can reference multiple targets. If a group is used as a target,
-the notification will be sent to all referenced targets. Groups can reference
-all targets except other groups.
-
-
-Notification Filters
---------------------
-A notification target can be configured to use a *notification filter*.
-If a notification is sent to a target with a filter, the
-filter will determine if the notification will be actually sent or not.
-
-The following matchers are available:
-
-* `min-severity`: Matches notifications with equal or higher severity
-
-It is also possible to configure the evaluation of the individual matchers:
-
-* `invert-match`: Inverts the result of the whole filter
-* `mode`: Sets the logical operator used to connect the individual matchers to
-`and` or `or`. Defaults to `and`.
-
-The `mode` option also influences the evaluation of filters without any
-matchers. If set to `or`, an empty filter evaluates to `false` (do not notify).
-If set to `and`, the result is `true` (send a notification).
+Example configuration (`/etc/pve/notifications.cfg`):
 ----
-filter: always-matches
-    mode and
-
-filter: never-matches
-    mode or
+gotify: example
+        server http://gotify.example.com:8888
+        comment Send to multiple users/addresses
 ----
+
+The matching entry in `/etc/pve/priv/notifications.cfg`, containing the
+secret token:
+----
+gotify: example
+        token somesecrettoken
+----
+
+[[notification_matchers]]
+Notification Matchers
+---------------------
+Notification matchers route notifications to notification targets based
+on their matching rules. These rules can match of certain properties of
+a notification, such as the timestamp (`match-calendar`), the severity of
+the notificaiton (`match-severity`) or metadata fiels (`match-field`).
+If a matcher matches a notification, all targets configured for the matcher
+will receive the notification.
+
+An arbitrary number of matchers can be created, each with with their own
+matching rules and targets to notify.
+Every target is notified at most once for every notification, even if
+the target is used in multiple matchers.
+
+A matcher without any matching rules is always true; the configured targets
+will always be notified.
+----
+matcher: always-matches
+        target admin
+        comment This matcher always matches
+----
+
+Matcher Options
+~~~~~~~~~~~~~~~
+
+* `target`: Determine which target should be notified if the matcher matches.
+can be used multiple times to notify multiple targets.
+* `invert-match`: Inverts the result of the whole matcher
+* `mode`: Determines how the individual match rules are evaluated to compute
+the result for the whole matcher. If set to `all`, all matching rules must
+match. If set to `any`, at least one rule must match.
+a matcher must be true. Defaults to `all`.
+* `match-calendar`: Match the notification's timestamp against a schedule
+* `match-field`: Match the notification's metadata fields
+* `match-severity`: Match the notification's severity
+
+Calendar Matching Rules
+~~~~~~~~~~~~~~~~~~~~~~~
+A calendar matcher matches the time when a notification is sent agaist a
+configurable schedule.
+
+* `match-calendar 8-12`
+* `match-calendar 8:00-15:30`
+* `match-calendar mon-fri 9:00-17:00`
+* `match-calendar sun,tue-wed,fri 9-17`
+
+Field Matching Rules
+~~~~~~~~~~~~~~~~~~~~
+Notifications have a selection of metadata fields that can be matched.
+
+* `match-field exact:type=vzdump` Only match notifications about backups.
+* `match-field regex:hostname=^.+\.example\.com$` Match the hostname of
+the node.
+
+If a matched metadata field does not exist, the notification will not be
+matched.
+For instance, a `match-field regex:hostname=.*` directive will only match
+notifications that have an arbitraty `hostname` metadata field, but will
+not match if the field does not exist.
+
+Severity Matching Rules
+~~~~~~~~~~~~~~~~~~~~~~~
+A notification has a associated severity that can be matched.
+
+* `match-severity error`: Only match errors
+* `match-severity warning,error`: Match warnings and error
+
+The following severities are in use:
+`info`, `notice`, `warning`, `error`.
+
+
+Examples
+~~~~~~~~
+----
+matcher: workday
+        match-calendar mon-fri 9-17
+        target admin
+        comment Notify admins during working hours
+
+matcher: night-and-weekend
+        match-calendar mon-fri 9-17
+        invert-match true
+        target on-call-admins
+        comment Separate target for non-working hours
+----
+
+----
+matcher: backup-failures
+        match-field exact:type=vzdump
+        match-severity error
+        target backup-admins
+        comment Send notifications about backup failures to one group of admins
+
+matcher: cluster-failures
+        match-field exact:type=replication
+        match-field exact:type=fencing
+        mode any
+        target cluster-admins
+        comment Send cluster-related notifications to other group of admins
+----
+
+The last matcher could also be rewritten using a field matcher with a regular
+expression:
+----
+matcher: cluster-failures
+        match-field regex:type=^(replication|fencing)$
+        target cluster-admins
+        comment Send cluster-related notifications to other group of admins
+----
+
+[[notification_events]]
+Notification Events
+-------------------
+
+[width="100%",options="header"]
+|===========================================================================
+| Event                        | `type`            | Severity | Metadata fields (in addition to `type`)
+| System updates available     |`package-updates`  | `info`   | `hostname`
+| Cluster node fenced          |`fencing`          | `error`  | `hostname`
+| Storage replication failed   |`replication`      | `error`  | -
+| Backup finished              |`vzdump`           | `info` (`error` on failure) | `hostname`
+|===========================================================================
+
+[width="100%",options="header"]
+|=======================================================================
+| Field name | Description
+| `type`     | Type of the notifcation
+| `hostname` | Hostname, including domain (e.g. `pve1.example.com`)
+|=======================================================================
 
 Permissions
 -----------
 
-For every target or filter, there exists a corresponding ACL path
-`/mapping/notification/<name>`.
-If an operation can be triggered by a user (e.g. via the GUI or API) and if
-that operation is configured to notify via a given target, then
-the user must have the `Mapping.Use` permission on the corresponding
+For every target, there exists a corresponding ACL path
+`/mapping/notification/targets/<name>`. Matchers use
+a seperate namespace in the ACL tree: `/mapping/notification/matchers/<name>`.
+
+To test a target, a user must have the `Mapping.Use` permission on the corresponding
 node in the ACL tree.
-`Mapping.Modify` and `Mapping.Audit` are needed for
-writing/reading the configuration of a target or filter.
-
-NOTE: For backwards-compatibility, the special `mail-to-root` target
-does not require `Mapping.Use`.
-
-NOTE: When sending notifications via a group target,
-the user must have the `Mapping.Use` permission for every single endpoint
-included in the group. If a group/endpoint is configured to
-use a filter, the user must have the `Mapping.Use` permission for the filter
-as well.
-
-
-
-
-
-
-
+`Mapping.Modify` and `Mapping.Audit` are needed to read/modify the
+configuration of a target or matcher.
