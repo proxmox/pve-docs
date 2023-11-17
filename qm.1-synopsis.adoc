@@ -301,9 +301,9 @@ Lock/unlock the VM.
 
 Specifies the QEMU machine type.
 
-`--memory` `<integer> (16 - N)` ('default =' `512`)::
+`--memory` `[current=]<integer>` ::
 
-Amount of RAM for the VM in MiB. This is the maximum available memory when you use the balloon device.
+Memory properties.
 
 `--migrate_downtime` `<number> (0 - N)` ('default =' `0.1`)::
 
@@ -1131,9 +1131,9 @@ Lock/unlock the VM.
 
 Specifies the QEMU machine type.
 
-`--memory` `<integer> (16 - N)` ('default =' `512`)::
+`--memory` `[current=]<integer>` ::
 
-Amount of RAM for the VM in MiB. This is the maximum available memory when you use the balloon device.
+Memory properties.
 
 `--migrate_downtime` `<number> (0 - N)` ('default =' `0.1`)::
 

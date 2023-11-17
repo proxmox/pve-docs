@@ -24,7 +24,7 @@ Verbose output format.
 
 Set subscription key.
 
-`<key>`: `pve([1248])([cbsp])-[0-9a-f]{10}` ::
+`<key>`: `\s*pve([1248])([cbsp])-[0-9a-f]{10}\s*` ::
 
 Proxmox VE subscription key
 

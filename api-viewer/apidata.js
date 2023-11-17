@@ -6745,12 +6745,14 @@ const apiSchema = [
                                           "ad",
                                           "ali",
                                           "anx",
+                                          "artfiles",
                                           "arvan",
                                           "aurora",
                                           "autodns",
                                           "aws",
                                           "azion",
                                           "azure",
+                                          "bookmyname",
                                           "bunny",
                                           "cf",
                                           "clouddns",
@@ -6766,6 +6768,7 @@ const apiSchema = [
                                           "desec",
                                           "df",
                                           "dgon",
+                                          "dnsexit",
                                           "dnshome",
                                           "dnsimple",
                                           "dnsservices",
@@ -6863,6 +6866,7 @@ const apiSchema = [
                                           "servercow",
                                           "simply",
                                           "tele3",
+                                          "tencent",
                                           "transip",
                                           "udr",
                                           "ultra",
@@ -7023,12 +7027,14 @@ const apiSchema = [
                                     "ad",
                                     "ali",
                                     "anx",
+                                    "artfiles",
                                     "arvan",
                                     "aurora",
                                     "autodns",
                                     "aws",
                                     "azion",
                                     "azure",
+                                    "bookmyname",
                                     "bunny",
                                     "cf",
                                     "clouddns",
@@ -7044,6 +7050,7 @@ const apiSchema = [
                                     "desec",
                                     "df",
                                     "dgon",
+                                    "dnsexit",
                                     "dnshome",
                                     "dnsimple",
                                     "dnsservices",
@@ -7141,6 +7148,7 @@ const apiSchema = [
                                     "servercow",
                                     "simply",
                                     "tele3",
+                                    "tencent",
                                     "transip",
                                     "udr",
                                     "ultra",
@@ -9320,13 +9328,8 @@ const apiSchema = [
                                              }
                                           },
                                           "permissions" : {
-                                             "check" : [
-                                                "perm",
-                                                "/sdn/vnets/{vnet}/subnets",
-                                                [
-                                                   "SDN.Allocate"
-                                                ]
-                                             ]
+                                             "description" : "Require 'SDN.Allocate' permission on '/sdn/zones/<zone>/<vnet>'",
+                                             "user" : "all"
                                           },
                                           "protected" : 1,
                                           "returns" : {
@@ -9368,13 +9371,8 @@ const apiSchema = [
                                              }
                                           },
                                           "permissions" : {
-                                             "check" : [
-                                                "perm",
-                                                "/sdn/vnets/{vnet}/subnets/{subnet}",
-                                                [
-                                                   "SDN.Allocate"
-                                                ]
-                                             ]
+                                             "description" : "Require 'SDN.Audit' or 'SDN.Allocate' permissions on '/sdn/zones/<zone>/<vnet>'",
+                                             "user" : "all"
                                           },
                                           "returns" : {
                                              "type" : "object"
@@ -9439,13 +9437,8 @@ const apiSchema = [
                                              "type" : "object"
                                           },
                                           "permissions" : {
-                                             "check" : [
-                                                "perm",
-                                                "/sdn/vnets/{vnet}/subnets",
-                                                [
-                                                   "SDN.Allocate"
-                                                ]
-                                             ]
+                                             "description" : "Require 'SDN.Allocate' permission on '/sdn/zones/<zone>/<vnet>'",
+                                             "user" : "all"
                                           },
                                           "protected" : 1,
                                           "returns" : {
@@ -9488,7 +9481,7 @@ const apiSchema = [
                                        }
                                     },
                                     "permissions" : {
-                                       "description" : "Only list entries where you have 'SDN.Audit' or 'SDN.Allocate' permissions on '/sdn/subnets/<subnet>'",
+                                       "description" : "Only list entries where you have 'SDN.Audit' or 'SDN.Allocate' permissions on '/sdn/zones/<zone>/<vnet>'",
                                        "user" : "all"
                                     },
                                     "returns" : {
@@ -9555,13 +9548,8 @@ const apiSchema = [
                                        "type" : "object"
                                     },
                                     "permissions" : {
-                                       "check" : [
-                                          "perm",
-                                          "/sdn/vnets/{vnet}/subnets",
-                                          [
-                                             "SDN.Allocate"
-                                          ]
-                                       ]
+                                       "description" : "Require 'SDN.Allocate' permission on '/sdn/zones/<zone>/<vnet>'",
+                                       "user" : "all"
                                     },
                                     "protected" : 1,
                                     "returns" : {
@@ -9592,13 +9580,8 @@ const apiSchema = [
                                  }
                               },
                               "permissions" : {
-                                 "check" : [
-                                    "perm",
-                                    "/sdn/vnets",
-                                    [
-                                       "SDN.Allocate"
-                                    ]
-                                 ]
+                                 "description" : "Require 'SDN.Allocate' permission on '/sdn/zones/<zone>/<vnet>'",
+                                 "user" : "all"
                               },
                               "protected" : 1,
                               "returns" : {
@@ -9634,13 +9617,8 @@ const apiSchema = [
                                  }
                               },
                               "permissions" : {
-                                 "check" : [
-                                    "perm",
-                                    "/sdn/vnets/{vnet}",
-                                    [
-                                       "SDN.Allocate"
-                                    ]
-                                 ]
+                                 "description" : "Require 'SDN.Audit' or 'SDN.Allocate' permissions on '/sdn/zones/<zone>/<vnet>'",
+                                 "user" : "all"
                               },
                               "returns" : {
                                  "type" : "object"
@@ -9704,13 +9682,8 @@ const apiSchema = [
                                  "type" : "object"
                               },
                               "permissions" : {
-                                 "check" : [
-                                    "perm",
-                                    "/sdn/vnets",
-                                    [
-                                       "SDN.Allocate"
-                                    ]
-                                 ]
+                                 "description" : "Require 'SDN.Allocate' permission on '/sdn/zones/<zone>/<vnet>'",
+                                 "user" : "all"
                               },
                               "protected" : 1,
                               "returns" : {
@@ -9747,7 +9720,7 @@ const apiSchema = [
                            }
                         },
                         "permissions" : {
-                           "description" : "Only list entries where you have 'SDN.Audit' or 'SDN.Allocate' permissions on '/sdn/vnets/<vnet>'",
+                           "description" : "Only list entries where you have 'SDN.Audit' or 'SDN.Allocate' permissions on '/sdn/zones/<zone>/<vnet>'",
                            "user" : "all"
                         },
                         "returns" : {
@@ -9817,7 +9790,7 @@ const apiSchema = [
                         "permissions" : {
                            "check" : [
                               "perm",
-                              "/sdn/vnets",
+                              "/sdn/zones/{zone}",
                               [
                                  "SDN.Allocate"
                               ]
@@ -9856,7 +9829,7 @@ const apiSchema = [
                               "permissions" : {
                                  "check" : [
                                     "perm",
-                                    "/sdn/zones",
+                                    "/sdn/zones/{zone}",
                                     [
                                        "SDN.Allocate"
                                     ]
@@ -10087,7 +10060,7 @@ const apiSchema = [
                               "permissions" : {
                                  "check" : [
                                     "perm",
-                                    "/sdn/zones",
+                                    "/sdn/zones/{zone}",
                                     [
                                        "SDN.Allocate"
                                     ]
@@ -10517,6 +10490,25 @@ const apiSchema = [
                                        "type" : "integer",
                                        "typetext" : "<integer>"
                                     },
+                                    "isis-domain" : {
+                                       "description" : "ISIS domain.",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "isis-ifaces" : {
+                                       "description" : "ISIS interface.",
+                                       "format" : "pve-iface-list",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "isis-net" : {
+                                       "description" : "ISIS network entity title.",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
                                     "loopback" : {
                                        "description" : "source loopback interface.",
                                        "optional" : 1,
@@ -10586,7 +10578,8 @@ const apiSchema = [
                                  "enum" : [
                                     "bgp",
                                     "evpn",
-                                    "faucet"
+                                    "faucet",
+                                    "isis"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -10663,6 +10656,25 @@ const apiSchema = [
                                  "type" : "integer",
                                  "typetext" : "<integer>"
                               },
+                              "isis-domain" : {
+                                 "description" : "ISIS domain.",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "isis-ifaces" : {
+                                 "description" : "ISIS interface.",
+                                 "format" : "pve-iface-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "isis-net" : {
+                                 "description" : "ISIS network entity title.",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "loopback" : {
                                  "description" : "source loopback interface.",
                                  "optional" : 1,
@@ -10688,7 +10700,8 @@ const apiSchema = [
                                  "enum" : [
                                     "bgp",
                                     "evpn",
-                                    "faucet"
+                                    "faucet",
+                                    "isis"
                                  ],
                                  "format" : "pve-configid",
                                  "type" : "string"
@@ -11213,7 +11226,7 @@ const apiSchema = [
                   "permissions" : {
                      "check" : [
                         "perm",
-                        "/",
+                        "/sdn",
                         [
                            "SDN.Audit"
                         ]
@@ -15860,7 +15873,7 @@ const apiSchema = [
                                              "format" : {
                                                 "efitype" : {
                                                    "default" : "2m",
-                                                   "description" : "Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified. Ignored for VMs with arch=aarc64 (ARM).",
+                                                   "description" : "Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified. Ignored for VMs with arch=aarch64 (ARM).",
                                                    "enum" : [
                                                       "2m",
                                                       "4m"
@@ -16368,11 +16381,18 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "memory" : {
-                                             "default" : 512,
-                                             "description" : "Amount of RAM for the VM in MiB. This is the maximum available memory when you use the balloon device.",
-                                             "minimum" : 16,
+                                             "description" : "Memory properties.",
+                                             "format" : {
+                                                "current" : {
+                                                   "default" : 512,
+                                                   "default_key" : 1,
+                                                   "description" : "Current amount of online RAM for the VM in MiB. This is the maximum available memory when you use the balloon device.",
+                                                   "minimum" : 16,
+                                                   "type" : "integer"
+                                                }
+                                             },
                                              "optional" : 1,
-                                             "type" : "integer"
+                                             "type" : "string"
                                           },
                                           "migrate_downtime" : {
                                              "default" : 0.1,
@@ -18156,7 +18176,7 @@ const apiSchema = [
                                              "format" : {
                                                 "efitype" : {
                                                    "default" : "2m",
-                                                   "description" : "Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified. Ignored for VMs with arch=aarc64 (ARM).",
+                                                   "description" : "Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified. Ignored for VMs with arch=aarch64 (ARM).",
                                                    "enum" : [
                                                       "2m",
                                                       "4m"
@@ -18696,12 +18716,19 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "memory" : {
-                                             "default" : 512,
-                                             "description" : "Amount of RAM for the VM in MiB. This is the maximum available memory when you use the balloon device.",
-                                             "minimum" : 16,
+                                             "description" : "Memory properties.",
+                                             "format" : {
+                                                "current" : {
+                                                   "default" : 512,
+                                                   "default_key" : 1,
+                                                   "description" : "Current amount of online RAM for the VM in MiB. This is the maximum available memory when you use the balloon device.",
+                                                   "minimum" : 16,
+                                                   "type" : "integer"
+                                                }
+                                             },
                                              "optional" : 1,
-                                             "type" : "integer",
-                                             "typetext" : "<integer> (16 - N)"
+                                             "type" : "string",
+                                             "typetext" : "[current=]<integer>"
                                           },
                                           "migrate_downtime" : {
                                              "default" : 0.1,
@@ -20587,7 +20614,7 @@ const apiSchema = [
                                              "format" : {
                                                 "efitype" : {
                                                    "default" : "2m",
-                                                   "description" : "Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified. Ignored for VMs with arch=aarc64 (ARM).",
+                                                   "description" : "Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified. Ignored for VMs with arch=aarch64 (ARM).",
                                                    "enum" : [
                                                       "2m",
                                                       "4m"
@@ -21127,12 +21154,19 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "memory" : {
-                                             "default" : 512,
-                                             "description" : "Amount of RAM for the VM in MiB. This is the maximum available memory when you use the balloon device.",
-                                             "minimum" : 16,
+                                             "description" : "Memory properties.",
+                                             "format" : {
+                                                "current" : {
+                                                   "default" : 512,
+                                                   "default_key" : 1,
+                                                   "description" : "Current amount of online RAM for the VM in MiB. This is the maximum available memory when you use the balloon device.",
+                                                   "minimum" : 16,
+                                                   "type" : "integer"
+                                                }
+                                             },
                                              "optional" : 1,
-                                             "type" : "integer",
-                                             "typetext" : "<integer> (16 - N)"
+                                             "type" : "string",
+                                             "typetext" : "[current=]<integer>"
                                           },
                                           "migrate_downtime" : {
                                              "default" : 0.1,
@@ -23106,7 +23140,7 @@ const apiSchema = [
                                              "typetext" : "<integer> (100 - 999999999)"
                                           },
                                           "websocket" : {
-                                             "description" : "starts websockify instead of vncproxy",
+                                             "description" : "Prepare for websocket upgrade (only required when using serial terminal, otherwise upgrade is always possible).",
                                              "optional" : 1,
                                              "type" : "boolean",
                                              "typetext" : "<boolean>"
@@ -26658,7 +26692,7 @@ const apiSchema = [
                                  "format" : {
                                     "efitype" : {
                                        "default" : "2m",
-                                       "description" : "Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified. Ignored for VMs with arch=aarc64 (ARM).",
+                                       "description" : "Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified. Ignored for VMs with arch=aarch64 (ARM).",
                                        "enum" : [
                                           "2m",
                                           "4m"
@@ -27205,12 +27239,19 @@ const apiSchema = [
                                  "type" : "string"
                               },
                               "memory" : {
-                                 "default" : 512,
-                                 "description" : "Amount of RAM for the VM in MiB. This is the maximum available memory when you use the balloon device.",
-                                 "minimum" : 16,
+                                 "description" : "Memory properties.",
+                                 "format" : {
+                                    "current" : {
+                                       "default" : 512,
+                                       "default_key" : 1,
+                                       "description" : "Current amount of online RAM for the VM in MiB. This is the maximum available memory when you use the balloon device.",
+                                       "minimum" : 16,
+                                       "type" : "integer"
+                                    }
+                                 },
                                  "optional" : 1,
-                                 "type" : "integer",
-                                 "typetext" : "<integer> (16 - N)"
+                                 "type" : "string",
+                                 "typetext" : "[current=]<integer>"
                               },
                               "migrate_downtime" : {
                                  "default" : 0.1,
@@ -35153,6 +35194,76 @@ const apiSchema = [
                            },
                            {
                               "info" : {
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Get IP addresses of the specified container interface.",
+                                    "method" : "GET",
+                                    "name" : "ip",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (100 - 999999999)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/vms/{vmid}",
+                                          [
+                                             "VM.Audit"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "items" : {
+                                          "properties" : {
+                                             "hwaddr" : {
+                                                "description" : "The MAC address of the interface",
+                                                "optional" : 0,
+                                                "type" : "string"
+                                             },
+                                             "inet" : {
+                                                "description" : "The IPv4 address of the interface",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "inet6" : {
+                                                "description" : "The IPv6 address of the interface",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "name" : {
+                                                "description" : "The name of the interface",
+                                                "optional" : 0,
+                                                "type" : "string"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "type" : "array"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/lxc/{vmid}/interfaces",
+                              "text" : "interfaces"
+                           },
+                           {
+                              "info" : {
                                  "POST" : {
                                     "allowtoken" : 1,
                                     "description" : "Migration tunnel endpoint - only for internal use by CT migration.",
@@ -39829,7 +39940,7 @@ const apiSchema = [
                               "key" : {
                                  "description" : "Proxmox VE subscription key",
                                  "maxLength" : 32,
-                                 "pattern" : "pve([1248])([cbsp])-[0-9a-f]{10}",
+                                 "pattern" : "\\s*pve([1248])([cbsp])-[0-9a-f]{10}\\s*",
                                  "type" : "string"
                               },
                               "node" : {
@@ -42725,6 +42836,13 @@ const apiSchema = [
                                                    "type" : "string",
                                                    "typetext" : "<string>"
                                                 },
+                                                "tar" : {
+                                                   "default" : 0,
+                                                   "description" : "Download dirs as 'tar.zst' instead of 'zip'.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "typetext" : "<boolean>"
+                                                },
                                                 "volume" : {
                                                    "description" : "Backup volume ID or name. Currently only PBS snapshots are supported.",
                                                    "type" : "string",
@@ -44336,6 +44454,12 @@ const apiSchema = [
                                        },
                                        "osdid" : {
                                           "type" : "integer"
+                                       },
+                                       "osdid-list" : {
+                                          "items" : {
+                                             "type" : "integer"
+                                          },
+                                          "type" : "array"
                                        },
                                        "parent" : {
                                           "description" : "For partitions only. The device path of the disk the partition resides on.",

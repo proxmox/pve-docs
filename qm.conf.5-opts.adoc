@@ -74,9 +74,9 @@ Boot on floppy (a), hard disk (c), CD-ROM (d), or network (n). Deprecated, use '
 
 The guest will attempt to boot from devices in the order they appear here.
 +
-Disks, optical drives and storage USB devices that are passed through will be
-directly booted from, NICs will load PXE, and PCIe devices will either behave
-like disks (e.g. NVMe) or load an option ROM (e.g. RAID controller, hardware NIC).
+Disks, optical drives and passed-through storage USB devices will be directly
+booted from, NICs will load PXE, and PCIe devices will either behave like disks
+(e.g. NVMe) or load an option ROM (e.g. RAID controller, hardware NIC).
 +
 Note that only devices in this list will be marked as bootable and thus loaded
 by the guest firmware (BIOS/UEFI). If you require multiple disks for booting
@@ -181,7 +181,7 @@ Configure a disk for storing EFI vars.
 
 `efitype`=`<2m | 4m>` ('default =' `2m`);;
 
-Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified. Ignored for VMs with arch=aarc64 (ARM).
+Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required for Secure Boot. For backwards compatibility, '2m' is used if not otherwise specified. Ignored for VMs with arch=aarch64 (ARM).
 
 `file`=`<volume>` ;;
 
@@ -222,7 +222,7 @@ Override PCI device ID visible to guest
 
 `host`=`<HOSTPCIID[;HOSTPCIID2...]>` ;;
 
-Pass through host PCI device. The PCI ID of a host's PCI device or a list
+Host PCI device pass through. The PCI ID of a host's PCI device or a list
 of PCI virtual functions of the host. HOSTPCIID syntax is:
 +
 'bus:dev.func' (hexadecimal numbers)
@@ -529,9 +529,13 @@ Lock/unlock the VM.
 
 Specifies the QEMU machine type.
 
-`memory`: `<integer> (16 - N)` ('default =' `512`)::
+`memory`: `[current=]<integer>` ::
 
-Amount of RAM for the VM in MiB. This is the maximum available memory when you use the balloon device.
+Memory properties.
+
+`current`=`<integer> (16 - N)` ('default =' `512`);;
+
+Current amount of online RAM for the VM in MiB. This is the maximum available memory when you use the balloon device.
 
 `migrate_downtime`: `<number> (0 - N)` ('default =' `0.1`)::
 
@@ -1194,7 +1198,7 @@ The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:
  'vendor_id:product_id' (hexadeciaml numbers) or
  'spice'
 +
-You can use the 'lsusb -t' command to list existing USB devices.
+You can use the 'lsusb -t' command to list existing usb devices.
 +
 NOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such
 machines - use with special care.
