@@ -1,11 +1,11 @@
 [[chapter_pvesdn]]
-Software Defined Network
+Software-Defined Network
 ========================
 ifndef::manvolnum[]
 :pve-toplevel:
 endif::manvolnum[]
 
-The **S**oftware **D**efined **N**etwork (SDN) feature allows you to create
+The **S**oftware-**D**efined **N**etwork (SDN) feature allows you to create
 virtual networks (VNets) at the datacenter level.
 
 WARNING: SDN is currently an **experimental feature** in {pve}. This
@@ -17,7 +17,7 @@ xref:getting_help[mailing lists or in the forum] for questions and feedback.
 Installation
 ------------
 
-To enable the experimental Software Defined Network (SDN) integration, you need
+To enable the experimental Software-Defined Network (SDN) integration, you need
 to install the `libpve-network-perl` and `ifupdown2` packages on every node:
 
 ----
