@@ -85,6 +85,7 @@ release. When upgrading to 5.0, the names are kept as-is.
 This makes it easier to debug networks problems, because the device
 name implies the device type.
 
+[[systemd_network_interface_names]]
 Systemd Network Interface Names
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
