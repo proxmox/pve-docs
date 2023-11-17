@@ -143,6 +143,9 @@ in your SDN setup.
 * xref:pvesdn_config_controllers[Controllers]: For controlling layer 3 routing
   in complex setups
 
+* DHCP: Define a DHCP server for a zone that automatically allocates IPs for
+  guests in the IPAM and leases them to the guests via DHCP.
+
 * xref:pvesdn_config_ipam[IPAM]: Enables external for IP address management for
   guests
 
@@ -518,6 +521,16 @@ PVE IPAM Plugin
 
 The default built-in IPAM for your {pve} cluster.
 
+You can inspect the current status of the PVE IPAM Plugin via the IPAM panel in
+the SDN section of the datacenter configuration. This UI can be used to create,
+update and delete IP mappings. This is particularly convenient in conjunction
+with the xref:pvesdn_config_dhcp[DHCP feature].
+
+If you are using DHCP, you can use the IPAM panel to create or edit leases for
+specific VMs, which enables you to change the IPs allocated via DHCP. When
+editing an IP of a VM that is using DHCP you must make sure to force the guest
+to acquire a new DHCP leases. This can usually be done by reloading the network
+stack of the guest or rebooting it.
 
 [[pvesdn_ipam_plugin_netbox]]
 NetBox IPAM Plugin
@@ -584,6 +597,114 @@ key:: An API access key
 
 ttl:: The default TTL for records
 
+
+[[pvesdn_config_dhcp]]
+DHCP
+------
+
+The DHCP plugin in {pve} SDN can be used to automatically deploy a DHCP server
+for a Zone. It provides DHCP for all Subnets in a Zone that have a DHCP range
+configured. Currently the only available backend plugin for DHCP is the dnsmasq
+plugin.
+
+The DHCP plugin works by allocating an IP in the IPAM plugin configured in the
+Zone when adding a new network interface to a VM/CT. You can find more
+information on how to configure an IPAM in the
+xref:pvesdn_config_ipam[respective section of our documentation].
+
+When the VM starts, a mapping for the MAC address and IP gets created in the DHCP
+plugin of the zone. When the network interfaces is removed or the VM/CT are
+destroyed, then the entry in the IPAM and the DHCP server are deleted as well.
+
+NOTE: Some features (adding/editing/removing IP mappings) are currently only
+available when using the xref:pvesdn_ipam_plugin_pveipam[PVE IPAM plugin].
+
+
+Configuration
+~~~~~~~~~~~~~
+
+You can enable automatic DHCP for a zone in the Web UI via the Zones panel and
+enabling DHCP in the advanced options of a zone.
+
+NOTE: Currently only Simple Zones have support for automatic DHCP
+
+After automatic DHCP has been enabled for a Zone, DHCP Ranges need to be
+configured for the subnets in a Zone. In order to that, go to the Vnets panel and
+select the Subnet for which you want to configure DHCP ranges. In the edit
+dialogue you can configure DHCP ranges in the respective Tab. Alternatively you
+can set DHCP ranges for a Subnet via the following CLI command:
+
+----
+pvesh set /cluster/sdn/vnets/<vnet>/subnets/<subnet>
+ -dhcp-range start-address=10.0.1.100,end-address=10.0.1.200
+ -dhcp-range start-address=10.0.2.100,end-address=10.0.2.200
+----
+
+You also need to have a gateway configured for the subnet - otherwise
+automatic DHCP will not work.
+
+The DHCP plugin will then allocate IPs in the IPAM only in the configured
+ranges.
+
+Do not forget to follow the installation steps for the
+xref:pvesdn_dhcp_dnsmasq_installation[dnsmasq DHCP plugin] as well.
+
+Plugins
+~~~~~~~
+
+Dnsmasq Plugin
+^^^^^^^^^^^^^^
+Currently this is the only DHCP plugin and therefore the plugin that gets used
+when you enable DHCP for a zone.
+
+[[pvesdn_dhcp_dnsmasq_installation]]
+.Installation
+In order to be able to use the Dnsmasq plugin you need to install
+the dnsmasq package and disable the default DNS server that gets automatically
+started:
+
+----
+apt install dnsmasq
+systemctl disable --now dnsmasq
+----
+
+.Configuration
+The plugin will create a new systemd service for each zone that dnsmasq gets
+deployed to. The name for the service is `dnsmasq@<zone>`. The lifecycle of this
+service is managed by the DHCP plugin.
+
+The plugin automatically generates the following configuration files in the
+folder `/etc/dnsmasq.d/<zone>`:
+
+`00-default.conf`::
+This contains the default global configuration for a dnsmasq instance.
+
+`10-<zone>-<subnet_cidr>.conf`::
+This file configures specific options for a subnet, such as the DNS server that
+should get configured via DHCP.
+
+`10-<zone>-<subnet_cidr>.ranges.conf`::
+This file configures the DHCP ranges for the dnsmasq instance.
+
+`ethers`::
+This file contains the MAC-address and IP mappings from the IPAM plugin. In
+order to override those mappings, please use the respective IPAM plugin rather
+than editing this file, as it will get overwritten by the dnsmasq plugin.
+
+You must not edit any of the above files, since they are managed by the DHCP
+plugin. In order to customize the dnsmasq configuration you can create
+additional files (e.g. `90-custom.conf`) in the configuration folder - they will
+not get changed by the dnsmasq DHCP plugin.
+
+Configuration files are read in order, so you can control the order of the
+configuration directives by naming your custom configuration files appropriately.
+
+DHCP leases are stored in the file `/var/lib/misc/dnsmasq.<zone>.leases`.
+
+When using the PVE IPAM plugin, you can update, create and delete DHCP leases.
+For more information please consult the documentation of
+xref:pvesdn_ipam_plugin_pveipam[the PVE IPAM plugin]. Changing DHCP leases is
+currently not supported for the other IPAM plugins.
 
 [[pvesdn_setup_examples]]
 Examples
