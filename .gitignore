@@ -5,3 +5,14 @@
 *.tmp
 *.epub
 *.swp
+/#*#
+/.pve-doc-depends
+/api-viewer/apidoc.js
+/asciidoc-pve
+/chapter-index-table.adoc
+/link-refs.json
+/man1-index-table.adoc
+/man5-index-table.adoc
+/man8-index-table.adoc
+/pve-doc-generator.mk
+/pve-docs-[0-9]*/
