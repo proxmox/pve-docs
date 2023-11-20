@@ -1090,7 +1090,7 @@ The status output of the QDevice, as seen above, will usually contain three
 columns:
 
 * `A` / `NA`: Alive or Not Alive. Indicates if the communication to the external
-    `corosync-qndetd` daemon works.
+    `corosync-qnetd` daemon works.
 * `V` / `NV`: If the QDevice will cast a vote for the node. In a split-brain
     situation, where the corosync connection between the nodes is down, but they
     both can still communicate with the external `corosync-qnetd` daemon,
