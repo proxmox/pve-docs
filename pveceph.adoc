@@ -241,22 +241,26 @@ The configuration step includes the following settings:
 [[pve_ceph_wizard_networks]]
 
 * *Public Network:* This network will be used for public storage communication
-  (e.g., for virtual machines using a Ceph RBD backed disk, or a CephFS mount).
-  This setting is required.
+  (e.g., for virtual machines using a Ceph RBD backed disk, or a CephFS mount),
+  and communication between the different Ceph services. This setting is
+  required.
   +
-  Separating your Ceph traffic from cluster communication, and possible the
-  front-facing (public) networks of your virtual gusts, is highly recommended.
-  Otherwise, Ceph's high-bandwidth IO-traffic could cause interference with
-  other low-latency dependent services.
+  Separating your Ceph traffic from the {pve} cluster communication (corosync),
+  and possible the front-facing (public) networks of your virtual guests, is
+  highly recommended. Otherwise, Ceph's high-bandwidth IO-traffic could cause
+  interference with other low-latency dependent services.
 
 [thumbnail="screenshot/gui-node-ceph-install-wizard-step2.png"]
 
 * *Cluster Network:* Specify to separate the xref:pve_ceph_osds[OSD] replication
-  and heartbeat traffic as well.
+  and heartbeat traffic as well. This setting is optional.
   +
   Using a physically separated network is recommended, as it will relieve the
   Ceph public and the virtual guests network, while also providing a significant
   Ceph performance improvements.
+  +
+  The Ceph cluster network can be configured and moved to another physically
+  separated network at a later time.
 
 You have two more options which are considered advanced and therefore should
 only changed if you know what you are doing.
