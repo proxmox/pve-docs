@@ -64,10 +64,8 @@ assigned to VMs and Containers.
 Main Configuration
 ~~~~~~~~~~~~~~~~~~
 
-Configuration is done at the web UI at datacenter level and is saved in files
-located in the shared configuration file system at `/etc/pve/sdn`.
-
-On the web interface, SDN features the following sections:
+Configuration is done at the web UI at datacenter level, separated into the
+following sections:
 
 * SDN:: Here you get an overview of the current active SDN state, and you can
   apply all pending changes to the whole cluster.
@@ -91,15 +89,31 @@ in your SDN setup.
   virtual guests' hostname and IP
   addresses
 
-[[pvesdn_config_main_sdn]]
-SDN
-~~~
+[[pvesdn_tech_and_config_overview]]
+Technology & Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This is the main status panel. Here you can see the deployment status of zones
-on different nodes.
+The {pve} Software-Defined Network implementation uses standard Linux networking
+as much as possible. The reason for this is that modern Linux networking
+provides almost all needs for a feature full SDN implementation and avoids adding
+external dependencies and reduces the overall amount of components that can
+break.
 
-Pressing the 'Apply' button reloads the local configuration on all cluster
-nodes.
+The {pve} SDN configurations are located in `/etc/pve/sdn`, which is shared with
+all other cluster nodes through the {pve} xref:chapter_pmxcfs[configuration file system].
+Those configurations get translated to the respective configuration formats of
+the tools that manage the underlying network stack (for example `ifupdown2` or
+`frr`).
+
+New changes are not immediately applied but recorded as pending first. You can
+then apply a set of different changes all at once in the main 'SDN' overview
+panel on the web interface. This system allows to roll-out various changes as
+single atomic one.
+
+The SDN tracks the rolled-out state through the '.running-config' and '.version'
+files located in '/etc/pve/sdn'.
+
+// TODO: extend implementation and technology details.
 
 [[pvesdn_config_zone]]
 Zones
