@@ -134,7 +134,7 @@ That means that you should avoid maxing out your available memory already on
 normal operation, but rather leave some headroom to cope with outages.
 
 The OSD service itself will use additional memory. The Ceph BlueStore backend of
-the daemon requires by default **3-5 GiB of memory**, b (adjustable).
+the daemon requires by default **3-5 GiB of memory** (adjustable).
 
 .Network
 We recommend a network bandwidth of at least 10 Gbps, or more, to be used
