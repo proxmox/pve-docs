@@ -85,28 +85,32 @@ apt install libpve-network-perl
 NOTE: {pve} version 7.0 and above have the `ifupdown2` package installed by
 default. If you originally installed your system with an older version, you need
 to explicitly install the `ifupdown2` package.
-+
-After installation, you need to add the following line to the end of the
-`/etc/network/interfaces` configuration file, so that the SDN configuration gets
-included and activated.
-+
+
+After installation, you need to ensure that the following line is present at the
+end of the `/etc/network/interfaces` configuration file on all nodes, so that
+the SDN configuration gets included and activated.
+
 ----
 source /etc/network/interfaces.d/*
 ----
 
+[[pvesdn_install_dhcp_ipam]]
 DHCP IPAM
 ~~~~~~~~~
 
-The DHCP integration into the IP Address Management stack currently uses
-`dnsmasq` for giving out DHCP leases. This is currently opt-in.
+The DHCP integration into the built-in 'PVE' IP Address Management stack
+currently uses `dnsmasq` for giving out DHCP leases. This is currently opt-in.
 
 To use that feature you need to install the `dnsmasq` package on every node:
 
 ----
 apt update
 apt install dnsmasq
+# disable default instance
+systemctl disable --now dnsmasq
 ----
 
+[[pvesdn_install_frrouting]]
 FRRouting
 ~~~~~~~~~
 
@@ -647,7 +651,7 @@ The DHCP plugin will then allocate IPs in the IPAM only in the configured
 ranges.
 
 Do not forget to follow the installation steps for the
-xref:pvesdn_dhcp_dnsmasq_installation[dnsmasq DHCP plugin] as well.
+xref:pvesdn_install_dhcp_ipam[dnsmasq DHCP plugin] as well.
 
 Plugins
 ~~~~~~~
@@ -657,16 +661,8 @@ Dnsmasq Plugin
 Currently this is the only DHCP plugin and therefore the plugin that gets used
 when you enable DHCP for a zone.
 
-[[pvesdn_dhcp_dnsmasq_installation]]
 .Installation
-In order to be able to use the Dnsmasq plugin you need to install
-the dnsmasq package and disable the default DNS server that gets automatically
-started:
-
-----
-apt install dnsmasq
-systemctl disable --now dnsmasq
-----
+For installation see the xref:pvesdn_install_dhcp_ipam[DHCP IPAM] section.
 
 .Configuration
 The plugin will create a new systemd service for each zone that dnsmasq gets
