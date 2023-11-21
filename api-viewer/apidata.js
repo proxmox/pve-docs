@@ -765,7 +765,7 @@ const apiSchema = [
                                     "permissions" : {
                                        "check" : [
                                           "perm",
-                                          "/mapping/notification",
+                                          "/mapping/notifications",
                                           [
                                              "Mapping.Modify"
                                           ]
@@ -796,14 +796,14 @@ const apiSchema = [
                                           "or",
                                           [
                                              "perm",
-                                             "/mapping/notification/{name}",
+                                             "/mapping/notifications",
                                              [
                                                 "Mapping.Modify"
                                              ]
                                           ],
                                           [
                                              "perm",
-                                             "/mapping/notification/{name}",
+                                             "/mapping/notifications",
                                              [
                                                 "Mapping.Audit"
                                              ]
@@ -829,11 +829,11 @@ const apiSchema = [
                                              "optional" : 1,
                                              "type" : "string"
                                           },
-                                          "filter" : {
-                                             "description" : "Name of the filter that should be applied.",
-                                             "format" : "pve-configid",
+                                          "disable" : {
+                                             "default" : 0,
+                                             "description" : "Disable this target",
                                              "optional" : 1,
-                                             "type" : "string"
+                                             "type" : "boolean"
                                           },
                                           "from-address" : {
                                              "description" : "`From` address for the mail",
@@ -904,12 +904,12 @@ const apiSchema = [
                                              "type" : "string",
                                              "typetext" : "<string>"
                                           },
-                                          "filter" : {
-                                             "description" : "Name of the filter that should be applied.",
-                                             "format" : "pve-configid",
+                                          "disable" : {
+                                             "default" : 0,
+                                             "description" : "Disable this target",
                                              "optional" : 1,
-                                             "type" : "string",
-                                             "typetext" : "<string>"
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
                                           },
                                           "from-address" : {
                                              "description" : "`From` address for the mail",
@@ -948,7 +948,7 @@ const apiSchema = [
                                     "permissions" : {
                                        "check" : [
                                           "perm",
-                                          "/mapping/notification/{name}",
+                                          "/mapping/notifications",
                                           [
                                              "Mapping.Modify"
                                           ]
@@ -975,8 +975,23 @@ const apiSchema = [
                                  "additionalProperties" : 0
                               },
                               "permissions" : {
-                                 "description" : "Only lists entries where you have 'Mapping.Modify', 'Mapping.Use' or 'Mapping.Audit' permissions on '/mapping/notification/<name>'.",
-                                 "user" : "all"
+                                 "check" : [
+                                    "or",
+                                    [
+                                       "perm",
+                                       "/mapping/notifications",
+                                       [
+                                          "Mapping.Modify"
+                                       ]
+                                    ],
+                                    [
+                                       "perm",
+                                       "/mapping/notifications",
+                                       [
+                                          "Mapping.Audit"
+                                       ]
+                                    ]
+                                 ]
                               },
                               "protected" : 1,
                               "returns" : {
@@ -992,11 +1007,11 @@ const apiSchema = [
                                           "optional" : 1,
                                           "type" : "string"
                                        },
-                                       "filter" : {
-                                          "description" : "Name of the filter that should be applied.",
-                                          "format" : "pve-configid",
+                                       "disable" : {
+                                          "default" : 0,
+                                          "description" : "Disable this target",
                                           "optional" : 1,
-                                          "type" : "string"
+                                          "type" : "boolean"
                                        },
                                        "from-address" : {
                                           "description" : "`From` address for the mail",
@@ -1024,6 +1039,15 @@ const apiSchema = [
                                        "name" : {
                                           "description" : "The name of the endpoint.",
                                           "format" : "pve-configid",
+                                          "type" : "string"
+                                       },
+                                       "origin" : {
+                                          "description" : "Show if this entry was created by a user or was built-in",
+                                          "enum" : [
+                                             "user-created",
+                                             "builtin",
+                                             "modified-builtin"
+                                          ],
                                           "type" : "string"
                                        }
                                     },
@@ -1058,12 +1082,12 @@ const apiSchema = [
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
-                                    "filter" : {
-                                       "description" : "Name of the filter that should be applied.",
-                                       "format" : "pve-configid",
+                                    "disable" : {
+                                       "default" : 0,
+                                       "description" : "Disable this target",
                                        "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
                                     },
                                     "from-address" : {
                                        "description" : "`From` address for the mail",
@@ -1102,7 +1126,7 @@ const apiSchema = [
                               "permissions" : {
                                  "check" : [
                                     "perm",
-                                    "/mapping/notification",
+                                    "/mapping/notifications",
                                     [
                                        "Mapping.Modify"
                                     ]
@@ -1140,7 +1164,7 @@ const apiSchema = [
                                     "permissions" : {
                                        "check" : [
                                           "perm",
-                                          "/mapping/notification/{name}",
+                                          "/mapping/notifications",
                                           [
                                              "Mapping.Modify"
                                           ]
@@ -1172,14 +1196,14 @@ const apiSchema = [
                                           "or",
                                           [
                                              "perm",
-                                             "/mapping/notification/{name}",
+                                             "/mapping/notifications",
                                              [
                                                 "Mapping.Modify"
                                              ]
                                           ],
                                           [
                                              "perm",
-                                             "/mapping/notification/{name}",
+                                             "/mapping/notifications",
                                              [
                                                 "Mapping.Audit"
                                              ]
@@ -1200,11 +1224,11 @@ const apiSchema = [
                                              "optional" : 1,
                                              "type" : "string"
                                           },
-                                          "filter" : {
-                                             "description" : "Name of the filter that should be applied.",
-                                             "format" : "pve-configid",
+                                          "disable" : {
+                                             "default" : 0,
+                                             "description" : "Disable this target",
                                              "optional" : 1,
-                                             "type" : "string"
+                                             "type" : "boolean"
                                           },
                                           "name" : {
                                              "description" : "The name of the endpoint.",
@@ -1250,12 +1274,12 @@ const apiSchema = [
                                              "type" : "string",
                                              "typetext" : "<string>"
                                           },
-                                          "filter" : {
-                                             "description" : "Name of the filter that should be applied.",
-                                             "format" : "pve-configid",
+                                          "disable" : {
+                                             "default" : 0,
+                                             "description" : "Disable this target",
                                              "optional" : 1,
-                                             "type" : "string",
-                                             "typetext" : "<string>"
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
                                           },
                                           "name" : {
                                              "description" : "The name of the endpoint.",
@@ -1280,7 +1304,7 @@ const apiSchema = [
                                     "permissions" : {
                                        "check" : [
                                           "perm",
-                                          "/mapping/notification/{name}",
+                                          "/mapping/notifications",
                                           [
                                              "Mapping.Modify"
                                           ]
@@ -1307,8 +1331,13 @@ const apiSchema = [
                                  "additionalProperties" : 0
                               },
                               "permissions" : {
-                                 "description" : "Only lists entries where you have 'Mapping.Modify', 'Mapping.Use' or 'Mapping.Audit' permissions on '/mapping/notification/<name>'.",
-                                 "user" : "all"
+                                 "check" : [
+                                    "perm",
+                                    "/mapping/notifications",
+                                    [
+                                       "Mapping.Audit"
+                                    ]
+                                 ]
                               },
                               "protected" : 1,
                               "returns" : {
@@ -1319,15 +1348,24 @@ const apiSchema = [
                                           "optional" : 1,
                                           "type" : "string"
                                        },
-                                       "filter" : {
-                                          "description" : "Name of the filter that should be applied.",
-                                          "format" : "pve-configid",
+                                       "disable" : {
+                                          "default" : 0,
+                                          "description" : "Disable this target",
                                           "optional" : 1,
-                                          "type" : "string"
+                                          "type" : "boolean"
                                        },
                                        "name" : {
                                           "description" : "The name of the endpoint.",
                                           "format" : "pve-configid",
+                                          "type" : "string"
+                                       },
+                                       "origin" : {
+                                          "description" : "Show if this entry was created by a user or was built-in",
+                                          "enum" : [
+                                             "user-created",
+                                             "builtin",
+                                             "modified-builtin"
+                                          ],
                                           "type" : "string"
                                        },
                                        "server" : {
@@ -1360,12 +1398,12 @@ const apiSchema = [
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
-                                    "filter" : {
-                                       "description" : "Name of the filter that should be applied.",
-                                       "format" : "pve-configid",
+                                    "disable" : {
+                                       "default" : 0,
+                                       "description" : "Disable this target",
                                        "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
                                     },
                                     "name" : {
                                        "description" : "The name of the endpoint.",
@@ -1388,7 +1426,7 @@ const apiSchema = [
                               "permissions" : {
                                  "check" : [
                                     "perm",
-                                    "/mapping/notification",
+                                    "/mapping/notifications",
                                     [
                                        "Mapping.Modify"
                                     ]
@@ -1403,6 +1441,527 @@ const apiSchema = [
                         "leaf" : 0,
                         "path" : "/cluster/notifications/endpoints/gotify",
                         "text" : "gotify"
+                     },
+                     {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "DELETE" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Remove smtp endpoint",
+                                    "method" : "DELETE",
+                                    "name" : "delete_smtp_endpoint",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "name" : {
+                                             "format" : "pve-configid",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/mapping/notifications",
+                                          [
+                                             "Mapping.Modify"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "type" : "null"
+                                    }
+                                 },
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Return a specific smtp endpoint",
+                                    "method" : "GET",
+                                    "name" : "get_smtp_endpoint",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "name" : {
+                                             "format" : "pve-configid",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "or",
+                                          [
+                                             "perm",
+                                             "/mapping/notifications",
+                                             [
+                                                "Mapping.Modify"
+                                             ]
+                                          ],
+                                          [
+                                             "perm",
+                                             "/mapping/notifications",
+                                             [
+                                                "Mapping.Audit"
+                                             ]
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "properties" : {
+                                          "author" : {
+                                             "description" : "Author of the mail. Defaults to 'Proxmox VE'.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "comment" : {
+                                             "description" : "Comment",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "digest" : {
+                                             "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                             "maxLength" : 64,
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "disable" : {
+                                             "default" : 0,
+                                             "description" : "Disable this target",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "from-address" : {
+                                             "description" : "`From` address for the mail",
+                                             "type" : "string"
+                                          },
+                                          "mailto" : {
+                                             "description" : "List of email recipients",
+                                             "items" : {
+                                                "format" : "email-or-username",
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array"
+                                          },
+                                          "mailto-user" : {
+                                             "description" : "List of users",
+                                             "items" : {
+                                                "format" : "pve-userid",
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array"
+                                          },
+                                          "mode" : {
+                                             "default" : "tls",
+                                             "description" : "Determine which encryption method shall be used for the connection.",
+                                             "enum" : [
+                                                "insecure",
+                                                "starttls",
+                                                "tls"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "name" : {
+                                             "description" : "The name of the endpoint.",
+                                             "format" : "pve-configid",
+                                             "type" : "string"
+                                          },
+                                          "port" : {
+                                             "description" : "The port to be used. Defaults to 465 for TLS based connections, 587 for STARTTLS based connections and port 25 for insecure plain-text connections.",
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "server" : {
+                                             "description" : "The address of the SMTP server.",
+                                             "type" : "string"
+                                          },
+                                          "username" : {
+                                             "description" : "Username for SMTP authentication",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 },
+                                 "PUT" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Update existing smtp endpoint",
+                                    "method" : "PUT",
+                                    "name" : "update_smtp_endpoint",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "author" : {
+                                             "description" : "Author of the mail. Defaults to 'Proxmox VE'.",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "comment" : {
+                                             "description" : "Comment",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "delete" : {
+                                             "description" : "A list of settings you want to delete.",
+                                             "items" : {
+                                                "format" : "pve-configid",
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array",
+                                             "typetext" : "<array>"
+                                          },
+                                          "digest" : {
+                                             "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                             "maxLength" : 64,
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "disable" : {
+                                             "default" : 0,
+                                             "description" : "Disable this target",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "from-address" : {
+                                             "description" : "`From` address for the mail",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "mailto" : {
+                                             "description" : "List of email recipients",
+                                             "items" : {
+                                                "format" : "email-or-username",
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array",
+                                             "typetext" : "<array>"
+                                          },
+                                          "mailto-user" : {
+                                             "description" : "List of users",
+                                             "items" : {
+                                                "format" : "pve-userid",
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array",
+                                             "typetext" : "<array>"
+                                          },
+                                          "mode" : {
+                                             "default" : "tls",
+                                             "description" : "Determine which encryption method shall be used for the connection.",
+                                             "enum" : [
+                                                "insecure",
+                                                "starttls",
+                                                "tls"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "name" : {
+                                             "description" : "The name of the endpoint.",
+                                             "format" : "pve-configid",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "password" : {
+                                             "description" : "Password for SMTP authentication",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "port" : {
+                                             "description" : "The port to be used. Defaults to 465 for TLS based connections, 587 for STARTTLS based connections and port 25 for insecure plain-text connections.",
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer>"
+                                          },
+                                          "server" : {
+                                             "description" : "The address of the SMTP server.",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "username" : {
+                                             "description" : "Username for SMTP authentication",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "or",
+                                          [
+                                             "perm",
+                                             "/mapping/notifications",
+                                             [
+                                                "Mapping.Modify"
+                                             ]
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "type" : "null"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/cluster/notifications/endpoints/smtp/{name}",
+                              "text" : "{name}"
+                           }
+                        ],
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Returns a list of all smtp endpoints",
+                              "method" : "GET",
+                              "name" : "get_smtp_endpoints",
+                              "parameters" : {
+                                 "additionalProperties" : 0
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "or",
+                                    [
+                                       "perm",
+                                       "/mapping/notifications",
+                                       [
+                                          "Mapping.Modify"
+                                       ]
+                                    ],
+                                    [
+                                       "perm",
+                                       "/mapping/notifications",
+                                       [
+                                          "Mapping.Audit"
+                                       ]
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "author" : {
+                                          "description" : "Author of the mail. Defaults to 'Proxmox VE'.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "comment" : {
+                                          "description" : "Comment",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "disable" : {
+                                          "default" : 0,
+                                          "description" : "Disable this target",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       },
+                                       "from-address" : {
+                                          "description" : "`From` address for the mail",
+                                          "type" : "string"
+                                       },
+                                       "mailto" : {
+                                          "description" : "List of email recipients",
+                                          "items" : {
+                                             "format" : "email-or-username",
+                                             "type" : "string"
+                                          },
+                                          "optional" : 1,
+                                          "type" : "array"
+                                       },
+                                       "mailto-user" : {
+                                          "description" : "List of users",
+                                          "items" : {
+                                             "format" : "pve-userid",
+                                             "type" : "string"
+                                          },
+                                          "optional" : 1,
+                                          "type" : "array"
+                                       },
+                                       "mode" : {
+                                          "default" : "tls",
+                                          "description" : "Determine which encryption method shall be used for the connection.",
+                                          "enum" : [
+                                             "insecure",
+                                             "starttls",
+                                             "tls"
+                                          ],
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "name" : {
+                                          "description" : "The name of the endpoint.",
+                                          "format" : "pve-configid",
+                                          "type" : "string"
+                                       },
+                                       "origin" : {
+                                          "description" : "Show if this entry was created by a user or was built-in",
+                                          "enum" : [
+                                             "user-created",
+                                             "builtin",
+                                             "modified-builtin"
+                                          ],
+                                          "type" : "string"
+                                       },
+                                       "port" : {
+                                          "description" : "The port to be used. Defaults to 465 for TLS based connections, 587 for STARTTLS based connections and port 25 for insecure plain-text connections.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "server" : {
+                                          "description" : "The address of the SMTP server.",
+                                          "type" : "string"
+                                       },
+                                       "username" : {
+                                          "description" : "Username for SMTP authentication",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "links" : [
+                                    {
+                                       "href" : "{name}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
+                              }
+                           },
+                           "POST" : {
+                              "allowtoken" : 1,
+                              "description" : "Create a new smtp endpoint",
+                              "method" : "POST",
+                              "name" : "create_smtp_endpoint",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "author" : {
+                                       "description" : "Author of the mail. Defaults to 'Proxmox VE'.",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "comment" : {
+                                       "description" : "Comment",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "disable" : {
+                                       "default" : 0,
+                                       "description" : "Disable this target",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "from-address" : {
+                                       "description" : "`From` address for the mail",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "mailto" : {
+                                       "description" : "List of email recipients",
+                                       "items" : {
+                                          "format" : "email-or-username",
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array",
+                                       "typetext" : "<array>"
+                                    },
+                                    "mailto-user" : {
+                                       "description" : "List of users",
+                                       "items" : {
+                                          "format" : "pve-userid",
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array",
+                                       "typetext" : "<array>"
+                                    },
+                                    "mode" : {
+                                       "default" : "tls",
+                                       "description" : "Determine which encryption method shall be used for the connection.",
+                                       "enum" : [
+                                          "insecure",
+                                          "starttls",
+                                          "tls"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "name" : {
+                                       "description" : "The name of the endpoint.",
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "password" : {
+                                       "description" : "Password for SMTP authentication",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "port" : {
+                                       "description" : "The port to be used. Defaults to 465 for TLS based connections, 587 for STARTTLS based connections and port 25 for insecure plain-text connections.",
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer>"
+                                    },
+                                    "server" : {
+                                       "description" : "The address of the SMTP server.",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "username" : {
+                                       "description" : "Username for SMTP authentication",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "or",
+                                    [
+                                       "perm",
+                                       "/mapping/notifications",
+                                       [
+                                          "Mapping.Modify"
+                                       ]
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
+                        "path" : "/cluster/notifications/endpoints/smtp",
+                        "text" : "smtp"
                      }
                   ],
                   "info" : {
@@ -1459,8 +2018,30 @@ const apiSchema = [
                                        }
                                     },
                                     "permissions" : {
-                                       "description" : "The user requires 'Mapping.Modify', 'Mapping.Use' or 'Mapping.Audit' permissions on '/mapping/notification/<name>'. The special 'mail-to-root' target can be accessed by all users.",
-                                       "user" : "all"
+                                       "check" : [
+                                          "or",
+                                          [
+                                             "perm",
+                                             "/mapping/notifications",
+                                             [
+                                                "Mapping.Modify"
+                                             ]
+                                          ],
+                                          [
+                                             "perm",
+                                             "/mapping/notifications",
+                                             [
+                                                "Mapping.Audit"
+                                             ]
+                                          ],
+                                          [
+                                             "perm",
+                                             "/mapping/notifications",
+                                             [
+                                                "Mapping.Use"
+                                             ]
+                                          ]
+                                       ]
                                     },
                                     "protected" : 1,
                                     "returns" : {
@@ -1481,15 +2062,37 @@ const apiSchema = [
                   "info" : {
                      "GET" : {
                         "allowtoken" : 1,
-                        "description" : "Returns a list of all entities that can be used as notification targets (endpoints and groups).",
+                        "description" : "Returns a list of all entities that can be used as notification targets.",
                         "method" : "GET",
                         "name" : "get_all_targets",
                         "parameters" : {
                            "additionalProperties" : 0
                         },
                         "permissions" : {
-                           "description" : "Only lists entries where you have 'Mapping.Modify', 'Mapping.Use' or 'Mapping.Audit' permissions on '/mapping/notification/<name>'. The special 'mail-to-root' target is available to all users.",
-                           "user" : "all"
+                           "check" : [
+                              "or",
+                              [
+                                 "perm",
+                                 "/mapping/notifications",
+                                 [
+                                    "Mapping.Modify"
+                                 ]
+                              ],
+                              [
+                                 "perm",
+                                 "/mapping/notifications",
+                                 [
+                                    "Mapping.Audit"
+                                 ]
+                              ],
+                              [
+                                 "perm",
+                                 "/mapping/notifications",
+                                 [
+                                    "Mapping.Use"
+                                 ]
+                              ]
+                           ]
                         },
                         "protected" : 1,
                         "returns" : {
@@ -1500,17 +2103,31 @@ const apiSchema = [
                                     "optional" : 1,
                                     "type" : "string"
                                  },
+                                 "disable" : {
+                                    "default" : 0,
+                                    "description" : "Show if this target is disabled",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
                                  "name" : {
-                                    "description" : "Name of the endpoint/group.",
+                                    "description" : "Name of the target.",
                                     "format" : "pve-configid",
                                     "type" : "string"
                                  },
+                                 "origin" : {
+                                    "description" : "Show if this entry was created by a user or was built-in",
+                                    "enum" : [
+                                       "user-created",
+                                       "builtin",
+                                       "modified-builtin"
+                                    ],
+                                    "type" : "string"
+                                 },
                                  "type" : {
-                                    "description" : "Type of the endpoint or group.",
+                                    "description" : "Type of the target.",
                                     "enum" : [
                                        "sendmail",
-                                       "gotify",
-                                       "group"
+                                       "gotify"
                                     ],
                                     "type" : "string"
                                  }
@@ -1537,9 +2154,9 @@ const apiSchema = [
                         "info" : {
                            "DELETE" : {
                               "allowtoken" : 1,
-                              "description" : "Remove group",
+                              "description" : "Remove matcher",
                               "method" : "DELETE",
-                              "name" : "delete_group",
+                              "name" : "delete_matcher",
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
@@ -1553,7 +2170,7 @@ const apiSchema = [
                               "permissions" : {
                                  "check" : [
                                     "perm",
-                                    "/mapping/notification/{name}",
+                                    "/mapping/notifications",
                                     [
                                        "Mapping.Modify"
                                     ]
@@ -1566,9 +2183,9 @@ const apiSchema = [
                            },
                            "GET" : {
                               "allowtoken" : 1,
-                              "description" : "Return a specific group",
+                              "description" : "Return a specific matcher",
                               "method" : "GET",
-                              "name" : "get_group",
+                              "name" : "get_matcher",
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
@@ -1584,14 +2201,14 @@ const apiSchema = [
                                     "or",
                                     [
                                        "perm",
-                                       "/mapping/notification/{name}",
+                                       "/mapping/notifications",
                                        [
                                           "Mapping.Modify"
                                        ]
                                     ],
                                     [
                                        "perm",
-                                       "/mapping/notification/{name}",
+                                       "/mapping/notifications",
                                        [
                                           "Mapping.Audit"
                                        ]
@@ -1612,326 +2229,64 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
-                                    "endpoint" : {
-                                       "description" : "List of included endpoints",
-                                       "items" : {
-                                          "format" : "pve-configid",
-                                          "type" : "string"
-                                       },
-                                       "type" : "array"
-                                    },
-                                    "filter" : {
-                                       "description" : "Name of the filter that should be applied.",
-                                       "format" : "pve-configid",
-                                       "optional" : 1,
-                                       "type" : "string"
-                                    },
-                                    "name" : {
-                                       "description" : "Name of the group.",
-                                       "format" : "pve-configid",
-                                       "type" : "string"
-                                    }
-                                 },
-                                 "type" : "object"
-                              }
-                           },
-                           "PUT" : {
-                              "allowtoken" : 1,
-                              "description" : "Update existing group",
-                              "method" : "PUT",
-                              "name" : "update_group",
-                              "parameters" : {
-                                 "additionalProperties" : 0,
-                                 "properties" : {
-                                    "comment" : {
-                                       "description" : "Comment",
-                                       "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    },
-                                    "delete" : {
-                                       "description" : "A list of settings you want to delete.",
-                                       "items" : {
-                                          "format" : "pve-configid",
-                                          "type" : "string"
-                                       },
-                                       "optional" : 1,
-                                       "type" : "array",
-                                       "typetext" : "<array>"
-                                    },
-                                    "digest" : {
-                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
-                                       "maxLength" : 64,
-                                       "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    },
-                                    "endpoint" : {
-                                       "description" : "List of included endpoints",
-                                       "items" : {
-                                          "format" : "pve-configid",
-                                          "type" : "string"
-                                       },
-                                       "optional" : 1,
-                                       "type" : "array",
-                                       "typetext" : "<array>"
-                                    },
-                                    "filter" : {
-                                       "description" : "Name of the filter that should be applied.",
-                                       "format" : "pve-configid",
-                                       "optional" : 1,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    },
-                                    "name" : {
-                                       "description" : "Name of the group.",
-                                       "format" : "pve-configid",
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    }
-                                 }
-                              },
-                              "permissions" : {
-                                 "check" : [
-                                    "perm",
-                                    "/mapping/notification/{name}",
-                                    [
-                                       "Mapping.Modify"
-                                    ]
-                                 ]
-                              },
-                              "protected" : 1,
-                              "returns" : {
-                                 "type" : "null"
-                              }
-                           }
-                        },
-                        "leaf" : 1,
-                        "path" : "/cluster/notifications/groups/{name}",
-                        "text" : "{name}"
-                     }
-                  ],
-                  "info" : {
-                     "GET" : {
-                        "allowtoken" : 1,
-                        "description" : "Returns a list of all groups",
-                        "method" : "GET",
-                        "name" : "get_groups",
-                        "parameters" : {
-                           "additionalProperties" : 0
-                        },
-                        "permissions" : {
-                           "description" : "Only lists entries where you have 'Mapping.Modify', 'Mapping.Use' or 'Mapping.Audit' permissions on '/mapping/notification/<name>'.",
-                           "user" : "all"
-                        },
-                        "protected" : 1,
-                        "returns" : {
-                           "items" : {
-                              "properties" : {
-                                 "comment" : {
-                                    "description" : "Comment",
-                                    "optional" : 1,
-                                    "type" : "string"
-                                 },
-                                 "endpoint" : {
-                                    "description" : "List of included endpoints",
-                                    "items" : {
-                                       "format" : "pve-configid",
-                                       "type" : "string"
-                                    },
-                                    "type" : "array"
-                                 },
-                                 "filter" : {
-                                    "description" : "Name of the filter that should be applied.",
-                                    "format" : "pve-configid",
-                                    "optional" : 1,
-                                    "type" : "string"
-                                 },
-                                 "name" : {
-                                    "description" : "Name of the group.",
-                                    "format" : "pve-configid",
-                                    "type" : "string"
-                                 }
-                              },
-                              "type" : "object"
-                           },
-                           "links" : [
-                              {
-                                 "href" : "{name}",
-                                 "rel" : "child"
-                              }
-                           ],
-                           "type" : "array"
-                        }
-                     },
-                     "POST" : {
-                        "allowtoken" : 1,
-                        "description" : "Create a new group",
-                        "method" : "POST",
-                        "name" : "create_group",
-                        "parameters" : {
-                           "additionalProperties" : 0,
-                           "properties" : {
-                              "comment" : {
-                                 "description" : "Comment",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "endpoint" : {
-                                 "description" : "List of included endpoints",
-                                 "items" : {
-                                    "format" : "pve-configid",
-                                    "type" : "string"
-                                 },
-                                 "type" : "array",
-                                 "typetext" : "<array>"
-                              },
-                              "filter" : {
-                                 "description" : "Name of the filter that should be applied.",
-                                 "format" : "pve-configid",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
-                              "name" : {
-                                 "description" : "Name of the group.",
-                                 "format" : "pve-configid",
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              }
-                           }
-                        },
-                        "permissions" : {
-                           "check" : [
-                              "perm",
-                              "/mapping/notification",
-                              [
-                                 "Mapping.Modify"
-                              ]
-                           ]
-                        },
-                        "protected" : 1,
-                        "returns" : {
-                           "type" : "null"
-                        }
-                     }
-                  },
-                  "leaf" : 0,
-                  "path" : "/cluster/notifications/groups",
-                  "text" : "groups"
-               },
-               {
-                  "children" : [
-                     {
-                        "info" : {
-                           "DELETE" : {
-                              "allowtoken" : 1,
-                              "description" : "Remove filter",
-                              "method" : "DELETE",
-                              "name" : "delete_filter",
-                              "parameters" : {
-                                 "additionalProperties" : 0,
-                                 "properties" : {
-                                    "name" : {
-                                       "format" : "pve-configid",
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    }
-                                 }
-                              },
-                              "permissions" : {
-                                 "check" : [
-                                    "perm",
-                                    "/mapping/notification/{name}",
-                                    [
-                                       "Mapping.Modify"
-                                    ]
-                                 ]
-                              },
-                              "protected" : 1,
-                              "returns" : {
-                                 "type" : "null"
-                              }
-                           },
-                           "GET" : {
-                              "allowtoken" : 1,
-                              "description" : "Return a specific filter",
-                              "method" : "GET",
-                              "name" : "get_filter",
-                              "parameters" : {
-                                 "additionalProperties" : 0,
-                                 "properties" : {
-                                    "name" : {
-                                       "format" : "pve-configid",
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    }
-                                 }
-                              },
-                              "permissions" : {
-                                 "check" : [
-                                    "or",
-                                    [
-                                       "perm",
-                                       "/mapping/notification/{name}",
-                                       [
-                                          "Mapping.Modify"
-                                       ]
-                                    ],
-                                    [
-                                       "perm",
-                                       "/mapping/notification/{name}",
-                                       [
-                                          "Mapping.Audit"
-                                       ]
-                                    ]
-                                 ]
-                              },
-                              "protected" : 1,
-                              "returns" : {
-                                 "properties" : {
-                                    "comment" : {
-                                       "description" : "Comment",
-                                       "optional" : 1,
-                                       "type" : "string"
-                                    },
-                                    "digest" : {
-                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
-                                       "maxLength" : 64,
-                                       "optional" : 1,
-                                       "type" : "string"
-                                    },
-                                    "invert-match" : {
-                                       "description" : "Invert match of the whole filter",
+                                    "disable" : {
+                                       "default" : 0,
+                                       "description" : "Disable this matcher",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
-                                    "min-severity" : {
-                                       "description" : "Minimum severity to match",
-                                       "enum" : [
-                                          "info",
-                                          "notice",
-                                          "warning",
-                                          "error"
-                                       ],
+                                    "invert-match" : {
+                                       "description" : "Invert match of the whole matcher",
                                        "optional" : 1,
-                                       "type" : "string"
+                                       "type" : "boolean"
+                                    },
+                                    "match-calendar" : {
+                                       "description" : "Match notification timestamp",
+                                       "items" : {
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array"
+                                    },
+                                    "match-field" : {
+                                       "description" : "Metadata fields to match (regex or exact match). Must be in the form (regex|exact):<field>=<value>",
+                                       "items" : {
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array"
+                                    },
+                                    "match-severity" : {
+                                       "description" : "Notification severities to match",
+                                       "items" : {
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array"
                                     },
                                     "mode" : {
-                                       "default" : "and",
-                                       "description" : "Choose between 'and' and 'or' for when multiple properties are specified",
+                                       "default" : "all",
+                                       "description" : "Choose between 'all' and 'any' for when multiple properties are specified",
                                        "enum" : [
-                                          "and",
-                                          "or"
+                                          "all",
+                                          "any"
                                        ],
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "name" : {
-                                       "description" : "Name of the endpoint.",
+                                       "description" : "Name of the matcher.",
                                        "format" : "pve-configid",
                                        "type" : "string"
+                                    },
+                                    "target" : {
+                                       "description" : "Targets to notify on match",
+                                       "items" : {
+                                          "format" : "pve-configid",
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array"
                                     }
                                  },
                                  "type" : "object"
@@ -1939,9 +2294,9 @@ const apiSchema = [
                            },
                            "PUT" : {
                               "allowtoken" : 1,
-                              "description" : "Update existing filter",
+                              "description" : "Update existing matcher",
                               "method" : "PUT",
-                              "name" : "update_filter",
+                              "name" : "update_matcher",
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
@@ -1968,45 +2323,78 @@ const apiSchema = [
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
-                                    "invert-match" : {
-                                       "description" : "Invert match of the whole filter",
+                                    "disable" : {
+                                       "default" : 0,
+                                       "description" : "Disable this matcher",
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
                                     },
-                                    "min-severity" : {
-                                       "description" : "Minimum severity to match",
-                                       "enum" : [
-                                          "info",
-                                          "notice",
-                                          "warning",
-                                          "error"
-                                       ],
+                                    "invert-match" : {
+                                       "description" : "Invert match of the whole matcher",
                                        "optional" : 1,
-                                       "type" : "string"
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "match-calendar" : {
+                                       "description" : "Match notification timestamp",
+                                       "items" : {
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array",
+                                       "typetext" : "<array>"
+                                    },
+                                    "match-field" : {
+                                       "description" : "Metadata fields to match (regex or exact match). Must be in the form (regex|exact):<field>=<value>",
+                                       "items" : {
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array",
+                                       "typetext" : "<array>"
+                                    },
+                                    "match-severity" : {
+                                       "description" : "Notification severities to match",
+                                       "items" : {
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array",
+                                       "typetext" : "<array>"
                                     },
                                     "mode" : {
-                                       "default" : "and",
-                                       "description" : "Choose between 'and' and 'or' for when multiple properties are specified",
+                                       "default" : "all",
+                                       "description" : "Choose between 'all' and 'any' for when multiple properties are specified",
                                        "enum" : [
-                                          "and",
-                                          "or"
+                                          "all",
+                                          "any"
                                        ],
                                        "optional" : 1,
                                        "type" : "string"
                                     },
                                     "name" : {
-                                       "description" : "Name of the endpoint.",
+                                       "description" : "Name of the matcher.",
                                        "format" : "pve-configid",
                                        "type" : "string",
                                        "typetext" : "<string>"
+                                    },
+                                    "target" : {
+                                       "description" : "Targets to notify on match",
+                                       "items" : {
+                                          "format" : "pve-configid",
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array",
+                                       "typetext" : "<array>"
                                     }
                                  }
                               },
                               "permissions" : {
                                  "check" : [
                                     "perm",
-                                    "/mapping/notification/{name}",
+                                    "/mapping/notifications",
                                     [
                                        "Mapping.Modify"
                                     ]
@@ -2019,22 +2407,44 @@ const apiSchema = [
                            }
                         },
                         "leaf" : 1,
-                        "path" : "/cluster/notifications/filters/{name}",
+                        "path" : "/cluster/notifications/matchers/{name}",
                         "text" : "{name}"
                      }
                   ],
                   "info" : {
                      "GET" : {
                         "allowtoken" : 1,
-                        "description" : "Returns a list of all filters",
+                        "description" : "Returns a list of all matchers",
                         "method" : "GET",
-                        "name" : "get_filters",
+                        "name" : "get_matchers",
                         "parameters" : {
                            "additionalProperties" : 0
                         },
                         "permissions" : {
-                           "description" : "Only lists entries where you have 'Mapping.Modify', 'Mapping.Use' or 'Mapping.Audit' permissions on '/mapping/notification/<name>'.",
-                           "user" : "all"
+                           "check" : [
+                              "or",
+                              [
+                                 "perm",
+                                 "/mapping/notifications",
+                                 [
+                                    "Mapping.Modify"
+                                 ]
+                              ],
+                              [
+                                 "perm",
+                                 "/mapping/notifications",
+                                 [
+                                    "Mapping.Audit"
+                                 ]
+                              ],
+                              [
+                                 "perm",
+                                 "/mapping/notifications",
+                                 [
+                                    "Mapping.Use"
+                                 ]
+                              ]
+                           ]
                         },
                         "protected" : 1,
                         "returns" : {
@@ -2045,36 +2455,73 @@ const apiSchema = [
                                     "optional" : 1,
                                     "type" : "string"
                                  },
-                                 "invert-match" : {
-                                    "description" : "Invert match of the whole filter",
+                                 "disable" : {
+                                    "default" : 0,
+                                    "description" : "Disable this matcher",
                                     "optional" : 1,
                                     "type" : "boolean"
                                  },
-                                 "min-severity" : {
-                                    "description" : "Minimum severity to match",
-                                    "enum" : [
-                                       "info",
-                                       "notice",
-                                       "warning",
-                                       "error"
-                                    ],
+                                 "invert-match" : {
+                                    "description" : "Invert match of the whole matcher",
                                     "optional" : 1,
-                                    "type" : "string"
+                                    "type" : "boolean"
+                                 },
+                                 "match-calendar" : {
+                                    "description" : "Match notification timestamp",
+                                    "items" : {
+                                       "type" : "string"
+                                    },
+                                    "optional" : 1,
+                                    "type" : "array"
+                                 },
+                                 "match-field" : {
+                                    "description" : "Metadata fields to match (regex or exact match). Must be in the form (regex|exact):<field>=<value>",
+                                    "items" : {
+                                       "type" : "string"
+                                    },
+                                    "optional" : 1,
+                                    "type" : "array"
+                                 },
+                                 "match-severity" : {
+                                    "description" : "Notification severities to match",
+                                    "items" : {
+                                       "type" : "string"
+                                    },
+                                    "optional" : 1,
+                                    "type" : "array"
                                  },
                                  "mode" : {
-                                    "default" : "and",
-                                    "description" : "Choose between 'and' and 'or' for when multiple properties are specified",
+                                    "default" : "all",
+                                    "description" : "Choose between 'all' and 'any' for when multiple properties are specified",
                                     "enum" : [
-                                       "and",
-                                       "or"
+                                       "all",
+                                       "any"
                                     ],
                                     "optional" : 1,
                                     "type" : "string"
                                  },
                                  "name" : {
-                                    "description" : "Name of the endpoint.",
+                                    "description" : "Name of the matcher.",
                                     "format" : "pve-configid",
                                     "type" : "string"
+                                 },
+                                 "origin" : {
+                                    "description" : "Show if this entry was created by a user or was built-in",
+                                    "enum" : [
+                                       "user-created",
+                                       "builtin",
+                                       "modified-builtin"
+                                    ],
+                                    "type" : "string"
+                                 },
+                                 "target" : {
+                                    "description" : "Targets to notify on match",
+                                    "items" : {
+                                       "format" : "pve-configid",
+                                       "type" : "string"
+                                    },
+                                    "optional" : 1,
+                                    "type" : "array"
                                  }
                               },
                               "type" : "object"
@@ -2090,9 +2537,9 @@ const apiSchema = [
                      },
                      "POST" : {
                         "allowtoken" : 1,
-                        "description" : "Create a new filter",
+                        "description" : "Create a new matcher",
                         "method" : "POST",
-                        "name" : "create_filter",
+                        "name" : "create_matcher",
                         "parameters" : {
                            "additionalProperties" : 0,
                            "properties" : {
@@ -2102,45 +2549,78 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
-                              "invert-match" : {
-                                 "description" : "Invert match of the whole filter",
+                              "disable" : {
+                                 "default" : 0,
+                                 "description" : "Disable this matcher",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
                               },
-                              "min-severity" : {
-                                 "description" : "Minimum severity to match",
-                                 "enum" : [
-                                    "info",
-                                    "notice",
-                                    "warning",
-                                    "error"
-                                 ],
+                              "invert-match" : {
+                                 "description" : "Invert match of the whole matcher",
                                  "optional" : 1,
-                                 "type" : "string"
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "match-calendar" : {
+                                 "description" : "Match notification timestamp",
+                                 "items" : {
+                                    "type" : "string"
+                                 },
+                                 "optional" : 1,
+                                 "type" : "array",
+                                 "typetext" : "<array>"
+                              },
+                              "match-field" : {
+                                 "description" : "Metadata fields to match (regex or exact match). Must be in the form (regex|exact):<field>=<value>",
+                                 "items" : {
+                                    "type" : "string"
+                                 },
+                                 "optional" : 1,
+                                 "type" : "array",
+                                 "typetext" : "<array>"
+                              },
+                              "match-severity" : {
+                                 "description" : "Notification severities to match",
+                                 "items" : {
+                                    "type" : "string"
+                                 },
+                                 "optional" : 1,
+                                 "type" : "array",
+                                 "typetext" : "<array>"
                               },
                               "mode" : {
-                                 "default" : "and",
-                                 "description" : "Choose between 'and' and 'or' for when multiple properties are specified",
+                                 "default" : "all",
+                                 "description" : "Choose between 'all' and 'any' for when multiple properties are specified",
                                  "enum" : [
-                                    "and",
-                                    "or"
+                                    "all",
+                                    "any"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
                               },
                               "name" : {
-                                 "description" : "Name of the endpoint.",
+                                 "description" : "Name of the matcher.",
                                  "format" : "pve-configid",
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "target" : {
+                                 "description" : "Targets to notify on match",
+                                 "items" : {
+                                    "format" : "pve-configid",
+                                    "type" : "string"
+                                 },
+                                 "optional" : 1,
+                                 "type" : "array",
+                                 "typetext" : "<array>"
                               }
                            }
                         },
                         "permissions" : {
                            "check" : [
                               "perm",
-                              "/mapping/notification",
+                              "/mapping/notifications",
                               [
                                  "Mapping.Modify"
                               ]
@@ -2153,8 +2633,8 @@ const apiSchema = [
                      }
                   },
                   "leaf" : 0,
-                  "path" : "/cluster/notifications/filters",
-                  "text" : "filters"
+                  "path" : "/cluster/notifications/matchers",
+                  "text" : "matchers"
                }
             ],
             "info" : {
@@ -7392,6 +7872,20 @@ const apiSchema = [
                                  "pattern" : "^https?://.*",
                                  "type" : "string"
                               },
+                              "eab-hmac-key" : {
+                                 "description" : "HMAC key for External Account Binding.",
+                                 "optional" : 1,
+                                 "requires" : "eab-kid",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "eab-kid" : {
+                                 "description" : "Key Identifier for External Account Binding.",
+                                 "optional" : 1,
+                                 "requires" : "eab-hmac-key",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "name" : {
                                  "default" : "default",
                                  "description" : "ACME account config file name.",
@@ -7423,7 +7917,7 @@ const apiSchema = [
                   "info" : {
                      "GET" : {
                         "allowtoken" : 1,
-                        "description" : "Retrieve ACME TermsOfService URL from CA.",
+                        "description" : "Retrieve ACME TermsOfService URL from CA. Deprecated, please use /cluster/acme/meta.",
                         "method" : "GET",
                         "name" : "get_tos",
                         "parameters" : {
@@ -7451,6 +7945,69 @@ const apiSchema = [
                   "leaf" : 1,
                   "path" : "/cluster/acme/tos",
                   "text" : "tos"
+               },
+               {
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Retrieve ACME Directory Meta Information",
+                        "method" : "GET",
+                        "name" : "get_meta",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "directory" : {
+                                 "default" : "https://acme-v02.api.letsencrypt.org/directory",
+                                 "description" : "URL of ACME CA directory endpoint.",
+                                 "optional" : 1,
+                                 "pattern" : "^https?://.*",
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/nodes/{node}",
+                              [
+                                 "Sys.Audit"
+                              ]
+                           ]
+                        },
+                        "returns" : {
+                           "additionalProperties" : 1,
+                           "properties" : {
+                              "caaIdentities" : {
+                                 "description" : "Hostnames referring to the ACME servers.",
+                                 "items" : {
+                                    "type" : "string"
+                                 },
+                                 "optional" : 1,
+                                 "type" : "array"
+                              },
+                              "externalAccountRequired" : {
+                                 "description" : "EAB Required",
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "termsOfService" : {
+                                 "description" : "ACME TermsOfService URL.",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "website" : {
+                                 "description" : "URL to more information about the ACME server.",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              }
+                           },
+                           "type" : "object"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/acme/meta",
+                  "text" : "meta"
                },
                {
                   "info" : {
@@ -9394,6 +9951,23 @@ const apiSchema = [
                                                    "type" : "string",
                                                    "typetext" : "<string>"
                                                 },
+                                                "dhcp-dns-server" : {
+                                                   "description" : "IP address for the DNS server",
+                                                   "format" : "ip",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "dhcp-range" : {
+                                                   "description" : "A list of DHCP ranges for this subnet",
+                                                   "items" : {
+                                                      "format" : "pve-sdn-dhcp-range",
+                                                      "type" : "string"
+                                                   },
+                                                   "optional" : 1,
+                                                   "type" : "array",
+                                                   "typetext" : "<array>"
+                                                },
                                                 "digest" : {
                                                    "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
                                                    "maxLength" : 64,
@@ -9506,6 +10080,23 @@ const apiSchema = [
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
+                                          "dhcp-dns-server" : {
+                                             "description" : "IP address for the DNS server",
+                                             "format" : "ip",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "dhcp-range" : {
+                                             "description" : "A list of DHCP ranges for this subnet",
+                                             "items" : {
+                                                "format" : "pve-sdn-dhcp-range",
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array",
+                                             "typetext" : "<array>"
+                                          },
                                           "dnszoneprefix" : {
                                              "description" : "dns domain zone prefix  ex: 'adm' -> <hostname>.adm.mydomain.com",
                                              "format" : "dns-name",
@@ -9560,6 +10151,169 @@ const apiSchema = [
                               "leaf" : 0,
                               "path" : "/cluster/sdn/vnets/{vnet}/subnets",
                               "text" : "subnets"
+                           },
+                           {
+                              "info" : {
+                                 "DELETE" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Delete IP Mappings in a VNet",
+                                    "method" : "DELETE",
+                                    "name" : "ipdelete",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "mac" : {
+                                             "description" : "Unicast MAC address.",
+                                             "format" : "mac-addr",
+                                             "format_description" : "XX:XX:XX:XX:XX:XX",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<XX:XX:XX:XX:XX:XX>",
+                                             "verbose_description" : "A common MAC address with the I/G (Individual/Group) bit not set."
+                                          },
+                                          "vnet" : {
+                                             "description" : "The SDN vnet object identifier.",
+                                             "format" : "pve-sdn-vnet-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "zone" : {
+                                             "description" : "The SDN zone object identifier.",
+                                             "format" : "pve-sdn-zone-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/sdn/zones/{zone}/{vnet}",
+                                          [
+                                             "SDN.Allocate"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "type" : "null"
+                                    }
+                                 },
+                                 "POST" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Create IP Mapping in a VNet",
+                                    "method" : "POST",
+                                    "name" : "ipcreate",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "ip" : {
+                                             "description" : "The IP address to associate with the given MAC address",
+                                             "format" : "ip",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "mac" : {
+                                             "description" : "Unicast MAC address.",
+                                             "format" : "mac-addr",
+                                             "format_description" : "XX:XX:XX:XX:XX:XX",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<XX:XX:XX:XX:XX:XX>",
+                                             "verbose_description" : "A common MAC address with the I/G (Individual/Group) bit not set."
+                                          },
+                                          "vnet" : {
+                                             "description" : "The SDN vnet object identifier.",
+                                             "format" : "pve-sdn-vnet-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "zone" : {
+                                             "description" : "The SDN zone object identifier.",
+                                             "format" : "pve-sdn-zone-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/sdn/zones/{zone}/{vnet}",
+                                          [
+                                             "SDN.Allocate"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "type" : "null"
+                                    }
+                                 },
+                                 "PUT" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Update IP Mapping in a VNet",
+                                    "method" : "PUT",
+                                    "name" : "ipupdate",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "ip" : {
+                                             "description" : "The IP address to associate with the given MAC address",
+                                             "format" : "ip",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "mac" : {
+                                             "description" : "Unicast MAC address.",
+                                             "format" : "mac-addr",
+                                             "format_description" : "XX:XX:XX:XX:XX:XX",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<XX:XX:XX:XX:XX:XX>",
+                                             "verbose_description" : "A common MAC address with the I/G (Individual/Group) bit not set."
+                                          },
+                                          "vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
+                                             "optional" : 1,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (100 - 999999999)"
+                                          },
+                                          "vnet" : {
+                                             "description" : "The SDN vnet object identifier.",
+                                             "format" : "pve-sdn-vnet-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "zone" : {
+                                             "description" : "The SDN zone object identifier.",
+                                             "format" : "pve-sdn-zone-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/sdn/zones/{zone}/{vnet}",
+                                          [
+                                             "SDN.Allocate"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "type" : "null"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/cluster/sdn/vnets/{vnet}/ips",
+                              "text" : "ips"
                            }
                         ],
                         "info" : {
@@ -9920,6 +10674,15 @@ const apiSchema = [
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
+                                    "dhcp" : {
+                                       "description" : "Type of the DHCP backend for this zone",
+                                       "enum" : [
+                                          "dnsmasq"
+                                       ],
+                                       "optional" : 1,
+                                       "requires" : "ipam",
+                                       "type" : "string"
+                                    },
                                     "digest" : {
                                        "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
                                        "maxLength" : 64,
@@ -10120,6 +10883,10 @@ const apiSchema = [
                         "returns" : {
                            "items" : {
                               "properties" : {
+                                 "dhcp" : {
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
                                  "dns" : {
                                     "optional" : 1,
                                     "type" : "string"
@@ -10199,6 +10966,15 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "dhcp" : {
+                                 "description" : "Type of the DHCP backend for this zone",
+                                 "enum" : [
+                                    "dnsmasq"
+                                 ],
+                                 "optional" : 1,
+                                 "requires" : "ipam",
+                                 "type" : "string"
                               },
                               "disable-arp-nd-suppression" : {
                                  "description" : "Disable ipv4 arp && ipv6 neighbour discovery suppression",
@@ -10731,6 +11507,40 @@ const apiSchema = [
                {
                   "children" : [
                      {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "List PVE IPAM Entries",
+                                    "method" : "GET",
+                                    "name" : "ipamindex",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "ipam" : {
+                                             "description" : "The SDN ipam object identifier.",
+                                             "format" : "pve-sdn-ipam-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "description" : "Only list entries where you have 'SDN.Audit' or 'SDN.Allocate' permissions on '/sdn/zones/<zone>/<vnet>'",
+                                       "user" : "all"
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "type" : "array"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/cluster/sdn/ipams/{ipam}/status",
+                              "text" : "status"
+                           }
+                        ],
                         "info" : {
                            "DELETE" : {
                               "allowtoken" : 1,
@@ -10853,7 +11663,7 @@ const apiSchema = [
                               }
                            }
                         },
-                        "leaf" : 1,
+                        "leaf" : 0,
                         "path" : "/cluster/sdn/ipams/{ipam}",
                         "text" : "{ipam}"
                      }
@@ -11709,6 +12519,7 @@ const apiSchema = [
                         "language" : {
                            "description" : "Default GUI language.",
                            "enum" : [
+                              "ar",
                               "ca",
                               "da",
                               "de",
@@ -11717,10 +12528,14 @@ const apiSchema = [
                               "eu",
                               "fa",
                               "fr",
+                              "hr",
                               "he",
                               "it",
                               "ja",
+                              "ka",
+                              "kr",
                               "nb",
+                              "nl",
                               "nn",
                               "pl",
                               "pt_BR",
@@ -11728,6 +12543,7 @@ const apiSchema = [
                               "sl",
                               "sv",
                               "tr",
+                              "ukr",
                               "zh_CN",
                               "zh_TW"
                            ],
@@ -11735,11 +12551,13 @@ const apiSchema = [
                            "type" : "string"
                         },
                         "mac_prefix" : {
-                           "description" : "Prefix for autogenerated MAC addresses.",
+                           "default" : "BC:24:11",
+                           "description" : "Prefix for the auto-generated MAC addresses of virtual guests. The default 'BC:24:11' is the OUI assigned by the IEEE to Proxmox Server Solutions GmbH for a 24-bit large MAC block. You're allowed to use this in local networks, i.e., those not directly reachable by the public (e.g., in a LAN or behind NAT).",
                            "format" : "mac-prefix",
                            "optional" : 1,
                            "type" : "string",
-                           "typetext" : "<string>"
+                           "typetext" : "<string>",
+                           "verbose_description" : "Prefix for the auto-generated MAC addresses of virtual guests. The default `BC:24:11` is the Organizationally Unique Identifier (OUI) assigned by the IEEE to Proxmox Server Solutions GmbH for a MAC Address Block Large (MA-L). You're allowed to use this in local networks, i.e., those not directly reachable by the public (e.g., in a LAN or NAT/Masquerading).\n \nNote that when you run multiple cluster that (partially) share the networks of their virtual guests, it's highly recommended that you extend the default MAC prefix, or generate a custom (valid) one, to reduce the chance of MAC collisions. For example, add a separate extra hexadecimal to the Proxmox OUI for each cluster, like `BC:24:11:0` for the first, `BC:24:11:1` for the second, and so on.\n Alternatively, you can also separate the networks of the guests logically, e.g., by using VLANs.\n\nFor publicly accessible guests it's recommended that you get your own https://standards.ieee.org/products-programs/regauth/[OUI from the IEEE] registered or coordinate with your, or your hosting providers, network admins."
                         },
                         "max_workers" : {
                            "description" : "Defines how many workers (per node) are maximal started  on actions like 'stopall VMs' or task from the ha-manager.",
@@ -11950,7 +12768,7 @@ const apiSchema = [
                                  ],
                                  "optional" : 1,
                                  "type" : "string",
-                                 "verbose_description" : "Controls which tags can be set or deleted on resources a user controls (such as guests). Users with the `Sys.Modify` privilege on `/` are always  unrestricted. * 'none' no tags are usable. * 'list' tags from 'user-allow-list' are usable. * 'existing' like list, but already existing tags of resources are also usable.* 'free' no tag restrictions."
+                                 "verbose_description" : "Controls which tags can be set or deleted on resources a user controls (such as guests). Users with the `Sys.Modify` privilege on `/` are alwaysunrestricted.\n* 'none' no tags are usable.\n* 'list' tags from 'user-allow-list' are usable.\n* 'existing' like list, but already existing tags of resources are also usable.\n* 'free' no tag restrictions.\n"
                               },
                               "user-allow-list" : {
                                  "description" : "List of tags users are allowed to set and delete (semicolon separated) for 'user-allow' values 'list' and 'existing'.",
@@ -17549,6 +18367,14 @@ const apiSchema = [
                                           "vga" : {
                                              "description" : "Configure the VGA hardware.",
                                              "format" : {
+                                                "clipboard" : {
+                                                   "description" : "Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added.",
+                                                   "enum" : [
+                                                      "vnc"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
                                                 "memory" : {
                                                    "description" : "Sets the VGA memory (in MiB). Has no effect with serial display.",
                                                    "maximum" : 512,
@@ -19953,6 +20779,14 @@ const apiSchema = [
                                           "vga" : {
                                              "description" : "Configure the VGA hardware.",
                                              "format" : {
+                                                "clipboard" : {
+                                                   "description" : "Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added.",
+                                                   "enum" : [
+                                                      "vnc"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
                                                 "memory" : {
                                                    "description" : "Sets the VGA memory (in MiB). Has no effect with serial display.",
                                                    "maximum" : 512,
@@ -19986,7 +20820,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[[type=]<enum>] [,memory=<integer>]",
+                                             "typetext" : "[[type=]<enum>] [,clipboard=<vnc>] [,memory=<integer>]",
                                              "verbose_description" : "Configure the VGA Hardware. If you want to use high resolution modes (>= 1280x1024x16) you may need to increase the vga memory option. Since QEMU 2.9 the default VGA display type is 'std' for all OS types besides some Windows versions (XP and older) which use 'cirrus'. The 'qxl' option enables the SPICE display server. For win* OS you can select how many independent displays you want, Linux guests can add displays them self.\nYou can also run without any graphic card, using a serial device as terminal."
                                           },
                                           "virtio[n]" : {
@@ -22391,6 +23225,14 @@ const apiSchema = [
                                           "vga" : {
                                              "description" : "Configure the VGA hardware.",
                                              "format" : {
+                                                "clipboard" : {
+                                                   "description" : "Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added.",
+                                                   "enum" : [
+                                                      "vnc"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
                                                 "memory" : {
                                                    "description" : "Sets the VGA memory (in MiB). Has no effect with serial display.",
                                                    "maximum" : 512,
@@ -22424,7 +23266,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[[type=]<enum>] [,memory=<integer>]",
+                                             "typetext" : "[[type=]<enum>] [,clipboard=<vnc>] [,memory=<integer>]",
                                              "verbose_description" : "Configure the VGA Hardware. If you want to use high resolution modes (>= 1280x1024x16) you may need to increase the vga memory option. Since QEMU 2.9 the default VGA display type is 'std' for all OS types besides some Windows versions (XP and older) which use 'cirrus'. The 'qxl' option enables the SPICE display server. For win* OS you can select how many independent displays you want, Linux guests can add displays them self.\nYou can also run without any graphic card, using a serial device as terminal."
                                           },
                                           "virtio[n]" : {
@@ -23437,6 +24279,14 @@ const apiSchema = [
                                                    "description" : "QEMU Guest Agent is enabled in config.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
+                                                },
+                                                "clipboard" : {
+                                                   "description" : "Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added.",
+                                                   "enum" : [
+                                                      "vnc"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
                                                 },
                                                 "cpus" : {
                                                    "description" : "Maximum usable CPUs.",
@@ -28491,6 +29341,14 @@ const apiSchema = [
                               "vga" : {
                                  "description" : "Configure the VGA hardware.",
                                  "format" : {
+                                    "clipboard" : {
+                                       "description" : "Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added.",
+                                       "enum" : [
+                                          "vnc"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
                                     "memory" : {
                                        "description" : "Sets the VGA memory (in MiB). Has no effect with serial display.",
                                        "maximum" : 512,
@@ -28524,7 +29382,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[[type=]<enum>] [,memory=<integer>]",
+                                 "typetext" : "[[type=]<enum>] [,clipboard=<vnc>] [,memory=<integer>]",
                                  "verbose_description" : "Configure the VGA Hardware. If you want to use high resolution modes (>= 1280x1024x16) you may need to increase the vga memory option. Since QEMU 2.9 the default VGA display type is 'std' for all OS types besides some Windows versions (XP and older) which use 'cirrus'. The 'qxl' option enables the SPICE display server. For win* OS you can select how many independent displays you want, Linux guests can add displays them self.\nYou can also run without any graphic card, using a serial device as terminal."
                               },
                               "virtio[n]" : {
@@ -29020,6 +29878,41 @@ const apiSchema = [
                                           "description" : {
                                              "description" : "Description for the Container. Shown in the web-interface CT's summary. This is saved as comment inside the configuration file.",
                                              "maxLength" : 8192,
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "dev[n]" : {
+                                             "description" : "Device to pass through to the container",
+                                             "format" : {
+                                                "gid" : {
+                                                   "description" : "Group ID to be assigned to the device node",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "mode" : {
+                                                   "description" : "Access mode to be set on the device node",
+                                                   "format_description" : "Octal access mode",
+                                                   "optional" : 1,
+                                                   "pattern" : "0[0-7]{3}",
+                                                   "type" : "string"
+                                                },
+                                                "path" : {
+                                                   "default_key" : 1,
+                                                   "description" : "Device to pass through to the container",
+                                                   "format" : "pve-lxc-dev-string",
+                                                   "format_description" : "Path",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "verbose_description" : "Path to the device to pass through to the container"
+                                                },
+                                                "uid" : {
+                                                   "description" : "User ID to be assigned to the device node",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                }
+                                             },
                                              "optional" : 1,
                                              "type" : "string"
                                           },
@@ -29538,6 +30431,42 @@ const apiSchema = [
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
+                                          },
+                                          "dev[n]" : {
+                                             "description" : "Device to pass through to the container",
+                                             "format" : {
+                                                "gid" : {
+                                                   "description" : "Group ID to be assigned to the device node",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                },
+                                                "mode" : {
+                                                   "description" : "Access mode to be set on the device node",
+                                                   "format_description" : "Octal access mode",
+                                                   "optional" : 1,
+                                                   "pattern" : "0[0-7]{3}",
+                                                   "type" : "string"
+                                                },
+                                                "path" : {
+                                                   "default_key" : 1,
+                                                   "description" : "Device to pass through to the container",
+                                                   "format" : "pve-lxc-dev-string",
+                                                   "format_description" : "Path",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "verbose_description" : "Path to the device to pass through to the container"
+                                                },
+                                                "uid" : {
+                                                   "description" : "User ID to be assigned to the device node",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer"
+                                                }
+                                             },
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "[[path=]<Path>] [,gid=<integer>] [,mode=<Octal access mode>] [,uid=<integer>]"
                                           },
                                           "digest" : {
                                              "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
@@ -35701,6 +36630,42 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "dev[n]" : {
+                                 "description" : "Device to pass through to the container",
+                                 "format" : {
+                                    "gid" : {
+                                       "description" : "Group ID to be assigned to the device node",
+                                       "minimum" : 0,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "mode" : {
+                                       "description" : "Access mode to be set on the device node",
+                                       "format_description" : "Octal access mode",
+                                       "optional" : 1,
+                                       "pattern" : "0[0-7]{3}",
+                                       "type" : "string"
+                                    },
+                                    "path" : {
+                                       "default_key" : 1,
+                                       "description" : "Device to pass through to the container",
+                                       "format" : "pve-lxc-dev-string",
+                                       "format_description" : "Path",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "verbose_description" : "Path to the device to pass through to the container"
+                                    },
+                                    "uid" : {
+                                       "description" : "User ID to be assigned to the device node",
+                                       "minimum" : 0,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    }
+                                 },
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "[[path=]<Path>] [,gid=<integer>] [,mode=<Octal access mode>] [,uid=<integer>]"
+                              },
                               "features" : {
                                  "description" : "Allow containers access to advanced features.",
                                  "format" : {
@@ -36332,6 +37297,51 @@ const apiSchema = [
                               "leaf" : 1,
                               "path" : "/nodes/{node}/ceph/cfg/db",
                               "text" : "db"
+                           },
+                           {
+                              "info" : {
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Get configured values from either the config file or config DB.",
+                                    "method" : "GET",
+                                    "name" : "value",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "config-keys" : {
+                                             "description" : "List of <section>:<config key> items.",
+                                             "pattern" : "(?^:^(:?(?^i:[0-9a-z\\-_\\.]+:[0-9a-zA-Z\\-_]+))(:?[;, ](?^i:[0-9a-z\\-_\\.]+:[0-9a-zA-Z\\-_]+))*$)",
+                                             "type" : "string",
+                                             "typetext" : "<section>:<config key>[;<section>:<config key>]"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/",
+                                          [
+                                             "Sys.Audit"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "description" : "Contains {section}->{key} children with the values",
+                                       "type" : "object"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/ceph/cfg/value",
+                              "text" : "value"
                            }
                         ],
                         "info" : {
@@ -36885,7 +37895,7 @@ const apiSchema = [
                                        "requires" : "db_dev",
                                        "type" : "number",
                                        "typetext" : "<number> (1 - N)",
-                                       "verbose_description" : "If a block.db is requested but the size is not given, will be automatically selected by: bluestore_block_db_size from the ceph database (osd or global section) or config (osd or global section)in that order. If this is not available, it will be sized 10% of the size of the OSD device. Fails if the available size is not enough."
+                                       "verbose_description" : "If a block.db is requested but the size is not given, will be automatically selected by: bluestore_block_db_size from the ceph database (osd or global section) or config (osd or global section) in that order. If this is not available, it will be sized 10% of the size of the OSD device. Fails if the available size is not enough."
                                     },
                                     "dev" : {
                                        "description" : "Block device name.",
@@ -36905,6 +37915,13 @@ const apiSchema = [
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
+                                    "osds-per-device" : {
+                                       "description" : "OSD services per physical device. Only useful for fast NVMe devices\"\n\t\t    .\" to utilize their performance better.",
+                                       "minimum" : "1",
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (1 - N)"
+                                    },
                                     "wal_dev" : {
                                        "description" : "Block device name for block.wal.",
                                        "optional" : 1,
@@ -36919,7 +37936,7 @@ const apiSchema = [
                                        "requires" : "wal_dev",
                                        "type" : "number",
                                        "typetext" : "<number> (0.5 - N)",
-                                       "verbose_description" : "If a block.wal is requested but the size is not given, will be automatically selected by: bluestore_block_wal_size from the ceph database (osd or global section) or config (osd or global section)in that order. If this is not available, it will be sized 1% of the size of the OSD device. Fails if the available size is not enough."
+                                       "verbose_description" : "If a block.wal is requested but the size is not given, will be automatically selected by: bluestore_block_wal_size from the ceph database (osd or global section) or config (osd or global section) in that order. If this is not available, it will be sized 1% of the size of the OSD device. Fails if the available size is not enough."
                                     }
                                  }
                               },
@@ -38332,7 +39349,7 @@ const apiSchema = [
                                     },
                                     "pg_bits" : {
                                        "default" : 6,
-                                       "description" : "Placement group bits, used to specify the default number of placement groups.\n\nNOTE: 'osd pool default pg num' does not work for default pools.",
+                                       "description" : "Placement group bits, used to specify the default number of placement groups.\n\nDepreacted. This setting was deprecated in recent Ceph versions.",
                                        "maximum" : 14,
                                        "minimum" : 6,
                                        "optional" : 1,
@@ -39378,7 +40395,7 @@ const apiSchema = [
                            }
                         },
                         "permissions" : {
-                           "description" : "The user needs 'VM.Backup' permissions on any VM, and 'Datastore.AllocateSpace' on the backup storage. The 'tmpdir', 'dumpdir' and 'script' parameters are restricted to the 'root@pam' user. The 'maxfiles' and 'prune-backups' settings require 'Datastore.Allocate' on the backup storage. The 'bwlimit', 'performance' and 'ionice' parameters require 'Sys.Modify' on '/'. If 'notification-target' is set, then the 'Mapping.Use' permission is needed on '/mapping/notification/<target>'.",
+                           "description" : "The user needs 'VM.Backup' permissions on any VM, and 'Datastore.AllocateSpace' on the backup storage. The 'tmpdir', 'dumpdir' and 'script' parameters are restricted to the 'root@pam' user. The 'maxfiles' and 'prune-backups' settings require 'Datastore.Allocate' on the backup storage. The 'bwlimit', 'performance' and 'ionice' parameters require 'Sys.Modify' on '/'. ",
                            "user" : "all"
                         },
                         "protected" : 1,
@@ -44742,7 +45759,7 @@ const apiSchema = [
                                     },
                                     "notify" : {
                                        "default" : 0,
-                                       "description" : "Send notification mail about new packages (to email address specified for user 'root@pam').",
+                                       "description" : "Send notification about new packages.",
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
@@ -44763,8 +45780,7 @@ const apiSchema = [
                                     [
                                        "Sys.Modify"
                                     ]
-                                 ],
-                                 "description" : "If 'notify: target-package-updates' is set, then the user must have the 'Mapping.Use' permission on '/mapping/notification/<target>'"
+                                 ]
                               },
                               "protected" : 1,
                               "proxyto" : "node",
@@ -47995,11 +49011,11 @@ const apiSchema = [
                            "properties" : {
                               "cmd" : {
                                  "default" : "login",
-                                 "description" : "Run specific command or default to login.",
+                                 "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "upgrade",
+                                    "ceph_install",
                                     "login",
-                                    "ceph_install"
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -48049,8 +49065,7 @@ const apiSchema = [
                               [
                                  "Sys.Console"
                               ]
-                           ],
-                           "description" : "Restricted to users on realm 'pam'"
+                           ]
                         },
                         "protected" : 1,
                         "returns" : {
@@ -48091,11 +49106,11 @@ const apiSchema = [
                            "properties" : {
                               "cmd" : {
                                  "default" : "login",
-                                 "description" : "Run specific command or default to login.",
+                                 "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "upgrade",
+                                    "ceph_install",
                                     "login",
-                                    "ceph_install"
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -48123,8 +49138,7 @@ const apiSchema = [
                               [
                                  "Sys.Console"
                               ]
-                           ],
-                           "description" : "Restricted to users on realm 'pam'"
+                           ]
                         },
                         "protected" : 1,
                         "returns" : {
@@ -48189,7 +49203,7 @@ const apiSchema = [
                                  "Sys.Console"
                               ]
                            ],
-                           "description" : "Restricted to users on realm 'pam'. You also need to pass a valid ticket (vncticket)."
+                           "description" : "You also need to pass a valid ticket (vncticket)."
                         },
                         "returns" : {
                            "properties" : {
@@ -48217,11 +49231,11 @@ const apiSchema = [
                            "properties" : {
                               "cmd" : {
                                  "default" : "login",
-                                 "description" : "Run specific command or default to login.",
+                                 "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "upgrade",
+                                    "ceph_install",
                                     "login",
-                                    "ceph_install"
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -48256,8 +49270,7 @@ const apiSchema = [
                               [
                                  "Sys.Console"
                               ]
-                           ],
-                           "description" : "Restricted to users on realm 'pam'"
+                           ]
                         },
                         "protected" : 1,
                         "proxyto" : "node",
@@ -48780,6 +49793,46 @@ const apiSchema = [
                   "leaf" : 1,
                   "path" : "/nodes/{node}/stopall",
                   "text" : "stopall"
+               },
+               {
+                  "info" : {
+                     "POST" : {
+                        "allowtoken" : 1,
+                        "description" : "Suspend all VMs.",
+                        "method" : "POST",
+                        "name" : "suspendall",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "vms" : {
+                                 "description" : "Only consider Guests with these IDs.",
+                                 "format" : "pve-vmid-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "description" : "The 'VM.PowerMgmt' permission is required on '/' or on '/vms/<ID>' for each ID passed via the 'vms' parameter. Additionally, you need 'VM.Config.Disk' on the '/vms/{vmid}' path and 'Datastore.AllocateSpace' for the configured state-storage(s)",
+                           "user" : "all"
+                        },
+                        "protected" : 1,
+                        "proxyto" : "node",
+                        "returns" : {
+                           "type" : "string"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/nodes/{node}/suspendall",
+                  "text" : "suspendall"
                },
                {
                   "info" : {
@@ -53485,9 +54538,9 @@ const apiSchema = [
             "info" : {
                "DELETE" : {
                   "allowtoken" : 1,
-                  "description" : "Delete pool.",
+                  "description" : "Delete pool (deprecated, no support for nested pools, use 'DELETE /pools/?poolid={poolid}').",
                   "method" : "DELETE",
-                  "name" : "delete_pool",
+                  "name" : "delete_pool_deprecated",
                   "parameters" : {
                      "additionalProperties" : 0,
                      "properties" : {
@@ -53515,7 +54568,7 @@ const apiSchema = [
                },
                "GET" : {
                   "allowtoken" : 1,
-                  "description" : "Get pool configuration.",
+                  "description" : "Get pool configuration (deprecated, no support for nested pools, use 'GET /pools/?poolid={poolid}').",
                   "method" : "GET",
                   "name" : "read_pool",
                   "parameters" : {
@@ -53591,9 +54644,9 @@ const apiSchema = [
                },
                "PUT" : {
                   "allowtoken" : 1,
-                  "description" : "Update pool data.",
+                  "description" : "Update pool data (deprecated, no support for nested pools - use 'PUT /pools/?poolid={poolid}' instead).",
                   "method" : "PUT",
-                  "name" : "update_pool",
+                  "name" : "update_pool_deprecated",
                   "parameters" : {
                      "additionalProperties" : 0,
                      "properties" : {
@@ -53659,21 +54712,106 @@ const apiSchema = [
          }
       ],
       "info" : {
+         "DELETE" : {
+            "allowtoken" : 1,
+            "description" : "Delete pool.",
+            "method" : "DELETE",
+            "name" : "delete_pool",
+            "parameters" : {
+               "additionalProperties" : 0,
+               "properties" : {
+                  "poolid" : {
+                     "format" : "pve-poolid",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  }
+               }
+            },
+            "permissions" : {
+               "check" : [
+                  "perm",
+                  "/pool/{poolid}",
+                  [
+                     "Pool.Allocate"
+                  ]
+               ],
+               "description" : "You can only delete empty pools (no members)."
+            },
+            "protected" : 1,
+            "returns" : {
+               "type" : "null"
+            }
+         },
          "GET" : {
             "allowtoken" : 1,
-            "description" : "Pool index.",
+            "description" : "List pools or get pool configuration.",
             "method" : "GET",
             "name" : "index",
             "parameters" : {
-               "additionalProperties" : 0
+               "additionalProperties" : 0,
+               "properties" : {
+                  "poolid" : {
+                     "format" : "pve-poolid",
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "type" : {
+                     "enum" : [
+                        "qemu",
+                        "lxc",
+                        "storage"
+                     ],
+                     "optional" : 1,
+                     "requires" : "poolid",
+                     "type" : "string"
+                  }
+               }
             },
             "permissions" : {
-               "description" : "List all pools where you have Pool.Audit permissions on /pool/<pool>.",
+               "description" : "List all pools where you have Pool.Audit permissions on /pool/<pool>, or the pool specific with {poolid}",
                "user" : "all"
             },
             "returns" : {
                "items" : {
                   "properties" : {
+                     "comment" : {
+                        "optional" : 1,
+                        "type" : "string"
+                     },
+                     "members" : {
+                        "items" : {
+                           "additionalProperties" : 1,
+                           "properties" : {
+                              "id" : {
+                                 "type" : "string"
+                              },
+                              "node" : {
+                                 "type" : "string"
+                              },
+                              "storage" : {
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "type" : {
+                                 "enum" : [
+                                    "qemu",
+                                    "lxc",
+                                    "openvz",
+                                    "storage"
+                                 ],
+                                 "type" : "string"
+                              },
+                              "vmid" : {
+                                 "optional" : 1,
+                                 "type" : "integer"
+                              }
+                           },
+                           "type" : "object"
+                        },
+                        "optional" : 1,
+                        "type" : "array"
+                     },
                      "poolid" : {
                         "type" : "string"
                      }
@@ -53717,6 +54855,69 @@ const apiSchema = [
                      "Pool.Allocate"
                   ]
                ]
+            },
+            "protected" : 1,
+            "returns" : {
+               "type" : "null"
+            }
+         },
+         "PUT" : {
+            "allowtoken" : 1,
+            "description" : "Update pool.",
+            "method" : "PUT",
+            "name" : "update_pool",
+            "parameters" : {
+               "additionalProperties" : 0,
+               "properties" : {
+                  "allow-move" : {
+                     "default" : 0,
+                     "description" : "Allow adding a guest even if already in another pool. The guest will be removed from its current pool and added to this one.",
+                     "optional" : 1,
+                     "type" : "boolean",
+                     "typetext" : "<boolean>"
+                  },
+                  "comment" : {
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "delete" : {
+                     "default" : 0,
+                     "description" : "Remove the passed VMIDs and/or storage IDs instead of adding them.",
+                     "optional" : 1,
+                     "type" : "boolean",
+                     "typetext" : "<boolean>"
+                  },
+                  "poolid" : {
+                     "format" : "pve-poolid",
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "storage" : {
+                     "description" : "List of storage IDs to add or remove from this pool.",
+                     "format" : "pve-storage-id-list",
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "vms" : {
+                     "description" : "List of guest VMIDs to add or remove from this pool.",
+                     "format" : "pve-vmid-list",
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  }
+               }
+            },
+            "permissions" : {
+               "check" : [
+                  "perm",
+                  "/pool/{poolid}",
+                  [
+                     "Pool.Allocate"
+                  ]
+               ],
+               "description" : "You also need the right to modify permissions on any object you add/delete."
             },
             "protected" : 1,
             "returns" : {

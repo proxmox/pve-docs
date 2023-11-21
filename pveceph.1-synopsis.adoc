@@ -104,7 +104,7 @@ Use specific network for all ceph related traffic
 
 Placement group bits, used to specify the default number of placement groups.
 +
-NOTE: 'osd pool default pg num' does not work for default pools.
+Depreacted. This setting was deprecated in recent Ceph versions.
 
 `--size` `<integer> (1 - 7)` ('default =' `3`)::
 
@@ -211,6 +211,11 @@ NOTE: Requires option(s): `db_dev`
 `--encrypted` `<boolean>` ('default =' `0`)::
 
 Enables encryption of the OSD.
+
+`--osds-per-device` `<integer> (1 - N)` ::
+
+OSD services per physical device. Only useful for fast NVMe devices"
+		    ." to utilize their performance better.
 
 `--wal_dev` `<string>` ::
 

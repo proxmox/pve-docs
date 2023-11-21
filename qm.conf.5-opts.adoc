@@ -1219,10 +1219,14 @@ Specifies whether if given host option is a USB3 device or port. For modern gues
 
 Number of hotplugged vcpus.
 
-`vga`: `[[type=]<enum>] [,memory=<integer>]` ::
+`vga`: `[[type=]<enum>] [,clipboard=<vnc>] [,memory=<integer>]` ::
 
 Configure the VGA Hardware. If you want to use high resolution modes (>= 1280x1024x16) you may need to increase the vga memory option. Since QEMU 2.9 the default VGA display type is 'std' for all OS types besides some Windows versions (XP and older) which use 'cirrus'. The 'qxl' option enables the SPICE display server. For win* OS you can select how many independent displays you want, Linux guests can add displays them self.
 You can also run without any graphic card, using a serial device as terminal.
+
+`clipboard`=`<vnc>` ;;
+
+Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added.
 
 `memory`=`<integer> (4 - 512)` ;;
 
