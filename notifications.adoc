@@ -234,7 +234,7 @@ A notification has a associated severity that can be matched.
 * `match-severity warning,error`: Match warnings and error
 
 The following severities are in use:
-`info`, `notice`, `warning`, `error`.
+`info`, `notice`, `warning`, `error`, `unknown`.
 
 
 Examples
