@@ -73,7 +73,7 @@ following sections:
 * xref:pvesdn_config_zone[Zones]: Create and manage the virtually separated
   network zones
 
-* xref:pvesdn_config_vnets[VNets] VNets: Create virtual network bridges and
+* xref:pvesdn_config_vnet[VNets] VNets: Create virtual network bridges and
   manage subnets
 
 The Options category allows adding and managing additional services to be used
@@ -289,7 +289,7 @@ MTU:: Because VXLAN encapsulation uses 50 bytes, the MTU needs to be 50 bytes
   defaults to 1450.
 
 
-[[pvesdn_config_vnets]]
+[[pvesdn_config_vnet]]
 VNets
 -----
 
