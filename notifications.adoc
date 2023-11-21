@@ -39,6 +39,7 @@ passwords or authentication tokens for notification targets.
 Notification Targets
 --------------------
 
+[[notification_targets_sendmail]]
 Sendmail
 ~~~~~~~~
 The sendmail binary is a program commonly found on Unix-like operating systems
@@ -80,6 +81,7 @@ sendmail: example
         comment Send to multiple users/addresses
 ----
 
+[[notification_targets_smtp]]
 SMTP
 ~~~~
 
@@ -126,6 +128,7 @@ smtp: example
         password somepassword
 ----
 
+[[notification_targets_gotify]]
 Gotify
 ~~~~~~
 
@@ -196,6 +199,7 @@ a matcher must be true. Defaults to `all`.
 * `match-severity`: Match the notification's severity
 * `comment`: Comment for this matcher
 
+[[notification_matchers_calendar]]
 Calendar Matching Rules
 ~~~~~~~~~~~~~~~~~~~~~~~
 A calendar matcher matches the time when a notification is sent agaist a
@@ -206,6 +210,7 @@ configurable schedule.
 * `match-calendar mon-fri 9:00-17:00`
 * `match-calendar sun,tue-wed,fri 9-17`
 
+[[notification_matchers_field]]
 Field Matching Rules
 ~~~~~~~~~~~~~~~~~~~~
 Notifications have a selection of metadata fields that can be matched.
@@ -220,6 +225,7 @@ For instance, a `match-field regex:hostname=.*` directive will only match
 notifications that have an arbitraty `hostname` metadata field, but will
 not match if the field does not exist.
 
+[[notification_matchers_severity]]
 Severity Matching Rules
 ~~~~~~~~~~~~~~~~~~~~~~~
 A notification has a associated severity that can be matched.
