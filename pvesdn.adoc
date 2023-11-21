@@ -5,42 +5,13 @@ ifndef::manvolnum[]
 :pve-toplevel:
 endif::manvolnum[]
 
-The **S**oftware-**D**efined **N**etwork (SDN) feature allows you to create
-virtual networks (VNets) at the datacenter level.
-
-WARNING: SDN is currently an **experimental feature** in {pve}. This
-documentation for it is also still under development. Ask on our
-xref:getting_help[mailing lists or in the forum] for questions and feedback.
-
-
-[[pvesdn_installation]]
-Installation
-------------
-
-To enable the experimental Software-Defined Network (SDN) integration, you need
-to install the `libpve-network-perl` package on every node:
-
-----
-apt update
-apt install libpve-network-perl
-----
-
-NOTE: {pve} version 7 and above have the `ifupdown2` package installed by
-default. If you originally installed your system with an older version, you need
-to explicitly install the `ifupdown2` package.
-
-After installation, you need to add the following line to the end of the
-`/etc/network/interfaces` configuration file, so that the SDN configuration gets
-included and activated.
-
-----
-source /etc/network/interfaces.d/*
-----
-
+The **S**oftware-**D**efined **N**etwork (SDN) feature in {pve} enables the
+creation of virtual zones and networks (VNets). This functionality simplifies
+advanced networking configurations and multitenancy setup."
 
 [[pvesdn_overview]]
-Overview
---------
+Introduction
+------------
 
 The {pve} SDN allows for separation and fine-grained control of virtual guest
 networks, using flexible, software-controlled configurations.
@@ -60,9 +31,99 @@ interface, it is available as a common Linux bridge, locally on each node, to be
 assigned to VMs and Containers.
 
 
+[[pvesdn_support_status]]
+Support Status
+--------------
+
+History
+~~~~~~~
+
+The {pve} SDN stack has been available as an experimental feature since 2019 and
+has been continuously improved and tested by many developers and users.
+With its integration into the web interface in {pve} 6.2, a significant
+milestone towards broader integration was achieved.
+During the {pve} 7 release cycle, numerous improvements and features were added.
+Based on user feedback, it became apparent that the fundamental design choices
+and their implementation were quite sound and stable. Consequently, labeling it
+as `experimental' did not do justice to the state of the SDN stack.
+For {pve} 8, a decision was made to lay the groundwork for full integration of
+the SDN feature by elevating the management of networks and interfaces to a core
+component in the {pve} access control stack.
+In {pve} 8.1, two major milestones were achieved: firstly, DHCP integration was
+added to the IP address management (IPAM) feature, and secondly, the SDN
+integration is now installed by default.
+
+Current Status
+~~~~~~~~~~~~~~
+
+The current support status for the various layers of our SDN installation is as
+follows:
+
+- Core SDN, which includes VNet management and its integration with the {pve}
+  stack, is fully supported.
+- IPAM, including DHCP management for virtual guests, is in tech preview.
+- Complex routing via FRRouting and controller integration are in tech preview.
+
+[[pvesdn_installation]]
+Installation
+------------
+
+SDN Core
+~~~~~~~~
+
+Since {pve} 8.1 the core Software-Defined Network (SDN) packages are installed
+by default.
+
+If you upgrade from an older version, you need to install the
+`libpve-network-perl` package on every node:
+
+----
+apt update
+apt install libpve-network-perl
+----
+
+NOTE: {pve} version 7.0 and above have the `ifupdown2` package installed by
+default. If you originally installed your system with an older version, you need
+to explicitly install the `ifupdown2` package.
++
+After installation, you need to add the following line to the end of the
+`/etc/network/interfaces` configuration file, so that the SDN configuration gets
+included and activated.
++
+----
+source /etc/network/interfaces.d/*
+----
+
+DHCP IPAM
+~~~~~~~~~
+
+The DHCP integration into the IP Address Management stack currently uses
+`dnsmasq` for giving out DHCP leases. This is currently opt-in.
+
+To use that feature you need to install the `dnsmasq` package on every node:
+
+----
+apt update
+apt install dnsmasq
+----
+
+FRRouting
+~~~~~~~~~
+
+The {pve} SDN stack uses the https://frrouting.org/[FRRouting] project for
+advanced setups. This is currently opt-in.
+
+To use the SDN routing integration you need to install the `frr-pythontools`
+package on all nodes:
+
+----
+apt update
+apt install frr-pythontools
+----
+
 [[pvesdn_main_configuration]]
-Main Configuration
-~~~~~~~~~~~~~~~~~~
+Configuration Overview
+----------------------
 
 Configuration is done at the web UI at datacenter level, separated into the
 following sections:
@@ -86,12 +147,11 @@ in your SDN setup.
   guests
 
 * xref:pvesdn_config_dns[DNS]: Define a DNS server integration for registering
-  virtual guests' hostname and IP
-  addresses
+  virtual guests' hostname and IP addresses
 
 [[pvesdn_tech_and_config_overview]]
 Technology & Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------
 
 The {pve} Software-Defined Network implementation uses standard Linux networking
 as much as possible. The reason for this is that modern Linux networking
