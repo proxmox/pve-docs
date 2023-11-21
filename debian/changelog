@@ -1,3 +1,75 @@
+pve-docs (8.1.0) bookworm; urgency=medium
+
+  * vzdump: mention file-restore log file
+
+  * ha: document where shutdown policy is set
+
+  * package repos: add Ceph 18.2 Reef repos
+
+  * calendar events: fix build for wiki target
+
+  * vzdump: mention new parameter 'pbs-entries-max'
+
+  * sysadmin: add section 'Firmware Updates' and references
+
+  * ct: update broken link to CentOS release EOL
+
+  * fix #2920: add cifs options parameter
+
+  * qemu: update the PCI(e) docs
+
+  * boot: kernel cmdline: clarify where kernel version/docs can be found
+
+  * faq: use only major release version in EOL table
+
+  * installation: document UP indicator in network setup
+
+  * sdn: add notes about BGP and IS-IS controller
+
+  * zfs: improve and expand on ZIL and cache sections
+
+  * zfs: add extra hint for raidz consideration section
+
+  * ha: Explicitly mention that migrations only affect HA guests
+
+  * sysadmin: revise firmware chapter, add firmware repo section
+
+  * ui: correct outdated info about entries in the top header
+
+  * qm: add section about machine types
+
+  * ceph: rework introduction and recommendation section
+
+  * ceph: add more details for private/public network usage and distinction
+
+  * fix #4847: network: extend section on interface naming scheme
+
+  * various wording consistency fixes
+
+  * notifications: update docs to for matcher-based notifications
+
+  * notifications: document SMTP endpoints
+
+  * notifications: add documentation for system mail forwarding
+
+  * notifications: change to simplified ACL structure.
+
+  * sdn: overall language and consistency rework
+
+  * sdn: add section about underlying technology and configuration files
+
+  * add VNC clipboard documentation
+
+  * notification: document 'unknown' severity
+
+  * sdn: rework introduction and installation and add support status
+
+  * sdn: dhcp: Add documentation for DHCP
+
+  * update static/schema information
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 21 Nov 2023 20:49:09 +0100
+
 pve-docs (8.0.5) bookworm; urgency=medium
 
   * pvecm: add node: let parameter use two dashes
