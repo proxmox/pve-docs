@@ -156,13 +156,23 @@ Delete pool.
 
 no description available
 
-*pveum pool list* `[FORMAT_OPTIONS]`
+*pveum pool list* `[OPTIONS]` `[FORMAT_OPTIONS]`
 
-Pool index.
+List pools or get pool configuration.
+
+`--poolid` `<string>` ::
+
+no description available
+
+`--type` `<lxc | qemu | storage>` ::
+
+no description available
++
+NOTE: Requires option(s): `poolid`
 
 *pveum pool modify* `<poolid>` `[OPTIONS]`
 
-Update pool data.
+Update pool.
 
 `<poolid>`: `<string>` ::
 
