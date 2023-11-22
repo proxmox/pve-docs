@@ -7,6 +7,7 @@ endif::manvolnum[]
 
 Overview
 --------
+[thumbnail="screenshot/gui-datacenter-notification-overview.png"]
 
 {pve} will send notifications if case of noteworthy events in the system.
 
@@ -42,6 +43,8 @@ Notification Targets
 [[notification_targets_sendmail]]
 Sendmail
 ~~~~~~~~
+[thumbnail="screenshot/gui-datacenter-notification-sendmail.png"]
+
 The sendmail binary is a program commonly found on Unix-like operating systems
 that handles the sending of email messages.
 It is a command-line utility that allows users and applications to send emails
@@ -84,6 +87,7 @@ sendmail: example
 [[notification_targets_smtp]]
 SMTP
 ~~~~
+[thumbnail="screenshot/gui-datacenter-notification-smtp.png"]
 
 SMTP notification targets can send emails directly to an SMTP mail relay.
 
@@ -131,6 +135,7 @@ smtp: example
 [[notification_targets_gotify]]
 Gotify
 ~~~~~~
+[thumbnail="screenshot/gui-datacenter-notification-gotify.png"]
 
 http://gotify.net[Gotify] is an open-source self-hosted notification server that
 allows you to send and receive push notifications to various devices and
@@ -164,6 +169,8 @@ gotify: example
 [[notification_matchers]]
 Notification Matchers
 ---------------------
+[thumbnail="screenshot/gui-datacenter-notification-matcher.png"]
+
 Notification matchers route notifications to notification targets based
 on their matching rules. These rules can match of certain properties of
 a notification, such as the timestamp (`match-calendar`), the severity of
