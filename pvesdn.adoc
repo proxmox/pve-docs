@@ -423,7 +423,7 @@ Controllers
 -----------
 
 Some zones implement a separated control and data plane that require an external
-external controller to manage the VNet's control plane.
+controller to manage the VNet's control plane.
 
 Currently, only the `EVPN` zone requires an external controller.
 
