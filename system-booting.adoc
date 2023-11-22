@@ -392,7 +392,7 @@ automatically have all of the above packages included.
 More details about how Secure Boot works, and how to customize the setup, are
 available in https://pve.proxmox.com/wiki/Secure_Boot_Setup[our wiki].
 
-Switching an existing installation to Secure Boot
+Switching an Existing Installation to Secure Boot
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 WARNING: This can lead to unbootable installation in some cases if not done
