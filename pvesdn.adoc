@@ -860,7 +860,7 @@ Zone: qinqzone2
 Tag: 100
 ----
 
-Apply the configuration on the main SDN web-interface panel to create VNets
+Apply the configuration on the main SDN web interface panel to create VNets
 locally on each node.
 
 Create four Debian-bases virtual machines (vm1, vm2, vm3, vm4) and add network
@@ -908,7 +908,7 @@ Zone: myvxlanzone
 Tag: 100000
 ----
 
-Apply the configuration on the main SDN web-interface panel to create VNets
+Apply the configuration on the main SDN web interface panel to create VNets
 locally on each nodes.
 
 Create a Debian-based virtual machine ('vm1') on node1, with a vNIC on `vxvnet1`.
@@ -995,7 +995,7 @@ Subnet: 10.0.2.0/24
 Gateway: 10.0.2.1
 ----
 
-Apply the configuration from the main SDN web-interface panel to create VNets
+Apply the configuration from the main SDN web interface panel to create VNets
 locally on each node and generate the FRR configuration.
 
 Create a Debian-based virtual machine ('vm1') on node1, with a vNIC on `myvnet1`.

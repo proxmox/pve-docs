@@ -10,7 +10,7 @@ Storage pool type: `cifs`
 
 The CIFS backend extends the directory backend, so that no manual
 setup of a CIFS mount is needed. Such a storage can be added directly
-through the {pve} API or the WebUI, with all our backend advantages,
+through the {pve} API or the web UI, with all our backend advantages,
 like server heartbeat check or comfortable selection of exported
 shares.
 
@@ -32,7 +32,7 @@ server, or list the server in the local `/etc/hosts` file.
 share::
 
 CIFS share to use (get available ones with `pvesm scan cifs <address>` or the
-WebUI). Required.
+web UI). Required.
 
 username::
 

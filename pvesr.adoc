@@ -121,7 +121,7 @@ and replicate to node B.
 Node A failed and can not get back online. Now you have to migrate the guest
 to Node B manually.
 
-- connect to node B over ssh or open its shell via the WebUI
+- connect to node B over ssh or open its shell via the web UI
 
 - check if that the cluster is quorate
 +

@@ -130,7 +130,7 @@ under `Node -> Certificates`, or using the `pvenode config` command.
 
 After configuring the desired domain(s) for a node and ensuring that the
 desired ACME account is selected, you can order your new certificate over the
-web-interface. On success the interface will reload after 10 seconds.
+web interface. On success the interface will reload after 10 seconds.
 
 Renewal will happen xref:sysadmin_certs_acme_automatic_renewal[automatically].
 

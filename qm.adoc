@@ -498,7 +498,7 @@ CPU flags:
   attacks and is able to utilize the CPU feature
 
 Otherwise you need to set the desired CPU flag of the virtual CPU, either by
-editing the CPU options in the WebUI, or by setting the 'flags' property of the
+editing the CPU options in the web UI, or by setting the 'flags' property of the
 'cpu' option in the VM configuration file.
 
 For Spectre v1,v2,v4 fixes, your CPU or system vendor also needs to provide a
@@ -734,7 +734,7 @@ the QEMU user networking stack, where a built-in router and DHCP server can
 provide network access. This built-in DHCP will serve addresses in the private
 10.0.2.0/24 range. The NAT mode is much slower than the bridged mode, and
 should only be used for testing. This mode is only available via CLI or the API,
-but not via the WebUI.
+but not via the web UI.
 
 You can also skip adding a network device when creating a VM by selecting *No
 network device*.
@@ -1317,7 +1317,7 @@ Online Migration
 
 If your VM is running and no locally bound resources are configured (such as
 devices that are passed through), you can initiate a live migration with the `--online`
-flag in the `qm migration` command evocation. The web-interface defaults to
+flag in the `qm migration` command evocation. The web interface defaults to
 live migration when the VM is running.
 
 How it works

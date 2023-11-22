@@ -643,7 +643,7 @@ field and pressing the 'Apply' button.
 
 There is no server setup required. Simply install a TOTP app on your
 smartphone (for example, https://freeotp.github.io/[FreeOTP]) and use
-the Proxmox Backup Server web-interface to add a TOTP factor.
+the Proxmox Backup Server web interface to add a TOTP factor.
 
 [[user_tfa_setup_webauthn]]
 === WebAuthn
@@ -715,7 +715,7 @@ This is done via `/etc/pve/datacenter.cfg`. For instance:
 u2f: appid=https://mypve.example.com:8006
 ----
 
-For a single node, the 'AppId' can simply be the address of the web-interface,
+For a single node, the 'AppId' can simply be the address of the web interface,
 exactly as it is used in the browser, including the 'https://' and the port, as
 shown above. Please note that some browsers may be more strict than others when
 matching 'AppIds'.

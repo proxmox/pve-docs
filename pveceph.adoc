@@ -286,7 +286,7 @@ CLI Installation of Ceph Packages
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Alternatively to the the recommended {pve}  Ceph installation wizard available
-in the web-interface, you can use the following CLI command on each node:
+in the web interface, you can use the following CLI command on each node:
 
 [source,bash]
 ----
@@ -418,7 +418,7 @@ network. It is recommended to use one OSD per physical disk.
 Create OSDs
 ~~~~~~~~~~~
 
-You can create an OSD either via the {pve} web-interface or via the CLI using
+You can create an OSD either via the {pve} web interface or via the CLI using
 `pveceph`. For example:
 
 [source,bash]
@@ -536,7 +536,7 @@ known as **P**lacement **G**roups (`PG`, `pg_num`).
 Create and Edit Pools
 ~~~~~~~~~~~~~~~~~~~~~
 
-You can create and edit pools from the command line or the web-interface of any
+You can create and edit pools from the command line or the web interface of any
 {pve} host under **Ceph -> Pools**.
 
 When no options are given, we set a default of **128 PGs**, a **size of 3
@@ -567,7 +567,7 @@ pveceph pool create <pool-name> --add_storages
 ----
 
 TIP: If you would also like to automatically define a storage for your
-pool, keep the `Add as Storage' checkbox checked in the web-interface, or use the
+pool, keep the `Add as Storage' checkbox checked in the web interface, or use the
 command-line option '--add_storages' at pool creation.
 
 Pool Options

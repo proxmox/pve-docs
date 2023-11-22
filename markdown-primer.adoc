@@ -8,7 +8,7 @@ to write using an easy-to-read, easy-to-write plain text format, then convert
 it to structurally valid XHTML (or HTML).
 ____
 
-The {pve} web-interface has support for using Markdown to rendering rich text
+The {pve} web interface has support for using Markdown to rendering rich text
 formatting in node and virtual guest notes.
 
 {pve} supports CommonMark with most extensions of GFM (GitHub Flavoured Markdown),

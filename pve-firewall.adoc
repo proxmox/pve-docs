@@ -521,7 +521,7 @@ This allows to log in a fine grained manner and independent of the log-level
 defined for the standard rules in *Firewall* -> *Options*.
 
 While the `loglevel` for each individual rule can be defined or changed easily
-in the WebUI during creation or modification of the rule, it is possible to set
+in the web UI during creation or modification of the rule, it is possible to set
 this also via the corresponding `pvesh` API calls.
 
 Further, the log-level can also be set via the firewall configuration file by
