@@ -1,3 +1,11 @@
+pve-docs (8.1.2) bookworm; urgency=medium
+
+  * sdn: Fix heading for NetBox IPAM plugin section
+
+  * system-booting: add instructions to switch install to secure boot
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 22 Nov 2023 19:03:34 +0100
+
 pve-docs (8.1.1) bookworm; urgency=medium
 
   * consistently use web UI and web interface wording
