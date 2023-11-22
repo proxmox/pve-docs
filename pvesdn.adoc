@@ -538,7 +538,7 @@ stack of the guest or rebooting it.
 
 [[pvesdn_ipam_plugin_netbox]]
 NetBox IPAM Plugin
-~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 link:https://github.com/netbox-community/netbox[NetBox] is an open-source IP
 Address Management (IPAM) and datacenter infrastructure management (DCIM) tool.
