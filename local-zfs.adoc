@@ -524,12 +524,16 @@ process of the new disk has progressed.
 
 ----
 # proxmox-boot-tool format <new disk's ESP>
-# proxmox-boot-tool init <new disk's ESP>
+# proxmox-boot-tool init <new disk's ESP> [grub]
 ----
 
 NOTE: `ESP` stands for EFI System Partition, which is setup as partition #2 on
 bootable disks setup by the {pve} installer since version 5.4. For details, see
 xref:sysboot_proxmox_boot_setup[Setting up a new partition for use as synced ESP].
+
+NOTE: make sure to pass 'grub' as mode to `proxmox-boot-tool init` if
+`proxmox-boot-tool status` indicates your current disks are using Grub,
+especially if Secure Boot is enabled!
 
 .With plain `grub`:
 

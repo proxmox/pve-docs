@@ -9,8 +9,9 @@ endif::wiki[]
 selected in the installer.
 
 For EFI Systems installed with ZFS as the root filesystem `systemd-boot` is
-used. All other deployments use the standard `grub` bootloader (this usually
-also applies to systems which are installed on top of Debian).
+used, unless Secure Boot is enabled. All other deployments use the standard
+`grub` bootloader (this usually also applies to systems which are installed on
+top of Debian).
 
 
 [[sysboot_installer_part_scheme]]
@@ -30,9 +31,10 @@ The created partitions are:
     used for the chosen storage type
 
 Systems using ZFS as root filesystem are booted with a kernel and initrd image
-stored on the 512 MB EFI System Partition. For legacy BIOS systems, `grub` is
-used, for EFI systems `systemd-boot` is used. Both are installed and configured
-to point to the ESPs.
+stored on the 512 MB EFI System Partition. For legacy BIOS systems, and EFI
+systems with Secure Boot enabled, `grub` is used, for EFI systems without
+Secure Boot, `systemd-boot` is used. Both are installed and configured to point
+to the ESPs.
 
 `grub` in BIOS mode (`--target i386-pc`) is installed onto the BIOS Boot
 Partition of all selected disks on all systems booted with `grub`
@@ -99,6 +101,15 @@ To setup an existing, unmounted ESP located on `/dev/sda2` for inclusion in
 ----
 # proxmox-boot-tool init /dev/sda2
 ----
+
+or
+
+----
+# proxmox-boot-tool init /dev/sda2 grub
+----
+
+to force initialization with Grub instead of systemd-boot, for example for
+Secure Boot support.
 
 Afterwards `/etc/kernel/proxmox-boot-uuids` should contain a new line with the
 UUID of the newly added partition. The `init` command will also automatically
@@ -359,3 +370,24 @@ systems if you call the tool interactively.
 ----
 # proxmox-boot-tool refresh
 ----
+
+[[sysboot_secure_boot]]
+Secure Boot
+~~~~~~~~~~~
+
+Since {pve} 8.1, Secure Boot is supported out of the box via signed packages
+and integration in `proxmox-boot-tool`.
+
+The following packages need to be installed for Secure Boot to be enabled:
+
+- shim-signed (shim bootloader signed by Microsoft)
+- shim-helpers-amd64-signed (fallback bootloader and MOKManager, signed by Proxmox)
+- grub-efi-amd64-signed (Grub EFI bootloader, signed by Proxmox)
+- proxmox-kernel-6.X.Y-Z-pve-signed (Kernel image, signed by Proxmox)
+
+Only Grub as bootloader is supported out of the box, since there are no other
+pre-signed bootloader packages available. Any new installation of {pve} will
+automatically have all of the above packages included.
+
+More details about how Secure Boot works, and how to customize the setup, are
+available in https://pve.proxmox.com/wiki/Secure_Boot_Setup[our wiki].
