@@ -483,6 +483,12 @@ If, for any reason, no `proxmox` entry can be found in the UEFI boot menu, you
 can try adding it manually (if supported by the firmware), by adding the file
 `\EFI\proxmox\shimx64.efi` as a custom boot entry.
 
+NOTE: Some UEFI firmwares are known to drop the `proxmox` boot option on reboot.
+This can happen if the `proxmox` boot entry is pointing to a Grub installation
+on a disk, where the disk itself not a boot option. If possible, try adding the
+disk as a boot option in the UEFI firmware setup utility and run
+`proxmox-boot-tool` again.
+
 TIP: To enroll custom keys, see the accompanying
 https://pve.proxmox.com/wiki/Secure_Boot_Setup#Setup_instructions_for_db_key_variant[Secure
 Boot wiki page].
