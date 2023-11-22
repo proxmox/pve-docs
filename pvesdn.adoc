@@ -7,7 +7,7 @@ endif::manvolnum[]
 
 The **S**oftware-**D**efined **N**etwork (SDN) feature in {pve} enables the
 creation of virtual zones and networks (VNets). This functionality simplifies
-advanced networking configurations and multitenancy setup."
+advanced networking configurations and multitenancy setup.
 
 [[pvesdn_overview]]
 Introduction
