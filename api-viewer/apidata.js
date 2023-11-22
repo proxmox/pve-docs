@@ -10162,6 +10162,12 @@ const apiSchema = [
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
+                                          "ip" : {
+                                             "description" : "The IP address to delete",
+                                             "format" : "ip",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
                                           "mac" : {
                                              "description" : "Unicast MAC address.",
                                              "format" : "mac-addr",
@@ -10680,7 +10686,6 @@ const apiSchema = [
                                           "dnsmasq"
                                        ],
                                        "optional" : 1,
-                                       "requires" : "ipam",
                                        "type" : "string"
                                     },
                                     "digest" : {
@@ -10973,7 +10978,6 @@ const apiSchema = [
                                     "dnsmasq"
                                  ],
                                  "optional" : 1,
-                                 "requires" : "ipam",
                                  "type" : "string"
                               },
                               "disable-arp-nd-suppression" : {
