@@ -492,3 +492,46 @@ disk as a boot option in the UEFI firmware setup utility and run
 TIP: To enroll custom keys, see the accompanying
 https://pve.proxmox.com/wiki/Secure_Boot_Setup#Setup_instructions_for_db_key_variant[Secure
 Boot wiki page].
+
+Using DKMS/third party modules with Secure Boot
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+On systems with Secure Boot enabled, the kernel will refuse to load modules
+which are not signed by a trusted key. The default set of modules shipped with
+the kernel packages is signed with an ephemeral key embedded in the kernel
+image which is trusted by that specific version of the kernel image.
+
+In order to load other modules, such as those built with DKMS or manually, they
+need to be signed with a key trusted by the Secure Boot stack. The easiest way
+to achieve this is to enroll them as Machine Owner Key (`MOK`) with `mokutil`.
+
+The `dkms` tool will automatically generate a keypair and certificate in
+`/var/lib/dkms/mok.key` and `/var/lib/dkms/mok.pub` and use it for signing
+the kernel modules it builds and installs.
+
+You can view the certificate contents with
+
+----
+# openssl x509 -in /var/lib/dkms/mok.pub -noout -text
+----
+
+and enroll it on your system using the following command:
+
+----
+# mokutil --import /var/lib/dkms/mok.pub
+input password:
+input password again:
+----
+
+The `mokutil` command will ask for a (temporary) password twice, this password
+needs to be entered one more time in the next step of the process! Rebooting
+the system should automatically boot into the `MOKManager` EFI binary, which
+allows you to verify the key/certificate and confirm the enrollment using the
+password selected when starting the enrollment using `mokutil`. Afterwards, the
+kernel should allow loading modules built with DKMS (which are signed with the
+enrolled `MOK`). The `MOK` can also be used to sign custom EFI binaries and
+kernel images if desired.
+
+The same procedure can also be used for custom/third-party modules not managed
+with DKMS, but the key/certificate generation and signing steps need to be done
+manually in that case.
