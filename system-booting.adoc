@@ -395,7 +395,7 @@ available in https://pve.proxmox.com/wiki/Secure_Boot_Setup[our wiki].
 Switching an Existing Installation to Secure Boot
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-WARNING: This can lead to unbootable installation in some cases if not done
+WARNING: This can lead to an unbootable installation in some cases if not done
 correctly. Reinstalling the host will setup Secure Boot automatically if
 available, without any extra interactions. **Make sure you have a working and
 well-tested backup of your {pve} host!**
