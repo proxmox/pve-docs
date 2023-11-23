@@ -493,7 +493,7 @@ TIP: To enroll custom keys, see the accompanying
 https://pve.proxmox.com/wiki/Secure_Boot_Setup#Setup_instructions_for_db_key_variant[Secure
 Boot wiki page].
 
-Using DKMS/third party modules with Secure Boot
+Using DKMS/Third Party Modules With Secure Boot
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 On systems with Secure Boot enabled, the kernel will refuse to load modules
