@@ -60,7 +60,8 @@ Please insert the xref:installation_prepare_media[prepared installation media]
 (for example, USB flash drive or CD-ROM) and boot from it.
 
 TIP: Make sure that booting from the installation medium (for example, USB) is
-enabled in your servers firmware settings and secure boot is disabled.
+enabled in your server's firmware settings. Secure boot needs to be disabled
+when booting an installer prior to {pve} version 8.1.
 
 [thumbnail="screenshot/pve-grub-menu.png"]
 
