@@ -1112,11 +1112,10 @@ to other guest systems.  For this you can use the following
 parameters:
 
 * *Start/Shutdown order*: Defines the start order priority. For example, set it
-* to 1 if
-you want the VM to be the first to be started. (We use the reverse startup
-order for shutdown, so a machine with a start order of 1 would be the last to
-be shut down). If multiple VMs have the same order defined on a host, they will
-additionally be ordered by 'VMID' in ascending order.
+to 1 if you want the VM to be the first to be started. (We use the reverse
+startup order for shutdown, so a machine with a start order of 1 would be the
+last to be shut down). If multiple VMs have the same order defined on a host,
+they will additionally be ordered by 'VMID' in ascending order.
 * *Startup delay*: Defines the interval between this VM start and subsequent
 VMs starts. For example, set it to 240 if you want to wait 240 seconds before
 starting other VMs.
