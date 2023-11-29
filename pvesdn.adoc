@@ -381,7 +381,7 @@ Zone:: The associated zone for this VNet
 Tag:: The unique VLAN or VXLAN ID
 
 VLAN Aware:: Enables vlan-aware option on the interface, enabling configuration
-  in the quest.
+  in the guest.
 
 
 [[pvesdn_config_subnet]]
@@ -715,17 +715,17 @@ details to enhance comprehension of the available configuration options.
 Simple Zone Example
 ~~~~~~~~~~~~~~~~~~~
 
-Simple zone networks create an isolated network for quests on a single host to
+Simple zone networks create an isolated network for guests on a single host to
 connect to each other.
 
-TIP: connection between quests are possible if all quests reside on a same host
+TIP: connection between guests are possible if all guests reside on a same host
 but cannot be reached on other nodes.
 
 * Create a simple zone named `simple`.
 * Add a VNet names `vnet1`.
 * Create a Subnet with a gateway and the SNAT option enabled.
 * This creates a network bridge `vnet1` on the node. Assign this bridge to the
-  quests that shall join the network and configure an IP address.
+  guests that shall join the network and configure an IP address.
 
 The network interface configuration in two VMs may look like this which allows
 them to communicate via the 10.0.1.0/24 network.
@@ -747,7 +747,7 @@ iface ens19 inet static
 Source NAT Example
 ~~~~~~~~~~~~~~~~~~
 
-If you want to allow outgoing connections for quests in the simple network zone
+If you want to allow outgoing connections for guests in the simple network zone
 the simple zone offers a Source NAT (SNAT) option.
 
 Starting from the configuration xref:pvesdn_setup_example_simple[above], Add a
@@ -759,10 +759,10 @@ Gateway: 172.16.0.1
 SNAT: checked
 ----
 
-In the quests configure the static IP address inside the subnet's IP range.
+In the guests configure the static IP address inside the subnet's IP range.
 
 The node itself will join this network with the Gateway IP '172.16.0.1' and
-function as the NAT gateway for quests within the subnet range.
+function as the NAT gateway for guests within the subnet range.
 
 
 [[pvesdn_setup_example_vlan]]
