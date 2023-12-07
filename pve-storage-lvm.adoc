@@ -38,7 +38,10 @@ on a remote iSCSI server.
 `saferemove`::
 
 Zero-out data when removing LVs. When removing a volume, this makes
-sure that all data gets erased.
+sure that all data gets erased and cannot be accessed by other LVs
+created later (which happen to be assigned the same physical extents).
+This is a costly operation, but may be required as a security measure
+in certain environments.
 
 `saferemove_throughput`::
 
