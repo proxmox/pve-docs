@@ -1104,6 +1104,10 @@ columns:
    https://manpages.debian.org/bookworm/libvotequorum-dev/votequorum_qdevice_master_wins.3.en.html].
 * `NR`: QDevice is not registered.
 
+NOTE: If your QDevice is listed as `Not Alive` (`NA` in the output above),
+ensure that port `5403` (the default port of the qnetd server) of your external
+server is reachable via TCP/IP!
+
 
 Frequently Asked Questions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
