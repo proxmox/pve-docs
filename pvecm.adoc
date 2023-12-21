@@ -1056,13 +1056,13 @@ pve# pvecm qdevice setup <QDEVICE-IP>
 
 The SSH key from the cluster will be automatically copied to the QDevice.
 
-NOTE: Make sure that the SSH configuration on your external server allows root
-login via password, if you are asked for a password during this step.
+NOTE: Make sure to setup key-based access for the root user on your external
+server, or temporarily allow root login with password during the setup phase.
 If you receive an error such as 'Host key verification failed.' at this
 stage, running `pvecm updatecerts` could fix the issue.
 
-After you enter the password and all the steps have successfully completed, you
-will see "Done". You can verify that the QDevice has been set up with:
+After all the steps have successfully completed, you will see "Done". You can
+verify that the QDevice has been set up with:
 
 ----
 pve# pvecm status
