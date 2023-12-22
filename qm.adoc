@@ -621,7 +621,7 @@ xref:qm_cpu_resource_limits[Resource Limits].
 
 In {pve} the maximal number of plugged CPUs is always `cores * sockets`.
 To start a VM with less than this total core count of CPUs you may use the
-*vpus* setting, it denotes how many vCPUs should be plugged in at VM start.
+*vcpus* setting, it denotes how many vCPUs should be plugged in at VM start.
 
 Currently only this feature is only supported on Linux, a kernel newer than 3.10
 is needed, a kernel newer than 4.7 is recommended.
