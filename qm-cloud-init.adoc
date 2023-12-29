@@ -43,7 +43,7 @@ Preparing Cloud-Init Templates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The first step is to prepare your VM. Basically you can use any VM.
-Simply install the Cloud-Init packages inside the VM that you want to
+Simply install the Cloud-Init packages *inside the VM* that you want to
 prepare. On Debian/Ubuntu based systems this is as simple as:
 
 ----
