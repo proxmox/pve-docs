@@ -390,6 +390,10 @@ you have to:
 
 * then join it, as explained in the previous section.
 
+The configuration files for the removed node will still reside in
+'/etc/pve/nodes/hp4'. Recover any configuration you still need and remove the
+directory afterwards.
+
 NOTE: After removal of the node, its SSH fingerprint will still reside in the
 'known_hosts' of the other nodes. If you receive an SSH error after rejoining
 a node with the same IP or hostname, run `pvecm updatecerts` once on the
