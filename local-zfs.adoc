@@ -157,7 +157,7 @@ ZFS RAID Level Considerations
 There are a few factors to take into consideration when choosing the layout of
 a ZFS pool. The basic building block of a ZFS pool is the virtual device, or
 `vdev`. All vdevs in a pool are used equally and the data is striped among them
-(RAID0). Check the `zpool(8)` manpage for more details on vdevs.
+(RAID0). Check the `zpoolconcepts(7)` manpage for more details on vdevs.
 
 [[sysadmin_zfs_raid_performance]]
 Performance
