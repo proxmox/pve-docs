@@ -172,11 +172,11 @@ Notification Matchers
 [thumbnail="screenshot/gui-datacenter-notification-matcher.png"]
 
 Notification matchers route notifications to notification targets based
-on their matching rules. These rules can match of certain properties of
-a notification, such as the timestamp (`match-calendar`), the severity of
-the notificaiton (`match-severity`) or metadata fiels (`match-field`).
-If a matcher matches a notification, all targets configured for the matcher
-will receive the notification.
+on their matching rules. These rules can match certain properties of a
+notification, such as the timestamp (`match-calendar`), the severity of
+the notification (`match-severity`) or metadata fields (`match-field`).
+If a notification is matched by a matcher, all targets configured for the
+matcher will receive the notification.
 
 An arbitrary number of matchers can be created, each with with their own
 matching rules and targets to notify.
