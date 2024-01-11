@@ -922,6 +922,24 @@ transfer memory and disk contents.
 
 * Storage replication
 
+SSH setup
+~~~~~~~~~
+
+On {pve} systems, the following changes are made to the SSH configuration/setup:
+
+* the `root` user's SSH client config gets setup to prefer `AES` over `ChaCha20`
+
+* the `root` user's `authorized_keys` file gets linked to
+  `/etc/pve/priv/authorized_keys`, merging all authorized keys within a cluster
+
+* `sshd` is configured to allow logging in as root with a password
+
+NOTE: Older systems might also have `/etc/ssh/ssh_known_hosts` set up as symlink
+pointing to `/etc/pve/priv/known_hosts`, containing a merged version of all
+node host keys. This system was replaced with explicit host key pinning in
+`pve-cluster <<INSERT VERSION>>`, the symlink can be deconfigured if still in
+place by running `pvecm updatecerts --unmerge-known-hosts`.
+
 Pitfalls due to automatic execution of `.bashrc` and siblings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
