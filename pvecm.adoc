@@ -922,9 +922,9 @@ transfer memory and disk contents.
 
 * Storage replication
 
-.Pitfalls due to automatic execution of `.bashrc` and siblings
-[IMPORTANT]
-====
+Pitfalls due to automatic execution of `.bashrc` and siblings
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 In case you have a custom `.bashrc`, or similar files that get executed on
 login by the configured shell, `ssh` will automatically run it once the session
 is established successfully. This can cause some unexpected behavior, as those
@@ -944,8 +944,6 @@ case $- in
       *) return;;
 esac
 ----
-====
-
 
 Corosync External Vote Support
 ------------------------------
