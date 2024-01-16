@@ -364,17 +364,21 @@ up to use more CPU time than just its virtual CPUs could use. To ensure that a
 VM never uses more CPU time than vCPUs assigned, set the *cpulimit* to
 the same value as the total core count.
 
-The second CPU resource limiting setting, *cpuunits* (nowadays often called CPU
-shares or CPU weight), controls how much CPU time a VM gets compared to other
-running VMs. It is a relative weight which defaults to `100` (or `1024` if the
-host uses legacy cgroup v1). If you increase this for a VM it will be
-prioritized by the scheduler in comparison to other VMs with lower weight. For
-example, if VM 100 has set the default `100` and VM 200 was changed to `200`,
-the latter VM 200 would receive twice the CPU bandwidth than the first VM 100.
+*cpuuntis*
+
+With the *cpuunits* option, nowadays often called CPU shares or CPU weight, you
+can control how much CPU time a VM gets compared to other running VMs. It is a
+relative weight which defaults to `100` (or `1024` if the host uses legacy
+cgroup v1). If you increase this for a VM it will be prioritized by the
+scheduler in comparison to other VMs with lower weight.
+
+For example, if VM 100 has set the default `100` and VM 200 was changed to
+`200`, the latter VM 200 would receive twice the CPU bandwidth than the first
+VM 100.
 
 For more information see `man systemd.resource-control`, here `CPUQuota`
-corresponds to `cpulimit` and `CPUWeight` corresponds to our `cpuunits`
-setting, visit its Notes section for references and implementation details.
+corresponds to `cpulimit` and `CPUWeight` to our `cpuunits` setting. Visit its
+Notes section for references and implementation details.
 
 The third CPU resource limiting setting, *affinity*, controls what host cores
 the virtual machine will be permitted to execute on. E.g., if an affinity value
