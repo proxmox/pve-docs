@@ -336,31 +336,33 @@ context switches.
 Resource Limits
 ^^^^^^^^^^^^^^^
 
-In addition to the number of virtual cores, you can configure how much resources
-a VM can get in relation to the host CPU time and also in relation to other
-VMs.
-With the *cpulimit* (``Host CPU Time'') option you can limit how much CPU time
-the whole VM can use on the host. It is a floating point value representing CPU
-time in percent, so `1.0` is equal to `100%`, `2.5` to `250%` and so on. If a
-single process would fully use one single core it would have `100%` CPU Time
-usage. If a VM with four cores utilizes all its cores fully it would
-theoretically use `400%`. In reality the usage may be even a bit higher as QEMU
-can have additional threads for VM peripherals besides the vCPU core ones.
+*cpulimit*
+
+In addition to the number of virtual cores, the total available ``Host CPU
+Time'' for the VM can be set with the *cpulimit* option. It is a floating point
+value representing CPU time in percent, so `1.0` is equal to `100%`, `2.5` to
+`250%` and so on. If a single process would fully use one single core it would
+have `100%` CPU Time usage. If a VM with four cores utilizes all its cores
+fully it would theoretically use `400%`. In reality the usage may be even a bit
+higher as QEMU can have additional threads for VM peripherals besides the vCPU
+core ones.
+
 This setting can be useful if a VM should have multiple vCPUs, as it runs a few
 processes in parallel, but the VM as a whole should not be able to run all
-vCPUs at 100% at the same time. Using a specific example: lets say we have a VM
-which would profit from having 8 vCPUs, but at no time all of those 8 cores
-should run at full load - as this would make the server so overloaded that
-other VMs and CTs would get to less CPU. So, we set the *cpulimit* limit to
-`4.0` (=400%). If all cores do the same heavy work they would all get 50% of a
-real host cores CPU time. But, if only 4 would do work they could still get
-almost 100% of a real core each.
+vCPUs at 100% at the same time.
+
+Using a specific example: lets say we have a VM which would profit from having
+8 vCPUs, but at no time all of those 8 cores should run at full load - as this
+would make the server so overloaded that other VMs and CTs would get too less
+CPU. So, we set the *cpulimit* limit to `4.0` (=400%). If we now fully utilize
+all 8 vCPUs, they will receive maximum 50% CPU time of the physical cores. But
+with only 4 vCPUs fully utilized, they could still get up to 100% CPU time.
 
 NOTE: VMs can, depending on their configuration, use additional threads, such
 as for networking or IO operations but also live migration. Thus a VM can show
 up to use more CPU time than just its virtual CPUs could use. To ensure that a
-VM never uses more CPU time than virtual CPUs assigned set the *cpulimit*
-setting to the same value as the total core count.
+VM never uses more CPU time than vCPUs assigned, set the *cpulimit* to
+the same value as the total core count.
 
 The second CPU resource limiting setting, *cpuunits* (nowadays often called CPU
 shares or CPU weight), controls how much CPU time a VM gets compared to other
