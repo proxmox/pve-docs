@@ -661,7 +661,7 @@ hostnames, ensure that they are resolvable from all nodes (see also
 xref:pvecm_corosync_addresses[Link Address Types]).
 
 In this example, we want to switch cluster communication to the
-10.10.10.1/25 network, so we change the 'ring0_addr' of each node respectively.
+10.10.10.0/25 network, so we change the 'ring0_addr' of each node respectively.
 
 NOTE: The exact same procedure can be used to change other 'ringX_addr' values
 as well. However, we recommend only changing one link address at a time, so
