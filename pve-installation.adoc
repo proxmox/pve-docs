@@ -114,8 +114,8 @@ Advanced Options: Rescue Boot::
 With this option you can boot an existing installation. It searches all attached
 hard disks. If it finds an existing installation, it boots directly into that
 disk using the Linux kernel from the ISO. This can be useful if there are
-problems with the boot block (grub) or the BIOS is unable to read the boot block
-from the disk.
+problems with the bootloader (GRUB/`systemd-boot`) or the BIOS/UEFI is unable to
+read the boot block from the disk.
 
 Advanced Options: Test Memory (memtest86+)::
 

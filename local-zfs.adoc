@@ -497,10 +497,9 @@ Changing a failed device
 
 .Changing a failed bootable device
 
-Depending on how {pve} was installed it is either using `systemd-boot` or `grub`
-through `proxmox-boot-tool`
-footnote:[Systems installed with {pve} 6.4 or later, EFI systems installed with
-{pve} 5.4 or later] or plain `grub` as bootloader (see
+Depending on how {pve} was installed it is either using `systemd-boot` or GRUB
+through `proxmox-boot-tool` footnote:[Systems installed with {pve} 6.4 or later,
+EFI systems installed with {pve} 5.4 or later] or plain GRUB as bootloader (see
 xref:sysboot[Host Bootloader]). You can check by running:
 
 ----
@@ -531,16 +530,16 @@ NOTE: `ESP` stands for EFI System Partition, which is setup as partition #2 on
 bootable disks setup by the {pve} installer since version 5.4. For details, see
 xref:sysboot_proxmox_boot_setup[Setting up a new partition for use as synced ESP].
 
-NOTE: make sure to pass 'grub' as mode to `proxmox-boot-tool init` if
-`proxmox-boot-tool status` indicates your current disks are using Grub,
+NOTE: Make sure to pass 'grub' as mode to `proxmox-boot-tool init` if
+`proxmox-boot-tool status` indicates your current disks are using GRUB,
 especially if Secure Boot is enabled!
 
-.With plain `grub`:
+.With plain GRUB:
 
 ----
 # grub-install <new disk>
 ----
-NOTE: plain `grub` is only used on systems installed with {pve} 6.3 or earlier,
+NOTE: Plain GRUB is only used on systems installed with {pve} 6.3 or earlier,
 which have not been manually migrated to using `proxmox-boot-tool` yet.
 
 
@@ -684,7 +683,7 @@ tank  feature@encryption  enabled         local
 ----
 
 WARNING: There is currently no support for booting from pools with encrypted
-datasets using Grub, and only limited support for automatically unlocking
+datasets using GRUB, and only limited support for automatically unlocking
 encrypted datasets on boot. Older versions of ZFS without encryption support
 will not be able to decrypt stored data.
 
@@ -854,16 +853,16 @@ them.
 
 In fact, there are some downsides to enabling new features:
 
-* A system with root on ZFS, that still boots using `grub` will become
+* A system with root on ZFS, that still boots using GRUB will become
   unbootable if a new feature is active on the rpool, due to the incompatible
-  implementation of ZFS in grub.
+  implementation of ZFS in GRUB.
 * The system will not be able to import any upgraded pool when booted with an
   older kernel, which still ships with the old ZFS modules.
 * Booting an older {pve} ISO to repair a non-booting system will likewise not
   work.
 
 IMPORTANT: Do *not* upgrade your rpool if your system is still booted with
-`grub`, as this will render your system unbootable. This includes systems
+GRUB, as this will render your system unbootable. This includes systems
 installed before {pve} 5.4, and systems booting with legacy BIOS boot (see
 xref:sysboot_determine_bootloader_used[how to determine the bootloader]).
 
