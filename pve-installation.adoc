@@ -76,7 +76,7 @@ TIP: It's possible to use the installation wizard with a keyboard only. Buttons
 can be clicked by pressing the `ALT` key combined with the underlined character
 from the respective button. For example, `ALT + N` to press a `Next` button.
 
-Install {pve} (Console)::
+Install {pve} (Terminal UI)::
 
 Starts the console-mode installation wizard. It provides the same overall
 installation experience as the graphical installer, but has generally better
@@ -87,10 +87,10 @@ compatibility with very old and very new hardware.
 Both modes use the same code base for the actual installation process to
 benefit from more than a decade of bug fixes and ensure feature parity.
 
-TIP: The 'Console Mode' option can be used in case the graphical installer does
+TIP: The 'Terminal UI' option can be used in case the graphical installer does
 not work correctly, due to e.g. driver issues.
 
-Advanced Options: Install {pve} (Graphical Debug Mode)::
+Advanced Options: Install {pve} (Graphical, Debug Mode)::
 
 Starts the installation in debug mode. A console will be opened at several
 installation steps. This helps to debug the situation if something goes wrong.
@@ -99,16 +99,15 @@ system with all basic tools available. You can use it, for example, to
 xref:chapter_zfs[repair a degraded ZFS 'rpool'] or fix the
 xref:sysboot[bootloader] for an existing {pve} setup.
 
-Advanced Options: Install {pve} (Console Debug Mode)::
+Advanced Options: Install {pve} (Terminal UI, Debug Mode)::
 
 Same as the graphical debug mode, but preparing the system to run the
-console-mode installer instead.
+terminal-based installer instead.
 
-Advanced Options: Install {pve} (Console Debug - nomodeset)::
+Advanced Options: Install {pve} (Serial Console Debug Mode)::
 
-Starts the normal console-mode installation, but prevents the Linux kernel from
-loading any graphics driver. Can be used as a last-resort option, if e.g. an
-incompatible driver is automatically loaded on boot.
+Same the terminal-based debug mode, but additionally sets up the Linux kernel to
+use the (first) serial port of the machine for in- and output.
 
 Advanced Options: Rescue Boot::
 
