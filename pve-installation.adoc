@@ -120,7 +120,8 @@ from the disk.
 Advanced Options: Test Memory (memtest86+)::
 
 Runs `memtest86+`. This is useful to check if the memory is functional and free
-of errors.
+of errors. Secure Boot must be turned off in the UEFI firmware setup utility to
+run this option.
 
 [thumbnail="screenshot/pve-select-target-disk.png"]
 
