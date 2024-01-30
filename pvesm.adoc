@@ -228,7 +228,10 @@ Snippet files, for example guest hook scripts
 
 shared::
 
-Mark storage as shared.
+Indicate that this is a single storage with the same contents on all nodes (or
+all listed in the 'nodes' option). It will not make the contents of a local
+storage automatically accessible to other nodes, it just marks an already shared
+storage as such!
 
 disable::
 
