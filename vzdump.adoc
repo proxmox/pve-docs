@@ -555,13 +555,11 @@ Use rsync and suspend/resume to create a snapshot (minimal downtime).
  # vzdump 777 --mode suspend
 
 Backup all guest systems and send notification mails to root and admin.
+Due to `mailto` being set and `notification-mode` being set to `auto` by
+default, the notification mails are sent via the system's `sendmail`
+command instead of the notification system.
 
  # vzdump --all --mode suspend --mailto root --mailto admin
-
-Backup guest 777 and notify via the `notify-admins` notification target on
-failure.
-
- # vzdump 777  --notification-target notify-admins --notification-policy failure
 
 Use snapshot mode (no downtime) and non-default dump directory.
 
@@ -592,4 +590,3 @@ file system, using pipes
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
 endif::manvolnum[]
-
