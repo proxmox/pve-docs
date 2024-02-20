@@ -347,16 +347,19 @@ fully it would theoretically use `400%`. In reality the usage may be even a bit
 higher as QEMU can have additional threads for VM peripherals besides the vCPU
 core ones.
 
-This setting can be useful if a VM should have multiple vCPUs, as it runs a few
-processes in parallel, but the VM as a whole should not be able to run all
-vCPUs at 100% at the same time.
+This setting can be useful when a VM should have multiple vCPUs because it is
+running some processes in parallel, but the VM as a whole should not be able to
+run all vCPUs at 100% at the same time.
 
-Using a specific example: lets say we have a VM which would profit from having
-8 vCPUs, but at no time all of those 8 cores should run at full load - as this
-would make the server so overloaded that other VMs and CTs would get too less
-CPU. So, we set the *cpulimit* limit to `4.0` (=400%). If we now fully utilize
-all 8 vCPUs, they will receive maximum 50% CPU time of the physical cores. But
-with only 4 vCPUs fully utilized, they could still get up to 100% CPU time.
+For example, suppose you have a virtual machine that would benefit from having 8
+virtual CPUs, but you don't want the VM to be able to max out all 8 cores
+running at full load - because that would overload the server and leave other
+virtual machines and containers with too little CPU time. To solve this, you
+could set *cpulimit* to `4.0` (=400%). This means that if the VM fully utilizes
+all 8 virtual CPUs by running 8 processes simultaneously, each vCPU will receive
+a maximum of 50% CPU time from the physical cores. However, if the VM workload
+only fully utilizes 4 virtual CPUs, it could still receive up to 100% CPU time
+from a physical core, for a total of 400%.
 
 NOTE: VMs can, depending on their configuration, use additional threads, such
 as for networking or IO operations but also live migration. Thus a VM can show
