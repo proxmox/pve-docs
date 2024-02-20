@@ -385,22 +385,22 @@ Notes section for references and implementation details.
 
 *affinity*
 
-With the *affinity* option you can specify the physical CPU cores which are
-used to run the VM's vCPUs. Periphal VM processes, such as those for I/O, are
-not affected by this setting. Note that the *CPU affinity is not a security
+With the *affinity* option, you can specify the physical CPU cores that are used
+to run the VM's vCPUs. Peripheral VM processes, such as those for I/O, are not
+affected by this setting. Note that the *CPU affinity is not a security
 feature*.
 
-Forcing a CPU *affinity* can make sense in certain cases, but is accompanied by
+Forcing a CPU *affinity* can make sense in certain cases but is accompanied by
 an increase in complexity and maintenance effort. For example, if you want to
 add more VMs later or migrate VMs to nodes with fewer CPU cores. It can also
 easily lead to asynchronous and therefore limited system performance if some
 CPUs are fully utilized while others are almost idle.
 
-The *affinity* is set by calling `taskset`. It accepts the host CPU numbers
-(see `lscpu`) in the `List Format` from `man cpuset`. This ASCII decimal list
-can contain numbers but also number ranges. E.g., the *affinity* `0-1,8-11` (or
-alternatively `0,1,8,9,10,11`) only allow the VM to run on these six host
-cores.
+The *affinity* is set through the `taskset` CLI tool. It accepts the host CPU
+numbers (see `lscpu`) in the `List Format` from `man cpuset`. This ASCII decimal
+list can contain numbers but also number ranges. For example, the *affinity*
+`0-1,8-11` (expanded `0, 1, 8, 9, 10, 11`) would allow the VM to run on only
+these six specific host cores.
 
 CPU Type
 ^^^^^^^^
