@@ -82,6 +82,13 @@ Starts the terminal-mode installation wizard. It provides the same overall
 installation experience as the graphical installer, but has generally better
 compatibility with very old and very new hardware.
 
+Install {pve} (Terminal UI, Serial Console)::
+
+Starts the terminal-mode installation wizard, additionally setting up the Linux
+kernel to use the (first) serial port of the machine for in- and output. This
+can be used if the machine is completely headless and only has a serial console
+available.
+
 [thumbnail="screenshot/pve-tui-installer.png"]
 
 Both modes use the same code base for the actual installation process to
