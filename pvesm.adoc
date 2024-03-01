@@ -420,7 +420,7 @@ See Also
 
 * link:/wiki/Storage:_ZFS[Storage: ZFS]
 
-* link:/wiki/Storage:_ZFS_over_iSCSI[Storage: ZFS over iSCSI]
+* link:/wiki/Storage:_ZFS_over_ISCSI[Storage: ZFS over ISCSI]
 
 endif::wiki[]
 

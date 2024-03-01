@@ -137,3 +137,12 @@ point of failure in your deployment.
 |Content types  |Image formats  |Shared |Snapshots |Clones
 |images         |raw            |yes    |yes        |no
 |==============================================================================
+
+ifdef::wiki[]
+
+See Also
+~~~~~~~~
+
+* link:/wiki/Legacy:_ZFS_over_iSCSI[Legacy: ZFS over iSCSI]
+
+endif::wiki[]
