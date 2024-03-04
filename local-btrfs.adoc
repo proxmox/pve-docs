@@ -69,10 +69,10 @@ btrfs: local-btrfs
 	content iso,vztmpl,backup,images,rootdir
 ----
 
-This explicitly disables the default `local` storage in favor of a btrfs
+This explicitly disables the default `local` storage in favor of a BTRFS
 specific storage entry on the additional subvolume.
 
-The `btrfs` command is used to configure and manage the btrfs file system,
+The `btrfs` command is used to configure and manage the BTRFS file system,
 After the installation, the following command lists all additional subvolumes:
 
 ----
@@ -156,7 +156,7 @@ pvesm add btrfs my-storage --path /my-storage
 Creating a subvolume
 ^^^^^^^^^^^^^^^^^^^^
 
-Creating a subvolume links it to a path in the btrfs file system, where it will
+Creating a subvolume links it to a path in the BTRFS file system, where it will
 appear as a regular directory.
 
 ----
@@ -218,7 +218,7 @@ This change will take effect after rebooting.
 Checking Space Usage
 ^^^^^^^^^^^^^^^^^^^^
 
-The classic `df` tool may output confusing values for some btrfs setups.
+The classic `df` tool may output confusing values for some BTRFS setups.
 For a better estimate use the `btrfs filesystem usage /PATH` command, for example:
 
 ----
