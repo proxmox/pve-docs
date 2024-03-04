@@ -16,10 +16,10 @@ documentation with user contributed content.
 Community Support Forum
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-We always encourage our users to discuss and share their knowledge using the
-{forum}. The forum is moderated by the Proxmox support team. The large user base
-is spread out all over the world. Needless to say that such a large forum is a
-great place to get information.
+{pve} itself is fully open source, so we always encourage our users to discuss
+and share their knowledge using the {forum}. The forum is moderated by the
+Proxmox support team, and has a large user base from all around the world.
+Needless to say, such a large forum is a great place to get information.
 
 Mailing Lists
 ~~~~~~~~~~~~~
