@@ -5,6 +5,9 @@
 *.tmp
 *.epub
 *.swp
+/*.deb
+/*.changes
+/*.buildinfo
 /#*#
 /.pve-doc-depends
 /api-viewer/apidoc.js
