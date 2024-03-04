@@ -41,7 +41,7 @@ Commercial Support
 ~~~~~~~~~~~~~~~~~~
 
 {proxmoxGmbh} also offers enterprise support available as
-https://www.proxmox.com/en/proxmox-virtual-environment/pricing[{pve} Subscription Service Plans].
+{pricing-url}[{pve} Subscription Service Plans].
 All users with a subscription get access to the {pve}
 <<sysadmin_enterprise_repo,Enterprise Repository>>, and--with a Basic, Standard
 or Premium subscription--also to the Proxmox Customer Portal. The customer
