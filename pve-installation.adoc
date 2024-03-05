@@ -319,6 +319,13 @@ Defines which checksumming algorithm should be used for `rpool`.
 Defines the `copies` parameter for `rpool`. Check the `zfs(8)` manpage for the
 semantics, and why this does not replace redundancy on disk-level.
 
+`ARC max size`::
+
+Defines the maximum size the ARC can grow to and thus limits the amount of
+memory ZFS will use. See also the section on
+xref:sysadmin_zfs_limit_memory_usage[how to limit ZFS memory usage] for more
+details.
+
 `hdsize`::
 
 Defines the total hard disk size to be used. This is useful to save free space
