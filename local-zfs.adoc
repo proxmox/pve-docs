@@ -570,11 +570,16 @@ Limit ZFS Memory Usage
 ~~~~~~~~~~~~~~~~~~~~~~
 
 ZFS uses '50 %' of the host memory for the **A**daptive **R**eplacement
-**C**ache (ARC) by default. Allocating enough memory for the ARC is crucial for
-IO performance, so reduce it with caution. As a general rule of thumb, allocate
-at least +2 GiB Base + 1 GiB/TiB-Storage+. For example, if you have a pool with
-+8 TiB+ of available storage space then you should use +10 GiB+ of memory for
-the ARC.
+**C**ache (ARC) by default. For new installations starting with {pve} 8.1, the
+ARC usage limit will be set to '10 %' of the installed physical memory, clamped
+to a maximum of +16 GiB+. This value is written to `/etc/modprobe.d/zfs.conf`.
+
+Allocating enough memory for the ARC is crucial for IO performance, so reduce it
+with caution. As a general rule of thumb, allocate at least +2 GiB Base + 1
+GiB/TiB-Storage+. For example, if you have a pool with +8 TiB+ of available
+storage space then you should use +10 GiB+ of memory for the ARC.
+
+ZFS also enforces a minimum value of +64 MiB+.
 
 You can change the ARC usage limit for the current boot (a reboot resets this
 change again) by writing to the +zfs_arc_max+ module parameter directly:
@@ -583,8 +588,8 @@ change again) by writing to the +zfs_arc_max+ module parameter directly:
  echo "$[10 * 1024*1024*1024]" >/sys/module/zfs/parameters/zfs_arc_max
 ----
 
-To *permanently change* the ARC limits, add the following line to
-`/etc/modprobe.d/zfs.conf`:
+To *permanently change* the ARC limits, add (or change if already present) the
+following line to `/etc/modprobe.d/zfs.conf`:
 
 --------
 options zfs zfs_arc_max=8589934592
