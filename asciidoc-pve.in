@@ -349,7 +349,7 @@ sub compile_asciidoc {
 	my $cmd = [
 	    'asciidoc',
 	    '-dmanpage',
-	    '-bdocbook',
+	    '-b', "$adoc_source_dir/asciidoc/pve-docbook",
 	    '-f', "$adoc_source_dir/asciidoc/asciidoc-pve.conf",
 	    '-a', 'docinfo1',
 	];

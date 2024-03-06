@@ -201,6 +201,7 @@ gen-install: $(GEN_DEB_SOURCES) asciidoc-pve asciidoc/mediawiki.conf
 	install -m 0755 asciidoc-pve $(DESTDIR)/usr/bin/
 	install -D -m 0644 asciidoc/mediawiki.conf $(DESTDIR)/usr/share/$(GEN_PACKAGE)/asciidoc/mediawiki.conf
 	install -m 0644 asciidoc/asciidoc-pve.conf $(DESTDIR)/usr/share/$(GEN_PACKAGE)/asciidoc/
+	install -m 0644 asciidoc/pve-docbook.conf $(DESTDIR)/usr/share/$(GEN_PACKAGE)/asciidoc/
 	install -m 0644 asciidoc/pve-html.conf $(DESTDIR)/usr/share/$(GEN_PACKAGE)/asciidoc/
 
 .PHONY: doc-install
