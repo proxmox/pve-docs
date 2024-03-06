@@ -30,6 +30,17 @@ div.admonitionblock td.icon > img {
     padding: 0.15em;
 }
 
+/* Fine-tune headings a bit */
+h4 {
+  font-size: 1.1em;
+}
+h5 {
+  font-size: 1.05em;
+}
+h6 {
+  font-size: 1.0em;
+}
+
 @media screen and (prefers-color-scheme: dark) {
     :root {
         color-scheme: dark;
