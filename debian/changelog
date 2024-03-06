@@ -1,3 +1,51 @@
+pve-docs (8.1.4) bookworm; urgency=medium
+
+  * secure boot: fix typos, add inline code formatting
+
+  * fix #5087: qm: formatting of start/shutdown order list
+
+  * fix #5089: pvesdn: replace quest(s) -> guest(s)
+
+  * local-zfs: reference correct man page for vdev infos
+
+  * notifications: fix typos and improve reading flow
+
+  * storage: lvm: expand on description of the 'saferemove' option
+
+  * storage: improve description of 'shared' property
+
+  * installation: update installer option wording & description
+
+  * ballooning: precise example
+
+  * pvecm: correct network address
+
+  * qm: revise and reword resource limits sections
+
+  * screenshots: update grub menu screenshot
+
+  * installation: add note about memtest86+ incompatibility with secureboot
+
+  * installation: add section about booting with `nomodeset` kernel parameter
+
+  * tree-wide: unify spelling of GRUB and systemd-boot
+
+  * fix #5140: qdevice SSH access documentation
+
+  * partially fix #5139: document qnetd port requirement
+
+  * vzdump: remove usage examples involving 'notification-{target, policy}'
+
+  * css: fine-tune h4, h5, h6 headings font-sizes
+
+  * correctly render title of 4th section levels inside manpages
+
+  * storage: fix ZFS-over-iSCSI links for wiki
+
+  * local-btrfs: unify casing for btrfs
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 06 Mar 2024 18:21:39 +0100
+
 pve-docs (8.1.3) bookworm; urgency=medium
 
   * system booting: add note about weird uefi behaviour
