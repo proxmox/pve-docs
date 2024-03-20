@@ -49,6 +49,8 @@ Recommended System Requirements
   (BBU) or non-RAID for ZFS and Ceph. Neither ZFS nor Ceph are compatible with a
   hardware RAID controller.
 ** Shared and distributed storage is possible.
+** SSDs with Power-Loss-Protection (PLP) are recommended for good performance.
+  Using consumer SSDs is discouraged.
 
 * Redundant (Multi-)Gbit NICs, with additional NICs depending on the preferred
   storage technology and cluster setup.
