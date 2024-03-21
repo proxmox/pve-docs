@@ -294,10 +294,10 @@ lvmthin snapshots).
 [[advanced_zfs_options]]
 Advanced ZFS Configuration Options
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The installer creates the ZFS pool `rpool`. No swap space is created but you can
-reserve some unpartitioned space on the install disks for swap. You can also
-create a swap zvol after the installation, although this can lead to problems.
-(see <<zfs_swap,ZFS swap notes>>).
+The installer creates the ZFS pool `rpool`, if ZFS is used. No swap space is
+created but you can reserve some unpartitioned space on the install disks for
+swap. You can also create a swap zvol after the installation, although this can
+lead to problems (see xref:zfs_swap[ZFS swap notes]).
 
 `ashift`::
 
