@@ -770,14 +770,15 @@ vhost driver. With this option activated, it is possible to pass _multiple_
 network queues to the host kernel for each NIC.
 
 //https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Virtualization_Tuning_and_Optimization_Guide/sect-Virtualization_Tuning_Optimization_Guide-Networking-Techniques.html#sect-Virtualization_Tuning_Optimization_Guide-Networking-Multi-queue_virtio-net
-When using Multiqueue, it is recommended to set it to a value equal
-to the number of Total Cores of your guest. You also need to set in
-the VM the number of multi-purpose channels on each VirtIO NIC with the ethtool
-command:
+When using Multiqueue, it is recommended to set it to a value equal to the
+number of vCPUs of your guest. Remember that the number of vCPUs is the number
+of sockets times the number of cores configured for the VM. You also need to set
+the number of multi-purpose channels on each VirtIO NIC in the VM with this
+ethtool command:
 
 `ethtool -L ens1 combined X`
 
-where X is the number of the number of vcpus of the VM.
+where X is the number of the number of vCPUs of the VM.
 
 You should note that setting the Multiqueue parameter to a value greater
 than one will increase the CPU load on the host and guest systems as the
