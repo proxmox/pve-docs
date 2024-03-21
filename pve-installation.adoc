@@ -43,7 +43,7 @@ The installer ISO image includes the following:
 * Complete operating system (Debian Linux, 64-bit)
 
 * The {pve} installer, which partitions the local disk(s) with ext4, XFS,
-  BTRFS (technology preview), or ZFS and installs the operating system.
+  BTRFS (technology preview), or ZFS and installs the operating system
 
 * {pve} Linux kernel with KVM and LXC support
 
@@ -52,9 +52,9 @@ The installer ISO image includes the following:
 
 * Web-based management interface
 
-NOTE: All existing data on the for installation selected drives will be removed
-during the installation process. The installer does not add boot menu entries
-for other operating systems.
+NOTE: All existing data on the selected drives will be removed during the
+installation process. The installer does not add boot menu entries for other
+operating systems.
 
 Please insert the xref:installation_prepare_media[prepared installation media]
 (for example, USB flash drive or CD-ROM) and boot from it.
@@ -65,8 +65,8 @@ when booting an installer prior to {pve} version 8.1.
 
 [thumbnail="screenshot/pve-grub-menu.png"]
 
-After choosing the correct entry (e.g. Boot from USB) the {pve} menu will be
-displayed and one of the following options can be selected:
+After choosing the correct entry (for example, 'Boot from USB') the {pve} menu
+will be displayed, and one of the following options can be selected:
 
 Install {pve} (Graphical)::
 
@@ -78,7 +78,7 @@ from the respective button. For example, `ALT + N` to press a `Next` button.
 
 Install {pve} (Terminal UI)::
 
-Starts the console-mode installation wizard. It provides the same overall
+Starts the terminal-mode installation wizard. It provides the same overall
 installation experience as the graphical installer, but has generally better
 compatibility with very old and very new hardware.
 
@@ -123,39 +123,46 @@ Runs `memtest86+`. This is useful to check if the memory is functional and free
 of errors. Secure Boot must be turned off in the UEFI firmware setup utility to
 run this option.
 
+You normally select *Install {pve} (Graphical)* to start the installation.
+
 [thumbnail="screenshot/pve-select-target-disk.png"]
 
-After selecting *Install {pve}* and accepting the EULA, the prompt to select the
-target hard disk(s) will appear. The `Options` button opens the dialog to select
-the target file system.
+The first step is to read our EULA (End User License Agreement). Following this,
+you can select the target hard disk(s) for the installation.
 
-The default file system is `ext4`. The Logical Volume Manager (LVM) is used when
-`ext4` or `xfs` is selected. Additional options to restrict LVM space
-can also be set (see <<advanced_lvm_options,below>>).
+CAUTION: By default, the whole server is used and all existing data is removed.
+Make sure there is no important data on the server before proceeding with the
+installation.
 
-{pve} can be installed on ZFS. As ZFS offers several software RAID levels, this
-is an option for systems that don't have a hardware RAID controller. The target
-disks must be selected in the `Options` dialog. More ZFS specific settings can
-be changed under `Advanced Options` (see <<advanced_zfs_options,below>>).
+The `Options` button lets you select the target file system, which
+defaults to `ext4`. The installer uses LVM if you select
+`ext4` or `xfs` as a file system, and offers additional options to
+restrict LVM space (see xref:advanced_lvm_options[below]).
+
+{pve} can also be installed on ZFS. As ZFS offers several software RAID levels,
+this is an option for systems that don't have a hardware RAID controller. The
+target disks must be selected in the `Options` dialog. More ZFS specific
+settings can be changed under xref:advanced_zfs_options[`Advanced Options`].
 
 WARNING: ZFS on top of any hardware RAID is not supported and can result in data
 loss.
 
 [thumbnail="screenshot/pve-select-location.png", float="left"]
 
-The next page asks for basic configuration options like the location, the time
-zone, and keyboard layout. The location is used to select a download server
-close by to speed up updates. The installer usually auto-detects these settings.
-They only need to be changed in the rare case that auto detection fails or a
-different keyboard layout should be used.
+The next page asks for basic configuration options like your location, time
+zone, and keyboard layout. The location is used to select a nearby download
+server, in order to increase the speed of updates. The installer is usually able
+to auto-detect these settings, so you only need to change them in rare
+situations when auto-detection fails, or when you want to use a keyboard layout
+not commonly used in your country.
 
 [thumbnail="screenshot/pve-set-password.png"]
 
-Next the password of the superuser (root) and an email address needs to be
+Next the password of the superuser (`root`) and an email address needs to be
 specified. The password must consist of at least 5 characters. It's highly
 recommended to use a stronger password. Some guidelines are:
 
-- Use a minimum password length of 12 to 14 characters.
+- Use a minimum password length of at least 12 characters.
 
 - Include lowercase and uppercase alphabetic characters, numbers, and symbols.
 
@@ -169,35 +176,69 @@ For example:
 
 - Information about available package updates.
 
-- Error messages from periodic CRON jobs.
+- Error messages from periodic 'cron' jobs.
 
 [thumbnail="screenshot/pve-setup-network.png"]
 
-The last step is the network configuration. Network interfaces that are UP show
-a filled circle in front of their name in the drop down menu. Please note that
-during installation you can either use an IPv4 or IPv6 address, but not both. To
-configure a dual stack node, add additional IP addresses after the installation.
+All those notification mails will be sent to the specified email address.
+
+The last step is the network configuration. Network interfaces that are 'UP'
+show a filled circle in front of their name in the drop down menu. Please note
+that during installation you can either specify an IPv4 or IPv6 address, but not
+both. To configure a dual stack node, add additional IP addresses after the
+installation.
 
 [thumbnail="screenshot/pve-installation.png", float="left"]
 
-The next step shows a summary of the previously selected options. Re-check every
-setting and use the `Previous` button if a setting needs to be changed. To
-accept, press `Install`. The installation starts to format disks and copies
-packages to the target. Please wait until this step has finished; then remove
-the installation medium and restart your system.
+The next step shows a summary of the previously selected options. Please
+re-check every setting and use the `Previous` button if a setting needs to be
+changed.
+
+After clicking `Install`, the installer will begin to format the disks and copy
+packages to the target disk(s). Please wait until this step has finished; then
+remove the installation medium and restart your system.
 
 [thumbnail="screenshot/pve-install-summary.png"]
 
+Copying the packages usually takes several minutes, mostly depending on the
+speed of the installation medium and the target disk performance.
+
+When copying and setting up the packages has finished, you can reboot the
+server. This will be done automatically after a few seconds by default.
+
+.Installation Failure
+
 If the installation failed, check out specific errors on the second TTY
-(`CTRL + ALT + F2') and ensure that the systems meets the
-xref:install_minimal_requirements[minimum requirements]. If the installation
-is still not working, look at the xref:getting_help[how to get help chapter].
+('CTRL + ALT + F2') and ensure that the systems meets the
+xref:install_minimal_requirements[minimum requirements].
 
-Further configuration is done via the Proxmox web interface. Point your browser
-to the IP address given during installation (https://youripaddress:8006).
+If the installation is still not working, look at the
+xref:getting_help[how to get help chapter].
 
-NOTE: Default login is "root" (realm 'PAM') and the root password was defined
-during the installation process.
+
+Accessing the Management Interface Post-Installation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[thumbnail="screenshot/gui-login-window.png"]
+
+After a succesful installation and reboot of the system you can use the {pve}
+web interface for further configuration.
+
+. Point your browser to the IP address given during the installation and port
+  8006, for example: https://youripaddress:8006
+
+. Log in using the `root` (realm 'PAM') username and the password chosen during
+  installation.
+
+. Upload your subscription key to gain access to the Enterprise repository.
+  Otherwise, you will need to set up one of the public, less tested package
+  repositories to get updates for security fixes, bug fixes, and new features.
+
+. Check the IP configuration and hostname.
+
+. Check the timezone.
+
+. Check your xref:chapter_pve_firewall[Firewall settings].
 
 [[advanced_lvm_options]]
 Advanced LVM Configuration Options
