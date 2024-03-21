@@ -8,6 +8,10 @@ endif::wiki[]
 {pve} uses http://en.wikipedia.org/wiki/Advanced_Packaging_Tool[APT] as its
 package management tool like any other Debian-based system.
 
+{pve} automatically checks for package updates on a daily basis. The `root@pam`
+user is notified via email about available updates. From the GUI, the
+'Changelog' button can be used to see more details about an selected update.
+
 Repositories in {pve}
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -57,21 +61,18 @@ deb http://security.debian.org/debian-security bookworm-security main contrib
 {pve} Enterprise Repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This is the default, stable, and recommended repository, available for all {pve}
-subscription users. It contains the most stable packages and is suitable for
-production use. The `pve-enterprise` repository is enabled by default:
+This is the recommended repository and available for all {pve} subscription
+users. It contains the most stable packages and is suitable for production use.
+The `pve-enterprise` repository is enabled by default:
 
 .File `/etc/apt/sources.list.d/pve-enterprise.list`
 ----
 deb https://enterprise.proxmox.com/debian/pve bookworm pve-enterprise
 ----
 
-The `root@pam` user is notified via email about available updates. Click the
-'Changelog' button in the GUI to see more details about the selected update.
-
-You need a valid subscription key to access the `pve-enterprise` repository.
-Different support levels are available. Further details can be found at
-{pricing-url}.
+Please note that you need a valid subscription key to access the
+`pve-enterprise` repository. We offer different support levels, which you can
+find further details about at {pricing-url}.
 
 NOTE: You can disable this repository by commenting out the above line using a
 `#` (at the start of the line). This prevents error messages if your host does
@@ -82,9 +83,10 @@ repository in that case.
 {pve} No-Subscription Repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This is the recommended repository for testing and non-production use. Its
-packages are not as heavily tested and validated. You don't need a subscription key
-to access the `pve-no-subscription` repository.
+As the name suggests, you do not need a subscription key to access
+this repository. It can be used for testing and non-production
+use. It's not recommended to use this on production servers, as these
+packages are not always as heavily tested and validated.
 
 We recommend to configure this repository in `/etc/apt/sources.list`.
 
