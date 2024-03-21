@@ -781,14 +781,14 @@ ethtool command:
 where X is the number of the number of vCPUs of the VM.
 
 To configure a Windows guest for Multiqueue install the
-https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso[
-Redhat VirtIO Ethernet Adapter drivers], then adapt the NIC's configuration as
-follows. Open the device manager, right click the NIC under "Network adapters",
-and select "Properties". Then open the "Advanced" tab and select "Receive Side
-Scaling" from the list on the left. Make sure it is set to "Enabled". Next,
-navigate to "Maximum number of RSS Queues" in the list and set it to the number
-of vCPUs of your VM. Once you verified that the settings are correct, click "OK"
-to confirm them.
+https://pve.proxmox.com/wiki/Windows_VirtIO_Drivers[Redhat VirtIO Ethernet
+Adapter drivers], then adapt the NIC's configuration as follows. Open the
+device manager, right click the NIC under "Network adapters", and select
+"Properties". Then open the "Advanced" tab and select "Receive Side Scaling"
+from the list on the left. Make sure it is set to "Enabled". Next, navigate to
+"Maximum number of RSS Queues" in the list and set it to the number of vCPUs of
+your VM. Once you verified that the settings are correct, click "OK" to confirm
+them.
 
 You should note that setting the Multiqueue parameter to a value greater
 than one will increase the CPU load on the host and guest systems as the
