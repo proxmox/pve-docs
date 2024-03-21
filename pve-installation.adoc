@@ -245,8 +245,8 @@ Advanced LVM Configuration Options
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The installer creates a Volume Group (VG) called `pve`, and additional Logical
-Volumes (LVs) called `root`, `data`, and `swap`. To control the size of these
-volumes use:
+Volumes (LVs) called `root`, `data`, and `swap`, if `ext4` or `xfs` is used. To
+control the size of these volumes use:
 
 `hdsize`::
 
@@ -284,8 +284,9 @@ configuration will be adapted accordingly.
 
 `minfree`::
 
-Defines the amount of free space left in the LVM volume group `pve`. With more
-than 128GB storage available the default is 16GB, else `hdsize/8` will be used.
+Defines the amount of free space that should be left in the LVM volume group
+`pmg`. With more than 128GB storage available, the default is 16GB, otherwise
+`hdsize/8` will be used.
 +
 NOTE: LVM requires free space in the VG for snapshot creation (not required for
 lvmthin snapshots).
