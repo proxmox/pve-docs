@@ -147,7 +147,7 @@ settings can be changed under xref:advanced_zfs_options[`Advanced Options`].
 WARNING: ZFS on top of any hardware RAID is not supported and can result in data
 loss.
 
-[thumbnail="screenshot/pve-select-location.png", float="left"]
+[thumbnail="screenshot/pve-select-location.png"]
 
 The next page asks for basic configuration options like your location, time
 zone, and keyboard layout. The location is used to select a nearby download
@@ -156,7 +156,7 @@ to auto-detect these settings, so you only need to change them in rare
 situations when auto-detection fails, or when you want to use a keyboard layout
 not commonly used in your country.
 
-[thumbnail="screenshot/pve-set-password.png"]
+[thumbnail="screenshot/pve-set-password.png", float="left"]
 
 Next the password of the superuser (`root`) and an email address needs to be
 specified. The password must consist of at least 5 characters. It's highly
