@@ -401,7 +401,7 @@ See Also
 
 * link:/wiki/Prepare_Installation_Media[Prepare Installation Media]
 
-* link:/wiki/Install_Proxmox_VE_on_Debian_Buster[Install Proxmox VE on Debian Buster]
+* link:/wiki/Install_Proxmox_VE_on_Debian_12_Bookworm[Install Proxmox VE on Debian 12 Bookworm]
 
 * link:/wiki/System_Requirements[System Requirements]
 
