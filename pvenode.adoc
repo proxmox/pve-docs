@@ -87,6 +87,20 @@ of `<node>` obtained from the `wakeonlan` property. The node-specific
 pvenode config set -wakeonlan XX:XX:XX:XX:XX:XX
 ----
 
+Optionally, the interface via which to send the WoL packet can be specified by
+setting the `bind-interface` via the following command:
+
+----
+pvenode config set -wakeonlan XX:XX:XX:XX:XX:XX,bind-interface=<iface-name>
+----
+
+The broadcast address used when sending the WoL packet can further be set by
+specifying the `broadcast-address` using the following command:
+
+----
+pvenode config set -wakeonlan XX:XX:XX:XX:XX:XX,broadcast-address=<broadcast-address>
+----
+
 Task History
 ~~~~~~~~~~~~
 
