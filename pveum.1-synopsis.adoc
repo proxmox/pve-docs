@@ -128,13 +128,17 @@ Shows help for a specific command
 
 Verbose output format.
 
-*pveum passwd* `<userid>`
+*pveum passwd* `<userid>` `[OPTIONS]`
 
 Change user password.
 
 `<userid>`: `<string>` ::
 
 Full User ID, in the `name@realm` format.
+
+`--confirmation-password` `<string>` ::
+
+The current password of the user performing the change.
 
 *pveum pool add* `<poolid>` `[OPTIONS]`
 
@@ -206,7 +210,7 @@ Add an authentication server.
 
 Authentication domain ID
 
-`--acr-values` `<string>` ::
+`--acr-values` `^[^\x00-\x1F\x7F <>#"]*$` ::
 
 Specifies the Authentication Context Class Reference values that theAuthorization Server is being requested to use for the Auth Request.
 
@@ -374,7 +378,7 @@ Update authentication server settings.
 
 Authentication domain ID
 
-`--acr-values` `<string>` ::
+`--acr-values` `^[^\x00-\x1F\x7F <>#"]*$` ::
 
 Specifies the Authentication Context Class Reference values that theAuthorization Server is being requested to use for the Auth Request.
 
@@ -678,7 +682,7 @@ no description available
 
 no description available
 
-`--keys` `<string>` ::
+`--keys` `[0-9a-zA-Z!=]{0,4096}` ::
 
 Keys for two factor auth (yubico).
 
@@ -748,7 +752,7 @@ no description available
 
 no description available
 
-`--keys` `<string>` ::
+`--keys` `[0-9a-zA-Z!=]{0,4096}` ::
 
 Keys for two factor auth (yubico).
 

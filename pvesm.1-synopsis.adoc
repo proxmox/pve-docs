@@ -4,7 +4,7 @@
 
 Create a new storage.
 
-`<type>`: `<btrfs | cephfs | cifs | dir | glusterfs | iscsi | iscsidirect | lvm | lvmthin | nfs | pbs | rbd | zfs | zfspool>` ::
+`<type>`: `<btrfs | cephfs | cifs | dir | esxi | glusterfs | iscsi | iscsidirect | lvm | lvmthin | nfs | pbs | rbd | zfs | zfspool>` ::
 
 Storage type.
 
@@ -148,7 +148,7 @@ Set the NOCOW flag on files. Disables data checksumming and causes data errors t
 
 `--nodes` `<string>` ::
 
-List of cluster node names.
+List of nodes for which the storage configuration applies.
 
 `--nowritecache` `<boolean>` ::
 
@@ -210,7 +210,11 @@ CIFS share.
 
 `--shared` `<boolean>` ::
 
-Mark storage as shared.
+Indicate that this is a single storage with the same contents on all nodes (or all listed in the 'nodes' option). It will not make the contents of a local storage automatically accessible to other nodes, it just marks an already shared storage as such!
+
+`--skip-cert-verification` `<boolean>` ('default =' `false`)::
+
+Disable TLS certificate verification, only enable on fully trusted networks!
 
 `--smbversion` `<2.0 | 2.1 | 3 | 3.0 | 3.11 | default>` ('default =' `default`)::
 
@@ -708,7 +712,7 @@ Set the NOCOW flag on files. Disables data checksumming and causes data errors t
 
 `--nodes` `<string>` ::
 
-List of cluster node names.
+List of nodes for which the storage configuration applies.
 
 `--nowritecache` `<boolean>` ::
 
@@ -758,7 +762,11 @@ NOTE: Requires option(s): `server`
 
 `--shared` `<boolean>` ::
 
-Mark storage as shared.
+Indicate that this is a single storage with the same contents on all nodes (or all listed in the 'nodes' option). It will not make the contents of a local storage automatically accessible to other nodes, it just marks an already shared storage as such!
+
+`--skip-cert-verification` `<boolean>` ('default =' `false`)::
+
+Disable TLS certificate verification, only enable on fully trusted networks!
 
 `--smbversion` `<2.0 | 2.1 | 3 | 3.0 | 3.11 | default>` ('default =' `default`)::
 

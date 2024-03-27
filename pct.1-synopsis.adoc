@@ -296,7 +296,7 @@ Get the container's current disk usage.
 
 The (unique) ID of the VM.
 
-*pct enter* `<vmid>`
+*pct enter* `<vmid>` `[OPTIONS]`
 
 Launch a shell for the specified container.
 
@@ -304,7 +304,11 @@ Launch a shell for the specified container.
 
 The (unique) ID of the VM.
 
-*pct exec* `<vmid> [<extra-args>]`
+`--keep-env` `<boolean>` ('default =' `1`)::
+
+Keep the current environment. This option will disabled by default with PVE 9. If you rely on a preserved environment, please use this option to be future-proof.
+
+*pct exec* `<vmid> [<extra-args>]` `[OPTIONS]`
 
 Launch a command inside the specified container.
 
@@ -315,6 +319,10 @@ The (unique) ID of the VM.
 `<extra-args>`: `<array>` ::
 
 Extra arguments as array
+
+`--keep-env` `<boolean>` ('default =' `1`)::
+
+Keep the current environment. This option will disabled by default with PVE 9. If you rely on a preserved environment, please use this option to be future-proof.
 
 *pct fsck* `<vmid>` `[OPTIONS]`
 
@@ -549,7 +557,7 @@ The (unique) ID of the VM.
 
 The (unique) ID of the VM.
 
-`<target-endpoint>`: `apitoken=<A full Proxmox API token including the secret value.> ,host=<Remote Proxmox hostname or IP> [,fingerprint=<Remote host's certificate fingerprint, if not trusted by system store.>] [,port=<integer>]` ::
+`<target-endpoint>`: `apitoken=<user@realm!token=SECRET> ,host=<ADDRESS> [,fingerprint=<FINGERPRINT>] [,port=<PORT>]` ::
 
 Remote target endpoint
 

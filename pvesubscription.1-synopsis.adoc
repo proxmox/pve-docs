@@ -30,11 +30,12 @@ Proxmox VE subscription key
 
 *pvesubscription set-offline-key* `<data>`
 
-(Internal use only!) Set a signed subscription info blob as offline key
+Internal use only! To set an offline key, use the package
+proxmox-offline-mirror-helper instead.
 
 `<data>`: `<string>` ::
 
-no description available
+A signed subscription info blob
 
 *pvesubscription update* `[OPTIONS]`
 

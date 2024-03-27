@@ -180,7 +180,7 @@ const apiSchema = [
                      "additionalProperties" : 0
                   },
                   "permissions" : {
-                     "description" : "Requires the VM.Audit permission on /vms/<vmid>.",
+                     "description" : "Will only return replication jobs for which the calling user has VM.Audit permission on /vms/<vmid>.",
                      "user" : "all"
                   },
                   "returns" : {
@@ -5560,7 +5560,7 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "exclude-path" : {
-                                 "description" : "Exclude certain files/directories (shell globs). Paths starting with '/' are anchored to the container's root,  other paths match relative to each subdirectory.",
+                                 "description" : "Exclude certain files/directories (shell globs). Paths starting with '/' are anchored to the container's root, other paths match relative to each subdirectory.",
                                  "items" : {
                                     "type" : "string"
                                  },
@@ -5593,7 +5593,7 @@ const apiSchema = [
                               },
                               "mailnotification" : {
                                  "default" : "always",
-                                 "description" : "Deprecated: use 'notification-policy' instead.",
+                                 "description" : "Deprecated: use notification targets/matchers instead. Specify when to send a notification mail",
                                  "enum" : [
                                     "always",
                                     "failure"
@@ -5602,7 +5602,7 @@ const apiSchema = [
                                  "type" : "string"
                               },
                               "mailto" : {
-                                 "description" : "Comma-separated list of email addresses or users that should receive email notifications. Has no effect if the 'notification-target' option  is set at the same time.",
+                                 "description" : "Deprecated: Use notification targets/matchers instead. Comma-separated list of email addresses or users that should receive email notifications.",
                                  "format" : "email-or-username-list",
                                  "optional" : 1,
                                  "type" : "string",
@@ -5641,9 +5641,20 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "notification-mode" : {
+                                 "default" : "auto",
+                                 "description" : "Determine which notification system to use. If set to 'legacy-sendmail', vzdump will consider the mailto/mailnotification parameters and send emails to the specified address(es) via the 'sendmail' command. If set to 'notification-system', a notification will be sent via PVE's notification system, and the mailto and mailnotification will be ignored. If set to 'auto' (default setting), an email will be sent if mailto is set, and the notification system will be used if not.",
+                                 "enum" : [
+                                    "auto",
+                                    "legacy-sendmail",
+                                    "notification-system"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
                               "notification-policy" : {
                                  "default" : "always",
-                                 "description" : "Specify when to send a notification",
+                                 "description" : "Deprecated: Do not use",
                                  "enum" : [
                                     "always",
                                     "failure",
@@ -5653,7 +5664,7 @@ const apiSchema = [
                                  "type" : "string"
                               },
                               "notification-target" : {
-                                 "description" : "Determine the target to which notifications should be sent. Can either be a notification endpoint or a notification group. This option takes precedence over 'mailto', meaning that if both are  set, the 'mailto' option will be ignored.",
+                                 "description" : "Deprecated: Do not use",
                                  "format" : "pve-configid",
                                  "optional" : 1,
                                  "type" : "string",
@@ -5780,7 +5791,7 @@ const apiSchema = [
                               },
                               "zstd" : {
                                  "default" : 1,
-                                 "description" : "Zstd threads. N=0 uses half of the available cores, N>0 uses N as thread count.",
+                                 "description" : "Zstd threads. N=0 uses half of the available cores, if N is set to a value bigger than 0, N is used as thread count.",
                                  "optional" : 1,
                                  "type" : "integer",
                                  "typetext" : "<integer>"
@@ -5919,7 +5930,7 @@ const apiSchema = [
                            "typetext" : "<string>"
                         },
                         "exclude-path" : {
-                           "description" : "Exclude certain files/directories (shell globs). Paths starting with '/' are anchored to the container's root,  other paths match relative to each subdirectory.",
+                           "description" : "Exclude certain files/directories (shell globs). Paths starting with '/' are anchored to the container's root, other paths match relative to each subdirectory.",
                            "items" : {
                               "type" : "string"
                            },
@@ -5953,7 +5964,7 @@ const apiSchema = [
                         },
                         "mailnotification" : {
                            "default" : "always",
-                           "description" : "Deprecated: use 'notification-policy' instead.",
+                           "description" : "Deprecated: use notification targets/matchers instead. Specify when to send a notification mail",
                            "enum" : [
                               "always",
                               "failure"
@@ -5962,7 +5973,7 @@ const apiSchema = [
                            "type" : "string"
                         },
                         "mailto" : {
-                           "description" : "Comma-separated list of email addresses or users that should receive email notifications. Has no effect if the 'notification-target' option  is set at the same time.",
+                           "description" : "Deprecated: Use notification targets/matchers instead. Comma-separated list of email addresses or users that should receive email notifications.",
                            "format" : "email-or-username-list",
                            "optional" : 1,
                            "type" : "string",
@@ -6001,9 +6012,20 @@ const apiSchema = [
                            "type" : "string",
                            "typetext" : "<string>"
                         },
+                        "notification-mode" : {
+                           "default" : "auto",
+                           "description" : "Determine which notification system to use. If set to 'legacy-sendmail', vzdump will consider the mailto/mailnotification parameters and send emails to the specified address(es) via the 'sendmail' command. If set to 'notification-system', a notification will be sent via PVE's notification system, and the mailto and mailnotification will be ignored. If set to 'auto' (default setting), an email will be sent if mailto is set, and the notification system will be used if not.",
+                           "enum" : [
+                              "auto",
+                              "legacy-sendmail",
+                              "notification-system"
+                           ],
+                           "optional" : 1,
+                           "type" : "string"
+                        },
                         "notification-policy" : {
                            "default" : "always",
-                           "description" : "Specify when to send a notification",
+                           "description" : "Deprecated: Do not use",
                            "enum" : [
                               "always",
                               "failure",
@@ -6013,7 +6035,7 @@ const apiSchema = [
                            "type" : "string"
                         },
                         "notification-target" : {
-                           "description" : "Determine the target to which notifications should be sent. Can either be a notification endpoint or a notification group. This option takes precedence over 'mailto', meaning that if both are  set, the 'mailto' option will be ignored.",
+                           "description" : "Deprecated: Do not use",
                            "format" : "pve-configid",
                            "optional" : 1,
                            "type" : "string",
@@ -6140,7 +6162,7 @@ const apiSchema = [
                         },
                         "zstd" : {
                            "default" : 1,
-                           "description" : "Zstd threads. N=0 uses half of the available cores, N>0 uses N as thread count.",
+                           "description" : "Zstd threads. N=0 uses half of the available cores, if N is set to a value bigger than 0, N is used as thread count.",
                            "optional" : 1,
                            "type" : "integer",
                            "typetext" : "<integer>"
@@ -18052,6 +18074,13 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "product" : {
+                                                   "description" : "The drive's product name, up to 16 bytes long.",
+                                                   "format_description" : "product",
+                                                   "optional" : 1,
+                                                   "pattern" : "[A-Za-z0-9\\-_\\s]{,16}",
+                                                   "type" : "string"
+                                                },
                                                 "queues" : {
                                                    "description" : "Number of queues.",
                                                    "minimum" : 2,
@@ -18130,6 +18159,13 @@ const apiSchema = [
                                                       "auto"
                                                    ],
                                                    "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "vendor" : {
+                                                   "description" : "The drive's vendor name, up to 8 bytes long.",
+                                                   "format_description" : "vendor",
+                                                   "optional" : 1,
+                                                   "pattern" : "[A-Za-z0-9\\-_\\s]{,8}",
                                                    "type" : "string"
                                                 },
                                                 "volume" : {
@@ -18372,7 +18408,7 @@ const apiSchema = [
                                              "description" : "Configure the VGA hardware.",
                                              "format" : {
                                                 "clipboard" : {
-                                                   "description" : "Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added.",
+                                                   "description" : "Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added. Migration with VNC clipboard is not yet supported!",
                                                    "enum" : [
                                                       "vnc"
                                                    ],
@@ -20435,6 +20471,13 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "product" : {
+                                                   "description" : "The drive's product name, up to 16 bytes long.",
+                                                   "format_description" : "product",
+                                                   "optional" : 1,
+                                                   "pattern" : "[A-Za-z0-9\\-_\\s]{,16}",
+                                                   "type" : "string"
+                                                },
                                                 "queues" : {
                                                    "description" : "Number of queues.",
                                                    "minimum" : 2,
@@ -20515,6 +20558,13 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "vendor" : {
+                                                   "description" : "The drive's vendor name, up to 8 bytes long.",
+                                                   "format_description" : "vendor",
+                                                   "optional" : 1,
+                                                   "pattern" : "[A-Za-z0-9\\-_\\s]{,8}",
+                                                   "type" : "string"
+                                                },
                                                 "volume" : {
                                                    "alias" : "file"
                                                 },
@@ -20539,7 +20589,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,product=<product>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,vendor=<vendor>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "scsihw" : {
                                              "default" : "lsi",
@@ -20784,7 +20834,7 @@ const apiSchema = [
                                              "description" : "Configure the VGA hardware.",
                                              "format" : {
                                                 "clipboard" : {
-                                                   "description" : "Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added.",
+                                                   "description" : "Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added. Migration with VNC clipboard is not yet supported!",
                                                    "enum" : [
                                                       "vnc"
                                                    ],
@@ -22881,6 +22931,13 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "product" : {
+                                                   "description" : "The drive's product name, up to 16 bytes long.",
+                                                   "format_description" : "product",
+                                                   "optional" : 1,
+                                                   "pattern" : "[A-Za-z0-9\\-_\\s]{,16}",
+                                                   "type" : "string"
+                                                },
                                                 "queues" : {
                                                    "description" : "Number of queues.",
                                                    "minimum" : 2,
@@ -22961,6 +23018,13 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "vendor" : {
+                                                   "description" : "The drive's vendor name, up to 8 bytes long.",
+                                                   "format_description" : "vendor",
+                                                   "optional" : 1,
+                                                   "pattern" : "[A-Za-z0-9\\-_\\s]{,8}",
+                                                   "type" : "string"
+                                                },
                                                 "volume" : {
                                                    "alias" : "file"
                                                 },
@@ -22985,7 +23049,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,product=<product>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,vendor=<vendor>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "scsihw" : {
                                              "default" : "lsi",
@@ -23230,7 +23294,7 @@ const apiSchema = [
                                              "description" : "Configure the VGA hardware.",
                                              "format" : {
                                                 "clipboard" : {
-                                                   "description" : "Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added.",
+                                                   "description" : "Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added. Migration with VNC clipboard is not yet supported!",
                                                    "enum" : [
                                                       "vnc"
                                                    ],
@@ -26164,7 +26228,7 @@ const apiSchema = [
                                              "description" : "Remote target endpoint",
                                              "format" : "proxmox-remote",
                                              "type" : "string",
-                                             "typetext" : "apitoken=<A full Proxmox API token including the secret value.> ,host=<Remote Proxmox hostname or IP> [,fingerprint=<Remote host's certificate fingerprint, if not trusted by system store.>] [,port=<integer>]"
+                                             "typetext" : "apitoken=<user@realm!token=SECRET> ,host=<ADDRESS> [,fingerprint=<FINGERPRINT>] [,port=<PORT>]"
                                           },
                                           "target-storage" : {
                                              "description" : "Mapping from source to target storages. Providing only a single storage ID maps all source storages to that storage. Providing the special value '1' will map each source storage to itself.",
@@ -28057,9 +28121,8 @@ const apiSchema = [
                                  "typetext" : "<boolean>"
                               },
                               "live-restore" : {
-                                 "description" : "Start the VM immediately from the backup and restore in background. PBS only.",
+                                 "description" : "Start the VM immediately while importing or restoring in the background.",
                                  "optional" : 1,
-                                 "requires" : "archive",
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
                               },
@@ -28982,6 +29045,13 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
+                                    "product" : {
+                                       "description" : "The drive's product name, up to 16 bytes long.",
+                                       "format_description" : "product",
+                                       "optional" : 1,
+                                       "pattern" : "[A-Za-z0-9\\-_\\s]{,16}",
+                                       "type" : "string"
+                                    },
                                     "queues" : {
                                        "description" : "Number of queues.",
                                        "minimum" : 2,
@@ -29062,6 +29132,13 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
+                                    "vendor" : {
+                                       "description" : "The drive's vendor name, up to 8 bytes long.",
+                                       "format_description" : "vendor",
+                                       "optional" : 1,
+                                       "pattern" : "[A-Za-z0-9\\-_\\s]{,8}",
+                                       "type" : "string"
+                                    },
                                     "volume" : {
                                        "alias" : "file"
                                     },
@@ -29086,7 +29163,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,product=<product>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,vendor=<vendor>] [,werror=<enum>] [,wwn=<wwn>]"
                               },
                               "scsihw" : {
                                  "default" : "lsi",
@@ -29346,7 +29423,7 @@ const apiSchema = [
                                  "description" : "Configure the VGA hardware.",
                                  "format" : {
                                     "clipboard" : {
-                                       "description" : "Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added.",
+                                       "description" : "Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added. Migration with VNC clipboard is not yet supported!",
                                        "enum" : [
                                           "vnc"
                                        ],
@@ -34208,7 +34285,7 @@ const apiSchema = [
                                              "description" : "Remote target endpoint",
                                              "format" : "proxmox-remote",
                                              "type" : "string",
-                                             "typetext" : "apitoken=<A full Proxmox API token including the secret value.> ,host=<Remote Proxmox hostname or IP> [,fingerprint=<Remote host's certificate fingerprint, if not trusted by system store.>] [,port=<integer>]"
+                                             "typetext" : "apitoken=<user@realm!token=SECRET> ,host=<ADDRESS> [,fingerprint=<FINGERPRINT>] [,port=<PORT>]"
                                           },
                                           "target-storage" : {
                                              "description" : "Mapping from source to target storages. Providing only a single storage ID maps all source storages to that storage. Providing the special value '1' will map each source storage to itself.",
@@ -39920,7 +39997,7 @@ const apiSchema = [
                                        "type" : "string"
                                     },
                                     "exclude-path" : {
-                                       "description" : "Exclude certain files/directories (shell globs). Paths starting with '/' are anchored to the container's root,  other paths match relative to each subdirectory.",
+                                       "description" : "Exclude certain files/directories (shell globs). Paths starting with '/' are anchored to the container's root, other paths match relative to each subdirectory.",
                                        "items" : {
                                           "type" : "string"
                                        },
@@ -39944,7 +40021,7 @@ const apiSchema = [
                                     },
                                     "mailnotification" : {
                                        "default" : "always",
-                                       "description" : "Deprecated: use 'notification-policy' instead.",
+                                       "description" : "Deprecated: use notification targets/matchers instead. Specify when to send a notification mail",
                                        "enum" : [
                                           "always",
                                           "failure"
@@ -39953,7 +40030,7 @@ const apiSchema = [
                                        "type" : "string"
                                     },
                                     "mailto" : {
-                                       "description" : "Comma-separated list of email addresses or users that should receive email notifications. Has no effect if the 'notification-target' option  is set at the same time.",
+                                       "description" : "Deprecated: Use notification targets/matchers instead. Comma-separated list of email addresses or users that should receive email notifications.",
                                        "format" : "email-or-username-list",
                                        "optional" : 1,
                                        "type" : "string"
@@ -39988,9 +40065,20 @@ const apiSchema = [
                                        "requires" : "storage",
                                        "type" : "string"
                                     },
+                                    "notification-mode" : {
+                                       "default" : "auto",
+                                       "description" : "Determine which notification system to use. If set to 'legacy-sendmail', vzdump will consider the mailto/mailnotification parameters and send emails to the specified address(es) via the 'sendmail' command. If set to 'notification-system', a notification will be sent via PVE's notification system, and the mailto and mailnotification will be ignored. If set to 'auto' (default setting), an email will be sent if mailto is set, and the notification system will be used if not.",
+                                       "enum" : [
+                                          "auto",
+                                          "legacy-sendmail",
+                                          "notification-system"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
                                     "notification-policy" : {
                                        "default" : "always",
-                                       "description" : "Specify when to send a notification",
+                                       "description" : "Deprecated: Do not use",
                                        "enum" : [
                                           "always",
                                           "failure",
@@ -40000,7 +40088,7 @@ const apiSchema = [
                                        "type" : "string"
                                     },
                                     "notification-target" : {
-                                       "description" : "Determine the target to which notifications should be sent. Can either be a notification endpoint or a notification group. This option takes precedence over 'mailto', meaning that if both are  set, the 'mailto' option will be ignored.",
+                                       "description" : "Deprecated: Do not use",
                                        "format" : "pve-configid",
                                        "optional" : 1,
                                        "type" : "string"
@@ -40090,7 +40178,7 @@ const apiSchema = [
                                     },
                                     "zstd" : {
                                        "default" : 1,
-                                       "description" : "Zstd threads. N=0 uses half of the available cores, N>0 uses N as thread count.",
+                                       "description" : "Zstd threads. N=0 uses half of the available cores, if N is set to a value bigger than 0, N is used as thread count.",
                                        "optional" : 1,
                                        "type" : "integer"
                                     }
@@ -40193,7 +40281,7 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "exclude-path" : {
-                                 "description" : "Exclude certain files/directories (shell globs). Paths starting with '/' are anchored to the container's root,  other paths match relative to each subdirectory.",
+                                 "description" : "Exclude certain files/directories (shell globs). Paths starting with '/' are anchored to the container's root, other paths match relative to each subdirectory.",
                                  "items" : {
                                     "type" : "string"
                                  },
@@ -40220,7 +40308,7 @@ const apiSchema = [
                               },
                               "mailnotification" : {
                                  "default" : "always",
-                                 "description" : "Deprecated: use 'notification-policy' instead.",
+                                 "description" : "Deprecated: use notification targets/matchers instead. Specify when to send a notification mail",
                                  "enum" : [
                                     "always",
                                     "failure"
@@ -40229,7 +40317,7 @@ const apiSchema = [
                                  "type" : "string"
                               },
                               "mailto" : {
-                                 "description" : "Comma-separated list of email addresses or users that should receive email notifications. Has no effect if the 'notification-target' option  is set at the same time.",
+                                 "description" : "Deprecated: Use notification targets/matchers instead. Comma-separated list of email addresses or users that should receive email notifications.",
                                  "format" : "email-or-username-list",
                                  "optional" : 1,
                                  "type" : "string",
@@ -40268,9 +40356,20 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "notification-mode" : {
+                                 "default" : "auto",
+                                 "description" : "Determine which notification system to use. If set to 'legacy-sendmail', vzdump will consider the mailto/mailnotification parameters and send emails to the specified address(es) via the 'sendmail' command. If set to 'notification-system', a notification will be sent via PVE's notification system, and the mailto and mailnotification will be ignored. If set to 'auto' (default setting), an email will be sent if mailto is set, and the notification system will be used if not.",
+                                 "enum" : [
+                                    "auto",
+                                    "legacy-sendmail",
+                                    "notification-system"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
                               "notification-policy" : {
                                  "default" : "always",
-                                 "description" : "Specify when to send a notification",
+                                 "description" : "Deprecated: Do not use",
                                  "enum" : [
                                     "always",
                                     "failure",
@@ -40280,7 +40379,7 @@ const apiSchema = [
                                  "type" : "string"
                               },
                               "notification-target" : {
-                                 "description" : "Determine the target to which notifications should be sent. Can either be a notification endpoint or a notification group. This option takes precedence over 'mailto', meaning that if both are  set, the 'mailto' option will be ignored.",
+                                 "description" : "Deprecated: Do not use",
                                  "format" : "pve-configid",
                                  "optional" : 1,
                                  "type" : "string",
@@ -40391,7 +40490,7 @@ const apiSchema = [
                               },
                               "zstd" : {
                                  "default" : 1,
-                                 "description" : "Zstd threads. N=0 uses half of the available cores, N>0 uses N as thread count.",
+                                 "description" : "Zstd threads. N=0 uses half of the available cores, if N is set to a value bigger than 0, N is used as thread count.",
                                  "optional" : 1,
                                  "type" : "integer",
                                  "typetext" : "<integer>"
@@ -44262,14 +44361,25 @@ const apiSchema = [
                                              ]
                                           ],
                                           [
-                                             "perm",
-                                             "/",
+                                             "or",
                                              [
-                                                "Sys.Audit",
-                                                "Sys.Modify"
+                                                "perm",
+                                                "/",
+                                                [
+                                                   "Sys.Audit",
+                                                   "Sys.Modify"
+                                                ]
+                                             ],
+                                             [
+                                                "perm",
+                                                "/nodes/{node}",
+                                                [
+                                                   "Sys.AccessNetwork"
+                                                ]
                                              ]
                                           ]
-                                       ]
+                                       ],
+                                       "description" : "Requires allocation access on the storage and as this allows one to probe the (local!) host network indirectly it also requires one of Sys.Modify on / (for backwards compatibility) or the newer Sys.AccessNetwork privilege on the node."
                                     },
                                     "protected" : 1,
                                     "proxyto" : "node",
@@ -44281,6 +44391,118 @@ const apiSchema = [
                               "leaf" : 1,
                               "path" : "/nodes/{node}/storage/{storage}/download-url",
                               "text" : "download-url"
+                           },
+                           {
+                              "info" : {
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Get the base parameters for creating a guest which imports data from a foreign importable guest, like an ESXi VM",
+                                    "method" : "GET",
+                                    "name" : "get_import_metadata",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "storage" : {
+                                             "description" : "The storage identifier.",
+                                             "format" : "pve-storage-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "volume" : {
+                                             "description" : "Volume identifier for the guest archive/entry.",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "description" : "You need read access for the volume.",
+                                       "user" : "all"
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "additionalProperties" : 0,
+                                       "description" : "Information about how to import a guest.",
+                                       "properties" : {
+                                          "create-args" : {
+                                             "additionalProperties" : 1,
+                                             "description" : "Parameters which can be used in a call to create a VM or container.",
+                                             "type" : "object"
+                                          },
+                                          "disks" : {
+                                             "additionalProperties" : 1,
+                                             "description" : "Recognised disk volumes as `$bus$id` => `$storeid:$path` map.",
+                                             "optional" : 1,
+                                             "type" : "object"
+                                          },
+                                          "net" : {
+                                             "additionalProperties" : 1,
+                                             "description" : "Recognised network interfaces as `net$id` => { ...params } object.",
+                                             "optional" : 1,
+                                             "type" : "object"
+                                          },
+                                          "source" : {
+                                             "description" : "The type of the import-source of this guest volume.",
+                                             "enum" : [
+                                                "esxi"
+                                             ],
+                                             "type" : "string"
+                                          },
+                                          "type" : {
+                                             "description" : "The type of guest this is going to produce.",
+                                             "enum" : [
+                                                "vm"
+                                             ],
+                                             "type" : "string"
+                                          },
+                                          "warnings" : {
+                                             "description" : "List of known issues that can affect the import of a guest. Note that lack of warning does not imply that there cannot be any problems.",
+                                             "items" : {
+                                                "additionalProperties" : 1,
+                                                "properties" : {
+                                                   "key" : {
+                                                      "description" : "Related subject (config) key of warning.",
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   },
+                                                   "type" : {
+                                                      "description" : "What this warning is about.",
+                                                      "enum" : [
+                                                         "cdrom-image-ignored",
+                                                         "efi-state-lost",
+                                                         "guest-is-running",
+                                                         "nvme-unsupported",
+                                                         "ovmf-with-lsi-unsupported",
+                                                         "serial-port-socket-only"
+                                                      ],
+                                                      "type" : "string"
+                                                   },
+                                                   "value" : {
+                                                      "description" : "Related subject (config) value of warning.",
+                                                      "optional" : 1,
+                                                      "type" : "string"
+                                                   }
+                                                },
+                                                "type" : "object"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/storage/{storage}/import-metadata",
+                              "text" : "import-metadata"
                            }
                         ],
                         "info" : {
@@ -48551,6 +48773,50 @@ const apiSchema = [
                         },
                         "proxyto" : "node",
                         "returns" : {
+                           "additionalProperties" : 1,
+                           "properties" : {
+                              "boot-info" : {
+                                 "description" : "Meta-information about the boot mode.",
+                                 "properties" : {
+                                    "mode" : {
+                                       "description" : "Through which firmware the system got booted.",
+                                       "enum" : [
+                                          "efi",
+                                          "legacy-bios"
+                                       ],
+                                       "type" : "string"
+                                    },
+                                    "secureboot" : {
+                                       "description" : "System is booted in secure mode, only applicable for the \"efi\" mode.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
+                              "current-kernel" : {
+                                 "description" : "The uptime of the system in seconds.",
+                                 "properties" : {
+                                    "machine" : {
+                                       "description" : "Hardware (architecture) type",
+                                       "type" : "string"
+                                    },
+                                    "release" : {
+                                       "description" : "OS kernel release (e.g., \"6.8.0\")",
+                                       "type" : "string"
+                                    },
+                                    "sysname" : {
+                                       "description" : "OS kernel name (e.g., \"Linux\")",
+                                       "type" : "string"
+                                    },
+                                    "version" : {
+                                       "description" : "OS kernel version with build info",
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              }
+                           },
                            "type" : "object"
                         }
                      },
@@ -49017,9 +49283,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "ceph_install",
                                     "login",
-                                    "upgrade"
+                                    "upgrade",
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -49112,9 +49378,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "ceph_install",
                                     "login",
-                                    "upgrade"
+                                    "upgrade",
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -49237,9 +49503,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "ceph_install",
                                     "login",
-                                    "upgrade"
+                                    "upgrade",
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -49624,11 +49890,21 @@ const apiSchema = [
                         },
                         "permissions" : {
                            "check" : [
-                              "perm",
-                              "/",
+                              "or",
                               [
-                                 "Sys.Audit",
-                                 "Sys.Modify"
+                                 "perm",
+                                 "/",
+                                 [
+                                    "Sys.Audit",
+                                    "Sys.Modify"
+                                 ]
+                              ],
+                              [
+                                 "perm",
+                                 "/nodes/{node}",
+                                 [
+                                    "Sys.AccessNetwork"
+                                 ]
                               ]
                            ]
                         },
@@ -50423,7 +50699,7 @@ const apiSchema = [
                            "typetext" : "<boolean>"
                         },
                         "nodes" : {
-                           "description" : "List of cluster node names.",
+                           "description" : "List of nodes for which the storage configuration applies.",
                            "format" : "pve-node-list",
                            "optional" : 1,
                            "type" : "string",
@@ -50511,7 +50787,14 @@ const apiSchema = [
                            "typetext" : "<string>"
                         },
                         "shared" : {
-                           "description" : "Mark storage as shared.",
+                           "description" : "Indicate that this is a single storage with the same contents on all nodes (or all listed in the 'nodes' option). It will not make the contents of a local storage automatically accessible to other nodes, it just marks an already shared storage as such!",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
+                        "skip-cert-verification" : {
+                           "default" : "false",
+                           "description" : "Disable TLS certificate verification, only enable on fully trusted networks!",
                            "optional" : 1,
                            "type" : "boolean",
                            "typetext" : "<boolean>"
@@ -50610,6 +50893,7 @@ const apiSchema = [
                               "cephfs",
                               "cifs",
                               "dir",
+                              "esxi",
                               "glusterfs",
                               "iscsi",
                               "iscsidirect",
@@ -50649,6 +50933,7 @@ const apiSchema = [
                         "cephfs",
                         "cifs",
                         "dir",
+                        "esxi",
                         "glusterfs",
                         "iscsi",
                         "iscsidirect",
@@ -50948,7 +51233,7 @@ const apiSchema = [
                      "typetext" : "<boolean>"
                   },
                   "nodes" : {
-                     "description" : "List of cluster node names.",
+                     "description" : "List of nodes for which the storage configuration applies.",
                      "format" : "pve-node-list",
                      "optional" : 1,
                      "type" : "string",
@@ -51056,7 +51341,14 @@ const apiSchema = [
                      "typetext" : "<string>"
                   },
                   "shared" : {
-                     "description" : "Mark storage as shared.",
+                     "description" : "Indicate that this is a single storage with the same contents on all nodes (or all listed in the 'nodes' option). It will not make the contents of a local storage automatically accessible to other nodes, it just marks an already shared storage as such!",
+                     "optional" : 1,
+                     "type" : "boolean",
+                     "typetext" : "<boolean>"
+                  },
+                  "skip-cert-verification" : {
+                     "default" : "false",
+                     "description" : "Disable TLS certificate verification, only enable on fully trusted networks!",
                      "optional" : 1,
                      "type" : "boolean",
                      "typetext" : "<boolean>"
@@ -51130,6 +51422,7 @@ const apiSchema = [
                         "cephfs",
                         "cifs",
                         "dir",
+                        "esxi",
                         "glusterfs",
                         "iscsi",
                         "iscsidirect",
@@ -51201,6 +51494,7 @@ const apiSchema = [
                         "cephfs",
                         "cifs",
                         "dir",
+                        "esxi",
                         "glusterfs",
                         "iscsi",
                         "iscsidirect",
@@ -51789,11 +52083,13 @@ const apiSchema = [
                            "additionalProperties" : 0,
                            "properties" : {
                               "comment" : {
+                                 "maxLength" : 2048,
                                  "optional" : 1,
                                  "type" : "string"
                               },
                               "email" : {
                                  "format" : "email-opt",
+                                 "maxLength" : 254,
                                  "optional" : 1,
                                  "type" : "string"
                               },
@@ -51810,6 +52106,7 @@ const apiSchema = [
                                  "type" : "integer"
                               },
                               "firstname" : {
+                                 "maxLength" : 1024,
                                  "optional" : 1,
                                  "type" : "string"
                               },
@@ -51824,9 +52121,11 @@ const apiSchema = [
                               "keys" : {
                                  "description" : "Keys for two factor auth (yubico).",
                                  "optional" : 1,
+                                 "pattern" : "[0-9a-zA-Z!=]{0,4096}",
                                  "type" : "string"
                               },
                               "lastname" : {
+                                 "maxLength" : 1024,
                                  "optional" : 1,
                                  "type" : "string"
                               },
@@ -51875,12 +52174,14 @@ const apiSchema = [
                                  "typetext" : "<boolean>"
                               },
                               "comment" : {
+                                 "maxLength" : 2048,
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
                               "email" : {
                                  "format" : "email-opt",
+                                 "maxLength" : 254,
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -51900,6 +52201,7 @@ const apiSchema = [
                                  "typetext" : "<integer> (0 - N)"
                               },
                               "firstname" : {
+                                 "maxLength" : 1024,
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -51913,10 +52215,11 @@ const apiSchema = [
                               "keys" : {
                                  "description" : "Keys for two factor auth (yubico).",
                                  "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
+                                 "pattern" : "[0-9a-zA-Z!=]{0,4096}",
+                                 "type" : "string"
                               },
                               "lastname" : {
+                                 "maxLength" : 1024,
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -51984,11 +52287,13 @@ const apiSchema = [
                      "items" : {
                         "properties" : {
                            "comment" : {
+                              "maxLength" : 2048,
                               "optional" : 1,
                               "type" : "string"
                            },
                            "email" : {
                               "format" : "email-opt",
+                              "maxLength" : 254,
                               "optional" : 1,
                               "type" : "string"
                            },
@@ -52005,6 +52310,7 @@ const apiSchema = [
                               "type" : "integer"
                            },
                            "firstname" : {
+                              "maxLength" : 1024,
                               "optional" : 1,
                               "type" : "string"
                            },
@@ -52016,9 +52322,11 @@ const apiSchema = [
                            "keys" : {
                               "description" : "Keys for two factor auth (yubico).",
                               "optional" : 1,
+                              "pattern" : "[0-9a-zA-Z!=]{0,4096}",
                               "type" : "string"
                            },
                            "lastname" : {
+                              "maxLength" : 1024,
                               "optional" : 1,
                               "type" : "string"
                            },
@@ -52096,12 +52404,14 @@ const apiSchema = [
                      "additionalProperties" : 0,
                      "properties" : {
                         "comment" : {
+                           "maxLength" : 2048,
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
                         },
                         "email" : {
                            "format" : "email-opt",
+                           "maxLength" : 254,
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
@@ -52121,6 +52431,7 @@ const apiSchema = [
                            "typetext" : "<integer> (0 - N)"
                         },
                         "firstname" : {
+                           "maxLength" : 1024,
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
@@ -52134,10 +52445,11 @@ const apiSchema = [
                         "keys" : {
                            "description" : "Keys for two factor auth (yubico).",
                            "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
+                           "pattern" : "[0-9a-zA-Z!=]{0,4096}",
+                           "type" : "string"
                         },
                         "lastname" : {
+                           "maxLength" : 1024,
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
@@ -52503,6 +52815,10 @@ const apiSchema = [
                                  "type" : "boolean"
                               },
                               "SDN.Use" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "Sys.AccessNetwork" : {
                                  "optional" : 1,
                                  "type" : "boolean"
                               },
@@ -53030,8 +53346,8 @@ const apiSchema = [
                               "acr-values" : {
                                  "description" : "Specifies the Authentication Context Class Reference values that theAuthorization Server is being requested to use for the Auth Request.",
                                  "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
+                                 "pattern" : "^[^\\x00-\\x1F\\x7F <>#\"]*$",
+                                 "type" : "string"
                               },
                               "autocreate" : {
                                  "default" : 0,
@@ -53383,8 +53699,8 @@ const apiSchema = [
                         "acr-values" : {
                            "description" : "Specifies the Authentication Context Class Reference values that theAuthorization Server is being requested to use for the Auth Request.",
                            "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
+                           "pattern" : "^[^\\x00-\\x1F\\x7F <>#\"]*$",
+                           "type" : "string"
                         },
                         "autocreate" : {
                            "default" : 0,
@@ -53835,7 +54151,7 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "password" : {
-                                       "description" : "The current password.",
+                                       "description" : "The current password of the user performing the change.",
                                        "maxLength" : 64,
                                        "minLength" : 5,
                                        "optional" : 1,
@@ -53973,7 +54289,7 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "password" : {
-                                       "description" : "The current password.",
+                                       "description" : "The current password of the user performing the change.",
                                        "maxLength" : 64,
                                        "minLength" : 5,
                                        "optional" : 1,
@@ -54118,7 +54434,7 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "password" : {
-                                 "description" : "The current password.",
+                                 "description" : "The current password of the user performing the change.",
                                  "maxLength" : 64,
                                  "minLength" : 5,
                                  "optional" : 1,
@@ -54413,6 +54729,14 @@ const apiSchema = [
                   "parameters" : {
                      "additionalProperties" : 0,
                      "properties" : {
+                        "confirmation-password" : {
+                           "description" : "The current password of the user performing the change.",
+                           "maxLength" : 64,
+                           "minLength" : 5,
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
                         "password" : {
                            "description" : "The new password.",
                            "maxLength" : 64,

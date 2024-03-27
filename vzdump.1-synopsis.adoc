@@ -30,7 +30,7 @@ Exclude specified guest systems (assumes --all)
 
 `--exclude-path` `<array>` ::
 
-Exclude certain files/directories (shell globs). Paths starting with '/' are anchored to the container's root,  other paths match relative to each subdirectory.
+Exclude certain files/directories (shell globs). Paths starting with '/' are anchored to the container's root, other paths match relative to each subdirectory.
 
 `--ionice` `<integer> (0 - 8)` ('default =' `7`)::
 
@@ -42,11 +42,11 @@ Maximal time to wait for the global lock (minutes).
 
 `--mailnotification` `<always | failure>` ('default =' `always`)::
 
-Deprecated: use 'notification-policy' instead.
+Deprecated: use notification targets/matchers instead. Specify when to send a notification mail
 
 `--mailto` `<string>` ::
 
-Comma-separated list of email addresses or users that should receive email notifications. Has no effect if the 'notification-target' option  is set at the same time.
+Deprecated: Use notification targets/matchers instead. Comma-separated list of email addresses or users that should receive email notifications.
 
 `--maxfiles` `<integer> (1 - N)` ::
 
@@ -66,13 +66,17 @@ Template string for generating notes for the backup(s). It can contain variables
 +
 NOTE: Requires option(s): `storage`
 
+`--notification-mode` `<auto | legacy-sendmail | notification-system>` ('default =' `auto`)::
+
+Determine which notification system to use. If set to 'legacy-sendmail', vzdump will consider the mailto/mailnotification parameters and send emails to the specified address(es) via the 'sendmail' command. If set to 'notification-system', a notification will be sent via PVE's notification system, and the mailto and mailnotification will be ignored. If set to 'auto' (default setting), an email will be sent if mailto is set, and the notification system will be used if not.
+
 `--notification-policy` `<always | failure | never>` ('default =' `always`)::
 
-Specify when to send a notification
+Deprecated: Do not use
 
 `--notification-target` `<string>` ::
 
-Determine the target to which notifications should be sent. Can either be a notification endpoint or a notification group. This option takes precedence over 'mailto', meaning that if both are  set, the 'mailto' option will be ignored.
+Deprecated: Do not use
 
 `--performance` `[max-workers=<integer>] [,pbs-entries-max=<integer>]` ::
 
@@ -134,5 +138,5 @@ Store temporary files to specified directory.
 
 `--zstd` `<integer>` ('default =' `1`)::
 
-Zstd threads. N=0 uses half of the available cores, N>0 uses N as thread count.
+Zstd threads. N=0 uses half of the available cores, if N is set to a value bigger than 0, N is used as thread count.
 
