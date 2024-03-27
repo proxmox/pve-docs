@@ -1,3 +1,31 @@
+pve-docs (8.1.5) bookworm; urgency=medium
+
+  * zfs: add a note about dRaid performance
+
+  * qm: multiqueue specify that it needs to be vCPUs not cores
+
+  *  qm: add documentation on configuring multiqueue for windows guests
+
+  * package-repos: improve wording partly based on pmg-docs
+
+  * installation: include various improvements made for PMG
+
+  * installation: update link to installing on top of Debian to bookworm version
+
+  * qm: rework import section, document new import wizard
+
+  * update static/schema information
+
+  * local-zfs: mention `zfs_arc_max` clamping by the installer
+
+  * installation: document `ARC max size` option for ZFS-on-root installations
+
+  * installation: reword `nomodeset` section a bit, add link to it
+
+  * installation: reference GRUB boot entry for serial console mode
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 27 Mar 2024 14:46:50 +0100
+
 pve-docs (8.1.4) bookworm; urgency=medium
 
   * secure boot: fix typos, add inline code formatting
