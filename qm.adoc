@@ -1517,8 +1517,64 @@ replicate services (such as databases or domain controller
 footnote:[https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/get-started/virtual-dc/virtualized-domain-controller-architecture])
 on snapshot rollback, backup restore or a whole VM clone operation.
 
-Importing Virtual Machines and disk images
-------------------------------------------
+[[qm_import_virtual_machines]]
+Importing Virtual Machines
+--------------------------
+
+Importing existing virtual machines from foreign hypervisors or other {pve}
+clusters can be achieved through various methods, the most common ones are:
+
+* Using the native import wizard, which utilizes the 'import' content type, such
+  as provided by the ESXi special storage.
+* Performing a backup on the source and then restoring on the target. This
+  method works best when migrating from another {pve} instance.
+* using the OVF-specific import command of the `qm` command-line tool.
+
+If you import VMs to {pve} from other hypervisors, it’s recommended to
+familiarize yourself with the
+https://pve.proxmox.com/wiki/Migrate_to_Proxmox_VE#Concepts[concepts of {pve}].
+
+Import Wizard
+~~~~~~~~~~~~~
+
+[thumbnail="screenshot/gui-import-wizard-general.png"]
+
+{pve} provides an integrated VM importer using the storage plugin system for
+native integration into the API and web-based user interface. You can use this
+to import the VM as a whole, with most of its config mapped to {pve}'s config
+model and reduced downtime.
+
+NOTE: The import wizard was added during the {pve} 8.2 development cycle and is
+in tech preview state. While it's already promising and working stable, it's
+still under active development, focusing on adding other import-sources, like
+for example OVF/OVA files, in the future.
+
+To use the import wizard you have to first set up a new storage for an import
+source, you can do so on the web-interface under _Datacenter -> Storage -> Add_.
+
+Then you can select the new storage in the resource tree and use the 'Virtual
+Guests' content tab to see all available guests that can be imported.
+
+[thumbnail="screenshot/gui-import-wizard-advanced.png"]
+
+Select one and use the 'Import' button (or double-click) to open the import
+wizard. You can modify a subset of the available options here and then start the
+import. Please note that you can do more advanced modifications after the import
+finished.
+
+TIP: The import wizard is currently (2024-03) available for ESXi and has been
+tested with ESXi versions 6.5 through 8.0. Note that guests using vSAN storage
+cannot be directly imported directly; their disks must first be moved to another
+storage. While it is possible to use a vCenter as the import source, performance
+is dramatically degraded (5 to 10 times slower).
+
+For a step-by-step guide and tips for how to adapt the virtual guest to the new
+hyper-visor see our
+https://pve.proxmox.com/wiki/Migrate_to_Proxmox_VE#Migration[migrate to {pve}
+wiki article].
+
+Import OVF/OVA Through CLI
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A VM export from a foreign hypervisor takes usually the form of one or more disk
  images, with a configuration file describing the settings of the VM (RAM,
@@ -1549,7 +1605,7 @@ that we cannot guarantee a successful import/export of Windows VMs in all
 cases due to the problems above.
 
 Step-by-step example of a Windows OVF import
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Microsoft provides
 https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/[Virtual Machines downloads]
@@ -1557,19 +1613,19 @@ https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/[Virtua
 to demonstrate the OVF import feature.
 
 Download the Virtual Machine zip
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+++++++++++++++++++++++++++++++++
 
 After getting informed about the user agreement, choose the _Windows 10
 Enterprise (Evaluation - Build)_ for the VMware platform, and download the zip.
 
 Extract the disk image from the zip
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++++++++++++++++++++++++++++++++++++
 
 Using the `unzip` utility or any archiver of your choice, unpack the zip,
 and copy via ssh/scp the ovf and vmdk files to your {pve} host.
 
 Import the Virtual Machine
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+++++++++++++++++++++++++++
 
 This will create a new virtual machine, using cores, memory and
 VM name as read from the OVF manifest, and import the disks to the +local-lvm+
@@ -1582,7 +1638,7 @@ VM name as read from the OVF manifest, and import the disks to the +local-lvm+
 The VM is ready to be started.
 
 Adding an external disk image to a Virtual Machine
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+++++++++++++++++++++++++++++++++++++++++++++++++++
 
 You can also add an existing disk image to a VM, either coming from a
 foreign hypervisor, or one that you created yourself.
