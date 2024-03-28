@@ -293,7 +293,7 @@ configuration will be adapted accordingly.
 `minfree`::
 
 Defines the amount of free space that should be left in the LVM volume group
-`pmg`. With more than 128GB storage available, the default is 16GB, otherwise
+`pve`. With more than 128GB storage available, the default is 16GB, otherwise
 `hdsize/8` will be used.
 +
 NOTE: LVM requires free space in the VG for snapshot creation (not required for
