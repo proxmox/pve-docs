@@ -135,9 +135,8 @@ config:
 errors: No known data errors
 ----
 
-The `zfs` command is used configure and manage your ZFS file
-systems. The following command lists all file systems after
-installation:
+The `zfs` command is used to configure and manage your ZFS file systems. The
+following command lists all file systems after installation:
 
 ----
 # zfs list
