@@ -499,6 +499,56 @@ properly used with HA and hardware changes are detected and non root users
 can configure them. See xref:resource_mapping[Resource Mapping]
 for details on that.
 
+[[qm_pci_viommu]]
+vIOMMU (emulated IOMMU)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+vIOMMU is the emulation of a hardware IOMMU within a virtual machine, providing
+improved memory access control and security for virtualized I/O devices. Using
+the vIOMMU option also allows you to pass through PCI devices to level-2 VMs in
+level-1 VMs via https://pve.proxmox.com/wiki/Nested_Virtualization[Nested Virtualization].
+There are currently two vIOMMU implementations available: Intel and VirtIO.
+
+Host requirement:
+
+* Add `intel_iommu=on` or `amd_iommu=on` depending on your CPU to your kernel
+command line.
+
+Intel vIOMMU
+^^^^^^^^^^^^
+
+Intel vIOMMU specific VM requirements:
+
+* Whether you are using an Intel or AMD CPU on your host, it is important to set
+`intel_iommu=on` in the VMs kernel parameters.
+
+* To use Intel vIOMMU you need to set *q35* as the machine type.
+
+If all requirements are met, you can add `viommu=intel` to the machine parameter
+in the configuration of the VM that should be able to pass through PCI devices.
+
+----
+# qm set VMID -machine q35,viommu=intel
+----
+
+https://wiki.qemu.org/Features/VT-d[QEMU documentation for VT-d]
+
+VirtIO vIOMMU
+^^^^^^^^^^^^^
+
+This vIOMMU implementation is more recent and does not have as many limitations
+as Intel vIOMMU but is currently less used in production and less documentated.
+
+With VirtIO vIOMMU there is *no* need to set any kernel parameters. It is also
+*not* necessary to use q35 as the machine type, but it is advisable if you want
+to use PCIe.
+
+----
+# qm set VMID -machine q35,viommu=virtio
+----
+
+https://web.archive.org/web/20230804075844/https://michael2012z.medium.com/virtio-iommu-789369049443[Blog-Post by Michael Zhao explaining virtio-iommu]
+
 ifdef::wiki[]
 
 See Also
