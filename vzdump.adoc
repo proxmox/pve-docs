@@ -136,6 +136,44 @@ not included in backups. For volume mount points you can set the *Backup* option
 to include the mount point in the backup. Device and bind mounts are never
 backed up as their content is managed outside the {pve} storage library.
 
+VM Backup Fleecing
+~~~~~~~~~~~~~~~~~~
+
+WARNING: Backup fleecing is still being worked on (also in upstream QEMU) and is
+currently only a technology preview.
+
+When a backup for a VM is started, QEMU will install a "copy-before-write"
+filter in its block layer. This filter ensures that upon new guest writes, old
+data still needed for the backup is sent to the backup target first. The guest
+write blocks until this operation is finished so guest IO to not-yet-backed-up
+sectors will be limited by the speed of the backup target.
+
+With backup fleecing, such old data is cached in a fleecing image rather than
+sent directly to the backup target. This can help guest IO performance and even
+prevent hangs in certain scenarios, at the cost of requiring more storage space.
+Use e.g. `vzdump 123 --fleecing enabled=1,storage=local-lvm` to enable backup
+fleecing, with fleecing images created on the storage `local-lvm`.
+
+The fleecing storage should be a fast local storage, with thin provisioning and
+discard support. Examples are LVM-thin, RBD, ZFS with `sparse 1` in the storage
+configuration, many file-based storages. Ideally, the fleecing storage is a
+dedicated storage, so it running full will not affect other guests and just fail
+the backup. Parts of the fleecing image that have been backed up will be
+discarded to try and keep the space usage low.
+
+For file-based storages that do not support discard (e.g. NFS before version
+4.2), you should set `preallocation off` in the storage configuration. In
+combination with `qcow2` (used automatically as the format for the fleecing
+image when the storage supports it), this has the advantage that already
+allocated parts of the image can be re-used later, which can still help save
+quite a bit of space.
+
+WARNING: On a storage that's not thinly provisioned, e.g. LVM or ZFS without the
+`sparse` option, the full size of the original disk needs to be reserved for the
+fleecing image up-front. On a thinly provisioned storage, the fleecing image can
+grow to the same size as the original image only if the guest re-writes a whole
+disk while the backup is busy with another disk.
+
 Backup File Names
 -----------------
 
