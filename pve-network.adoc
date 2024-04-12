@@ -13,11 +13,11 @@ page contains the complete format description. All {pve} tools try hard to keep
 direct user modifications, but using the GUI is still preferable, because it
 protects you from errors.
 
-A 'vmbr' interface is needed to connect guests to the underlying physical
-network.  They are a Linux bridge which can be thought of as a virtual switch
-to which the guests and physical interfaces are connected to.  This section
-provides some examples on how the network can be set up to accomodate different
-use cases like redundancy with a xref:sysadmin_network_bond['bond'],
+A Linux bridge interface (commonly called 'vmbrX') is needed to connect guests
+to the underlying physical network. It can be thought of as a virtual switch
+which the guests and physical interfaces are connected to. This section provides
+some examples on how the network can be set up to accomodate different use cases
+like redundancy with a xref:sysadmin_network_bond['bond'],
 xref:sysadmin_network_vlan['vlans'] or
 xref:sysadmin_network_routed['routed'] and
 xref:sysadmin_network_masquerading['NAT'] setups.
@@ -75,7 +75,9 @@ We currently use the following naming conventions for device names:
 scheme is used for {pve} hosts which were installed before the 5.0
 release. When upgrading to 5.0, the names are kept as-is.
 
-* Bridge names: `vmbr[N]`, where 0 ≤ N ≤ 4094 (`vmbr0` - `vmbr4094`)
+* Bridge names: Commonly `vmbr[N]`, where 0 ≤ N ≤ 4094 (`vmbr0` - `vmbr4094`),
+but you can use any alphanumeric string that starts with a character and is at
+most 10 characters long.
 
 * Bonds: `bond[N]`, where 0 ≤ N (`bond0`, `bond1`, ...)
 
