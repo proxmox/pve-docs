@@ -24,6 +24,10 @@ server::
 
 Server IP or DNS name. Required.
 
+port::
+
+Use this port instead of the default one, i.e. `8007`. Optional.
+
 username::
 
 The username for the Proxmox Backup Server storage. Required.
