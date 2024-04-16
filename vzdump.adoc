@@ -210,9 +210,9 @@ together with the backup.
 
 Since scheduled backups miss their execution when the host was offline or the
 pvescheduler was disabled during the scheduled time, it is possible to configure
-the behaviour for catching up. By enabling the `Repeat missed` option
-(`repeat-missed` in the config), you can tell the scheduler that it should run
-missed jobs as soon as possible.
+the behaviour for catching up. By enabling the `Repeat missed` option (in the
+'Advanced' tab in the UI, `repeat-missed` in the config), you can tell the
+scheduler that it should run missed jobs as soon as possible.
 
 There are a few settings for tuning backup performance (some of which are
 exposed in the 'Advanced' tab in the UI). The most notable is `bwlimit` for
