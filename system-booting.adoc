@@ -378,7 +378,8 @@ Secure Boot
 Since {pve} 8.1, Secure Boot is supported out of the box via signed packages
 and integration in `proxmox-boot-tool`.
 
-The following packages need to be installed for Secure Boot to be enabled:
+The following packages needed for Secure Boot to work, are installed as
+dependency of `proxmox-secure-boot-support`:
 
 - `shim-signed` (shim bootloader signed by Microsoft)
 - `shim-helpers-amd64-signed` (fallback bootloader and MOKManager, signed by
@@ -404,9 +405,9 @@ well-tested backup of your {pve} host!**
 An existing UEFI installation can be switched over to Secure Boot if desired,
 without having to reinstall {pve} from scratch.
 
-First, ensure all your system is up-to-date. Next, install all the required
-pre-signed packages as listed above. GRUB automatically creates the needed EFI
-boot entry for booting via the default shim.
+First, ensure all your system is up-to-date. Next, install
+`proxmox-secure-boot-support`. GRUB automatically creates the needed EFI boot
+entry for booting via the default shim.
 
 .systemd-boot
 
