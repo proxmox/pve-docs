@@ -1839,6 +1839,13 @@ Same as above, but only wait for 40 seconds.
 # qm shutdown 300 && qm wait 300 -timeout 40
 ----
 
+If the VM does not shut down, force-stop it and overrule any running shutdown
+tasks. As stopping VMs may incur data loss, use it with caution.
+
+----
+# qm stop 300 -overrule-shutdown 1
+----
+
 Destroying a VM always removes it from Access Control Lists and it always
 removes the firewall configuration of the VM. You have to activate
 '--purge', if you want to additionally remove the VM from replication jobs,
