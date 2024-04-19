@@ -379,6 +379,7 @@ discovery protocol to work.
 ----
 
 
+[[pve_firewall_services_commands]]
 Services and Commands
 ---------------------
 
@@ -636,6 +637,186 @@ Ports used by {pve}
 * sendmail: 25 (TCP, outgoing)
 * corosync cluster traffic: 5405-5412 UDP
 * live migration (VM memory and local-disk data): 60000-60050 (TCP)
+
+
+nftables
+--------
+
+As an alternative to `pve-firewall` we offer `proxmox-firewall`, which is an
+implementation of the Proxmox VE firewall based on the newer
+https://wiki.nftables.org/wiki-nftables/index.php/What_is_nftables%3F[nftables]
+rather than iptables.
+
+WARNING: `proxmox-firewall` is currently in tech preview. There might be bugs or
+incompatibilies with the original firewall. It is currently not suited for
+production use.
+
+This implementation uses the same configuration files and configuration format,
+so you can use your old configuration when switching. It provides the exact same
+functionality with a few exceptions:
+
+* REJECT is currently not possible for guest traffic (traffic will instead be
+  dropped).
+* Using the `NDP`, `Router Advertisement` or `DHCP` options will *always* create
+  firewall rules, irregardless of your default policy.
+* firewall rules for guests are evaluated even for connections that have
+  conntrack table entries.
+
+
+Installation and Usage
+~~~~~~~~~~~~~~~~~~~~~~
+
+Install the `proxmox-firewall` package:
+
+----
+apt install proxmox-firewall
+----
+
+Enable the nftables backend via the Web UI on your hosts (Host > Firewall >
+Options > nftables), or by enabling it in the configuration file for your hosts
+(`/etc/pve/nodes/<node_name>/host.fw`):
+
+----
+[OPTIONS]
+
+nftables: 1
+----
+
+NOTE: After enabling/disabling `proxmox-firewall`, all running VMs and
+containers need to be restarted for the old/new firewall to work properly.
+
+After setting the `nftables` configuration key, the new `proxmox-firewall`
+service will take over. You can check if the new service is working by
+checking the systemctl status of `proxmox-firewall`:
+
+----
+systemctl status proxmox-firewall
+----
+
+You can also examine the generated ruleset. You can find more information about
+this in the section xref:pve_firewall_nft_helpful_commands[Helpful Commands].
+You should also check whether `pve-firewall` is no longer generating iptables
+rules, you can find the respective commands in the
+xref:pve_firewall_services_commands[Services and Commands] section.
+
+Switching back to the old firewall can be done by simply setting the
+configuration value back to 0 / No.
+
+Usage
+~~~~~
+
+`proxmox-firewall` will create two tables that are managed by the
+`proxmox-firewall` service: `proxmox-firewall` and `proxmox-firewall-guests`. If
+you want to create custom rules that live outside the Proxmox VE firewall
+configuration you can create your own tables to manage your custom firewall
+rules. `proxmox-firewall` will only touch the tables it generates, so you can
+easily extend and modify the behavior of the `proxmox-firewall` by adding your
+own tables.
+
+Instead of using the `pve-firewall` command, the nftables-based firewall uses
+`proxmox-firewall`. It is a systemd service, so you can start and stop it via
+`systemctl`:
+
+----
+systemctl start proxmox-firewall
+systemctl stop proxmox-firewall
+----
+
+Stopping the firewall service will remove all generated rules.
+
+To query the status of the firewall, you can query the status of the systemctl
+service:
+
+----
+systemctl status proxmox-firewall
+----
+
+
+[[pve_firewall_nft_helpful_commands]]
+Helpful Commands
+~~~~~~~~~~~~~~~~
+You can check the generated ruleset via the following command:
+
+----
+nft list ruleset
+----
+
+If you want to debug `proxmox-firewall` you can simply run the daemon in
+foreground with the `RUST_LOG` environment variable set to `trace`. This should
+provide you with detailed debugging output:
+
+----
+RUST_LOG=trace /usr/libexec/proxmox/proxmox-firewall
+----
+
+You can also edit the systemctl service if you want to have detailed output for
+your firewall daemon:
+
+----
+systemctl edit proxmox-firewall
+----
+
+Then you need to add the override for the `RUST_LOG` environment variable:
+
+----
+[Service]
+Environment="RUST_LOG=trace"
+----
+
+This will generate a large amount of logs very quickly, so only use this for
+debugging purposes. Other, less verbose, log levels are `info` and `debug`.
+
+Running in foreground writes the log output to STDERR, so you can redirect it
+with the following command (e.g. for submitting logs to the community forum):
+
+----
+RUST_LOG=trace /usr/libexec/proxmox/proxmox-firewall 2> firewall_log_$(hostname).txt
+----
+
+It can be helpful to trace packet flow through the different chains in order to
+debug firewall rules. This can be achieved by setting `nftrace` to 1 for packets
+that you want to track. It is advisable that you do not set this flag for *all*
+packets, in the example below we only examine ICMP packets.
+
+----
+#!/usr/sbin/nft -f
+table bridge tracebridge
+delete table bridge tracebridge
+
+table bridge tracebridge {
+    chain trace {
+        meta l4proto icmp meta nftrace set 1
+    }
+
+    chain prerouting {
+        type filter hook prerouting priority -350; policy accept;
+        jump trace
+    }
+
+    chain postrouting {
+        type filter hook postrouting priority -350; policy accept;
+        jump trace
+    }
+}
+----
+
+Saving this file, making it executable, and then running it once will create the
+respective tracing chains. You can then inspect the tracing output via the
+Proxmox VE Web UI (Firewall > Log) or via `nft monitor trace`.
+
+The above example traces traffic on all bridges, which is usually where guest
+traffic flows through. If you want to examine host traffic, create those chains
+in the `inet` table instead of the `bridge` table.
+
+NOTE: Be aware that this can generate a *lot* of log spam and slow down the
+performance of your networking stack significantly.
+
+You can remove the tracing rules via running the following command:
+
+----
+nft delete table bridge tracebridge
+----
+
 
 ifdef::manvolnum[]
 
