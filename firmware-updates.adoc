@@ -49,10 +49,11 @@ https://fwupd.org/lvfs/devices/[supported hardware] in use. The technical
 requirement for this is that the system was manufactured after 2014 and is
 booted via UEFI.
 
-Since {pve} ships its own version of the `fwupd` package, for Secure Boot
-Support with the Proxmox signing key, which does not recommend the `udisks2`
-package, due to observed issues with its use on hypervisors setting the mount
-point of the EFI partition in `/etc/fwupd/daemon.conf` is necessary:
+{pve} ships its own version of the `fwupd` package to enable Secure Boot
+Support with the Proxmox signing key. This package conciosuly dropped the
+dependency recommendation for the `udisks2` package, due to observed issues with
+its use on hypervisors. That means you must explicitly configure the correct
+mount point of the EFI partition in `/etc/fwupd/daemon.conf`, for example:
 
 .File `/etc/fwupd/daemon.conf`
 ----
