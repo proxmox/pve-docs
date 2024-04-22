@@ -1,3 +1,37 @@
+pve-docs (8.2.0) bookworm; urgency=medium
+
+  * installation: fix volume group name
+
+  * pvenode/wake-on-lan: mention defaults and optional config options
+
+  * system-requirements: mention that SSDs with PLP should be used
+
+  * add vIOMMU documentation
+
+  * backup: update information about performance settings
+
+  * backup: clarify where repeat-missed option can be found now
+
+  * storage: pbs: document port option
+
+  * secure boot: mention proxmox-secure-boot-support metapackage
+
+  * qm: add overrule-shutdown to CLI usage examples
+
+  * ssh: document PVE-specific setup
+
+  * vzdump: add section about backup fleecing
+
+  * firmware: adapt to proxmox packaged fwupd
+
+  * network: update specification for the reduced restrictions on bridge names
+
+  * update static/schema information
+
+  * installation: add section about unattended/automatic installation
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 22 Apr 2024 13:42:22 +0200
+
 pve-docs (8.1.5) bookworm; urgency=medium
 
   * zfs: add a note about dRaid performance
