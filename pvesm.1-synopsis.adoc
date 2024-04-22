@@ -8,7 +8,7 @@ Create a new storage.
 
 Storage type.
 
-`<storage>`: `<string>` ::
+`<storage>`: `<storage ID>` ::
 
 The storage identifier.
 
@@ -170,7 +170,7 @@ File system path.
 
 Pool.
 
-`--port` `<integer> (1 - 65535)` ('default =' `8007`)::
+`--port` `<integer> (1 - 65535)` ::
 
 For non default port.
 
@@ -260,7 +260,7 @@ Glusterfs Volume.
 
 Allocate disk images.
 
-`<storage>`: `<string>` ::
+`<storage>`: `<storage ID>` ::
 
 The storage identifier.
 
@@ -342,7 +342,7 @@ Volume identifier
 
 Time to wait for the task to finish. We return 'null' if the task finish within that time.
 
-`--storage` `<string>` ::
+`--storage` `<storage ID>` ::
 
 The storage identifier.
 
@@ -406,7 +406,7 @@ An alias for 'pvesm scan iscsi'.
 
 List storage content.
 
-`<storage>`: `<string>` ::
+`<storage>`: `<storage ID>` ::
 
 The storage identifier.
 
@@ -444,7 +444,7 @@ Prune backups. Only those using the standard naming scheme are considered.
 If no keep options are specified, those from the storage configuration are
 used.
 
-`<storage>`: `<string>` ::
+`<storage>`: `<storage ID>` ::
 
 The storage identifier.
 
@@ -492,7 +492,7 @@ Only consider backups for this guest.
 
 Delete storage configuration.
 
-`<storage>`: `<string>` ::
+`<storage>`: `<storage ID>` ::
 
 The storage identifier.
 
@@ -584,7 +584,7 @@ Scan zfs pool list on local node.
 
 Update storage configuration.
 
-`<storage>`: `<string>` ::
+`<storage>`: `<storage ID>` ::
 
 The storage identifier.
 
@@ -730,7 +730,7 @@ Password for accessing the share/datastore.
 
 Pool.
 
-`--port` `<integer> (1 - 65535)` ('default =' `8007`)::
+`--port` `<integer> (1 - 65535)` ::
 
 For non default port.
 
@@ -808,7 +808,7 @@ Only list stores which are enabled (not disabled in config).
 
 Include information about formats
 
-`--storage` `<string>` ::
+`--storage` `<storage ID>` ::
 
 Only list status for  specified storage
 

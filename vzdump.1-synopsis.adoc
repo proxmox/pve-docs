@@ -32,6 +32,10 @@ Exclude specified guest systems (assumes --all)
 
 Exclude certain files/directories (shell globs). Paths starting with '/' are anchored to the container's root, other paths match relative to each subdirectory.
 
+`--fleecing` `[[enabled=]<1|0>] [,storage=<storage ID>]` ::
+
+Options for backup fleecing (VM only).
+
 `--ionice` `<integer> (0 - 8)` ('default =' `7`)::
 
 Set IO priority when using the BFQ scheduler. For snapshot and suspend mode backups of VMs, this only affects the compressor. A value of 8 means the idle priority is used, otherwise the best-effort priority is used with the specified value.
@@ -128,7 +132,7 @@ Stop running backup jobs on this host.
 
 Maximal time to wait until a guest system is stopped (minutes).
 
-`--storage` `<string>` ::
+`--storage` `<storage ID>` ::
 
 Store resulting file to this storage.
 

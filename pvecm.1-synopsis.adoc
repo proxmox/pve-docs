@@ -185,4 +185,8 @@ Force generation of new SSL certificate.
 
 Ignore errors (i.e. when cluster has no quorum).
 
+`--unmerge-known-hosts` `<boolean>` ('default =' `0`)::
+
+Unmerge legacy SSH known hosts.
+
 

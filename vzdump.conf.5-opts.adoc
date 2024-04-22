@@ -14,6 +14,18 @@ Store resulting files to specified directory.
 
 Exclude certain files/directories (shell globs). Paths starting with '/' are anchored to the container's root, other paths match relative to each subdirectory.
 
+`fleecing`: `[[enabled=]<1|0>] [,storage=<storage ID>]` ::
+
+Options for backup fleecing (VM only).
+
+`enabled`=`<boolean>` ('default =' `0`);;
+
+Enable backup fleecing. Cache backup data from blocks where new guest writes happen on specified storage instead of copying them directly to the backup target. This can help guest IO performance and even prevent hangs, at the cost of requiring more storage space.
+
+`storage`=`<storage ID>` ;;
+
+Use this storage to storage fleecing images. For efficient space usage, it's best to use a local storage that supports discard and either thin provisioning or sparse files.
+
 `ionice`: `<integer> (0 - 8)` ('default =' `7`)::
 
 Set IO priority when using the BFQ scheduler. For snapshot and suspend mode backups of VMs, this only affects the compressor. A value of 8 means the idle priority is used, otherwise the best-effort priority is used with the specified value.
@@ -130,7 +142,7 @@ Exclude temporary files and logs.
 
 Maximal time to wait until a guest system is stopped (minutes).
 
-`storage`: `<string>` ::
+`storage`: `<storage ID>` ::
 
 Store resulting file to this storage.
 

@@ -525,9 +525,17 @@ Set the real time clock (RTC) to local time. This is enabled by default if the `
 
 Lock/unlock the VM.
 
-`machine`: `(pc|pc(-i440fx)?-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|q35|pc-q35-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|virt(?:-\d+(\.\d+)+)?(\+pve\d+)?)` ::
+`machine`: `[[type=]<machine type>] [,viommu=<intel|virtio>]` ::
+
+Specify the QEMU machine.
+
+`type`=`<machine type>` ;;
 
 Specifies the QEMU machine type.
+
+`viommu`=`<intel | virtio>` ;;
+
+Enable and set guest vIOMMU variant (Intel vIOMMU needs q35 to be set as machine type).
 
 `memory`: `[current=]<integer>` ::
 
@@ -1423,7 +1431,7 @@ Write error action.
 The VM generation ID (vmgenid) device exposes a 128-bit integer value identifier to the guest OS. This allows to notify the guest operating system when the virtual machine is executed with a different configuration (e.g. snapshot execution or creation from a template). The guest operating system notices the change, and is then able to react as appropriate by marking its copies of distributed databases as dirty, re-initializing its random number generator, etc.
 Note that auto-creation only works when done through API/CLI create or update methods, but not when manually editing the config file.
 
-`vmstatestorage`: `<string>` ::
+`vmstatestorage`: `<storage ID>` ::
 
 Default storage for VM state volumes/files.
 

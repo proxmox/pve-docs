@@ -38,6 +38,10 @@ Conntrack established timeout.
 
 Conntrack syn recv timeout.
 
+`nftables`: `<boolean>` ('default =' `0`)::
+
+Enable nftables based firewall (tech preview)
+
 `nosmurfs`: `<boolean>` ::
 
 Enable SMURFS filter.

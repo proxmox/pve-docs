@@ -12,7 +12,7 @@ Restrict list to specified section.
 
 Download appliance templates.
 
-`<storage>`: `<string>` ::
+`<storage>`: `<storage ID>` ::
 
 The storage where the template will be stored
 
@@ -36,7 +36,7 @@ Verbose output format.
 
 Get list of all templates on storage
 
-`<storage>`: `<string>` ::
+`<storage>`: `<storage ID>` ::
 
 Only list templates on specified storage
 

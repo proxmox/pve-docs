@@ -117,38 +117,33 @@ Upper, exclusive boundary for free next-id API range.
 
 Cluster-wide notification settings.
 
-`fencing`=`<always | never>` ('default =' `always`);;
+`fencing`=`<always | never>` ;;
 
-Control if notifications about node fencing should be sent.
-* 'always' always send out notifications
-* 'never' never send out notifications.
-For production systems, turning off node fencing notifications is notrecommended!
+UNUSED - Use datacenter notification settings instead.
 
 `package-updates`=`<always | auto | never>` ('default =' `auto`);;
 
+DEPRECATED: Use datacenter notification settings instead.
 Control how often the daily update job should send out notifications:
 * 'auto' daily for systems with a valid subscription, as those are assumed to be  production-ready and thus should know about pending updates.
 * 'always' every update, if there are new pending updates.
 * 'never' never send a notification for new pending updates.
 
-`replication`=`<always | never>` ('default =' `always`);;
+`replication`=`<always | never>` ;;
 
-Control if notifications for replication failures should be sent.
-* 'always' always send out notifications
-* 'never' never send out notifications.
-For production systems, turning off replication notifications is notrecommended!
+UNUSED - Use datacenter notification settings instead.
 
 `target-fencing`=`<TARGET>` ;;
 
-Control where notifications about fenced cluster nodes should be sent to. Has to be the name of a notification target (endpoint or notification group). If the 'target-fencing' parameter is not set, the system will send mails to root via a 'sendmail' notification endpoint.
+UNUSED - Use datacenter notification settings instead.
 
 `target-package-updates`=`<TARGET>` ;;
 
-Control where notifications about available updates should be sent to. Has to be the name of a notification target (endpoint or notification group). If the 'target-package-updates' parameter is not set, the system will send mails to root via a 'sendmail' notification endpoint.
+UNUSED - Use datacenter notification settings instead.
 
 `target-replication`=`<TARGET>` ;;
 
-Control where notifications for failed storage replication jobs should be sent to. Has to be the name of a notification target (endpoint or notification group). If the 'target-replication' parameter is not set, the system will send mails to root via a 'sendmail' notification endpoint.
+UNUSED - Use datacenter notification settings instead.
 
 `registered-tags`: `<tag>[;<tag>...]` ::
 

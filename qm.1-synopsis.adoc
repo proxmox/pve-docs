@@ -61,7 +61,7 @@ Add the new VM to the specified pool.
 
 The name of the snapshot.
 
-`--storage` `<string>` ::
+`--storage` `<storage ID>` ::
 
 Target storage for full clone.
 
@@ -295,9 +295,9 @@ Set the real time clock (RTC) to local time. This is enabled by default if the `
 
 Lock/unlock the VM.
 
-`--machine` `(pc|pc(-i440fx)?-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|q35|pc-q35-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|virt(?:-\d+(\.\d+)+)?(\+pve\d+)?)` ::
+`--machine` `[[type=]<machine type>] [,viommu=<intel|virtio>]` ::
 
-Specifies the QEMU machine type.
+Specify the QEMU machine.
 
 `--memory` `[current=]<integer>` ::
 
@@ -415,7 +415,7 @@ Set the initial date of the real time clock. Valid format for date are:'now' or 
 
 Startup and shutdown behavior. Order is a non-negative number defining the general startup order. Shutdown in done with reverse ordering. Additionally you can set the 'up' or 'down' delay in seconds, which specifies a delay to wait before the next VM is started or stopped.
 
-`--storage` `<string>` ::
+`--storage` `<storage ID>` ::
 
 Default storage.
 
@@ -469,7 +469,7 @@ Use volume as VIRTIO hard disk (n is 0 to 15). Use the special syntax STORAGE_ID
 
 Set VM Generation ID. Use '1' to autogenerate on create or update, pass '0' to disable explicitly.
 
-`--vmstatestorage` `<string>` ::
+`--vmstatestorage` `<storage ID>` ::
 
 Default storage for VM state volumes/files.
 
@@ -527,7 +527,7 @@ The (unique) ID of the VM.
 
 Path to the disk image to import
 
-`<storage>`: `<string>` ::
+`<storage>`: `<storage ID>` ::
 
 Target storage ID
 
@@ -547,7 +547,7 @@ The (unique) ID of the VM.
 
 The disk you want to move.
 
-`<storage>`: `<string>` ::
+`<storage>`: `<storage ID>` ::
 
 Target storage.
 
@@ -892,9 +892,9 @@ Set the real time clock (RTC) to local time. This is enabled by default if the `
 
 Lock/unlock the VM.
 
-`--machine` `(pc|pc(-i440fx)?-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|q35|pc-q35-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|virt(?:-\d+(\.\d+)+)?(\+pve\d+)?)` ::
+`--machine` `[[type=]<machine type>] [,viommu=<intel|virtio>]` ::
 
-Specifies the QEMU machine type.
+Specify the QEMU machine.
 
 `--memory` `[current=]<integer>` ::
 
@@ -1004,7 +1004,7 @@ Set the initial date of the real time clock. Valid format for date are:'now' or 
 
 Startup and shutdown behavior. Order is a non-negative number defining the general startup order. Shutdown in done with reverse ordering. Additionally you can set the 'up' or 'down' delay in seconds, which specifies a delay to wait before the next VM is started or stopped.
 
-`--storage` `<string>` ::
+`--storage` `<storage ID>` ::
 
 Default storage.
 
@@ -1052,7 +1052,7 @@ Use volume as VIRTIO hard disk (n is 0 to 15).
 
 Set VM Generation ID. Use '1' to autogenerate on create or update, pass '0' to disable explicitly.
 
-`--vmstatestorage` `<string>` ::
+`--vmstatestorage` `<storage ID>` ::
 
 Default storage for VM state volumes/files.
 
@@ -1076,7 +1076,7 @@ The (unique) ID of the VM.
 
 path to the ovf file
 
-`<storage>`: `<string>` ::
+`<storage>`: `<storage ID>` ::
 
 Target storage ID
 
@@ -1206,7 +1206,7 @@ The (unique) ID of the VM.
 
 The (unique) ID of the VM.
 
-`<target-endpoint>`: `apitoken=<user@realm!token=SECRET> ,host=<ADDRESS> [,fingerprint=<FINGERPRINT>] [,port=<PORT>]` ::
+`<target-endpoint>`: `apitoken=<PVEAPIToken=user@realm!token=SECRET> ,host=<ADDRESS> [,fingerprint=<FINGERPRINT>] [,port=<PORT>]` ::
 
 Remote target endpoint
 
@@ -1476,9 +1476,9 @@ Set the real time clock (RTC) to local time. This is enabled by default if the `
 
 Lock/unlock the VM.
 
-`--machine` `(pc|pc(-i440fx)?-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|q35|pc-q35-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|virt(?:-\d+(\.\d+)+)?(\+pve\d+)?)` ::
+`--machine` `[[type=]<machine type>] [,viommu=<intel|virtio>]` ::
 
-Specifies the QEMU machine type.
+Specify the QEMU machine.
 
 `--memory` `[current=]<integer>` ::
 
@@ -1640,7 +1640,7 @@ Use volume as VIRTIO hard disk (n is 0 to 15). Use the special syntax STORAGE_ID
 
 Set VM Generation ID. Use '1' to autogenerate on create or update, pass '0' to disable explicitly.
 
-`--vmstatestorage` `<string>` ::
+`--vmstatestorage` `<storage ID>` ::
 
 Default storage for VM state volumes/files.
 
@@ -1667,7 +1667,7 @@ Fetch config values from given snapshot.
 *qm shutdown* `<vmid>` `[OPTIONS]`
 
 Shutdown virtual machine. This is similar to pressing the power button on a
-physical machine.This will send an ACPI event for the guest OS, which
+physical machine. This will send an ACPI event for the guest OS, which
 should then proceed to a clean shutdown.
 
 `<vmid>`: `<integer> (100 - 999999999)` ::
@@ -1722,9 +1722,9 @@ The (unique) ID of the VM.
 
 Override QEMU's -cpu argument with the given string.
 
-`--machine` `(pc|pc(-i440fx)?-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|q35|pc-q35-\d+(\.\d+)+(\+pve\d+)?(\.pxe)?|virt(?:-\d+(\.\d+)+)?(\+pve\d+)?)` ::
+`--machine` `[[type=]<machine type>] [,viommu=<intel|virtio>]` ::
 
-Specifies the QEMU machine type.
+Specify the QEMU machine.
 
 `--migratedfrom` `<string>` ::
 
@@ -1768,8 +1768,8 @@ Verbose output format
 
 *qm stop* `<vmid>` `[OPTIONS]`
 
-Stop virtual machine. The qemu process will exit immediately. Thisis akin
-to pulling the power plug of a running computer and may damage the VM data
+Stop virtual machine. The qemu process will exit immediately. This is akin
+to pulling the power plug of a running computer and may damage the VM data.
 
 `<vmid>`: `<integer> (100 - 999999999)` ::
 
@@ -1782,6 +1782,10 @@ Do not deactivate storage volumes.
 `--migratedfrom` `<string>` ::
 
 The cluster node name.
+
+`--overrule-shutdown` `<boolean>` ('default =' `0`)::
+
+Try to abort active 'qmshutdown' tasks before stopping.
 
 `--skiplock` `<boolean>` ::
 
@@ -1803,7 +1807,7 @@ The (unique) ID of the VM.
 
 Ignore locks - only root is allowed to use this option.
 
-`--statestorage` `<string>` ::
+`--statestorage` `<storage ID>` ::
 
 The storage for the VM state
 +

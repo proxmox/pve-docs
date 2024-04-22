@@ -229,9 +229,9 @@ Prevent changes if current configuration file has different SHA1 digest. This ca
 
 Initial delay in seconds, before starting all the Virtual Guests with on-boot enabled.
 
-`--wakeonlan` `<string>` ::
+`--wakeonlan` `[mac=]<MAC address> [,bind-interface=<bind interface>] [,broadcast-address=<IPv4 broadcast address>]` ::
 
-MAC address for wake on LAN
+Node specific wake on LAN settings.
 
 *pvenode help* `[OPTIONS]`
 

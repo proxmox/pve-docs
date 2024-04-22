@@ -28,7 +28,7 @@ Start the VM immediately from the backup and restore in background. PBS only.
 
 Add the VM to the specified pool.
 
-`--storage` `<string>` ::
+`--storage` `<storage ID>` ::
 
 Default storage.
 
