@@ -38,7 +38,7 @@ Destination IP address.
 
 Destination port.
 
-`--from` `(host|outside|vm\d+|ct\d+|vmbr\d+/\S+)` ('default =' `outside`)::
+`--from` `(host|outside|vm\d+|ct\d+|([a-zA-Z][a-zA-Z0-9]{0,9})/(\S+))` ('default =' `outside`)::
 
 Source zone.
 
@@ -54,7 +54,7 @@ Source IP address.
 
 Source port.
 
-`--to` `(host|outside|vm\d+|ct\d+|vmbr\d+/\S+)` ('default =' `host`)::
+`--to` `(host|outside|vm\d+|ct\d+|([a-zA-Z][a-zA-Z0-9]{0,9})/(\S+))` ('default =' `host`)::
 
 Destination zone.
 
