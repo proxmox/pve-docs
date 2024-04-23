@@ -228,11 +228,15 @@ encryption of backups, see xref:storage_pbs_encryption[the corresponding section
 Backup Jobs
 -----------
 
+[thumbnail="screenshot/gui-cluster-backup-overview.png"]
+
 Besides triggering a backup manually, you can also setup periodic jobs that
 backup all, or a selection of virtual guest to a storage. You can manage the
 jobs in the UI under 'Datacenter' -> 'Backup' or via the `/cluster/backup` API
 endpoint. Both will generate job entries in `/etc/pve/jobs.cfg`, which are
 parsed and executed by the `pvescheduler` daemon.
+
+[thumbnail="screenshot/gui-cluster-backup-edit-01-general.png", float="left"]
 
 A job is either configured for all cluster nodes or a specific node, and is
 executed according to a given schedule. The format for the schedule is very
@@ -241,16 +245,21 @@ xref:chapter_calendar_events[calendar events] section for details. The
 'Schedule' field in the UI can be freely edited, and it contains several
 examples that can be used as a starting point in its drop-down list.
 
+[thumbnail="screenshot/gui-cluster-backup-edit-02-retention.png"]
+
 You can configure job-specific xref:vzdump_retention[retention options]
 overriding those from the storage or node configuration, as well as a
 xref:vzdump_notes[template for notes] for additional information to be saved
 together with the backup.
 
+[thumbnail="screenshot/gui-cluster-backup-edit-03-template.png", float="left"]
 Since scheduled backups miss their execution when the host was offline or the
 pvescheduler was disabled during the scheduled time, it is possible to configure
 the behaviour for catching up. By enabling the `Repeat missed` option (in the
 'Advanced' tab in the UI, `repeat-missed` in the config), you can tell the
 scheduler that it should run missed jobs as soon as possible.
+
+[thumbnail="screenshot/gui-cluster-backup-edit-04-advanced.png"]
 
 There are a few settings for tuning backup performance (some of which are
 exposed in the 'Advanced' tab in the UI). The most notable is `bwlimit` for
