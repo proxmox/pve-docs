@@ -245,14 +245,11 @@ xref:chapter_calendar_events[calendar events] section for details. The
 'Schedule' field in the UI can be freely edited, and it contains several
 examples that can be used as a starting point in its drop-down list.
 
-[thumbnail="screenshot/gui-cluster-backup-edit-02-retention.png"]
-
 You can configure job-specific xref:vzdump_retention[retention options]
 overriding those from the storage or node configuration, as well as a
 xref:vzdump_notes[template for notes] for additional information to be saved
 together with the backup.
 
-[thumbnail="screenshot/gui-cluster-backup-edit-03-template.png", float="left"]
 Since scheduled backups miss their execution when the host was offline or the
 pvescheduler was disabled during the scheduled time, it is possible to configure
 the behaviour for catching up. By enabling the `Repeat missed` option (in the
@@ -275,7 +272,11 @@ Backup Retention
 ----------------
 
 With the `prune-backups` option you can specify which backups you want to keep
-in a flexible manner. The following retention options are available:
+in a flexible manner.
+
+[thumbnail="screenshot/gui-cluster-backup-edit-02-retention.png"]
+
+The following retention options are available:
 
 `keep-all <boolean>` ::
 Keep all backups. If this is `true`, no other options can be set.
@@ -394,6 +395,8 @@ Backup Notes
 
 You can add notes to backups using the 'Edit Notes' button in the UI or via the
 storage content API.
+
+[thumbnail="screenshot/gui-cluster-backup-edit-03-template.png"]
 
 It is also possible to specify a template for generating notes dynamically for
 a backup job and for manual backup. The template string can contain variables,
