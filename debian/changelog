@@ -1,3 +1,14 @@
+pve-docs (8.2.1) bookworm; urgency=medium
+
+  * update static/schema information
+
+  * backup: add various screenshots from the backup job add and edit window
+
+  * firewall: add documentation for the new nftables-based opt-in
+    proxmox-firewall implementation
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 23 Apr 2024 22:09:06 +0200
+
 pve-docs (8.2.0) bookworm; urgency=medium
 
   * installation: fix volume group name
