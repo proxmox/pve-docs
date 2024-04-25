@@ -1,3 +1,9 @@
+pve-docs (8.2.2) bookworm; urgency=medium
+
+  * vzdump: do not mark fleecing as tech-preview anymore, that's outdated now
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 25 Apr 2024 09:24:16 +0200
+
 pve-docs (8.2.1) bookworm; urgency=medium
 
   * update static/schema information
