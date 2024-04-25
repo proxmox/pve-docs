@@ -139,9 +139,6 @@ backed up as their content is managed outside the {pve} storage library.
 VM Backup Fleecing
 ~~~~~~~~~~~~~~~~~~
 
-WARNING: Backup fleecing is still being worked on (also in upstream QEMU) and is
-currently only a technology preview.
-
 When a backup for a VM is started, QEMU will install a "copy-before-write"
 filter in its block layer. This filter ensures that upon new guest writes, old
 data still needed for the backup is sent to the backup target first. The guest
