@@ -173,16 +173,25 @@ configured, including their naming.
 To assign a name to a particular network device, you need a way to uniquely and
 permanently identify that device in the `[Match]` section. One possibility is
 to match the device's MAC address using the `MACAddress` option, as it is
-unlikely to change. Then, you can assign a name using the `Name` option in the
-`[Link]` section.
+unlikely to change.
 
-For example, to assign the name `enwan0` to the device with MAC address
-`aa:bb:cc:dd:ee:ff`, create a file `/etc/systemd/network/10-enwan0.link` with
-the following contents:
+The `[Match]` section should also contain a `Type` option to make sure it only
+matches the expected physical interface, and not bridge/bond/VLAN interfaces
+with the same MAC address. In most setups, `Type` should be set to `ether` to
+match only Ethernet devices, but some setups may require other choices. See the
+https://manpages.debian.org/stable/udev/systemd.link.5.en.html[systemd.link(5)
+manpage] for more details.
+
+Then, you can assign a name using the `Name` option in the `[Link]` section.
+
+For example, to assign the name `enwan0` to the Ethernet device with MAC
+address `aa:bb:cc:dd:ee:ff`, create a file
+`/etc/systemd/network/10-enwan0.link` with the following contents:
 
 ----
 [Match]
 MACAddress=aa:bb:cc:dd:ee:ff
+Type=ether
 
 [Link]
 Name=enwan0
