@@ -643,7 +643,7 @@ field and pressing the 'Apply' button.
 
 There is no server setup required. Simply install a TOTP app on your
 smartphone (for example, https://freeotp.github.io/[FreeOTP]) and use
-the Proxmox Backup Server web interface to add a TOTP factor.
+the {pve} web interface to add a TOTP factor.
 
 [[user_tfa_setup_webauthn]]
 === WebAuthn
