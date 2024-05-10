@@ -1,6 +1,7 @@
 :root {
     /* pre-defined colors */
     --pdt-grey-950: hsl(0deg, 0%, 95%);
+    --pdt-grey-750: hsl(0deg, 0%, 75%);
     --pdt-grey-400: hsl(0deg, 0%, 40%);
     --pdt-grey-250: hsl(0deg, 0%, 25%);
     --pdt-grey-150: hsl(0deg, 0%, 15%);
@@ -41,6 +42,39 @@ h6 {
   font-size: 1.0em;
 }
 
+/* Support for heading anchor links */
+h3 {
+    border-bottom: unset;
+}
+
+h3 > span {
+    display: inline-block;
+    border-bottom: 2px solid silver;
+}
+
+a.headerlink {
+    color: var(--pdt-grey-750);
+    padding: 0 4px;
+    text-decoration: none;
+    visibility: hidden;
+}
+
+/* add it as an pseudo-element, so that it does not show up in the ToC */
+a.headerlink::after {
+    content: '\00b6';
+    text-decoration: none;
+}
+
+h1:hover > a.headerlink,
+h2:hover > a.headerlink,
+h3:hover > a.headerlink,
+h4:hover > a.headerlink,
+h5:hover > a.headerlink,
+h6:hover > a.headerlink {
+  visibility: visible;
+}
+
+/* Dark mode theme */
 @media screen and (prefers-color-scheme: dark) {
     :root {
         color-scheme: dark;
