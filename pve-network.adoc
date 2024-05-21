@@ -184,6 +184,13 @@ manpage] for more details.
 
 Then, you can assign a name using the `Name` option in the `[Link]` section.
 
+Link files are copied to the `initramfs`, so it is recommended to refresh the
+`initramfs` after adding, modifying, or removing a link file:
+
+----
+# update-initramfs -u -k all
+----
+
 For example, to assign the name `enwan0` to the Ethernet device with MAC
 address `aa:bb:cc:dd:ee:ff`, create a file
 `/etc/systemd/network/10-enwan0.link` with the following contents:
@@ -197,8 +204,9 @@ Type=ether
 Name=enwan0
 ----
 
-Do not forget to adjust `/etc/network/interfaces` to use the new name.
-You need to reboot the node for the change to take effect.
+Do not forget to adjust `/etc/network/interfaces` to use the new name, and
+refresh your `initramfs` as described above. You need to reboot the node for
+the change to take effect.
 
 NOTE: It is recommended to assign a name starting with `en` or `eth` so that
 {pve} recognizes the interface as a physical network device which can then be
