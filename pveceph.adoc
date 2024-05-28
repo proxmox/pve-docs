@@ -1080,6 +1080,56 @@ scrubs footnote:[Ceph scrubbing {cephdocs-url}/rados/configuration/osd-config-re
 are executed.
 
 
+[[pveceph_shutdown]]
+Shutdown {pve} + Ceph HCI cluster
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To shut down the whole {pve} + Ceph cluster, first stop all Ceph clients. These
+will mainly be VMs and containers. If you have additional clients that might
+access a Ceph FS or an installed RADOS GW, stop these as well.
+Highly available guests will switch their state to 'stopped' when powered down
+via the {pve} tooling.
+
+Once all clients, VMs and containers are off or not accessing the Ceph cluster
+anymore, verify that the Ceph cluster is in a healthy state. Either via the Web UI
+or the CLI:
+
+----
+ceph -s
+----
+
+To disable all self-healing actions, and to pause any client IO in the Ceph
+cluster, enable the following OSD flags in the **Ceph -> OSD** panel or via the
+CLI:
+
+----
+ceph osd set noout
+ceph osd set norecover
+ceph osd set norebalance
+ceph osd set nobackfill
+ceph osd set nodown
+ceph osd set pause
+----
+
+Start powering down your nodes without a monitor (MON). After these nodes are
+down, continue by shutting down nodes with monitors on them.
+
+When powering on the cluster, start the nodes with monitors (MONs) first. Once
+all nodes are up and running, confirm that all Ceph services are up and running
+before you unset the OSD flags again:
+
+----
+ceph osd unset pause
+ceph osd unset nodown
+ceph osd unset nobackfill
+ceph osd unset norebalance
+ceph osd unset norecover
+ceph osd unset noout
+----
+
+You can now start up the guests. Highly available guests will change their state
+to 'started' when they power on.
+
 Ceph Monitoring and Troubleshooting
 -----------------------------------
 
