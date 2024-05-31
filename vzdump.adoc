@@ -622,6 +622,12 @@ You can also manually specify (additional) exclude paths, for example:
 excludes the directory `/tmp/` and any file or directory named `/var/foo`,
 `/var/foobar`, and so on.
 
+WARNING: For backups to Proxmox Backup Server (PBS) and `suspend` mode backups,
+patterns with a trailing slash will match directories, but not files. On the
+other hand, for non-PBS `snapshot` mode and `stop` mode backups, patterns with a
+trailing slash currently do not match at all, because the `tar` command does not
+support that.
+
 Paths that do not start with a `/` are not anchored to the container's root,
 but will match relative to any subdirectory. For example:
 
