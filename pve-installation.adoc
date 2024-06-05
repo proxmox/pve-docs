@@ -229,7 +229,7 @@ Accessing the Management Interface Post-Installation
 
 [thumbnail="screenshot/gui-login-window.png"]
 
-After a succesful installation and reboot of the system you can use the {pve}
+After a successful installation and reboot of the system you can use the {pve}
 web interface for further configuration.
 
 . Point your browser to the IP address given during the installation and port
