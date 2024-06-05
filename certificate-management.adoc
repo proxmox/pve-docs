@@ -195,9 +195,9 @@ A special `alias` mode can be used to handle the validation on a different
 domain/DNS server, in case your primary/real DNS does not support provisioning
 via an API. Manually set up a permanent `CNAME` record for
 `_acme-challenge.domain1.example` pointing to `_acme-challenge.domain2.example`
-and set the `alias` property in the {PVE} node configuration file to
-`domain2.example` to allow the DNS server of `domain2.example` to validate all
-challenges for `domain1.example`.
+and set the `alias` property on the corresponding `acmedomainX` key in the
+{PVE} node configuration file to `domain2.example` to allow the DNS server of
+`domain2.example` to validate all challenges for `domain1.example`.
 
 
 Combination of Plugins
