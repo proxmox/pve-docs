@@ -9,36 +9,37 @@ Overview
 --------
 [thumbnail="screenshot/gui-datacenter-notification-overview.png"]
 
-{pve} will send notifications if case of noteworthy events in the system.
+* {pve} emits xref:notification_events[Notification Events] in case of
+  storage replication failures, node fencing, finished/failed backups
+  and other events.
+  These events are handled by the notification system. A notification
+  event has metadata, for example a timestamp, a severity level,
+  a type, and other optional metadata fields.
+* xref:notification_matchers[Notification Matchers] route a notification
+  event to one or more notification targets. A matcher can have match
+  rules to selectively route based on the metadata of a notification event.
+* xref:notification_targets[Notification Targets] are a destination to
+  which a notification event is routed to by a matcher.
+  There are multiple types of target, mail-based (Sendmail and SMTP)
+  and Gotify.
 
-There are a number of different xref:notification_events[notification events],
-each with their own set of metadata fields that can be used in
-notification matchers.
-
-A xref:notification_matchers[notification matcher] determines
-_which_ notifications shall be sent _where_.
-A matcher has _match rules_, that can be used to
-match on certain notification properties (e.g. timestamp, severity,
-metadata fields).
-If a matcher matches a notification, the notification will be routed
-to a configurable set of notification targets.
-
-A xref:notification_targets[notification target] is an abstraction for a
-destination where a notification should be sent to - for instance,
-a Gotify server instance, or a set of email addresses.
-There are multiple types of notification targets, including
-`sendmail`, which uses the system's sendmail command to send emails,
-or `gotify`, which sends a notification to a Gotify instance.
+Backup jobs have a configurable xref:notification_mode[Notification Mode].
+It allows you to choose between the notification system and a legacy mode
+for sending notification emails. The legacy mode is equivalent to the
+way notifications were handled before {pve} 8.1.
 
 The notification system can be configured in the GUI under
-Datacenter -> Notifications. The configuration is stored in
+Datacenter → Notifications. The configuration is stored in
 `/etc/pve/notifications.cfg` and `/etc/pve/priv/notifications.cfg` -
 the latter contains sensitive configuration options such as
-passwords or authentication tokens for notification targets.
+passwords or authentication tokens for notification targets and can
+only be read by `root`.
 
 [[notification_targets]]
 Notification Targets
 --------------------
+
+{pve} offers multiple types of notification targets.
 
 [[notification_targets_sendmail]]
 Sendmail
@@ -50,14 +51,19 @@ that handles the sending of email messages.
 It is a command-line utility that allows users and applications to send emails
 directly from the command line or from within scripts.
 
-The sendmail notification target uses the `sendmail` binary to send emails.
-
+The sendmail notification target uses the `sendmail` binary to send emails to a
+list of configured users or email addresses. If a user is selected as a recipient,
+the email address configured in user's settings will be used.
+For the `root@pam` user, this is the email address entered during installation.
+A user's email address can be configured in
+`Datacenter → Permissions → Users`.
+If a user has no associated email address, no email will be sent.
 
 NOTE: In standard {pve} installations, the `sendmail` binary is provided by
-Postfix. For this type of target to work correctly, it might be necessary to
-change Postfix's configuration so that it can correctly deliver emails.
-For cluster setups it is necessary to have a working Postfix configuration on
-every single cluster node.
+Postfix. It may be necessary to configure Postfix so that it can deliver
+mails correctly - for example by setting an external mail relay (smart host).
+In case of failed delivery, check the system logs for messages logged by
+the Postfix daemon.
 
 The configuration for Sendmail target plugins has the following options:
 
@@ -90,6 +96,12 @@ SMTP
 [thumbnail="screenshot/gui-datacenter-notification-smtp.png"]
 
 SMTP notification targets can send emails directly to an SMTP mail relay.
+This target does not use the system's MTA to deliver emails.
+Similar to sendmail targets, if a user is selected as a recipient, the user's configured
+email address will be used.
+
+NOTE: Unlike sendmail targets, SMTP targets do not have any queuing/retry mechanism
+in case of a failed mail delivery.
 
 The configuration for SMTP target plugins has the following options:
 
@@ -312,9 +324,8 @@ that are initially directed to the local `root` user. {pve} will
 feed these mails into the notification system as a notification of
 type `system-mail` and with severity `unknown`.
 
-When the forwarding process involves an email-based target
-(like `sendmail` or `smtp`), the email is forwarded exactly as received, with all
-original mail headers remaining intact. For all other targets,
+When the email is forwarded to a sendmail target, the mail's content and headers
+are forwarded as-is. For all other targets,
 the system tries to extract both a subject line and the main text body
 from the email content. In instances where emails solely consist of HTML
 content, they will be transformed into plain text format during this process.
@@ -322,9 +333,33 @@ content, they will be transformed into plain text format during this process.
 Permissions
 -----------
 
-In order to modify/view the configuration for notification targets,
+To modify/view the configuration for notification targets,
 the `Mapping.Modify/Mapping.Audit` permissions are required for the
 `/mapping/notifications` ACL node.
 
 Testing a target requires `Mapping.Use`, `Mapping.Audit` or `Mapping.Modify`
 permissions on `/mapping/notifications`
+
+[[notification_mode]]
+Notification Mode
+-----------------
+A backup job configuration has the `notification-mode`
+option which can have one of three values.
+
+* `auto`: Use the `legacy-sendmail` mode if no email address is entered in the
+  `mailto`/`Send email to` field. If no email address is entered,
+  the `notification-system` mode is used.
+
+* `legacy-sendmail`: Send notification emails via the system's `sendmail` command.
+  The notification system will be bypassed and any configured
+  targets/matchers will be ignored.
+  This mode is equivalent to the notification behavior for version before
+  {pve} 8.1 .
+
+* `notification-system`: Use the new, flexible notification system.
+
+If the `notification-mode` option is not set, {pve} will default
+to `auto`.
+
+The `legacy-sendmail` mode might be removed in a later release of
+{pve}.
