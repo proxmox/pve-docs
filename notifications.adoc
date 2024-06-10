@@ -300,7 +300,7 @@ Notification Events
 [width="100%",options="header"]
 |=======================================================================
 | Field name | Description
-| `type`     | Type of the notifcation
+| `type`     | Type of the notification
 | `hostname` | Hostname, without domain (e.g. `pve1`)
 |=======================================================================
 
