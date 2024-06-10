@@ -301,7 +301,7 @@ Notification Events
 |=======================================================================
 | Field name | Description
 | `type`     | Type of the notifcation
-| `hostname` | Hostname, including domain (e.g. `pve1.example.com`)
+| `hostname` | Hostname, without domain (e.g. `pve1`)
 |=======================================================================
 
 System Mail Forwarding
