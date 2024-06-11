@@ -64,8 +64,11 @@ Optional.
 master-pubkey::
 
 A public RSA key used to encrypt the backup encryption key as part of the
-backup task. The encrypted copy will be appended to the backup and stored on
-the Proxmox Backup Server instance for recovery purposes.
+backup task. Will be saved in a file under
+`/etc/pve/priv/storage/<STORAGE-ID>.master.pem` with access restricted to the
+root user.
+The encrypted copy of the backup encryption key will be appended to each backup
+and stored on the Proxmox Backup Server instance for recovery purposes.
 Optional, requires `encryption-key`.
 
 .Configuration Example (`/etc/pve/storage.cfg`)
@@ -77,6 +80,8 @@ pbs: backup
         fingerprint 09:54:ef:..snip..:88:af:47:fe:4c:3b:cf:8b:26:88:0b:4e:3c:b2
         prune-backups keep-all=1
         username archiver@pbs
+        encryption-key a9:ee:c8:02:13:..snip..:2d:53:2c:98
+        master-pubkey 1
 ----
 
 Storage Features
