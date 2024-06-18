@@ -178,6 +178,9 @@ interface (`Datacenter -> ACME`).
 
 Choose `DNS` as challenge type. Then you can select your API provider, enter
 the credential data to access your account over their API.
+The validation delay determines the time in seconds between setting the DNS
+record and prompting the ACME provider to validate it, as providers often need
+some time to propagate the record in their infrastructure.
 
 TIP: See the acme.sh
 https://github.com/acmesh-official/acme.sh/wiki/dnsapi#how-to-use-dns-api[How to use DNS API]
