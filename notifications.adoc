@@ -312,6 +312,10 @@ Notification Events
 | `job-id`          | Job ID
 |=======================================================================
 
+NOTE: Backup job notifications only have `job-id` set if the backup job
+  was executed automatically based on its schedule, but not if it was triggered
+  manually by the 'Run now' button in the UI.
+
 System Mail Forwarding
 ---------------------
 
