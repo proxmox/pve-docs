@@ -301,19 +301,21 @@ Notification Events
 
 [width="100%",options="header"]
 |===========================================================================
-| Event                        | `type`            | Severity | Metadata fields (in addition to `type`)
-| System updates available     |`package-updates`  | `info`   | `hostname`
-| Cluster node fenced          |`fencing`          | `error`  | `hostname`
-| Storage replication failed   |`replication`      | `error`  | -
-| Backup finished              |`vzdump`           | `info` (`error` on failure) | `hostname`
-| Mail for root                |`system-mail`      | `unknown`| -
+| Event                            | `type`            | Severity | Metadata fields (in addition to `type`)
+| System updates available         |`package-updates`  | `info`   | `hostname`
+| Cluster node fenced              |`fencing`          | `error`  | `hostname`
+| Storage replication job failed   |`replication`      | `error`  | `hostname`, `job-id`
+| Backup succeeded                 |`vzdump`           | `info`   | `hostname`, `job-id` (only for backup jobs)
+| Backup failed                    |`vzdump`           | `error`  | `hostname`, `job-id` (only for backup jobs)
+| Mail for root                    |`system-mail`      | `unknown`| `hostname`
 |===========================================================================
 
 [width="100%",options="header"]
 |=======================================================================
-| Field name | Description
-| `type`     | Type of the notification
-| `hostname` | Hostname, without domain (e.g. `pve1`)
+| Field name        | Description
+| `type`            | Type of the notification
+| `hostname`        | Hostname, without domain (e.g. `pve1`)
+| `job-id`          | Job ID
 |=======================================================================
 
 System Mail Forwarding
