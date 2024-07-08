@@ -233,10 +233,15 @@ configurable schedule.
 Field Matching Rules
 ~~~~~~~~~~~~~~~~~~~~
 Notifications have a selection of metadata fields that can be matched.
+When using `exact` as a matching mode, a `,` can be used as a separator.
+The matching rule then matches if the metadata field has *any* of the specified
+values.
 
 * `match-field exact:type=vzdump` Only match notifications about backups.
+* `match-field exact:type=replication,fencing` Match `replication` and `fencing` notifications.
 * `match-field regex:hostname=^.+\.example\.com$` Match the hostname of
 the node.
+
 
 If a matched metadata field does not exist, the notification will not be
 matched.
@@ -279,18 +284,7 @@ matcher: backup-failures
         comment Send notifications about backup failures to one group of admins
 
 matcher: cluster-failures
-        match-field exact:type=replication
-        match-field exact:type=fencing
-        mode any
-        target cluster-admins
-        comment Send cluster-related notifications to other group of admins
-----
-
-The last matcher could also be rewritten using a field matcher with a regular
-expression:
-----
-matcher: cluster-failures
-        match-field regex:type=^(replication|fencing)$
+        match-field exact:type=replication,fencing
         target cluster-admins
         comment Send cluster-related notifications to other group of admins
 ----
