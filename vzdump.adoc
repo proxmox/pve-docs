@@ -149,11 +149,14 @@ With backup fleecing, such old data is cached in a fleecing image rather than
 sent directly to the backup target. This can help guest IO performance and even
 prevent hangs in certain scenarios, at the cost of requiring more storage space.
 
-Use e.g. `vzdump 123 --fleecing enabled=1,storage=local-lvm` to enable backup
-fleecing, with fleecing images created on the storage `local-lvm`. As always,
-you can set the option for specific backup jobs, or as a node-wide fallback via
-the xref:vzdump_configuration[configuration options]. In the UI, fleecing can be
-configured in the 'Advanced' tab when editing a backup job.
+To manually start a backup of VM `123` with fleecing images created on the
+storage `local-lvm`, run
+
+ vzdump 123 --fleecing enabled=1,storage=local-lvm
+
+As always, you can set the option for specific backup jobs, or as a node-wide
+fallback via the xref:vzdump_configuration[configuration options]. In the UI,
+fleecing can be configured in the 'Advanced' tab when editing a backup job.
 
 The fleecing storage should be a fast local storage, with thin provisioning and
 discard support. Examples are LVM-thin, RBD, ZFS with `sparse 1` in the storage
