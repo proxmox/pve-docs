@@ -175,6 +175,38 @@ fleecing image up-front. On a thinly provisioned storage, the fleecing image can
 grow to the same size as the original image only if the guest re-writes a whole
 disk while the backup is busy with another disk.
 
+CT Change Detection Mode
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Setting the change detection mode defines the encoding format for the pxar
+archives and how changed, and unchanged files are handled for container backups
+with Proxmox Backup Server as the target.
+
+The change detection mode option can be configured for individual backup jobs in
+the 'Advanced' tab while editing a job. Further, this option can be set as
+node-wide fallback via the xref:vzdump_configuration[configuration options].
+
+There are 3 change detection modes available:
+
+[width="100%",cols="<m,4d",options="header"]
+|===============================================================================
+| Mode     | Description
+| Default  | Read and encode all files into a single archive, using the pxar
+format version 1.
+| Data     | (EXPERIMENTAL): Read and encode all files, but split data and
+metadata into separate streams, using the pxar format version 2.
+| Metadata | (EXPERIMENTAL): Split streams and use archive format version 2 like
+`Data`, but use the metadata archive of the previous snapshot (if one exists) to
+detect unchanged files, and reuse their data chunks without reading file
+contents from disk, whenever possible.
+|===============================================================================
+
+Use e.g. `vzdump 123 --storage pbs-storage --pbs-change-detection-mode metadata`
+to perform a backup using the change detection mode `metadata`.
+
+NOTE: Backups of VMs or to storage backends other than Proxmox Backup Server are
+not affected by this setting.
+
 Backup File Names
 -----------------
 
