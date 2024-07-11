@@ -7,7 +7,7 @@ vzdump(1)
 NAME
 ----
 
-vzdump - Backup Utility for VMs and Containers 
+vzdump - Backup Utility for VMs and Containers
 
 
 SYNOPSIS
@@ -55,7 +55,7 @@ xref:vzdump_jobs[Backup Jobs] section for more.
 Backup Modes
 ------------
 
-There are several ways to provide consistency (option `mode`), 
+There are several ways to provide consistency (option `mode`),
 depending on the guest type.
 
 .Backup modes for VMs:
@@ -91,7 +91,7 @@ https://git.proxmox.com/?p=pve-qemu.git;a=blob_plain;f=backup.txt[here].
 
 NOTE: {pve} live backup provides snapshot-like semantics on any
 storage type. It does not require that the underlying storage supports
-snapshots. Also please note that since the backups are done via 
+snapshots. Also please note that since the backups are done via
 a background QEMU process, a stopped VM will appear as running for a
 short amount of time while the VM disks are being read by QEMU.
 However the VM itself is not booted, only its disk(s) are read.
