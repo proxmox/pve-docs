@@ -162,18 +162,18 @@ dedicated storage, so it running full will not affect other guests and just fail
 the backup. Parts of the fleecing image that have been backed up will be
 discarded to try and keep the space usage low.
 
-For file-based storages that do not support discard (e.g. NFS before version
-4.2), you should set `preallocation off` in the storage configuration. In
-combination with `qcow2` (used automatically as the format for the fleecing
+For file-based storages that do not support discard (for example, NFS before
+version 4.2), you should set `preallocation off` in the storage configuration.
+In combination with `qcow2` (used automatically as the format for the fleecing
 image when the storage supports it), this has the advantage that already
 allocated parts of the image can be re-used later, which can still help save
 quite a bit of space.
 
-WARNING: On a storage that's not thinly provisioned, e.g. LVM or ZFS without the
-`sparse` option, the full size of the original disk needs to be reserved for the
-fleecing image up-front. On a thinly provisioned storage, the fleecing image can
-grow to the same size as the original image only if the guest re-writes a whole
-disk while the backup is busy with another disk.
+WARNING: On a storage that's not thinly provisioned, for exampple, LVM or ZFS
+without the `sparse` option, the full size of the original disk needs to be
+reserved for the fleecing image up-front. On a thinly provisioned storage, the
+fleecing image can grow to the same size as the original image only if the guest
+re-writes a whole disk while the backup is busy with another disk.
 
 CT Change Detection Mode
 ~~~~~~~~~~~~~~~~~~~~~~~~
