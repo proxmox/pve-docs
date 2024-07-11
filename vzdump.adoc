@@ -201,8 +201,8 @@ detect unchanged files, and reuse their data chunks without reading file
 contents from disk, whenever possible.
 |===============================================================================
 
-Use e.g. `vzdump 123 --storage pbs-storage --pbs-change-detection-mode metadata`
-to perform a backup using the change detection mode `metadata`.
+To perform a backup using the change detecation mode `metadata` you can run
+`vzdump 123 --storage pbs-storage --pbs-change-detection-mode metadata`.
 
 NOTE: Backups of VMs or to storage backends other than Proxmox Backup Server are
 not affected by this setting.
