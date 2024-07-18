@@ -368,7 +368,7 @@ up to use more CPU time than just its virtual CPUs could use. To ensure that a
 VM never uses more CPU time than vCPUs assigned, set the *cpulimit* to
 the same value as the total core count.
 
-*cpuuntis*
+*cpuunits*
 
 With the *cpuunits* option, nowadays often called CPU shares or CPU weight, you
 can control how much CPU time a VM gets compared to other running VMs. It is a
