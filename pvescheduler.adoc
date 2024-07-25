@@ -23,7 +23,7 @@ pvescheduler - Proxmox VE Scheduler Daemon
 ==========================================
 endif::manvolnum[]
 
-This deamon is responsible for starting jobs according to the schedule,
+This daemon is responsible for starting jobs according to the schedule,
 such as replication and vzdump jobs.
 
 For vzdump jobs, it gets its configuration from the file `/etc/pve/jobs.cfg`

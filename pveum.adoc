@@ -194,7 +194,7 @@ required to set a password for this type of user upon creation.
 LDAP
 ~~~~
 
-You can also use an external LDAP server for user authentication (for examle,
+You can also use an external LDAP server for user authentication (for example,
 OpenLDAP). In this realm type, users are searched under a 'Base Domain Name'
 (`base_dn`), using the username attribute specified in the 'User Attribute Name'
 (`user_attr`) field.

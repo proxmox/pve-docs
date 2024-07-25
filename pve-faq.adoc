@@ -105,7 +105,7 @@ How can I upgrade {pve} to the next point release?::
 Minor version upgrades, for example upgrading from {pve} in version 7.1
 to 7.2 or 7.3, can be done just like any normal update.
 But you should still check the https://pve.proxmox.com/wiki/Roadmap[release notes]
-for any relevant noteable, or breaking change.
+for any relevant notable, or breaking change.
 +
 For the update itself use either the Web UI __Node -> Updates__ panel or
 through the CLI with:

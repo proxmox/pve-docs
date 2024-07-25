@@ -1080,7 +1080,7 @@ The CRS is currently used at the following scheduling points:
   new target node for the HA services in that group, matching the adapted
   priority constraints.
 
-- HA service stopped -> start transtion (opt-in). Requesting that a stopped
+- HA service stopped -> start transition (opt-in). Requesting that a stopped
   service should be started is an good opportunity to check for the best suited
   node as per the CRS algorithm, as moving stopped services is  cheaper to do
   than moving them started, especially if their disk volumes reside on shared

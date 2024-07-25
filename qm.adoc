@@ -852,7 +852,7 @@ You can enable the VNC clipboard by setting `clipboard` to `vnc`.
 In order to use the clipboard feature, you must first install the
 SPICE guest tools. On Debian-based distributions, this can be achieved
 by installing `spice-vdagent`. For other Operating Systems search for it
-in the offical repositories or see: https://www.spice-space.org/download.html
+in the official repositories or see: https://www.spice-space.org/download.html
 
 Once you have installed the spice guest tools, you can use the VNC clipboard
 function (e.g. in the noVNC console panel). However, if you're using

@@ -341,7 +341,7 @@ Exit Nodes Local Routing:: This is a special option if you need to reach a VM/CT
 
 Advertise Subnets:: Announce the full subnet in the EVPN network.
   If you have silent VMs/CTs (for example, if you have multiple IPs and the
-  anycast gateway doesn't see traffic from theses IPs, the IP addresses won't be
+  anycast gateway doesn't see traffic from these IPs, the IP addresses won't be
   able to be reached inside the EVPN network).  Optional.
 
 Disable ARP ND Suppression:: Don't suppress ARP or ND (Neighbor Discovery)

@@ -68,10 +68,10 @@ the Postfix daemon.
 The configuration for Sendmail target plugins has the following options:
 
 * `mailto`: E-Mail address to which the notification shall be sent to. Can be
-set multiple times to accomodate multiple recipients.
+set multiple times to accommodate multiple recipients.
 * `mailto-user`: Users to which emails shall be sent to. The user's email
 address will be looked up in `users.cfg`. Can be set multiple times to
-accomodate multiple recipients.
+accommodate multiple recipients.
 * `author`: Sets the author of the E-Mail. Defaults to `Proxmox VE`.
 * `from-address`: Sets the from address of the E-Mail. If the parameter is not
 set, the plugin will fall back to the `email_from` setting from
@@ -106,10 +106,10 @@ in case of a failed mail delivery.
 The configuration for SMTP target plugins has the following options:
 
 * `mailto`: E-Mail address to which the notification shall be sent to. Can be
-set multiple times to accomodate multiple recipients.
+set multiple times to accommodate multiple recipients.
 * `mailto-user`: Users to which emails shall be sent to. The user's email
 address will be looked up in `users.cfg`. Can be set multiple times to
-accomodate multiple recipients.
+accommodate multiple recipients.
 * `author`: Sets the author of the E-Mail. Defaults to `Proxmox VE`.
 * `from-address`: Sets the From-addresss of the email. SMTP relays might require
 that this address is owned by the user in order to avoid spoofing.
@@ -221,7 +221,7 @@ a matcher must be true. Defaults to `all`.
 [[notification_matchers_calendar]]
 Calendar Matching Rules
 ~~~~~~~~~~~~~~~~~~~~~~~
-A calendar matcher matches the time when a notification is sent agaist a
+A calendar matcher matches the time when a notification is sent against a
 configurable schedule.
 
 * `match-calendar 8-12`
@@ -241,7 +241,7 @@ the node.
 If a matched metadata field does not exist, the notification will not be
 matched.
 For instance, a `match-field regex:hostname=.*` directive will only match
-notifications that have an arbitraty `hostname` metadata field, but will
+notifications that have an arbitrary `hostname` metadata field, but will
 not match if the field does not exist.
 
 [[notification_matchers_severity]]

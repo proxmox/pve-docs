@@ -16,7 +16,7 @@ protects you from errors.
 A Linux bridge interface (commonly called 'vmbrX') is needed to connect guests
 to the underlying physical network. It can be thought of as a virtual switch
 which the guests and physical interfaces are connected to. This section provides
-some examples on how the network can be set up to accomodate different use cases
+some examples on how the network can be set up to accommodate different use cases
 like redundancy with a xref:sysadmin_network_bond['bond'],
 xref:sysadmin_network_vlan['vlans'] or
 xref:sysadmin_network_routed['routed'] and
@@ -26,7 +26,7 @@ The xref:chapter_pvesdn[Software Defined Network] is an option for more complex
 virtual networks in {pve} clusters.
 
 WARNING: It's discouraged to use the traditional Debian tools `ifup` and `ifdown`
-if unsure, as they have some pitfalls like interupting all guest traffic on
+if unsure, as they have some pitfalls like interrupting all guest traffic on
 `ifdown vmbrX` but not reconnecting those guest again when doing `ifup` on the
 same bridge later.
 

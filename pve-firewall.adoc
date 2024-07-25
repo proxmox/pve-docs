@@ -648,7 +648,7 @@ https://wiki.nftables.org/wiki-nftables/index.php/What_is_nftables%3F[nftables]
 rather than iptables.
 
 WARNING: `proxmox-firewall` is currently in tech preview. There might be bugs or
-incompatibilies with the original firewall. It is currently not suited for
+incompatibilities with the original firewall. It is currently not suited for
 production use.
 
 This implementation uses the same configuration files and configuration format,

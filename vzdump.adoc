@@ -172,7 +172,7 @@ image when the storage supports it), this has the advantage that already
 allocated parts of the image can be re-used later, which can still help save
 quite a bit of space.
 
-WARNING: On a storage that's not thinly provisioned, for exampple, LVM or ZFS
+WARNING: On a storage that's not thinly provisioned, for example, LVM or ZFS
 without the `sparse` option, the full size of the original disk needs to be
 reserved for the fleecing image up-front. On a thinly provisioned storage, the
 fleecing image can grow to the same size as the original image only if the guest
