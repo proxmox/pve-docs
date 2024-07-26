@@ -505,14 +505,13 @@ vIOMMU (emulated IOMMU)
 
 vIOMMU is the emulation of a hardware IOMMU within a virtual machine, providing
 improved memory access control and security for virtualized I/O devices. Using
-the vIOMMU option also allows you to pass through PCI devices to level-2 VMs in
-level-1 VMs via https://pve.proxmox.com/wiki/Nested_Virtualization[Nested Virtualization].
+the vIOMMU option also allows you to pass through PCI(e) devices to level-2 VMs
+in level-1 VMs via
+https://pve.proxmox.com/wiki/Nested_Virtualization[Nested Virtualization].
+To pass through physical PCI(e) devices from the host to nested VMs, follow the
+PCI(e) passthrough instructions.
+
 There are currently two vIOMMU implementations available: Intel and VirtIO.
-
-Host requirement:
-
-* Add `intel_iommu=on` or `amd_iommu=on` depending on your CPU to your kernel
-command line.
 
 Intel vIOMMU
 ^^^^^^^^^^^^
