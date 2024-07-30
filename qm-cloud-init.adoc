@@ -169,6 +169,160 @@ qm cloudinit dump 9000 user
 The same command exists for `network` and `meta`.
 
 
+Cloud-Init on Windows
+~~~~~~~~~~~~~~~~~~~~~
+
+There is a reimplementation of Cloud-Init available for Windows called
+https://cloudbase.it/[cloudbase-init]. Not every feature of Cloud-Init is
+available with Cloudbase-Init, and some features differ compared to Cloud-Init.
+
+Cloudbase-Init requires both `ostype` set to any Windows version and the
+`citype` set to `configdrive2`, which is the default with any Windows
+`ostype`.
+
+There are no ready-made cloud images for Windows available for free. Using
+Cloudbase-Init requires manually installing and configuring a Windows guest.
+
+
+Preparing Cloudbase-Init Templates
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The first step is to install Windows in a VM. Download and install
+Cloudbase-Init in the guest. It may be necessary to install the Beta version.
+Don't run Sysprep at the end of the installation. Instead configure
+Cloudbase-Init first.
+
+A few common options to set would be:
+
+* 'username': This sets the username of the administrator
+
+* 'groups': This allows one to add the user to the `Administrators` group
+
+* 'inject_user_password': Set this to `true` to allow setting the password
+in the VM config
+
+* 'first_logon_behaviour': Set this to `no` to not require a new password on
+login
+
+* 'rename_admin_user': Set this to `true` to allow renaming the default
+`Administrator` user to the username specified with `username`
+
+* 'metadata_services': Set this to
+`cloudbaseinit.metadata.services.configdrive.ConfigDriveService` for
+Cloudbase-Init to first check this serivce. Otherwise it may take a few minutes
+for Cloudbase-Init to configure the system after boot.
+
+Some plugins, for example the SetHostnamePlugin, require reboots and will do
+so automatically. To disable automatic reboots by Cloudbase-Init, you can set
+`allow_reboot` to `false`.
+
+A full set of configuration options can be found in the
+https://cloudbase-init.readthedocs.io/en/latest/config.html[official
+cloudbase-init documentation].
+
+It can make sense to make a snapshot after configuring in case some parts of
+the config still need adjustments.
+After configuring Cloudbase-Init you can start creating the template. Shutdown
+the Windows guest, add a Cloud-Init disk and make it into a template.
+
+----
+qm set 9000 --ide2 local-lvm:cloudinit
+qm template 9000
+----
+
+Clone the template into a new VM:
+
+----
+qm clone 9000 123 --name windows123
+----
+
+Then set the password, network config and SSH key:
+
+----
+qm set 123 --cipassword <password>
+qm set 123 --ipconfig0 ip=10.0.10.123/24,gw=10.0.10.1
+qm set 123 --sshkey ~/.ssh/id_rsa.pub
+----
+
+Make sure that the `ostype` is set to any Windows version before setting the
+password. Otherwise the password will be encrypted and Cloudbase-Init will use
+the encrypted password as plaintext password.
+
+When everything is set, start the cloned guest. On the first boot the login
+won't work and it will reboot automatically for the changed hostname.
+After the reboot the new password should be set and login should work.
+
+
+Cloudbase-Init and Sysprep
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Sysprep is a feature to reset the configuration of Windows and provide a `new`
+system. This can be used in conjunction with Cloudbase-Init to create a clean
+template.
+
+
+When using Sysprep there are 2 configuration files that need to be adapted.
+The first one is the normal configuration file, the second one is the one
+ending in `-unattend.conf`.
+
+Cloudbase-Init runs in 2 steps, first the Sysprep step using the
+`-unattend.conf` and then the regular step using the primary config file.
+
+For `Windows Server` running Sysprep with the provided `Unattend.xml` file
+should work out of the box. Normal Windows versions however require additional
+steps:
+
+. Open a PowerShell instance
+
+. Enable the Administrator user:
++
+----
+net user Administrator /active:yes`
+----
+
+. Install Cloudbase-Init using the Administrator user
+
+. Modify `Unattend.xml` to include the command to enable the Administrator user
+on the first boot after sysprepping:
++
+----
+<RunSynchronousCommand wcm:action="add">
+  <Path>net user administrator /active:yes</Path>
+  <Order>1</Order>
+  <Description>Enable Administrator User</Description>
+</RunSynchronousCommand>
+----
++
+Make sure the `<Order>` does not conflict with other synchronous commands.
+Modify `<Order>` of the Cloudbase-Init command to run after this one by
+increasing the number to a higher value: `<Order>2</Order>`
+
+. (Windows 11 only) Remove the conflicting Microsoft.OneDriveSync package:
++
+----
+Get-AppxPackage -AllUsers Microsoft.OneDriveSync | Remove-AppxPackage -AllUsers
+----
+
+. `cd` into the Cloudbase-Init config directory:
++
+----
+cd 'C:\Program Files\Cloudbase Solutions\Cloudbase-Init\conf'
+----
+
+. (optional) Create a snapshot of the VM before Sysprep in case of a
+misconfiguration
+
+. Run Sysprep:
++
+----
+C:\Windows\System32\Sysprep\sysprep.exe /generalize /oobe /unattend:Unattend.xml
+----
+
+After following the above steps the VM should be in shut down state due to
+the Sysprep. Now you can make it into a template, clone it and configure
+it as needed.
+
+
 Cloud-Init specific Options
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
