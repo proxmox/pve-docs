@@ -1,3 +1,42 @@
+pve-docs (8.2.3) bookworm; urgency=medium
+
+  * fix #5429: network: include Type=ether in the example for how to override
+    the name for network devices and suggest updating the initramfs afterwards
+
+  * totp: fix copy/paste mistake referring to PBS by accident
+
+  * fix #5512: installation: fix typo
+
+  * TLS certificates: clarify where the `alias` property needs to be set
+
+  * html output: add clickable anchor link to all headings
+
+  * acme: add note about validation delay
+
+  * ceph server: document full cluster shutdown
+
+  * backup: mention where fleecing can be configured
+
+  * notification: clarify that 'hostname' does not include the domain
+
+  * notifications: backport some rephrased parts from PBS docs
+
+  * qm: fix documented formula for ballooning
+
+  * backup: add section describing PBS change detection mode
+
+  * vm resource limits: fix typo
+
+  * fix #5525: storage: pbs: improve master-pubkey docs
+
+  * cloudinit: add Windows cloudbase-init section
+
+  * vIOMMU: replace host requirement with reference to pcie passthrough
+
+  * update static/schema information
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 31 Jul 2024 16:58:41 +0200
+
 pve-docs (8.2.2) bookworm; urgency=medium
 
   * vzdump: do not mark fleecing as tech-preview anymore, that's outdated now
