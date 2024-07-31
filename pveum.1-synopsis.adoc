@@ -825,6 +825,18 @@ API token expiration date (seconds since epoch). '0' means no expiration date.
 
 Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.
 
+*pveum user token delete* `<userid> <tokenid>` `[FORMAT_OPTIONS]`
+
+Remove API token for a specific user.
+
+`<userid>`: `<string>` ::
+
+Full User ID, in the `name@realm` format.
+
+`<tokenid>`: `(?^:[A-Za-z][A-Za-z0-9\.\-_]+)` ::
+
+User-specific token identifier.
+
 *pveum user token list* `<userid>` `[FORMAT_OPTIONS]`
 
 Get user API tokens.
@@ -873,17 +885,9 @@ User-specific token identifier.
 
 Only dump this specific path, not the whole tree.
 
-*pveum user token remove* `<userid> <tokenid>` `[FORMAT_OPTIONS]`
+*pveum user token remove*
 
-Remove API token for a specific user.
-
-`<userid>`: `<string>` ::
-
-Full User ID, in the `name@realm` format.
-
-`<tokenid>`: `(?^:[A-Za-z][A-Za-z0-9\.\-_]+)` ::
-
-User-specific token identifier.
+An alias for 'pveum user token delete'.
 
 *pveum useradd*
 

@@ -547,7 +547,7 @@ Current amount of online RAM for the VM in MiB. This is the maximum available me
 
 `migrate_downtime`: `<number> (0 - N)` ('default =' `0.1`)::
 
-Set maximum tolerated downtime (in seconds) for migrations.
+Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge.
 
 `migrate_speed`: `<integer> (0 - N)` ('default =' `0`)::
 
@@ -1190,7 +1190,7 @@ The drive's backing volume.
 
 Disk size. This is purely informational and has no effect.
 
-`version`=`<v1.2 | v2.0>` ('default =' `v2.0`);;
+`version`=`<v1.2 | v2.0>` ('default =' `v1.2`);;
 
 The TPM interface version. v2.0 is newer and should be preferred. Note that this cannot be changed later on.
 
@@ -1250,7 +1250,7 @@ Sets the VGA memory (in MiB). Has no effect with serial display.
 
 `type`=`<cirrus | none | qxl | qxl2 | qxl3 | qxl4 | serial0 | serial1 | serial2 | serial3 | std | virtio | virtio-gl | vmware>` ('default =' `std`);;
 
-Select the VGA type.
+Select the VGA type. Using type 'cirrus' is not recommended.
 
 `virtio[n]`: `[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]` ::
 

@@ -742,6 +742,117 @@ const apiSchema = [
          {
             "children" : [
                {
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Returns known notification metadata fields",
+                        "method" : "GET",
+                        "name" : "get_matcher_fields",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "or",
+                              [
+                                 "perm",
+                                 "/mapping/notifications",
+                                 [
+                                    "Mapping.Modify"
+                                 ]
+                              ],
+                              [
+                                 "perm",
+                                 "/mapping/notifications",
+                                 [
+                                    "Mapping.Audit"
+                                 ]
+                              ]
+                           ]
+                        },
+                        "protected" : 0,
+                        "returns" : {
+                           "items" : {
+                              "properties" : {
+                                 "name" : {
+                                    "description" : "Name of the field.",
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{name}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/notifications/matcher-fields",
+                  "text" : "matcher-fields"
+               },
+               {
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Returns known notification metadata fields and their known values",
+                        "method" : "GET",
+                        "name" : "get_matcher_field_values",
+                        "parameters" : {
+                           "additionalProperties" : 0
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "or",
+                              [
+                                 "perm",
+                                 "/mapping/notifications",
+                                 [
+                                    "Mapping.Modify"
+                                 ]
+                              ],
+                              [
+                                 "perm",
+                                 "/mapping/notifications",
+                                 [
+                                    "Mapping.Audit"
+                                 ]
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "items" : {
+                              "properties" : {
+                                 "comment" : {
+                                    "description" : "Additional comment for this value.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "field" : {
+                                    "description" : "Field this value belongs to.",
+                                    "type" : "string"
+                                 },
+                                 "value" : {
+                                    "description" : "Notification metadata value known by the system.",
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/notifications/matcher-field-values",
+                  "text" : "matcher-field-values"
+               },
+               {
                   "children" : [
                      {
                         "children" : [
@@ -5678,6 +5789,16 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "pbs-change-detection-mode" : {
+                                 "description" : "PBS mode used to detect file changes and switch encoding. NOTE: `data` and `metadata` modes are experimental. format for container backups.",
+                                 "enum" : [
+                                    "legacy",
+                                    "data",
+                                    "metadata"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
                               "performance" : {
                                  "description" : "Other performance-related settings.",
                                  "format" : "backup-performance",
@@ -6056,6 +6177,16 @@ const apiSchema = [
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
+                        },
+                        "pbs-change-detection-mode" : {
+                           "description" : "PBS mode used to detect file changes and switch encoding. NOTE: `data` and `metadata` modes are experimental. format for container backups.",
+                           "enum" : [
+                              "legacy",
+                              "data",
+                              "metadata"
+                           ],
+                           "optional" : 1,
+                           "type" : "string"
                         },
                         "performance" : {
                            "description" : "Other performance-related settings.",
@@ -17277,7 +17408,7 @@ const apiSchema = [
                                           },
                                           "migrate_downtime" : {
                                              "default" : 0.1,
-                                             "description" : "Set maximum tolerated downtime (in seconds) for migrations.",
+                                             "description" : "Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge.",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "number"
@@ -18373,7 +18504,7 @@ const apiSchema = [
                                                    "type" : "string"
                                                 },
                                                 "version" : {
-                                                   "default" : "v2.0",
+                                                   "default" : "v1.2",
                                                    "description" : "The TPM interface version. v2.0 is newer and should be preferred. Note that this cannot be changed later on.",
                                                    "enum" : [
                                                       "v1.2",
@@ -18462,7 +18593,7 @@ const apiSchema = [
                                                 "type" : {
                                                    "default" : "std",
                                                    "default_key" : 1,
-                                                   "description" : "Select the VGA type.",
+                                                   "description" : "Select the VGA type. Using type 'cirrus' is not recommended.",
                                                    "enum" : [
                                                       "cirrus",
                                                       "qxl",
@@ -19655,7 +19786,7 @@ const apiSchema = [
                                           },
                                           "migrate_downtime" : {
                                              "default" : 0.1,
-                                             "description" : "Set maximum tolerated downtime (in seconds) for migrations.",
+                                             "description" : "Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge.",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "number",
@@ -20815,7 +20946,7 @@ const apiSchema = [
                                                    "type" : "string"
                                                 },
                                                 "version" : {
-                                                   "default" : "v2.0",
+                                                   "default" : "v1.2",
                                                    "description" : "The TPM interface version. v2.0 is newer and should be preferred. Note that this cannot be changed later on.",
                                                    "enum" : [
                                                       "v1.2",
@@ -20908,7 +21039,7 @@ const apiSchema = [
                                                 "type" : {
                                                    "default" : "std",
                                                    "default_key" : 1,
-                                                   "description" : "Select the VGA type.",
+                                                   "description" : "Select the VGA type. Using type 'cirrus' is not recommended.",
                                                    "enum" : [
                                                       "cirrus",
                                                       "qxl",
@@ -22135,7 +22266,7 @@ const apiSchema = [
                                           },
                                           "migrate_downtime" : {
                                              "default" : 0.1,
-                                             "description" : "Set maximum tolerated downtime (in seconds) for migrations.",
+                                             "description" : "Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge.",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "number",
@@ -23295,7 +23426,7 @@ const apiSchema = [
                                                    "type" : "string"
                                                 },
                                                 "version" : {
-                                                   "default" : "v2.0",
+                                                   "default" : "v1.2",
                                                    "description" : "The TPM interface version. v2.0 is newer and should be preferred. Note that this cannot be changed later on.",
                                                    "enum" : [
                                                       "v1.2",
@@ -23388,7 +23519,7 @@ const apiSchema = [
                                                 "type" : {
                                                    "default" : "std",
                                                    "default_key" : 1,
-                                                   "description" : "Select the VGA type.",
+                                                   "description" : "Select the VGA type. Using type 'cirrus' is not recommended.",
                                                    "enum" : [
                                                       "cirrus",
                                                       "qxl",
@@ -28298,7 +28429,7 @@ const apiSchema = [
                               },
                               "migrate_downtime" : {
                                  "default" : 0.1,
-                                 "description" : "Set maximum tolerated downtime (in seconds) for migrations.",
+                                 "description" : "Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge.",
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "number",
@@ -29467,7 +29598,7 @@ const apiSchema = [
                                        "type" : "string"
                                     },
                                     "version" : {
-                                       "default" : "v2.0",
+                                       "default" : "v1.2",
                                        "description" : "The TPM interface version. v2.0 is newer and should be preferred. Note that this cannot be changed later on.",
                                        "enum" : [
                                           "v1.2",
@@ -29567,7 +29698,7 @@ const apiSchema = [
                                     "type" : {
                                        "default" : "std",
                                        "default_key" : 1,
-                                       "description" : "Select the VGA type.",
+                                       "description" : "Select the VGA type. Using type 'cirrus' is not recommended.",
                                        "enum" : [
                                           "cirrus",
                                           "qxl",
@@ -40238,6 +40369,16 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
+                                    "pbs-change-detection-mode" : {
+                                       "description" : "PBS mode used to detect file changes and switch encoding. NOTE: `data` and `metadata` modes are experimental. format for container backups.",
+                                       "enum" : [
+                                          "legacy",
+                                          "data",
+                                          "metadata"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
                                     "performance" : {
                                        "description" : "Other performance-related settings.",
                                        "format" : "backup-performance",
@@ -40451,6 +40592,14 @@ const apiSchema = [
                                  "type" : "integer",
                                  "typetext" : "<integer> (0 - 8)"
                               },
+                              "job-id" : {
+                                 "description" : "The ID of the backup job. If set, the 'backup-job' metadata field of the backup notification will be set to this value. Only root@pam can set this parameter.",
+                                 "format" : "pve-configid",
+                                 "maxLength" : 256,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "lockwait" : {
                                  "default" : 180,
                                  "description" : "Maximal time to wait for the global lock (minutes).",
@@ -40537,6 +40686,16 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "pbs-change-detection-mode" : {
+                                 "description" : "PBS mode used to detect file changes and switch encoding. NOTE: `data` and `metadata` modes are experimental. format for container backups.",
+                                 "enum" : [
+                                    "legacy",
+                                    "data",
+                                    "metadata"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
                               },
                               "performance" : {
                                  "description" : "Other performance-related settings.",
@@ -40652,7 +40811,7 @@ const apiSchema = [
                            }
                         },
                         "permissions" : {
-                           "description" : "The user needs 'VM.Backup' permissions on any VM, and 'Datastore.AllocateSpace' on the backup storage (and fleecing storage when fleecing is used). The 'tmpdir', 'dumpdir' and 'script' parameters are restricted to the 'root@pam' user. The 'maxfiles' and 'prune-backups' settings require 'Datastore.Allocate' on the backup storage. The 'bwlimit', 'performance' and 'ionice' parameters require 'Sys.Modify' on '/'.",
+                           "description" : "The user needs 'VM.Backup' permissions on any VM, and 'Datastore.AllocateSpace' on the backup storage (and fleecing storage when fleecing is used). The 'tmpdir', 'dumpdir', 'script' and 'job-id' parameters are restricted to the 'root@pam' user. The 'maxfiles' and 'prune-backups' settings require 'Datastore.Allocate' on the backup storage. The 'bwlimit', 'performance' and 'ionice' parameters require 'Sys.Modify' on '/'.",
                            "user" : "all"
                         },
                         "protected" : 1,
@@ -49039,7 +49198,7 @@ const apiSchema = [
                                  "type" : "object"
                               },
                               "current-kernel" : {
-                                 "description" : "The uptime of the system in seconds.",
+                                 "description" : "Meta-information about the currently booted kernel of this node.",
                                  "properties" : {
                                     "machine" : {
                                        "description" : "Hardware (architecture) type",
@@ -49527,9 +49686,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "upgrade",
+                                    "login",
                                     "ceph_install",
-                                    "login"
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -49622,9 +49781,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "upgrade",
+                                    "login",
                                     "ceph_install",
-                                    "login"
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -49747,9 +49906,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "upgrade",
+                                    "login",
                                     "ceph_install",
-                                    "login"
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"

@@ -305,7 +305,7 @@ Memory properties.
 
 `--migrate_downtime` `<number> (0 - N)` ('default =' `0.1`)::
 
-Set maximum tolerated downtime (in seconds) for migrations.
+Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge.
 
 `--migrate_speed` `<integer> (0 - N)` ('default =' `0`)::
 
@@ -902,7 +902,7 @@ Memory properties.
 
 `--migrate_downtime` `<number> (0 - N)` ('default =' `0.1`)::
 
-Set maximum tolerated downtime (in seconds) for migrations.
+Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge.
 
 `--migrate_speed` `<integer> (0 - N)` ('default =' `0`)::
 
@@ -1486,7 +1486,7 @@ Memory properties.
 
 `--migrate_downtime` `<number> (0 - N)` ('default =' `0.1`)::
 
-Set maximum tolerated downtime (in seconds) for migrations.
+Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge.
 
 `--migrate_speed` `<integer> (0 - N)` ('default =' `0`)::
 
