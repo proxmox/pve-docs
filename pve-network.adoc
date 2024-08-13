@@ -447,9 +447,9 @@ slaves in the single logical bonded interface such that different
 network-peers use different MAC addresses for their network packet
 traffic.
 
-If your switch support the LACP (IEEE 802.3ad) protocol then we recommend using
-the corresponding bonding mode (802.3ad). Otherwise you should generally use the
-active-backup mode.
+If your switch supports the LACP (IEEE 802.3ad) protocol, then we recommend
+using the corresponding bonding mode (802.3ad). Otherwise you should generally
+use the active-backup mode.
 
 For the cluster network (Corosync) we recommend configuring it with multiple
 networks. Corosync does not need a bond for network reduncancy as it can switch
@@ -490,7 +490,7 @@ iface vmbr0 inet static
 
 
 [thumbnail="default-network-setup-bond.svg"]
-Another possibility it to use the bond directly as bridge port.
+Another possibility is to use the bond directly as bridge port.
 This can be used to make the guest network fault-tolerant.
 
 .Example: Use a bond as bridge port
