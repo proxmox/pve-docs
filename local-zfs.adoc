@@ -442,8 +442,8 @@ recommend to:
 # zpool create -f -o ashift=12 <pool> <device> log <log-device>
 ----
 
-In above example a single `<device>` and a single `<log-device>` is used, but you
-can also combine this with other RAID variants, as described in the
+In the example above, a single `<device>` and a single `<log-device>` is used,
+but you can also combine this with other RAID variants, as described in the
 xref:sysadmin_zfs_create_new_zpool_raid0[Create a new pool with RAID] section.
 
 You can also mirror the log device to multiple devices, this is mainly useful to
@@ -465,19 +465,19 @@ protection that you want to use for improving the overall performance of your
 pool.
 
 As the maximum size of a log device should be about half the size of the
-installed physical memory, it means that the ZIL will mostly likely only take up
+installed physical memory, it means that the ZIL will most likely only take up
 a relatively small part of the SSD, the remaining space can be used as cache.
 
 First you have to create two GPT partitions on the SSD with `parted` or `gdisk`.
 
-Then you're ready to add them to an pool:
+Then you're ready to add them to a pool:
 
 .Add both, a separate log device and a second-level cache, to an existing pool
 ----
 # zpool add -f <pool> log <device-part1> cache <device-part2>
 ----
 
-Just replay `<pool>`, `<device-part1>` and `<device-part2>` with the pool name
+Just replace `<pool>`, `<device-part1>` and `<device-part2>` with the pool name
 and the two `/dev/disk/by-id/` paths to the partitions.
 
 You can also add ZIL and cache separately.
@@ -527,8 +527,9 @@ process of the new disk has progressed.
 # proxmox-boot-tool init <new disk's ESP> [grub]
 ----
 
-NOTE: `ESP` stands for EFI System Partition, which is setup as partition #2 on
-bootable disks setup by the {pve} installer since version 5.4. For details, see
+NOTE: `ESP` stands for EFI System Partition, which is set up as partition #2 on
+bootable disks when using the {pve} installer since version 5.4. For details,
+see
 xref:sysboot_proxmox_boot_setup[Setting up a new partition for use as synced ESP].
 
 NOTE: Make sure to pass 'grub' as mode to `proxmox-boot-tool init` if
@@ -541,7 +542,7 @@ especially if Secure Boot is enabled!
 # grub-install <new disk>
 ----
 NOTE: Plain GRUB is only used on systems installed with {pve} 6.3 or earlier,
-which have not been manually migrated to using `proxmox-boot-tool` yet.
+which have not been manually migrated to use `proxmox-boot-tool` yet.
 
 
 Configure E-Mail Notification
