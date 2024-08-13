@@ -490,10 +490,10 @@ iface vmbr0 inet static
 
 
 [thumbnail="default-network-setup-bond.svg"]
-Another possibility is to use the bond directly as bridge port.
+Another possibility is to use the bond directly as the bridge port.
 This can be used to make the guest network fault-tolerant.
 
-.Example: Use a bond as bridge port
+.Example: Use a bond as the bridge port
 ----
 auto lo
 iface lo inet loopback
