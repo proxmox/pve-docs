@@ -223,6 +223,9 @@ If a node has been successfully configured with an ACME-provided certificate
 renewed by the `pve-daily-update.service`. Currently, renewal will be attempted
 if the certificate has expired already, or will expire in the next 30 days.
 
+NOTE: If you are using a custom directory that issues short-lived certificates,
+disabling the random delay for the `pve-daily-update.timer` unit might be
+advisable to avoid missing a certificate renewal after a reboot.
 
 ACME Examples with `pvenode`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
