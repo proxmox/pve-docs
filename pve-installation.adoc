@@ -117,6 +117,14 @@ Advanced Options: Install {pve} (Serial Console Debug Mode)::
 Same the terminal-based debug mode, but additionally sets up the Linux kernel to
 use the (first) serial port of the machine for in- and output.
 
+Advanced Options: Install {pve} (Automated)::
+
+Starts the installer in unattended mode, even if the ISO has not been
+appropriately prepared for an automated installation. This option can be used to
+gather hardware details or might be useful to debug an automated installation
+setup. See xref:installation_unattended[Unattended Installation] for more
+information.
+
 Advanced Options: Rescue Boot::
 
 With this option you can boot an existing installation. It searches all attached
