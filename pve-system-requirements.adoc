@@ -18,7 +18,7 @@ Minimum Requirements, for Evaluation
 These minimum requirements are for evaluation purposes only and should not be
 used in production.
 
-* CPU: 64bit (Intel EMT64 or AMD64)
+* CPU: 64bit (Intel 64 or AMD64)
 
 * Intel VT/AMD-V capable CPU/motherboard for KVM full virtualization support
 
@@ -33,7 +33,7 @@ used in production.
 Recommended System Requirements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* Intel EMT64 or AMD64 with Intel VT/AMD-V CPU flag.
+* Intel 64 or AMD64 with Intel VT/AMD-V CPU flag.
 
 * Memory: Minimum 2 GB for the OS and {pve} services, plus designated memory for
   guests. For Ceph and ZFS, additional memory is required; approximately 1GB of
