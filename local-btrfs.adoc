@@ -32,7 +32,7 @@ introduced as optional selection for the root file system.
 
 .Caveats
 
-* RAID levels 5/6 are experimental and dangerous
+* RAID levels 5/6 are experimental and dangerous, see https://btrfs.readthedocs.io/en/latest/Status.html[BTRFS Status]
 
 Installation as Root File System
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
