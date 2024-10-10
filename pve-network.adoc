@@ -452,7 +452,7 @@ using the corresponding bonding mode (802.3ad). Otherwise you should generally
 use the active-backup mode.
 
 For the cluster network (Corosync) we recommend configuring it with multiple
-networks. Corosync does not need a bond for network reduncancy as it can switch
+networks. Corosync does not need a bond for network redundancy as it can switch
 between networks by itself, if one becomes unusable.
 
 The following bond configuration can be used as distributed/shared

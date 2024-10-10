@@ -66,7 +66,7 @@ Specify external http proxy which is used for downloads (example: 'http://userna
 
 `keyboard`: `<da | de | de-ch | en-gb | en-us | es | fi | fr | fr-be | fr-ca | fr-ch | hu | is | it | ja | lt | mk | nl | no | pl | pt | pt-br | sl | sv | tr>` ::
 
-Default keybord layout for vnc server.
+Default keyboard layout for vnc server.
 
 `language`: `<ar | ca | da | de | en | es | eu | fa | fr | he | hr | it | ja | ka | kr | nb | nl | nn | pl | pt_BR | ru | sl | sv | tr | ukr | zh_CN | zh_TW>` ::
 

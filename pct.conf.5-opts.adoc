@@ -82,7 +82,7 @@ Allow nesting. Best used with unprivileged containers with additional id mapping
 
 `hookscript`: `<string>` ::
 
-Script that will be exectued during various steps in the containers lifetime.
+Script that will be executed during various steps in the containers lifetime.
 
 `hostname`: `<string>` ::
 

@@ -209,7 +209,7 @@ login
 
 * 'metadata_services': Set this to
 `cloudbaseinit.metadata.services.configdrive.ConfigDriveService` for
-Cloudbase-Init to first check this serivce. Otherwise it may take a few minutes
+Cloudbase-Init to first check this service. Otherwise it may take a few minutes
 for Cloudbase-Init to configure the system after boot.
 
 Some plugins, for example the SetHostnamePlugin, require reboots and will do

@@ -111,7 +111,7 @@ set multiple times to accommodate multiple recipients.
 address will be looked up in `users.cfg`. Can be set multiple times to
 accommodate multiple recipients.
 * `author`: Sets the author of the E-Mail. Defaults to `Proxmox VE`.
-* `from-address`: Sets the From-addresss of the email. SMTP relays might require
+* `from-address`: Sets the From-address of the email. SMTP relays might require
 that this address is owned by the user in order to avoid spoofing.
 The `From` header in the email will be set to `$author <$from-address>`.
 * `username`: Username to use during authentication. If no username is set,

@@ -665,7 +665,7 @@ create a new pool with a new profile.
 
 This will create a new EC pool plus the needed replicated pool to store the RBD
 omap and other metadata. In the end, there will be a `<pool name>-data` and
-`<pool name>-metada` pool. The default behavior is to create a matching storage
+`<pool name>-metadata` pool. The default behavior is to create a matching storage
 configuration as well. If that behavior is not wanted, you can disable it by
 providing the `--add_storages 0` parameter.  When configuring the storage
 configuration manually, keep in mind that the `data-pool` parameter needs to be
