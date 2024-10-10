@@ -28,9 +28,7 @@ introduced as optional selection for the root file system.
 
 * Self healing
 
-* natively supported by the Linux kernel
-
-* ...
+* Natively supported by the Linux kernel
 
 .Caveats
 
