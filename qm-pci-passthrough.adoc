@@ -95,6 +95,14 @@ to the xref:sysboot_edit_kernel_cmdline[kernel commandline].
 You have to make sure the following modules are loaded. This can be achieved by
 adding them to `'/etc/modules''.
 
+.Mediated devices passthrough
+[NOTE]
+====
+If passing through mediated devices (e.g. vGPUs), the following is not needed.
+In these cases, the device will be owned by the appropriate host-driver
+directly.
+====
+
 ----
  vfio
  vfio_iommu_type1
@@ -272,6 +280,13 @@ Kernel driver in use: vfio-pci
 
 or the 'in use' line is missing entirely, the device is ready to be used for
 passthrough.
+
+.Mediated devices
+[NOTE]
+====
+For mediated devices this line will differ as the device will be owned as the
+host driver directly, not 'vfio-pci'.
+====
 
 [[qm_pci_passthrough_vm_config]]
 VM Configuration
