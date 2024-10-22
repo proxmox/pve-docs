@@ -92,17 +92,13 @@ to the xref:sysboot_edit_kernel_cmdline[kernel commandline].
 
 .Kernel Modules
 
-//TODO: remove `vfio_virqfd` stuff with eol of pve 7
 You have to make sure the following modules are loaded. This can be achieved by
-adding them to `'/etc/modules''. In kernels newer than 6.2 ({pve} 8 and onward)
-the 'vfio_virqfd' module is part of the 'vfio' module, therefore loading
-'vfio_virqfd' in {pve} 8 and newer is not necessary.
+adding them to `'/etc/modules''.
 
 ----
  vfio
  vfio_iommu_type1
  vfio_pci
- vfio_virqfd #not needed if on kernel 6.2 or newer
 ----
 
 [[qm_pci_passthrough_update_initramfs]]
