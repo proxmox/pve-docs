@@ -121,6 +121,45 @@ WARNING: The `pvetest` repository should (as the name implies) only be used for
 testing new features or bug fixes.
 
 [[sysadmin_package_repositories_ceph]]
+Ceph Squid Enterprise Repository
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This repository holds the enterprise {pve} Ceph 19.2 Squid packages. They are
+suitable for production. Use this repository if you run the Ceph client or a
+full Ceph cluster on {pve}.
+
+.File `/etc/apt/sources.list.d/ceph.list`
+----
+deb https://enterprise.proxmox.com/debian/ceph-squid bookworm enterprise
+----
+
+
+Ceph Squid No-Subscription Repository
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This Ceph repository contains the Ceph 19.2 Squid packages before they are moved
+to the enterprise repository and after they where on the test repository.
+
+NOTE: It's recommended to use the enterprise repository for production
+machines.
+
+.File `/etc/apt/sources.list.d/ceph.list`
+----
+deb http://download.proxmox.com/debian/ceph-squid bookworm no-subscription
+----
+
+
+Ceph Squid Test Repository
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This Ceph repository contains the Ceph 19.2 Squid packages before they are moved
+to the main repository. It is used to test new Ceph releases on {pve}.
+
+.File `/etc/apt/sources.list.d/ceph.list`
+----
+deb http://download.proxmox.com/debian/ceph-squid bookworm test
+----
+
 Ceph Reef Enterprise Repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
