@@ -63,18 +63,18 @@ some configuration to enable PCI(e) passthrough.
 
 .IOMMU
 
-First, you will have to enable IOMMU support in your BIOS/UEFI. Usually the
+You will have to enable IOMMU support in your BIOS/UEFI. Usually the
 corresponding setting is called `IOMMU` or `VT-d`, but you should find the exact
 option name in the manual of your motherboard.
 
-For Intel CPUs, you also need to enable the IOMMU on the
-xref:sysboot_edit_kernel_cmdline[kernel command line] kernels by adding:
+With AMD CPUs IOMMU is enabled by default. With recent kernels (6.8 or newer),
+this is also true for Intel CPUs. On older kernels, it is necessary to enable
+it on Intel CPUs via the
+xref:sysboot_edit_kernel_cmdline[kernel command line] by adding:
 
 ----
  intel_iommu=on
 ----
-
-For AMD CPUs it should be enabled automatically.
 
 .IOMMU Passthrough Mode
 
