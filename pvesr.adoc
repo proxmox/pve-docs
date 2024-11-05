@@ -101,7 +101,7 @@ setup there may be another cause.
 
 * No free space left on the replication target storage.
 
-* Storage with same storage ID available on the target node
+* Storage with same storage ID is not available on the target node
 
 NOTE: You can always use the replication log to find out what is causing the problem.
 
