@@ -383,6 +383,7 @@ and the corresponding interfaces for each menu item on the right.
 * *Permissions:* manage the permissions for the pool.
 
 
+[[gui_tags]]
 Tags
 ----
 
