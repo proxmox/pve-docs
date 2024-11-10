@@ -179,6 +179,7 @@ Folder View:: Shows all kinds of objects, grouped by object type.
 
 Pool View:: Show VMs and containers, grouped by pool.
 
+Tag View:: Show VMs and containers, grouped by tags.
 
 Log Panel
 ~~~~~~~~~
