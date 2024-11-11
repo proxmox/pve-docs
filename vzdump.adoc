@@ -196,12 +196,12 @@ There are 3 change detection modes available:
 | Mode     | Description
 | Default  | Read and encode all files into a single archive, using the pxar
 format version 1.
-| Data     | (EXPERIMENTAL): Read and encode all files, but split data and
-metadata into separate streams, using the pxar format version 2.
-| Metadata | (EXPERIMENTAL): Split streams and use archive format version 2 like
-`Data`, but use the metadata archive of the previous snapshot (if one exists) to
-detect unchanged files, and reuse their data chunks without reading file
-contents from disk, whenever possible.
+| Data     | Read and encode all files, but split data and metadata into
+separate streams, using the pxar format version 2.
+| Metadata | Split streams and use archive format version 2 like `Data`, but use
+the metadata archive of the previous snapshot (if one exists) to detect
+unchanged files, and reuse their data chunks without reading file contents from
+disk, whenever possible.
 |===============================================================================
 
 To perform a backup using the change detecation mode `metadata` you can run
