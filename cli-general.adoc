@@ -1,0 +1,6 @@
+[[cli_general]]
+General
+-------
+
+Regarding the historically non-uniform casing style for options, see
+xref:configuration_files_casing[the related section for configuration files].

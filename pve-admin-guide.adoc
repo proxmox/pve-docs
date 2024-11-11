@@ -98,6 +98,8 @@ Command-line Interface
 
 :leveloffset: 1
 
+include::cli-general.adoc[]
+
 include::output-format.adoc[]
 
 :leveloffset: 0
