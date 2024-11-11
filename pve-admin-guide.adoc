@@ -308,7 +308,7 @@ Configuration Files
 -------------------
 
 :leveloffset: 2
-include::datacenter.cfg.adoc[]
+include::configuration-files.adoc[]
 
 :leveloffset: 0
 

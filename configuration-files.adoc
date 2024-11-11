@@ -1,0 +1,28 @@
+[[configuration_files]]
+General
+=======
+
+Most configuration files in {pve} reside on the
+xref:chapter_pmxcfs[shared cluster file system] mounted at `/etc/pve`. There are
+exceptions, like the node-specific configuration file for backups in
+`/etc/vzdump.conf`.
+
+Usually, the properties in a configuration file are derived from the JSON Schema
+that is also used for the associated API endpoints.
+
+[[configuration_files_casing]]
+Casing of Property Names
+------------------------
+
+Historically, longer properties (and sub-properties) often used `snake_case`, or
+were written as one word. This can likely be attributed to the {pve} stack being
+developed mostly in the programming language Perl, where access to properties
+using `kebab-case` requires additional quotes, as well as less style enforcement
+during early development, so different developers used different conventions.
+
+For new properties, `kebab-case` is the preferred way and it is planned to
+introduce aliases for existing `snake_case` properties, and in the long term,
+switch over to `kebab-case` for the API, CLI and in-use configuration files
+while maintaining backwards-compatibility when restoring a configuration.
+
+include::datacenter.cfg.adoc[]
