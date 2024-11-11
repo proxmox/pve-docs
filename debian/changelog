@@ -1,3 +1,36 @@
+pve-docs (8.2.4) bookworm; urgency=medium
+
+  * zfs: correct language errors
+
+  * sdn: correct language errors
+
+  * notifications:
+    - describe new notification metadata fields
+    - match-field exact-mode can now match multiple values
+    - add note regarding when job-id is set for backups
+    - add documentation for webhook target endpoints.
+
+  * images: update grub menu screenshot to 8.2-2 ISO
+
+  * system requirements: use correct and modern acronym for Intel 64-bit
+
+  * btrfs: Add link to upstream docs regarding its status
+
+  * pci-passthrough: drop obsolete `vfio_virqfd` kernel module
+    requirement
+
+  * pci-passthrough: add note about mediated devices w.r.t kernel
+    modules
+
+  * pci-passthrough: reword iommu since it is now always enabled by
+    default
+
+  * fix #5665: add note about short-lived cert renewal
+
+  * package repos: document Ceph 19.2 Squid repos
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 11 Nov 2024 22:31:48 +0100
+
 pve-docs (8.2.3) bookworm; urgency=medium
 
   * fix #5429: network: include Type=ether in the example for how to override
