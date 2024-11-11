@@ -7,6 +7,7 @@ endif::manvolnum[]
 
 Overview
 --------
+
 [thumbnail="screenshot/gui-datacenter-notification-overview.png"]
 
 * {pve} emits xref:notification_events[Notification Events] in case of
@@ -44,6 +45,7 @@ Notification Targets
 [[notification_targets_sendmail]]
 Sendmail
 ~~~~~~~~
+
 [thumbnail="screenshot/gui-datacenter-notification-sendmail.png"]
 
 The sendmail binary is a program commonly found on Unix-like operating systems
@@ -93,6 +95,7 @@ sendmail: example
 [[notification_targets_smtp]]
 SMTP
 ~~~~
+
 [thumbnail="screenshot/gui-datacenter-notification-smtp.png"]
 
 SMTP notification targets can send emails directly to an SMTP mail relay.
@@ -137,8 +140,10 @@ smtp: example
         server mail.example.com
         mode starttls
 ----
+
 The matching entry in `/etc/pve/priv/notifications.cfg`, containing the
 secret token:
+
 ----
 smtp: example
         password somepassword
@@ -147,6 +152,7 @@ smtp: example
 [[notification_targets_gotify]]
 Gotify
 ~~~~~~
+
 [thumbnail="screenshot/gui-datacenter-notification-gotify.png"]
 
 http://gotify.net[Gotify] is an open-source self-hosted notification server that
