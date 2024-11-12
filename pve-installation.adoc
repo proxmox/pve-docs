@@ -349,6 +349,26 @@ on the hard disk(s) for further partitioning (for example to create a
 swap-partition). `hdsize` is only honored for bootable disks, that is only the
 first disk or mirror for RAID0, RAID1 or RAID10, and all disks in RAID-Z[123].
 
+[[advanced_btrfs_options]]
+Advanced BTRFS Configuration Options
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+No swap space is created when BTRFS is used but you can reserve some
+unpartitioned space on the install disks for swap. You can either create a
+separate partition, BTRFS subvolume or a swapfile using the `btrfs filesystem
+mkswapfile` command.
+
+`compress`::
+
+Defines whether compression is enabled for the BTRFS subvolume. Different
+compression algorithms are supported: 'on' (equivalent to 'zlib'), 'zlib', 'lzo'
+and 'zstd'. Defaults to 'off'.
+
+`hdsize`::
+
+Defines the total hard disk size to be used. This is useful to save free space
+on the hard disk(s) for further partitioning (for example, to create a
+swap partition).
 
 ZFS Performance Tips
 ~~~~~~~~~~~~~~~~~~~~
