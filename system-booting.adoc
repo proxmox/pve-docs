@@ -359,7 +359,7 @@ To remove any pinned version configuration use the `unpin` subcommand:
 
 While `unpin` has a `--next-boot` option as well, it is used to clear a pinned
 version set with `--next-boot`. As that happens already automatically on boot,
-invonking it manually is of little use.
+invoking it manually is of little use.
 
 After setting, or clearing pinned versions you also need to synchronize the
 content and configuration on the ESPs by running the `refresh` subcommand.
