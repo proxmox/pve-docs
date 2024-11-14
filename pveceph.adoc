@@ -75,7 +75,7 @@ Terminology
 - Ceph Object Storage Daemon (ceph-osd, or OSD)
 
 TIP: We highly recommend to get familiar with Ceph
-footnote:[Ceph intro {cephdocs-url}/start/intro/],
+footnote:[Ceph intro {cephdocs-url}/start/],
 its architecture
 footnote:[Ceph architecture {cephdocs-url}/architecture/]
 and vocabulary
@@ -323,7 +323,7 @@ Ceph Monitor
 [thumbnail="screenshot/gui-ceph-monitor.png"]
 
 The Ceph Monitor (MON)
-footnote:[Ceph Monitor {cephdocs-url}/start/intro/]
+footnote:[Ceph Monitor {cephdocs-url}/rados/configuration/mon-config-ref/]
 maintains a master copy of the cluster map. For high availability, you need at
 least 3 monitors. One monitor will already be installed if you
 used the installation wizard. You won't need more than 3 monitors, as long
@@ -765,8 +765,7 @@ Ceph CRUSH & device classes
 
 [thumbnail="screenshot/gui-ceph-config.png"]
 
-The footnote:[CRUSH
-https://ceph.com/wp-content/uploads/2016/08/weil-crush-sc06.pdf] (**C**ontrolled
+The footnote:[https://ceph.com/assets/pdfs/weil-crush-sc06.pdf] (**C**ontrolled
 **R**eplication **U**nder **S**calable **H**ashing) algorithm is at the
 foundation of Ceph.
 
