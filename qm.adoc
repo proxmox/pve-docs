@@ -715,6 +715,109 @@ systems.
 When allocating RAM to your VMs, a good rule of thumb is always to leave 1GB
 of RAM available to the host.
 
+[[qm_memory_encryption]]
+Memory Encryption
+~~~~~~~~~~~~~~~~~
+
+[[qm_memory_encryption_sev]]
+AMD SEV
+^^^^^^^
+
+SEV (Secure Encrypted Virtualization) enables memory encryption per VM using
+AES-128 encryption and the AMD Secure Processor.
+
+SEV-ES (Secure Encrypted Virtualization-Encrypted State) in addition encrypts
+all CPU register contents when a VM stops running, to prevent leakage of
+information to the hypervisor. This feature is very experimental.
+
+*Host Requirements:*
+
+* AMD EPYC CPU
+* SEV-ES is only supported on AMD EPYC 7xx2 and newer
+* configure AMD memory encryption in the BIOS settings of the host machine
+* add "kvm_amd.sev=1" to kernel parameters if not enabled by default
+* add "mem_encrypt=on" to kernel parameters if you want to encrypt memory on the
+host (SME) see https://www.kernel.org/doc/Documentation/x86/amd-memory-encryption.txt
+* maybe increase SWIOTLB see https://github.com/AMDESE/AMDSEV#faq-4
+
+To check if SEV is enabled on the host search for `sev` in dmesg and print out
+the SEV kernel parameter of kvm_amd:
+
+----
+# dmesg | grep -i sev
+[...] ccp 0000:45:00.1: sev enabled
+[...] ccp 0000:45:00.1: SEV API: <buildversion>
+[...] SEV supported: <number> ASIDs
+[...] SEV-ES supported: <number> ASIDs
+# cat /sys/module/kvm_amd/parameters/sev
+Y
+----
+
+*Guest Requirements:*
+
+* edk2-OVMF
+* advisable to use Q35
+* The guest operating system must contain SEV-support.
+
+*Limitations:*
+
+* Because the memory is encrypted the memory usage on host is always wrong.
+* Operations that involve saving or restoring memory like snapshots
+& live migration do not work yet or are attackable.
+https://github.com/PSPReverse/amd-sev-migration-attack
+* PCI passthrough is not supported.
+* SEV-ES is very experimental.
+* QEMU & AMD-SEV documentation is very limited.
+
+Example Configuration:
+
+----
+# qm set <vmid> -amd_sev type=std,no-debug=1,no-key-sharing=1,kernel-hashes=1
+----
+
+The *type* defines the encryption technology ("type=" is not necessary).
+Available options are std & es.
+
+The QEMU *policy* parameter gets calculated with the *no-debug* and
+*no-key-sharing* parameters. These parameters correspond to policy-bit 0 and 1.
+If *type* is *es* the policy-bit 2 is set to 1 so that SEV-ES is enabled.
+Policy-bit 3 (nosend) is always set to 1 to prevent migration-attacks. For more
+information on how to calculate the policy see:
+https://www.amd.com/system/files/TechDocs/55766_SEV-KM_API_Specification.pdf[AMD SEV API Specification Chapter 3]
+
+The *kernel-hashes* option is off per default for backward compatibility with
+older OVMF images and guests that do not measure the kernel/initrd.
+See https://lists.gnu.org/archive/html/qemu-devel/2021-11/msg02598.html
+
+*Check if SEV is working on the guest*
+
+Method 1 - dmesg:
+
+Output should look like this.
+
+----
+# dmesg | grep -i sev
+AMD Memory Encryption Features active: SEV
+----
+
+Method 2 - MSR 0xc0010131 (MSR_AMD64_SEV):
+
+Output should be 1.
+
+----
+# apt install msr-tools
+# modprobe msr
+# rdmsr -a 0xc0010131
+1
+----
+
+Links:
+
+* https://developer.amd.com/sev/
+* https://github.com/AMDESE/AMDSEV
+* https://www.qemu.org/docs/master/system/i386/amd-memory-encryption.html
+* https://www.amd.com/system/files/TechDocs/55766_SEV-KM_API_Specification.pdf
+* https://documentation.suse.com/sles/15-SP1/html/SLES-amd-sev/index.html
 
 [[qm_network_device]]
 Network Device
