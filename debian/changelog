@@ -1,3 +1,31 @@
+pve-docs (8.2.5) bookworm; urgency=medium
+
+  * installation: document advanced btrfs options
+
+  * ceph: update some dead links
+
+  * docs: drop experimental warning for change detection modes
+
+  * configuration files: add general section
+
+  * cli appendix: reference section about casing style
+
+  * qm: add AMD SEV documentation
+
+  * update static/schema information
+
+  * ceph: fix two broken lists
+
+  * n: add documentation for firewall integration
+
+  * firewall: add documentation for forward direction and vnet zone
+
+  * qm: adapt import section to newly added OVA/OVF import
+
+  * sdn: add documentation for isolated ports option
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 19 Nov 2024 18:54:12 +0100
+
 pve-docs (8.2.4) bookworm; urgency=medium
 
   * zfs: correct language errors
