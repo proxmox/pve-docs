@@ -383,6 +383,11 @@ Tag:: The unique VLAN or VXLAN ID
 VLAN Aware:: Enables vlan-aware option on the interface, enabling configuration
   in the guest.
 
+Isolate Ports:: Sets the isolated flag for all guest ports of this interface,
+but not for the interface itself. This means guests can only send traffic to
+non-isolated bridge-ports, which is the bridge itself. In order for this setting
+to take effect, you need to restart the affected guest.
+
 
 [[pvesdn_config_subnet]]
 Subnets
