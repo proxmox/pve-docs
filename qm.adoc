@@ -1650,8 +1650,7 @@ model and reduced downtime.
 
 NOTE: The import wizard was added during the {pve} 8.2 development cycle and is
 in tech preview state. While it's already promising and working stable, it's
-still under active development, focusing on adding other import-sources, like
-for example OVF/OVA files, in the future.
+still under active development.
 
 To use the import wizard you have to first set up a new storage for an import
 source, you can do so on the web-interface under _Datacenter -> Storage -> Add_.
@@ -1666,16 +1665,38 @@ wizard. You can modify a subset of the available options here and then start the
 import. Please note that you can do more advanced modifications after the import
 finished.
 
-TIP: The import wizard is currently (2024-03) available for ESXi and has been
-tested with ESXi versions 6.5 through 8.0. Note that guests using vSAN storage
-cannot be directly imported directly; their disks must first be moved to another
-storage. While it is possible to use a vCenter as the import source, performance
-is dramatically degraded (5 to 10 times slower).
+TIP: The ESXi import wizard  has been tested with ESXi versions 6.5 through
+8.0. Note that guests using vSAN storage cannot be directly imported directly;
+their disks must first be moved to another storage. While it is possible to use
+a vCenter as the import source, performance is dramatically degraded (5 to 10
+times slower).
 
 For a step-by-step guide and tips for how to adapt the virtual guest to the new
 hyper-visor see our
 https://pve.proxmox.com/wiki/Migrate_to_Proxmox_VE#Migration[migrate to {pve}
 wiki article].
+
+OVA/OVF Import
+^^^^^^^^^^^^^^
+
+To import OVA/OVF files, you first need a File-based storage with the 'import'
+content type. On this storage, there will be an 'import' folder where you can
+put OVA files or OVF files with the corresponding images in a flat structure.
+Alternatively you can use the web ui to upload or download OVA files directly.
+You can then use the web ui to select those and use the import wizard to import
+the guests.
+
+For OVA files, there is additional space needed to temporarily extract the
+image. This needs a file-based storage that has the 'images' content type
+configured. By default the source storage is selected for this, but you can
+specify a 'Import Working Storage' on which the images will be extracted before
+importing to the actual target storage.
+
+NOTE: Since OVA/OVF file structure and content are not always well maintained
+or defined, it might be necessary to adapt some guest settings manually. For
+example the SCSI controller type is almost never defined in OVA/OVF files, but
+the default is unbootable with OVMF (UEFI), so you should select 'Virtio SCSI'
+or 'VMware PVSCSI' for these cases.
 
 Import OVF/OVA Through CLI
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
