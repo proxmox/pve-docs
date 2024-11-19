@@ -1,0 +1,8 @@
+`enable`: `<boolean>` ('default =' `0`)::
+
+Enable/disable firewall rules.
+
+`policy_forward`: `<ACCEPT | DROP>` ::
+
+Forward policy.
+

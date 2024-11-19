@@ -62,6 +62,7 @@ GEN_SCRIPTS=					\
 	gen-pve-firewall-macros-adoc.pl		\
 	gen-pve-firewall-rules-opts.pl		\
 	gen-pve-firewall-vm-opts.pl		\
+	gen-pve-firewall-vnet-opts.pl		\
 	gen-output-format-opts.pl
 
 API_VIEWER_FILES=							\

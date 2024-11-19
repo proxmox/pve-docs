@@ -45,21 +45,68 @@ transparent, and we filter traffic for both protocols by default. So
 there is no need to maintain a different set of rules for IPv6.
 
 
-Zones
------
+Directions & Zones
+------------------
 
-The Proxmox VE firewall groups the network into the following logical zones:
+The Proxmox VE firewall groups the network into multiple logical zones. You can
+define rules for each zone independently. Depending on the zone, you can define
+rules for incoming, outgoing or forwarded traffic.
+
+
+Directions
+~~~~~~~~~~
+
+There are 3 directions that you can choose from when defining rules for a zone:
+
+In::
+
+Traffic that is arriving in a zone.
+
+Out::
+
+Traffic that is leaving a zone.
+
+Forward::
+
+Traffic that is passing through a zone. In the host zone this can be routed
+traffic (when the host is acting as a gateway or performing NAT). At a
+VNet-level this affects all traffic that is passing by a VNet, including
+traffic from/to bridged network interfaces.
+
+
+IMPORTANT: Creating rules for forwarded traffic is currently only possible when
+using the new xref:pve_firewall_nft[nftables-based proxmox-firewall]. Any
+forward rules will be ignored by the stock `pve-firewall` and have no effect!
+
+
+Zones
+~~~~~
+
+There are 3 different zones that you can define firewall rules for:
 
 Host::
 
-Traffic from/to a cluster node
+Traffic going from/to a host, or traffic that is forwarded by a host.
+You can define rules for this zone either at the datacenter level or at the host
+level. Rules at host level take precedence over rules at datacenter level.
 
 VM::
 
-Traffic from/to a specific VM
+Traffic going from/to a VM or CT.
+You cannot define rules for forwarded traffic, only for incoming / outgoing
+traffic.
 
-For each zone, you can define firewall rules for incoming and/or
-outgoing traffic.
+VNet::
+
+Traffic passing through a SDN VNet, either from guest to guest or from host to
+guest and vice-versa.
+Since this traffic is always forwarded traffic, it is only possible to create
+rules with direction forward.
+
+
+IMPORTANT: Creating rules on a VNet-level is currently only possible when using
+the new xref:pve_firewall_nft[nftables-based proxmox-firewall]. Any VNet-level
+rules will be ignored by the stock `pve-firewall` and have no effect!
 
 
 Configuration Files
@@ -202,10 +249,46 @@ can selectively enable the firewall for each interface. This is
 required in addition to the general firewall `enable` option.
 
 
+[[pve_firewall_vnet_configuration]]
+VNet Configuration
+~~~~~~~~~~~~~~~~~~
+VNet related configuration is read from:
+
+ /etc/pve/sdn/firewall/<vnet_name>.fw
+
+This can be used for setting firewall configuration globally on a VNet level,
+without having to set firewall rules for each VM inside the VNet separately. It
+can only contain rules for the `FORWARD` direction, since there is no notion of
+incoming or outgoing traffic. This affects all traffic travelling from one
+bridge port to another, including the host interface.
+
+WARNING: This feature is currently only available for the new
+xref:pve_firewall_nft[nftables-based proxmox-firewall]
+
+Since traffic passing the `FORWARD` chain is bi-directional, you need to create
+rules for both directions if you want traffic to pass both ways. For instance if
+HTTP traffic for a specific host should be allowed, you would need to create the
+following rules:
+
+----
+FORWARD ACCEPT -dest 10.0.0.1 -dport 80
+FORWARD ACCEPT -source 10.0.0.1 -sport 80
+----
+
+`[OPTIONS]`::
+
+This is used to set VNet related firewall options.
+
+include::pve-firewall-vnet-opts.adoc[]
+
+`[RULES]`::
+
+This section contains VNet specific firewall rules.
+
 Firewall Rules
 --------------
 
-Firewall rules consists of a direction (`IN` or `OUT`) and an
+Firewall rules consists of a direction (`IN`, `OUT` or `FORWARD`) and an
 action (`ACCEPT`, `DENY`, `REJECT`). You can also specify a macro
 name. Macros contain predefined sets of rules and options. Rules can be
 disabled by prefixing them with `|`.
@@ -639,6 +722,7 @@ Ports used by {pve}
 * live migration (VM memory and local-disk data): 60000-60050 (TCP)
 
 
+[[pve_firewall_nft]]
 nftables
 --------
 
