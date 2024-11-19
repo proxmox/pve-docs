@@ -32,9 +32,13 @@ Try to be more verbose. For now this only enables debug log-level on start.
 
 Description for the Container. Shown in the web-interface CT's summary. This is saved as comment inside the configuration file.
 
-`dev[n]`: `[[path=]<Path>] [,gid=<integer>] [,mode=<Octal access mode>] [,uid=<integer>]` ::
+`dev[n]`: `[[path=]<Path>] [,deny-write=<1|0>] [,gid=<integer>] [,mode=<Octal access mode>] [,uid=<integer>]` ::
 
 Device to pass through to the container
+
+`deny-write`=`<boolean>` ('default =' `0`);;
+
+Deny the container to write to the device
 
 `gid`=`<integer> (0 - N)` ;;
 

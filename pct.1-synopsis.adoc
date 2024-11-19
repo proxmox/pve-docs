@@ -126,7 +126,7 @@ Try to be more verbose. For now this only enables debug log-level on start.
 
 Description for the Container. Shown in the web-interface CT's summary. This is saved as comment inside the configuration file.
 
-`--dev[n]` `[[path=]<Path>] [,gid=<integer>] [,mode=<Octal access mode>] [,uid=<integer>]` ::
+`--dev[n]` `[[path=]<Path>] [,deny-write=<1|0>] [,gid=<integer>] [,mode=<Octal access mode>] [,uid=<integer>]` ::
 
 Device to pass through to the container
 
@@ -140,7 +140,7 @@ Allow to overwrite existing container.
 
 `--hookscript` `<string>` ::
 
-Script that will be exectued during various steps in the containers lifetime.
+Script that will be executed during various steps in the containers lifetime.
 
 `--hostname` `<string>` ::
 
@@ -595,7 +595,7 @@ Rescan all storages and update disk sizes and unused disk images.
 
 `--dryrun` `<boolean>` ('default =' `0`)::
 
-Do not actually write changes out to conifg.
+Do not actually write changes to the configuration.
 
 `--vmid` `<integer> (100 - 999999999)` ::
 
@@ -671,7 +671,7 @@ Try to be more verbose. For now this only enables debug log-level on start.
 
 Description for the Container. Shown in the web-interface CT's summary. This is saved as comment inside the configuration file.
 
-`--dev[n]` `[[path=]<Path>] [,gid=<integer>] [,mode=<Octal access mode>] [,uid=<integer>]` ::
+`--dev[n]` `[[path=]<Path>] [,deny-write=<1|0>] [,gid=<integer>] [,mode=<Octal access mode>] [,uid=<integer>]` ::
 
 Device to pass through to the container
 
@@ -685,7 +685,7 @@ Allow to overwrite existing container.
 
 `--hookscript` `<string>` ::
 
-Script that will be exectued during various steps in the containers lifetime.
+Script that will be executed during various steps in the containers lifetime.
 
 `--hostname` `<string>` ::
 
@@ -863,7 +863,7 @@ A list of settings you want to delete.
 
 Description for the Container. Shown in the web-interface CT's summary. This is saved as comment inside the configuration file.
 
-`--dev[n]` `[[path=]<Path>] [,gid=<integer>] [,mode=<Octal access mode>] [,uid=<integer>]` ::
+`--dev[n]` `[[path=]<Path>] [,deny-write=<1|0>] [,gid=<integer>] [,mode=<Octal access mode>] [,uid=<integer>]` ::
 
 Device to pass through to the container
 
@@ -877,7 +877,7 @@ Allow containers access to advanced features.
 
 `--hookscript` `<string>` ::
 
-Script that will be exectued during various steps in the containers lifetime.
+Script that will be executed during various steps in the containers lifetime.
 
 `--hostname` `<string>` ::
 

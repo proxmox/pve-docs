@@ -172,7 +172,7 @@ Pool.
 
 `--port` `<integer> (1 - 65535)` ::
 
-For non default port.
+Use this port to connect to the storage instead of the default one (for example, with PBS or ESXi). For NFS and CIFS, use the 'options' option to configure the port via the mount options.
 
 `--portal` `<string>` ::
 
@@ -732,7 +732,7 @@ Pool.
 
 `--port` `<integer> (1 - 65535)` ::
 
-For non default port.
+Use this port to connect to the storage instead of the default one (for example, with PBS or ESXi). For NFS and CIFS, use the 'options' option to configure the port via the mount options.
 
 `--preallocation` `<falloc | full | metadata | off>` ('default =' `metadata`)::
 

@@ -443,7 +443,7 @@
 |===========================================================
 
 [horizontal]
-'PCA':: Symantec pcAnywhere (tm)
+'PCA':: Symantec PCAnywere (tm)
 
 [width="100%",options="header"]
 |===========================================================

@@ -26,6 +26,26 @@ Run fstrim after moving a disk or migrating the VM.
 
 Select the agent type
 
+`amd-sev`: `[type=]<sev-type> [,kernel-hashes=<1|0>] [,no-debug=<1|0>] [,no-key-sharing=<1|0>]` ::
+
+Secure Encrypted Virtualization (SEV) features by AMD CPUs
+
+`kernel-hashes`=`<boolean>` ('default =' `0`);;
+
+Add kernel hashes to guest firmware for measured linux kernel launch
+
+`no-debug`=`<boolean>` ('default =' `0`);;
+
+Sets policy bit 0 to 1 to disallow debugging of guest
+
+`no-key-sharing`=`<boolean>` ('default =' `0`);;
+
+Sets policy bit 1 to 1 to disallow key sharing with other guests
+
+`type`=`<sev-type>` ;;
+
+Enable standard SEV with type='std' or enable experimental SEV-ES with the 'es' option.
+
 `arch`: `<aarch64 | x86_64>` ::
 
 Virtual processor architecture. Defaults to the host.
@@ -227,7 +247,7 @@ of PCI virtual functions of the host. HOSTPCIID syntax is:
 +
 'bus:dev.func' (hexadecimal numbers)
 +
-You can us the 'lspci' command to list existing PCI devices.
+You can use the 'lspci' command to list existing PCI devices.
 +
 Either this or the 'mapping' key must be set.
 

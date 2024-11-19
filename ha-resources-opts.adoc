@@ -8,7 +8,7 @@ The HA group identifier.
 
 `max_relocate`: `<integer> (0 - N)` ('default =' `1`)::
 
-Maximal number of service relocate tries when a service fails to start.
+Maximal number of service relocate tries when a service failes to start.
 
 `max_restart`: `<integer> (0 - N)` ('default =' `1`)::
 

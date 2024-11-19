@@ -70,7 +70,7 @@ Deprecated: Do not use
 
 `pbs-change-detection-mode`: `<data | legacy | metadata>` ::
 
-PBS mode used to detect file changes and switch encoding. NOTE: `data` and `metadata` modes are experimental. format for container backups.
+PBS mode used to detect file changes and switch encoding format for container backups.
 
 `performance`: `[max-workers=<integer>] [,pbs-entries-max=<integer>]` ::
 

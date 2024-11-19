@@ -122,7 +122,7 @@ Allow experimental versions. Use with care!
 
 Ceph repository to use.
 
-`--version` `<quincy | reef>` ('default =' `quincy`)::
+`--version` `<quincy | reef | squid>` ('default =' `quincy`)::
 
 Ceph version to install.
 

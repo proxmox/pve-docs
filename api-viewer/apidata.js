@@ -706,6 +706,96 @@ const apiSchema = [
                   "leaf" : 0,
                   "path" : "/cluster/metrics/server",
                   "text" : "server"
+               },
+               {
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Retrieve metrics of the cluster.",
+                        "method" : "GET",
+                        "name" : "export",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "history" : {
+                                 "default" : 0,
+                                 "description" : "Also return historic values. Returns full available metric history unless `start-time` is also set",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "local-only" : {
+                                 "default" : 0,
+                                 "description" : "Only return metrics for the current node instead of the whole cluster",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "start-time" : {
+                                 "default" : 0,
+                                 "description" : "Only include metrics with a timestamp > start-time.",
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Audit"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "data" : {
+                                 "description" : "Array of system metrics. Metrics are sorted by their timestamp.",
+                                 "items" : {
+                                    "additionalProperties" : 0,
+                                    "properties" : {
+                                       "id" : {
+                                          "description" : "Unique identifier for this metric object, for instance 'node/<nodename>' or 'qemu/<vmid>'.",
+                                          "type" : "string"
+                                       },
+                                       "metric" : {
+                                          "description" : "Name of the metric.",
+                                          "type" : "string"
+                                       },
+                                       "timestamp" : {
+                                          "description" : "Time at which this metric was observed",
+                                          "type" : "integer"
+                                       },
+                                       "type" : {
+                                          "description" : "Type of the metric.",
+                                          "enum" : [
+                                             "gauge",
+                                             "counter",
+                                             "derive"
+                                          ],
+                                          "type" : "string"
+                                       },
+                                       "value" : {
+                                          "description" : "Metric value.",
+                                          "type" : "number"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "type" : "array"
+                              }
+                           },
+                           "type" : "object"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/metrics/export",
+                  "text" : "export"
                }
             ],
             "info" : {
@@ -2073,6 +2163,422 @@ const apiSchema = [
                         "leaf" : 0,
                         "path" : "/cluster/notifications/endpoints/smtp",
                         "text" : "smtp"
+                     },
+                     {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "DELETE" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Remove webhook endpoint",
+                                    "method" : "DELETE",
+                                    "name" : "delete_webhook_endpoint",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "name" : {
+                                             "format" : "pve-configid",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/mapping/notifications",
+                                          [
+                                             "Mapping.Modify"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "type" : "null"
+                                    }
+                                 },
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Return a specific webhook endpoint",
+                                    "method" : "GET",
+                                    "name" : "get_webhook_endpoint",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "name" : {
+                                             "description" : "Name of the endpoint.",
+                                             "format" : "pve-configid",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "or",
+                                          [
+                                             "perm",
+                                             "/mapping/notifications",
+                                             [
+                                                "Mapping.Modify"
+                                             ]
+                                          ],
+                                          [
+                                             "perm",
+                                             "/mapping/notifications",
+                                             [
+                                                "Mapping.Audit"
+                                             ]
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "properties" : {
+                                          "body" : {
+                                             "description" : "HTTP body, base64 encoded",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "comment" : {
+                                             "description" : "Comment",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "digest" : {
+                                             "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                             "maxLength" : 64,
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "disable" : {
+                                             "default" : 0,
+                                             "description" : "Disable this target",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "header" : {
+                                             "description" : "HTTP headers to set. These have to be formatted as a property string in the format name=<name>,value=<base64 of value>",
+                                             "items" : {
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array"
+                                          },
+                                          "method" : {
+                                             "description" : "HTTP method",
+                                             "enum" : [
+                                                "post",
+                                                "put",
+                                                "get"
+                                             ],
+                                             "type" : "string"
+                                          },
+                                          "name" : {
+                                             "description" : "The name of the endpoint.",
+                                             "format" : "pve-configid",
+                                             "type" : "string"
+                                          },
+                                          "secret" : {
+                                             "description" : "Secrets to set. These have to be formatted as a property string in the format name=<name>,value=<base64 of value>",
+                                             "items" : {
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array"
+                                          },
+                                          "url" : {
+                                             "description" : "Server URL",
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 },
+                                 "PUT" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Update existing webhook endpoint",
+                                    "method" : "PUT",
+                                    "name" : "update_webhook_endpoint",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "body" : {
+                                             "description" : "HTTP body, base64 encoded",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "comment" : {
+                                             "description" : "Comment",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "delete" : {
+                                             "description" : "A list of settings you want to delete.",
+                                             "items" : {
+                                                "format" : "pve-configid",
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array",
+                                             "typetext" : "<array>"
+                                          },
+                                          "digest" : {
+                                             "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                             "maxLength" : 64,
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "disable" : {
+                                             "default" : 0,
+                                             "description" : "Disable this target",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "header" : {
+                                             "description" : "HTTP headers to set. These have to be formatted as a property string in the format name=<name>,value=<base64 of value>",
+                                             "items" : {
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array",
+                                             "typetext" : "<array>"
+                                          },
+                                          "method" : {
+                                             "description" : "HTTP method",
+                                             "enum" : [
+                                                "post",
+                                                "put",
+                                                "get"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "name" : {
+                                             "description" : "The name of the endpoint.",
+                                             "format" : "pve-configid",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "secret" : {
+                                             "description" : "Secrets to set. These have to be formatted as a property string in the format name=<name>,value=<base64 of value>",
+                                             "items" : {
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array",
+                                             "typetext" : "<array>"
+                                          },
+                                          "url" : {
+                                             "description" : "Server URL",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/mapping/notifications",
+                                          [
+                                             "Mapping.Modify"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "type" : "null"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/cluster/notifications/endpoints/webhook/{name}",
+                              "text" : "{name}"
+                           }
+                        ],
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Returns a list of all webhook endpoints",
+                              "method" : "GET",
+                              "name" : "get_webhook_endpoints",
+                              "parameters" : {
+                                 "additionalProperties" : 0
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/mapping/notifications",
+                                    [
+                                       "Mapping.Audit"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "body" : {
+                                          "description" : "HTTP body, base64 encoded",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "comment" : {
+                                          "description" : "Comment",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "disable" : {
+                                          "default" : 0,
+                                          "description" : "Disable this target",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       },
+                                       "header" : {
+                                          "description" : "HTTP headers to set. These have to be formatted as a property string in the format name=<name>,value=<base64 of value>",
+                                          "items" : {
+                                             "type" : "string"
+                                          },
+                                          "optional" : 1,
+                                          "type" : "array"
+                                       },
+                                       "method" : {
+                                          "description" : "HTTP method",
+                                          "enum" : [
+                                             "post",
+                                             "put",
+                                             "get"
+                                          ],
+                                          "type" : "string"
+                                       },
+                                       "name" : {
+                                          "description" : "The name of the endpoint.",
+                                          "format" : "pve-configid",
+                                          "type" : "string"
+                                       },
+                                       "origin" : {
+                                          "description" : "Show if this entry was created by a user or was built-in",
+                                          "enum" : [
+                                             "user-created",
+                                             "builtin",
+                                             "modified-builtin"
+                                          ],
+                                          "type" : "string"
+                                       },
+                                       "secret" : {
+                                          "description" : "Secrets to set. These have to be formatted as a property string in the format name=<name>,value=<base64 of value>",
+                                          "items" : {
+                                             "type" : "string"
+                                          },
+                                          "optional" : 1,
+                                          "type" : "array"
+                                       },
+                                       "url" : {
+                                          "description" : "Server URL",
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "links" : [
+                                    {
+                                       "href" : "{name}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
+                              }
+                           },
+                           "POST" : {
+                              "allowtoken" : 1,
+                              "description" : "Create a new webhook endpoint",
+                              "method" : "POST",
+                              "name" : "create_webhook_endpoint",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "body" : {
+                                       "description" : "HTTP body, base64 encoded",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "comment" : {
+                                       "description" : "Comment",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "disable" : {
+                                       "default" : 0,
+                                       "description" : "Disable this target",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "header" : {
+                                       "description" : "HTTP headers to set. These have to be formatted as a property string in the format name=<name>,value=<base64 of value>",
+                                       "items" : {
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array",
+                                       "typetext" : "<array>"
+                                    },
+                                    "method" : {
+                                       "description" : "HTTP method",
+                                       "enum" : [
+                                          "post",
+                                          "put",
+                                          "get"
+                                       ],
+                                       "type" : "string"
+                                    },
+                                    "name" : {
+                                       "description" : "The name of the endpoint.",
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "secret" : {
+                                       "description" : "Secrets to set. These have to be formatted as a property string in the format name=<name>,value=<base64 of value>",
+                                       "items" : {
+                                          "type" : "string"
+                                       },
+                                       "optional" : 1,
+                                       "type" : "array",
+                                       "typetext" : "<array>"
+                                    },
+                                    "url" : {
+                                       "description" : "Server URL",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/mapping/notifications",
+                                    [
+                                       "Mapping.Modify"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
+                        "path" : "/cluster/notifications/endpoints/webhook",
+                        "text" : "webhook"
                      }
                   ],
                   "info" : {
@@ -2239,7 +2745,8 @@ const apiSchema = [
                                     "enum" : [
                                        "sendmail",
                                        "gotify",
-                                       "smtp"
+                                       "smtp",
+                                       "webhook"
                                     ],
                                     "type" : "string"
                                  }
@@ -5453,8 +5960,8 @@ const apiSchema = [
                                     "id" : {
                                        "description" : "The job ID.",
                                        "maxLength" : 50,
-                                       "type" : "string",
-                                       "typetext" : "<string>"
+                                       "pattern" : "\\S+",
+                                       "type" : "string"
                                     }
                                  }
                               },
@@ -5545,8 +6052,8 @@ const apiSchema = [
                               "id" : {
                                  "description" : "The job ID.",
                                  "maxLength" : 50,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
+                                 "pattern" : "\\S+",
+                                 "type" : "string"
                               }
                            }
                         },
@@ -5575,8 +6082,8 @@ const apiSchema = [
                               "id" : {
                                  "description" : "The job ID.",
                                  "maxLength" : 50,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
+                                 "pattern" : "\\S+",
+                                 "type" : "string"
                               }
                            }
                         },
@@ -5690,8 +6197,8 @@ const apiSchema = [
                               "id" : {
                                  "description" : "The job ID.",
                                  "maxLength" : 50,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
+                                 "pattern" : "\\S+",
+                                 "type" : "string"
                               },
                               "ionice" : {
                                  "default" : 7,
@@ -5790,7 +6297,7 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "pbs-change-detection-mode" : {
-                                 "description" : "PBS mode used to detect file changes and switch encoding. NOTE: `data` and `metadata` modes are experimental. format for container backups.",
+                                 "description" : "PBS mode used to detect file changes and switch encoding format for container backups.",
                                  "enum" : [
                                     "legacy",
                                     "data",
@@ -5973,6 +6480,7 @@ const apiSchema = [
                            "id" : {
                               "description" : "The job ID.",
                               "maxLength" : 50,
+                              "pattern" : "\\S+",
                               "type" : "string"
                            }
                         },
@@ -6179,7 +6687,7 @@ const apiSchema = [
                            "typetext" : "<string>"
                         },
                         "pbs-change-detection-mode" : {
-                           "description" : "PBS mode used to detect file changes and switch encoding. NOTE: `data` and `metadata` modes are experimental. format for container backups.",
+                           "description" : "PBS mode used to detect file changes and switch encoding format for container backups.",
                            "enum" : [
                               "legacy",
                               "data",
@@ -10588,6 +11096,12 @@ const apiSchema = [
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
+                                    "isolate-ports" : {
+                                       "description" : "If true, sets the isolated property for all members of this VNet",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
                                     "tag" : {
                                        "description" : "vlan or vxlan id",
                                        "optional" : 1,
@@ -10685,6 +11199,12 @@ const apiSchema = [
                                  "optional" : 1,
                                  "pattern" : "(?^i:[\\(\\)-_.\\w\\d\\s]{0,256})",
                                  "type" : "string"
+                              },
+                              "isolate-ports" : {
+                                 "description" : "If true, sets the isolated property for all members of this VNet",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
                               },
                               "tag" : {
                                  "description" : "vlan or vxlan id",
@@ -12315,6 +12835,7 @@ const apiSchema = [
                      "additionalProperties" : 0,
                      "properties" : {
                         "type" : {
+                           "description" : "Resource type.",
                            "enum" : [
                               "vm",
                               "storage",
@@ -12333,26 +12854,38 @@ const apiSchema = [
                      "items" : {
                         "properties" : {
                            "cgroup-mode" : {
-                              "description" : "The cgroup mode the node operates under (when type == node).",
+                              "description" : "The cgroup mode the node operates under (for type 'node').",
                               "optional" : 1,
                               "type" : "integer"
                            },
                            "content" : {
-                              "description" : "Allowed storage content types (when type == storage).",
+                              "description" : "Allowed storage content types (for type 'storage').",
                               "format" : "pve-storage-content-list",
                               "optional" : 1,
                               "type" : "string"
                            },
                            "cpu" : {
-                              "description" : "CPU utilization (when type in node,qemu,lxc).",
+                              "description" : "CPU utilization (for types 'node', 'qemu' and 'lxc').",
                               "minimum" : 0,
                               "optional" : 1,
                               "renderer" : "fraction_as_percentage",
                               "type" : "number"
                            },
                            "disk" : {
-                              "description" : "Used disk space in bytes (when type in storage), used root image spave for VMs (type in qemu,lxc).",
+                              "description" : "Used disk space in bytes (for type 'storage'), used root image space for VMs (for types 'qemu' and 'lxc').",
                               "minimum" : 0,
+                              "optional" : 1,
+                              "renderer" : "bytes",
+                              "type" : "integer"
+                           },
+                           "diskread" : {
+                              "description" : "The amount of bytes the guest read from its block devices since the guest was started. This info is not available for all storage types. (for types 'qemu' and 'lxc')",
+                              "optional" : 1,
+                              "renderer" : "bytes",
+                              "type" : "integer"
+                           },
+                           "diskwrite" : {
+                              "description" : "The amount of bytes the guest wrote to its block devices since the guest was started. This info is not available for all storage types. (for types 'qemu' and 'lxc')",
                               "optional" : 1,
                               "renderer" : "bytes",
                               "type" : "integer"
@@ -12367,31 +12900,36 @@ const apiSchema = [
                               "type" : "string"
                            },
                            "level" : {
-                              "description" : "Support level (when type == node).",
+                              "description" : "Support level (for type 'node').",
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "lock" : {
+                              "description" : "The guest's current config lock (for types 'qemu' and 'lxc')",
                               "optional" : 1,
                               "type" : "string"
                            },
                            "maxcpu" : {
-                              "description" : "Number of available CPUs (when type in node,qemu,lxc).",
+                              "description" : "Number of available CPUs (for types 'node', 'qemu' and 'lxc').",
                               "minimum" : 0,
                               "optional" : 1,
                               "type" : "number"
                            },
                            "maxdisk" : {
-                              "description" : "Storage size in bytes (when type in storage), root image size for VMs (type in qemu,lxc).",
+                              "description" : "Storage size in bytes (for type 'storage'), root image size for VMs (for types 'qemu' and 'lxc').",
                               "minimum" : 0,
                               "optional" : 1,
                               "renderer" : "bytes",
                               "type" : "integer"
                            },
                            "maxmem" : {
-                              "description" : "Number of available memory in bytes (when type in node,qemu,lxc).",
+                              "description" : "Number of available memory in bytes (for types 'node', 'qemu' and 'lxc').",
                               "optional" : 1,
                               "renderer" : "bytes",
                               "type" : "integer"
                            },
                            "mem" : {
-                              "description" : "Used memory in bytes (when type in node,qemu,lxc).",
+                              "description" : "Used memory in bytes (for types 'node', 'qemu' and 'lxc').",
                               "minimum" : 0,
                               "optional" : 1,
                               "renderer" : "bytes",
@@ -12402,8 +12940,20 @@ const apiSchema = [
                               "optional" : 1,
                               "type" : "string"
                            },
+                           "netin" : {
+                              "description" : "The amount of traffic in bytes that was sent to the guest over the network since it was started. (for types 'qemu' and 'lxc')",
+                              "optional" : 1,
+                              "renderer" : "bytes",
+                              "type" : "integer"
+                           },
+                           "netout" : {
+                              "description" : "The amount of traffic in bytes that was sent from the guest over the network since it was started. (for types 'qemu' and 'lxc')",
+                              "optional" : 1,
+                              "renderer" : "bytes",
+                              "type" : "integer"
+                           },
                            "node" : {
-                              "description" : "The cluster node name (when type in node,storage,qemu,lxc).",
+                              "description" : "The cluster node name (for types 'node', 'storage', 'qemu', and 'lxc').",
                               "format" : "pve-node",
                               "optional" : 1,
                               "type" : "string"
@@ -12414,7 +12964,7 @@ const apiSchema = [
                               "type" : "string"
                            },
                            "pool" : {
-                              "description" : "The pool name (when type in pool,qemu,lxc).",
+                              "description" : "The pool name (for types 'pool', 'qemu' and 'lxc').",
                               "optional" : 1,
                               "type" : "string"
                            },
@@ -12424,11 +12974,22 @@ const apiSchema = [
                               "type" : "string"
                            },
                            "storage" : {
-                              "description" : "The storage identifier (when type == storage).",
+                              "description" : "The storage identifier (for type 'storage').",
                               "format" : "pve-storage-id",
                               "format_description" : "storage ID",
                               "optional" : 1,
                               "type" : "string"
+                           },
+                           "tags" : {
+                              "description" : "The guest's tags (for types 'qemu' and 'lxc')",
+                              "optional" : 1,
+                              "type" : "string"
+                           },
+                           "template" : {
+                              "default" : 0,
+                              "description" : "Determines if the guest is a template. (for types 'qemu' and 'lxc')",
+                              "optional" : 1,
+                              "type" : "boolean"
                            },
                            "type" : {
                               "description" : "Resource type.",
@@ -12444,13 +13005,13 @@ const apiSchema = [
                               "type" : "string"
                            },
                            "uptime" : {
-                              "description" : "Node uptime in seconds (when type in node,qemu,lxc).",
+                              "description" : "Uptime of node or virtual guest in seconds (for types 'node', 'qemu' and 'lxc').",
                               "optional" : 1,
                               "renderer" : "duration",
                               "type" : "integer"
                            },
                            "vmid" : {
-                              "description" : "The numerical vmid (when type in qemu,lxc).",
+                              "description" : "The numerical vmid (for types 'qemu' and 'lxc').",
                               "format" : "pve-vmid",
                               "maximum" : 999999999,
                               "minimum" : 100,
@@ -16706,6 +17267,12 @@ const apiSchema = [
                                              "optional" : 1,
                                              "type" : "string"
                                           },
+                                          "amd-sev" : {
+                                             "description" : "Secure Encrypted Virtualization (SEV) features by AMD CPUs",
+                                             "format" : "pve-qemu-sev-fmt",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
                                           "arch" : {
                                              "description" : "Virtual processor architecture. Defaults to the host.",
                                              "enum" : [
@@ -17485,7 +18052,7 @@ const apiSchema = [
                                                    "type" : "boolean"
                                                 },
                                                 "macaddr" : {
-                                                   "description" : "MAC address. That address must be unique withing your network. This is automatically generated if not specified.",
+                                                   "description" : "MAC address. That address must be unique within your network. This is automatically generated if not specified.",
                                                    "format" : "mac-addr",
                                                    "format_description" : "XX:XX:XX:XX:XX:XX",
                                                    "optional" : 1,
@@ -18542,7 +19109,7 @@ const apiSchema = [
                                              "format" : {
                                                 "host" : {
                                                    "default_key" : 1,
-                                                   "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n\nEither this or the 'mapping' key must be set.\n",
+                                                   "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadecimal numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n\nEither this or the 'mapping' key must be set.\n",
                                                    "format_description" : "HOSTUSBDEVICE|spice",
                                                    "optional" : 1,
                                                    "pattern" : "(?^:(?:(?:(?^:(0x)?([0-9A-Fa-f]{4}):(0x)?([0-9A-Fa-f]{4})))|(?:(?^:(\\d+)\\-(\\d+(\\.\\d+)*)))|[Ss][Pp][Ii][Cc][Ee]))",
@@ -18962,7 +19529,7 @@ const apiSchema = [
                                  },
                                  "POST" : {
                                     "allowtoken" : 1,
-                                    "description" : "Set virtual machine options (asynchrounous API).",
+                                    "description" : "Set virtual machine options (asynchronous API).",
                                     "method" : "POST",
                                     "name" : "update_vm_async",
                                     "parameters" : {
@@ -19017,6 +19584,13 @@ const apiSchema = [
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "[enabled=]<1|0> [,freeze-fs-on-backup=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]"
+                                          },
+                                          "amd-sev" : {
+                                             "description" : "Secure Encrypted Virtualization (SEV) features by AMD CPUs",
+                                             "format" : "pve-qemu-sev-fmt",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "[type=]<sev-type> [,kernel-hashes=<1|0>] [,no-debug=<1|0>] [,no-key-sharing=<1|0>]"
                                           },
                                           "arch" : {
                                              "description" : "Virtual processor architecture. Defaults to the host.",
@@ -19647,6 +20221,14 @@ const apiSchema = [
                                              "type" : "string",
                                              "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
+                                          "import-working-storage" : {
+                                             "description" : "A file-based storage with 'images' content-type enabled, which is used as an intermediary extraction storage during import. Defaults to the source storage.",
+                                             "format" : "pve-storage-id",
+                                             "format_description" : "storage ID",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<storage ID>"
+                                          },
                                           "ipconfig[n]" : {
                                              "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit\ngateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration. This requires\ncloud-init 19.4 or newer.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using\ndhcp on IPv4.\n",
                                              "format" : "pve-qm-ipconfig",
@@ -19867,7 +20449,7 @@ const apiSchema = [
                                                    "type" : "boolean"
                                                 },
                                                 "macaddr" : {
-                                                   "description" : "MAC address. That address must be unique withing your network. This is automatically generated if not specified.",
+                                                   "description" : "MAC address. That address must be unique within your network. This is automatically generated if not specified.",
                                                    "format" : "mac-addr",
                                                    "format_description" : "XX:XX:XX:XX:XX:XX",
                                                    "optional" : 1,
@@ -20986,7 +21568,7 @@ const apiSchema = [
                                              "format" : {
                                                 "host" : {
                                                    "default_key" : 1,
-                                                   "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n\nEither this or the 'mapping' key must be set.\n",
+                                                   "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadecimal numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n\nEither this or the 'mapping' key must be set.\n",
                                                    "format_description" : "HOSTUSBDEVICE|spice",
                                                    "optional" : 1,
                                                    "pattern" : "(?^:(?:(?:(?^:(0x)?([0-9A-Fa-f]{4}):(0x)?([0-9A-Fa-f]{4})))|(?:(?^:(\\d+)\\-(\\d+(\\.\\d+)*)))|[Ss][Pp][Ii][Cc][Ee]))",
@@ -21450,7 +22032,7 @@ const apiSchema = [
                                  },
                                  "PUT" : {
                                     "allowtoken" : 1,
-                                    "description" : "Set virtual machine options (synchrounous API) - You should consider using the POST method instead for any actions involving hotplug or storage allocation.",
+                                    "description" : "Set virtual machine options (synchronous API) - You should consider using the POST method instead for any actions involving hotplug or storage allocation.",
                                     "method" : "PUT",
                                     "name" : "update_vm",
                                     "parameters" : {
@@ -21505,6 +22087,13 @@ const apiSchema = [
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "[enabled=]<1|0> [,freeze-fs-on-backup=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]"
+                                          },
+                                          "amd-sev" : {
+                                             "description" : "Secure Encrypted Virtualization (SEV) features by AMD CPUs",
+                                             "format" : "pve-qemu-sev-fmt",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "[type=]<sev-type> [,kernel-hashes=<1|0>] [,no-debug=<1|0>] [,no-key-sharing=<1|0>]"
                                           },
                                           "arch" : {
                                              "description" : "Virtual processor architecture. Defaults to the host.",
@@ -22347,7 +22936,7 @@ const apiSchema = [
                                                    "type" : "boolean"
                                                 },
                                                 "macaddr" : {
-                                                   "description" : "MAC address. That address must be unique withing your network. This is automatically generated if not specified.",
+                                                   "description" : "MAC address. That address must be unique within your network. This is automatically generated if not specified.",
                                                    "format" : "mac-addr",
                                                    "format_description" : "XX:XX:XX:XX:XX:XX",
                                                    "optional" : 1,
@@ -23466,7 +24055,7 @@ const apiSchema = [
                                              "format" : {
                                                 "host" : {
                                                    "default_key" : 1,
-                                                   "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n\nEither this or the 'mapping' key must be set.\n",
+                                                   "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadecimal numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n\nEither this or the 'mapping' key must be set.\n",
                                                    "format_description" : "HOSTUSBDEVICE|spice",
                                                    "optional" : 1,
                                                    "pattern" : "(?^:(?:(?:(?^:(0x)?([0-9A-Fa-f]{4}):(0x)?([0-9A-Fa-f]{4})))|(?:(?^:(\\d+)\\-(\\d+(\\.\\d+)*)))|[Ss][Pp][Ii][Cc][Ee]))",
@@ -24570,6 +25159,18 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
+                                                "diskread" : {
+                                                   "description" : "The amount of bytes the guest read from it's block devices since the guest was started. (Note: This info is not available for all storage types.)",
+                                                   "optional" : 1,
+                                                   "renderer" : "bytes",
+                                                   "type" : "integer"
+                                                },
+                                                "diskwrite" : {
+                                                   "description" : "The amount of bytes the guest wrote from it's block devices since the guest was started. (Note: This info is not available for all storage types.)",
+                                                   "optional" : 1,
+                                                   "renderer" : "bytes",
+                                                   "type" : "integer"
+                                                },
                                                 "ha" : {
                                                    "description" : "HA manager service status.",
                                                    "type" : "object"
@@ -24592,12 +25193,24 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "name" : {
-                                                   "description" : "VM name.",
+                                                   "description" : "VM (host)name.",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "netin" : {
+                                                   "description" : "The amount of traffic in bytes that was sent to the guest over the network since it was started.",
+                                                   "optional" : 1,
+                                                   "renderer" : "bytes",
+                                                   "type" : "integer"
+                                                },
+                                                "netout" : {
+                                                   "description" : "The amount of traffic in bytes that was sent from the guest over the network since it was started.",
+                                                   "optional" : 1,
+                                                   "renderer" : "bytes",
+                                                   "type" : "integer"
+                                                },
                                                 "pid" : {
-                                                   "description" : "PID of running qemu process.",
+                                                   "description" : "PID of the QEMU process, if the VM is running.",
                                                    "optional" : 1,
                                                    "type" : "integer"
                                                 },
@@ -24612,7 +25225,7 @@ const apiSchema = [
                                                    "type" : "string"
                                                 },
                                                 "running-qemu" : {
-                                                   "description" : "The currently running QEMU version (if running).",
+                                                   "description" : "The QEMU version the VM is currently using (if running).",
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
@@ -24634,8 +25247,14 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "template" : {
+                                                   "default" : 0,
+                                                   "description" : "Determines if the guest is a template.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "uptime" : {
-                                                   "description" : "Uptime.",
+                                                   "description" : "Uptime in seconds.",
                                                    "optional" : 1,
                                                    "renderer" : "duration",
                                                    "type" : "integer"
@@ -26296,7 +26915,7 @@ const apiSchema = [
                                              "type" : "array"
                                           },
                                           "local_disks" : {
-                                             "description" : "List local disks including CD-Rom, unsused and not referenced disks",
+                                             "description" : "List local disks including CD-Rom, unused and not referenced disks",
                                              "type" : "array"
                                           },
                                           "local_resources" : {
@@ -26308,7 +26927,7 @@ const apiSchema = [
                                              "type" : "array"
                                           },
                                           "not_allowed_nodes" : {
-                                             "description" : "List not allowed nodes with additional informations, only passed if VM is offline",
+                                             "description" : "List not allowed nodes with additional information, only passed if VM is offline",
                                              "optional" : 1,
                                              "type" : "object"
                                           },
@@ -27511,7 +28130,7 @@ const apiSchema = [
                            }
                         },
                         "permissions" : {
-                           "description" : "Only list VMs where you have VM.Audit permissons on /vms/<vmid>.",
+                           "description" : "Only list VMs where you have VM.Audit permissions on /vms/<vmid>.",
                            "user" : "all"
                         },
                         "protected" : 1,
@@ -27523,6 +28142,18 @@ const apiSchema = [
                                     "description" : "Maximum usable CPUs.",
                                     "optional" : 1,
                                     "type" : "number"
+                                 },
+                                 "diskread" : {
+                                    "description" : "The amount of bytes the guest read from it's block devices since the guest was started. (Note: This info is not available for all storage types.)",
+                                    "optional" : 1,
+                                    "renderer" : "bytes",
+                                    "type" : "integer"
+                                 },
+                                 "diskwrite" : {
+                                    "description" : "The amount of bytes the guest wrote from it's block devices since the guest was started. (Note: This info is not available for all storage types.)",
+                                    "optional" : 1,
+                                    "renderer" : "bytes",
+                                    "type" : "integer"
                                  },
                                  "lock" : {
                                     "description" : "The current config lock, if any.",
@@ -27542,12 +28173,24 @@ const apiSchema = [
                                     "type" : "integer"
                                  },
                                  "name" : {
-                                    "description" : "VM name.",
+                                    "description" : "VM (host)name.",
                                     "optional" : 1,
                                     "type" : "string"
                                  },
+                                 "netin" : {
+                                    "description" : "The amount of traffic in bytes that was sent to the guest over the network since it was started.",
+                                    "optional" : 1,
+                                    "renderer" : "bytes",
+                                    "type" : "integer"
+                                 },
+                                 "netout" : {
+                                    "description" : "The amount of traffic in bytes that was sent from the guest over the network since it was started.",
+                                    "optional" : 1,
+                                    "renderer" : "bytes",
+                                    "type" : "integer"
+                                 },
                                  "pid" : {
-                                    "description" : "PID of running qemu process.",
+                                    "description" : "PID of the QEMU process, if the VM is running.",
                                     "optional" : 1,
                                     "type" : "integer"
                                  },
@@ -27562,7 +28205,7 @@ const apiSchema = [
                                     "type" : "string"
                                  },
                                  "running-qemu" : {
-                                    "description" : "The currently running QEMU version (if running).",
+                                    "description" : "The QEMU version the VM is currently using (if running).",
                                     "optional" : 1,
                                     "type" : "string"
                                  },
@@ -27579,8 +28222,14 @@ const apiSchema = [
                                     "optional" : 1,
                                     "type" : "string"
                                  },
+                                 "template" : {
+                                    "default" : 0,
+                                    "description" : "Determines if the guest is a template.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
                                  "uptime" : {
-                                    "description" : "Uptime.",
+                                    "description" : "Uptime in seconds.",
                                     "optional" : 1,
                                     "renderer" : "duration",
                                     "type" : "integer"
@@ -27661,6 +28310,13 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "[enabled=]<1|0> [,freeze-fs-on-backup=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]"
+                              },
+                              "amd-sev" : {
+                                 "description" : "Secure Encrypted Virtualization (SEV) features by AMD CPUs",
+                                 "format" : "pve-qemu-sev-fmt",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "[type=]<sev-type> [,kernel-hashes=<1|0>] [,no-debug=<1|0>] [,no-key-sharing=<1|0>]"
                               },
                               "arch" : {
                                  "description" : "Virtual processor architecture. Defaults to the host.",
@@ -28284,6 +28940,14 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
                               },
+                              "import-working-storage" : {
+                                 "description" : "A file-based storage with 'images' content-type enabled, which is used as an intermediary extraction storage during import. Defaults to the source storage.",
+                                 "format" : "pve-storage-id",
+                                 "format_description" : "storage ID",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<storage ID>"
+                              },
                               "ipconfig[n]" : {
                                  "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit\ngateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration. This requires\ncloud-init 19.4 or newer.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using\ndhcp on IPv4.\n",
                                  "format" : "pve-qm-ipconfig",
@@ -28510,7 +29174,7 @@ const apiSchema = [
                                        "type" : "boolean"
                                     },
                                     "macaddr" : {
-                                       "description" : "MAC address. That address must be unique withing your network. This is automatically generated if not specified.",
+                                       "description" : "MAC address. That address must be unique within your network. This is automatically generated if not specified.",
                                        "format" : "mac-addr",
                                        "format_description" : "XX:XX:XX:XX:XX:XX",
                                        "optional" : 1,
@@ -29645,7 +30309,7 @@ const apiSchema = [
                                  "format" : {
                                     "host" : {
                                        "default_key" : 1,
-                                       "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadeciaml numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n\nEither this or the 'mapping' key must be set.\n",
+                                       "description" : "The Host USB device or port or the value 'spice'. HOSTUSBDEVICE syntax is:\n\n 'bus-port(.port)*' (decimal numbers) or\n 'vendor_id:product_id' (hexadecimal numbers) or\n 'spice'\n\nYou can use the 'lsusb -t' command to list existing usb devices.\n\nNOTE: This option allows direct access to host hardware. So it is no longer possible to migrate such\nmachines - use with special care.\n\nThe value 'spice' can be used to add a usb redirection devices for spice.\n\nEither this or the 'mapping' key must be set.\n",
                                        "format_description" : "HOSTUSBDEVICE|spice",
                                        "optional" : 1,
                                        "pattern" : "(?^:(?:(?:(?^:(0x)?([0-9A-Fa-f]{4}):(0x)?([0-9A-Fa-f]{4})))|(?:(?^:(\\d+)\\-(\\d+(\\.\\d+)*)))|[Ss][Pp][Ii][Cc][Ee]))",
@@ -30224,6 +30888,12 @@ const apiSchema = [
                                           "dev[n]" : {
                                              "description" : "Device to pass through to the container",
                                              "format" : {
+                                                "deny-write" : {
+                                                   "default" : 0,
+                                                   "description" : "Deny the container to write to the device",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "gid" : {
                                                    "description" : "Group ID to be assigned to the device node",
                                                    "minimum" : 0,
@@ -30305,7 +30975,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "hookscript" : {
-                                             "description" : "Script that will be exectued during various steps in the containers lifetime.",
+                                             "description" : "Script that will be executed during various steps in the containers lifetime.",
                                              "format" : "pve-volume-id",
                                              "optional" : 1,
                                              "type" : "string"
@@ -30370,7 +31040,7 @@ const apiSchema = [
                                                    "description" : "Extra mount options for rootfs/mps.",
                                                    "format_description" : "opt[;opt...]",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^:(?^:(noatime|lazytime|nodev|nosuid|noexec))(;(?^:(noatime|lazytime|nodev|nosuid|noexec)))*)",
+                                                   "pattern" : "(?^:(?^:(discard|lazytime|noatime|nodev|noexec|nosuid))(;(?^:(discard|lazytime|noatime|nodev|noexec|nosuid)))*)",
                                                    "type" : "string"
                                                 },
                                                 "mp" : {
@@ -30570,7 +31240,7 @@ const apiSchema = [
                                                    "description" : "Extra mount options for rootfs/mps.",
                                                    "format_description" : "opt[;opt...]",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^:(?^:(noatime|lazytime|nodev|nosuid|noexec))(;(?^:(noatime|lazytime|nodev|nosuid|noexec)))*)",
+                                                   "pattern" : "(?^:(?^:(discard|lazytime|noatime|nodev|noexec|nosuid))(;(?^:(discard|lazytime|noatime|nodev|noexec|nosuid)))*)",
                                                    "type" : "string"
                                                 },
                                                 "quota" : {
@@ -30775,6 +31445,12 @@ const apiSchema = [
                                           "dev[n]" : {
                                              "description" : "Device to pass through to the container",
                                              "format" : {
+                                                "deny-write" : {
+                                                   "default" : 0,
+                                                   "description" : "Deny the container to write to the device",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "gid" : {
                                                    "description" : "Group ID to be assigned to the device node",
                                                    "minimum" : 0,
@@ -30806,7 +31482,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[[path=]<Path>] [,gid=<integer>] [,mode=<Octal access mode>] [,uid=<integer>]"
+                                             "typetext" : "[[path=]<Path>] [,deny-write=<1|0>] [,gid=<integer>] [,mode=<Octal access mode>] [,uid=<integer>]"
                                           },
                                           "digest" : {
                                              "description" : "Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.",
@@ -30861,7 +31537,7 @@ const apiSchema = [
                                              "typetext" : "[force_rw_sys=<1|0>] [,fuse=<1|0>] [,keyctl=<1|0>] [,mknod=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]"
                                           },
                                           "hookscript" : {
-                                             "description" : "Script that will be exectued during various steps in the containers lifetime.",
+                                             "description" : "Script that will be executed during various steps in the containers lifetime.",
                                              "format" : "pve-volume-id",
                                              "optional" : 1,
                                              "type" : "string",
@@ -30918,7 +31594,7 @@ const apiSchema = [
                                                    "description" : "Extra mount options for rootfs/mps.",
                                                    "format_description" : "opt[;opt...]",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^:(?^:(noatime|lazytime|nodev|nosuid|noexec))(;(?^:(noatime|lazytime|nodev|nosuid|noexec)))*)",
+                                                   "pattern" : "(?^:(?^:(discard|lazytime|noatime|nodev|noexec|nosuid))(;(?^:(discard|lazytime|noatime|nodev|noexec|nosuid)))*)",
                                                    "type" : "string"
                                                 },
                                                 "mp" : {
@@ -31136,7 +31812,7 @@ const apiSchema = [
                                                    "description" : "Extra mount options for rootfs/mps.",
                                                    "format_description" : "opt[;opt...]",
                                                    "optional" : 1,
-                                                   "pattern" : "(?^:(?^:(noatime|lazytime|nodev|nosuid|noexec))(;(?^:(noatime|lazytime|nodev|nosuid|noexec)))*)",
+                                                   "pattern" : "(?^:(?^:(discard|lazytime|noatime|nodev|noexec|nosuid))(;(?^:(discard|lazytime|noatime|nodev|noexec|nosuid)))*)",
                                                    "type" : "string"
                                                 },
                                                 "quota" : {
@@ -31338,6 +32014,25 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "number"
                                                 },
+                                                "disk" : {
+                                                   "description" : "Root disk image space-usage in bytes.",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "renderer" : "bytes",
+                                                   "type" : "integer"
+                                                },
+                                                "diskread" : {
+                                                   "description" : "The amount of bytes the guest read from it's block devices since the guest was started. (Note: This info is not available for all storage types.)",
+                                                   "optional" : 1,
+                                                   "renderer" : "bytes",
+                                                   "type" : "integer"
+                                                },
+                                                "diskwrite" : {
+                                                   "description" : "The amount of bytes the guest wrote from it's block devices since the guest was started. (Note: This info is not available for all storage types.)",
+                                                   "optional" : 1,
+                                                   "renderer" : "bytes",
+                                                   "type" : "integer"
+                                                },
                                                 "ha" : {
                                                    "description" : "HA manager service status.",
                                                    "type" : "object"
@@ -31348,7 +32043,7 @@ const apiSchema = [
                                                    "type" : "string"
                                                 },
                                                 "maxdisk" : {
-                                                   "description" : "Root disk size in bytes.",
+                                                   "description" : "Root disk image size in bytes.",
                                                    "optional" : 1,
                                                    "renderer" : "bytes",
                                                    "type" : "integer"
@@ -31370,6 +32065,18 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "netin" : {
+                                                   "description" : "The amount of traffic in bytes that was sent to the guest over the network since it was started.",
+                                                   "optional" : 1,
+                                                   "renderer" : "bytes",
+                                                   "type" : "integer"
+                                                },
+                                                "netout" : {
+                                                   "description" : "The amount of traffic in bytes that was sent from the guest over the network since it was started.",
+                                                   "optional" : 1,
+                                                   "renderer" : "bytes",
+                                                   "type" : "integer"
+                                                },
                                                 "status" : {
                                                    "description" : "LXC Container status.",
                                                    "enum" : [
@@ -31383,8 +32090,14 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "template" : {
+                                                   "default" : 0,
+                                                   "description" : "Determines if the guest is a template.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "uptime" : {
-                                                   "description" : "Uptime.",
+                                                   "description" : "Uptime in seconds.",
                                                    "optional" : 1,
                                                    "renderer" : "duration",
                                                    "type" : "integer"
@@ -36506,6 +37219,7 @@ const apiSchema = [
                                        ]
                                     },
                                     "protected" : 1,
+                                    "proxyto" : "node",
                                     "returns" : {
                                        "items" : {
                                           "properties" : {
@@ -36811,7 +37525,7 @@ const apiSchema = [
                            }
                         },
                         "permissions" : {
-                           "description" : "Only list CTs where you have VM.Audit permissons on /vms/<vmid>.",
+                           "description" : "Only list CTs where you have VM.Audit permission on /vms/<vmid>.",
                            "user" : "all"
                         },
                         "protected" : 1,
@@ -36824,13 +37538,32 @@ const apiSchema = [
                                     "optional" : 1,
                                     "type" : "number"
                                  },
+                                 "disk" : {
+                                    "description" : "Root disk image space-usage in bytes.",
+                                    "minimum" : 0,
+                                    "optional" : 1,
+                                    "renderer" : "bytes",
+                                    "type" : "integer"
+                                 },
+                                 "diskread" : {
+                                    "description" : "The amount of bytes the guest read from it's block devices since the guest was started. (Note: This info is not available for all storage types.)",
+                                    "optional" : 1,
+                                    "renderer" : "bytes",
+                                    "type" : "integer"
+                                 },
+                                 "diskwrite" : {
+                                    "description" : "The amount of bytes the guest wrote from it's block devices since the guest was started. (Note: This info is not available for all storage types.)",
+                                    "optional" : 1,
+                                    "renderer" : "bytes",
+                                    "type" : "integer"
+                                 },
                                  "lock" : {
                                     "description" : "The current config lock, if any.",
                                     "optional" : 1,
                                     "type" : "string"
                                  },
                                  "maxdisk" : {
-                                    "description" : "Root disk size in bytes.",
+                                    "description" : "Root disk image size in bytes.",
                                     "optional" : 1,
                                     "renderer" : "bytes",
                                     "type" : "integer"
@@ -36852,6 +37585,18 @@ const apiSchema = [
                                     "optional" : 1,
                                     "type" : "string"
                                  },
+                                 "netin" : {
+                                    "description" : "The amount of traffic in bytes that was sent to the guest over the network since it was started.",
+                                    "optional" : 1,
+                                    "renderer" : "bytes",
+                                    "type" : "integer"
+                                 },
+                                 "netout" : {
+                                    "description" : "The amount of traffic in bytes that was sent from the guest over the network since it was started.",
+                                    "optional" : 1,
+                                    "renderer" : "bytes",
+                                    "type" : "integer"
+                                 },
                                  "status" : {
                                     "description" : "LXC Container status.",
                                     "enum" : [
@@ -36865,8 +37610,14 @@ const apiSchema = [
                                     "optional" : 1,
                                     "type" : "string"
                                  },
+                                 "template" : {
+                                    "default" : 0,
+                                    "description" : "Determines if the guest is a template.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
                                  "uptime" : {
-                                    "description" : "Uptime.",
+                                    "description" : "Uptime in seconds.",
                                     "optional" : 1,
                                     "renderer" : "duration",
                                     "type" : "integer"
@@ -36982,6 +37733,12 @@ const apiSchema = [
                               "dev[n]" : {
                                  "description" : "Device to pass through to the container",
                                  "format" : {
+                                    "deny-write" : {
+                                       "default" : 0,
+                                       "description" : "Deny the container to write to the device",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
                                     "gid" : {
                                        "description" : "Group ID to be assigned to the device node",
                                        "minimum" : 0,
@@ -37013,7 +37770,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[[path=]<Path>] [,gid=<integer>] [,mode=<Octal access mode>] [,uid=<integer>]"
+                                 "typetext" : "[[path=]<Path>] [,deny-write=<1|0>] [,gid=<integer>] [,mode=<Octal access mode>] [,uid=<integer>]"
                               },
                               "features" : {
                                  "description" : "Allow containers access to advanced features.",
@@ -37067,7 +37824,7 @@ const apiSchema = [
                                  "typetext" : "<boolean>"
                               },
                               "hookscript" : {
-                                 "description" : "Script that will be exectued during various steps in the containers lifetime.",
+                                 "description" : "Script that will be executed during various steps in the containers lifetime.",
                                  "format" : "pve-volume-id",
                                  "optional" : 1,
                                  "type" : "string",
@@ -37130,7 +37887,7 @@ const apiSchema = [
                                        "description" : "Extra mount options for rootfs/mps.",
                                        "format_description" : "opt[;opt...]",
                                        "optional" : 1,
-                                       "pattern" : "(?^:(?^:(noatime|lazytime|nodev|nosuid|noexec))(;(?^:(noatime|lazytime|nodev|nosuid|noexec)))*)",
+                                       "pattern" : "(?^:(?^:(discard|lazytime|noatime|nodev|noexec|nosuid))(;(?^:(discard|lazytime|noatime|nodev|noexec|nosuid)))*)",
                                        "type" : "string"
                                     },
                                     "mp" : {
@@ -37367,7 +38124,7 @@ const apiSchema = [
                                        "description" : "Extra mount options for rootfs/mps.",
                                        "format_description" : "opt[;opt...]",
                                        "optional" : 1,
-                                       "pattern" : "(?^:(?^:(noatime|lazytime|nodev|nosuid|noexec))(;(?^:(noatime|lazytime|nodev|nosuid|noexec)))*)",
+                                       "pattern" : "(?^:(?^:(discard|lazytime|noatime|nodev|noexec|nosuid))(;(?^:(discard|lazytime|noatime|nodev|noexec|nosuid)))*)",
                                        "type" : "string"
                                     },
                                     "quota" : {
@@ -37526,7 +38283,7 @@ const apiSchema = [
                            }
                         },
                         "permissions" : {
-                           "description" : "You need 'VM.Allocate' permissions on /vms/{vmid} or on the VM pool /pool/{pool}. For restore, it is enough if the user has 'VM.Backup' permission and the VM already exists. You also need 'Datastore.AllocateSpace' permissions on the storage.",
+                           "description" : "You need 'VM.Allocate' permission on /vms/{vmid} or on the VM pool /pool/{pool}. For restore, it is enough if the user has 'VM.Backup' permission and the VM already exists. You also need 'Datastore.AllocateSpace' permissions on the storage.",
                            "user" : "all"
                         },
                         "protected" : 1,
@@ -40370,7 +41127,7 @@ const apiSchema = [
                                        "type" : "string"
                                     },
                                     "pbs-change-detection-mode" : {
-                                       "description" : "PBS mode used to detect file changes and switch encoding. NOTE: `data` and `metadata` modes are experimental. format for container backups.",
+                                       "description" : "PBS mode used to detect file changes and switch encoding format for container backups.",
                                        "enum" : [
                                           "legacy",
                                           "data",
@@ -40594,11 +41351,10 @@ const apiSchema = [
                               },
                               "job-id" : {
                                  "description" : "The ID of the backup job. If set, the 'backup-job' metadata field of the backup notification will be set to this value. Only root@pam can set this parameter.",
-                                 "format" : "pve-configid",
-                                 "maxLength" : 256,
+                                 "maxLength" : 50,
                                  "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
+                                 "pattern" : "\\S+",
+                                 "type" : "string"
                               },
                               "lockwait" : {
                                  "default" : 180,
@@ -40688,7 +41444,7 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "pbs-change-detection-mode" : {
-                                 "description" : "PBS mode used to detect file changes and switch encoding. NOTE: `data` and `metadata` modes are experimental. format for container backups.",
+                                 "description" : "PBS mode used to detect file changes and switch encoding format for container backups.",
                                  "enum" : [
                                     "legacy",
                                     "data",
@@ -41321,6 +42077,76 @@ const apiSchema = [
                         },
                         "proxyto" : "node",
                         "returns" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "checktime" : {
+                                 "description" : "Timestamp of the last check done.",
+                                 "optional" : 1,
+                                 "type" : "integer"
+                              },
+                              "key" : {
+                                 "description" : "The subscription key, if set and permitted to access.",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "level" : {
+                                 "description" : "A short code for the subscription level.",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "message" : {
+                                 "description" : "A more human readable status message.",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "nextduedate" : {
+                                 "description" : "Next due date of the set subscription.",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "productname" : {
+                                 "description" : "Human readable productname of the set subscription.",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "regdate" : {
+                                 "description" : "Register date of the set subscription.",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "serverid" : {
+                                 "description" : "The server ID, if permitted to access.",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "signature" : {
+                                 "description" : "Signature for offline keys",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "sockets" : {
+                                 "description" : "The number of sockets for this host.",
+                                 "optional" : 1,
+                                 "type" : "integer"
+                              },
+                              "status" : {
+                                 "description" : "The current subscription status.",
+                                 "enum" : [
+                                    "new",
+                                    "notfound",
+                                    "active",
+                                    "invalid",
+                                    "expired",
+                                    "suspended"
+                                 ],
+                                 "type" : "string"
+                              },
+                              "url" : {
+                                 "description" : "URL to the web shop.",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              }
+                           },
                            "type" : "object"
                         }
                      },
@@ -41560,6 +42386,13 @@ const apiSchema = [
                                     "bridge_ports" : {
                                        "description" : "Specify the interfaces you want to add to your bridge.",
                                        "format" : "pve-iface-list",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "bridge_vids" : {
+                                       "description" : "Specify the allowed VLANs. For example: '2 4 100-200'. Only used if the bridge is VLAN aware.",
+                                       "format" : "pve-vlan-id-or-range-list",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -41908,6 +42741,13 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "bridge_vids" : {
+                                 "description" : "Specify the allowed VLANs. For example: '2 4 100-200'. Only used if the bridge is VLAN aware.",
+                                 "format" : "pve-vlan-id-or-range-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "bridge_vlan_aware" : {
                                  "description" : "Enable bridge vlan support.",
                                  "optional" : 1,
@@ -42129,6 +42969,7 @@ const apiSchema = [
                                  "GET" : {
                                     "allowtoken" : 1,
                                     "description" : "Read task log.",
+                                    "download_allowed" : 1,
                                     "method" : "GET",
                                     "name" : "read_task_log",
                                     "parameters" : {
@@ -42241,8 +43082,11 @@ const apiSchema = [
                                           "pid" : {
                                              "type" : "integer"
                                           },
+                                          "pstart" : {
+                                             "type" : "integer"
+                                          },
                                           "starttime" : {
-                                             "type" : "number"
+                                             "type" : "integer"
                                           },
                                           "status" : {
                                              "enum" : [
@@ -43040,9 +43884,9 @@ const apiSchema = [
                                                    "type" : "string",
                                                    "typetext" : "<string>"
                                                 },
-                                                "pciid" : {
-                                                   "description" : "The PCI ID to list the mdev types for.",
-                                                   "pattern" : "(?:[0-9a-fA-F]{4}:)?[0-9a-fA-F]{2}:[0-9a-fA-F]{2}\\.[0-9a-fA-F]",
+                                                "pci-id-or-mapping" : {
+                                                   "description" : "The PCI ID or mapping to list the mdev types for.",
+                                                   "pattern" : "(?:(?:[0-9a-fA-F]{4}:)?[0-9a-fA-F]{2}:[0-9a-fA-F]{2}\\.[0-9a-fA-F])|([a-zA-Z][a-zA-Z0-9_-]+)",
                                                    "type" : "string"
                                                 }
                                              }
@@ -43069,6 +43913,12 @@ const apiSchema = [
                                                       "type" : "integer"
                                                    },
                                                    "description" : {
+                                                      "description" : "Additional description of the type.",
+                                                      "type" : "string"
+                                                   },
+                                                   "name" : {
+                                                      "description" : "A human readable name for the type.",
+                                                      "optional" : 1,
                                                       "type" : "string"
                                                    },
                                                    "type" : {
@@ -43083,7 +43933,7 @@ const apiSchema = [
                                        }
                                     },
                                     "leaf" : 1,
-                                    "path" : "/nodes/{node}/hardware/pci/{pciid}/mdev",
+                                    "path" : "/nodes/{node}/hardware/pci/{pci-id-or-mapping}/mdev",
                                     "text" : "mdev"
                                  }
                               ],
@@ -43092,7 +43942,7 @@ const apiSchema = [
                                     "allowtoken" : 1,
                                     "description" : "Index of available pci methods",
                                     "method" : "GET",
-                                    "name" : "pciindex",
+                                    "name" : "pci_index",
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
@@ -43102,8 +43952,8 @@ const apiSchema = [
                                              "type" : "string",
                                              "typetext" : "<string>"
                                           },
-                                          "pciid" : {
-                                             "pattern" : "(?:[0-9a-fA-F]{4}:)?[0-9a-fA-F]{2}:[0-9a-fA-F]{2}\\.[0-9a-fA-F]",
+                                          "pci-id-or-mapping" : {
+                                             "pattern" : "(?:(?:[0-9a-fA-F]{4}:)?[0-9a-fA-F]{2}:[0-9a-fA-F]{2}\\.[0-9a-fA-F])|([a-zA-Z][a-zA-Z0-9_-]+)",
                                              "type" : "string"
                                           }
                                        }
@@ -43131,8 +43981,8 @@ const apiSchema = [
                                  }
                               },
                               "leaf" : 0,
-                              "path" : "/nodes/{node}/hardware/pci/{pciid}",
-                              "text" : "{pciid}"
+                              "path" : "/nodes/{node}/hardware/pci/{pci-id-or-mapping}",
+                              "text" : "{pci-id-or-mapping}"
                            }
                         ],
                         "info" : {
@@ -43140,7 +43990,7 @@ const apiSchema = [
                               "allowtoken" : 1,
                               "description" : "List local PCI devices.",
                               "method" : "GET",
-                              "name" : "pciscan",
+                              "name" : "pci_scan",
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
@@ -44256,6 +45106,7 @@ const apiSchema = [
                                        "GET" : {
                                           "allowtoken" : 1,
                                           "description" : "Extract a file or directory (as zip archive) from a PBS backup.",
+                                          "download_allowed" : 1,
                                           "method" : "GET",
                                           "name" : "download",
                                           "parameters" : {
@@ -44516,7 +45367,7 @@ const apiSchema = [
                               "info" : {
                                  "POST" : {
                                     "allowtoken" : 1,
-                                    "description" : "Upload templates and ISO images.",
+                                    "description" : "Upload templates, ISO images and OVAs.",
                                     "method" : "POST",
                                     "name" : "upload",
                                     "parameters" : {
@@ -44547,7 +45398,8 @@ const apiSchema = [
                                              "description" : "Content type.",
                                              "enum" : [
                                                 "iso",
-                                                "vztmpl"
+                                                "vztmpl",
+                                                "import"
                                              ],
                                              "format" : "pve-storage-content",
                                              "type" : "string"
@@ -44602,7 +45454,7 @@ const apiSchema = [
                               "info" : {
                                  "POST" : {
                                     "allowtoken" : 1,
-                                    "description" : "Download templates and ISO images by using an URL.",
+                                    "description" : "Download templates, ISO images and OVAs by using an URL.",
                                     "method" : "POST",
                                     "name" : "download_url",
                                     "parameters" : {
@@ -44640,7 +45492,8 @@ const apiSchema = [
                                              "description" : "Content type.",
                                              "enum" : [
                                                 "iso",
-                                                "vztmpl"
+                                                "vztmpl",
+                                                "import"
                                              ],
                                              "format" : "pve-storage-content",
                                              "type" : "string"
@@ -44808,6 +45661,7 @@ const apiSchema = [
                                                          "efi-state-lost",
                                                          "guest-is-running",
                                                          "nvme-unsupported",
+                                                         "ova-needs-extracting",
                                                          "ovmf-with-lsi-unsupported",
                                                          "serial-port-socket-only"
                                                       ],
@@ -49603,6 +50457,7 @@ const apiSchema = [
                      "GET" : {
                         "allowtoken" : 1,
                         "description" : "Read Journal",
+                        "download_allowed" : 1,
                         "method" : "GET",
                         "name" : "journal",
                         "parameters" : {
@@ -51138,7 +51993,7 @@ const apiSchema = [
                            "typetext" : "<string>"
                         },
                         "port" : {
-                           "description" : "For non default port.",
+                           "description" : "Use this port to connect to the storage instead of the default one (for example, with PBS or ESXi). For NFS and CIFS, use the 'options' option to configure the port via the mount options.",
                            "maximum" : 65535,
                            "minimum" : 1,
                            "optional" : 1,
@@ -51679,7 +52534,7 @@ const apiSchema = [
                      "typetext" : "<string>"
                   },
                   "port" : {
-                     "description" : "For non default port.",
+                     "description" : "Use this port to connect to the storage instead of the default one (for example, with PBS or ESXi). For NFS and CIFS, use the 'options' option to configure the port via the mount options.",
                      "maximum" : 65535,
                      "minimum" : 1,
                      "optional" : 1,
@@ -52863,7 +53718,7 @@ const apiSchema = [
                         "password" : {
                            "description" : "Initial password.",
                            "maxLength" : 64,
-                           "minLength" : 5,
+                           "minLength" : 8,
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
@@ -55146,7 +56001,7 @@ const apiSchema = [
                         "password" : {
                            "description" : "The new password.",
                            "maxLength" : 64,
-                           "minLength" : 5,
+                           "minLength" : 8,
                            "type" : "string",
                            "typetext" : "<string>"
                         },
@@ -55217,7 +56072,7 @@ const apiSchema = [
                      }
                   },
                   "permissions" : {
-                     "description" : "Each user/token is allowed to dump their own permissions. A user can dump the permissions of another user if they have 'Sys.Audit' permission on /access.",
+                     "description" : "Each user/token is allowed to dump their own permissions (or that of owned tokens). A user can dump the permissions of another user or their tokens if they have 'Sys.Audit' permission on /access.",
                      "user" : "all"
                   },
                   "returns" : {
