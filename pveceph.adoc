@@ -97,6 +97,7 @@ You should test your setup and monitor health and performance continuously.
 
 .CPU
 Ceph services can be classified into two categories:
+
 * Intensive CPU usage, benefiting from high CPU base frequencies and multiple
   cores. Members of that category are:
 ** Object Storage Daemon (OSD) services
@@ -161,6 +162,7 @@ performance potential of the underlying disks.
 
 If unsure, we recommend using three (physical) separate networks for
 high-performance setups:
+
 * one very high bandwidth (25+ Gbps) network for Ceph (internal) cluster
   traffic.
 * one high bandwidth (10+ Gpbs) network for Ceph (public) traffic between the
