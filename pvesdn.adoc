@@ -388,6 +388,10 @@ but not for the interface itself. This means guests can only send traffic to
 non-isolated bridge-ports, which is the bridge itself. In order for this setting
 to take effect, you need to restart the affected guest.
 
+NOTE: Port isolation is local to each host. Use the
+xref:pvesdn_firewall_integration[VNET Firewall] to further isolate traffic in
+the VNET across nodes. For example, DROP by default and only allow traffic from
+the IP subnet to the gateway and the vice versa.
 
 [[pvesdn_config_subnet]]
 Subnets
