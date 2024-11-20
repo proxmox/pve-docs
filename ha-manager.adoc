@@ -425,7 +425,7 @@ Cluster Resource Manager
 
 The cluster resource manager (`pve-ha-crm`) starts on each node and
 waits there for the manager lock, which can only be held by one node
-at a time.  The node which successfully acquires the manager lock gets
+at a time. The node which successfully acquires the manager lock gets
 promoted to the CRM master.
 
 It can be in three states:
@@ -453,11 +453,23 @@ When a node leaves the cluster quorum, its state changes to unknown.
 If the current CRM can then secure the failed node's lock, the services
 will be 'stolen' and restarted on another node.
 
-When a cluster member determines that it is no longer in the cluster
-quorum, the LRM waits for a new quorum to form. As long as there is no
-quorum the node cannot reset the watchdog. This will trigger a reboot
-after the watchdog times out (this happens after 60 seconds).
+When a cluster member determines that it is no longer in the cluster quorum, the
+LRM waits for a new quorum to form. Until there is a cluster quorum, the node
+cannot reset the watchdog. If there are active services on the node, or if the
+LRM or CRM process is not scheduled or is killed, this will trigger a reboot
+after the watchdog has timed out (this happens after 60 seconds).
 
+Note that if a node has an active CRM but the LRM is idle, a quorum loss will
+not trigger a self-fence reset. The reason for this is that all state files and
+configurations that the CRM accesses are backed up by the
+xref:chapter_pmxcfs[clustered configuration file system], which becomes
+read-only upon quorum loss. This means that the CRM only needs to protect itself
+against its process being scheduled for too long, in which case another CRM
+could take over unaware of the situation, causing corruption of the HA state.
+The open watchdog ensures that this cannot happen.
+
+If no service is configured for more than 15 minutes, the CRM automatically
+returns to the idle state and closes the watchdog completely.
 
 HA Simulator
 ------------
