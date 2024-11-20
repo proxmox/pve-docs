@@ -1,3 +1,11 @@
+pve-docs (8.3.0) bookworm; urgency=medium
+
+  * update static/schema information
+
+  * qm: import: use consistent capitalization for web UI
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 20 Nov 2024 11:58:54 +0100
+
 pve-docs (8.2.5) bookworm; urgency=medium
 
   * installation: document advanced btrfs options
