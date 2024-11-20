@@ -110,12 +110,6 @@ apt install dnsmasq
 systemctl disable --now dnsmasq
 ----
 
-This disables the default dnsmasq service and allows for a separate dnsmasq service for
-each configured Zone (`dnsmasq@$ZONE.service`).
-
-See the corresponding section in xref:pvesdn_config_dhcp[DHCP feature] for
-configuration details.
-
 [[pvesdn_install_frrouting]]
 FRRouting
 ~~~~~~~~~
@@ -642,17 +636,14 @@ available when using the xref:pvesdn_ipam_plugin_pveipam[PVE IPAM plugin].
 Configuration
 ~~~~~~~~~~~~~
 
-NOTE: Currently only Simple Zones have support for automatic DHCP.
-Do not forget to follow the installation steps for the
-xref:pvesdn_install_dhcp_ipam[dnsmasq DHCP plugin]!
-
 You can enable automatic DHCP for a zone in the Web UI via the Zones panel and
-enabling DHCP in the advanced options of a Zone.
+enabling DHCP in the advanced options of a zone.
+
+NOTE: Currently only Simple Zones have support for automatic DHCP
 
 After automatic DHCP has been enabled for a Zone, DHCP Ranges need to be
-configured for the Subnets in a Zone. In order to that, go to the VNets panel and
-create a VNet, which is attached to your Zone. Click your VNet and create
-the Subnet for which you want to configure DHCP ranges. In the edit
+configured for the subnets in a Zone. In order to that, go to the Vnets panel and
+select the Subnet for which you want to configure DHCP ranges. In the edit
 dialogue you can configure DHCP ranges in the respective Tab. Alternatively you
 can set DHCP ranges for a Subnet via the following CLI command:
 
@@ -662,26 +653,14 @@ pvesh set /cluster/sdn/vnets/<vnet>/subnets/<subnet>
  -dhcp-range start-address=10.0.2.100,end-address=10.0.2.200
 ----
 
-You also need to have a gateway configured for the Subnet - otherwise
+You also need to have a gateway configured for the subnet - otherwise
 automatic DHCP will not work.
-
-Make sure the gateway's IP address is within the range of your Subnet
-(eg 192.0.2.1 for a Subnet 192.0.2.0/24). This will be the address under
-which you can reach your PVE host from the guest. If you want your guests
-to have internet access, check the SNAT box as well.
-
-NOTE: The node will configure the gateway IP with the configured netmask
-on the virtual bridge. Keep in mind that this range should not be in use
-elsewhere in your network to avoid unexpected routing issues.
-
-After finishing your configuration, apply it from the SDN panel.
-
-The configuration results in a Linux bridge (named like your VNet) being configured
-with the gateway's IP as its address.
 
 The DHCP plugin will then allocate IPs in the IPAM only in the configured
 ranges.
 
+Do not forget to follow the installation steps for the
+xref:pvesdn_install_dhcp_ipam[dnsmasq DHCP plugin] as well.
 
 Plugins
 ~~~~~~~
