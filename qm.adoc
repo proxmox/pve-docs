@@ -1682,8 +1682,8 @@ OVA/OVF Import
 To import OVA/OVF files, you first need a File-based storage with the 'import'
 content type. On this storage, there will be an 'import' folder where you can
 put OVA files or OVF files with the corresponding images in a flat structure.
-Alternatively you can use the web ui to upload or download OVA files directly.
-You can then use the web ui to select those and use the import wizard to import
+Alternatively you can use the web UI to upload or download OVA files directly.
+You can then use the web UI to select those and use the import wizard to import
 the guests.
 
 For OVA files, there is additional space needed to temporarily extract the
