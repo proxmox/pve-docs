@@ -1,3 +1,13 @@
+pve-docs (8.3.1) bookworm; urgency=medium
+
+  * sdn : add chapter reference for VNet level firewall
+
+  * sdn: add note to port isolation to use firewall in clusters, since port
+    isolation is only local on the host. To get better port isolation, the
+    VNet firewall can be used.
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 20 Nov 2024 21:19:42 +0100
+
 pve-docs (8.3.0) bookworm; urgency=medium
 
   * update static/schema information
