@@ -2,6 +2,10 @@
 
 Enable/disable firewall rules.
 
+`log_level_forward`: `<alert | crit | debug | emerg | err | info | nolog | notice | warning>` ::
+
+Log level for forwarded traffic.
+
 `policy_forward`: `<ACCEPT | DROP>` ::
 
 Forward policy.

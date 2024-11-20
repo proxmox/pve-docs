@@ -2,6 +2,10 @@
 
 Enable host firewall rules.
 
+`log_level_forward`: `<alert | crit | debug | emerg | err | info | nolog | notice | warning>` ::
+
+Log level for forwarded traffic.
+
 `log_level_in`: `<alert | crit | debug | emerg | err | info | nolog | notice | warning>` ::
 
 Log level for incoming traffic.

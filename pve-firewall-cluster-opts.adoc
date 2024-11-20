@@ -22,6 +22,10 @@ Enable or disable log rate limiting
 
 Frequency with which the burst bucket gets refilled
 
+`policy_forward`: `<ACCEPT | DROP>` ::
+
+Forward policy.
+
 `policy_in`: `<ACCEPT | DROP | REJECT>` ::
 
 Input policy.

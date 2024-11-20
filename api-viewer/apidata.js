@@ -1148,10 +1148,33 @@ const apiSchema = [
                                     },
                                     "permissions" : {
                                        "check" : [
-                                          "perm",
-                                          "/mapping/notifications",
                                           [
-                                             "Mapping.Modify"
+                                             "and",
+                                             [
+                                                "perm",
+                                                "/mapping/notifications",
+                                                [
+                                                   "Mapping.Modify"
+                                                ]
+                                             ],
+                                             [
+                                                "or",
+                                                [
+                                                   "perm",
+                                                   "/",
+                                                   [
+                                                      "Sys.Audit",
+                                                      "Sys.Modify"
+                                                   ]
+                                                ],
+                                                [
+                                                   "perm",
+                                                   "/",
+                                                   [
+                                                      "Sys.AccessNetwork"
+                                                   ]
+                                                ]
+                                             ]
                                           ]
                                        ]
                                     },
@@ -1326,10 +1349,33 @@ const apiSchema = [
                               },
                               "permissions" : {
                                  "check" : [
-                                    "perm",
-                                    "/mapping/notifications",
                                     [
-                                       "Mapping.Modify"
+                                       "and",
+                                       [
+                                          "perm",
+                                          "/mapping/notifications",
+                                          [
+                                             "Mapping.Modify"
+                                          ]
+                                       ],
+                                       [
+                                          "or",
+                                          [
+                                             "perm",
+                                             "/",
+                                             [
+                                                "Sys.Audit",
+                                                "Sys.Modify"
+                                             ]
+                                          ],
+                                          [
+                                             "perm",
+                                             "/",
+                                             [
+                                                "Sys.AccessNetwork"
+                                             ]
+                                          ]
+                                       ]
                                     ]
                                  ]
                               },
@@ -1504,10 +1550,33 @@ const apiSchema = [
                                     },
                                     "permissions" : {
                                        "check" : [
-                                          "perm",
-                                          "/mapping/notifications",
                                           [
-                                             "Mapping.Modify"
+                                             "and",
+                                             [
+                                                "perm",
+                                                "/mapping/notifications",
+                                                [
+                                                   "Mapping.Modify"
+                                                ]
+                                             ],
+                                             [
+                                                "or",
+                                                [
+                                                   "perm",
+                                                   "/",
+                                                   [
+                                                      "Sys.Audit",
+                                                      "Sys.Modify"
+                                                   ]
+                                                ],
+                                                [
+                                                   "perm",
+                                                   "/",
+                                                   [
+                                                      "Sys.AccessNetwork"
+                                                   ]
+                                                ]
+                                             ]
                                           ]
                                        ]
                                     },
@@ -1626,10 +1695,33 @@ const apiSchema = [
                               },
                               "permissions" : {
                                  "check" : [
-                                    "perm",
-                                    "/mapping/notifications",
                                     [
-                                       "Mapping.Modify"
+                                       "and",
+                                       [
+                                          "perm",
+                                          "/mapping/notifications",
+                                          [
+                                             "Mapping.Modify"
+                                          ]
+                                       ],
+                                       [
+                                          "or",
+                                          [
+                                             "perm",
+                                             "/",
+                                             [
+                                                "Sys.Audit",
+                                                "Sys.Modify"
+                                             ]
+                                          ],
+                                          [
+                                             "perm",
+                                             "/",
+                                             [
+                                                "Sys.AccessNetwork"
+                                             ]
+                                          ]
+                                       ]
                                     ]
                                  ]
                               },
@@ -1906,12 +1998,32 @@ const apiSchema = [
                                     },
                                     "permissions" : {
                                        "check" : [
-                                          "or",
                                           [
-                                             "perm",
-                                             "/mapping/notifications",
+                                             "and",
                                              [
-                                                "Mapping.Modify"
+                                                "perm",
+                                                "/mapping/notifications",
+                                                [
+                                                   "Mapping.Modify"
+                                                ]
+                                             ],
+                                             [
+                                                "or",
+                                                [
+                                                   "perm",
+                                                   "/",
+                                                   [
+                                                      "Sys.Audit",
+                                                      "Sys.Modify"
+                                                   ]
+                                                ],
+                                                [
+                                                   "perm",
+                                                   "/",
+                                                   [
+                                                      "Sys.AccessNetwork"
+                                                   ]
+                                                ]
                                              ]
                                           ]
                                        ]
@@ -2144,12 +2256,32 @@ const apiSchema = [
                               },
                               "permissions" : {
                                  "check" : [
-                                    "or",
                                     [
-                                       "perm",
-                                       "/mapping/notifications",
+                                       "and",
                                        [
-                                          "Mapping.Modify"
+                                          "perm",
+                                          "/mapping/notifications",
+                                          [
+                                             "Mapping.Modify"
+                                          ]
+                                       ],
+                                       [
+                                          "or",
+                                          [
+                                             "perm",
+                                             "/",
+                                             [
+                                                "Sys.Audit",
+                                                "Sys.Modify"
+                                             ]
+                                          ],
+                                          [
+                                             "perm",
+                                             "/",
+                                             [
+                                                "Sys.AccessNetwork"
+                                             ]
+                                          ]
                                        ]
                                     ]
                                  ]
@@ -2383,10 +2515,33 @@ const apiSchema = [
                                     },
                                     "permissions" : {
                                        "check" : [
-                                          "perm",
-                                          "/mapping/notifications",
                                           [
-                                             "Mapping.Modify"
+                                             "and",
+                                             [
+                                                "perm",
+                                                "/mapping/notifications",
+                                                [
+                                                   "Mapping.Modify"
+                                                ]
+                                             ],
+                                             [
+                                                "or",
+                                                [
+                                                   "perm",
+                                                   "/",
+                                                   [
+                                                      "Sys.Audit",
+                                                      "Sys.Modify"
+                                                   ]
+                                                ],
+                                                [
+                                                   "perm",
+                                                   "/",
+                                                   [
+                                                      "Sys.AccessNetwork"
+                                                   ]
+                                                ]
+                                             ]
                                           ]
                                        ]
                                     },
@@ -2563,10 +2718,33 @@ const apiSchema = [
                               },
                               "permissions" : {
                                  "check" : [
-                                    "perm",
-                                    "/mapping/notifications",
                                     [
-                                       "Mapping.Modify"
+                                       "and",
+                                       [
+                                          "perm",
+                                          "/mapping/notifications",
+                                          [
+                                             "Mapping.Modify"
+                                          ]
+                                       ],
+                                       [
+                                          "or",
+                                          [
+                                             "perm",
+                                             "/",
+                                             [
+                                                "Sys.Audit",
+                                                "Sys.Modify"
+                                             ]
+                                          ],
+                                          [
+                                             "perm",
+                                             "/",
+                                             [
+                                                "Sys.AccessNetwork"
+                                             ]
+                                          ]
+                                       ]
                                     ]
                                  ]
                               },
@@ -4125,6 +4303,7 @@ const apiSchema = [
                                              "enum" : [
                                                 "in",
                                                 "out",
+                                                "forward",
                                                 "group"
                                              ],
                                              "optional" : 1,
@@ -4361,6 +4540,7 @@ const apiSchema = [
                                        "enum" : [
                                           "in",
                                           "out",
+                                          "forward",
                                           "group"
                                        ],
                                        "optional" : 0,
@@ -4772,6 +4952,7 @@ const apiSchema = [
                                        "enum" : [
                                           "in",
                                           "out",
+                                          "forward",
                                           "group"
                                        ],
                                        "optional" : 1,
@@ -4961,6 +5142,7 @@ const apiSchema = [
                                  "enum" : [
                                     "in",
                                     "out",
+                                    "forward",
                                     "group"
                                  ],
                                  "optional" : 0,
@@ -5682,6 +5864,15 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "string"
                               },
+                              "policy_forward" : {
+                                 "description" : "Forward policy.",
+                                 "enum" : [
+                                    "ACCEPT",
+                                    "DROP"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
                               "policy_in" : {
                                  "description" : "Input policy.",
                                  "enum" : [
@@ -5770,6 +5961,15 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "[enable=]<1|0> [,burst=<integer>] [,rate=<rate>]"
+                              },
+                              "policy_forward" : {
+                                 "description" : "Forward policy.",
+                                 "enum" : [
+                                    "ACCEPT",
+                                    "DROP"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
                               },
                               "policy_in" : {
                                  "description" : "Input policy.",
@@ -10543,6 +10743,688 @@ const apiSchema = [
                            {
                               "children" : [
                                  {
+                                    "children" : [
+                                       {
+                                          "info" : {
+                                             "DELETE" : {
+                                                "allowtoken" : 1,
+                                                "description" : "Delete rule.",
+                                                "method" : "DELETE",
+                                                "name" : "delete_rule",
+                                                "parameters" : {
+                                                   "additionalProperties" : 0,
+                                                   "properties" : {
+                                                      "digest" : {
+                                                         "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                         "maxLength" : 64,
+                                                         "optional" : 1,
+                                                         "type" : "string",
+                                                         "typetext" : "<string>"
+                                                      },
+                                                      "pos" : {
+                                                         "description" : "Update rule at position <pos>.",
+                                                         "minimum" : 0,
+                                                         "optional" : 1,
+                                                         "type" : "integer",
+                                                         "typetext" : "<integer> (0 - N)"
+                                                      },
+                                                      "vnet" : {
+                                                         "description" : "The SDN vnet object identifier.",
+                                                         "format" : "pve-sdn-vnet-id",
+                                                         "type" : "string",
+                                                         "typetext" : "<string>"
+                                                      }
+                                                   }
+                                                },
+                                                "permissions" : {
+                                                   "description" : "Needs SDN.Allocate permissions on '/sdn/zones/<zone>/<vnet>'",
+                                                   "user" : "all"
+                                                },
+                                                "protected" : 1,
+                                                "proxyto" : null,
+                                                "returns" : {
+                                                   "type" : "null"
+                                                }
+                                             },
+                                             "GET" : {
+                                                "allowtoken" : 1,
+                                                "description" : "Get single rule data.",
+                                                "method" : "GET",
+                                                "name" : "get_rule",
+                                                "parameters" : {
+                                                   "additionalProperties" : 0,
+                                                   "properties" : {
+                                                      "pos" : {
+                                                         "description" : "Update rule at position <pos>.",
+                                                         "minimum" : 0,
+                                                         "optional" : 1,
+                                                         "type" : "integer",
+                                                         "typetext" : "<integer> (0 - N)"
+                                                      },
+                                                      "vnet" : {
+                                                         "description" : "The SDN vnet object identifier.",
+                                                         "format" : "pve-sdn-vnet-id",
+                                                         "type" : "string",
+                                                         "typetext" : "<string>"
+                                                      }
+                                                   }
+                                                },
+                                                "permissions" : {
+                                                   "description" : "Needs SDN.Audit or SDN.Allocate permissions on '/sdn/zones/<zone>/<vnet>'",
+                                                   "user" : "all"
+                                                },
+                                                "proxyto" : null,
+                                                "returns" : {
+                                                   "properties" : {
+                                                      "action" : {
+                                                         "type" : "string"
+                                                      },
+                                                      "comment" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "dest" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "dport" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "enable" : {
+                                                         "optional" : 1,
+                                                         "type" : "integer"
+                                                      },
+                                                      "icmp-type" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "iface" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "ipversion" : {
+                                                         "optional" : 1,
+                                                         "type" : "integer"
+                                                      },
+                                                      "log" : {
+                                                         "description" : "Log level for firewall rule",
+                                                         "enum" : [
+                                                            "emerg",
+                                                            "alert",
+                                                            "crit",
+                                                            "err",
+                                                            "warning",
+                                                            "notice",
+                                                            "info",
+                                                            "debug",
+                                                            "nolog"
+                                                         ],
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "macro" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "pos" : {
+                                                         "type" : "integer"
+                                                      },
+                                                      "proto" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "source" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "sport" : {
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "type" : {
+                                                         "type" : "string"
+                                                      }
+                                                   },
+                                                   "type" : "object"
+                                                }
+                                             },
+                                             "PUT" : {
+                                                "allowtoken" : 1,
+                                                "description" : "Modify rule data.",
+                                                "method" : "PUT",
+                                                "name" : "update_rule",
+                                                "parameters" : {
+                                                   "additionalProperties" : 0,
+                                                   "properties" : {
+                                                      "action" : {
+                                                         "description" : "Rule action ('ACCEPT', 'DROP', 'REJECT') or security group name.",
+                                                         "maxLength" : 20,
+                                                         "minLength" : 2,
+                                                         "optional" : 1,
+                                                         "pattern" : "[A-Za-z][A-Za-z0-9\\-\\_]+",
+                                                         "type" : "string"
+                                                      },
+                                                      "comment" : {
+                                                         "description" : "Descriptive comment.",
+                                                         "optional" : 1,
+                                                         "type" : "string",
+                                                         "typetext" : "<string>"
+                                                      },
+                                                      "delete" : {
+                                                         "description" : "A list of settings you want to delete.",
+                                                         "format" : "pve-configid-list",
+                                                         "optional" : 1,
+                                                         "type" : "string",
+                                                         "typetext" : "<string>"
+                                                      },
+                                                      "dest" : {
+                                                         "description" : "Restrict packet destination address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
+                                                         "format" : "pve-fw-addr-spec",
+                                                         "maxLength" : 512,
+                                                         "optional" : 1,
+                                                         "type" : "string",
+                                                         "typetext" : "<string>"
+                                                      },
+                                                      "digest" : {
+                                                         "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                         "maxLength" : 64,
+                                                         "optional" : 1,
+                                                         "type" : "string",
+                                                         "typetext" : "<string>"
+                                                      },
+                                                      "dport" : {
+                                                         "description" : "Restrict TCP/UDP destination port. You can use service names or simple numbers (0-65535), as defined in '/etc/services'. Port ranges can be specified with '\\d+:\\d+', for example '80:85', and you can use comma separated list to match several ports or ranges.",
+                                                         "format" : "pve-fw-dport-spec",
+                                                         "optional" : 1,
+                                                         "type" : "string",
+                                                         "typetext" : "<string>"
+                                                      },
+                                                      "enable" : {
+                                                         "description" : "Flag to enable/disable a rule.",
+                                                         "minimum" : 0,
+                                                         "optional" : 1,
+                                                         "type" : "integer",
+                                                         "typetext" : "<integer> (0 - N)"
+                                                      },
+                                                      "icmp-type" : {
+                                                         "description" : "Specify icmp-type. Only valid if proto equals 'icmp' or 'icmpv6'/'ipv6-icmp'.",
+                                                         "format" : "pve-fw-icmp-type-spec",
+                                                         "optional" : 1,
+                                                         "type" : "string",
+                                                         "typetext" : "<string>"
+                                                      },
+                                                      "iface" : {
+                                                         "description" : "Network interface name. You have to use network configuration key names for VMs and containers ('net\\d+'). Host related rules can use arbitrary strings.",
+                                                         "format" : "pve-iface",
+                                                         "maxLength" : 20,
+                                                         "minLength" : 2,
+                                                         "optional" : 1,
+                                                         "type" : "string",
+                                                         "typetext" : "<string>"
+                                                      },
+                                                      "log" : {
+                                                         "description" : "Log level for firewall rule.",
+                                                         "enum" : [
+                                                            "emerg",
+                                                            "alert",
+                                                            "crit",
+                                                            "err",
+                                                            "warning",
+                                                            "notice",
+                                                            "info",
+                                                            "debug",
+                                                            "nolog"
+                                                         ],
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "macro" : {
+                                                         "description" : "Use predefined standard macro.",
+                                                         "maxLength" : 128,
+                                                         "optional" : 1,
+                                                         "type" : "string",
+                                                         "typetext" : "<string>"
+                                                      },
+                                                      "moveto" : {
+                                                         "description" : "Move rule to new position <moveto>. Other arguments are ignored.",
+                                                         "minimum" : 0,
+                                                         "optional" : 1,
+                                                         "type" : "integer",
+                                                         "typetext" : "<integer> (0 - N)"
+                                                      },
+                                                      "pos" : {
+                                                         "description" : "Update rule at position <pos>.",
+                                                         "minimum" : 0,
+                                                         "optional" : 1,
+                                                         "type" : "integer",
+                                                         "typetext" : "<integer> (0 - N)"
+                                                      },
+                                                      "proto" : {
+                                                         "description" : "IP protocol. You can use protocol names ('tcp'/'udp') or simple numbers, as defined in '/etc/protocols'.",
+                                                         "format" : "pve-fw-protocol-spec",
+                                                         "optional" : 1,
+                                                         "type" : "string",
+                                                         "typetext" : "<string>"
+                                                      },
+                                                      "source" : {
+                                                         "description" : "Restrict packet source address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
+                                                         "format" : "pve-fw-addr-spec",
+                                                         "maxLength" : 512,
+                                                         "optional" : 1,
+                                                         "type" : "string",
+                                                         "typetext" : "<string>"
+                                                      },
+                                                      "sport" : {
+                                                         "description" : "Restrict TCP/UDP source port. You can use service names or simple numbers (0-65535), as defined in '/etc/services'. Port ranges can be specified with '\\d+:\\d+', for example '80:85', and you can use comma separated list to match several ports or ranges.",
+                                                         "format" : "pve-fw-sport-spec",
+                                                         "optional" : 1,
+                                                         "type" : "string",
+                                                         "typetext" : "<string>"
+                                                      },
+                                                      "type" : {
+                                                         "description" : "Rule type.",
+                                                         "enum" : [
+                                                            "in",
+                                                            "out",
+                                                            "forward",
+                                                            "group"
+                                                         ],
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "vnet" : {
+                                                         "description" : "The SDN vnet object identifier.",
+                                                         "format" : "pve-sdn-vnet-id",
+                                                         "type" : "string",
+                                                         "typetext" : "<string>"
+                                                      }
+                                                   }
+                                                },
+                                                "permissions" : {
+                                                   "description" : "Needs SDN.Allocate permissions on '/sdn/zones/<zone>/<vnet>'",
+                                                   "user" : "all"
+                                                },
+                                                "protected" : 1,
+                                                "proxyto" : null,
+                                                "returns" : {
+                                                   "type" : "null"
+                                                }
+                                             }
+                                          },
+                                          "leaf" : 1,
+                                          "path" : "/cluster/sdn/vnets/{vnet}/firewall/rules/{pos}",
+                                          "text" : "{pos}"
+                                       }
+                                    ],
+                                    "info" : {
+                                       "GET" : {
+                                          "allowtoken" : 1,
+                                          "description" : "List rules.",
+                                          "method" : "GET",
+                                          "name" : "get_rules",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "vnet" : {
+                                                   "description" : "The SDN vnet object identifier.",
+                                                   "format" : "pve-sdn-vnet-id",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "description" : "Needs SDN.Audit or SDN.Allocate permissions on '/sdn/zones/<zone>/<vnet>'",
+                                             "user" : "all"
+                                          },
+                                          "proxyto" : null,
+                                          "returns" : {
+                                             "items" : {
+                                                "properties" : {
+                                                   "pos" : {
+                                                      "type" : "integer"
+                                                   }
+                                                },
+                                                "type" : "object"
+                                             },
+                                             "links" : [
+                                                {
+                                                   "href" : "{pos}",
+                                                   "rel" : "child"
+                                                }
+                                             ],
+                                             "type" : "array"
+                                          }
+                                       },
+                                       "POST" : {
+                                          "allowtoken" : 1,
+                                          "description" : "Create new rule.",
+                                          "method" : "POST",
+                                          "name" : "create_rule",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "action" : {
+                                                   "description" : "Rule action ('ACCEPT', 'DROP', 'REJECT') or security group name.",
+                                                   "maxLength" : 20,
+                                                   "minLength" : 2,
+                                                   "optional" : 0,
+                                                   "pattern" : "[A-Za-z][A-Za-z0-9\\-\\_]+",
+                                                   "type" : "string"
+                                                },
+                                                "comment" : {
+                                                   "description" : "Descriptive comment.",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "dest" : {
+                                                   "description" : "Restrict packet destination address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
+                                                   "format" : "pve-fw-addr-spec",
+                                                   "maxLength" : 512,
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "digest" : {
+                                                   "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                   "maxLength" : 64,
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "dport" : {
+                                                   "description" : "Restrict TCP/UDP destination port. You can use service names or simple numbers (0-65535), as defined in '/etc/services'. Port ranges can be specified with '\\d+:\\d+', for example '80:85', and you can use comma separated list to match several ports or ranges.",
+                                                   "format" : "pve-fw-dport-spec",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "enable" : {
+                                                   "description" : "Flag to enable/disable a rule.",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (0 - N)"
+                                                },
+                                                "icmp-type" : {
+                                                   "description" : "Specify icmp-type. Only valid if proto equals 'icmp' or 'icmpv6'/'ipv6-icmp'.",
+                                                   "format" : "pve-fw-icmp-type-spec",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "iface" : {
+                                                   "description" : "Network interface name. You have to use network configuration key names for VMs and containers ('net\\d+'). Host related rules can use arbitrary strings.",
+                                                   "format" : "pve-iface",
+                                                   "maxLength" : 20,
+                                                   "minLength" : 2,
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "log" : {
+                                                   "description" : "Log level for firewall rule.",
+                                                   "enum" : [
+                                                      "emerg",
+                                                      "alert",
+                                                      "crit",
+                                                      "err",
+                                                      "warning",
+                                                      "notice",
+                                                      "info",
+                                                      "debug",
+                                                      "nolog"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "macro" : {
+                                                   "description" : "Use predefined standard macro.",
+                                                   "maxLength" : 128,
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "pos" : {
+                                                   "description" : "Update rule at position <pos>.",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (0 - N)"
+                                                },
+                                                "proto" : {
+                                                   "description" : "IP protocol. You can use protocol names ('tcp'/'udp') or simple numbers, as defined in '/etc/protocols'.",
+                                                   "format" : "pve-fw-protocol-spec",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "source" : {
+                                                   "description" : "Restrict packet source address. This can refer to a single IP address, an IP set ('+ipsetname') or an IP alias definition. You can also specify an address range like '20.34.101.207-201.3.9.99', or a list of IP addresses and networks (entries are separated by comma). Please do not mix IPv4 and IPv6 addresses inside such lists.",
+                                                   "format" : "pve-fw-addr-spec",
+                                                   "maxLength" : 512,
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "sport" : {
+                                                   "description" : "Restrict TCP/UDP source port. You can use service names or simple numbers (0-65535), as defined in '/etc/services'. Port ranges can be specified with '\\d+:\\d+', for example '80:85', and you can use comma separated list to match several ports or ranges.",
+                                                   "format" : "pve-fw-sport-spec",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "type" : {
+                                                   "description" : "Rule type.",
+                                                   "enum" : [
+                                                      "in",
+                                                      "out",
+                                                      "forward",
+                                                      "group"
+                                                   ],
+                                                   "optional" : 0,
+                                                   "type" : "string"
+                                                },
+                                                "vnet" : {
+                                                   "description" : "The SDN vnet object identifier.",
+                                                   "format" : "pve-sdn-vnet-id",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "description" : "Needs SDN.Allocate permissions on '/sdn/zones/<zone>/<vnet>'",
+                                             "user" : "all"
+                                          },
+                                          "protected" : 1,
+                                          "proxyto" : null,
+                                          "returns" : {
+                                             "type" : "null"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 0,
+                                    "path" : "/cluster/sdn/vnets/{vnet}/firewall/rules",
+                                    "text" : "rules"
+                                 },
+                                 {
+                                    "info" : {
+                                       "GET" : {
+                                          "allowtoken" : 1,
+                                          "description" : "Get vnet firewall options.",
+                                          "method" : "GET",
+                                          "name" : "get_options",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "vnet" : {
+                                                   "description" : "The SDN vnet object identifier.",
+                                                   "format" : "pve-sdn-vnet-id",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "description" : "Needs SDN.Audit or SDN.Allocate permissions on '/sdn/zones/<zone>/<vnet>'",
+                                             "user" : "all"
+                                          },
+                                          "returns" : {
+                                             "properties" : {
+                                                "enable" : {
+                                                   "default" : 0,
+                                                   "description" : "Enable/disable firewall rules.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
+                                                "log_level_forward" : {
+                                                   "description" : "Log level for forwarded traffic.",
+                                                   "enum" : [
+                                                      "emerg",
+                                                      "alert",
+                                                      "crit",
+                                                      "err",
+                                                      "warning",
+                                                      "notice",
+                                                      "info",
+                                                      "debug",
+                                                      "nolog"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "policy_forward" : {
+                                                   "description" : "Forward policy.",
+                                                   "enum" : [
+                                                      "ACCEPT",
+                                                      "DROP"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          }
+                                       },
+                                       "PUT" : {
+                                          "allowtoken" : 1,
+                                          "description" : "Set Firewall options.",
+                                          "method" : "PUT",
+                                          "name" : "set_options",
+                                          "parameters" : {
+                                             "additionalProperties" : 0,
+                                             "properties" : {
+                                                "delete" : {
+                                                   "description" : "A list of settings you want to delete.",
+                                                   "format" : "pve-configid-list",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "digest" : {
+                                                   "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                   "maxLength" : 64,
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "enable" : {
+                                                   "default" : 0,
+                                                   "description" : "Enable/disable firewall rules.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "typetext" : "<boolean>"
+                                                },
+                                                "log_level_forward" : {
+                                                   "description" : "Log level for forwarded traffic.",
+                                                   "enum" : [
+                                                      "emerg",
+                                                      "alert",
+                                                      "crit",
+                                                      "err",
+                                                      "warning",
+                                                      "notice",
+                                                      "info",
+                                                      "debug",
+                                                      "nolog"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "policy_forward" : {
+                                                   "description" : "Forward policy.",
+                                                   "enum" : [
+                                                      "ACCEPT",
+                                                      "DROP"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "vnet" : {
+                                                   "description" : "The SDN vnet object identifier.",
+                                                   "format" : "pve-sdn-vnet-id",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "description" : "Needs SDN.Allocate permissions on '/sdn/zones/<zone>/<vnet>'",
+                                             "user" : "all"
+                                          },
+                                          "protected" : 1,
+                                          "returns" : {
+                                             "type" : "null"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/cluster/sdn/vnets/{vnet}/firewall/options",
+                                    "text" : "options"
+                                 }
+                              ],
+                              "info" : {
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Directory index.",
+                                    "method" : "GET",
+                                    "name" : "index",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "vnet" : {
+                                             "description" : "The SDN vnet object identifier.",
+                                             "format" : "pve-sdn-vnet-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "returns" : {
+                                       "items" : {
+                                          "properties" : {},
+                                          "type" : "object"
+                                       },
+                                       "links" : [
+                                          {
+                                             "href" : "{name}",
+                                             "rel" : "child"
+                                          }
+                                       ],
+                                       "type" : "array"
+                                    }
+                                 }
+                              },
+                              "leaf" : 0,
+                              "path" : "/cluster/sdn/vnets/{vnet}/firewall",
+                              "text" : "firewall"
+                           },
+                           {
+                              "children" : [
+                                 {
                                     "info" : {
                                        "DELETE" : {
                                           "allowtoken" : 1,
@@ -14053,6 +14935,7 @@ const apiSchema = [
                                                          "enum" : [
                                                             "in",
                                                             "out",
+                                                            "forward",
                                                             "group"
                                                          ],
                                                          "optional" : 1,
@@ -14272,6 +15155,7 @@ const apiSchema = [
                                                    "enum" : [
                                                       "in",
                                                       "out",
+                                                      "forward",
                                                       "group"
                                                    ],
                                                    "optional" : 0,
@@ -33227,6 +34111,7 @@ const apiSchema = [
                                                          "enum" : [
                                                             "in",
                                                             "out",
+                                                            "forward",
                                                             "group"
                                                          ],
                                                          "optional" : 1,
@@ -33446,6 +34331,7 @@ const apiSchema = [
                                                    "enum" : [
                                                       "in",
                                                       "out",
+                                                      "forward",
                                                       "group"
                                                    ],
                                                    "optional" : 0,
@@ -47967,6 +48853,7 @@ const apiSchema = [
                                              "enum" : [
                                                 "in",
                                                 "out",
+                                                "forward",
                                                 "group"
                                              ],
                                              "optional" : 1,
@@ -48170,6 +49057,7 @@ const apiSchema = [
                                        "enum" : [
                                           "in",
                                           "out",
+                                          "forward",
                                           "group"
                                        ],
                                        "optional" : 0,
@@ -48231,6 +49119,22 @@ const apiSchema = [
                                        "description" : "Enable host firewall rules.",
                                        "optional" : 1,
                                        "type" : "boolean"
+                                    },
+                                    "log_level_forward" : {
+                                       "description" : "Log level for forwarded traffic.",
+                                       "enum" : [
+                                          "emerg",
+                                          "alert",
+                                          "crit",
+                                          "err",
+                                          "warning",
+                                          "notice",
+                                          "info",
+                                          "debug",
+                                          "nolog"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
                                     },
                                     "log_level_in" : {
                                        "description" : "Log level for incoming traffic.",
@@ -48409,6 +49313,22 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
+                                    },
+                                    "log_level_forward" : {
+                                       "description" : "Log level for forwarded traffic.",
+                                       "enum" : [
+                                          "emerg",
+                                          "alert",
+                                          "crit",
+                                          "err",
+                                          "warning",
+                                          "notice",
+                                          "info",
+                                          "debug",
+                                          "nolog"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
                                     },
                                     "log_level_in" : {
                                        "description" : "Log level for incoming traffic.",
@@ -50541,9 +51461,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "login",
+                                    "upgrade",
                                     "ceph_install",
-                                    "upgrade"
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -50636,9 +51556,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "login",
+                                    "upgrade",
                                     "ceph_install",
-                                    "upgrade"
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -50761,9 +51681,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "login",
+                                    "upgrade",
                                     "ceph_install",
-                                    "upgrade"
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
