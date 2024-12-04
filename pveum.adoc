@@ -170,8 +170,14 @@ Linux PAM Standard Authentication
 
 As Linux PAM corresponds to host system users, a system user must exist on each
 node which the user is allowed to log in on. The user authenticates with their
-usual system password. This realm is added by default and can't be removed. In
-terms of configurability, an administrator can choose to require two-factor
+usual system password. This realm is added by default and can't be removed.
+
+Password changes via the GUI or, equivalently, the `/access/password` API
+endpoint only apply to the local node and not cluster-wide. Even though {pve}
+has a multi-master design, using different passwords for different nodes can
+still offer a security benefit.
+
+In terms of configurability, an administrator can choose to require two-factor
 authentication with logins from the realm and to set the realm as the default
 authentication realm.
 
