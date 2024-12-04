@@ -181,6 +181,14 @@ A replication job is identified by a cluster-wide unique ID. This ID is
 composed of the VMID in addition to a job number.
 This ID must only be specified manually if the CLI tool is used.
 
+Network
+-------
+
+Replication traffic will use the same network as the live guest migration. By
+default, this is the management network. To use a different network for the
+migration, configure the `Migration Network` in the web interface under
+`Datacenter -> Options -> Migration Settings` or in the `datacenter.cfg`. See
+xref:pvecm_migration_network[Migration Network] for more details.
 
 Command-line Interface Examples
 -------------------------------
