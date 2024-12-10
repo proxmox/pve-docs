@@ -453,6 +453,15 @@ edited under __Datacenter -> Options -> Registered Tags__ or via the CLI.
 For more details on the exact options and how to invoke them in the CLI, see
 xref:datacenter_configuration_file[Datacenter Configuration].
 
+[[gui_consent_banner]]
+Consent Banner
+------------
+
+A custom consent banner that has to be accepted before login can be configured
+in __Datacenter -> Options -> Consent Text__. If there is no
+content, the consent banner will not be displayed. The text will be stored as a
+base64 string in the `/etc/pve/datacenter.cfg` config file.
+
 ifdef::wiki[]
 
 See Also
