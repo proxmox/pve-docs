@@ -198,6 +198,35 @@ content, if the client supports it. This can disabled in `/etc/default/pveproxy`
 
  COMPRESSION=0
 
+[[pveproxy_real_ip]]
+Real Client IP Logging
+----------------------
+
+By default, `pveproxy` logs the IP address of the client that sent the request.
+In cases where a proxy server is in front of `pveproxy`, it may be desirable to
+log the IP of the client making the request instead of the proxy IP.
+
+To enable processing of a HTTP header set by the proxy for logging purposes, set
+`PROXY_REAL_IP_HEADER` to the name of the header to retrieve the client IP from. For
+example:
+
+ PROXY_REAL_IP_HEADER="X-Forwarded-For"
+
+Any invalid values passed in this header will be ignored.
+
+The default behavior is log the value in this header on all incoming requests.
+To define a list of proxy servers that should be trusted to set the above HTTP
+header, set `PROXY_REAL_IP_ALLOW_FROM`, for example:
+
+ PROXY_REAL_IP_ALLOW_FROM="192.168.0.2"
+
+The `PROXY_REAL_IP_ALLOW_FROM` setting also supports values similar to the `ALLOW_FROM`
+and `DENY_FROM` settings.
+
+IP addresses can be specified using any syntax understood by `Net::IP`. The
+name `all` is an alias for `0/0` and `::/0` (meaning all IPv4 and IPv6
+addresses).
+
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
 endif::manvolnum[]
