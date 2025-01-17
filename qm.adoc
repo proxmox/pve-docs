@@ -173,19 +173,37 @@ This means that after a fresh start, the newest machine version supported by the
 QEMU binary is used (e.g. the newest machine version QEMU 8.1 supports is
 version 8.1 for each machine type).
 
+QEMU Machine Version Deprecation
+++++++++++++++++++++++++++++++++
+
+Starting with QEMU 10.1, machine versions are removed from upstream QEMU after 6
+years. In {pve}, major releases happen approximately every 2 years, so a major
+{pve} release will support machine versions from approximately two previous
+major {pve} releases.
+
+Before upgrading to a new major {pve} release, you should update VM
+configurations to avoid all machine versions that will be dropped during the
+next major {pve} release. This ensures that the guests can still be used
+throughout that release. See the section
+xref:qm_machine_update[Update to a Newer Machine Version].
+
+The removal policy is not yet in effect for {pve} 8, so the baseline for
+supported machine versions is 2.4. The last QEMU binary version released for
+{pve} 9 is expected to be QEMU 11.2. This QEMU binary will remove support for
+machine versions older than 6.0, so 6.0 is the baseline for the {pve} 9 release
+life cycle. The baseline is expected to increase by 2 major versions for each
+major {pve} release, for example 8.0 for {pve} 10.
+
 [[qm_machine_update]]
 
 Update to a Newer Machine Version
 +++++++++++++++++++++++++++++++++
 
-Very old machine versions might become deprecated in QEMU. For example, this is
-the case for versions 1.4 to 1.7 for the i440fx machine type. It is expected
-that support for these machine versions will be dropped at some point. If you
-see a deprecation warning, you should change the machine version to a newer one.
-Be sure to have a working backup first and be prepared for changes to how the
-guest sees hardware. In some scenarios, re-installing certain drivers might be
-required. You should also check for snapshots with RAM that were taken with
-these machine versions (i.e. the `runningmachine` configuration entry).
+If you see a deprecation warning, you should change the machine version to a
+newer one. Be sure to have a working backup first and be prepared for changes to
+how the guest sees hardware. In some scenarios, re-installing certain drivers
+might be required. You should also check for snapshots with RAM that were taken
+with these machine versions (i.e. the `runningmachine` configuration entry).
 Unfortunately, there is no way to change the machine version of a snapshot, so
 you'd need to load the snapshot to salvage any data from it.
 
