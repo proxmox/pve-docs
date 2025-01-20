@@ -84,6 +84,10 @@ backup, in which data blocks are copied while the VM is running. If the
 guest agent is enabled (`agent: 1`) and running, it calls
 `guest-fsfreeze-freeze` and `guest-fsfreeze-thaw` to improve
 consistency.
++
+NOTE: On Windows guests it is necessary to configure the guest agent if another
+backup software is used within the guest. See xref:qm_qga_fsfreeze[Freeze & Thaw]
+in the guest agent section for more details.
 
 A technical overview of the {pve} live backup for QemuServer can
 be found online

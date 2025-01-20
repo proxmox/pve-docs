@@ -1355,14 +1355,19 @@ that calling 'fs-freeze' with some SQL Servers triggers VSS to call the SQL
 Writer VSS module in a mode that breaks the SQL Server backup chain for
 differential backups.
 
-For such setups you can configure {pve} to not issue a freeze-and-thaw cycle on
+There are two options on how to handle such a situation.
+
+1. Configure the QEMU Guest Agent to use a different VSS variant that does not
+interfere with other VSS users. The https://pve.proxmox.com/wiki/VM_Backup_Consistency[{pve} wiki]
+has more details.
+2. Alternatively, you can configure {pve} to not issue a freeze-and-thaw cycle on
 backup by setting the `freeze-fs-on-backup` QGA option to `0`. This can also be
 done via the GUI with the 'Freeze/thaw guest filesystems on backup for
 consistency' option.
-
-IMPORTANT: Disabling this option can potentially lead to backups with inconsistent
-filesystems and should therefore only be disabled if you know what you are
-doing.
++
+IMPORTANT: Disabling this option can potentially lead to backups with
+inconsistent filesystems. Therefore, adapting the QEMU Guest Agent
+configuration in the guest is the preferred option.
 
 Troubleshooting
 ^^^^^^^^^^^^^^^
