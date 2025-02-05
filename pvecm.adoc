@@ -506,6 +506,7 @@ if it loses quorum.
 NOTE: {pve} assigns a single vote to each node by default.
 
 
+[[pvecm_cluster_network]]
 Cluster Network
 ---------------
 

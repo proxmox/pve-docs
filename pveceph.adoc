@@ -82,6 +82,7 @@ and vocabulary
 footnote:[Ceph glossary {cephdocs-url}/glossary].
 
 
+[[_recommendations_for_a_healthy_ceph_cluster]]
 Recommendations for a Healthy Ceph Cluster
 ------------------------------------------
 
@@ -95,6 +96,7 @@ NOTE: The recommendations below should be seen as a rough guidance for choosing
 hardware. Therefore, it is still essential to adapt it to your specific needs.
 You should test your setup and monitor health and performance continuously.
 
+[[pve_ceph_recommendation_cpu]]
 .CPU
 Ceph services can be classified into two categories:
 
@@ -122,6 +124,7 @@ IOPS load over 100'000 with sub millisecond latency, each OSD can use multiple
 CPU threads, e.g., four to six CPU threads utilized per NVMe backed OSD is
 likely for very high performance disks.
 
+[[pve_ceph_recommendation_memory]]
 .Memory
 Especially in a hyper-converged setup, the memory consumption needs to be
 carefully planned out and monitored. In addition to the predicted memory usage
@@ -137,6 +140,7 @@ normal operation, but rather leave some headroom to cope with outages.
 The OSD service itself will use additional memory. The Ceph BlueStore backend of
 the daemon requires by default **3-5 GiB of memory** (adjustable).
 
+[[pve_ceph_recommendation_network]]
 .Network
 We recommend a network bandwidth of at least 10 Gbps, or more, to be used
 exclusively for Ceph traffic. A meshed network setup
@@ -172,6 +176,7 @@ high-performance setups:
 * one medium bandwidth (1 Gbps) exclusive for the latency sensitive corosync
   cluster communication.
 
+[[pve_ceph_recommendation_disk]]
 .Disks
 When planning the size of your Ceph cluster, it is important to take the
 recovery time into consideration. Especially with small clusters, recovery
@@ -197,6 +202,7 @@ You also need to balance OSD count and single OSD capacity. More capacity
 allows you to increase storage density, but it also means that a single OSD
 failure forces Ceph to recover more data at once.
 
+[[pve_ceph_recommendation_raid]]
 .Avoid RAID
 As Ceph handles data object redundancy and multiple parallel writes to disks
 (OSDs) on its own, using a RAID controller normally doesn’t improve
@@ -1018,6 +1024,7 @@ to act as standbys.
 Ceph maintenance
 ----------------
 
+[[pve_ceph_osd_replace]]
 Replace OSDs
 ~~~~~~~~~~~~
 
@@ -1131,6 +1138,7 @@ ceph osd unset noout
 You can now start up the guests. Highly available guests will change their state
 to 'started' when they power on.
 
+[[pve_ceph_mon_and_ts]]
 Ceph Monitoring and Troubleshooting
 -----------------------------------
 
