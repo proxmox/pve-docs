@@ -1035,43 +1035,24 @@ Ceph Maintenance
 Replace OSDs
 ~~~~~~~~~~~~
 
-One of the most common maintenance tasks in Ceph is to replace the disk of an
-OSD. If a disk is already in a failed state, then you can go ahead and run
-through the steps in xref:pve_ceph_osd_destroy[Destroy OSDs]. Ceph will recreate
-those copies on the remaining OSDs if possible. This rebalancing will start as
-soon as an OSD failure is detected or an OSD was actively stopped.
+With the following steps you can replace the disk of an OSD, which is
+one of the most common maintenance tasks in Ceph. If there is a
+problem with an OSD while its disk still seems to be healthy, read the
+xref:pve_ceph_mon_and_ts[troubleshooting] section first.
 
-NOTE: With the default size/min_size (3/2) of a pool, recovery only starts when
-`size + 1` nodes are available. The reason for this is that the Ceph object
-balancer xref:pve_ceph_device_classes[CRUSH] defaults to a full node as
-`failure domain'.
+. If the disk failed, get a
+xref:pve_ceph_recommendation_disk[recommended] replacement disk of the
+same type and size.
 
-To replace a functioning disk from the GUI, go through the steps in
-xref:pve_ceph_osd_destroy[Destroy OSDs]. The only addition is to wait until
-the cluster shows 'HEALTH_OK' before stopping the OSD to destroy it.
+. xref:pve_ceph_osd_destroy[Destroy] the OSD in question.
 
-On the command line, use the following commands:
+. Detach the old disk from the server and attach the new one.
 
-----
-ceph osd out osd.<id>
-----
+. xref:pve_ceph_osd_create[Create] the OSD again.
 
-You can check with the command below if the OSD can be safely removed.
-
-----
-ceph osd safe-to-destroy osd.<id>
-----
-
-Once the above check tells you that it is safe to remove the OSD, you can
-continue with the following commands:
-
-----
-systemctl stop ceph-osd@<id>.service
-pveceph osd destroy <id>
-----
-
-Replace the old disk with the new one and use the same procedure as described
-in xref:pve_ceph_osd_create[Create OSDs].
+. After automatic rebalancing, the cluster status should switch back
+to `HEALTH_OK`. Any still listed crashes can be acknowledged by
+running, for example, `ceph crash archive-all`.
 
 Trim/Discard
 ~~~~~~~~~~~~
