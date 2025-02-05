@@ -320,6 +320,53 @@ replication automatically switches direction if a replicated VM is migrated, so
 by migrating a replicated VM from a node to be deleted, replication jobs will be
 set up to that node automatically.
 
+If the node to be removed has been configured for
+xref:chapter_pveceph[Ceph]:
+
+. Ensure that sufficient {pve} nodes with running OSDs (`up` and `in`)
+continue to exist.
++
+NOTE: By default, Ceph pools have a `size/min_size` of `3/2` and a
+full node as `failure domain` at the object balancer
+xref:pve_ceph_device_classes[CRUSH]. So if less than `size` (`3`)
+nodes with running OSDs are online, data redundancy will be degraded.
+If less than `min_size` are online, pool I/O will be blocked and
+affected guests may crash.
+
+. Ensure that sufficient xref:pve_ceph_monitors[monitors],
+xref:pve_ceph_manager[managers] and, if using CephFS,
+xref:pveceph_fs_mds[metadata servers] remain available.
+
+. To maintain data redundancy, each destruction of an OSD, especially
+the last one on a node, will trigger a data rebalance. Therefore,
+ensure that the OSDs on the remaining nodes have sufficient free space
+left.
+
+. To remove Ceph from the node to be deleted, start by
+xref:pve_ceph_osd_destroy[destroying] its OSDs, one after the other.
+
+. Once the xref:pve_ceph_mon_and_ts[CEPH status] is `HEALTH_OK` again,
+proceed by:
+
+[arabic]
+.. destroying its xref:pveceph_fs_mds[metadata server] via web
+interface at __Ceph -> CephFS__ or by running:
++
+----
+# pveceph mds destroy <local hostname>
+----
+
+.. xref:pveceph_destroy_mon[destroying its monitor]
+
+.. xref:pveceph_destroy_mgr[destroying its manager]
+
+. Finally, remove the now empty bucket ({pve} node to be removed) from
+the CRUSH hierarchy by running:
++
+----
+# ceph osd crush remove <hostname>
+----
+
 In the following example, we will remove the node hp4 from the cluster.
 
 Log in to a *different* cluster node (not hp4), and issue a `pvecm nodes`
