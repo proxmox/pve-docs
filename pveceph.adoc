@@ -768,7 +768,7 @@ Nautilus: PG merging and autotuning].
 
 
 [[pve_ceph_device_classes]]
-Ceph CRUSH & device classes
+Ceph CRUSH & Device Classes
 ---------------------------
 
 [thumbnail="screenshot/gui-ceph-config.png"]
@@ -1021,7 +1021,7 @@ After these steps, the CephFS should be completely removed and if you have
 other CephFS instances, the stopped metadata servers can be started again
 to act as standbys.
 
-Ceph maintenance
+Ceph Maintenance
 ----------------
 
 [[pve_ceph_osd_replace]]
@@ -1089,7 +1089,7 @@ are executed.
 
 
 [[pveceph_shutdown]]
-Shutdown {pve} + Ceph HCI cluster
+Shutdown {pve} + Ceph HCI Cluster
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To shut down the whole {pve} + Ceph cluster, first stop all Ceph clients. These
