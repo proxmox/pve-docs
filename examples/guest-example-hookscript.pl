@@ -2,11 +2,11 @@
 
 # Example hook script for PVE guests (hookscript config option)
 # You can set this via pct/qm with
-# pct set <vmid> -hookscript <volume-id>
-# qm set <vmid> -hookscript <volume-id>
+# pct set <vmid> --hookscript <volume-id>
+# qm set <vmid> --hookscript <volume-id>
 # where <volume-id> has to be an executable file in the snippets folder
 # of any storage with directories e.g.:
-# qm set 100 -hookscript local:snippets/hookscript.pl
+# qm set 100 --hookscript local:snippets/hookscript.pl
 
 use strict;
 use warnings;
