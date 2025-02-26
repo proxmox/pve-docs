@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# Exmple hook script for PVE guests (hookscript config option)
+# Example hook script for PVE guests (hookscript config option)
 # You can set this via pct/qm with
 # pct set <vmid> -hookscript <volume-id>
 # qm set <vmid> -hookscript <volume-id>
