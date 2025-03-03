@@ -205,45 +205,82 @@ include::getting-help.adoc[]
 Project History
 ---------------
 
-The project started in 2007, followed by a first stable version in
-2008. At the time we used OpenVZ for containers, and KVM for virtual
-machines. The clustering features were limited, and the user interface
-was simple (server generated web page).
+The project started in 2007, followed by a first stable version in 2008. At the
+time we used OpenVZ for containers, and QEMU with KVM for virtual machines. The
+clustering features were limited, and the user interface was simple (server
+generated web page).
 
 But we quickly developed new features using the
 https://corosync.github.io/corosync/[Corosync] cluster stack, and the
-introduction of the new Proxmox cluster file system (pmxcfs) was a big
-step forward, because it completely hides the cluster complexity from
-the user. Managing a cluster of 16 nodes is as simple as managing a
-single node.
+introduction of the new Proxmox cluster file system (pmxcfs) was a big step
+forward, because it completely hides the cluster complexity from the user.
+Managing a cluster of 16 nodes is as simple as managing a single node.
 
-We also introduced a new REST API, with a complete declarative
-specification written in JSON-Schema. This enabled other people to
-integrate {pve} into their infrastructure, and made it easy to provide
-additional services.
+The introduction of our new REST API, with a complete declarative specification
+written in JSON-Schema, enabled other people to integrate {pve} into their
+infrastructure, and made it easy to provide additional services.
 
-Also, the new REST API made it possible to replace the original user
-interface with a modern HTML5 application using JavaScript. We also
+Also, the new REST API made it possible to replace the original user interface
+with a modern client side single-page application using JavaScript. We also
 replaced the old Java based VNC console code with
-https://kanaka.github.io/noVNC/[noVNC]. So you only need a web browser
-to manage your VMs.
+https://kanaka.github.io/noVNC/[noVNC]. So you only need a web browser to manage
+your VMs.
 
-The support for various storage types is another big task. Notably,
-{pve} was the first distribution to ship ZFS on Linux by default in
-2014. Another milestone was the ability to run and manage
-https://ceph.com/[Ceph] storage on the hypervisor nodes. Such setups
-are extremely cost effective.
+The support for various storage types is another big task. Notably, {pve} was
+the first distribution to ship https://zfsonlinux.org/[ZFS on Linux] by default
+in 2014. Another milestone was the ability to run and manage
+https://ceph.com/[Ceph] storage on the hypervisor nodes. Such setups are
+extremely cost effective.
 
-When we started we were among the first companies providing
-commercial support for KVM. The KVM project itself continuously
-evolved, and is now a widely used hypervisor. New features arrive
-with each release. We developed the KVM live backup feature, which
-makes it possible to create snapshot backups on any storage type.
+When our project started we were among the first companies providing commercial
+support for KVM. The KVM project itself continuously evolved, and is now a
+widely used hypervisor. New features arrive with each release. We developed the
+KVM live backup feature, which makes it possible to create snapshot backups on
+any storage type.
 
 The most notable change with version 4.0 was the move from OpenVZ to
-https://linuxcontainers.org/[LXC]. Containers are now deeply
-integrated, and they can use the same storage and network features
-as virtual machines.
+https://linuxcontainers.org/[LXC]. Containers are now deeply integrated, and
+they can use the same storage and network features as virtual machines. At the
+same time we introduced the easy-to-use xref:chapter_ha_manager[High
+Availability (HA) manager], simplifying the configuration and management of
+highly available setups.
+
+During the development of {pve} 5 the asynchronous
+xref:chapter_pvesr[storage replication] as well as automated
+xref:sysadmin_certificate_management[certificate management] using ACME/Let's
+Encrypt were introduced, among many other features.
+
+The xref:chapter_pvesdn[Software Defined Network (SDN)] stack was developed in
+cooperation with our community. It was integrated into the web interface as
+an experimental feature in version 6.2, simplifying the management of
+sophisticated network configurations. Since version 8.1, the SDN integration is
+fully supported and installed by default.
+
+2020 marked the release of a new project, the
+https://www.proxmox.com/en/products/proxmox-backup-server/overview[Proxmox
+Backup Server], written in the Rust programming language. Proxmox Backup Server
+is deeply integrated with {pve} and significantly improves backup capabilities
+by implementing incremental backups, deduplication, and much more.
+
+Another new tool, the https://pom.proxmox.com[Proxmox
+Offline Mirror], was released in 2022, enabling subscriptions for systems which
+have no connection to the public internet.
+
+The highly requested dark theme for the web interface was introduced in 2023.
+Later that year, version 8.0 integrated access to the Ceph enterprise
+repository. Now access to the most stable Ceph repository comes with any
+{pve} subscription.
+
+Automated and unattended installation for the official
+xref:installation_installer[ISO installer] was introduced in version 8.2,
+significantly simplifying large deployments of {pve}.
+
+With the xref:qm_import_virtual_machines[import wizard], equally introduced in
+version 8.2, users can easily and efficiently migrate guests directly from other
+hypervisors like VMware ESXi footnote:[Migrate to Proxmox VE
+https://pve.proxmox.com/wiki/Migrate_to_Proxmox_VE].
+Additionally, archives in Open Virtualization Format (OVF/OVA) can now be
+directly imported from file-based storages in the web interface.
 
 include::howto-improve-pve-docs.adoc[]
 include::translation.adoc[]
