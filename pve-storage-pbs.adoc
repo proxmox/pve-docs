@@ -157,12 +157,11 @@ recover from unencrypted backups.
 Example: Add Storage over CLI
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-// TODO: FIXME: add once available
-//You can get a list of exported CIFS shares with:
-//
-//----
-//# pvesm scan pbs <server> [--username <username>] [--password]
-//----
+You can get a list of available Proxmox Backup Server datastores with:
+
+----
+# pvesm scan pbs <server> <username> [--password <string>] [--fingerprint <string>]
+----
 
 Then you can add one of these datastores as a storage to the whole {pve}
 cluster with:

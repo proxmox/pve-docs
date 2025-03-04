@@ -70,6 +70,13 @@ snapshot/clone implementation.
 |images vztmpl iso backup snippets  |raw qcow2 vmdk  |yes    |qcow2     |qcow2
 |==============================================================================
 
+Examples
+~~~~~~~~
+
+You can get a list of available GlusterFS volumes with:
+
+ # pvesm scan glusterfs <server>
+
 ifdef::wiki[]
 
 See Also
