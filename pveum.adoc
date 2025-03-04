@@ -160,7 +160,7 @@ as an authentication protocol.
 
 OpenID Connect::
 
-OpenID Connect is implemented as an identity layer on top of the OATH 2.0
+OpenID Connect is implemented as an identity layer on top of the OAuth 2.0
 protocol. It allows clients to verify the identity of the user, based on
 authentication performed by an external authorization server.
 
@@ -436,7 +436,7 @@ OpenID Connect
 The main OpenID Connect configuration options are:
 
 * `Issuer URL` (`issuer-url`): This is the URL of the authorization server.
-Proxmox uses the OpenID Connect Discovery protocol to automatically configure
+{pve} uses the OpenID Connect Discovery protocol to automatically configure
 further details.
 +
 While it is possible to use unencrypted `http://` URLs, we strongly recommend to
