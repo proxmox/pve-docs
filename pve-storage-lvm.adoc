@@ -88,7 +88,7 @@ not support shared storage.
 Examples
 ~~~~~~~~
 
-List available volume groups:
+You can get a list of available LVM volume groups with:
 
  # pvesm lvmscan
 

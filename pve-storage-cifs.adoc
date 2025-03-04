@@ -110,7 +110,7 @@ You can get a list of exported CIFS shares with:
 # pvesm scan cifs <server> [--username <username>] [--password]
 ----
 
-Then you could add this share as a storage to the whole {pve} cluster
+Then you can add one of these shares as a storage to the whole {pve} cluster
 with:
 
 ----

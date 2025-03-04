@@ -76,7 +76,7 @@ multiple nodes, so you can only use them as local storage.
 Examples
 ~~~~~~~~
 
-List available LVM thin pools on volume group `pve`:
+You can get a list of available LVM thin pools on the volume group `pve` with:
 
  # pvesm lvmthinscan pve
 

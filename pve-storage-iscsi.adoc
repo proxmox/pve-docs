@@ -81,7 +81,7 @@ storage on that iSCSI LUN.
 Examples
 ~~~~~~~~
 
-Scan a remote iSCSI portal, and returns a list of possible targets:
+You can scan a remote iSCSI portal and get a list of possible targets with:
 
  pvesm scan iscsi <HOST[:PORT]>
 

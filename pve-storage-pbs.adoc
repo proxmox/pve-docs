@@ -164,8 +164,8 @@ Example: Add Storage over CLI
 //# pvesm scan pbs <server> [--username <username>] [--password]
 //----
 
-Then you could add this share as a storage to the whole {pve} cluster
-with:
+Then you can add one of these datastores as a storage to the whole {pve}
+cluster with:
 
 ----
 # pvesm add pbs <id> --server <server> --datastore <datastore> --username <username> --fingerprint 00:B4:... --password
