@@ -78,7 +78,7 @@ Examples
 
 You can get a list of available LVM thin pools on the volume group `pve` with:
 
- # pvesm lvmthinscan pve
+ # pvesm scan lvmthin pve
 
 ifdef::wiki[]
 

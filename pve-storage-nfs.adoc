@@ -82,7 +82,7 @@ Examples
 
 You can get a list of exported NFS shares with:
 
- # pvesm nfsscan <server>
+ # pvesm scan nfs <server>
 
 ifdef::wiki[]
 

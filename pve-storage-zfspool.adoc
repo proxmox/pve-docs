@@ -97,7 +97,7 @@ To enable compression on that newly allocated file system:
 
 You can get a list of available ZFS filesystems with:
 
- # pvesm zfsscan
+ # pvesm scan zfs
 
 ifdef::wiki[]
 

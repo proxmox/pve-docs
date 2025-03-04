@@ -90,7 +90,7 @@ Examples
 
 You can get a list of available LVM volume groups with:
 
- # pvesm lvmscan
+ # pvesm scan lvm
 
 ifdef::wiki[]
 
