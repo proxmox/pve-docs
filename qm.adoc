@@ -1960,6 +1960,12 @@ Currently there are the following options:
   mapping, the mediated device will be created on the first one where there are
   any available instances of the selected type.
 
+* `live-migration-capable` (PCI): This marks the PCI device as being capable of
+  being live migrated between nodes. This requires driver and hardware support.
+  Only NVIDIA GPUs with recent kernel are known to support this. Note that live
+  migrating passed through devices is an experimental feature and may not work
+  or cause issues.
+
 
 Managing Virtual Machines with `qm`
 ------------------------------------
