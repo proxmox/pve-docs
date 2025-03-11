@@ -1949,6 +1949,18 @@ To create mappings `Mapping.Modify` on `/mapping/<type>/<name>` is necessary
 To use these mappings, `Mapping.Use` on `/mapping/<type>/<name>` is necessary
 (in addition to the normal guest privileges to edit the configuration).
 
+.Additional Options
+
+There are additional options when defining a cluster wide resource mapping.
+Currently there are the following options:
+
+* `mdev` (PCI): This marks the PCI device as being capable of providing
+  `mediated devices`. When this is enabled, you can select a type when
+  configuring it on the guest. If multiple PCI devices are selected for the
+  mapping, the mediated device will be created on the first one where there are
+  any available instances of the selected type.
+
+
 Managing Virtual Machines with `qm`
 ------------------------------------
 
