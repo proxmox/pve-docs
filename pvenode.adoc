@@ -192,6 +192,19 @@ pvenode migrateall pve2 --vms 100,101,102 --with-local-disks
 
 // TODO: explain node shutdown (stopall is used there) and maintenance options
 
+[[ballooning-target]]
+RAM Usage Target for Ballooning
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The target percentage for xref:qm_ballooning[automatic memory allocation]
+defaults to 80%. You can customize this target per node by setting the
+`ballooning-target` property. For example, to target 90% host memory usage
+instead:
+
+----
+pvenode config set --ballooning-target 90
+----
+
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
 endif::manvolnum[]

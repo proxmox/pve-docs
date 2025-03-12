@@ -697,13 +697,15 @@ it (like for debugging purposes), simply uncheck *Ballooning Device* or set
 
 in the configuration.
 
+[[qm_ballooning]]
 .Automatic Memory Allocation
 
 // see autoballoon() in pvestatd.pm
-When setting the minimum memory lower than memory, {pve} will make sure that the
-minimum amount you specified is always available to the VM, and if RAM usage on
-the host is below 80%, will dynamically add memory to the guest up to the
-maximum memory specified.
+When setting the minimum memory lower than memory, {pve} will make sure that
+the minimum amount you specified is always available to the VM, and if RAM
+usage on the host is below a certain target percentage, will dynamically add
+memory to the guest up to the maximum memory specified. The target percentage
+defaults to 80% and can be configured xref:ballooning-target[in the node options].
 
 When the host is running low on RAM, the VM will then release some memory
 back to the host, swapping running processes if needed and starting the oom
@@ -715,7 +717,8 @@ footnote:[A good explanation of the inner workings of the balloon driver can be 
 When multiple VMs use the autoallocate facility, it is possible to set a
 *Shares* coefficient which indicates the relative amount of the free host memory
 that each VM should take. Suppose for instance you have four VMs, three of them
-running an HTTP server and the last one is a database server. To cache more
+running an HTTP server and the last one is a database server.
+The host is configured to target 80% RAM usage. To cache more
 database blocks in the database server RAM, you would like to prioritize the
 database VM when spare RAM is available. For this you assign a Shares property
 of 3000 to the database VM, leaving the other VMs to the Shares default setting
