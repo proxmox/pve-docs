@@ -513,6 +513,14 @@ In some cases, OpenID servers may send groups claims which include invalid
 characters for {pve} group IDs. Any groups that contain characters not allowed
 in a {pve} group name are not included and a warning will be sent to the logs.
 
+Advanced settings
+^^^^^^^^^^^^^^^^^
+
+* `Query userinfo endpoint` (`query-userinfo`): Enabling this option requires
+the OpenID Connect authenticator to query the "userinfo" endpoint for claim
+values. Disabling this option is useful for some identity providers that do not
+support the "userinfo" endpoint (e.g. ADFS).
+
 Examples
 ^^^^^^^^
 
