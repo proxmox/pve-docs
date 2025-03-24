@@ -506,36 +506,63 @@ If you experience problems with an OSD or its disk, try to
 xref:pve_ceph_mon_and_ts[troubleshoot] them first to decide if a
 xref:pve_ceph_osd_replace[replacement] is needed.
 
-To destroy an OSD:
+To destroy an OSD, navigate to the __<Node> -> Ceph -> OSD__ panel or use the
+mentioned CLI commands on the node where the OSD is located.
 
-. Either open the web interface and select any {pve} node in the tree
-view, or open a shell on the node where the OSD to be deleted is
-located.
+. Make sure the cluster has enough space to handle the removal of the OSD.
+In the __Ceph -> OSD__ panel,if the to-be destroyed OSD is still `up` and `in`
+(non-zero value at `AVAIL`), make sure that all OSDs have their `Used (%)`
+value well below the `nearfull_ratio` of default `85%`.
++
+This way you can reduce the risk from the upcoming rebalancing, which may cause
+OSDs to run full and thereby blocking I/O on Ceph pools.
++
+Use the following command to get the same information on the CLI:
++
+[source,bash]
+----
+ceph osd df tree
+----
 
-. Go to the __Ceph -> OSD__ panel (`ceph osd df tree`). If the OSD to
-be deleted is still `up` and `in` (non-zero value at `AVAIL`), make
-sure that all OSDs have their `Used (%)` value well below the
-`nearfull_ratio` of default `85%`. In this way you can reduce the risk
-from the upcoming rebalancing, which may cause OSDs to run full and
-thereby blocking I/O on Ceph pools.
+. If the to-be destroyed OSD is not `out` yet, select the OSD and click on
+**Out**. This will exclude it from data distribution and start a rebalance.
++
+The following command does the same:
++
+[source,bash]
+----
+ceph osd out <id>
+----
 
-. If the deletable OSD is not `out` yet, select the OSD and click on
-**Out** (`ceph osd out <id>`). This will exclude it from data
-distribution and starts a rebalance.
+. If you can, wait until Ceph has finished the rebalance to always have enough
+replicas. The OSD will be empty; once it is, it will show __0 PGs__.
 
-. Click on **Stop**, if stopping is not safe yet, a warning will
-appear and you should click on **Cancel**, please try again shortly
-afterwards. When using the shell, check if it is safe to stop by
-reading the output from `ceph osd ok-to-stop <id>`, once true, run
-`pveceph stop --service osd.<id>` .
+. Click on **Stop**. If stopping is not safe yet, a warning will
+appear, and you should click on **Cancel**. Try it again in a few moments.
++
+The following commands can be used to check if it is safe to stop and stop
+the OSD:
++
+[source,bash]
+----
+ceph osd ok-to-stop <id>
+pveceph stop --service osd.<id>
+----
 
 . Finally:
 +
-[WARNING]
 To remove the OSD from Ceph and delete all disk data, first click on
-**More -> Destroy**. Use the cleanup option to clean up the partition
-table and similar, enabling an immediate reuse of the disk in {pve}.
-Finally, click on **Remove** (`pveceph osd destroy <id> [--cleanup]`).
+**More -> Destroy**. Enable the cleanup option to clean up the partition table
+and other structures. This makes it possible to immediately reuse the disk in
+{pve}.
+Then, click on **Remove**.
++
+The CLI command to destroy the OSD is:
++
+[source,bash]
+----
+pveceph osd destroy <id> [--cleanup]
+----
 
 
 [[pve_ceph_pools]]
