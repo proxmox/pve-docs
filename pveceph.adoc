@@ -802,14 +802,14 @@ accommodate the need for easy ruleset generation.
 The device classes can be seen in the 'ceph osd tree' output. These classes
 represent their own root bucket, which can be seen with the below command.
 
-[source, bash]
+[source,bash]
 ----
 ceph osd crush tree --show-shadow
 ----
 
 Example output form the above command:
 
-[source, bash]
+[source,bash]
 ----
 ID  CLASS WEIGHT  TYPE NAME
 -16  nvme 2.18307 root default~nvme
@@ -831,7 +831,7 @@ ID  CLASS WEIGHT  TYPE NAME
 To instruct a pool to only distribute objects on a specific device class, you
 first need to create a ruleset for the device class:
 
-[source, bash]
+[source,bash]
 ----
 ceph osd crush rule create-replicated <rule-name> <root> <failure-domain> <class>
 ----
@@ -846,7 +846,7 @@ ceph osd crush rule create-replicated <rule-name> <root> <failure-domain> <class
 
 Once the rule is in the CRUSH map, you can tell a pool to use the ruleset.
 
-[source, bash]
+[source,bash]
 ----
 ceph osd pool set <pool-name> crush_rule <rule-name>
 ----
@@ -908,6 +908,7 @@ CephFS needs at least one Metadata Server to be configured and running, in order
 to function. You can create an MDS through the {pve} web GUI's `Node
 -> CephFS` panel or from the command line with:
 
+[source,bash]
 ----
 pveceph mds create
 ----
@@ -919,6 +920,7 @@ You can speed up the handover between the active and standby MDS by using
 the 'hotstandby' parameter option on creation, or if you have already created it
 you may set/add:
 
+[source,bash]
 ----
 mds standby replay = true
 ----
@@ -959,6 +961,7 @@ After this is complete, you can simply create a CephFS through
 either the Web GUI's `Node -> CephFS` panel or the command-line tool `pveceph`,
 for example:
 
+[source,bash]
 ----
 pveceph fs create --pg_num 128 --add-storage
 ----
@@ -988,6 +991,7 @@ necessary:
   want to destroy.
 * Unmount the CephFS storages on all cluster nodes manually with
 +
+[source,bash]
 ----
 umount /mnt/pve/<STORAGE-NAME>
 ----
@@ -999,12 +1003,14 @@ Where `<STORAGE-NAME>` is the name of the CephFS storage in your {PVE}.
   interface or via the command-line interface, for the latter you would issue
   the following command:
 +
+[source,bash]
 ----
 pveceph stop --service mds.NAME
 ----
 +
 to stop them, or
 +
+[source,bash]
 ----
 pveceph mds destroy NAME
 ----
@@ -1017,6 +1023,7 @@ servers.
 
 * Now you can destroy the CephFS with
 +
+[source,bash]
 ----
 pveceph fs destroy NAME --remove-storages --remove-pools
 ----
@@ -1094,6 +1101,7 @@ Once all clients, VMs and containers are off or not accessing the Ceph cluster
 anymore, verify that the Ceph cluster is in a healthy state. Either via the Web UI
 or the CLI:
 
+[source,bash]
 ----
 ceph -s
 ----
@@ -1102,6 +1110,7 @@ To disable all self-healing actions, and to pause any client IO in the Ceph
 cluster, enable the following OSD flags in the **Ceph -> OSD** panel or via the
 CLI:
 
+[source,bash]
 ----
 ceph osd set noout
 ceph osd set norecover
@@ -1118,6 +1127,7 @@ When powering on the cluster, start the nodes with monitors (MONs) first. Once
 all nodes are up and running, confirm that all Ceph services are up and running
 before you unset the OSD flags again:
 
+[source,bash]
 ----
 ceph osd unset pause
 ceph osd unset nodown
@@ -1145,11 +1155,13 @@ below will also give you an overview of the current events and actions to take.
 To stop their execution, press CTRL-C.
 
 Continuously watch the cluster status:
+[source,bash]
 ----
 watch ceph --status
 ----
 
 Print the cluster status once (not being updated) and continuously append lines of status events:
+[source,bash]
 ----
 ceph --watch
 ----
@@ -1169,6 +1181,7 @@ footnote:[Ceph troubleshooting {cephdocs-url}/rados/troubleshooting/].
 * xref:disk_health_monitoring[Disk Health Monitoring]
 * __System -> System Log__ or via the CLI, for example of the last 2 days:
 +
+[source,bash]
 ----
 journalctl --since "2 days ago"
 ----
@@ -1176,11 +1189,13 @@ journalctl --since "2 days ago"
 
 Ceph service crashes can be listed and viewed in detail by running the following
 commands:
+[source,bash]
 ----
 ceph crash ls
 ceph crash info <crash_id>
 ----
 Crashes marked as new can be acknowledged by running:
+[source,bash]
 ----
 ceph crash archive-all
 ----
@@ -1220,6 +1235,7 @@ interface, go to __Any node -> Ceph -> OSD__, select the OSD and click
 on **Start**, **In** and **Reload**. When using the shell, run following
 command on the affected node:
 +
+[source,bash]
 ----
 ceph-volume lvm activate --all
 ----
