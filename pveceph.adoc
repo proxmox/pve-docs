@@ -1052,7 +1052,11 @@ same type and size.
 
 . After automatic rebalancing, the cluster status should switch back
 to `HEALTH_OK`. Any still listed crashes can be acknowledged by
-running, for example, `ceph crash archive-all`.
+running the following command:
+[source,bash]
+----
+ceph crash archive-all
+----
 
 Trim/Discard
 ~~~~~~~~~~~~
@@ -1140,13 +1144,14 @@ The following Ceph commands can be used to see if the cluster is healthy
 below will also give you an overview of the current events and actions to take.
 To stop their execution, press CTRL-C.
 
+Continuously watch the cluster status:
 ----
-# Continuously watch the cluster status
-pve# watch ceph --status
+watch ceph --status
+----
 
-# Print the cluster status once (not being updated)
-# and continuously append lines of status events
-pve# ceph --watch
+Print the cluster status once (not being updated) and continuously append lines of status events:
+----
+ceph --watch
 ----
 
 [[pve_ceph_ts]]
@@ -1162,14 +1167,23 @@ footnote:[Ceph troubleshooting {cephdocs-url}/rados/troubleshooting/].
 .Relevant Logs on Affected Node
 
 * xref:disk_health_monitoring[Disk Health Monitoring]
-* __System -> System Log__ (or, for example,
-  `journalctl --since "2 days ago"`)
+* __System -> System Log__ or via the CLI, for example of the last 2 days:
++
+----
+journalctl --since "2 days ago"
+----
 * IPMI and RAID controller logs
 
-Ceph service crashes can be listed and viewed in detail by running
-`ceph crash ls` and `ceph crash info <crash_id>`. Crashes marked as
-new can be acknowledged by running, for example,
-`ceph crash archive-all`.
+Ceph service crashes can be listed and viewed in detail by running the following
+commands:
+----
+ceph crash ls
+ceph crash info <crash_id>
+----
+Crashes marked as new can be acknowledged by running:
+----
+ceph crash archive-all
+----
 
 To get a more detailed view, every Ceph service has a log file under
 `/var/log/ceph/`. If more detail is required, the log level can be
@@ -1203,8 +1217,12 @@ A faulty OSD will be reported as `down` and mostly (auto) `out` 10
 minutes later. Depending on the cause, it can also automatically
 become `up` and `in` again. To try a manual activation via web
 interface, go to __Any node -> Ceph -> OSD__, select the OSD and click
-on **Start**, **In** and **Reload**. When using the shell, run on the
-affected node `ceph-volume lvm activate --all`.
+on **Start**, **In** and **Reload**. When using the shell, run following
+command on the affected node:
++
+----
+ceph-volume lvm activate --all
+----
 +
 To activate a failed OSD, it may be necessary to
 xref:ha_manager_node_maintenance[safely reboot] the respective node
