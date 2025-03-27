@@ -456,6 +456,15 @@ use the `autocreate` option to automatically add new users.
 * `Username Claim` (`username-claim`): OpenID claim used to generate the unique
 username (`subject`, `username` or `email`).
 
+* `Autocreate Groups` (`groups-autocreate`): Create all groups in the claim
+instead of using existing PVE groups (default behavior).
+
+* `Groups Claim` (`groups-claim`): OpenID claim used to retrieve the groups from
+the ID token or userinfo endpoint.
+
+* `Overwrite Groups` (`groups-overwrite`): Overwrite all groups assigned to user
+instead of appending to existing groups (default behavior).
+
 Username mapping
 ^^^^^^^^^^^^^^^^
 
@@ -478,6 +487,31 @@ uniqueness.
 Another option is to use `email`, which also yields human readable
 usernames. Again, only use this setting if the server guarantees the
 uniqueness of this attribute.
+
+Groups mapping
+^^^^^^^^^^^^^^
+
+Specifying the `groups-claim` setting in the OpenID configuration enables group
+mapping functionality. The data provided in the `groups-claim` should be
+a list of strings that correspond to groups that a user should be a member of in
+{pve}. To prevent collisions, group names from the OpenID claim are suffixed 
+with `-<realm name>` (e.g. for the OpenID group name `my-openid-group` in the 
+realm `oidc`, the group name in {pve} would be `my-openid-group-oidc`).
+
+Any groups reported by the OpenID provider that do not exist in {pve} are
+ignored by default. If all groups reported by the OpenID provider should exist
+in {pve}, the `groups-autocreate` option may be used to automatically create
+these groups on user logins.
+
+By default, groups are appended to the user's existing groups. It may be 
+desirable to overwrite any groups that the user is already a member in {pve}
+with those from the OpenID provider. Enabling the `groups-overwrite` setting
+removes all groups from the user in {pve} before adding the groups reported by
+the OpenID provider.
+
+In some cases, OpenID servers may send groups claims which include invalid
+characters for {pve} group IDs. Any groups that contain characters not allowed
+in a {pve} group name are not included and a warning will be sent to the logs.
 
 Examples
 ^^^^^^^^
