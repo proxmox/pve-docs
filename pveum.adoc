@@ -224,8 +224,8 @@ attribute would be `uid`.
 If {pve} needs to authenticate (bind) to the LDAP server before being
 able to query and authenticate users, a bind domain name can be
 configured via the `bind_dn` property in `/etc/pve/domains.cfg`. Its
-password then has to be stored in `/etc/pve/priv/ldap/<realmname>.pw`
-(for example, `/etc/pve/priv/ldap/my-ldap.pw`). This file should contain a
+password then has to be stored in `/etc/pve/priv/realm/<realmname>.pw`
+(for example, `/etc/pve/priv/realm/my-ldap.pw`). This file should contain a
 single line with the raw password.
 
 To verify certificates, you need to set `capath`. You can set it either
