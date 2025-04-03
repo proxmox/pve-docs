@@ -1148,31 +1148,29 @@ const apiSchema = [
                                     },
                                     "permissions" : {
                                        "check" : [
+                                          "and",
                                           [
-                                             "and",
+                                             "perm",
+                                             "/mapping/notifications",
+                                             [
+                                                "Mapping.Modify"
+                                             ]
+                                          ],
+                                          [
+                                             "or",
                                              [
                                                 "perm",
-                                                "/mapping/notifications",
+                                                "/",
                                                 [
-                                                   "Mapping.Modify"
+                                                   "Sys.Audit",
+                                                   "Sys.Modify"
                                                 ]
                                              ],
                                              [
-                                                "or",
+                                                "perm",
+                                                "/",
                                                 [
-                                                   "perm",
-                                                   "/",
-                                                   [
-                                                      "Sys.Audit",
-                                                      "Sys.Modify"
-                                                   ]
-                                                ],
-                                                [
-                                                   "perm",
-                                                   "/",
-                                                   [
-                                                      "Sys.AccessNetwork"
-                                                   ]
+                                                   "Sys.AccessNetwork"
                                                 ]
                                              ]
                                           ]
@@ -1349,31 +1347,29 @@ const apiSchema = [
                               },
                               "permissions" : {
                                  "check" : [
+                                    "and",
                                     [
-                                       "and",
+                                       "perm",
+                                       "/mapping/notifications",
+                                       [
+                                          "Mapping.Modify"
+                                       ]
+                                    ],
+                                    [
+                                       "or",
                                        [
                                           "perm",
-                                          "/mapping/notifications",
+                                          "/",
                                           [
-                                             "Mapping.Modify"
+                                             "Sys.Audit",
+                                             "Sys.Modify"
                                           ]
                                        ],
                                        [
-                                          "or",
+                                          "perm",
+                                          "/",
                                           [
-                                             "perm",
-                                             "/",
-                                             [
-                                                "Sys.Audit",
-                                                "Sys.Modify"
-                                             ]
-                                          ],
-                                          [
-                                             "perm",
-                                             "/",
-                                             [
-                                                "Sys.AccessNetwork"
-                                             ]
+                                             "Sys.AccessNetwork"
                                           ]
                                        ]
                                     ]
@@ -1550,31 +1546,29 @@ const apiSchema = [
                                     },
                                     "permissions" : {
                                        "check" : [
+                                          "and",
                                           [
-                                             "and",
+                                             "perm",
+                                             "/mapping/notifications",
+                                             [
+                                                "Mapping.Modify"
+                                             ]
+                                          ],
+                                          [
+                                             "or",
                                              [
                                                 "perm",
-                                                "/mapping/notifications",
+                                                "/",
                                                 [
-                                                   "Mapping.Modify"
+                                                   "Sys.Audit",
+                                                   "Sys.Modify"
                                                 ]
                                              ],
                                              [
-                                                "or",
+                                                "perm",
+                                                "/",
                                                 [
-                                                   "perm",
-                                                   "/",
-                                                   [
-                                                      "Sys.Audit",
-                                                      "Sys.Modify"
-                                                   ]
-                                                ],
-                                                [
-                                                   "perm",
-                                                   "/",
-                                                   [
-                                                      "Sys.AccessNetwork"
-                                                   ]
+                                                   "Sys.AccessNetwork"
                                                 ]
                                              ]
                                           ]
@@ -1695,31 +1689,29 @@ const apiSchema = [
                               },
                               "permissions" : {
                                  "check" : [
+                                    "and",
                                     [
-                                       "and",
+                                       "perm",
+                                       "/mapping/notifications",
+                                       [
+                                          "Mapping.Modify"
+                                       ]
+                                    ],
+                                    [
+                                       "or",
                                        [
                                           "perm",
-                                          "/mapping/notifications",
+                                          "/",
                                           [
-                                             "Mapping.Modify"
+                                             "Sys.Audit",
+                                             "Sys.Modify"
                                           ]
                                        ],
                                        [
-                                          "or",
+                                          "perm",
+                                          "/",
                                           [
-                                             "perm",
-                                             "/",
-                                             [
-                                                "Sys.Audit",
-                                                "Sys.Modify"
-                                             ]
-                                          ],
-                                          [
-                                             "perm",
-                                             "/",
-                                             [
-                                                "Sys.AccessNetwork"
-                                             ]
+                                             "Sys.AccessNetwork"
                                           ]
                                        ]
                                     ]
@@ -1998,31 +1990,29 @@ const apiSchema = [
                                     },
                                     "permissions" : {
                                        "check" : [
+                                          "and",
                                           [
-                                             "and",
+                                             "perm",
+                                             "/mapping/notifications",
+                                             [
+                                                "Mapping.Modify"
+                                             ]
+                                          ],
+                                          [
+                                             "or",
                                              [
                                                 "perm",
-                                                "/mapping/notifications",
+                                                "/",
                                                 [
-                                                   "Mapping.Modify"
+                                                   "Sys.Audit",
+                                                   "Sys.Modify"
                                                 ]
                                              ],
                                              [
-                                                "or",
+                                                "perm",
+                                                "/",
                                                 [
-                                                   "perm",
-                                                   "/",
-                                                   [
-                                                      "Sys.Audit",
-                                                      "Sys.Modify"
-                                                   ]
-                                                ],
-                                                [
-                                                   "perm",
-                                                   "/",
-                                                   [
-                                                      "Sys.AccessNetwork"
-                                                   ]
+                                                   "Sys.AccessNetwork"
                                                 ]
                                              ]
                                           ]
@@ -2256,31 +2246,29 @@ const apiSchema = [
                               },
                               "permissions" : {
                                  "check" : [
+                                    "and",
                                     [
-                                       "and",
+                                       "perm",
+                                       "/mapping/notifications",
+                                       [
+                                          "Mapping.Modify"
+                                       ]
+                                    ],
+                                    [
+                                       "or",
                                        [
                                           "perm",
-                                          "/mapping/notifications",
+                                          "/",
                                           [
-                                             "Mapping.Modify"
+                                             "Sys.Audit",
+                                             "Sys.Modify"
                                           ]
                                        ],
                                        [
-                                          "or",
+                                          "perm",
+                                          "/",
                                           [
-                                             "perm",
-                                             "/",
-                                             [
-                                                "Sys.Audit",
-                                                "Sys.Modify"
-                                             ]
-                                          ],
-                                          [
-                                             "perm",
-                                             "/",
-                                             [
-                                                "Sys.AccessNetwork"
-                                             ]
+                                             "Sys.AccessNetwork"
                                           ]
                                        ]
                                     ]
@@ -2515,31 +2503,29 @@ const apiSchema = [
                                     },
                                     "permissions" : {
                                        "check" : [
+                                          "and",
                                           [
-                                             "and",
+                                             "perm",
+                                             "/mapping/notifications",
+                                             [
+                                                "Mapping.Modify"
+                                             ]
+                                          ],
+                                          [
+                                             "or",
                                              [
                                                 "perm",
-                                                "/mapping/notifications",
+                                                "/",
                                                 [
-                                                   "Mapping.Modify"
+                                                   "Sys.Audit",
+                                                   "Sys.Modify"
                                                 ]
                                              ],
                                              [
-                                                "or",
+                                                "perm",
+                                                "/",
                                                 [
-                                                   "perm",
-                                                   "/",
-                                                   [
-                                                      "Sys.Audit",
-                                                      "Sys.Modify"
-                                                   ]
-                                                ],
-                                                [
-                                                   "perm",
-                                                   "/",
-                                                   [
-                                                      "Sys.AccessNetwork"
-                                                   ]
+                                                   "Sys.AccessNetwork"
                                                 ]
                                              ]
                                           ]
@@ -2718,31 +2704,29 @@ const apiSchema = [
                               },
                               "permissions" : {
                                  "check" : [
+                                    "and",
                                     [
-                                       "and",
+                                       "perm",
+                                       "/mapping/notifications",
+                                       [
+                                          "Mapping.Modify"
+                                       ]
+                                    ],
+                                    [
+                                       "or",
                                        [
                                           "perm",
-                                          "/mapping/notifications",
+                                          "/",
                                           [
-                                             "Mapping.Modify"
+                                             "Sys.Audit",
+                                             "Sys.Modify"
                                           ]
                                        ],
                                        [
-                                          "or",
+                                          "perm",
+                                          "/",
                                           [
-                                             "perm",
-                                             "/",
-                                             [
-                                                "Sys.Audit",
-                                                "Sys.Modify"
-                                             ]
-                                          ],
-                                          [
-                                             "perm",
-                                             "/",
-                                             [
-                                                "Sys.AccessNetwork"
-                                             ]
+                                             "Sys.AccessNetwork"
                                           ]
                                        ]
                                     ]
@@ -7671,7 +7655,7 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<node>[:<pri>]{,<node>[:<pri>]}*",
-                                       "verbose_description" : "List of cluster node members, where a priority can be given to each node. A resource bound to a group will run on the available nodes with the highest priority. If there are more nodes in the highest priority class, the services will get distributed to those nodes. The priorities have a relative meaning only."
+                                       "verbose_description" : "List of cluster node members, where a priority can be given to each node. A resource bound to a group will run on the available nodes with the highest priority. If there are more nodes in the highest priority class, the services will get distributed to those nodes. The priorities have a relative meaning only. The higher the number, the higher the priority."
                                     },
                                     "nofailback" : {
                                        "default" : 0,
@@ -7774,7 +7758,7 @@ const apiSchema = [
                                  "optional" : 0,
                                  "type" : "string",
                                  "typetext" : "<node>[:<pri>]{,<node>[:<pri>]}*",
-                                 "verbose_description" : "List of cluster node members, where a priority can be given to each node. A resource bound to a group will run on the available nodes with the highest priority. If there are more nodes in the highest priority class, the services will get distributed to those nodes. The priorities have a relative meaning only."
+                                 "verbose_description" : "List of cluster node members, where a priority can be given to each node. A resource bound to a group will run on the available nodes with the highest priority. If there are more nodes in the highest priority class, the services will get distributed to those nodes. The priorities have a relative meaning only. The higher the number, the higher the priority."
                               },
                               "nofailback" : {
                                  "default" : 0,
@@ -8102,6 +8086,7 @@ const apiSchema = [
                                           "active24",
                                           "ad",
                                           "ali",
+                                          "alviy",
                                           "anx",
                                           "artfiles",
                                           "arvan",
@@ -8130,7 +8115,6 @@ const apiSchema = [
                                           "dnshome",
                                           "dnsimple",
                                           "dnsservices",
-                                          "do",
                                           "doapi",
                                           "domeneshop",
                                           "dp",
@@ -8163,6 +8147,7 @@ const apiSchema = [
                                           "internetbs",
                                           "inwx",
                                           "ionos",
+                                          "ionos_cloud",
                                           "ipv64",
                                           "ispconfig",
                                           "jd",
@@ -8174,6 +8159,7 @@ const apiSchema = [
                                           "la",
                                           "leaseweb",
                                           "lexicon",
+                                          "limacity",
                                           "linode",
                                           "linode_v4",
                                           "loopia",
@@ -8202,6 +8188,7 @@ const apiSchema = [
                                           "nsupdate",
                                           "nw",
                                           "oci",
+                                          "omglol",
                                           "one",
                                           "online",
                                           "openprovider",
@@ -8223,8 +8210,10 @@ const apiSchema = [
                                           "selfhost",
                                           "servercow",
                                           "simply",
+                                          "technitium",
                                           "tele3",
                                           "tencent",
+                                          "timeweb",
                                           "transip",
                                           "udr",
                                           "ultra",
@@ -8235,11 +8224,13 @@ const apiSchema = [
                                           "vscale",
                                           "vultr",
                                           "websupport",
+                                          "west_cn",
                                           "world4you",
-                                          "yandex",
+                                          "yandex360",
                                           "yc",
                                           "zilore",
                                           "zone",
+                                          "zoneedit",
                                           "zonomi"
                                        ],
                                        "optional" : 1,
@@ -8384,6 +8375,7 @@ const apiSchema = [
                                     "active24",
                                     "ad",
                                     "ali",
+                                    "alviy",
                                     "anx",
                                     "artfiles",
                                     "arvan",
@@ -8412,7 +8404,6 @@ const apiSchema = [
                                     "dnshome",
                                     "dnsimple",
                                     "dnsservices",
-                                    "do",
                                     "doapi",
                                     "domeneshop",
                                     "dp",
@@ -8445,6 +8436,7 @@ const apiSchema = [
                                     "internetbs",
                                     "inwx",
                                     "ionos",
+                                    "ionos_cloud",
                                     "ipv64",
                                     "ispconfig",
                                     "jd",
@@ -8456,6 +8448,7 @@ const apiSchema = [
                                     "la",
                                     "leaseweb",
                                     "lexicon",
+                                    "limacity",
                                     "linode",
                                     "linode_v4",
                                     "loopia",
@@ -8484,6 +8477,7 @@ const apiSchema = [
                                     "nsupdate",
                                     "nw",
                                     "oci",
+                                    "omglol",
                                     "one",
                                     "online",
                                     "openprovider",
@@ -8505,8 +8499,10 @@ const apiSchema = [
                                     "selfhost",
                                     "servercow",
                                     "simply",
+                                    "technitium",
                                     "tele3",
                                     "tencent",
+                                    "timeweb",
                                     "transip",
                                     "udr",
                                     "ultra",
@@ -8517,11 +8513,13 @@ const apiSchema = [
                                     "vscale",
                                     "vultr",
                                     "websupport",
+                                    "west_cn",
                                     "world4you",
-                                    "yandex",
+                                    "yandex360",
                                     "yc",
                                     "zilore",
                                     "zone",
+                                    "zoneedit",
                                     "zonomi"
                                  ],
                                  "optional" : 1,
@@ -10148,6 +10146,13 @@ const apiSchema = [
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
+                                    "live-migration-capable" : {
+                                       "default" : 0,
+                                       "description" : "Marks the device(s) as being able to be live-migrated (Experimental). This needs hardware and driver support to work.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
                                     "map" : {
                                        "description" : "A list of maps for the cluster nodes.",
                                        "items" : {
@@ -10316,6 +10321,13 @@ const apiSchema = [
                                  "format" : "pve-configid",
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "live-migration-capable" : {
+                                 "default" : 0,
+                                 "description" : "Marks the device(s) as being able to be live-migrated (Experimental). This needs hardware and driver support to work.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
                               },
                               "map" : {
                                  "description" : "A list of maps for the cluster nodes.",
@@ -13208,6 +13220,12 @@ const apiSchema = [
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
+                                    "fingerprint" : {
+                                       "description" : "Certificate SHA 256 fingerprint.",
+                                       "optional" : 1,
+                                       "pattern" : "([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}",
+                                       "type" : "string"
+                                    },
                                     "ipam" : {
                                        "description" : "The SDN ipam object identifier.",
                                        "format" : "pve-sdn-ipam-id",
@@ -13306,6 +13324,12 @@ const apiSchema = [
                         "parameters" : {
                            "additionalProperties" : 0,
                            "properties" : {
+                              "fingerprint" : {
+                                 "description" : "Certificate SHA 256 fingerprint.",
+                                 "optional" : 1,
+                                 "pattern" : "([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}",
+                                 "type" : "string"
+                              },
                               "ipam" : {
                                  "description" : "The SDN ipam object identifier.",
                                  "format" : "pve-sdn-ipam-id",
@@ -13451,6 +13475,12 @@ const apiSchema = [
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
+                                    "fingerprint" : {
+                                       "description" : "Certificate SHA 256 fingerprint.",
+                                       "optional" : 1,
+                                       "pattern" : "([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}",
+                                       "type" : "string"
+                                    },
                                     "key" : {
                                        "optional" : 1,
                                        "type" : "string",
@@ -13551,6 +13581,12 @@ const apiSchema = [
                                  "format" : "pve-sdn-dns-id",
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "fingerprint" : {
+                                 "description" : "Certificate SHA 256 fingerprint.",
+                                 "optional" : 1,
+                                 "pattern" : "([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}",
+                                 "type" : "string"
                               },
                               "key" : {
                                  "optional" : 0,
@@ -26038,6 +26074,11 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "cpu" : {
+                                                   "description" : "Current CPU usage.",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
                                                 "cpus" : {
                                                    "description" : "Maximum usable CPUs.",
                                                    "optional" : 1,
@@ -26072,6 +26113,12 @@ const apiSchema = [
                                                 },
                                                 "maxmem" : {
                                                    "description" : "Maximum memory in bytes.",
+                                                   "optional" : 1,
+                                                   "renderer" : "bytes",
+                                                   "type" : "integer"
+                                                },
+                                                "mem" : {
+                                                   "description" : "Currently used memory in bytes.",
                                                    "optional" : 1,
                                                    "renderer" : "bytes",
                                                    "type" : "integer"
@@ -27794,28 +27841,77 @@ const apiSchema = [
                                     "returns" : {
                                        "properties" : {
                                           "allowed_nodes" : {
-                                             "description" : "List nodes allowed for offline migration, only passed if VM is offline",
+                                             "description" : "List of nodes allowed for migration.",
+                                             "items" : {
+                                                "description" : "An allowed node",
+                                                "type" : "string"
+                                             },
                                              "optional" : 1,
                                              "type" : "array"
                                           },
                                           "local_disks" : {
                                              "description" : "List local disks including CD-Rom, unused and not referenced disks",
+                                             "items" : {
+                                                "properties" : {
+                                                   "cdrom" : {
+                                                      "description" : "True if the disk is a cdrom.",
+                                                      "type" : "boolean"
+                                                   },
+                                                   "is_unused" : {
+                                                      "description" : "True if the disk is unused.",
+                                                      "type" : "boolean"
+                                                   },
+                                                   "size" : {
+                                                      "description" : "The size of the disk in bytes.",
+                                                      "type" : "integer"
+                                                   },
+                                                   "volid" : {
+                                                      "description" : "The volid of the disk.",
+                                                      "type" : "string"
+                                                   }
+                                                },
+                                                "type" : "object"
+                                             },
                                              "type" : "array"
                                           },
                                           "local_resources" : {
-                                             "description" : "List local resources e.g. pci, usb",
+                                             "description" : "List local resources (e.g. pci, usb) that block migration.",
+                                             "items" : {
+                                                "description" : "A local resource",
+                                                "type" : "string"
+                                             },
                                              "type" : "array"
                                           },
+                                          "mapped-resource-info" : {
+                                             "description" : "Object of mapped resources with additional information such if they're live migratable.",
+                                             "type" : "object"
+                                          },
                                           "mapped-resources" : {
-                                             "description" : "List of mapped resources e.g. pci, usb",
+                                             "description" : "List of mapped resources e.g. pci, usb. Deprecated, use 'mapped-resource-info' instead.",
+                                             "items" : {
+                                                "description" : "A mapped resource",
+                                                "type" : "string"
+                                             },
                                              "type" : "array"
                                           },
                                           "not_allowed_nodes" : {
-                                             "description" : "List not allowed nodes with additional information, only passed if VM is offline",
+                                             "description" : "List of not allowed nodes with additional information.",
                                              "optional" : 1,
+                                             "properties" : {
+                                                "unavailable_storages" : {
+                                                   "description" : "A list of not available storages.",
+                                                   "items" : {
+                                                      "description" : "A storage",
+                                                      "type" : "string"
+                                                   },
+                                                   "optional" : 1,
+                                                   "type" : "array"
+                                                }
+                                             },
                                              "type" : "object"
                                           },
                                           "running" : {
+                                             "description" : "Determines if the VM is running.",
                                              "type" : "boolean"
                                           }
                                        },
@@ -29022,6 +29118,11 @@ const apiSchema = [
                         "returns" : {
                            "items" : {
                               "properties" : {
+                                 "cpu" : {
+                                    "description" : "Current CPU usage.",
+                                    "optional" : 1,
+                                    "type" : "number"
+                                 },
                                  "cpus" : {
                                     "description" : "Maximum usable CPUs.",
                                     "optional" : 1,
@@ -29052,6 +29153,12 @@ const apiSchema = [
                                  },
                                  "maxmem" : {
                                     "description" : "Maximum memory in bytes.",
+                                    "optional" : 1,
+                                    "renderer" : "bytes",
+                                    "type" : "integer"
+                                 },
+                                 "mem" : {
+                                    "description" : "Currently used memory in bytes.",
                                     "optional" : 1,
                                     "renderer" : "bytes",
                                     "type" : "integer"
@@ -32893,6 +33000,11 @@ const apiSchema = [
                                           "proxyto" : "node",
                                           "returns" : {
                                              "properties" : {
+                                                "cpu" : {
+                                                   "description" : "Current CPU usage.",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
                                                 "cpus" : {
                                                    "description" : "Maximum usable CPUs.",
                                                    "optional" : 1,
@@ -32940,6 +33052,12 @@ const apiSchema = [
                                                 },
                                                 "maxswap" : {
                                                    "description" : "Maximum SWAP memory in bytes.",
+                                                   "optional" : 1,
+                                                   "renderer" : "bytes",
+                                                   "type" : "integer"
+                                                },
+                                                "mem" : {
+                                                   "description" : "Currently used memory in bytes.",
                                                    "optional" : 1,
                                                    "renderer" : "bytes",
                                                    "type" : "integer"
@@ -38419,6 +38537,11 @@ const apiSchema = [
                         "returns" : {
                            "items" : {
                               "properties" : {
+                                 "cpu" : {
+                                    "description" : "Current CPU usage.",
+                                    "optional" : 1,
+                                    "type" : "number"
+                                 },
                                  "cpus" : {
                                     "description" : "Maximum usable CPUs.",
                                     "optional" : 1,
@@ -38462,6 +38585,12 @@ const apiSchema = [
                                  },
                                  "maxswap" : {
                                     "description" : "Maximum SWAP memory in bytes.",
+                                    "optional" : 1,
+                                    "renderer" : "bytes",
+                                    "type" : "integer"
+                                 },
+                                 "mem" : {
+                                    "description" : "Currently used memory in bytes.",
                                     "optional" : 1,
                                     "renderer" : "bytes",
                                     "type" : "integer"
@@ -43430,6 +43559,7 @@ const apiSchema = [
                                           "OVSBond",
                                           "OVSPort",
                                           "OVSIntPort",
+                                          "vnet",
                                           "unknown"
                                        ],
                                        "type" : "string"
@@ -43530,6 +43660,7 @@ const apiSchema = [
                                     "OVSBond",
                                     "OVSPort",
                                     "OVSIntPort",
+                                    "vnet",
                                     "any_bridge",
                                     "any_local_bridge"
                                  ],
@@ -43544,7 +43675,341 @@ const apiSchema = [
                         "proxyto" : "node",
                         "returns" : {
                            "items" : {
-                              "properties" : {},
+                              "properties" : {
+                                 "active" : {
+                                    "description" : "Set to true if the interface is active.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
+                                 "address" : {
+                                    "description" : "IP address.",
+                                    "format" : "ipv4",
+                                    "optional" : 1,
+                                    "requires" : "netmask",
+                                    "type" : "string"
+                                 },
+                                 "address6" : {
+                                    "description" : "IP address.",
+                                    "format" : "ipv6",
+                                    "optional" : 1,
+                                    "requires" : "netmask6",
+                                    "type" : "string"
+                                 },
+                                 "autostart" : {
+                                    "description" : "Automatically start interface on boot.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
+                                 "bond-primary" : {
+                                    "description" : "Specify the primary interface for active-backup bond.",
+                                    "format" : "pve-iface",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "bond_mode" : {
+                                    "description" : "Bonding mode.",
+                                    "enum" : [
+                                       "balance-rr",
+                                       "active-backup",
+                                       "balance-xor",
+                                       "broadcast",
+                                       "802.3ad",
+                                       "balance-tlb",
+                                       "balance-alb",
+                                       "balance-slb",
+                                       "lacp-balance-slb",
+                                       "lacp-balance-tcp"
+                                    ],
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "bond_xmit_hash_policy" : {
+                                    "description" : "Selects the transmit hash policy to use for slave selection in balance-xor and 802.3ad modes.",
+                                    "enum" : [
+                                       "layer2",
+                                       "layer2+3",
+                                       "layer3+4"
+                                    ],
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "bridge-access" : {
+                                    "description" : "The bridge port access VLAN.",
+                                    "optional" : 1,
+                                    "type" : "integer"
+                                 },
+                                 "bridge-arp-nd-suppress" : {
+                                    "description" : "Bridge port ARP/ND suppress flag.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
+                                 "bridge-learning" : {
+                                    "description" : "Bridge port learning flag.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
+                                 "bridge-multicast-flood" : {
+                                    "description" : "Bridge port multicast flood flag.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
+                                 "bridge-unicast-flood" : {
+                                    "description" : "Bridge port unicast flood flag.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
+                                 "bridge_ports" : {
+                                    "description" : "Specify the interfaces you want to add to your bridge.",
+                                    "format" : "pve-iface-list",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "bridge_vids" : {
+                                    "description" : "Specify the allowed VLANs. For example: '2 4 100-200'. Only used if the bridge is VLAN aware.",
+                                    "format" : "pve-vlan-id-or-range-list",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "bridge_vlan_aware" : {
+                                    "description" : "Enable bridge vlan support.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
+                                 "cidr" : {
+                                    "description" : "IPv4 CIDR.",
+                                    "format" : "CIDRv4",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "cidr6" : {
+                                    "description" : "IPv6 CIDR.",
+                                    "format" : "CIDRv6",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "comments" : {
+                                    "description" : "Comments",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "comments6" : {
+                                    "description" : "Comments",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "exists" : {
+                                    "description" : "Set to true if the interface physically exists.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
+                                 "families" : {
+                                    "description" : "The network families.",
+                                    "items" : {
+                                       "description" : "A network family.",
+                                       "enum" : [
+                                          "inet",
+                                          "inet6"
+                                       ],
+                                       "type" : "string"
+                                    },
+                                    "optional" : 1,
+                                    "type" : "array"
+                                 },
+                                 "gateway" : {
+                                    "description" : "Default gateway address.",
+                                    "format" : "ipv4",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "gateway6" : {
+                                    "description" : "Default ipv6 gateway address.",
+                                    "format" : "ipv6",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "iface" : {
+                                    "description" : "Network interface name.",
+                                    "format" : "pve-iface",
+                                    "maxLength" : 20,
+                                    "minLength" : 2,
+                                    "type" : "string"
+                                 },
+                                 "link-type" : {
+                                    "description" : "The link type.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "method" : {
+                                    "description" : "The network configuration method for IPv4.",
+                                    "enum" : [
+                                       "loopback",
+                                       "dhcp",
+                                       "manual",
+                                       "static",
+                                       "auto"
+                                    ],
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "method6" : {
+                                    "description" : "The network configuration method for IPv6.",
+                                    "enum" : [
+                                       "loopback",
+                                       "dhcp",
+                                       "manual",
+                                       "static",
+                                       "auto"
+                                    ],
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "mtu" : {
+                                    "description" : "MTU.",
+                                    "maximum" : 65520,
+                                    "minimum" : 1280,
+                                    "optional" : 1,
+                                    "type" : "integer"
+                                 },
+                                 "netmask" : {
+                                    "description" : "Network mask.",
+                                    "format" : "ipv4mask",
+                                    "optional" : 1,
+                                    "requires" : "address",
+                                    "type" : "string"
+                                 },
+                                 "netmask6" : {
+                                    "description" : "Network mask.",
+                                    "maximum" : 128,
+                                    "minimum" : 0,
+                                    "optional" : 1,
+                                    "requires" : "address6",
+                                    "type" : "integer"
+                                 },
+                                 "options" : {
+                                    "description" : "A list of additional interface options for IPv4.",
+                                    "items" : {
+                                       "description" : "An interface property.",
+                                       "type" : "string"
+                                    },
+                                    "optional" : 1,
+                                    "type" : "array"
+                                 },
+                                 "options6" : {
+                                    "description" : "A list of additional interface options for IPv6.",
+                                    "items" : {
+                                       "description" : "An interface property.",
+                                       "type" : "string"
+                                    },
+                                    "optional" : 1,
+                                    "type" : "array"
+                                 },
+                                 "ovs_bonds" : {
+                                    "description" : "Specify the interfaces used by the bonding device.",
+                                    "format" : "pve-iface-list",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "ovs_bridge" : {
+                                    "description" : "The OVS bridge associated with a OVS port. This is required when you create an OVS port.",
+                                    "format" : "pve-iface",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "ovs_options" : {
+                                    "description" : "OVS interface options.",
+                                    "maxLength" : 1024,
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "ovs_ports" : {
+                                    "description" : "Specify the interfaces you want to add to your bridge.",
+                                    "format" : "pve-iface-list",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "ovs_tag" : {
+                                    "description" : "Specify a VLan tag (used by OVSPort, OVSIntPort, OVSBond)",
+                                    "maximum" : 4094,
+                                    "minimum" : 1,
+                                    "optional" : 1,
+                                    "type" : "integer"
+                                 },
+                                 "priority" : {
+                                    "description" : "The order of the interface.",
+                                    "optional" : 1,
+                                    "type" : "integer"
+                                 },
+                                 "slaves" : {
+                                    "description" : "Specify the interfaces used by the bonding device.",
+                                    "format" : "pve-iface-list",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "type" : {
+                                    "description" : "Network interface type",
+                                    "enum" : [
+                                       "bridge",
+                                       "bond",
+                                       "eth",
+                                       "alias",
+                                       "vlan",
+                                       "OVSBridge",
+                                       "OVSBond",
+                                       "OVSPort",
+                                       "OVSIntPort",
+                                       "vnet",
+                                       "unknown"
+                                    ],
+                                    "type" : "string"
+                                 },
+                                 "uplink-id" : {
+                                    "description" : "The uplink ID.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "vlan-id" : {
+                                    "description" : "vlan-id for a custom named vlan interface (ifupdown2 only).",
+                                    "maximum" : 4094,
+                                    "minimum" : 1,
+                                    "optional" : 1,
+                                    "type" : "integer"
+                                 },
+                                 "vlan-protocol" : {
+                                    "description" : "The VLAN protocol.",
+                                    "enum" : [
+                                       "802.1ad",
+                                       "802.1q"
+                                    ],
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "vlan-raw-device" : {
+                                    "description" : "Specify the raw interface for the vlan interface.",
+                                    "format" : "pve-iface",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "vxlan-id" : {
+                                    "description" : "The VXLAN ID.",
+                                    "optional" : 1,
+                                    "type" : "integer"
+                                 },
+                                 "vxlan-local-tunnelip" : {
+                                    "description" : "The VXLAN local tunnel IP.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "vxlan-physdev" : {
+                                    "description" : "The physical device for the VXLAN tunnel.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "vxlan-svcnodeip" : {
+                                    "description" : "The VXLAN SVC node IP.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 }
+                              },
                               "type" : "object"
                            },
                            "links" : [
@@ -43774,6 +44239,7 @@ const apiSchema = [
                                     "OVSBond",
                                     "OVSPort",
                                     "OVSIntPort",
+                                    "vnet",
                                     "unknown"
                                  ],
                                  "type" : "string"
@@ -50971,6 +51437,31 @@ const apiSchema = [
                                  },
                                  "type" : "object"
                               },
+                              "cpu" : {
+                                 "description" : "The current cpu usage.",
+                                 "type" : "number"
+                              },
+                              "cpuinfo" : {
+                                 "properties" : {
+                                    "cores" : {
+                                       "description" : "The number of physical cores of the CPU.",
+                                       "type" : "integer"
+                                    },
+                                    "cpus" : {
+                                       "description" : "The number of logical threads of the CPU.",
+                                       "type" : "integer"
+                                    },
+                                    "model" : {
+                                       "description" : "The CPU model",
+                                       "type" : "string"
+                                    },
+                                    "sockets" : {
+                                       "description" : "The number of logical threads of the CPU.",
+                                       "type" : "integer"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
                               "current-kernel" : {
                                  "description" : "Meta-information about the currently booted kernel of this node.",
                                  "properties" : {
@@ -50989,6 +51480,56 @@ const apiSchema = [
                                     "version" : {
                                        "description" : "OS kernel version with build info",
                                        "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
+                              "loadavg" : {
+                                 "description" : "An array of load avg for 1, 5 and 15 minutes respectively.",
+                                 "items" : {
+                                    "description" : "The value of the load.",
+                                    "type" : "string"
+                                 },
+                                 "type" : "array"
+                              },
+                              "memory" : {
+                                 "properties" : {
+                                    "free" : {
+                                       "description" : "The free memory in bytes.",
+                                       "type" : "integer"
+                                    },
+                                    "total" : {
+                                       "description" : "The total memory in bytes.",
+                                       "type" : "integer"
+                                    },
+                                    "used" : {
+                                       "description" : "The used memory in bytes.",
+                                       "type" : "integer"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
+                              "pveversion" : {
+                                 "description" : "The PVE version string.",
+                                 "type" : "string"
+                              },
+                              "rootfs" : {
+                                 "properties" : {
+                                    "avail" : {
+                                       "description" : "The available bytes in the root filesystem.",
+                                       "type" : "integer"
+                                    },
+                                    "free" : {
+                                       "description" : "The free bytes on the root filesystem.",
+                                       "type" : "integer"
+                                    },
+                                    "total" : {
+                                       "description" : "The total size of the root filesystem in bytes.",
+                                       "type" : "integer"
+                                    },
+                                    "used" : {
+                                       "description" : "The used bytes in the root filesystem.",
+                                       "type" : "integer"
                                     }
                                  },
                                  "type" : "object"
@@ -51461,9 +52002,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "upgrade",
+                                    "login",
                                     "ceph_install",
-                                    "login"
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -51556,9 +52097,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "upgrade",
+                                    "login",
                                     "ceph_install",
-                                    "login"
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -51681,9 +52222,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "upgrade",
+                                    "login",
                                     "ceph_install",
-                                    "login"
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -52813,6 +53354,7 @@ const apiSchema = [
                            "typetext" : "<string>"
                         },
                         "krbd" : {
+                           "default" : 0,
                            "description" : "Always access rbd through krbd kernel module.",
                            "optional" : 1,
                            "type" : "boolean",
@@ -53347,6 +53889,7 @@ const apiSchema = [
                      "typetext" : "<string>"
                   },
                   "krbd" : {
+                     "default" : 0,
                      "description" : "Always access rbd through krbd kernel module.",
                      "optional" : 1,
                      "type" : "boolean",

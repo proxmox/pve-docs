@@ -106,7 +106,7 @@ iscsi provider
 
 Client keyring contents (for external clusters).
 
-`--krbd` `<boolean>` ::
+`--krbd` `<boolean>` ('default =' `0`)::
 
 Always access rbd through krbd kernel module.
 
@@ -670,7 +670,7 @@ Assume the given path is an externally managed mountpoint and consider the stora
 
 Client keyring contents (for external clusters).
 
-`--krbd` `<boolean>` ::
+`--krbd` `<boolean>` ('default =' `0`)::
 
 Always access rbd through krbd kernel module.
 
