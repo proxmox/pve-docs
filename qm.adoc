@@ -173,6 +173,21 @@ This means that after a fresh start, the newest machine version supported by the
 QEMU binary is used (e.g. the newest machine version QEMU 8.1 supports is
 version 8.1 for each machine type).
 
+PVE Machine Version
++++++++++++++++++++
+
+Sometimes it's necessary to introduce new defaults or change the existing
+hardware layout for new guests. For this, we have introduces an additional 'pve
+machine version'. This version begins with 0 with every new QEMU machine
+version, for example 'pc-q35-9.2+pve0'. When we want to change the hardware
+layout or a default option, we bump it to the next one (e.g.
+'pc-q35-9.2+pve1'), so older running guests are not impacted. When pinning a
+guest to a specific machine, this can be omitted. In that case it defaults to
+0.
+
+Windows guests get pinned to the most current version that is available for the
+specific machine version during guest creation.
+
 QEMU Machine Version Deprecation
 ++++++++++++++++++++++++++++++++
 
