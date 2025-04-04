@@ -767,14 +767,20 @@ AMD SEV
 SEV (Secure Encrypted Virtualization) enables memory encryption per VM using
 AES-128 encryption and the AMD Secure Processor.
 
-SEV-ES (Secure Encrypted Virtualization-Encrypted State) in addition encrypts
-all CPU register contents when a VM stops running, to prevent leakage of
-information to the hypervisor. This feature is very experimental.
+SEV-ES (Secure Encrypted Virtualization - Encrypted State) in addition encrypts
+all CPU register contents, to prevent leakage of information to the hypervisor.
+
+SEV-SNP (Secure Encrypted Virtualization - Secure Nested Paging) also attempts
+to prevent software-based integrity attacks. See the
+https://www.amd.com/content/dam/amd/en/documents/epyc-business-docs/white-papers/SEV-SNP-strengthening-vm-isolation-with-integrity-protection-and-more.pdf[
+AMD SEV SNP white paper] for more information.
 
 *Host Requirements:*
 
 * AMD EPYC CPU
-* SEV-ES is only supported on AMD EPYC 7xx2 and newer
+* SEV-ES is only supported on AMD EPYC 7002 series and newer EPYC CPUs
+* SEV-SNP is only supported on AMD EPYC 7003 series and newer EPYC CPUs
+* SEV-SNP requires host kernel version 6.11 or higher.
 * configure AMD memory encryption in the BIOS settings of the host machine
 * add "kvm_amd.sev=1" to kernel parameters if not enabled by default
 * add "mem_encrypt=on" to kernel parameters if you want to encrypt memory on the
@@ -803,21 +809,22 @@ Y
 *Limitations:*
 
 * Because the memory is encrypted the memory usage on host is always wrong.
-* Operations that involve saving or restoring memory like snapshots
-& live migration do not work yet or are attackable.
-https://github.com/PSPReverse/amd-sev-migration-attack
+* Operations that involve saving or restoring memory like snapshots & live
+migration do not work yet or are
+https://github.com/PSPReverse/amd-sev-migration-attack[attackable].
 * PCI passthrough is not supported.
-* SEV-ES is very experimental.
-* QEMU & AMD-SEV documentation is very limited.
+* SEV-ES & SEV-SNP are very experimental.
+* EFI disks are not supported with SEV-SNP.
+* With SEV-SNP, the `reboot` command inside a VM simply shuts down the VM.
 
-Example Configuration:
+*Example Configuration (SEV):*
 
 ----
-# qm set <vmid> -amd_sev type=std,no-debug=1,no-key-sharing=1,kernel-hashes=1
+# qm set <vmid> -amd-sev type=std,no-debug=1,no-key-sharing=1,kernel-hashes=1
 ----
 
 The *type* defines the encryption technology ("type=" is not necessary).
-Available options are std & es.
+Available options are std, es & snp.
 
 The QEMU *policy* parameter gets calculated with the *no-debug* and
 *no-key-sharing* parameters. These parameters correspond to policy-bit 0 and 1.
@@ -830,7 +837,7 @@ The *kernel-hashes* option is off per default for backward compatibility with
 older OVMF images and guests that do not measure the kernel/initrd.
 See https://lists.gnu.org/archive/html/qemu-devel/2021-11/msg02598.html
 
-*Check if SEV is working on the guest*
+*Check if SEV is working in the VM*
 
 Method 1 - dmesg:
 
@@ -852,6 +859,24 @@ Output should be 1.
 1
 ----
 
+*Example Configuration (SEV-SNP):*
+
+----
+# qm set <vmid> -amd-sev type=snp,allow-smt=1,no-debug=1,kernel-hashes=1
+----
+
+The `allow-smt` policy-bit is set by default. If you disable it by setting
+`allow-smt` to `0`, SMT must be disabled on the host in order for the VM to run.
+
+*Check if SEV-SNP is working in the VM*
+
+----
+# dmesg | grep -i snp
+Memory Encryption Features active: AMD SEV SEV-ES SEV-SNP
+SEV: Using SNP CPUID table, 29 entries present.
+SEV: SNP guest platform device initialized.
+----
+
 Links:
 
 * https://developer.amd.com/sev/
@@ -859,6 +884,8 @@ Links:
 * https://www.qemu.org/docs/master/system/i386/amd-memory-encryption.html
 * https://www.amd.com/system/files/TechDocs/55766_SEV-KM_API_Specification.pdf
 * https://documentation.suse.com/sles/15-SP1/html/SLES-amd-sev/index.html
+* https://www.amd.com/content/dam/amd/en/documents/epyc-technical-docs/specifications/56860.pdf[
+SEV Secure Nested Paging Firmware ABI Specification]
 
 [[qm_network_device]]
 Network Device
