@@ -1252,6 +1252,103 @@ recommended to always use a limiter to avoid guests using too many host
 resources. If desired, a value of '0' for `max_bytes` can be used to disable
 all limits.
 
+[[qm_virtiofs]]
+Virtio-fs
+~~~~~~~~~
+
+Virtio-fs is a shared filesystem designed for virtual environments. It allows to
+share a directory tree available on the host by mounting it within VMs. It does
+not use the network stack and aims to offer similar performance and semantics as
+the source filesystem.
+
+To use virtio-fs, the https://gitlab.com/virtio-fs/virtiofsd[virtiofsd] daemon
+needs to run in the background. This happens automatically in {pve} when
+starting a VM using a virtio-fs mount.
+
+Linux VMs with kernel >=5.4 support virtio-fs by default
+(https://www.kernelconfig.io/CONFIG_VIRTIO_FS[virtiofs kernel module]), but some
+features require a newer kernel.
+
+There is a
+https://github.com/virtio-win/kvm-guest-drivers-windows/wiki/Virtiofs:-Shared-file-system[guide]
+available on how to utilize virtio-fs in Windows VMs.
+
+Known Limitations
+^^^^^^^^^^^^^^^^^
+
+* If virtiofsd crashes, its mount point will hang in the VM until the VM
+is completely stopped.
+* virtiofsd not responding may result in a hanging mount in the VM, similar to
+an unreachable NFS.
+* Memory hotplug does not work in combination with virtio-fs (also results in
+hanging access).
+* Memory related features such as live migration, snapshots, and hibernate are
+not available with virtio-fs devices.
+* Windows cannot understand ACLs in the context of virtio-fs. Therefore, do not
+expose ACLs for Windows VMs, otherwise the virtio-fs device will not be
+visible within the VM.
+
+Add Mapping for Shared Directories
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To add a mapping for a shared directory, you can use the API directly with
+`pvesh` as described in the xref:resource_mapping[Resource Mapping] section:
+
+----
+pvesh create /cluster/mapping/dir --id dir1 \
+    --map node=node1,path=/path/to/share1 \
+    --map node=node2,path=/path/to/share2 \
+----
+
+Add virtio-fs to a VM
+^^^^^^^^^^^^^^^^^^^^^
+
+To share a directory using virtio-fs, add the parameter `virtiofs<N>` (N can be
+anything between 0 and 9) to the VM config and use a directory ID (dirid) that
+has been configured in the resource mapping. Additionally, you can set the
+`cache` option to either `always`, `never`, `metadata`, or `auto` (default:
+`auto`), depending on your requirements. How the different caching modes behave
+can be read https://lwn.net/Articles/774495/[here under the "Caching Modes"
+section]. To enable writeback cache set `writeback` to `1`.
+
+Virtiofsd supports ACL and xattr passthrough (can be enabled with the
+`expose-acl` and `expose-xattr` options), allowing the guest to access ACLs and
+xattrs if the underlying host filesystem supports them, but they must also be
+compatible with the guest filesystem (for example most Linux filesystems support
+ACLs, while Windows filesystems do not).
+
+The `expose-acl` option automatically implies `expose-xattr`, that is, it makes
+no difference if you set `expose-xattr` to `0` if `expose-acl` is set to `1`.
+
+If you want virtio-fs to honor the `O_DIRECT` flag, you can set the `direct-io`
+parameter to `1` (default: `0`). This will degrade performance, but is useful if
+applications do their own caching.
+
+----
+qm set <vmid> -virtiofs0 dirid=<dirid>,cache=always,direct-io=1
+qm set <vmid> -virtiofs1 <dirid>,cache=never,expose-xattr=1
+qm set <vmid> -virtiofs2 <dirid>,expose-acl=1,writeback=1
+----
+
+To temporarily mount virtio-fs in a guest VM with the Linux kernel virtio-fs
+driver, run the following command inside the guest:
+
+----
+mount -t virtiofs <dirid> <mount point>
+----
+
+To have a persistent virtiofs mount, you can create an fstab entry:
+
+----
+<dirid> <mount point> virtiofs rw,relatime 0 0
+----
+
+The dirid associated with the path on the current node is also used as the mount
+tag (name used to mount the device on the guest).
+
+For more information on available virtiofsd parameters, see the
+https://gitlab.com/virtio-fs/virtiofsd[GitLab virtiofsd project page].
+
 [[qm_bootorder]]
 Device Boot Order
 ~~~~~~~~~~~~~~~~~
@@ -1940,8 +2037,9 @@ in the relevant tab in the `Resource Mappings` category, or on the cli with
 
 [thumbnail="screenshot/gui-datacenter-mapping-pci-edit.png"]
 
-Where `<type>` is the hardware type (currently either `pci` or `usb`) and
-`<options>` are the device mappings and other configuration parameters.
+Where `<type>` is the hardware type (currently either `pci`, `usb` or
+xref:qm_virtiofs[dir]) and `<options>` are the device mappings and other
+configuration parameters.
 
 Note that the options must include a map property with all identifying
 properties of that hardware, so that it's possible to verify the hardware did
