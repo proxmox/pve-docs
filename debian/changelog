@@ -1,3 +1,74 @@
+pve-docs (8.3.2) bookworm; urgency=medium
+
+  * ha: update and expand CRM section
+
+  * storage replication: clarify that a Storage with the same ID needs to be
+    configured on the target node.
+
+  * mention how to configure specific network to be used for replication
+    traffic.
+
+  * qemu: machine version: document support life cycle in PVE.
+
+  * fix #5699: pveproxy: add docs for real-IP support, where the client
+    request IP is parsed from a configured header, e.g. for better reverse
+    proxy support.
+
+  * sync docs for installation through ISO with current capabilities and
+    requirements.
+
+  * introduction: update and extend project history.
+
+  * ceph chapter:
+    + add anchors for use in troubleshooting section.
+    + troubleshooting: revise and add frequently needed information.
+    + osd: revise and expand the section "Destroy OSDs"
+    + maintenance: revise and expand section "Replace OSDs"
+
+  * cluster configuration: node removal: mention Ceph and its steps for safe
+    removal.
+
+  * qemu backup: add notes regarding backups of windows and VSS
+
+  * qemu: resource mapping: add description for `mdev` option
+
+  * qemu: resource mapping: document `live-migration-capable` setting
+
+  * pveum: document correct pmxcfs file system path for ldap/realm
+    credentials.
+
+  * fix #4411: OpenID Connect (OIDC): add docs for group mapping support.
+
+  * fix #4234: add docs for OIDC optional userinfo request.
+
+  * web UI: describe consent-banner datacenter configuration option.
+
+  * document ballooning-target node configuration option.
+
+  * virtual machines: expand and document PVE downstream machine revisions.
+
+  * user management: clarify that password changes for PAM realm only apply to
+    the connected node.
+
+  * storage: make description of storage CLI examples more consistent.
+
+  * storage: change to newer pvesm scan subcommands in examples
+
+  * storage: add remaining pvesm scan command examples
+
+  * qemu: add SEV-SNP infos and improve documentation.
+
+  * sdn: unify explanation for how to setup FRR.
+
+  * backup: warn that tar does not honor exclusion pattern with a trailing
+    slash.
+
+  * qemu: add section for new VirtioFS support.
+
+  * update static/schema information
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 07 Apr 2025 23:17:05 +0200
+
 pve-docs (8.3.1) bookworm; urgency=medium
 
   * sdn : add chapter reference for VNet level firewall
