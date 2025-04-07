@@ -40,7 +40,7 @@ Create a Ceph filesystem
 
 Configure the created CephFS as storage for this cluster.
 
-`--name` `<string>` ('default =' `cephfs`)::
+`--name` `(?^:^[^:/\s]+$)` ('default =' `cephfs`)::
 
 The ceph filesystem name.
 
@@ -255,7 +255,7 @@ Print verbose information, same as json-pretty output format.
 
 Create Ceph pool
 
-`<name>`: `<string>` ::
+`<name>`: `(?^:^[^:/\s]+$)` ::
 
 The name of the pool. It must be unique.
 
@@ -344,7 +344,7 @@ endpoints).
 
 Change POOL settings
 
-`<name>`: `<string>` ::
+`<name>`: `(?^:^[^:/\s]+$)` ::
 
 The name of the pool. It must be unique.
 

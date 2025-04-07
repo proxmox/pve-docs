@@ -286,6 +286,18 @@ LDAP filter for group sync.
 
 LDAP attribute representing a groups name. If not set or found, the first value of the DN will be used as name.
 
+`--groups-autocreate` `<boolean>` ('default =' `0`)::
+
+Automatically create groups if they do not exist.
+
+`--groups-claim` `(?^:A-Za-z0-9\.\-_)` ::
+
+OpenID claim used to retrieve groups with.
+
+`--groups-overwrite` `<boolean>` ('default =' `0`)::
+
+All groups will be overwritten for the user on login.
+
 `--issuer-url` `<string>` ::
 
 OpenID Issuer Url
@@ -305,6 +317,10 @@ Server port.
 `--prompt` `(?:none|login|consent|select_account|\S+)` ::
 
 Specifies whether the Authorization Server prompts the End-User for reauthentication and consent.
+
+`--query-userinfo` `<boolean>` ('default =' `1`)::
+
+Enables querying the userinfo endpoint for claims values.
 
 `--scopes` `<string>` ('default =' `email profile`)::
 
@@ -462,6 +478,18 @@ LDAP filter for group sync.
 
 LDAP attribute representing a groups name. If not set or found, the first value of the DN will be used as name.
 
+`--groups-autocreate` `<boolean>` ('default =' `0`)::
+
+Automatically create groups if they do not exist.
+
+`--groups-claim` `(?^:A-Za-z0-9\.\-_)` ::
+
+OpenID claim used to retrieve groups with.
+
+`--groups-overwrite` `<boolean>` ('default =' `0`)::
+
+All groups will be overwritten for the user on login.
+
 `--issuer-url` `<string>` ::
 
 OpenID Issuer Url
@@ -481,6 +509,10 @@ Server port.
 `--prompt` `(?:none|login|consent|select_account|\S+)` ::
 
 Specifies whether the Authorization Server prompts the End-User for reauthentication and consent.
+
+`--query-userinfo` `<boolean>` ('default =' `1`)::
+
+Enables querying the userinfo endpoint for claims values.
 
 `--scopes` `<string>` ('default =' `email profile`)::
 
@@ -554,7 +586,7 @@ DEPRECATED: use 'remove-vanished' instead. Remove ACLs for users or groups which
 
 `--remove-vanished` `([acl];[properties];[entry])|none` ('default =' `none`)::
 
-A semicolon-seperated list of things to remove when they or the user vanishes during a sync. The following values are possible: 'entry' removes the user/group when not returned from the sync. 'properties' removes the set properties on existing user/group that do not appear in the source (even custom ones). 'acl' removes acls when the user/group is not returned from the sync. Instead of a list it also can be 'none' (the default).
+A semicolon-separated list of things to remove when they or the user vanishes during a sync. The following values are possible: 'entry' removes the user/group when not returned from the sync. 'properties' removes the set properties on existing user/group that do not appear in the source (even custom ones). 'acl' removes acls when the user/group is not returned from the sync. Instead of a list it also can be 'none' (the default).
 
 `--scope` `<both | groups | users>` ::
 
@@ -644,7 +676,7 @@ NOTE: Requires option(s): `path`
 
 `--realm` `<string>` ::
 
-You can optionally pass the realm using this parameter. Normally the realm is simply added to the username <username>@<relam>.
+You can optionally pass the realm using this parameter. Normally the realm is simply added to the username <username>@<realm>.
 
 `--tfa-challenge` `<string>` ::
 

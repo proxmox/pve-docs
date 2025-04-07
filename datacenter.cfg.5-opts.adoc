@@ -22,6 +22,10 @@ bandwidth limit in KiB/s for moving disks
 
 bandwidth limit in KiB/s for restoring guests from backups
 
+`consent-text`: `<string>` ::
+
+Consent text that is displayed before logging in.
+
 `console`: `<applet | html5 | vv | xtermjs>` ::
 
 Select the default Console viewer. You can either use the builtin java applet (VNC; deprecated and maps to html5), an external virt-viewer comtatible application (SPICE), an HTML5 based vnc viewer (noVNC), or an HTML5 based console client (xtermjs). If the selected viewer is not available (e.g. SPICE not activated for the VM), the fallback is noVNC.

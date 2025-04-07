@@ -197,7 +197,7 @@ Restart pveproxy.
 
 Get node configuration options.
 
-`--property` `<acme | acmedomain0 | acmedomain1 | acmedomain2 | acmedomain3 | acmedomain4 | acmedomain5 | description | startall-onboot-delay | wakeonlan>` ('default =' `all`)::
+`--property` `<acme | acmedomain0 | acmedomain1 | acmedomain2 | acmedomain3 | acmedomain4 | acmedomain5 | ballooning-target | description | startall-onboot-delay | wakeonlan>` ('default =' `all`)::
 
 Return only a specific property from the node configuration.
 
@@ -212,6 +212,10 @@ Node specific ACME settings.
 `--acmedomain[n]` `[domain=]<domain> [,alias=<domain>] [,plugin=<name of the plugin configuration>]` ::
 
 ACME domain and validation plugin
+
+`--ballooning-target` `<integer> (0 - 100)` ('default =' `80`)::
+
+RAM usage target for ballooning (in percent of total memory)
 
 `--delete` `<string>` ::
 

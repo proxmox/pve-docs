@@ -26,9 +26,13 @@ Run fstrim after moving a disk or migrating the VM.
 
 Select the agent type
 
-`amd-sev`: `[type=]<sev-type> [,kernel-hashes=<1|0>] [,no-debug=<1|0>] [,no-key-sharing=<1|0>]` ::
+`amd-sev`: `[type=]<sev-type> [,allow-smt=<1|0>] [,kernel-hashes=<1|0>] [,no-debug=<1|0>] [,no-key-sharing=<1|0>]` ::
 
 Secure Encrypted Virtualization (SEV) features by AMD CPUs
+
+`allow-smt`=`<boolean>` ('default =' `1`);;
+
+Sets policy bit to allow Simultaneous Multi Threading (SMT) (Ignored unless for SEV-SNP)
 
 `kernel-hashes`=`<boolean>` ('default =' `0`);;
 
@@ -36,15 +40,15 @@ Add kernel hashes to guest firmware for measured linux kernel launch
 
 `no-debug`=`<boolean>` ('default =' `0`);;
 
-Sets policy bit 0 to 1 to disallow debugging of guest
+Sets policy bit to disallow debugging of guest
 
 `no-key-sharing`=`<boolean>` ('default =' `0`);;
 
-Sets policy bit 1 to 1 to disallow key sharing with other guests
+Sets policy bit to disallow key sharing with other guests (Ignored for SEV-SNP)
 
 `type`=`<sev-type>` ;;
 
-Enable standard SEV with type='std' or enable experimental SEV-ES with the 'es' option.
+Enable standard SEV with type='std' or enable experimental SEV-ES with the 'es' option or enable experimental SEV-SNP with the 'snp' option.
 
 `arch`: `<aarch64 | x86_64>` ::
 
@@ -207,7 +211,7 @@ Size and type of the OVMF EFI vars. '4m' is newer and recommended, and required 
 
 The drive's backing volume.
 
-`format`=`<cloop | cow | qcow | qcow2 | qed | raw | vmdk>` ;;
+`format`=`<cloop | qcow | qcow2 | qed | raw | vmdk>` ;;
 
 The drive's backing file's data format.
 
@@ -357,7 +361,7 @@ Controls whether to pass discard/trim requests to the underlying storage.
 
 The drive's backing volume.
 
-`format`=`<cloop | cow | qcow | qcow2 | qed | raw | vmdk>` ;;
+`format`=`<cloop | qcow | qcow2 | qed | raw | vmdk>` ;;
 
 The drive's backing file's data format.
 
@@ -545,9 +549,17 @@ Set the real time clock (RTC) to local time. This is enabled by default if the `
 
 Lock/unlock the VM.
 
-`machine`: `[[type=]<machine type>] [,viommu=<intel|virtio>]` ::
+`machine`: `[[type=]<machine type>] [,enable-s3=<1|0>] [,enable-s4=<1|0>] [,viommu=<intel|virtio>]` ::
 
 Specify the QEMU machine.
+
+`enable-s3`=`<boolean>` ;;
+
+Enables S3 power state. Defaults to false beginning with machine types 9.2+pve1, true before.
+
+`enable-s4`=`<boolean>` ;;
+
+Enables S4 power state. Defaults to false beginning with machine types 9.2+pve1, true before.
 
 `type`=`<machine type>` ;;
 
@@ -707,7 +719,7 @@ Configure a VirtIO-based Random Number Generator.
 
 `max_bytes`=`<integer>` ('default =' `1024`);;
 
-Maximum bytes of entropy allowed to get injected into the guest every 'period' milliseconds. Prefer a lower value when using '/dev/random' as source. Use `0` to disable limiting (potentially dangerous!).
+Maximum bytes of entropy allowed to get injected into the guest every 'period' milliseconds. Use `0` to disable limiting (potentially dangerous!).
 
 `period`=`<integer>` ('default =' `1000`);;
 
@@ -715,7 +727,7 @@ Every 'period' milliseconds the entropy-injection quota is reset, allowing the g
 
 `source`=`</dev/hwrng | /dev/random | /dev/urandom>` ;;
 
-The file on the host to gather entropy from. In most cases '/dev/urandom' should be preferred over '/dev/random' to avoid entropy-starvation issues on the host. Using urandom does *not* decrease security in any meaningful way, as it's still seeded from real entropy, and the bytes provided will most likely be mixed with real entropy on the guest as well. '/dev/hwrng' can be used to pass through a hardware RNG from the host.
+The file on the host to gather entropy from. Using urandom does *not* decrease security in any meaningful way, as it's still seeded from real entropy, and the bytes provided will most likely be mixed with real entropy on the guest as well. '/dev/hwrng' can be used to pass through a hardware RNG from the host.
 
 `sata[n]`: `[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]` ::
 
@@ -773,7 +785,7 @@ Controls whether to pass discard/trim requests to the underlying storage.
 
 The drive's backing volume.
 
-`format`=`<cloop | cow | qcow | qcow2 | qed | raw | vmdk>` ;;
+`format`=`<cloop | qcow | qcow2 | qed | raw | vmdk>` ;;
 
 The drive's backing file's data format.
 
@@ -947,7 +959,7 @@ Controls whether to pass discard/trim requests to the underlying storage.
 
 The drive's backing volume.
 
-`format`=`<cloop | cow | qcow | qcow2 | qed | raw | vmdk>` ;;
+`format`=`<cloop | qcow | qcow2 | qed | raw | vmdk>` ;;
 
 The drive's backing file's data format.
 
@@ -1328,7 +1340,7 @@ Controls whether to pass discard/trim requests to the underlying storage.
 
 The drive's backing volume.
 
-`format`=`<cloop | cow | qcow | qcow2 | qed | raw | vmdk>` ;;
+`format`=`<cloop | qcow | qcow2 | qed | raw | vmdk>` ;;
 
 The drive's backing file's data format.
 
@@ -1445,6 +1457,34 @@ Force disk geometry bios translation mode.
 `werror`=`<enospc | ignore | report | stop>` ;;
 
 Write error action.
+
+`virtiofs[n]`: `[dirid=]<mapping-id> [,cache=<enum>] [,direct-io=<1|0>] [,expose-acl=<1|0>] [,expose-xattr=<1|0>] [,writeback=<1|0>]` ::
+
+Configuration for sharing a directory between host and guest using Virtio-fs.
+
+`cache`=`<always | auto | metadata | never>` ('default =' `auto`);;
+
+The caching policy the file system should use (auto, always, metadata, never).
+
+`direct-io`=`<boolean>` ('default =' `0`);;
+
+Honor the O_DIRECT flag passed down by guest applications.
+
+`dirid`=`<mapping-id>` ;;
+
+Mapping identifier of the directory mapping to be shared with the guest. Also used as a mount tag inside the VM.
+
+`expose-acl`=`<boolean>` ('default =' `0`);;
+
+Enable support for POSIX ACLs (enabled ACL implies xattr) for this mount.
+
+`expose-xattr`=`<boolean>` ('default =' `0`);;
+
+Enable support for extended attributes for this mount.
+
+`writeback`=`<boolean>` ('default =' `0`);;
+
+Enable writeback cache. If enabled, writes may be cached in the guest until the file is closed or an fsync is performed.
 
 `vmgenid`: `<UUID>` ('default =' `1 (autogenerated)`)::
 

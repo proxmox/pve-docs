@@ -82,7 +82,7 @@ NFS export path.
 
 Certificate SHA 256 fingerprint.
 
-`--format` `<string>` ::
+`--format` `<qcow2 | raw | subvol | vmdk>` ::
 
 Default image format.
 
@@ -276,9 +276,9 @@ The name of the file to create.
 
 Size in kilobyte (1024 bytes). Optional suffixes 'M' (megabyte, 1024K) and 'G' (gigabyte, 1024M)
 
-`--format` `<qcow2 | raw | subvol>` ::
+`--format` `<qcow2 | raw | subvol | vmdk>` ::
 
-no description available
+Format of the image.
 +
 NOTE: Requires option(s): `size`
 
@@ -650,7 +650,7 @@ Encryption key. Use 'autogen' to generate one automatically without passphrase.
 
 Certificate SHA 256 fingerprint.
 
-`--format` `<string>` ::
+`--format` `<qcow2 | raw | subvol | vmdk>` ::
 
 Default image format.
 
