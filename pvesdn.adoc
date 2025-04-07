@@ -125,6 +125,12 @@ apt update
 apt install frr-pythontools
 ----
 
+Then enable the frr service on all nodes:
+
+----
+systemctl enable frr.service
+----
+
 [[pvesdn_main_configuration]]
 Configuration Overview
 ----------------------
