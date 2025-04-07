@@ -444,11 +444,11 @@ EVPN Controller
 The `EVPN`, zone requires an external controller to manage the control plane.
 The EVPN controller plugin configures the Free Range Routing (frr) router.
 
-To enable the EVPN controller, you need to install frr on every node that shall
-participate in the EVPN zone.
+To enable the EVPN controller, you need to install frr-pythontools on every node
+that shall participate in the EVPN zone.
 
 ----
-apt install frr frr-pythontools
+apt install frr-pythontools
 ----
 
 EVPN controller configuration options:
