@@ -1269,6 +1269,12 @@ Linux VMs with kernel >=5.4 support virtiofs by default
 (https://www.kernelconfig.io/CONFIG_VIRTIO_FS[virtiofs kernel module]), but some
 features require a newer kernel.
 
+To use virtiofs, ensure that virtiofsd is installed on the {pve} host:
+
+----
+apt install virtiofsd
+----
+
 There is a
 https://github.com/virtio-win/kvm-guest-drivers-windows/wiki/Virtiofs:-Shared-file-system[guide]
 available on how to utilize virtiofs in Windows VMs.
