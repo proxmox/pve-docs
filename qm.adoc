@@ -1309,7 +1309,7 @@ has been configured in the resource mapping. Additionally, you can set the
 `cache` option to either `always`, `never`, `metadata`, or `auto` (default:
 `auto`), depending on your requirements. How the different caching modes behave
 can be read https://lwn.net/Articles/774495/[here under the "Caching Modes"
-section]. To enable writeback cache set `writeback` to `1`.
+section].
 
 The `virtiofsd` supports ACL and xattr passthrough (can be enabled with the
 `expose-acl` and `expose-xattr` options), allowing the guest to access ACLs and
@@ -1327,7 +1327,7 @@ applications do their own caching.
 ----
 qm set <vmid> -virtiofs0 dirid=<dirid>,cache=always,direct-io=1
 qm set <vmid> -virtiofs1 <dirid>,cache=never,expose-xattr=1
-qm set <vmid> -virtiofs2 <dirid>,expose-acl=1,writeback=1
+qm set <vmid> -virtiofs2 <dirid>,expose-acl=1
 ----
 
 To temporarily mount virtiofs in a guest VM with the Linux kernel virtiofs
