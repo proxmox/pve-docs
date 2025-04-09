@@ -1,3 +1,12 @@
+pve-docs (8.4.0) bookworm; urgency=medium
+
+  * qemu: consistently use virtiofs term
+
+  * qm: virtiofs: the writeback cache flag has been dropped from the
+    implementation for safety reasons, so remove mentions of it from the docs.
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 09 Apr 2025 08:00:00 +0200
+
 pve-docs (8.3.2) bookworm; urgency=medium
 
   * ha: update and expand CRM section
