@@ -11,30 +11,28 @@ Overview
 [thumbnail="screenshot/gui-datacenter-notification-overview.png"]
 
 * {pve} emits xref:notification_events[Notification Events] in case of
-  storage replication failures, node fencing, finished/failed backups
-  and other events.
-  These events are handled by the notification system. A notification
-  event has metadata, for example a timestamp, a severity level,
-  a type, and other optional metadata fields.
+  storage replication failures, node fencing, finished/failed backups and other
+  events.
+  These events are handled by the notification system. A notification event has
+  metadata, for example a timestamp, a severity level, a type, and other
+  optional metadata fields.
 * xref:notification_matchers[Notification Matchers] route a notification
-  event to one or more notification targets. A matcher can have match
-  rules to selectively route based on the metadata of a notification event.
+  event to one or more notification targets. A matcher can have match rules to
+  selectively route based on the metadata of a notification event.
 * xref:notification_targets[Notification Targets] are a destination to
-  which a notification event is routed to by a matcher.
-  There are multiple types of target, mail-based (Sendmail and SMTP)
-  and Gotify.
+  which a notification event is routed to by a matcher.  There are multiple
+  types of target, mail-based (Sendmail and SMTP) and Gotify.
 
 Backup jobs have a configurable xref:notification_mode[Notification Mode].
-It allows you to choose between the notification system and a legacy mode
-for sending notification emails. The legacy mode is equivalent to the
-way notifications were handled before {pve} 8.1.
+It allows you to choose between the notification system and a legacy mode for
+sending notification emails. The legacy mode is equivalent to the way
+notifications were handled before {pve} 8.1.
 
-The notification system can be configured in the GUI under
-Datacenter → Notifications. The configuration is stored in
-`/etc/pve/notifications.cfg` and `/etc/pve/priv/notifications.cfg` -
-the latter contains sensitive configuration options such as
-passwords or authentication tokens for notification targets and can
-only be read by `root`.
+The notification system can be configured in the GUI under Datacenter →
+Notifications. The configuration is stored in `/etc/pve/notifications.cfg` and
+`/etc/pve/priv/notifications.cfg` - the latter contains sensitive configuration
+options such as passwords or authentication tokens for notification targets and
+can only be read by `root`.
 
 [[notification_targets]]
 Notification Targets
@@ -54,33 +52,32 @@ It is a command-line utility that allows users and applications to send emails
 directly from the command line or from within scripts.
 
 The sendmail notification target uses the `sendmail` binary to send emails to a
-list of configured users or email addresses. If a user is selected as a recipient,
-the email address configured in user's settings will be used.
+list of configured users or email addresses. If a user is selected as a
+recipient, the email address configured in user's settings will be used.
 For the `root@pam` user, this is the email address entered during installation.
-A user's email address can be configured in
-`Datacenter → Permissions → Users`.
+A user's email address can be configured in `Datacenter → Permissions → Users`.
 If a user has no associated email address, no email will be sent.
 
 NOTE: In standard {pve} installations, the `sendmail` binary is provided by
-Postfix. It may be necessary to configure Postfix so that it can deliver
-mails correctly - for example by setting an external mail relay (smart host).
-In case of failed delivery, check the system logs for messages logged by
-the Postfix daemon.
+Postfix. It may be necessary to configure Postfix so that it can deliver mails
+correctly - for example by setting an external mail relay (smart host).  In case
+of failed delivery, check the system logs for messages logged by the Postfix
+daemon.
 
 The configuration for Sendmail target plugins has the following options:
 
 * `mailto`: E-Mail address to which the notification shall be sent to. Can be
-set multiple times to accommodate multiple recipients.
+  set multiple times to accommodate multiple recipients.
 * `mailto-user`: Users to which emails shall be sent to. The user's email
-address will be looked up in `users.cfg`. Can be set multiple times to
-accommodate multiple recipients.
+  address will be looked up in `users.cfg`. Can be set multiple times to
+  accommodate multiple recipients.
 * `author`: Sets the author of the E-Mail. Defaults to `Proxmox VE`.
 * `from-address`: Sets the from address of the E-Mail. If the parameter is not
-set, the plugin will fall back to the `email_from` setting from
-`datacenter.cfg`. If that is also not set, the plugin will default to
-`root@$hostname`, where `$hostname` is the hostname of the node.
+  set, the plugin will fall back to the `email_from` setting from
+  `datacenter.cfg`. If that is also not set, the plugin will default to
+  `root@$hostname`, where `$hostname` is the hostname of the node.
+  The `From` header in the email will be set to `$author <$from-address>`.
 * `comment`: Comment for this target
-The `From` header in the email will be set to `$author <$from-address>`.
 
 Example configuration (`/etc/pve/notifications.cfg`):
 ----
@@ -100,33 +97,33 @@ SMTP
 
 SMTP notification targets can send emails directly to an SMTP mail relay.
 This target does not use the system's MTA to deliver emails.
-Similar to sendmail targets, if a user is selected as a recipient, the user's configured
-email address will be used.
+Similar to sendmail targets, if a user is selected as a recipient, the user's
+configured email address will be used.
 
-NOTE: Unlike sendmail targets, SMTP targets do not have any queuing/retry mechanism
-in case of a failed mail delivery.
+NOTE: Unlike sendmail targets, SMTP targets do not have any queuing/retry
+mechanism in case of a failed mail delivery.
 
 The configuration for SMTP target plugins has the following options:
 
 * `mailto`: E-Mail address to which the notification shall be sent to. Can be
-set multiple times to accommodate multiple recipients.
+  set multiple times to accommodate multiple recipients.
 * `mailto-user`: Users to which emails shall be sent to. The user's email
-address will be looked up in `users.cfg`. Can be set multiple times to
-accommodate multiple recipients.
+  address will be looked up in `users.cfg`. Can be set multiple times to
+  accommodate multiple recipients.
 * `author`: Sets the author of the E-Mail. Defaults to `Proxmox VE`.
 * `from-address`: Sets the From-address of the email. SMTP relays might require
-that this address is owned by the user in order to avoid spoofing.
-The `From` header in the email will be set to `$author <$from-address>`.
+  that this address is owned by the user in order to avoid spoofing.  The `From`
+  header in the email will be set to `$author <$from-address>`.
 * `username`: Username to use during authentication. If no username is set,
-no authentication will be performed. The PLAIN and LOGIN authentication methods
-are supported.
+  no authentication will be performed. The PLAIN and LOGIN authentication
+  methods are supported.
 * `password`: Password to use when authenticating.
 * `mode`: Sets the encryption mode (`insecure`, `starttls` or `tls`). Defaults
-to `tls`.
-* `server`: Address/IP of the SMTP relay
-* `port`: The port to connect to. If not set, the used port
-defaults to 25 (`insecure`), 465 (`tls`) or 587 (`starttls`), depending on the
-value of `mode`.
+  to `tls`.
+* `server`: Address/IP of the SMTP relay.
+* `port`: The port to connect to. If not set, the used port .
+   Defaults to 25 (`insecure`), 465 (`tls`) or 587 (`starttls`), depending on
+   the value of `mode`.
 * `comment`: Comment for this target
 
 Example configuration (`/etc/pve/notifications.cfg`):
@@ -164,11 +161,11 @@ The configuration for Gotify target plugins has the following options:
 
 * `server`: The base URL of the Gotify server, e.g. `http://<ip>:8888`
 * `token`: The authentication token. Tokens can be generated within the Gotify
-web interface.
+  web interface.
 * `comment`: Comment for this target
 
 NOTE: The Gotify target plugin will respect the HTTP proxy settings from the
- xref:datacenter_configuration_file[datacenter configuration]
+xref:datacenter_configuration_file[datacenter configuration]
 
 Example configuration (`/etc/pve/notifications.cfg`):
 ----
@@ -280,22 +277,23 @@ For convenience, the following helpers are available:
 [[notification_matchers]]
 Notification Matchers
 ---------------------
+
 [thumbnail="screenshot/gui-datacenter-notification-matcher.png"]
 
-Notification matchers route notifications to notification targets based
-on their matching rules. These rules can match certain properties of a
-notification, such as the timestamp (`match-calendar`), the severity of
-the notification (`match-severity`) or metadata fields (`match-field`).
+Notification matchers route notifications to notification targets based on their
+matching rules. These rules can match certain properties of a notification, such
+as the timestamp (`match-calendar`), the severity of the notification
+(`match-severity`) or metadata fields (`match-field`).
 If a notification is matched by a matcher, all targets configured for the
 matcher will receive the notification.
 
 An arbitrary number of matchers can be created, each with with their own
 matching rules and targets to notify.
-Every target is notified at most once for every notification, even if
-the target is used in multiple matchers.
+Every target is notified at most once for every notification, even if the target
+is used in multiple matchers.
 
-A matcher without any matching rules is always true; the configured targets
-will always be notified.
+A matcher without any matching rules is always true; the configured targets will
+always be notified.
 ----
 matcher: always-matches
         target admin
@@ -306,20 +304,22 @@ Matcher Options
 ~~~~~~~~~~~~~~~
 
 * `target`: Determine which target should be notified if the matcher matches.
-can be used multiple times to notify multiple targets.
+  can be used multiple times to notify multiple targets.
 * `invert-match`: Inverts the result of the whole matcher
 * `mode`: Determines how the individual match rules are evaluated to compute
-the result for the whole matcher. If set to `all`, all matching rules must
-match. If set to `any`, at least one rule must match.
-a matcher must be true. Defaults to `all`.
-* `match-calendar`: Match the notification's timestamp against a schedule
-* `match-field`: Match the notification's metadata fields
-* `match-severity`: Match the notification's severity
-* `comment`: Comment for this matcher
+  the result for the whole matcher.
+  If set to `all`, all matching rules must match.
+  If set to `any`, at least one rule must match.
+  Defaults to `all`.
+* `match-calendar`: Match the notification's timestamp against a schedule.
+* `match-field`: Match the notification's metadata fields.
+* `match-severity`: Match the notification's severity.
+* `comment`: Comment for this matcher.
 
 [[notification_matchers_calendar]]
 Calendar Matching Rules
 ~~~~~~~~~~~~~~~~~~~~~~~
+
 A calendar matcher matches the time when a notification is sent against a
 configurable schedule.
 
@@ -331,9 +331,10 @@ configurable schedule.
 [[notification_matchers_field]]
 Field Matching Rules
 ~~~~~~~~~~~~~~~~~~~~
-Notifications have a selection of metadata fields that can be matched.
-When using `exact` as a matching mode, a `,` can be used as a separator.
-The matching rule then matches if the metadata field has *any* of the specified
+
+Notifications have a selection of metadata fields that can be matched.  When
+using `exact` as a matching mode, a `,` can be used as a separator.  The
+matching rule then matches if the metadata field has *any* of the specified
 values.
 
 * `match-field exact:type=vzdump` Only match notifications about backups.
@@ -466,24 +467,23 @@ The `legacy-sendmail` mode might be removed in a later release of
 Overriding Notification Templates
 ---------------------------------
 
-{pve} uses Handlebars templates to render notifications. The 
-original templates provided by {pve} are stored in
-`/usr/share/pve-manager/templates/default/`.
+{pve} uses Handlebars templates to render notifications. The original templates
+provided by {pve} are stored in `/usr/share/pve-manager/templates/default/`.
 
-Notification templates can be overridden by providing a custom template
-file in the override directory at `/etc/pve/notification-templates/default/`.
-When rendering a notification of a given type, {pve} will first attempt
-to load a template from the override directory. If this one does not
-exist or fails to render, the original template will be used.
+Notification templates can be overridden by providing a custom template file in
+the override directory at `/etc/pve/notification-templates/default/`.  When
+rendering a notification of a given type, {pve} will first attempt to load a
+template from the override directory. If this one does not exist or fails to
+render, the original template will be used.
 
 The template files follow the naming convention of
 `<type>-<body|subject>.<html|txt>.hbs`. For instance, the file
-`vzdump-body.html.hbs` contains the template for rendering the HTML version
-for backup notifications, while `package-updates-subject.txt.hbs` is used to
-render the subject line of notifications for available package updates.
+`vzdump-body.html.hbs` contains the template for rendering the HTML version for
+backup notifications, while `package-updates-subject.txt.hbs` is used to render
+the subject line of notifications for available package updates.
 
 Email-based notification targets, such as `sendmail` and `smtp`, always send
-multi-part messages with an HTML and a plain text part. As a result, both
-the `<type>-body.html.hbs` as well as the `<type>-body.txt.hbs` template
-will be used when rendering the email message. All other notification
-target types only use the `<type>-body.txt.hbs` template.
+multi-part messages with an HTML and a plain text part. As a result, both the
+`<type>-body.html.hbs` as well as the `<type>-body.txt.hbs` template will be
+used when rendering the email message. All other notification target types only
+use the `<type>-body.txt.hbs` template.
