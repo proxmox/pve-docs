@@ -462,3 +462,28 @@ to `auto`.
 
 The `legacy-sendmail` mode might be removed in a later release of
 {pve}.
+
+Overriding Notification Templates
+---------------------------------
+
+{pve} uses Handlebars templates to render notifications. The 
+original templates provided by {pve} are stored in
+`/usr/share/pve-manager/templates/default/`.
+
+Notification templates can be overridden by providing a custom template
+file in the override directory at `/etc/pve/notification-templates/default/`.
+When rendering a notification of a given type, {pve} will first attempt
+to load a template from the override directory. If this one does not
+exist or fails to render, the original template will be used.
+
+The template files follow the naming convention of
+`<type>-<body|subject>.<html|txt>.hbs`. For instance, the file
+`vzdump-body.html.hbs` contains the template for rendering the HTML version
+for backup notifications, while `package-updates-subject.txt.hbs` is used to
+render the subject line of notifications for available package updates.
+
+Email-based notification targets, such as `sendmail` and `smtp`, always send
+multi-part messages with an HTML and a plain text part. As a result, both
+the `<type>-body.html.hbs` as well as the `<type>-body.txt.hbs` template
+will be used when rendering the email message. All other notification
+target types only use the `<type>-body.txt.hbs` template.
