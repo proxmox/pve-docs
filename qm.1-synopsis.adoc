@@ -473,7 +473,7 @@ Configure the VGA hardware.
 
 Use volume as VIRTIO hard disk (n is 0 to 15). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.
 
-`--virtiofs[n]` `[dirid=]<mapping-id> [,cache=<enum>] [,direct-io=<1|0>] [,expose-acl=<1|0>] [,expose-xattr=<1|0>] [,writeback=<1|0>]` ::
+`--virtiofs[n]` `[dirid=]<mapping-id> [,cache=<enum>] [,direct-io=<1|0>] [,expose-acl=<1|0>] [,expose-xattr=<1|0>]` ::
 
 Configuration for sharing a directory between host and guest using Virtio-fs.
 
@@ -1068,7 +1068,7 @@ Configure the VGA hardware.
 
 Use volume as VIRTIO hard disk (n is 0 to 15).
 
-`--virtiofs[n]` `[dirid=]<mapping-id> [,cache=<enum>] [,direct-io=<1|0>] [,expose-acl=<1|0>] [,expose-xattr=<1|0>] [,writeback=<1|0>]` ::
+`--virtiofs[n]` `[dirid=]<mapping-id> [,cache=<enum>] [,direct-io=<1|0>] [,expose-acl=<1|0>] [,expose-xattr=<1|0>]` ::
 
 Configuration for sharing a directory between host and guest using Virtio-fs.
 
@@ -1664,7 +1664,7 @@ Configure the VGA hardware.
 
 Use volume as VIRTIO hard disk (n is 0 to 15). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.
 
-`--virtiofs[n]` `[dirid=]<mapping-id> [,cache=<enum>] [,direct-io=<1|0>] [,expose-acl=<1|0>] [,expose-xattr=<1|0>] [,writeback=<1|0>]` ::
+`--virtiofs[n]` `[dirid=]<mapping-id> [,cache=<enum>] [,direct-io=<1|0>] [,expose-acl=<1|0>] [,expose-xattr=<1|0>]` ::
 
 Configuration for sharing a directory between host and guest using Virtio-fs.
 

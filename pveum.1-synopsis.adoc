@@ -290,7 +290,7 @@ LDAP attribute representing a groups name. If not set or found, the first value 
 
 Automatically create groups if they do not exist.
 
-`--groups-claim` `(?^:A-Za-z0-9\.\-_)` ::
+`--groups-claim` `(?^:[A-Za-z0-9\.\-_]+)` ::
 
 OpenID claim used to retrieve groups with.
 
@@ -482,7 +482,7 @@ LDAP attribute representing a groups name. If not set or found, the first value 
 
 Automatically create groups if they do not exist.
 
-`--groups-claim` `(?^:A-Za-z0-9\.\-_)` ::
+`--groups-claim` `(?^:[A-Za-z0-9\.\-_]+)` ::
 
 OpenID claim used to retrieve groups with.
 
