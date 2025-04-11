@@ -206,6 +206,6 @@ intel-microcode set on hold.
 ----
 # apt-mark unhold intel-microcode
 # apt update
-# apt upgrade
+# apt full-upgrade
 ----
 ====
