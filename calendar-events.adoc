@@ -58,6 +58,11 @@ First are hours, then minutes. Hours can be omitted if not needed. In this
 case `'*'` is assumed for the value of hours.
 The valid range for values is `0-23` for hours and `0-59` for minutes.
 
+NOTE: You can use `systemd-analyze calendar` to see whether a given calendar
+event specification is valid and when it would be triggered next. By passing the
+`--iterations=<N>` flag you can also let it output the next `<N>` times the
+calendar event would trigger (you need to replace `<N>` with a valid integer).
+
 [[pvesr_schedule_format_examples]]
 Examples:
 ~~~~~~~~~
