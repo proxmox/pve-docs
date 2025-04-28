@@ -163,7 +163,7 @@ clashes in the cluster communication stack. Furthermore, this helps avoid human
 confusion by making clusters clearly distinguishable.
 
 While the bandwidth requirement of a corosync cluster is relatively low, the
-latency of packages and the package per second (PPS) rate is the limiting
+latency of packets and the packets per second (PPS) rate is the limiting
 factor. Different clusters in the same network can compete with each other for
 these resources, so it may still make sense to use separate physical network
 infrastructure for bigger clusters.
