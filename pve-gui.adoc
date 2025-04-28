@@ -404,7 +404,7 @@ Tags can also be set via the CLI, where multiple tags are separated by semicolon
 For example:
 
 ----
-# qm set ID --tags myfirsttag;mysecondtag
+# qm set ID --tags 'myfirsttag;mysecondtag'
 ----
 
 Style Configuration
