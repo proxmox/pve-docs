@@ -33,9 +33,16 @@ you can enable it with the command:
 
 For more information on how to use smartctl, please see `man smartctl`.
 
-By default, smartmontools daemon smartd is active and enabled, and scans
-the disks under /dev/sdX and /dev/hdX every 30 minutes for errors and warnings, and sends an
-e-mail to root if it detects a problem.
+By default, the smartmontools daemon smartd is active and enabled, and scans
+any devices matching
+
+- `/dev/sd[a-z]`
+- `/dev/sd[a-z][a-z]`
+- `/dev/hd[a-t]`
+- or `/dev/nvme[0-99]`
+
+every 30 minutes for errors and warnings, and sends an e-mail to root if it
+detects a problem.
 
 For more information about how to configure smartd, please see `man smartd` and
 `man smartd.conf`.
