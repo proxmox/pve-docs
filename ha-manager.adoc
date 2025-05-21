@@ -121,8 +121,6 @@ You must meet the following requirements before you start with HA:
 * hardware watchdog - if not available we fall back to the
   linux kernel software watchdog (`softdog`)
 
-* optional hardware fencing devices
-
 
 [[ha_manager_resources]]
 Resources
