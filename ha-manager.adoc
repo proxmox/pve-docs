@@ -118,8 +118,8 @@ You must meet the following requirements before you start with HA:
 
 * use reliable “server” components
 
-* hardware watchdog - if not available we fall back to the
-  linux kernel software watchdog (`softdog`)
+Optionally, a hardware watchdog can be used - if not available we fall back to
+the linux kernel software watchdog (`softdog`).
 
 
 [[ha_manager_resources]]
