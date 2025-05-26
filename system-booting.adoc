@@ -53,7 +53,7 @@ the `vfat` formatted ESPs. In the context of ZFS as root filesystem this means
 that you can use all optional features on your root pool instead of the subset
 which is also present in the ZFS implementation in GRUB or having to create a
 separate small boot-pool footnote:[Booting ZFS on root with GRUB
-https://github.com/zfsonlinux/zfs/wiki/Debian-Stretch-Root-on-ZFS].
+https://openzfs.github.io/openzfs-docs/Getting%20Started/Debian/Debian%20Bookworm%20Root%20on%20ZFS.html].
 
 In setups with redundancy all disks are partitioned with an ESP, by the
 installer. This ensures the system boots even if the first boot device fails
