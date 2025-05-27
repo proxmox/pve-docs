@@ -2030,7 +2030,7 @@ router bgp 25253
  exit-address-family
  !
 !
----
+----
 
 Route Reflectors
 ^^^^^^^^^^^^^^^^
@@ -2064,7 +2064,7 @@ router bgp 1234
   !
   exit
 !
----
+----
 
 rrserver2
 ----
@@ -2087,7 +2087,7 @@ router bgp 1234
   !
   exit
 !
----
+----
 
 proxmoxnode(s)
 ----
