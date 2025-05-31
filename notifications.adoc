@@ -69,7 +69,7 @@ The configuration for Sendmail target plugins has the following options:
 * `mailto`: E-Mail address to which the notification shall be sent to. Can be
   set multiple times to accommodate multiple recipients.
 * `mailto-user`: Users to which emails shall be sent to. The user's email
-  address will be looked up in `users.cfg`. Can be set multiple times to
+  address will be looked up in `user.cfg`. Can be set multiple times to
   accommodate multiple recipients.
 * `author`: Sets the author of the E-Mail. Defaults to `Proxmox VE`.
 * `from-address`: Sets the from address of the E-Mail. If the parameter is not
@@ -108,7 +108,7 @@ The configuration for SMTP target plugins has the following options:
 * `mailto`: E-Mail address to which the notification shall be sent to. Can be
   set multiple times to accommodate multiple recipients.
 * `mailto-user`: Users to which emails shall be sent to. The user's email
-  address will be looked up in `users.cfg`. Can be set multiple times to
+  address will be looked up in `user.cfg`. Can be set multiple times to
   accommodate multiple recipients.
 * `author`: Sets the author of the E-Mail. Defaults to `Proxmox VE`.
 * `from-address`: Sets the From-address of the email. SMTP relays might require
