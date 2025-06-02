@@ -1,3 +1,9 @@
+pve-docs (9.0.0) trixie; urgency=medium
+
+  * re-build for Debian 13 "Trixie" based Proxmox releases.
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 02 Jun 2025 18:59:56 +0200
+
 pve-docs (8.4.0) bookworm; urgency=medium
 
   * qemu: consistently use virtiofs term
