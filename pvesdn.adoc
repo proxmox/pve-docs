@@ -799,6 +799,10 @@ URL:: The NetBox REST API endpoint: `http://yournetbox.domain.com/api`
 
 Token:: An API access token
 
+Fingerprint:: The SHA-256 fingerprint of the NetBox API. Can be retrieved with
+  `openssl x509 -in /etc/ssl/certs/netbox.crt -noout -fingerprint -sha256` when
+  using the default certificate.
+
 
 [[pvesdn_ipam_plugin_phpipam]]
 phpIPAM Plugin
