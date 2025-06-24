@@ -1133,34 +1133,25 @@ or the CLI:
 ceph -s
 ----
 
-To disable all self-healing actions, and to pause any client IO in the Ceph
-cluster, enable the following OSD flags in the **Ceph -> OSD** panel or via the
-CLI:
+In order to not cause any recovery during the shut down and later power on
+phases, enable the 'noout' OSD flag. Either in the **Ceph -> OSD** panel behind
+the **Manage Global Flags** button or the CLI:
 
 [source,bash]
 ----
 ceph osd set noout
-ceph osd set norecover
-ceph osd set norebalance
-ceph osd set nobackfill
-ceph osd set nodown
-ceph osd set pause
 ----
 
 Start powering down your nodes without a monitor (MON). After these nodes are
 down, continue by shutting down nodes with monitors on them.
 
 When powering on the cluster, start the nodes with monitors (MONs) first. Once
-all nodes are up and running, confirm that all Ceph services are up and running
-before you unset the OSD flags again:
+all nodes are up and running, confirm that all Ceph services are up and running.
+In the end, the only warning you should see for Ceph is that the 'noout' flag
+is still set. You can disable it via the web UI or via the CLI:
 
 [source,bash]
 ----
-ceph osd unset pause
-ceph osd unset nodown
-ceph osd unset nobackfill
-ceph osd unset norebalance
-ceph osd unset norecover
 ceph osd unset noout
 ----
 
