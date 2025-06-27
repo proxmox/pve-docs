@@ -68,9 +68,31 @@ Requirements
 * If you are interested in High Availability, you need to have at
   least three nodes for reliable quorum. All nodes should have the
   same version.
++
+NOTE: For smaller 2-node clusters, the xref:_corosync_external_vote_support[QDevice]
+can be used to provide a 3rd vote.
 
-* We recommend a dedicated NIC for the cluster traffic, especially if
-  you use shared storage.
+* We recommend a dedicated physical NIC for the cluster traffic.
++
+NOTE: The {pve} cluster communication uses the Corosync protocol. It needs consistent
+low latency but not a lot of bandwidth. A dedicated 1 Gbit NIC is enough in
+most situations. It helps to avoid situations where other services can use up
+all the available bandwidth. Which in turn would increase the latency for the
+Corosync packets.
+
+* Additional links for cluster traffic offers redundancy in case the dedicated
+network is down.
++
+NOTE: Corosync supports up to 8 links.
++
+NOTE: To ensure reliable Corosync redundancy, it is essential to have at least
+another link on a different physical network. This enables Corosync to keep the
+cluster communication alive should the dedicated network be down.
++
+NOTE: A single link backed by a bond is not enough to provide Corosync
+redundancy. When a bonded interface fails and Corosync cannot fall back to
+another link, it can lead to  asymmetric communication in the cluster, which in
+turn can lead to the cluster losing quorum.
 
 * The root password of a cluster node is required for adding nodes.
 
