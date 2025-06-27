@@ -999,6 +999,7 @@ case $- in
 esac
 ----
 
+[[_corosync_external_vote_support]]
 Corosync External Vote Support
 ------------------------------
 
