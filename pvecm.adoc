@@ -77,18 +77,6 @@ Requirements
 * Online migration of virtual machines is only supported when nodes have CPUs
   from the same vendor. It might work otherwise, but this is never guaranteed.
 
-NOTE: It is not possible to mix {pve} 3.x and earlier with {pve} 4.X cluster
-nodes.
-
-NOTE: While it's possible to mix {pve} 4.4 and {pve} 5.0 nodes, doing so is
-not supported as a production configuration and should only be done temporarily,
-during an upgrade of the whole cluster from one major version to another.
-
-NOTE: Running a cluster of {pve} 6.x with earlier versions is not possible. The
-cluster protocol (corosync) between {pve} 6.x and earlier versions changed
-fundamentally. The corosync 3 packages for {pve} 5.4 are only intended for the
-upgrade procedure to {pve} 6.0.
-
 
 Preparing Nodes
 ---------------
