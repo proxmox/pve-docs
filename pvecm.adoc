@@ -54,7 +54,7 @@ Grouping nodes into a cluster has the following advantages:
 
 * Cluster-wide services like firewall and HA
 
-
+[[pvecm_cluster_requirements]]
 Requirements
 ------------
 
