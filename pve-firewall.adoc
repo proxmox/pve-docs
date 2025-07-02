@@ -739,6 +739,8 @@ This implementation uses the same configuration files and configuration format,
 so you can use your old configuration when switching. It provides the exact same
 functionality with a few exceptions:
 
+* When using Linux bridges, no additional firewall bridges (fwbrX) will be
+  created. Guest interfaces using OVS bridges will still have firewall bridges.
 * REJECT is currently not possible for guest traffic (traffic will instead be
   dropped).
 * Using the `NDP`, `Router Advertisement` or `DHCP` options will *always* create
