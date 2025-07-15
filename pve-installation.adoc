@@ -281,7 +281,9 @@ NOTE: If set to `0`, no `swap` volume will be created.
 `maxroot`::
 
 Defines the maximum size of the `root` volume, which stores the operation
-system. The maximum limit of the `root` volume size is `hdsize/4`.
+system. With more than 48GiB storage available, the default is `hdsize/4`
+with a maximum of 96 GiB. Below 48GiB, the `root` volume size is at least
+`hdsize/2`.
 
 `maxvz`::
 
