@@ -274,16 +274,17 @@ VG on the same hard disk that can be used for LVM storage).
 
 Defines the size of the `swap` volume. The default is the size of the installed
 memory, minimum 4 GB and maximum 8 GB. The resulting value cannot be greater
-than `hdsize/8`.
+than one eight of the size of the hard drive (`hdsize / 8`).
 +
 NOTE: If set to `0`, no `swap` volume will be created.
 
 `maxroot`::
 
 Defines the maximum size of the `root` volume, which stores the operation
-system. With more than 48GiB storage available, the default is `hdsize/4`
-with a maximum of 96 GiB. Below 48GiB, the `root` volume size is at least
-`hdsize/2`.
+system. With more than 48 GiB storage available, the default is a quarter of
+the the size of the hard drive (`hdsize / 4`) with a maximum of 96 GiB.
+With less than 48 GiB of storage available, the root volume size is at least
+half the size of the hard drive (`hdsize / 2`).
 
 `maxvz`::
 
