@@ -21,8 +21,10 @@ new software, but are also important to get new updates.
 NOTE: You need valid Debian and Proxmox repositories to get the latest
 security updates, bug fixes and new features.
 
-APT Repositories are defined in the file `/etc/apt/sources.list` and in `.list`
-files placed in `/etc/apt/sources.list.d/`.
+APT Repositories are defined in the file `/etc/apt/sources.list` in the legacy
+single-line format and in `.sources` files placed in `/etc/apt/sources.list.d/`
+for the modern deb822 multi-line format, see
+xref:sysadmin_apt_repo_formats[Repository Formats] for details.
 
 Repository Management
 ^^^^^^^^^^^^^^^^^^^^^
@@ -37,25 +39,58 @@ repositories.
 Basic repository management, for example, activating or deactivating a
 repository, is also supported.
 
-Sources.list
-^^^^^^^^^^^^
+The available packages from a repository are acquired by running `apt update`.
+Updates can be installed directly using `apt`, or via the GUI (Node -> Updates).
 
-In a `sources.list` file, each line defines a package repository. The preferred
-source must come first.  Empty lines are ignored. A `#` character anywhere on a
-line marks the remainder of that line as a comment. The available packages from
-a repository are acquired by running `apt-get update`. Updates can be installed
-directly using `apt-get`, or via the GUI (Node -> Updates).
+[[sysadmin_apt_repo_formats]]
+Repository Formats
+^^^^^^^^^^^^^^^^^^
 
-.File `/etc/apt/sources.list`
+Package repositories can be configured in the source list
+'/etc/apt/sources.list' and the files contained in '/etc/apt/sources.list.d/'.
+
+There are two formats supported:
+
+single line::
+
+In a single-line `sources.list` file, each line defines a package repository.
+Empty lines are ignored. A `#` character anywhere on a line marks the remainder
+of that line as a comment.
+This is the legacy format. Since Debian 13 Trixie apt will complain about using
+this format. You can automatically migrate most repositories using the `apt
+modernize-sources` command.
+
+deb822::
+
+In the multi-line format `repo.sources` file each entry consists of multiple
+lines of key-value pairs. A file can include multiple entries by separating each
+group with a blank line. This is the modern format.
+
+Available Repositories
+^^^^^^^^^^^^^^^^^^^^^^
+
+{pve} provides three different package repositories in addition to requiring the
+base Debian repositories.
+
+
+Debian Base Repositories
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.File `/etc/apt/sources.list.d/debian.sources`
 ----
-deb http://deb.debian.org/debian bookworm main contrib
-deb http://deb.debian.org/debian bookworm-updates main contrib
+Types: deb deb-src
+URIs: http://deb.debian.org/debian/
+Suites: trixie trixie-updates
+Components: main non-free-firmware
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 
-# security updates
-deb http://security.debian.org/debian-security bookworm-security main contrib
+Types: deb deb-src
+URIs: http://security.debian.org/debian-security/
+Suites: trixie-security
+Components: main non-free-firmware
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 ----
 
-{pve} provides three different package repositories.
 
 [[sysadmin_enterprise_repo]]
 {pve} Enterprise Repository
@@ -65,9 +100,13 @@ This is the recommended repository and available for all {pve} subscription
 users. It contains the most stable packages and is suitable for production use.
 The `pve-enterprise` repository is enabled by default:
 
-.File `/etc/apt/sources.list.d/pve-enterprise.list`
+.File `/etc/apt/sources.list.d/pve-enterprise.sources`
 ----
-deb https://enterprise.proxmox.com/debian/pve bookworm pve-enterprise
+Types: deb
+URIs: https://enterprise.proxmox.com/debian/pve
+Suites: trixie
+Components: pve-enterprise
+Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
 ----
 
 Please note that you need a valid subscription key to access the
@@ -83,26 +122,25 @@ repository in that case.
 {pve} No-Subscription Repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-As the name suggests, you do not need a subscription key to access
-this repository. It can be used for testing and non-production
-use. It's not recommended to use this on production servers, as these
-packages are not always as heavily tested and validated.
+As the name suggests, you do not need a subscription key to access this
+repository. It can be used for testing and non-production use. It's not
+recommended to use this on production servers, as these packages are not always
+as heavily tested and validated.
 
-We recommend to configure this repository in `/etc/apt/sources.list`.
+We recommend to configure this repository in
+`/etc/apt/sources.list.d/proxmox.sources`.
 
-.File `/etc/apt/sources.list`
+.File `/etc/apt/sources.list.d/proxmox.sources`
 ----
-deb http://ftp.debian.org/debian bookworm main contrib
-deb http://ftp.debian.org/debian bookworm-updates main contrib
-
-# Proxmox VE pve-no-subscription repository provided by proxmox.com,
-# NOT recommended for production use
-deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription
-
-# security updates
-deb http://security.debian.org/debian-security bookworm-security main contrib
+Types: deb
+URIs: http://download.proxmox.com/debian/pve
+Suites: trixie
+Components: pve-no-subscription
+Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
 ----
 
+NOTE: Remember that you will always need the base Debian repositories in
+addition to a {pve} Proxmox repository
 
 [[sysadmin_test_repo]]
 {pve} Test Repository
@@ -112,12 +150,16 @@ This repository contains the latest packages and is primarily used by developers
 to test new features. To configure it, add the following line to
 `/etc/apt/sources.list`:
 
-.sources.list entry for `pvetest`
+.File `/etc/apt/sources.list.d/proxmox.sources`
 ----
-deb http://download.proxmox.com/debian/pve bookworm pvetest
+Types: deb
+URIs: http://download.proxmox.com/debian/pve
+Suites: trixie
+Components: pve-test
+Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
 ----
 
-WARNING: The `pvetest` repository should (as the name implies) only be used for
+WARNING: The `pve-test` repository should (as the name implies) only be used for
 testing new features or bug fixes.
 
 [[sysadmin_package_repositories_ceph]]
@@ -128,9 +170,13 @@ This repository holds the enterprise {pve} Ceph 19.2 Squid packages. They are
 suitable for production. Use this repository if you run the Ceph client or a
 full Ceph cluster on {pve}.
 
-.File `/etc/apt/sources.list.d/ceph.list`
+.File `/etc/apt/sources.list.d/ceph.sources`
 ----
-deb https://enterprise.proxmox.com/debian/ceph-squid bookworm enterprise
+Types: deb
+URIs: https://enterprise.proxmox.com/debian/ceph-squid
+Suites: trixie
+Components: enterprise
+Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
 ----
 
 
@@ -143,9 +189,13 @@ to the enterprise repository and after they where on the test repository.
 NOTE: It's recommended to use the enterprise repository for production
 machines.
 
-.File `/etc/apt/sources.list.d/ceph.list`
+.File `/etc/apt/sources.list.d/ceph.sources`
 ----
-deb http://download.proxmox.com/debian/ceph-squid bookworm no-subscription
+Types: deb
+URIs: http://download.proxmox.com/debian/ceph-squid
+Suites: trixie
+Components: no-subscription
+Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
 ----
 
 
@@ -155,95 +205,21 @@ Ceph Squid Test Repository
 This Ceph repository contains the Ceph 19.2 Squid packages before they are moved
 to the main repository. It is used to test new Ceph releases on {pve}.
 
-.File `/etc/apt/sources.list.d/ceph.list`
+.File `/etc/apt/sources.list.d/ceph.sources`
 ----
-deb http://download.proxmox.com/debian/ceph-squid bookworm test
-----
-
-Ceph Reef Enterprise Repository
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This repository holds the enterprise {pve} Ceph 18.2 Reef packages. They are
-suitable for production. Use this repository if you run the Ceph client or a
-full Ceph cluster on {pve}.
-
-.File `/etc/apt/sources.list.d/ceph.list`
-----
-deb https://enterprise.proxmox.com/debian/ceph-reef bookworm enterprise
-----
-
-
-Ceph Reef No-Subscription Repository
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This Ceph repository contains the Ceph 18.2 Reef packages before they are moved
-to the enterprise repository and after they where on the test repository.
-
-NOTE: It's recommended to use the enterprise repository for production
-machines.
-
-.File `/etc/apt/sources.list.d/ceph.list`
-----
-deb http://download.proxmox.com/debian/ceph-reef bookworm no-subscription
-----
-
-
-Ceph Reef Test Repository
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This Ceph repository contains the Ceph 18.2 Reef packages before they are moved
-to the main repository. It is used to test new Ceph releases on {pve}.
-
-.File `/etc/apt/sources.list.d/ceph.list`
-----
-deb http://download.proxmox.com/debian/ceph-reef bookworm test
-----
-
-Ceph Quincy Enterprise Repository
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This repository holds the enterprise {pve} Ceph Quincy packages. They are
-suitable for production. Use this repository if you run the Ceph client or a
-full Ceph cluster on {pve}.
-
-.File `/etc/apt/sources.list.d/ceph.list`
-----
-deb https://enterprise.proxmox.com/debian/ceph-quincy bookworm enterprise
-----
-
-
-Ceph Quincy No-Subscription Repository
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This Ceph repository contains the Ceph Quincy packages before they are moved
-to the enterprise repository and after they where on the test repository.
-
-NOTE: It's recommended to use the enterprise repository for production
-machines.
-
-.File `/etc/apt/sources.list.d/ceph.list`
-----
-deb http://download.proxmox.com/debian/ceph-quincy bookworm no-subscription
-----
-
-
-Ceph Quincy Test Repository
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This Ceph repository contains the Ceph Quincy packages before they are moved
-to the main repository. It is used to test new Ceph releases on {pve}.
-
-.File `/etc/apt/sources.list.d/ceph.list`
-----
-deb http://download.proxmox.com/debian/ceph-quincy bookworm test
+Types: deb
+URIs: http://download.proxmox.com/debian/ceph-squid
+Suites: trixie
+Components: test
+Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
 ----
 
 Older Ceph Repositories
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-{pve} 8 doesn't support Ceph Pacific, Ceph Octopus, or even older releases for
+{pve} 9 doesn't support Ceph Reef, Ceph Quincy, or even older releases for
 hyper-converged setups. For those releases, you need to first upgrade Ceph to a
-newer release before upgrading to Proxmox VE 8.
+newer release before upgrading to Proxmox VE 9.
 
 See the respective
 https://pve.proxmox.com/wiki/Category:Ceph_Upgrade[upgrade guide] for details.
@@ -257,8 +233,10 @@ Starting with Debian Bookworm ({pve} 8) non-free firmware (as defined by
 https://www.debian.org/social_contract#guidelines[DFSG]) has been moved to the
 newly created Debian repository component `non-free-firmware`.
 
-Enable this repository if you want to set up
-xref:sysadmin_firmware_cpu[Early OS Microcode Updates] or need additional
+Since {pve} 9 this repository is enabled by default for new installations to
+ensure they can get xref:sysadmin_firmware_cpu[Early OS Microcode Updates].
+
+You can also acquire need additional
 xref:sysadmin_firmware_runtime_files[Runtime Firmware Files] not already
 included in the pre-installed package `pve-firmware`.
 
@@ -282,21 +260,23 @@ If you install {pve} on top of Debian, download and install
 the key with the following commands:
 
 ----
- # wget https://enterprise.proxmox.com/debian/proxmox-release-bookworm.gpg -O /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
+ # wget https://enterprise.proxmox.com/debian/proxmox-release-trixie.gpg -O
+ /etc/apt/trusted.gpg.d/proxmox-release-trixie.gpg
 ----
 
 Verify the checksum afterwards with the `sha512sum` CLI tool:
 
 ----
-# sha512sum /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
-7da6fe34168adc6e479327ba517796d4702fa2f8b4f0a9833f5ea6e6b48f6507a6da403a274fe201595edc86a84463d50383d07f64bdde2e3658108db7d6dc87 /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
+# sha512sum /etc/apt/trusted.gpg.d/proxmox-release-trixie.gpg
+7da6fe34168adc6e479327ba517796d4702fa2f8b4f0a9833f5ea6e6b48f6507a6da403a274fe201595edc86a84463d50383d07f64bdde2e3658108db7d6dc87
+/etc/apt/trusted.gpg.d/proxmox-release-trixie.gpg
 ----
 
 or the `md5sum` CLI tool:
 
 ----
-# md5sum /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
-41558dc019ef90bd0f6067644a51cf5b /etc/apt/trusted.gpg.d/proxmox-release-bookworm.gpg
+# md5sum /etc/apt/trusted.gpg.d/proxmox-release-trixie.gpg
+41558dc019ef90bd0f6067644a51cf5b /etc/apt/trusted.gpg.d/proxmox-release-trixie.gpg
 ----
 
 
