@@ -1,3 +1,26 @@
+pve-docs (9.0.1) trixie; urgency=medium
+
+  * firewall: nftables: document new firewall bridge behavior.
+
+  * installation: remove maxroot size requirement and mention default instead.
+
+  * installation: reword explanation for maxroot and swap a bit.
+
+  * asciidoc conf: update ceph base url for PVE 9 baseline Ceph 19.2 Squid.
+
+  * faq: mention PVE 9 and add preliminary EOL for PVE 8 (can still be subject
+    to change).
+
+  * apt repositories: initial update for PVE 9 / Debian Trixie based repos.
+
+  * wiki: apt repositories: drop full repository list for PVE 5 and older.
+
+  * pvecm: update reference to votequorum qedvic manual page.
+
+  * update static/schema information.
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 16 Jul 2025 02:37:42 +0200
+
 pve-docs (9.0.0) trixie; urgency=medium
 
   * re-build for Debian 13 "Trixie" based Proxmox releases.
