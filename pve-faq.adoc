@@ -89,7 +89,8 @@ recommended.
 [width="100%",cols="5*d",options="header"]
 |===============================================================================
 | {pve} Version | Debian Version      | First Release | Debian EOL | Proxmox EOL
-| {pve} 8       | Debian 12 (Bookworm)| 2023-06       | tba        | tba
+| {pve} 9       | Debian 13 (Trixie)  | 2025-0?       | tba        | tba
+| {pve} 8       | Debian 12 (Bookworm)| 2023-06       | 2026-08    | 2026-08
 | {pve} 7       | Debian 11 (Bullseye)| 2021-07       | 2024-07    | 2024-07
 | {pve} 6       | Debian 10 (Buster)  | 2019-07       | 2022-09    | 2022-09
 | {pve} 5       | Debian 9 (Stretch)  | 2017-07       | 2020-07    | 2020-07
@@ -102,8 +103,8 @@ recommended.
 [[faq-upgrade]]
 How can I upgrade {pve} to the next point release?::
 
-Minor version upgrades, for example upgrading from {pve} in version 7.1
-to 7.2 or 7.3, can be done just like any normal update.
+Minor version upgrades, for example upgrading from {pve} in version 8.1
+to 8.2 or 8.3, can be done just like any normal update.
 But you should still check the https://pve.proxmox.com/wiki/Roadmap[release notes]
 for any relevant notable, or breaking change.
 +
@@ -122,7 +123,7 @@ continue with the actual upgrade if `apt update` did not hit any error.
 [[faq-upgrade-major]]
 How can I upgrade {pve} to the next major release?::
 
-Major version upgrades, for example going from {pve} 4.4 to 5.0, are also
+Major version upgrades, for example going from {pve} 8.4 to 9.0, are also
 supported.
 They must be carefully planned and tested and should *never* be started without
 having a current backup ready.
@@ -130,6 +131,8 @@ having a current backup ready.
 Although the specific upgrade steps depend on your respective setup, we provide
 general instructions and advice of how a upgrade should be performed:
 +
+* https://pve.proxmox.com/wiki/Upgrade_from_7_to_8[Upgrade from {pve} 8 to 9]
+
 * https://pve.proxmox.com/wiki/Upgrade_from_7_to_8[Upgrade from {pve} 7 to 8]
 
 * https://pve.proxmox.com/wiki/Upgrade_from_6.x_to_7.0[Upgrade from {pve} 6 to 7]
