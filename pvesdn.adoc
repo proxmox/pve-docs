@@ -168,9 +168,9 @@ Technology & Configuration
 
 The {pve} Software-Defined Network implementation uses standard Linux networking
 as much as possible. The reason for this is that modern Linux networking
-provides almost all needs for a feature full SDN implementation and avoids adding
-external dependencies and reduces the overall amount of components that can
-break.
+provides almost all needs for a feature full SDN implementation and avoids
+adding external dependencies and reduces the overall amount of components that
+can break.
 
 The {pve} SDN configurations are located in `/etc/pve/sdn`, which is shared with
 all other cluster nodes through the {pve} xref:chapter_pmxcfs[configuration file system].
@@ -225,7 +225,8 @@ DNS:: DNS API server. Optional.
 ReverseDNS:: Reverse DNS API server. Optional.
 
 DNSZone:: DNS domain name. Used to register hostnames, such as
-  `<hostname>.<domain>`. The DNS zone must already exist on the DNS server. Optional.
+`<hostname>.<domain>`. The DNS zone must already exist on the DNS server.
+Optional.
 
 
 [[pvesdn_zone_plugin_simple]]
@@ -573,10 +574,10 @@ you also have to select the interfaces used to communicate with the other nodes.
 Loopback Prefix
 ^^^^^^^^^^^^^^^
 
-You can specify a CIDR network range (e.g., 192.0.2.0/24) as a loopback prefix for the fabric. 
-When configured, the system will automatically verify that all router-IDs are contained within 
-this prefix. This ensures consistency in your addressing scheme and helps prevent addressing 
-conflicts or errors.
+You can specify a CIDR network range (e.g., 192.0.2.0/24) as a loopback prefix
+for the fabric.  When configured, the system will automatically verify that all
+router-IDs are contained within this prefix. This ensures consistency in your
+addressing scheme and helps prevent addressing conflicts or errors.
 
 Router-ID Selection
 ^^^^^^^^^^^^^^^^^^^
@@ -591,12 +592,12 @@ fabric (it's also passive by default).
 RouteMaps
 ^^^^^^^^^
 
-For every fabric, an access-list and a route-map are automatically created. These 
-configure the router to rewrite the source address of outgoing packets. When you 
-communicate with another node (for example, by pinging it), this ensures that 
-traffic originates from the local dummy interface's IP address rather than from 
-the physical interface. This provides consistent routing behavior and proper 
-source address selection throughout the fabric.
+For every fabric, an access-list and a route-map are automatically created.
+These configure the router to rewrite the source address of outgoing packets.
+When you communicate with another node (for example, by pinging it), this
+ensures that traffic originates from the local dummy interface's IP address
+rather than from the physical interface. This provides consistent routing
+behavior and proper source address selection throughout the fabric.
 
 [[pvesdn_openfabric]]
 OpenFabric
