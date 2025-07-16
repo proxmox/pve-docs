@@ -8095,6 +8095,7 @@ const apiSchema = [
                                           "aws",
                                           "azion",
                                           "azure",
+                                          "beget",
                                           "bookmyname",
                                           "bunny",
                                           "cf",
@@ -8126,11 +8127,13 @@ const apiSchema = [
                                           "dynu",
                                           "dynv6",
                                           "easydns",
+                                          "edgecenter",
                                           "edgedns",
                                           "euserv",
                                           "exoscale",
                                           "fornex",
                                           "freedns",
+                                          "freemyip",
                                           "gandi_livedns",
                                           "gcloud",
                                           "gcore",
@@ -8138,6 +8141,7 @@ const apiSchema = [
                                           "geoscaling",
                                           "googledomains",
                                           "he",
+                                          "he_ddns",
                                           "hetzner",
                                           "hexonet",
                                           "hostingde",
@@ -8167,6 +8171,7 @@ const apiSchema = [
                                           "maradns",
                                           "me",
                                           "miab",
+                                          "mijnhost",
                                           "misaka",
                                           "myapi",
                                           "mydevil",
@@ -8384,6 +8389,7 @@ const apiSchema = [
                                     "aws",
                                     "azion",
                                     "azure",
+                                    "beget",
                                     "bookmyname",
                                     "bunny",
                                     "cf",
@@ -8415,11 +8421,13 @@ const apiSchema = [
                                     "dynu",
                                     "dynv6",
                                     "easydns",
+                                    "edgecenter",
                                     "edgedns",
                                     "euserv",
                                     "exoscale",
                                     "fornex",
                                     "freedns",
+                                    "freemyip",
                                     "gandi_livedns",
                                     "gcloud",
                                     "gcore",
@@ -8427,6 +8435,7 @@ const apiSchema = [
                                     "geoscaling",
                                     "googledomains",
                                     "he",
+                                    "he_ddns",
                                     "hetzner",
                                     "hexonet",
                                     "hostingde",
@@ -8456,6 +8465,7 @@ const apiSchema = [
                                     "maradns",
                                     "me",
                                     "miab",
+                                    "mijnhost",
                                     "misaka",
                                     "myapi",
                                     "mydevil",
@@ -14537,7 +14547,7 @@ const apiSchema = [
                            "description" : "For cluster wide migration settings.",
                            "format" : {
                               "network" : {
-                                 "description" : "CIDR of the (sub) network that is used for migration.",
+                                 "description" : "CIDR of the (sub) network that is used for migration and replication.",
                                  "format" : "CIDR",
                                  "format_description" : "CIDR",
                                  "optional" : 1,
@@ -18817,11 +18827,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
-                                                "cyls" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "detect_zeroes" : {
                                                    "description" : "Controls whether to detect and try to optimize writes of zeroes.",
                                                    "optional" : 1,
@@ -18855,11 +18860,6 @@ const apiSchema = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
-                                                },
-                                                "heads" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific head count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
                                                 },
                                                 "iops" : {
                                                    "description" : "Maximum r/w I/O in operations per second.",
@@ -18994,11 +18994,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
-                                                "secs" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "serial" : {
                                                    "description" : "The drive's reported serial number, url-encoded, up to 20 bytes long.",
                                                    "format" : "urlencoded",
@@ -19030,16 +19025,6 @@ const apiSchema = [
                                                    "description" : "Whether to expose this drive as an SSD, rather than a rotational hard disk.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
-                                                },
-                                                "trans" : {
-                                                   "description" : "Force disk geometry bios translation mode.",
-                                                   "enum" : [
-                                                      "none",
-                                                      "lba",
-                                                      "auto"
-                                                   ],
-                                                   "optional" : 1,
-                                                   "type" : "string"
                                                 },
                                                 "volume" : {
                                                    "alias" : "file"
@@ -19543,11 +19528,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
-                                                "cyls" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "detect_zeroes" : {
                                                    "description" : "Controls whether to detect and try to optimize writes of zeroes.",
                                                    "optional" : 1,
@@ -19581,11 +19561,6 @@ const apiSchema = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
-                                                },
-                                                "heads" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific head count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
                                                 },
                                                 "iops" : {
                                                    "description" : "Maximum r/w I/O in operations per second.",
@@ -19712,11 +19687,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
-                                                "secs" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "serial" : {
                                                    "description" : "The drive's reported serial number, url-encoded, up to 20 bytes long.",
                                                    "format" : "urlencoded",
@@ -19748,16 +19718,6 @@ const apiSchema = [
                                                    "description" : "Whether to expose this drive as an SSD, rather than a rotational hard disk.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
-                                                },
-                                                "trans" : {
-                                                   "description" : "Force disk geometry bios translation mode.",
-                                                   "enum" : [
-                                                      "none",
-                                                      "lba",
-                                                      "auto"
-                                                   ],
-                                                   "optional" : 1,
-                                                   "type" : "string"
                                                 },
                                                 "volume" : {
                                                    "alias" : "file"
@@ -19859,11 +19819,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
-                                                "cyls" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "detect_zeroes" : {
                                                    "description" : "Controls whether to detect and try to optimize writes of zeroes.",
                                                    "optional" : 1,
@@ -19897,11 +19852,6 @@ const apiSchema = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
-                                                },
-                                                "heads" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific head count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
                                                 },
                                                 "iops" : {
                                                    "description" : "Maximum r/w I/O in operations per second.",
@@ -20057,11 +20007,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
-                                                "secs" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "serial" : {
                                                    "description" : "The drive's reported serial number, url-encoded, up to 20 bytes long.",
                                                    "format" : "urlencoded",
@@ -20093,16 +20038,6 @@ const apiSchema = [
                                                    "description" : "Whether to expose this drive as an SSD, rather than a rotational hard disk.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
-                                                },
-                                                "trans" : {
-                                                   "description" : "Force disk geometry bios translation mode.",
-                                                   "enum" : [
-                                                      "none",
-                                                      "lba",
-                                                      "auto"
-                                                   ],
-                                                   "optional" : 1,
-                                                   "type" : "string"
                                                 },
                                                 "vendor" : {
                                                    "description" : "The drive's vendor name, up to 8 bytes long.",
@@ -20468,11 +20403,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
-                                                "cyls" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "detect_zeroes" : {
                                                    "description" : "Controls whether to detect and try to optimize writes of zeroes.",
                                                    "optional" : 1,
@@ -20506,11 +20436,6 @@ const apiSchema = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
-                                                },
-                                                "heads" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific head count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
                                                 },
                                                 "iops" : {
                                                    "description" : "Maximum r/w I/O in operations per second.",
@@ -20647,11 +20572,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
-                                                "secs" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "serial" : {
                                                    "description" : "The drive's reported serial number, url-encoded, up to 20 bytes long.",
                                                    "format" : "urlencoded",
@@ -20678,16 +20598,6 @@ const apiSchema = [
                                                    "description" : "Controls qemu's snapshot mode feature. If activated, changes made to the disk are temporary and will be discarded when the VM is shutdown.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
-                                                },
-                                                "trans" : {
-                                                   "description" : "Force disk geometry bios translation mode.",
-                                                   "enum" : [
-                                                      "none",
-                                                      "lba",
-                                                      "auto"
-                                                   ],
-                                                   "optional" : 1,
-                                                   "type" : "string"
                                                 },
                                                 "volume" : {
                                                    "alias" : "file"
@@ -21213,11 +21123,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
-                                                "cyls" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "detect_zeroes" : {
                                                    "description" : "Controls whether to detect and try to optimize writes of zeroes.",
                                                    "optional" : 1,
@@ -21251,11 +21156,6 @@ const apiSchema = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
-                                                },
-                                                "heads" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific head count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
                                                 },
                                                 "import-from" : {
                                                    "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
@@ -21397,11 +21297,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
-                                                "secs" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "serial" : {
                                                    "description" : "The drive's reported serial number, url-encoded, up to 20 bytes long.",
                                                    "format" : "urlencoded",
@@ -21434,16 +21329,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
-                                                "trans" : {
-                                                   "description" : "Force disk geometry bios translation mode.",
-                                                   "enum" : [
-                                                      "none",
-                                                      "lba",
-                                                      "auto"
-                                                   ],
-                                                   "optional" : 1,
-                                                   "type" : "string"
-                                                },
                                                 "volume" : {
                                                    "alias" : "file"
                                                 },
@@ -21468,7 +21353,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "import-working-storage" : {
                                              "description" : "A file-based storage with 'images' content-type enabled, which is used as an intermediary extraction storage during import. Defaults to the source storage.",
@@ -21986,11 +21871,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
-                                                "cyls" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "detect_zeroes" : {
                                                    "description" : "Controls whether to detect and try to optimize writes of zeroes.",
                                                    "optional" : 1,
@@ -22024,11 +21904,6 @@ const apiSchema = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
-                                                },
-                                                "heads" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific head count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
                                                 },
                                                 "import-from" : {
                                                    "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
@@ -22162,11 +22037,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
-                                                "secs" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "serial" : {
                                                    "description" : "The drive's reported serial number, url-encoded, up to 20 bytes long.",
                                                    "format" : "urlencoded",
@@ -22199,16 +22069,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
-                                                "trans" : {
-                                                   "description" : "Force disk geometry bios translation mode.",
-                                                   "enum" : [
-                                                      "none",
-                                                      "lba",
-                                                      "auto"
-                                                   ],
-                                                   "optional" : 1,
-                                                   "type" : "string"
-                                                },
                                                 "volume" : {
                                                    "alias" : "file"
                                                 },
@@ -22233,7 +22093,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "scsi[n]" : {
                                              "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 30). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
@@ -22310,11 +22170,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
-                                                "cyls" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "detect_zeroes" : {
                                                    "description" : "Controls whether to detect and try to optimize writes of zeroes.",
                                                    "optional" : 1,
@@ -22348,11 +22203,6 @@ const apiSchema = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
-                                                },
-                                                "heads" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific head count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
                                                 },
                                                 "import-from" : {
                                                    "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
@@ -22515,11 +22365,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
-                                                "secs" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "serial" : {
                                                    "description" : "The drive's reported serial number, url-encoded, up to 20 bytes long.",
                                                    "format" : "urlencoded",
@@ -22552,16 +22397,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
-                                                "trans" : {
-                                                   "description" : "Force disk geometry bios translation mode.",
-                                                   "enum" : [
-                                                      "none",
-                                                      "lba",
-                                                      "auto"
-                                                   ],
-                                                   "optional" : 1,
-                                                   "type" : "string"
-                                                },
                                                 "vendor" : {
                                                    "description" : "The drive's vendor name, up to 8 bytes long.",
                                                    "format_description" : "vendor",
@@ -22593,7 +22428,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,product=<product>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,vendor=<vendor>] [,werror=<enum>] [,wwn=<wwn>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,product=<product>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,vendor=<vendor>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "scsihw" : {
                                              "default" : "lsi",
@@ -22956,11 +22791,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
-                                                "cyls" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "detect_zeroes" : {
                                                    "description" : "Controls whether to detect and try to optimize writes of zeroes.",
                                                    "optional" : 1,
@@ -22994,11 +22824,6 @@ const apiSchema = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
-                                                },
-                                                "heads" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific head count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
                                                 },
                                                 "import-from" : {
                                                    "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
@@ -23142,11 +22967,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
-                                                "secs" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "serial" : {
                                                    "description" : "The drive's reported serial number, url-encoded, up to 20 bytes long.",
                                                    "format" : "urlencoded",
@@ -23174,16 +22994,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
-                                                "trans" : {
-                                                   "description" : "Force disk geometry bios translation mode.",
-                                                   "enum" : [
-                                                      "none",
-                                                      "lba",
-                                                      "auto"
-                                                   ],
-                                                   "optional" : 1,
-                                                   "type" : "string"
-                                                },
                                                 "volume" : {
                                                    "alias" : "file"
                                                 },
@@ -23201,7 +23011,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,werror=<enum>]"
                                           },
                                           "virtiofs[n]" : {
                                              "description" : "Configuration for sharing a directory between host and guest using Virtio-fs.",
@@ -23735,11 +23545,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
-                                                "cyls" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "detect_zeroes" : {
                                                    "description" : "Controls whether to detect and try to optimize writes of zeroes.",
                                                    "optional" : 1,
@@ -23773,11 +23578,6 @@ const apiSchema = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
-                                                },
-                                                "heads" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific head count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
                                                 },
                                                 "import-from" : {
                                                    "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
@@ -23919,11 +23719,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
-                                                "secs" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "serial" : {
                                                    "description" : "The drive's reported serial number, url-encoded, up to 20 bytes long.",
                                                    "format" : "urlencoded",
@@ -23956,16 +23751,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
-                                                "trans" : {
-                                                   "description" : "Force disk geometry bios translation mode.",
-                                                   "enum" : [
-                                                      "none",
-                                                      "lba",
-                                                      "auto"
-                                                   ],
-                                                   "optional" : 1,
-                                                   "type" : "string"
-                                                },
                                                 "volume" : {
                                                    "alias" : "file"
                                                 },
@@ -23990,7 +23775,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "ipconfig[n]" : {
                                              "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit\ngateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration. This requires\ncloud-init 19.4 or newer.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using\ndhcp on IPv4.\n",
@@ -24500,11 +24285,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
-                                                "cyls" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "detect_zeroes" : {
                                                    "description" : "Controls whether to detect and try to optimize writes of zeroes.",
                                                    "optional" : 1,
@@ -24538,11 +24318,6 @@ const apiSchema = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
-                                                },
-                                                "heads" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific head count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
                                                 },
                                                 "import-from" : {
                                                    "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
@@ -24676,11 +24451,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
-                                                "secs" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "serial" : {
                                                    "description" : "The drive's reported serial number, url-encoded, up to 20 bytes long.",
                                                    "format" : "urlencoded",
@@ -24713,16 +24483,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
-                                                "trans" : {
-                                                   "description" : "Force disk geometry bios translation mode.",
-                                                   "enum" : [
-                                                      "none",
-                                                      "lba",
-                                                      "auto"
-                                                   ],
-                                                   "optional" : 1,
-                                                   "type" : "string"
-                                                },
                                                 "volume" : {
                                                    "alias" : "file"
                                                 },
@@ -24747,7 +24507,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "scsi[n]" : {
                                              "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 30). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
@@ -24824,11 +24584,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
-                                                "cyls" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "detect_zeroes" : {
                                                    "description" : "Controls whether to detect and try to optimize writes of zeroes.",
                                                    "optional" : 1,
@@ -24862,11 +24617,6 @@ const apiSchema = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
-                                                },
-                                                "heads" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific head count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
                                                 },
                                                 "import-from" : {
                                                    "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
@@ -25029,11 +24779,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
-                                                "secs" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "serial" : {
                                                    "description" : "The drive's reported serial number, url-encoded, up to 20 bytes long.",
                                                    "format" : "urlencoded",
@@ -25066,16 +24811,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
-                                                "trans" : {
-                                                   "description" : "Force disk geometry bios translation mode.",
-                                                   "enum" : [
-                                                      "none",
-                                                      "lba",
-                                                      "auto"
-                                                   ],
-                                                   "optional" : 1,
-                                                   "type" : "string"
-                                                },
                                                 "vendor" : {
                                                    "description" : "The drive's vendor name, up to 8 bytes long.",
                                                    "format_description" : "vendor",
@@ -25107,7 +24842,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,product=<product>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,vendor=<vendor>] [,werror=<enum>] [,wwn=<wwn>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,product=<product>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,vendor=<vendor>] [,werror=<enum>] [,wwn=<wwn>]"
                                           },
                                           "scsihw" : {
                                              "default" : "lsi",
@@ -25470,11 +25205,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
-                                                "cyls" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "detect_zeroes" : {
                                                    "description" : "Controls whether to detect and try to optimize writes of zeroes.",
                                                    "optional" : 1,
@@ -25508,11 +25238,6 @@ const apiSchema = [
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
-                                                },
-                                                "heads" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific head count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
                                                 },
                                                 "import-from" : {
                                                    "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
@@ -25656,11 +25381,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
-                                                "secs" : {
-                                                   "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                                   "optional" : 1,
-                                                   "type" : "integer"
-                                                },
                                                 "serial" : {
                                                    "description" : "The drive's reported serial number, url-encoded, up to 20 bytes long.",
                                                    "format" : "urlencoded",
@@ -25688,16 +25408,6 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
-                                                "trans" : {
-                                                   "description" : "Force disk geometry bios translation mode.",
-                                                   "enum" : [
-                                                      "none",
-                                                      "lba",
-                                                      "auto"
-                                                   ],
-                                                   "optional" : 1,
-                                                   "type" : "string"
-                                                },
                                                 "volume" : {
                                                    "alias" : "file"
                                                 },
@@ -25715,7 +25425,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                             "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,werror=<enum>]"
                                           },
                                           "virtiofs[n]" : {
                                              "description" : "Configuration for sharing a directory between host and guest using Virtio-fs.",
@@ -30077,11 +29787,6 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
-                                    "cyls" : {
-                                       "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                       "optional" : 1,
-                                       "type" : "integer"
-                                    },
                                     "detect_zeroes" : {
                                        "description" : "Controls whether to detect and try to optimize writes of zeroes.",
                                        "optional" : 1,
@@ -30115,11 +29820,6 @@ const apiSchema = [
                                        ],
                                        "optional" : 1,
                                        "type" : "string"
-                                    },
-                                    "heads" : {
-                                       "description" : "Force the drive's physical geometry to have a specific head count.",
-                                       "optional" : 1,
-                                       "type" : "integer"
                                     },
                                     "import-from" : {
                                        "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
@@ -30261,11 +29961,6 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
-                                    "secs" : {
-                                       "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                       "optional" : 1,
-                                       "type" : "integer"
-                                    },
                                     "serial" : {
                                        "description" : "The drive's reported serial number, url-encoded, up to 20 bytes long.",
                                        "format" : "urlencoded",
@@ -30298,16 +29993,6 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
-                                    "trans" : {
-                                       "description" : "Force disk geometry bios translation mode.",
-                                       "enum" : [
-                                          "none",
-                                          "lba",
-                                          "auto"
-                                       ],
-                                       "optional" : 1,
-                                       "type" : "string"
-                                    },
                                     "volume" : {
                                        "alias" : "file"
                                     },
@@ -30332,7 +30017,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,werror=<enum>] [,wwn=<wwn>]"
                               },
                               "import-working-storage" : {
                                  "description" : "A file-based storage with 'images' content-type enabled, which is used as an intermediary extraction storage during import. Defaults to the source storage.",
@@ -30856,11 +30541,6 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
-                                    "cyls" : {
-                                       "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                       "optional" : 1,
-                                       "type" : "integer"
-                                    },
                                     "detect_zeroes" : {
                                        "description" : "Controls whether to detect and try to optimize writes of zeroes.",
                                        "optional" : 1,
@@ -30894,11 +30574,6 @@ const apiSchema = [
                                        ],
                                        "optional" : 1,
                                        "type" : "string"
-                                    },
-                                    "heads" : {
-                                       "description" : "Force the drive's physical geometry to have a specific head count.",
-                                       "optional" : 1,
-                                       "type" : "integer"
                                     },
                                     "import-from" : {
                                        "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
@@ -31032,11 +30707,6 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
-                                    "secs" : {
-                                       "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                       "optional" : 1,
-                                       "type" : "integer"
-                                    },
                                     "serial" : {
                                        "description" : "The drive's reported serial number, url-encoded, up to 20 bytes long.",
                                        "format" : "urlencoded",
@@ -31069,16 +30739,6 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
-                                    "trans" : {
-                                       "description" : "Force disk geometry bios translation mode.",
-                                       "enum" : [
-                                          "none",
-                                          "lba",
-                                          "auto"
-                                       ],
-                                       "optional" : 1,
-                                       "type" : "string"
-                                    },
                                     "volume" : {
                                        "alias" : "file"
                                     },
@@ -31103,7 +30763,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,werror=<enum>] [,wwn=<wwn>]"
                               },
                               "scsi[n]" : {
                                  "description" : "Use volume as SCSI hard disk or CD-ROM (n is 0 to 30). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
@@ -31180,11 +30840,6 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
-                                    "cyls" : {
-                                       "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                       "optional" : 1,
-                                       "type" : "integer"
-                                    },
                                     "detect_zeroes" : {
                                        "description" : "Controls whether to detect and try to optimize writes of zeroes.",
                                        "optional" : 1,
@@ -31218,11 +30873,6 @@ const apiSchema = [
                                        ],
                                        "optional" : 1,
                                        "type" : "string"
-                                    },
-                                    "heads" : {
-                                       "description" : "Force the drive's physical geometry to have a specific head count.",
-                                       "optional" : 1,
-                                       "type" : "integer"
                                     },
                                     "import-from" : {
                                        "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
@@ -31385,11 +31035,6 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
-                                    "secs" : {
-                                       "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                       "optional" : 1,
-                                       "type" : "integer"
-                                    },
                                     "serial" : {
                                        "description" : "The drive's reported serial number, url-encoded, up to 20 bytes long.",
                                        "format" : "urlencoded",
@@ -31422,16 +31067,6 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
-                                    "trans" : {
-                                       "description" : "Force disk geometry bios translation mode.",
-                                       "enum" : [
-                                          "none",
-                                          "lba",
-                                          "auto"
-                                       ],
-                                       "optional" : 1,
-                                       "type" : "string"
-                                    },
                                     "vendor" : {
                                        "description" : "The drive's vendor name, up to 8 bytes long.",
                                        "format_description" : "vendor",
@@ -31463,7 +31098,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,product=<product>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,vendor=<vendor>] [,werror=<enum>] [,wwn=<wwn>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,product=<product>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,vendor=<vendor>] [,werror=<enum>] [,wwn=<wwn>]"
                               },
                               "scsihw" : {
                                  "default" : "lsi",
@@ -31842,11 +31477,6 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
-                                    "cyls" : {
-                                       "description" : "Force the drive's physical geometry to have a specific cylinder count.",
-                                       "optional" : 1,
-                                       "type" : "integer"
-                                    },
                                     "detect_zeroes" : {
                                        "description" : "Controls whether to detect and try to optimize writes of zeroes.",
                                        "optional" : 1,
@@ -31880,11 +31510,6 @@ const apiSchema = [
                                        ],
                                        "optional" : 1,
                                        "type" : "string"
-                                    },
-                                    "heads" : {
-                                       "description" : "Force the drive's physical geometry to have a specific head count.",
-                                       "optional" : 1,
-                                       "type" : "integer"
                                     },
                                     "import-from" : {
                                        "description" : "Create a new disk, importing from this source (volume ID or absolute path). When an absolute path is specified, it's up to you to ensure that the source is not actively used by another process during the import!",
@@ -32028,11 +31653,6 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
-                                    "secs" : {
-                                       "description" : "Force the drive's physical geometry to have a specific sector count.",
-                                       "optional" : 1,
-                                       "type" : "integer"
-                                    },
                                     "serial" : {
                                        "description" : "The drive's reported serial number, url-encoded, up to 20 bytes long.",
                                        "format" : "urlencoded",
@@ -32060,16 +31680,6 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
-                                    "trans" : {
-                                       "description" : "Force disk geometry bios translation mode.",
-                                       "enum" : [
-                                          "none",
-                                          "lba",
-                                          "auto"
-                                       ],
-                                       "optional" : 1,
-                                       "type" : "string"
-                                    },
                                     "volume" : {
                                        "alias" : "file"
                                     },
@@ -32087,7 +31697,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]"
+                                 "typetext" : "[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,import-from=<source volume>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,werror=<enum>]"
                               },
                               "virtiofs[n]" : {
                                  "description" : "Configuration for sharing a directory between host and guest using Virtio-fs.",
@@ -45381,59 +44991,6 @@ const apiSchema = [
                         "info" : {
                            "GET" : {
                               "allowtoken" : 1,
-                              "description" : "Scan remote GlusterFS server.",
-                              "method" : "GET",
-                              "name" : "glusterfsscan",
-                              "parameters" : {
-                                 "additionalProperties" : 0,
-                                 "properties" : {
-                                    "node" : {
-                                       "description" : "The cluster node name.",
-                                       "format" : "pve-node",
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    },
-                                    "server" : {
-                                       "description" : "The server address (name or IP).",
-                                       "format" : "pve-storage-server",
-                                       "type" : "string",
-                                       "typetext" : "<string>"
-                                    }
-                                 }
-                              },
-                              "permissions" : {
-                                 "check" : [
-                                    "perm",
-                                    "/storage",
-                                    [
-                                       "Datastore.Allocate"
-                                    ]
-                                 ]
-                              },
-                              "protected" : 1,
-                              "proxyto" : "node",
-                              "returns" : {
-                                 "items" : {
-                                    "properties" : {
-                                       "volname" : {
-                                          "description" : "The volume name.",
-                                          "type" : "string"
-                                       }
-                                    },
-                                    "type" : "object"
-                                 },
-                                 "type" : "array"
-                              }
-                           }
-                        },
-                        "leaf" : 1,
-                        "path" : "/nodes/{node}/scan/glusterfs",
-                        "text" : "glusterfs"
-                     },
-                     {
-                        "info" : {
-                           "GET" : {
-                              "allowtoken" : 1,
                               "description" : "Scan remote iSCSI server.",
                               "method" : "GET",
                               "name" : "iscsiscan",
@@ -52490,9 +52047,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
+                                    "login",
                                     "ceph_install",
-                                    "upgrade",
-                                    "login"
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -52585,9 +52142,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
+                                    "login",
                                     "ceph_install",
-                                    "upgrade",
-                                    "login"
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -52710,9 +52267,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
+                                    "login",
                                     "ceph_install",
-                                    "upgrade",
-                                    "login"
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -53992,14 +53549,6 @@ const apiSchema = [
                            "type" : "string",
                            "typetext" : "<string>"
                         },
-                        "server2" : {
-                           "description" : "Backup volfile server IP or DNS name.",
-                           "format" : "pve-storage-server",
-                           "optional" : 1,
-                           "requires" : "server",
-                           "type" : "string",
-                           "typetext" : "<string>"
-                        },
                         "shared" : {
                            "description" : "Indicate that this is a single storage with the same contents on all nodes (or all listed in the 'nodes' option). It will not make the contents of a local storage automatically accessible to other nodes, it just marks an already shared storage as such!",
                            "optional" : 1,
@@ -54053,16 +53602,6 @@ const apiSchema = [
                            "type" : "boolean",
                            "typetext" : "<boolean>"
                         },
-                        "transport" : {
-                           "description" : "Gluster transport: tcp or rdma",
-                           "enum" : [
-                              "tcp",
-                              "rdma",
-                              "unix"
-                           ],
-                           "optional" : 1,
-                           "type" : "string"
-                        },
                         "username" : {
                            "description" : "RBD Id.",
                            "optional" : 1,
@@ -54109,7 +53648,6 @@ const apiSchema = [
                               "cifs",
                               "dir",
                               "esxi",
-                              "glusterfs",
                               "iscsi",
                               "iscsidirect",
                               "lvm",
@@ -54149,7 +53687,6 @@ const apiSchema = [
                         "cifs",
                         "dir",
                         "esxi",
-                        "glusterfs",
                         "iscsi",
                         "iscsidirect",
                         "lvm",
@@ -54545,14 +54082,6 @@ const apiSchema = [
                      "type" : "string",
                      "typetext" : "<string>"
                   },
-                  "server2" : {
-                     "description" : "Backup volfile server IP or DNS name.",
-                     "format" : "pve-storage-server",
-                     "optional" : 1,
-                     "requires" : "server",
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
                   "share" : {
                      "description" : "CIFS share.",
                      "optional" : 1,
@@ -54625,16 +54154,6 @@ const apiSchema = [
                      "type" : "string",
                      "typetext" : "<string>"
                   },
-                  "transport" : {
-                     "description" : "Gluster transport: tcp or rdma",
-                     "enum" : [
-                        "tcp",
-                        "rdma",
-                        "unix"
-                     ],
-                     "optional" : 1,
-                     "type" : "string"
-                  },
                   "type" : {
                      "description" : "Storage type.",
                      "enum" : [
@@ -54643,7 +54162,6 @@ const apiSchema = [
                         "cifs",
                         "dir",
                         "esxi",
-                        "glusterfs",
                         "iscsi",
                         "iscsidirect",
                         "lvm",
@@ -54665,12 +54183,6 @@ const apiSchema = [
                   "vgname" : {
                      "description" : "Volume group name.",
                      "format" : "pve-storage-vgname",
-                     "optional" : 1,
-                     "type" : "string",
-                     "typetext" : "<string>"
-                  },
-                  "volume" : {
-                     "description" : "Glusterfs Volume.",
                      "optional" : 1,
                      "type" : "string",
                      "typetext" : "<string>"
@@ -54715,7 +54227,6 @@ const apiSchema = [
                         "cifs",
                         "dir",
                         "esxi",
-                        "glusterfs",
                         "iscsi",
                         "iscsidirect",
                         "lvm",

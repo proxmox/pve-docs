@@ -305,7 +305,7 @@ Selectively enable hotplug features. This is a comma separated list of hotplug f
 
 Enable/disable hugepages memory.
 
-`ide[n]`: `[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]` ::
+`ide[n]`: `[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,model=<model>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,werror=<enum>] [,wwn=<wwn>]` ::
 
 Use volume as IDE hard disk or CD-ROM (n is 0 to 3).
 
@@ -345,10 +345,6 @@ Maximum length of write I/O bursts in seconds.
 
 The drive's cache mode
 
-`cyls`=`<integer>` ;;
-
-Force the drive's physical geometry to have a specific cylinder count.
-
 `detect_zeroes`=`<boolean>` ;;
 
 Controls whether to detect and try to optimize writes of zeroes.
@@ -364,10 +360,6 @@ The drive's backing volume.
 `format`=`<cloop | qcow | qcow2 | qed | raw | vmdk>` ;;
 
 The drive's backing file's data format.
-
-`heads`=`<integer>` ;;
-
-Force the drive's physical geometry to have a specific head count.
 
 `iops`=`<iops>` ;;
 
@@ -445,10 +437,6 @@ Whether the drive should considered for replication jobs.
 
 Read error action.
 
-`secs`=`<integer>` ;;
-
-Force the drive's physical geometry to have a specific sector count.
-
 `serial`=`<serial>` ;;
 
 The drive's reported serial number, url-encoded, up to 20 bytes long.
@@ -470,10 +458,6 @@ Controls qemu's snapshot mode feature. If activated, changes made to the disk ar
 `ssd`=`<boolean>` ;;
 
 Whether to expose this drive as an SSD, rather than a rotational hard disk.
-
-`trans`=`<auto | lba | none>` ;;
-
-Force disk geometry bios translation mode.
 
 `werror`=`<enospc | ignore | report | stop>` ;;
 
@@ -729,7 +713,7 @@ Every 'period' milliseconds the entropy-injection quota is reset, allowing the g
 
 The file on the host to gather entropy from. Using urandom does *not* decrease security in any meaningful way, as it's still seeded from real entropy, and the bytes provided will most likely be mixed with real entropy on the guest as well. '/dev/hwrng' can be used to pass through a hardware RNG from the host.
 
-`sata[n]`: `[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>] [,wwn=<wwn>]` ::
+`sata[n]`: `[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,werror=<enum>] [,wwn=<wwn>]` ::
 
 Use volume as SATA hard disk or CD-ROM (n is 0 to 5).
 
@@ -769,10 +753,6 @@ Maximum length of write I/O bursts in seconds.
 
 The drive's cache mode
 
-`cyls`=`<integer>` ;;
-
-Force the drive's physical geometry to have a specific cylinder count.
-
 `detect_zeroes`=`<boolean>` ;;
 
 Controls whether to detect and try to optimize writes of zeroes.
@@ -788,10 +768,6 @@ The drive's backing volume.
 `format`=`<cloop | qcow | qcow2 | qed | raw | vmdk>` ;;
 
 The drive's backing file's data format.
-
-`heads`=`<integer>` ;;
-
-Force the drive's physical geometry to have a specific head count.
 
 `iops`=`<iops>` ;;
 
@@ -865,10 +841,6 @@ Whether the drive should considered for replication jobs.
 
 Read error action.
 
-`secs`=`<integer>` ;;
-
-Force the drive's physical geometry to have a specific sector count.
-
 `serial`=`<serial>` ;;
 
 The drive's reported serial number, url-encoded, up to 20 bytes long.
@@ -891,10 +863,6 @@ Controls qemu's snapshot mode feature. If activated, changes made to the disk ar
 
 Whether to expose this drive as an SSD, rather than a rotational hard disk.
 
-`trans`=`<auto | lba | none>` ;;
-
-Force disk geometry bios translation mode.
-
 `werror`=`<enospc | ignore | report | stop>` ;;
 
 Write error action.
@@ -903,7 +871,7 @@ Write error action.
 
 The drive's worldwide name, encoded as 16 bytes hex string, prefixed by '0x'.
 
-`scsi[n]`: `[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,product=<product>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,trans=<none|lba|auto>] [,vendor=<vendor>] [,werror=<enum>] [,wwn=<wwn>]` ::
+`scsi[n]`: `[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,product=<product>] [,queues=<integer>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,scsiblock=<1|0>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,ssd=<1|0>] [,vendor=<vendor>] [,werror=<enum>] [,wwn=<wwn>]` ::
 
 Use volume as SCSI hard disk or CD-ROM (n is 0 to 30).
 
@@ -943,10 +911,6 @@ Maximum length of write I/O bursts in seconds.
 
 The drive's cache mode
 
-`cyls`=`<integer>` ;;
-
-Force the drive's physical geometry to have a specific cylinder count.
-
 `detect_zeroes`=`<boolean>` ;;
 
 Controls whether to detect and try to optimize writes of zeroes.
@@ -962,10 +926,6 @@ The drive's backing volume.
 `format`=`<cloop | qcow | qcow2 | qed | raw | vmdk>` ;;
 
 The drive's backing file's data format.
-
-`heads`=`<integer>` ;;
-
-Force the drive's physical geometry to have a specific head count.
 
 `iops`=`<iops>` ;;
 
@@ -1061,10 +1021,6 @@ whether to use scsi-block for full passthrough of host block device
 +
 WARNING: can lead to I/O errors in combination with low memory or high memory fragmentation on host
 
-`secs`=`<integer>` ;;
-
-Force the drive's physical geometry to have a specific sector count.
-
 `serial`=`<serial>` ;;
 
 The drive's reported serial number, url-encoded, up to 20 bytes long.
@@ -1086,10 +1042,6 @@ Controls qemu's snapshot mode feature. If activated, changes made to the disk ar
 `ssd`=`<boolean>` ;;
 
 Whether to expose this drive as an SSD, rather than a rotational hard disk.
-
-`trans`=`<auto | lba | none>` ;;
-
-Force disk geometry bios translation mode.
 
 `vendor`=`<vendor>` ;;
 
@@ -1284,7 +1236,7 @@ Sets the VGA memory (in MiB). Has no effect with serial display.
 
 Select the VGA type. Using type 'cirrus' is not recommended.
 
-`virtio[n]`: `[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,cyls=<integer>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,heads=<integer>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,secs=<integer>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,trans=<none|lba|auto>] [,werror=<enum>]` ::
+`virtio[n]`: `[file=]<volume> [,aio=<native|threads|io_uring>] [,backup=<1|0>] [,bps=<bps>] [,bps_max_length=<seconds>] [,bps_rd=<bps>] [,bps_rd_max_length=<seconds>] [,bps_wr=<bps>] [,bps_wr_max_length=<seconds>] [,cache=<enum>] [,detect_zeroes=<1|0>] [,discard=<ignore|on>] [,format=<enum>] [,iops=<iops>] [,iops_max=<iops>] [,iops_max_length=<seconds>] [,iops_rd=<iops>] [,iops_rd_max=<iops>] [,iops_rd_max_length=<seconds>] [,iops_wr=<iops>] [,iops_wr_max=<iops>] [,iops_wr_max_length=<seconds>] [,iothread=<1|0>] [,mbps=<mbps>] [,mbps_max=<mbps>] [,mbps_rd=<mbps>] [,mbps_rd_max=<mbps>] [,mbps_wr=<mbps>] [,mbps_wr_max=<mbps>] [,media=<cdrom|disk>] [,replicate=<1|0>] [,rerror=<ignore|report|stop>] [,ro=<1|0>] [,serial=<serial>] [,shared=<1|0>] [,size=<DiskSize>] [,snapshot=<1|0>] [,werror=<enum>]` ::
 
 Use volume as VIRTIO hard disk (n is 0 to 15).
 
@@ -1324,10 +1276,6 @@ Maximum length of write I/O bursts in seconds.
 
 The drive's cache mode
 
-`cyls`=`<integer>` ;;
-
-Force the drive's physical geometry to have a specific cylinder count.
-
 `detect_zeroes`=`<boolean>` ;;
 
 Controls whether to detect and try to optimize writes of zeroes.
@@ -1343,10 +1291,6 @@ The drive's backing volume.
 `format`=`<cloop | qcow | qcow2 | qed | raw | vmdk>` ;;
 
 The drive's backing file's data format.
-
-`heads`=`<integer>` ;;
-
-Force the drive's physical geometry to have a specific head count.
 
 `iops`=`<iops>` ;;
 
@@ -1428,10 +1372,6 @@ Read error action.
 
 Whether the drive is read-only.
 
-`secs`=`<integer>` ;;
-
-Force the drive's physical geometry to have a specific sector count.
-
 `serial`=`<serial>` ;;
 
 The drive's reported serial number, url-encoded, up to 20 bytes long.
@@ -1449,10 +1389,6 @@ Disk size. This is purely informational and has no effect.
 `snapshot`=`<boolean>` ;;
 
 Controls qemu's snapshot mode feature. If activated, changes made to the disk are temporary and will be discarded when the VM is shutdown.
-
-`trans`=`<auto | lba | none>` ;;
-
-Force disk geometry bios translation mode.
 
 `werror`=`<enospc | ignore | report | stop>` ;;
 
