@@ -147,8 +147,8 @@ addition to a {pve} Proxmox repository
 ~~~~~~~~~~~~~~~~~~~~~~
 
 This repository contains the latest packages and is primarily used by developers
-to test new features. To configure it, add the following line to
-`/etc/apt/sources.list`:
+to test new features. To configure it, add the following stanza to the file
+`/etc/apt/sources.list.d/proxmox.sources`:
 
 .File `/etc/apt/sources.list.d/proxmox.sources`
 ----
@@ -244,6 +244,14 @@ To be able to install packages from this component, run
 `editor /etc/apt/sources.list`, append `non-free-firmware` to the end of each
 `.debian.org` repository line and run `apt update`.
 
+If you upgraded your {pve} 9 install from a previous version of {pve} and have
+modernized your package repositories to the new deb822-style, you will need to
+adapt `/etc/apt/sources.list.d/debian.sources` instead. Run `editor
+/etc/apt/sources.list.d/debian.sources` and add `non-free-firmware` to the lines
+starting with `Components:` of each stanza.
+
+NOTE: Modernizing your package repositories is recommended. Otherwise, `apt` on
+Debian Trixie will complain. You can run `apt modernize-sources` to do so.
 
 [[repos_secure_apt]]
 

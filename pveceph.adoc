@@ -302,7 +302,7 @@ pveceph install
 ----
 
 This sets up an `apt` package repository in
-`/etc/apt/sources.list.d/ceph.list` and installs the required software.
+`/etc/apt/sources.list.d/ceph.sources` and installs the required software.
 
 
 Initial Ceph configuration via CLI
