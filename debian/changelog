@@ -1,3 +1,31 @@
+pve-docs (9.0.2) trixie; urgency=medium
+
+  * fix #6388: disk health: sync list of scanned devices
+
+  * pveceph/package-repos: adapt further to new deb822 format
+
+  * ha-manager: remove hardware fencing from requirements
+
+  * qm: cpu types: list that Haswell supports x86-64-v3 ABI
+
+  * calendar-events: add a note about `systemd-analyze calendar`
+
+  * pvecm: extend cluster requirements
+
+  * pvecm: drop notes about old version incompatibilities
+
+  * pveceph: update cluster shutdown procedure
+
+  * sdn: mention fingerprint option to the NetBox IPAM plugin
+
+  * VM VNC clipboard: add hint that live-migration does not work
+
+  * fabrics: add initial documentation for sdn fabrics
+
+  * network: add documentation for proxmox-network-interface-pinning
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 17 Jul 2025 01:12:54 +0200
+
 pve-docs (9.0.1) trixie; urgency=medium
 
   * firewall: nftables: document new firewall bridge behavior.
