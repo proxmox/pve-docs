@@ -158,6 +158,48 @@ command line. You need to reboot for the changes to take effect.
 Overriding network device names
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Using the proxmox-network-interface-pinning tool
+++++++++++++++++++++++++++++++++++++++++++++++++
+
+Proxmox VE provides a tool for automatically generating .link files for
+overriding the name of network devices. It also automatically replaces the
+occurences of the old interface name in the following files:
+
+* `/etc/network/interfaces`
+* `/etc/pve/nodes/<nodename>/host.fw`
+* `/etc/pve/sdn/controllers.cfg`
+
+NOTE: Since the generated mapping is local to the node it is generated on,
+interface names contained in the Firewall Datacenter configuration
+(`/etc/pve/firewall/cluster.fw`) are **not** automatically updated.
+
+The generated link files are stored in `/usr/local/lib/systemd/network`.
+
+It is currently only possible to generate names with the prefix `nic`, since
+otherwise the interfaces would not get recognized as a physical interface. When
+auto-generating new interface names, the tool will use `nic0`, `nic1`, ...
+
+The following command will generate a .link file for all physical network
+interfaces that do not yet have a .link file and update selected Proxmox VE
+configuration files (see above):
+
+----
+proxmox-network-interface-pinning generate
+----
+
+It is also possible to pin only a specific interface:
+
+----
+proxmox-network-interface-pinning generate --nic enp1s0
+----
+
+In order to apply the changes made by `proxmox-network-interface-pinning` to the
+network configuration, the node needs to be rebooted.
+
+
+Manual method
++++++++++++++
+
 You can manually assign a name to a particular network device using a custom
 https://manpages.debian.org/stable/udev/systemd.link.5.en.html[systemd.link
 file]. This overrides the name that would be assigned according to the latest
