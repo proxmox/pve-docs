@@ -1165,7 +1165,7 @@ columns:
     only one node will get the vote.
 * `MW` / `NMW`: Master wins (`MV`) or not (`NMW`). Default is `NMW`, see
    footnote:[`votequorum_qdevice_master_wins` manual page
-   https://manpages.debian.org/bookworm/libvotequorum-dev/votequorum_qdevice_master_wins.3.en.html].
+   https://manpages.debian.org/stable/libvotequorum-dev/votequorum_qdevice_master_wins.3.en.html].
 * `NR`: QDevice is not registered.
 
 NOTE: If your QDevice is listed as `Not Alive` (`NA` in the output above),
