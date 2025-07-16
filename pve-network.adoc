@@ -158,7 +158,7 @@ command line. You need to reboot for the changes to take effect.
 Overriding network device names
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Using the proxmox-network-interface-pinning tool
+Using the proxmox-network-interface-pinning Tool
 ++++++++++++++++++++++++++++++++++++++++++++++++
 
 Proxmox VE provides a tool for automatically generating .link files for
@@ -190,7 +190,7 @@ proxmox-network-interface-pinning generate
 It is also possible to pin only a specific interface:
 
 ----
-proxmox-network-interface-pinning generate --nic enp1s0
+proxmox-network-interface-pinning generate --interface enp1s0
 ----
 
 In order to apply the changes made by `proxmox-network-interface-pinning` to the
