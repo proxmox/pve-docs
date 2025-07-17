@@ -95,7 +95,7 @@ For cluster wide migration settings.
 
 `network`=`<CIDR>` ;;
 
-CIDR of the (sub) network that is used for migration and replication.
+CIDR of the (sub) network that is used for migration. Used as a fallback for replications jobs if the replication network setting is not set
 
 `type`=`<insecure | secure>` ('default =' `secure`);;
 
@@ -152,6 +152,18 @@ UNUSED - Use datacenter notification settings instead.
 `registered-tags`: `<tag>[;<tag>...]` ::
 
 A list of tags that require a `Sys.Modify` on '/' to set and delete. Tags set here that are also in 'user-tag-access' also require `Sys.Modify`.
+
+`replication`: `[type=]<secure|insecure> [,network=<CIDR>]` ::
+
+For cluster wide replication settings.
+
+`network`=`<CIDR>` ;;
+
+CIDR of the (sub) network that is used for replication jobs.
+
+`type`=`<insecure | secure>` ('default =' `secure`);;
+
+Replication traffic is encrypted using an SSH tunnel by default. On secure, completely private networks this can be disabled to increase performance.
 
 `tag-style`: `[case-sensitive=<1|0>] [,color-map=<tag>:<hex-color>[:<hex-color-for-text>][;<tag>=...]] [,ordering=<config|alphabetical>] [,shape=<enum>]` ::
 

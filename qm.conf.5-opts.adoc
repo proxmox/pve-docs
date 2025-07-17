@@ -614,7 +614,7 @@ Network Card Model. The 'virtio' model provides the best performance with very l
 
 `mtu`=`<integer> (1 - 65520)` ;;
 
-Force MTU, for VirtIO only. Set to '1' to use the bridge MTU
+Force MTU of network device (VirtIO only). Setting to '1' or empty will use the bridge MTU
 
 `queues`=`<integer> (0 - 64)` ;;
 

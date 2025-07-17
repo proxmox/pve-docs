@@ -60,14 +60,6 @@ NOTE: Requires option(s): `storage`
 
 Determine which notification system to use. If set to 'legacy-sendmail', vzdump will consider the mailto/mailnotification parameters and send emails to the specified address(es) via the 'sendmail' command. If set to 'notification-system', a notification will be sent via PVE's notification system, and the mailto and mailnotification will be ignored. If set to 'auto' (default setting), an email will be sent if mailto is set, and the notification system will be used if not.
 
-`notification-policy`: `<always | failure | never>` ('default =' `always`)::
-
-Deprecated: Do not use
-
-`notification-target`: `<string>` ::
-
-Deprecated: Do not use
-
 `pbs-change-detection-mode`: `<data | legacy | metadata>` ::
 
 PBS mode used to detect file changes and switch encoding format for container backups.

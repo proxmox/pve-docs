@@ -6462,24 +6462,6 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "string"
                               },
-                              "notification-policy" : {
-                                 "default" : "always",
-                                 "description" : "Deprecated: Do not use",
-                                 "enum" : [
-                                    "always",
-                                    "failure",
-                                    "never"
-                                 ],
-                                 "optional" : 1,
-                                 "type" : "string"
-                              },
-                              "notification-target" : {
-                                 "description" : "Deprecated: Do not use",
-                                 "format" : "pve-configid",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
                               "pbs-change-detection-mode" : {
                                  "description" : "PBS mode used to detect file changes and switch encoding format for container backups.",
                                  "enum" : [
@@ -6851,24 +6833,6 @@ const apiSchema = [
                            ],
                            "optional" : 1,
                            "type" : "string"
-                        },
-                        "notification-policy" : {
-                           "default" : "always",
-                           "description" : "Deprecated: Do not use",
-                           "enum" : [
-                              "always",
-                              "failure",
-                              "never"
-                           ],
-                           "optional" : 1,
-                           "type" : "string"
-                        },
-                        "notification-target" : {
-                           "description" : "Deprecated: Do not use",
-                           "format" : "pve-configid",
-                           "optional" : 1,
-                           "type" : "string",
-                           "typetext" : "<string>"
                         },
                         "pbs-change-detection-mode" : {
                            "description" : "PBS mode used to detect file changes and switch encoding format for container backups.",
@@ -12636,6 +12600,13 @@ const apiSchema = [
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
+                                    "fabric" : {
+                                       "description" : "SDN fabric to use as underlay for this VXLAN zone.",
+                                       "format" : "pve-sdn-fabric-id",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
                                     "ipam" : {
                                        "description" : "use a specific ipam",
                                        "optional" : 1,
@@ -12922,6 +12893,13 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "fabric" : {
+                                 "description" : "SDN fabric to use as underlay for this VXLAN zone.",
+                                 "format" : "pve-sdn-fabric-id",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "ipam" : {
                                  "description" : "use a specific ipam",
                                  "optional" : 1,
@@ -13167,6 +13145,13 @@ const apiSchema = [
                                        "type" : "integer",
                                        "typetext" : "<integer>"
                                     },
+                                    "fabric" : {
+                                       "description" : "SDN fabric to use as underlay for this EVPN controller.",
+                                       "format" : "pve-sdn-fabric-id",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
                                     "isis-domain" : {
                                        "description" : "ISIS domain.",
                                        "optional" : 1,
@@ -13334,6 +13319,13 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "integer",
                                  "typetext" : "<integer>"
+                              },
+                              "fabric" : {
+                                 "description" : "SDN fabric to use as underlay for this EVPN controller.",
+                                 "format" : "pve-sdn-fabric-id",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
                               },
                               "isis-domain" : {
                                  "description" : "ISIS domain.",
@@ -13950,6 +13942,1546 @@ const apiSchema = [
                   "leaf" : 0,
                   "path" : "/cluster/sdn/dns",
                   "text" : "dns"
+               },
+               {
+                  "children" : [
+                     {
+                        "children" : [
+                           {
+                              "info" : {
+                                 "DELETE" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Add a fabric",
+                                    "method" : "DELETE",
+                                    "name" : "delete_fabric",
+                                    "parameters" : {
+                                       "properties" : {
+                                          "id" : {
+                                             "description" : "Identifier for SDN fabrics",
+                                             "format" : "pve-sdn-fabric-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/sdn/fabrics/{id}",
+                                          [
+                                             "SDN.Allocate"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "type" : "null"
+                                    }
+                                 },
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Update a fabric",
+                                    "method" : "GET",
+                                    "name" : "get_fabric",
+                                    "parameters" : {
+                                       "properties" : {
+                                          "id" : {
+                                             "description" : "Identifier for SDN fabrics",
+                                             "format" : "pve-sdn-fabric-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/sdn/fabrics/{id}",
+                                          [
+                                             "SDN.Audit",
+                                             "SDN.Allocate"
+                                          ],
+                                          "any",
+                                          1
+                                       ]
+                                    },
+                                    "returns" : {
+                                       "properties" : {
+                                          "area" : {
+                                             "description" : "OSPF area. Either a IPv4 address or a 32-bit number. Gets validated in rust.",
+                                             "instance-types" : [
+                                                "ospf"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "type-property" : "protocol"
+                                          },
+                                          "csnp_interval" : {
+                                             "description" : "The csnp_interval property for Openfabric",
+                                             "instance-types" : [
+                                                "openfabric"
+                                             ],
+                                             "maximum" : 600,
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "type" : "number",
+                                             "type-property" : "protocol"
+                                          },
+                                          "digest" : {
+                                             "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                             "maxLength" : 64,
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "hello_interval" : {
+                                             "description" : "The hello_interval property for Openfabric",
+                                             "instance-types" : [
+                                                "openfabric"
+                                             ],
+                                             "maximum" : 600,
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "type" : "number",
+                                             "type-property" : "protocol"
+                                          },
+                                          "id" : {
+                                             "description" : "Identifier for SDN fabrics",
+                                             "format" : "pve-sdn-fabric-id",
+                                             "type" : "string"
+                                          },
+                                          "ip6_prefix" : {
+                                             "description" : "The IP prefix for Node IPs",
+                                             "format" : "CIDR",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "ip_prefix" : {
+                                             "description" : "The IP prefix for Node IPs",
+                                             "format" : "CIDR",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "protocol" : {
+                                             "description" : "Type of configuration entry in an SDN Fabric section config",
+                                             "enum" : [
+                                                "openfabric",
+                                                "ospf"
+                                             ],
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 },
+                                 "PUT" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Update a fabric",
+                                    "method" : "PUT",
+                                    "name" : "update_fabric",
+                                    "parameters" : {
+                                       "properties" : {
+                                          "area" : {
+                                             "description" : "OSPF area. Either a IPv4 address or a 32-bit number. Gets validated in rust.",
+                                             "instance-types" : [
+                                                "ospf"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "type-property" : "protocol",
+                                             "typetext" : "<string>"
+                                          },
+                                          "csnp_interval" : {
+                                             "description" : "The csnp_interval property for Openfabric",
+                                             "instance-types" : [
+                                                "openfabric"
+                                             ],
+                                             "maximum" : 600,
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "type" : "number",
+                                             "type-property" : "protocol",
+                                             "typetext" : "<number> (1 - 600)"
+                                          },
+                                          "delete" : {
+                                             "oneOf" : [
+                                                {
+                                                   "instance-types" : [
+                                                      "openfabric"
+                                                   ],
+                                                   "items" : {
+                                                      "enum" : [
+                                                         "hello_interval",
+                                                         "csnp_interval"
+                                                      ],
+                                                      "type" : "string"
+                                                   },
+                                                   "optional" : 1,
+                                                   "type" : "array"
+                                                },
+                                                {
+                                                   "instance-types" : [
+                                                      "ospf"
+                                                   ],
+                                                   "items" : {
+                                                      "enum" : [
+                                                         "area"
+                                                      ],
+                                                      "type" : "string"
+                                                   },
+                                                   "optional" : 1,
+                                                   "type" : "array"
+                                                }
+                                             ],
+                                             "type" : "array",
+                                             "type-property" : "protocol",
+                                             "typetext" : "<array>"
+                                          },
+                                          "digest" : {
+                                             "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                             "maxLength" : 64,
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "hello_interval" : {
+                                             "description" : "The hello_interval property for Openfabric",
+                                             "instance-types" : [
+                                                "openfabric"
+                                             ],
+                                             "maximum" : 600,
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "type" : "number",
+                                             "type-property" : "protocol",
+                                             "typetext" : "<number> (1 - 600)"
+                                          },
+                                          "id" : {
+                                             "description" : "Identifier for SDN fabrics",
+                                             "format" : "pve-sdn-fabric-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "ip6_prefix" : {
+                                             "description" : "The IP prefix for Node IPs",
+                                             "format" : "CIDR",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "ip_prefix" : {
+                                             "description" : "The IP prefix for Node IPs",
+                                             "format" : "CIDR",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "protocol" : {
+                                             "description" : "Type of configuration entry in an SDN Fabric section config",
+                                             "enum" : [
+                                                "openfabric",
+                                                "ospf"
+                                             ],
+                                             "type" : "string"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/sdn/fabrics/{id}",
+                                          [
+                                             "SDN.Allocate"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "type" : "null"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/cluster/sdn/fabrics/fabric/{id}",
+                              "text" : "{id}"
+                           }
+                        ],
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "SDN Fabrics Index",
+                              "method" : "GET",
+                              "name" : "index",
+                              "parameters" : {
+                                 "properties" : {
+                                    "pending" : {
+                                       "description" : "Display pending config.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "running" : {
+                                       "description" : "Display running config.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "description" : "Only list entries where you have 'SDN.Audit' or 'SDN.Allocate' permissions on '/sdn/fabrics/<fabric>'",
+                                 "user" : "all"
+                              },
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "area" : {
+                                          "description" : "OSPF area. Either a IPv4 address or a 32-bit number. Gets validated in rust.",
+                                          "instance-types" : [
+                                             "ospf"
+                                          ],
+                                          "optional" : 1,
+                                          "type" : "string",
+                                          "type-property" : "protocol"
+                                       },
+                                       "csnp_interval" : {
+                                          "description" : "The csnp_interval property for Openfabric",
+                                          "instance-types" : [
+                                             "openfabric"
+                                          ],
+                                          "maximum" : 600,
+                                          "minimum" : 1,
+                                          "optional" : 1,
+                                          "type" : "number",
+                                          "type-property" : "protocol"
+                                       },
+                                       "digest" : {
+                                          "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                          "maxLength" : 64,
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "hello_interval" : {
+                                          "description" : "The hello_interval property for Openfabric",
+                                          "instance-types" : [
+                                             "openfabric"
+                                          ],
+                                          "maximum" : 600,
+                                          "minimum" : 1,
+                                          "optional" : 1,
+                                          "type" : "number",
+                                          "type-property" : "protocol"
+                                       },
+                                       "id" : {
+                                          "description" : "Identifier for SDN fabrics",
+                                          "format" : "pve-sdn-fabric-id",
+                                          "type" : "string"
+                                       },
+                                       "ip6_prefix" : {
+                                          "description" : "The IP prefix for Node IPs",
+                                          "format" : "CIDR",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "ip_prefix" : {
+                                          "description" : "The IP prefix for Node IPs",
+                                          "format" : "CIDR",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "protocol" : {
+                                          "description" : "Type of configuration entry in an SDN Fabric section config",
+                                          "enum" : [
+                                             "openfabric",
+                                             "ospf"
+                                          ],
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "links" : [
+                                    {
+                                       "href" : "{id}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
+                              }
+                           },
+                           "POST" : {
+                              "allowtoken" : 1,
+                              "description" : "Add a fabric",
+                              "method" : "POST",
+                              "name" : "add_fabric",
+                              "parameters" : {
+                                 "properties" : {
+                                    "area" : {
+                                       "description" : "OSPF area. Either a IPv4 address or a 32-bit number. Gets validated in rust.",
+                                       "instance-types" : [
+                                          "ospf"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "type-property" : "protocol",
+                                       "typetext" : "<string>"
+                                    },
+                                    "csnp_interval" : {
+                                       "description" : "The csnp_interval property for Openfabric",
+                                       "instance-types" : [
+                                          "openfabric"
+                                       ],
+                                       "maximum" : 600,
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "number",
+                                       "type-property" : "protocol",
+                                       "typetext" : "<number> (1 - 600)"
+                                    },
+                                    "digest" : {
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "hello_interval" : {
+                                       "description" : "The hello_interval property for Openfabric",
+                                       "instance-types" : [
+                                          "openfabric"
+                                       ],
+                                       "maximum" : 600,
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "number",
+                                       "type-property" : "protocol",
+                                       "typetext" : "<number> (1 - 600)"
+                                    },
+                                    "id" : {
+                                       "description" : "Identifier for SDN fabrics",
+                                       "format" : "pve-sdn-fabric-id",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "ip6_prefix" : {
+                                       "description" : "The IP prefix for Node IPs",
+                                       "format" : "CIDR",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "ip_prefix" : {
+                                       "description" : "The IP prefix for Node IPs",
+                                       "format" : "CIDR",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "protocol" : {
+                                       "description" : "Type of configuration entry in an SDN Fabric section config",
+                                       "enum" : [
+                                          "openfabric",
+                                          "ospf"
+                                       ],
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/sdn/fabrics",
+                                    [
+                                       "SDN.Allocate"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
+                        "path" : "/cluster/sdn/fabrics/fabric",
+                        "text" : "fabric"
+                     },
+                     {
+                        "children" : [
+                           {
+                              "children" : [
+                                 {
+                                    "info" : {
+                                       "DELETE" : {
+                                          "allowtoken" : 1,
+                                          "description" : "Add a node",
+                                          "method" : "DELETE",
+                                          "name" : "delete_node",
+                                          "parameters" : {
+                                             "properties" : {
+                                                "fabric_id" : {
+                                                   "description" : "Identifier for SDN fabrics",
+                                                   "format" : "pve-sdn-fabric-id",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "node_id" : {
+                                                   "description" : "Identifier for nodes in an SDN fabric",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "and",
+                                                [
+                                                   "perm",
+                                                   "/sdn/fabrics/{fabric_id}",
+                                                   [
+                                                      "SDN.Allocate"
+                                                   ]
+                                                ],
+                                                [
+                                                   "perm",
+                                                   "/nodes/{node_id}",
+                                                   [
+                                                      "Sys.Modify"
+                                                   ]
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "returns" : {
+                                             "type" : "null"
+                                          }
+                                       },
+                                       "GET" : {
+                                          "allowtoken" : 1,
+                                          "description" : "Get a node",
+                                          "method" : "GET",
+                                          "name" : "get_node",
+                                          "parameters" : {
+                                             "properties" : {
+                                                "fabric_id" : {
+                                                   "description" : "Identifier for SDN fabrics",
+                                                   "format" : "pve-sdn-fabric-id",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "node_id" : {
+                                                   "description" : "Identifier for nodes in an SDN fabric",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "and",
+                                                [
+                                                   "perm",
+                                                   "/sdn/fabrics/{fabric_id}",
+                                                   [
+                                                      "SDN.Audit",
+                                                      "SDN.Allocate"
+                                                   ],
+                                                   "any",
+                                                   1
+                                                ],
+                                                [
+                                                   "perm",
+                                                   "/nodes/{node_id}",
+                                                   [
+                                                      "Sys.Audit",
+                                                      "Sys.Modify"
+                                                   ],
+                                                   "any",
+                                                   1
+                                                ]
+                                             ]
+                                          },
+                                          "returns" : {
+                                             "properties" : {
+                                                "digest" : {
+                                                   "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                   "maxLength" : 64,
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "fabric_id" : {
+                                                   "description" : "Identifier for SDN fabrics",
+                                                   "format" : "pve-sdn-fabric-id",
+                                                   "type" : "string"
+                                                },
+                                                "interfaces" : {
+                                                   "oneOf" : [
+                                                      {
+                                                         "description" : "OpenFabric network interface",
+                                                         "instance-types" : [
+                                                            "openfabric"
+                                                         ],
+                                                         "items" : {
+                                                            "format" : {
+                                                               "hello_multiplier" : {
+                                                                  "description" : "The hello_multiplier property of the interface",
+                                                                  "maximum" : 100,
+                                                                  "minimum" : 2,
+                                                                  "optional" : 1,
+                                                                  "type" : "integer"
+                                                               },
+                                                               "ip" : {
+                                                                  "description" : "IPv4 address for this node",
+                                                                  "format" : "CIDRv4",
+                                                                  "optional" : 1,
+                                                                  "type" : "string"
+                                                               },
+                                                               "ip6" : {
+                                                                  "description" : "IPv6 address for this node",
+                                                                  "format" : "CIDRv6",
+                                                                  "optional" : 1,
+                                                                  "type" : "string"
+                                                               },
+                                                               "name" : {
+                                                                  "description" : "Name of the network interface",
+                                                                  "format" : "pve-iface",
+                                                                  "type" : "string"
+                                                               }
+                                                            },
+                                                            "type" : "string"
+                                                         },
+                                                         "optional" : 1,
+                                                         "type" : "array"
+                                                      },
+                                                      {
+                                                         "description" : "OSPF network interface",
+                                                         "instance-types" : [
+                                                            "ospf"
+                                                         ],
+                                                         "items" : {
+                                                            "format" : {
+                                                               "ip" : {
+                                                                  "description" : "IPv4 address for this node",
+                                                                  "format" : "CIDRv4",
+                                                                  "optional" : 1,
+                                                                  "type" : "string"
+                                                               },
+                                                               "name" : {
+                                                                  "description" : "Name of the network interface",
+                                                                  "format" : "pve-iface",
+                                                                  "type" : "string"
+                                                               }
+                                                            },
+                                                            "type" : "string"
+                                                         },
+                                                         "optional" : 1,
+                                                         "type" : "array"
+                                                      }
+                                                   ],
+                                                   "type" : "array",
+                                                   "type-property" : "protocol"
+                                                },
+                                                "ip" : {
+                                                   "description" : "IPv4 address for this node",
+                                                   "format" : "ipv4",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "ip6" : {
+                                                   "description" : "IPv6 address for this node",
+                                                   "format" : "ipv6",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "node_id" : {
+                                                   "description" : "Identifier for nodes in an SDN fabric",
+                                                   "format" : "pve-node",
+                                                   "type" : "string"
+                                                },
+                                                "protocol" : {
+                                                   "description" : "Type of configuration entry in an SDN Fabric section config",
+                                                   "enum" : [
+                                                      "openfabric",
+                                                      "ospf"
+                                                   ],
+                                                   "type" : "string"
+                                                }
+                                             }
+                                          }
+                                       },
+                                       "PUT" : {
+                                          "allowtoken" : 1,
+                                          "description" : "Update a node",
+                                          "method" : "PUT",
+                                          "name" : "update_node",
+                                          "parameters" : {
+                                             "properties" : {
+                                                "delete" : {
+                                                   "items" : {
+                                                      "enum" : [
+                                                         "interfaces",
+                                                         "ip",
+                                                         "ip6"
+                                                      ],
+                                                      "type" : "string"
+                                                   },
+                                                   "optional" : 1,
+                                                   "type" : "array",
+                                                   "typetext" : "<array>"
+                                                },
+                                                "digest" : {
+                                                   "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                   "maxLength" : 64,
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "fabric_id" : {
+                                                   "description" : "Identifier for SDN fabrics",
+                                                   "format" : "pve-sdn-fabric-id",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "interfaces" : {
+                                                   "oneOf" : [
+                                                      {
+                                                         "description" : "OpenFabric network interface",
+                                                         "instance-types" : [
+                                                            "openfabric"
+                                                         ],
+                                                         "items" : {
+                                                            "format" : {
+                                                               "hello_multiplier" : {
+                                                                  "description" : "The hello_multiplier property of the interface",
+                                                                  "maximum" : 100,
+                                                                  "minimum" : 2,
+                                                                  "optional" : 1,
+                                                                  "type" : "integer"
+                                                               },
+                                                               "ip" : {
+                                                                  "description" : "IPv4 address for this node",
+                                                                  "format" : "CIDRv4",
+                                                                  "optional" : 1,
+                                                                  "type" : "string"
+                                                               },
+                                                               "ip6" : {
+                                                                  "description" : "IPv6 address for this node",
+                                                                  "format" : "CIDRv6",
+                                                                  "optional" : 1,
+                                                                  "type" : "string"
+                                                               },
+                                                               "name" : {
+                                                                  "description" : "Name of the network interface",
+                                                                  "format" : "pve-iface",
+                                                                  "type" : "string"
+                                                               }
+                                                            },
+                                                            "type" : "string"
+                                                         },
+                                                         "optional" : 1,
+                                                         "type" : "array"
+                                                      },
+                                                      {
+                                                         "description" : "OSPF network interface",
+                                                         "instance-types" : [
+                                                            "ospf"
+                                                         ],
+                                                         "items" : {
+                                                            "format" : {
+                                                               "ip" : {
+                                                                  "description" : "IPv4 address for this node",
+                                                                  "format" : "CIDRv4",
+                                                                  "optional" : 1,
+                                                                  "type" : "string"
+                                                               },
+                                                               "name" : {
+                                                                  "description" : "Name of the network interface",
+                                                                  "format" : "pve-iface",
+                                                                  "type" : "string"
+                                                               }
+                                                            },
+                                                            "type" : "string"
+                                                         },
+                                                         "optional" : 1,
+                                                         "type" : "array"
+                                                      }
+                                                   ],
+                                                   "type" : "array",
+                                                   "type-property" : "protocol",
+                                                   "typetext" : "<array>"
+                                                },
+                                                "ip" : {
+                                                   "description" : "IPv4 address for this node",
+                                                   "format" : "ipv4",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "ip6" : {
+                                                   "description" : "IPv6 address for this node",
+                                                   "format" : "ipv6",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "node_id" : {
+                                                   "description" : "Identifier for nodes in an SDN fabric",
+                                                   "format" : "pve-node",
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "protocol" : {
+                                                   "description" : "Type of configuration entry in an SDN Fabric section config",
+                                                   "enum" : [
+                                                      "openfabric",
+                                                      "ospf"
+                                                   ],
+                                                   "type" : "string"
+                                                }
+                                             }
+                                          },
+                                          "permissions" : {
+                                             "check" : [
+                                                "and",
+                                                [
+                                                   "perm",
+                                                   "/sdn/fabrics/{fabric_id}",
+                                                   [
+                                                      "SDN.Allocate"
+                                                   ]
+                                                ],
+                                                [
+                                                   "perm",
+                                                   "/nodes/{node_id}",
+                                                   [
+                                                      "Sys.Modify"
+                                                   ]
+                                                ]
+                                             ]
+                                          },
+                                          "protected" : 1,
+                                          "returns" : {
+                                             "type" : "null"
+                                          }
+                                       }
+                                    },
+                                    "leaf" : 1,
+                                    "path" : "/cluster/sdn/fabrics/node/{fabric_id}/{node_id}",
+                                    "text" : "{node_id}"
+                                 }
+                              ],
+                              "info" : {
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "SDN Fabrics Index",
+                                    "method" : "GET",
+                                    "name" : "list_nodes_fabric",
+                                    "parameters" : {
+                                       "properties" : {
+                                          "fabric_id" : {
+                                             "description" : "Identifier for SDN fabrics",
+                                             "format" : "pve-sdn-fabric-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "pending" : {
+                                             "description" : "Display pending config.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          },
+                                          "running" : {
+                                             "description" : "Display running config.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/sdn/fabrics/{fabric_id}",
+                                          [
+                                             "SDN.Audit"
+                                          ]
+                                       ],
+                                       "description" : "Only returns nodes where you have 'Sys.Audit' or 'Sys.Modify' permissions."
+                                    },
+                                    "returns" : {
+                                       "items" : {
+                                          "properties" : {
+                                             "digest" : {
+                                                "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                "maxLength" : 64,
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "fabric_id" : {
+                                                "description" : "Identifier for SDN fabrics",
+                                                "format" : "pve-sdn-fabric-id",
+                                                "type" : "string"
+                                             },
+                                             "interfaces" : {
+                                                "oneOf" : [
+                                                   {
+                                                      "description" : "OpenFabric network interface",
+                                                      "instance-types" : [
+                                                         "openfabric"
+                                                      ],
+                                                      "items" : {
+                                                         "format" : {
+                                                            "hello_multiplier" : {
+                                                               "description" : "The hello_multiplier property of the interface",
+                                                               "maximum" : 100,
+                                                               "minimum" : 2,
+                                                               "optional" : 1,
+                                                               "type" : "integer"
+                                                            },
+                                                            "ip" : {
+                                                               "description" : "IPv4 address for this node",
+                                                               "format" : "CIDRv4",
+                                                               "optional" : 1,
+                                                               "type" : "string"
+                                                            },
+                                                            "ip6" : {
+                                                               "description" : "IPv6 address for this node",
+                                                               "format" : "CIDRv6",
+                                                               "optional" : 1,
+                                                               "type" : "string"
+                                                            },
+                                                            "name" : {
+                                                               "description" : "Name of the network interface",
+                                                               "format" : "pve-iface",
+                                                               "type" : "string"
+                                                            }
+                                                         },
+                                                         "type" : "string"
+                                                      },
+                                                      "optional" : 1,
+                                                      "type" : "array"
+                                                   },
+                                                   {
+                                                      "description" : "OSPF network interface",
+                                                      "instance-types" : [
+                                                         "ospf"
+                                                      ],
+                                                      "items" : {
+                                                         "format" : {
+                                                            "ip" : {
+                                                               "description" : "IPv4 address for this node",
+                                                               "format" : "CIDRv4",
+                                                               "optional" : 1,
+                                                               "type" : "string"
+                                                            },
+                                                            "name" : {
+                                                               "description" : "Name of the network interface",
+                                                               "format" : "pve-iface",
+                                                               "type" : "string"
+                                                            }
+                                                         },
+                                                         "type" : "string"
+                                                      },
+                                                      "optional" : 1,
+                                                      "type" : "array"
+                                                   }
+                                                ],
+                                                "type" : "array",
+                                                "type-property" : "protocol"
+                                             },
+                                             "ip" : {
+                                                "description" : "IPv4 address for this node",
+                                                "format" : "ipv4",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "ip6" : {
+                                                "description" : "IPv6 address for this node",
+                                                "format" : "ipv6",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "node_id" : {
+                                                "description" : "Identifier for nodes in an SDN fabric",
+                                                "format" : "pve-node",
+                                                "type" : "string"
+                                             },
+                                             "protocol" : {
+                                                "description" : "Type of configuration entry in an SDN Fabric section config",
+                                                "enum" : [
+                                                   "openfabric",
+                                                   "ospf"
+                                                ],
+                                                "type" : "string"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "links" : [
+                                          {
+                                             "href" : "{node_id}",
+                                             "rel" : "child"
+                                          }
+                                       ],
+                                       "type" : "array"
+                                    }
+                                 },
+                                 "POST" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Add a node",
+                                    "method" : "POST",
+                                    "name" : "add_node",
+                                    "parameters" : {
+                                       "properties" : {
+                                          "digest" : {
+                                             "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                             "maxLength" : 64,
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "fabric_id" : {
+                                             "description" : "Identifier for SDN fabrics",
+                                             "format" : "pve-sdn-fabric-id",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "interfaces" : {
+                                             "oneOf" : [
+                                                {
+                                                   "description" : "OpenFabric network interface",
+                                                   "instance-types" : [
+                                                      "openfabric"
+                                                   ],
+                                                   "items" : {
+                                                      "format" : {
+                                                         "hello_multiplier" : {
+                                                            "description" : "The hello_multiplier property of the interface",
+                                                            "maximum" : 100,
+                                                            "minimum" : 2,
+                                                            "optional" : 1,
+                                                            "type" : "integer"
+                                                         },
+                                                         "ip" : {
+                                                            "description" : "IPv4 address for this node",
+                                                            "format" : "CIDRv4",
+                                                            "optional" : 1,
+                                                            "type" : "string"
+                                                         },
+                                                         "ip6" : {
+                                                            "description" : "IPv6 address for this node",
+                                                            "format" : "CIDRv6",
+                                                            "optional" : 1,
+                                                            "type" : "string"
+                                                         },
+                                                         "name" : {
+                                                            "description" : "Name of the network interface",
+                                                            "format" : "pve-iface",
+                                                            "type" : "string"
+                                                         }
+                                                      },
+                                                      "type" : "string"
+                                                   },
+                                                   "optional" : 1,
+                                                   "type" : "array"
+                                                },
+                                                {
+                                                   "description" : "OSPF network interface",
+                                                   "instance-types" : [
+                                                      "ospf"
+                                                   ],
+                                                   "items" : {
+                                                      "format" : {
+                                                         "ip" : {
+                                                            "description" : "IPv4 address for this node",
+                                                            "format" : "CIDRv4",
+                                                            "optional" : 1,
+                                                            "type" : "string"
+                                                         },
+                                                         "name" : {
+                                                            "description" : "Name of the network interface",
+                                                            "format" : "pve-iface",
+                                                            "type" : "string"
+                                                         }
+                                                      },
+                                                      "type" : "string"
+                                                   },
+                                                   "optional" : 1,
+                                                   "type" : "array"
+                                                }
+                                             ],
+                                             "type" : "array",
+                                             "type-property" : "protocol",
+                                             "typetext" : "<array>"
+                                          },
+                                          "ip" : {
+                                             "description" : "IPv4 address for this node",
+                                             "format" : "ipv4",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "ip6" : {
+                                             "description" : "IPv6 address for this node",
+                                             "format" : "ipv6",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "node_id" : {
+                                             "description" : "Identifier for nodes in an SDN fabric",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "protocol" : {
+                                             "description" : "Type of configuration entry in an SDN Fabric section config",
+                                             "enum" : [
+                                                "openfabric",
+                                                "ospf"
+                                             ],
+                                             "type" : "string"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "and",
+                                          [
+                                             "perm",
+                                             "/sdn/fabrics/{fabric_id}",
+                                             [
+                                                "SDN.Allocate"
+                                             ]
+                                          ],
+                                          [
+                                             "perm",
+                                             "/nodes/{node_id}",
+                                             [
+                                                "Sys.Modify"
+                                             ]
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "returns" : {
+                                       "type" : "null"
+                                    }
+                                 }
+                              },
+                              "leaf" : 0,
+                              "path" : "/cluster/sdn/fabrics/node/{fabric_id}",
+                              "text" : "{fabric_id}"
+                           }
+                        ],
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "SDN Fabrics Index",
+                              "method" : "GET",
+                              "name" : "list_nodes",
+                              "parameters" : {
+                                 "properties" : {
+                                    "pending" : {
+                                       "description" : "Display pending config.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "running" : {
+                                       "description" : "Display running config.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "description" : "Only list nodes where you have 'SDN.Audit' or 'SDN.Allocate' permissions on\n'/sdn/fabrics/<fabric>' and 'Sys.Audit' or 'Sys.Modify' on /nodes/<node_id>",
+                                 "user" : "all"
+                              },
+                              "returns" : {
+                                 "items" : {
+                                    "properties" : {
+                                       "digest" : {
+                                          "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                          "maxLength" : 64,
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "fabric_id" : {
+                                          "description" : "Identifier for SDN fabrics",
+                                          "format" : "pve-sdn-fabric-id",
+                                          "type" : "string"
+                                       },
+                                       "interfaces" : {
+                                          "oneOf" : [
+                                             {
+                                                "description" : "OpenFabric network interface",
+                                                "instance-types" : [
+                                                   "openfabric"
+                                                ],
+                                                "items" : {
+                                                   "format" : {
+                                                      "hello_multiplier" : {
+                                                         "description" : "The hello_multiplier property of the interface",
+                                                         "maximum" : 100,
+                                                         "minimum" : 2,
+                                                         "optional" : 1,
+                                                         "type" : "integer"
+                                                      },
+                                                      "ip" : {
+                                                         "description" : "IPv4 address for this node",
+                                                         "format" : "CIDRv4",
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "ip6" : {
+                                                         "description" : "IPv6 address for this node",
+                                                         "format" : "CIDRv6",
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "name" : {
+                                                         "description" : "Name of the network interface",
+                                                         "format" : "pve-iface",
+                                                         "type" : "string"
+                                                      }
+                                                   },
+                                                   "type" : "string"
+                                                },
+                                                "optional" : 1,
+                                                "type" : "array"
+                                             },
+                                             {
+                                                "description" : "OSPF network interface",
+                                                "instance-types" : [
+                                                   "ospf"
+                                                ],
+                                                "items" : {
+                                                   "format" : {
+                                                      "ip" : {
+                                                         "description" : "IPv4 address for this node",
+                                                         "format" : "CIDRv4",
+                                                         "optional" : 1,
+                                                         "type" : "string"
+                                                      },
+                                                      "name" : {
+                                                         "description" : "Name of the network interface",
+                                                         "format" : "pve-iface",
+                                                         "type" : "string"
+                                                      }
+                                                   },
+                                                   "type" : "string"
+                                                },
+                                                "optional" : 1,
+                                                "type" : "array"
+                                             }
+                                          ],
+                                          "type" : "array",
+                                          "type-property" : "protocol"
+                                       },
+                                       "ip" : {
+                                          "description" : "IPv4 address for this node",
+                                          "format" : "ipv4",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "ip6" : {
+                                          "description" : "IPv6 address for this node",
+                                          "format" : "ipv6",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "node_id" : {
+                                          "description" : "Identifier for nodes in an SDN fabric",
+                                          "format" : "pve-node",
+                                          "type" : "string"
+                                       },
+                                       "protocol" : {
+                                          "description" : "Type of configuration entry in an SDN Fabric section config",
+                                          "enum" : [
+                                             "openfabric",
+                                             "ospf"
+                                          ],
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "links" : [
+                                    {
+                                       "href" : "{fabric_id}",
+                                       "rel" : "child"
+                                    }
+                                 ],
+                                 "type" : "array"
+                              }
+                           }
+                        },
+                        "leaf" : 0,
+                        "path" : "/cluster/sdn/fabrics/node",
+                        "text" : "node"
+                     },
+                     {
+                        "info" : {
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "SDN Fabrics Index",
+                              "method" : "GET",
+                              "name" : "list_all",
+                              "parameters" : {
+                                 "properties" : {
+                                    "pending" : {
+                                       "description" : "Display pending config.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "running" : {
+                                       "description" : "Display running config.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "description" : "Only list fabrics where you have 'SDN.Audit' or 'SDN.Allocate' permissions on\n'/sdn/fabrics/<fabric>', only list nodes where you have 'Sys.Audit' or 'Sys.Modify' on /nodes/<node_id>",
+                                 "user" : "all"
+                              },
+                              "returns" : {
+                                 "properties" : {
+                                    "fabrics" : {
+                                       "items" : {
+                                          "properties" : {
+                                             "area" : {
+                                                "description" : "OSPF area. Either a IPv4 address or a 32-bit number. Gets validated in rust.",
+                                                "instance-types" : [
+                                                   "ospf"
+                                                ],
+                                                "optional" : 1,
+                                                "type" : "string",
+                                                "type-property" : "protocol"
+                                             },
+                                             "csnp_interval" : {
+                                                "description" : "The csnp_interval property for Openfabric",
+                                                "instance-types" : [
+                                                   "openfabric"
+                                                ],
+                                                "maximum" : 600,
+                                                "minimum" : 1,
+                                                "optional" : 1,
+                                                "type" : "number",
+                                                "type-property" : "protocol"
+                                             },
+                                             "digest" : {
+                                                "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                "maxLength" : 64,
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "hello_interval" : {
+                                                "description" : "The hello_interval property for Openfabric",
+                                                "instance-types" : [
+                                                   "openfabric"
+                                                ],
+                                                "maximum" : 600,
+                                                "minimum" : 1,
+                                                "optional" : 1,
+                                                "type" : "number",
+                                                "type-property" : "protocol"
+                                             },
+                                             "id" : {
+                                                "description" : "Identifier for SDN fabrics",
+                                                "format" : "pve-sdn-fabric-id",
+                                                "type" : "string"
+                                             },
+                                             "ip6_prefix" : {
+                                                "description" : "The IP prefix for Node IPs",
+                                                "format" : "CIDR",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "ip_prefix" : {
+                                                "description" : "The IP prefix for Node IPs",
+                                                "format" : "CIDR",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "protocol" : {
+                                                "description" : "Type of configuration entry in an SDN Fabric section config",
+                                                "enum" : [
+                                                   "openfabric",
+                                                   "ospf"
+                                                ],
+                                                "type" : "string"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "type" : "array"
+                                    },
+                                    "nodes" : {
+                                       "items" : {
+                                          "properties" : {
+                                             "digest" : {
+                                                "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                                "maxLength" : 64,
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "fabric_id" : {
+                                                "description" : "Identifier for SDN fabrics",
+                                                "format" : "pve-sdn-fabric-id",
+                                                "type" : "string"
+                                             },
+                                             "interfaces" : {
+                                                "oneOf" : [
+                                                   {
+                                                      "description" : "OpenFabric network interface",
+                                                      "instance-types" : [
+                                                         "openfabric"
+                                                      ],
+                                                      "items" : {
+                                                         "format" : {
+                                                            "hello_multiplier" : {
+                                                               "description" : "The hello_multiplier property of the interface",
+                                                               "maximum" : 100,
+                                                               "minimum" : 2,
+                                                               "optional" : 1,
+                                                               "type" : "integer"
+                                                            },
+                                                            "ip" : {
+                                                               "description" : "IPv4 address for this node",
+                                                               "format" : "CIDRv4",
+                                                               "optional" : 1,
+                                                               "type" : "string"
+                                                            },
+                                                            "ip6" : {
+                                                               "description" : "IPv6 address for this node",
+                                                               "format" : "CIDRv6",
+                                                               "optional" : 1,
+                                                               "type" : "string"
+                                                            },
+                                                            "name" : {
+                                                               "description" : "Name of the network interface",
+                                                               "format" : "pve-iface",
+                                                               "type" : "string"
+                                                            }
+                                                         },
+                                                         "type" : "string"
+                                                      },
+                                                      "optional" : 1,
+                                                      "type" : "array"
+                                                   },
+                                                   {
+                                                      "description" : "OSPF network interface",
+                                                      "instance-types" : [
+                                                         "ospf"
+                                                      ],
+                                                      "items" : {
+                                                         "format" : {
+                                                            "ip" : {
+                                                               "description" : "IPv4 address for this node",
+                                                               "format" : "CIDRv4",
+                                                               "optional" : 1,
+                                                               "type" : "string"
+                                                            },
+                                                            "name" : {
+                                                               "description" : "Name of the network interface",
+                                                               "format" : "pve-iface",
+                                                               "type" : "string"
+                                                            }
+                                                         },
+                                                         "type" : "string"
+                                                      },
+                                                      "optional" : 1,
+                                                      "type" : "array"
+                                                   }
+                                                ],
+                                                "type" : "array",
+                                                "type-property" : "protocol"
+                                             },
+                                             "ip" : {
+                                                "description" : "IPv4 address for this node",
+                                                "format" : "ipv4",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "ip6" : {
+                                                "description" : "IPv6 address for this node",
+                                                "format" : "ipv6",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
+                                             "node_id" : {
+                                                "description" : "Identifier for nodes in an SDN fabric",
+                                                "format" : "pve-node",
+                                                "type" : "string"
+                                             },
+                                             "protocol" : {
+                                                "description" : "Type of configuration entry in an SDN Fabric section config",
+                                                "enum" : [
+                                                   "openfabric",
+                                                   "ospf"
+                                                ],
+                                                "type" : "string"
+                                             }
+                                          },
+                                          "type" : "object"
+                                       },
+                                       "type" : "array"
+                                    }
+                                 },
+                                 "type" : "object"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/cluster/sdn/fabrics/all",
+                        "text" : "all"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "SDN Fabrics Index",
+                        "method" : "GET",
+                        "name" : "index",
+                        "parameters" : {},
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/sdn/fabrics",
+                              [
+                                 "SDN.Audit"
+                              ]
+                           ]
+                        },
+                        "returns" : {
+                           "items" : {
+                              "properties" : {
+                                 "subdir" : {
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "links" : [
+                              {
+                                 "href" : "{subdir}",
+                                 "rel" : "child"
+                              }
+                           ],
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/cluster/sdn/fabrics",
+                  "text" : "fabrics"
                }
             ],
             "info" : {
@@ -14547,7 +16079,7 @@ const apiSchema = [
                            "description" : "For cluster wide migration settings.",
                            "format" : {
                               "network" : {
-                                 "description" : "CIDR of the (sub) network that is used for migration and replication.",
+                                 "description" : "CIDR of the (sub) network that is used for migration. Used as a fallback for replications jobs if the replication network setting is not set",
                                  "format" : "CIDR",
                                  "format_description" : "CIDR",
                                  "optional" : 1,
@@ -14660,6 +16192,31 @@ const apiSchema = [
                            "pattern" : "(?:(?^i:[a-z0-9_][a-z0-9_\\-\\+\\.]*);)*(?^i:[a-z0-9_][a-z0-9_\\-\\+\\.]*)",
                            "type" : "string",
                            "typetext" : "<tag>[;<tag>...]"
+                        },
+                        "replication" : {
+                           "description" : "For cluster wide replication settings.",
+                           "format" : {
+                              "network" : {
+                                 "description" : "CIDR of the (sub) network that is used for replication jobs.",
+                                 "format" : "CIDR",
+                                 "format_description" : "CIDR",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "type" : {
+                                 "default" : "secure",
+                                 "default_key" : 1,
+                                 "description" : "Replication traffic is encrypted using an SSH tunnel by default. On secure, completely private networks this can be disabled to increase performance.",
+                                 "enum" : [
+                                    "secure",
+                                    "insecure"
+                                 ],
+                                 "type" : "string"
+                              }
+                           },
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "[type=]<secure|insecure> [,network=<CIDR>]"
                         },
                         "tag-style" : {
                            "description" : "Tag style options.",
@@ -16883,8 +18440,11 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
-                                                ]
+                                                   "VM.GuestAgent.FileSystemMgmt",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -16930,8 +18490,12 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
-                                                ]
+                                                   "VM.GuestAgent.Audit",
+                                                   "VM.GuestAgent.FileSystemMgmt",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -16977,8 +18541,11 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
-                                                ]
+                                                   "VM.GuestAgent.FileSystemMgmt",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -17024,8 +18591,11 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
-                                                ]
+                                                   "VM.GuestAgent.FileSystemMgmt",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -17071,8 +18641,11 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
-                                                ]
+                                                   "VM.GuestAgent.Audit",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -17118,8 +18691,11 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
-                                                ]
+                                                   "VM.GuestAgent.Audit",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -17165,8 +18741,11 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
-                                                ]
+                                                   "VM.GuestAgent.Audit",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -17212,8 +18791,11 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
-                                                ]
+                                                   "VM.GuestAgent.Audit",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -17259,8 +18841,11 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
-                                                ]
+                                                   "VM.GuestAgent.Audit",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -17306,8 +18891,11 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
-                                                ]
+                                                   "VM.GuestAgent.Audit",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -17353,8 +18941,11 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
-                                                ]
+                                                   "VM.GuestAgent.Audit",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -17400,8 +18991,11 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
-                                                ]
+                                                   "VM.GuestAgent.Audit",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -17447,8 +19041,11 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
-                                                ]
+                                                   "VM.GuestAgent.Audit",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -17494,8 +19091,11 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
-                                                ]
+                                                   "VM.GuestAgent.Audit",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -17541,8 +19141,11 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
-                                                ]
+                                                   "VM.GuestAgent.Audit",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -17588,8 +19191,11 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
-                                                ]
+                                                   "VM.GuestAgent.Audit",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -17635,8 +19241,11 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
-                                                ]
+                                                   "VM.PowerMgmt",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -17682,8 +19291,11 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
-                                                ]
+                                                   "VM.PowerMgmt",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -17729,8 +19341,11 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
-                                                ]
+                                                   "VM.PowerMgmt",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -17776,8 +19391,11 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
-                                                ]
+                                                   "VM.PowerMgmt",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -17842,7 +19460,7 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
+                                                   "VM.GuestAgent.Unrestricted"
                                                 ]
                                              ]
                                           },
@@ -17905,7 +19523,7 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
+                                                   "VM.GuestAgent.Unrestricted"
                                                 ]
                                              ]
                                           },
@@ -17962,7 +19580,7 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
+                                                   "VM.GuestAgent.Unrestricted"
                                                 ]
                                              ]
                                           },
@@ -18049,8 +19667,11 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
-                                                ]
+                                                   "VM.GuestAgent.FileRead",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -18125,8 +19746,11 @@ const apiSchema = [
                                                 "perm",
                                                 "/vms/{vmid}",
                                                 [
-                                                   "VM.Monitor"
-                                                ]
+                                                   "VM.GuestAgent.FileWrite",
+                                                   "VM.GuestAgent.Unrestricted"
+                                                ],
+                                                "any",
+                                                1
                                              ]
                                           },
                                           "protected" : 1,
@@ -18240,8 +19864,11 @@ const apiSchema = [
                                           "perm",
                                           "/vms/{vmid}",
                                           [
-                                             "VM.Monitor"
-                                          ]
+                                             "VM.GuestAgent.Unrestricted",
+                                             "VM.GuestAgent.Unrestricted"
+                                          ],
+                                          "any",
+                                          1
                                        ]
                                     },
                                     "protected" : 1,
@@ -19299,7 +20926,7 @@ const apiSchema = [
                                                    "type" : "string"
                                                 },
                                                 "mtu" : {
-                                                   "description" : "Force MTU, for VirtIO only. Set to '1' to use the bridge MTU",
+                                                   "description" : "Force MTU of network device (VirtIO only). Setting to '1' or empty will use the bridge MTU",
                                                    "maximum" : 65520,
                                                    "minimum" : 1,
                                                    "optional" : 1,
@@ -21622,7 +23249,7 @@ const apiSchema = [
                                                    "type" : "string"
                                                 },
                                                 "mtu" : {
-                                                   "description" : "Force MTU, for VirtIO only. Set to '1' to use the bridge MTU",
+                                                   "description" : "Force MTU of network device (VirtIO only). Setting to '1' or empty will use the bridge MTU",
                                                    "maximum" : 65520,
                                                    "minimum" : 1,
                                                    "optional" : 1,
@@ -24036,7 +25663,7 @@ const apiSchema = [
                                                    "type" : "string"
                                                 },
                                                 "mtu" : {
-                                                   "description" : "Force MTU, for VirtIO only. Set to '1' to use the bridge MTU",
+                                                   "description" : "Force MTU of network device (VirtIO only). Setting to '1' or empty will use the bridge MTU",
                                                    "maximum" : 65520,
                                                    "minimum" : 1,
                                                    "optional" : 1,
@@ -28260,10 +29887,13 @@ const apiSchema = [
                                           "perm",
                                           "/vms/{vmid}",
                                           [
-                                             "VM.Monitor"
-                                          ]
+                                             "Sys.Audit",
+                                             "Sys.Modify"
+                                          ],
+                                          "any",
+                                          1
                                        ],
-                                       "description" : "Sys.Modify is required for (sub)commands which are not read-only ('info *' and 'help')"
+                                       "description" : "The following commands do not require any additional privilege: ?, help, info\n\nThe following commands require 'Sys.Modify': announce_self, backup_cancel, balloon, block_job_cancel, block_job_complete, block_job_pause, block_job_resume, block_job_set_speed, block_resize, block_set_io_throttle, boot_set, c, calc_dirty_rate, cancel_vcpu_dirty_limit, chardev-send-break, closefd, commit, cont, cpu, delvm, eject, exit_preconfig, expire_password, getfd, gpa2hpa, gpa2hva, gva2gpa, i, loadvm, log, migrate_cancel, migrate_continue, migrate_pause, migrate_set_capability, migrate_set_parameter, migrate_start_postcopy, mouse_button, mouse_move, mouse_set, one-insn-per-tb, p, print, q, qemu-io, qom-get, qom-list, quit, replay_break, replay_delete_break, replay_seek, ringbuf_read, ringbuf_write, s, savevm, sendkey, set_link, set_password, set_vcpu_dirty_limit, snapshot_blkdev_internal, snapshot_delete_blkdev_internal, stop, stopcapture, sum, sync-profile, system_powerdown, system_reset, system_wakeup, trace-event, x, x_colo_lost_heartbeat, xp\n\nThe following commands are root-only: backup, block_stream, change, chardev-add, chardev-change, chardev-remove, client_migrate_info, device_add, device_del, drive_add, drive_backup, drive_del, drive_mirror, dump-guest-memory, dumpdtb, gdbserver, hostfwd_add, hostfwd_remove, logfile, mce, memsave, migrate, migrate_incoming, migrate_recover, nbd_server_add, nbd_server_remove, nbd_server_start, nbd_server_stop, netdev_add, netdev_del, nmi, o, object_add, object_del, pcie_aer_inject_error, pmemsave, qom-set, savevm-end, savevm-start, screendump, snapshot_blkdev, watchdog_action, wavcapture, xen-event-inject, xen-event-list\n"
                                     },
                                     "protected" : 1,
                                     "proxyto" : "node",
@@ -30292,7 +31922,7 @@ const apiSchema = [
                                        "type" : "string"
                                     },
                                     "mtu" : {
-                                       "description" : "Force MTU, for VirtIO only. Set to '1' to use the bridge MTU",
+                                       "description" : "Force MTU of network device (VirtIO only). Setting to '1' or empty will use the bridge MTU",
                                        "maximum" : 65520,
                                        "minimum" : 1,
                                        "optional" : 1,
@@ -42197,23 +43827,6 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
-                                    "notification-policy" : {
-                                       "default" : "always",
-                                       "description" : "Deprecated: Do not use",
-                                       "enum" : [
-                                          "always",
-                                          "failure",
-                                          "never"
-                                       ],
-                                       "optional" : 1,
-                                       "type" : "string"
-                                    },
-                                    "notification-target" : {
-                                       "description" : "Deprecated: Do not use",
-                                       "format" : "pve-configid",
-                                       "optional" : 1,
-                                       "type" : "string"
-                                    },
                                     "pbs-change-detection-mode" : {
                                        "description" : "PBS mode used to detect file changes and switch encoding format for container backups.",
                                        "enum" : [
@@ -42513,24 +44126,6 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "string"
                               },
-                              "notification-policy" : {
-                                 "default" : "always",
-                                 "description" : "Deprecated: Do not use",
-                                 "enum" : [
-                                    "always",
-                                    "failure",
-                                    "never"
-                                 ],
-                                 "optional" : 1,
-                                 "type" : "string"
-                              },
-                              "notification-target" : {
-                                 "description" : "Deprecated: Do not use",
-                                 "format" : "pve-configid",
-                                 "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
-                              },
                               "pbs-change-detection-mode" : {
                                  "description" : "PBS mode used to detect file changes and switch encoding format for container backups.",
                                  "enum" : [
@@ -42696,16 +44291,20 @@ const apiSchema = [
                                                 "corosync",
                                                 "cron",
                                                 "ksmtuned",
+                                                "lxcfs",
                                                 "postfix",
+                                                "proxmox-firewall",
                                                 "pve-cluster",
                                                 "pve-firewall",
                                                 "pve-ha-crm",
                                                 "pve-ha-lrm",
+                                                "pve-lxc-syscalld",
                                                 "pvedaemon",
                                                 "pvefw-logger",
                                                 "pveproxy",
                                                 "pvescheduler",
                                                 "pvestatd",
+                                                "qmeventd",
                                                 "spiceproxy",
                                                 "sshd",
                                                 "syslog",
@@ -42759,16 +44358,20 @@ const apiSchema = [
                                                 "corosync",
                                                 "cron",
                                                 "ksmtuned",
+                                                "lxcfs",
                                                 "postfix",
+                                                "proxmox-firewall",
                                                 "pve-cluster",
                                                 "pve-firewall",
                                                 "pve-ha-crm",
                                                 "pve-ha-lrm",
+                                                "pve-lxc-syscalld",
                                                 "pvedaemon",
                                                 "pvefw-logger",
                                                 "pveproxy",
                                                 "pvescheduler",
                                                 "pvestatd",
+                                                "qmeventd",
                                                 "spiceproxy",
                                                 "sshd",
                                                 "syslog",
@@ -42822,16 +44425,20 @@ const apiSchema = [
                                                 "corosync",
                                                 "cron",
                                                 "ksmtuned",
+                                                "lxcfs",
                                                 "postfix",
+                                                "proxmox-firewall",
                                                 "pve-cluster",
                                                 "pve-firewall",
                                                 "pve-ha-crm",
                                                 "pve-ha-lrm",
+                                                "pve-lxc-syscalld",
                                                 "pvedaemon",
                                                 "pvefw-logger",
                                                 "pveproxy",
                                                 "pvescheduler",
                                                 "pvestatd",
+                                                "qmeventd",
                                                 "spiceproxy",
                                                 "sshd",
                                                 "syslog",
@@ -42885,16 +44492,20 @@ const apiSchema = [
                                                 "corosync",
                                                 "cron",
                                                 "ksmtuned",
+                                                "lxcfs",
                                                 "postfix",
+                                                "proxmox-firewall",
                                                 "pve-cluster",
                                                 "pve-firewall",
                                                 "pve-ha-crm",
                                                 "pve-ha-lrm",
+                                                "pve-lxc-syscalld",
                                                 "pvedaemon",
                                                 "pvefw-logger",
                                                 "pveproxy",
                                                 "pvescheduler",
                                                 "pvestatd",
+                                                "qmeventd",
                                                 "spiceproxy",
                                                 "sshd",
                                                 "syslog",
@@ -42948,16 +44559,20 @@ const apiSchema = [
                                                 "corosync",
                                                 "cron",
                                                 "ksmtuned",
+                                                "lxcfs",
                                                 "postfix",
+                                                "proxmox-firewall",
                                                 "pve-cluster",
                                                 "pve-firewall",
                                                 "pve-ha-crm",
                                                 "pve-ha-lrm",
+                                                "pve-lxc-syscalld",
                                                 "pvedaemon",
                                                 "pvefw-logger",
                                                 "pveproxy",
                                                 "pvescheduler",
                                                 "pvestatd",
+                                                "qmeventd",
                                                 "spiceproxy",
                                                 "sshd",
                                                 "syslog",
@@ -43011,16 +44626,20 @@ const apiSchema = [
                                           "corosync",
                                           "cron",
                                           "ksmtuned",
+                                          "lxcfs",
                                           "postfix",
+                                          "proxmox-firewall",
                                           "pve-cluster",
                                           "pve-firewall",
                                           "pve-ha-crm",
                                           "pve-ha-lrm",
+                                          "pve-lxc-syscalld",
                                           "pvedaemon",
                                           "pvefw-logger",
                                           "pveproxy",
                                           "pvescheduler",
                                           "pvestatd",
+                                          "qmeventd",
                                           "spiceproxy",
                                           "sshd",
                                           "syslog",
@@ -43628,6 +45247,7 @@ const apiSchema = [
                                           "eth",
                                           "alias",
                                           "vlan",
+                                          "fabric",
                                           "OVSBridge",
                                           "OVSBond",
                                           "OVSPort",
@@ -43729,13 +45349,15 @@ const apiSchema = [
                                     "eth",
                                     "alias",
                                     "vlan",
+                                    "fabric",
                                     "OVSBridge",
                                     "OVSBond",
                                     "OVSPort",
                                     "OVSIntPort",
                                     "vnet",
                                     "any_bridge",
-                                    "any_local_bridge"
+                                    "any_local_bridge",
+                                    "include_sdn"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -44026,6 +45648,7 @@ const apiSchema = [
                                        "eth",
                                        "alias",
                                        "vlan",
+                                       "fabric",
                                        "OVSBridge",
                                        "OVSBond",
                                        "OVSPort",
@@ -44308,6 +45931,7 @@ const apiSchema = [
                                     "eth",
                                     "alias",
                                     "vlan",
+                                    "fabric",
                                     "OVSBridge",
                                     "OVSBond",
                                     "OVSPort",
@@ -44362,6 +45986,12 @@ const apiSchema = [
                                  "format" : "pve-node",
                                  "type" : "string",
                                  "typetext" : "<string>"
+                              },
+                              "skip_frr" : {
+                                 "description" : "Whether FRR config generation should get skipped or not.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
                               }
                            }
                         },
@@ -52047,8 +53677,8 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "login",
                                     "ceph_install",
+                                    "login",
                                     "upgrade"
                                  ],
                                  "optional" : 1,
@@ -52142,8 +53772,8 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "login",
                                     "ceph_install",
+                                    "login",
                                     "upgrade"
                                  ],
                                  "optional" : 1,
@@ -52267,8 +53897,8 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "login",
                                     "ceph_install",
+                                    "login",
                                     "upgrade"
                                  ],
                                  "optional" : 1,
@@ -53576,6 +55206,13 @@ const apiSchema = [
                            "optional" : 1,
                            "type" : "string"
                         },
+                        "snapshot-as-volume-chain" : {
+                           "default" : 0,
+                           "description" : "Enable support for creating storage-vendor agnostic snapshot through volume backing-chains.",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        },
                         "sparse" : {
                            "description" : "use sparse volumes",
                            "optional" : 1,
@@ -53604,6 +55241,13 @@ const apiSchema = [
                         },
                         "username" : {
                            "description" : "RBD Id.",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "zfs-base-path" : {
+                           "description" : "Base path where to look for the created ZFS block devices. Set automatically during creation if not specified. Usually '/dev/zvol'.",
+                           "format" : "pve-storage-path",
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
@@ -54115,6 +55759,13 @@ const apiSchema = [
                      "optional" : 1,
                      "type" : "string"
                   },
+                  "snapshot-as-volume-chain" : {
+                     "default" : 0,
+                     "description" : "Enable support for creating storage-vendor agnostic snapshot through volume backing-chains.",
+                     "optional" : 1,
+                     "type" : "boolean",
+                     "typetext" : "<boolean>"
+                  },
                   "sparse" : {
                      "description" : "use sparse volumes",
                      "optional" : 1,
@@ -54183,6 +55834,13 @@ const apiSchema = [
                   "vgname" : {
                      "description" : "Volume group name.",
                      "format" : "pve-storage-vgname",
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "zfs-base-path" : {
+                     "description" : "Base path where to look for the created ZFS block devices. Set automatically during creation if not specified. Usually '/dev/zvol'.",
+                     "format" : "pve-storage-path",
                      "optional" : 1,
                      "type" : "string",
                      "typetext" : "<string>"
@@ -55633,11 +57291,27 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "boolean"
                               },
-                              "VM.Migrate" : {
+                              "VM.GuestAgent.Audit" : {
                                  "optional" : 1,
                                  "type" : "boolean"
                               },
-                              "VM.Monitor" : {
+                              "VM.GuestAgent.FileRead" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.GuestAgent.FileSystemMgmt" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.GuestAgent.FileWrite" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.GuestAgent.Unrestricted" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Migrate" : {
                                  "optional" : 1,
                                  "type" : "boolean"
                               },

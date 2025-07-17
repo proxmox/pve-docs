@@ -214,6 +214,10 @@ Disable TLS certificate verification, only enable on fully trusted networks!
 
 SMB protocol version. 'default' if not set, negotiates the highest SMB2+ version supported by both the client and server.
 
+`--snapshot-as-volume-chain` `<boolean>` ('default =' `0`)::
+
+Enable support for creating storage-vendor agnostic snapshot through volume backing-chains.
+
 `--sparse` `<boolean>` ::
 
 use sparse volumes
@@ -241,6 +245,10 @@ RBD Id.
 `--vgname` `<string>` ::
 
 Volume group name.
+
+`--zfs-base-path` `<string>` ::
+
+Base path where to look for the created ZFS block devices. Set automatically during creation if not specified. Usually '/dev/zvol'.
 
 *pvesm alloc* `<storage> <vmid> <filename> <size>` `[OPTIONS]`
 
@@ -740,6 +748,10 @@ Disable TLS certificate verification, only enable on fully trusted networks!
 
 SMB protocol version. 'default' if not set, negotiates the highest SMB2+ version supported by both the client and server.
 
+`--snapshot-as-volume-chain` `<boolean>` ('default =' `0`)::
+
+Enable support for creating storage-vendor agnostic snapshot through volume backing-chains.
+
 `--sparse` `<boolean>` ::
 
 use sparse volumes
@@ -755,6 +767,10 @@ Only use logical volumes tagged with 'pve-vm-ID'.
 `--username` `<string>` ::
 
 RBD Id.
+
+`--zfs-base-path` `<string>` ::
+
+Base path where to look for the created ZFS block devices. Set automatically during creation if not specified. Usually '/dev/zvol'.
 
 *pvesm status* `[OPTIONS]`
 
