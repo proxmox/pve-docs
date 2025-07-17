@@ -53,19 +53,19 @@ Wipe throughput (`cstream -t` parameter value).
 Set this flag to enable snapshot support for virtual machines on LVM with a
 volume backing chain that uses separate volumes for snapshot virtual disk
 states.
-
++
 This design avoids issues with native LVM snapshots, such as significant
 input/output (I/O) penalties and unexpected, dangerous behavior when running out
 of pre-allocated space.
-
++
 Snapshots as volume chains provide vendor-agnostic support for snapshots on any
 storage system that supports block storage. This includes iSCSI and fiber
 channel-attached SANs.
-
++
 Note that, although this feature relies on qcow2, it only uses qcow2's ability
 to layer multiple volumes in a backing chain. The snapshot functionality itself
 is managed by the PVE storage system, not qcow2 directly.
-
++
 Enabling or disabling this flag only affects newly created virtual disk volumes.
 
 .Configuration Example (`/etc/pve/storage.cfg`)
