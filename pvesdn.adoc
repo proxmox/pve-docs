@@ -727,14 +727,10 @@ Configuration options:
 On the Fabric
 ^^^^^^^^^^^^^
 
-Area:: This specifies the OSPF area identifier, which can be either a 32-bit
-signed integer or an IP address. Areas are a way to organize and structure OSPF
-networks hierarchically, with Area 0 (or 0.0.0.0) serving as the backbone area.
-
 IPv4 Prefix:: IPv4 CIDR network range (e.g., 192.0.2.0/24) used to
 verify that all router-IDs in the fabric are contained within this prefix.
 
-Area:: This specifies the OSPF area identifier, which can be either an 32-bit
+Area:: This specifies the OSPF area identifier, which can be either a 32-bit
 signed integer or an IP address. Areas are a way to organize and structure OSPF
 networks hierarchically, with Area 0 (or 0.0.0.0) serving as the backbone area.
 
