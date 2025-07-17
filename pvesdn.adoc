@@ -530,7 +530,7 @@ Loopback:: Use a loopback or dummy interface as the source of the EVPN network
 Fabrics
 -------
 
-//[thumbnail="screenshot/gui-datacenter-fabrics-overview.png"]
+[thumbnail="screenshot/gui-datacenter-fabrics-overview.png"]
 
 Fabrics in {pve} SDN provide automated routing between nodes in a cluster. They
 simplify the configuration of underlay networks between nodes to form the
@@ -607,7 +607,7 @@ OpenFabric is a routing protocol specifically designed for data center fabrics.
 It's based on IS-IS and optimized for the spine-leaf topology common in data
 centers.
 
-//[thumbnail="screenshot/gui-datacenter-create-fabric-openfabric.png"]
+[thumbnail="screenshot/gui-datacenter-create-fabric-openfabric.png"]
 
 Configuration options:
 
@@ -647,7 +647,7 @@ property. The default value is 10 seconds.
 On the Node
 ^^^^^^^^^^^
 
-//[thumbnail="screenshot/gui-datacenter-create-node-openfabric.png"]
+[thumbnail="screenshot/gui-datacenter-create-node-openfabric.png"]
 
 Options that are available on every node that is part of a fabric:
 
@@ -702,7 +702,7 @@ OSPF (Open Shortest Path First) is a widely-used link-state routing protocol
 that efficiently calculates the shortest path for routing traffic through IP
 networks.
 
-//[thumbnail="screenshot/gui-datacenter-create-fabric-ospf.png"]
+[thumbnail="screenshot/gui-datacenter-create-fabric-ospf.png"]
 
 Configuration options:
 
@@ -725,7 +725,7 @@ networks hierarchically, with Area 0 (or 0.0.0.0) serving as the backbone area.
 On the Node
 ^^^^^^^^^^^
 
-//[thumbnail="screenshot/gui-datacenter-create-node-ospf.png"]
+[thumbnail="screenshot/gui-datacenter-create-node-ospf.png"]
 
 Options that are available on every node that is part of a fabric:
 
