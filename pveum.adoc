@@ -913,7 +913,6 @@ Virtual machine related privileges::
 * `VM.GuestAgent.FileWrite`: write files in the guest via QEMU guest agent
 * `VM.GuestAgent.Unrestricted`: issue arbitrary QEMU guest agent commands
 * `VM.Migrate`: migrate VM to alternate server on cluster
-* `VM.Monitor`: access to VM monitor (kvm)
 * `VM.PowerMgmt`: power management (start, stop, reset, shutdown, ...)
 * `VM.Snapshot.Rollback`: rollback VM to one of its snapshots
 * `VM.Snapshot`: create/delete VM snapshots
