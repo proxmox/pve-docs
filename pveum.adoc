@@ -906,6 +906,12 @@ Virtual machine related privileges::
 * `VM.Config.Network`: add/modify/remove network devices
 * `VM.Config.Options`: modify any other VM configuration
 * `VM.Console`: console access to VM
+* `VM.GuestAgent.Audit`: issue informational QEMU guest agent commands
+* `VM.GuestAgent.FileRead`: read files from the guest via QEMU guest agent
+* `VM.GuestAgent.FileSystemMgmt`: freeze/thaw/trim file systems via QEMU guest
+  agent
+* `VM.GuestAgent.FileWrite`: write files in the guest via QEMU guest agent
+* `VM.GuestAgent.Unrestricted`: issue arbitrary QEMU guest agent commands
 * `VM.Migrate`: migrate VM to alternate server on cluster
 * `VM.Monitor`: access to VM monitor (kvm)
 * `VM.PowerMgmt`: power management (start, stop, reset, shutdown, ...)
