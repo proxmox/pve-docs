@@ -1,3 +1,20 @@
+pve-docs (9.0.3) trixie; urgency=medium
+
+  * docs: add screenshots for SDN Fabrics.
+
+  * storage, lvm: add basic documentation for new snapshot-as-volume-chain
+    option.
+
+  * virtual machines: document new default behavior for mtu setting.
+
+  * user management: privileges:
+    - document new VM guest agent privileges.
+    - remove reference to dropped VM.Monitor privilege.
+
+  * update static/schema information
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 17 Jul 2025 23:02:46 +0200
+
 pve-docs (9.0.2) trixie; urgency=medium
 
   * fix #6388: disk health: sync list of scanned devices
