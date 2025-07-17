@@ -389,6 +389,23 @@ xref:sysadmin_zfs_raid_considerations[ZFS RAID Level Considerations]
 to get a rough estimate on how IOPS and bandwidth expectations before setting up
 a pool, especially when wanting to use a RAID-Z mode.
 
+[[sysadmin_zfs_extend_raidz]]
+Extend RAIDZ-N
+^^^^^^^^^^^^^^
+
+NOTE: This feature only works starting with Proxmox VE 9 (ZFS 2.3.3).
+
+Assuming you have an existing `<pool>` with a RAIDZ-N `<raidzN-M>` vdev, you can
+add a new physical disk `<device>` using the following syntax:
+
+----
+zpool attach <pool> <raidzN-M> <device>
+----
+
+You can verify general success by running `zpool status <pool>` and get verbose
+output for all attached disks by running `zpool list <pool> -v`. To inspect the
+new capacity of your pool run `zfs list <pool>`.
+
 [[sysadmin_zfs_create_new_zpool_with_cache]]
 Create a new pool with cache (L2ARC)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
