@@ -95,7 +95,7 @@ That way you get a `shared` LVM storage
 ^4^: Since {pve} 9, snapshots as a volume chain have been available for VMs.
 These snapshots use separate volumes for the snapshot data and layer them.  For
 more details, see the description for `snapshot-as-volume-chain` in the
-xref::pvesm_lvm_config[LVM configuration] section.
+xref:pvesm_lvm_config[LVM configuration] section.
 
 Thin Provisioning
 ~~~~~~~~~~~~~~~~~
