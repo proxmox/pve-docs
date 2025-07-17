@@ -924,10 +924,9 @@ but not via the web UI.
 You can also skip adding a network device when creating a VM by selecting *No
 network device*.
 
-You can overwrite the *MTU* setting for each VM network device. The option
-`mtu=1` represents a special case, in which the MTU value will be inherited
-from the underlying bridge.
-This option is only available for *VirtIO* network devices.
+You can overwrite the *MTU* setting for each VM network device manually. Leaving
+the field empty or setting `mtu=1` will inherit the MTU from the underlying
+bridge. This option is only available for *VirtIO* network devices.
 
 .Multiqueue
 If you are using the VirtIO driver, you can optionally activate the
