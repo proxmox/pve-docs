@@ -361,10 +361,6 @@ While you can pass `prune-backups` directly to `vzdump`, it is often more
 sensible to configure the setting on the storage level, which can be done via
 the web interface.
 
-NOTE: The old `maxfiles` option is deprecated and should be replaced either by
-`keep-last` or, in case `maxfiles` was `0` for unlimited retention, by
-`keep-all`.
-
 
 Prune Simulator
 ~~~~~~~~~~~~~~~

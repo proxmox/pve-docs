@@ -243,11 +243,6 @@ disable::
 
 You can use this flag to disable the storage completely.
 
-maxfiles::
-
-Deprecated, please use `prune-backups` instead. Maximum number of backup files
-per VM. Use `0` for unlimited.
-
 prune-backups::
 
 Retention options for backups. For details, see
