@@ -268,8 +268,7 @@ If you install {pve} on top of Debian, download and install
 the key with the following commands:
 
 ----
- # wget https://enterprise.proxmox.com/debian/proxmox-archive-keyring-trixie.gpg -O
- /usr/share/keyrings/proxmox-archive-keyring.gpg
+ # wget https://enterprise.proxmox.com/debian/proxmox-archive-keyring-trixie.gpg -O /usr/share/keyrings/proxmox-archive-keyring.gpg
 ----
 
 NOTE: The `wget` command above adds the keyring for Proxmox releases based on
@@ -283,8 +282,7 @@ Verify the checksum afterwards with the `sha512sum` CLI tool:
 
 ----
 # sha256sum /usr/share/keyrings/proxmox-archive-keyring.gpg
- 136673be77aba35dcce385b28737689ad64fd785a797e57897589aed08db6e45
-/usr/share/keyrings/proxmox-archive-keyring.gpg
+ 136673be77aba35dcce385b28737689ad64fd785a797e57897589aed08db6e45 /usr/share/keyrings/proxmox-archive-keyring.gpg
 ----
 
 or the `md5sum` CLI tool:

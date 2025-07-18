@@ -66,23 +66,23 @@ data to different nodes.
 
 .Available storage types
 [width="100%",cols="<2d,1*m,4*d",options="header"]
-|===============================================================================
-|Description    |Plugin type |Level  |Shared|Snapshots       |Stable
-|ZFS (local)    |zfspool     |both^1^|no    |yes             |yes
-|Directory      |dir         |file   |no    |no^2^           |yes
-|BTRFS          |btrfs       |file   |no    |yes             |technology preview
-|NFS            |nfs         |file   |yes   |no^2^           |yes
-|CIFS           |cifs        |file   |yes   |no^2^           |yes
-|Proxmox Backup |pbs         |both   |yes   |n/a             |yes
-|GlusterFS      |glusterfs   |file   |yes   |no^2^           |yes
-|CephFS         |cephfs      |file   |yes   |yes             |yes
-|LVM            |lvm         |block  |no^3^ |volume-chain^4^ |yes
-|LVM-thin       |lvmthin     |block  |no    |yes             |yes
-|iSCSI/kernel   |iscsi       |block  |yes   |no              |yes
-|iSCSI/libiscsi |iscsidirect |block  |yes   |no              |yes
-|Ceph/RBD       |rbd         |block  |yes   |yes             |yes
-|ZFS over iSCSI |zfs         |block  |yes   |yes             |yes
-|===============================================================================
+|========================================================================
+|Description    |Plugin type |Level  |Shared|Snapshots|Stable
+|ZFS (local)    |zfspool     |both^1^|no    |yes      |yes
+|Directory      |dir         |file   |no    |no^2^    |yes
+|BTRFS          |btrfs       |file   |no    |yes      |technology preview
+|NFS            |nfs         |file   |yes   |no^2^    |yes
+|CIFS           |cifs        |file   |yes   |no^2^    |yes
+|Proxmox Backup |pbs         |both   |yes   |n/a      |yes
+|GlusterFS      |glusterfs   |file   |yes   |no^2^    |yes
+|CephFS         |cephfs      |file   |yes   |yes      |yes
+|LVM            |lvm         |block  |no^3^ |yes^4^   |yes
+|LVM-thin       |lvmthin     |block  |no    |yes      |yes
+|iSCSI/kernel   |iscsi       |block  |yes   |no       |yes
+|iSCSI/libiscsi |iscsidirect |block  |yes   |no       |yes
+|Ceph/RBD       |rbd         |block  |yes   |yes      |yes
+|ZFS over iSCSI |zfs         |block  |yes   |yes      |yes
+|========================================================================
 
 ^1^: Disk images for VMs are stored in ZFS volume (zvol) datasets, which provide
 block device functionality.
