@@ -65,7 +65,7 @@ input/output (I/O) penalties and unexpected, dangerous behavior when running out
 of pre-allocated space.
 +
 Snapshots as volume chains provide vendor-agnostic support for snapshots on any
-storage system that supports block storage. This includes iSCSI and Fiber
+storage system that supports block storage. This includes iSCSI and Fibre
 Channel-attached SANs.
 +
 Note that, although this feature relies on qcow2, it only uses qcow2's ability
