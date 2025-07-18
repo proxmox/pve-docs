@@ -914,6 +914,7 @@ Virtual machine related privileges::
 * `VM.GuestAgent.Unrestricted`: issue arbitrary QEMU guest agent commands
 * `VM.Migrate`: migrate VM to alternate server on cluster
 * `VM.PowerMgmt`: power management (start, stop, reset, shutdown, ...)
+* `VM.Replicate`: configure and run guest replication
 * `VM.Snapshot.Rollback`: rollback VM to one of its snapshots
 * `VM.Snapshot`: create/delete VM snapshots
 
