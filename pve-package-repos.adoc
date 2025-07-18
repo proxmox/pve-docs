@@ -268,25 +268,34 @@ If you install {pve} on top of Debian, download and install
 the key with the following commands:
 
 ----
- # wget https://enterprise.proxmox.com/debian/proxmox-release-trixie.gpg -O
- /etc/apt/trusted.gpg.d/proxmox-release-trixie.gpg
+ # wget https://enterprise.proxmox.com/debian/proxmox-archive-keyring-trixie.gpg -O
+ /usr/share/keyrings/proxmox-archive-keyring.gpg
 ----
+
+NOTE: The `wget` command above adds the keyring for Proxmox releases based on
+Debian Trixie. Once the `proxmox-archive-keyring` package is installed, it will
+manage this file. At that point, the hashes below may no longer match the hashes
+of this file, as keys for new Proxmox releases get added or removed. This is
+intended, `apt` will ensure that only trusted keys are being used.
+*Modifying this file is discouraged once `proxmox-archive-keyring` is installed.*
 
 Verify the checksum afterwards with the `sha512sum` CLI tool:
 
 ----
-# sha512sum /etc/apt/trusted.gpg.d/proxmox-release-trixie.gpg
-7da6fe34168adc6e479327ba517796d4702fa2f8b4f0a9833f5ea6e6b48f6507a6da403a274fe201595edc86a84463d50383d07f64bdde2e3658108db7d6dc87
-/etc/apt/trusted.gpg.d/proxmox-release-trixie.gpg
+# sha256sum /usr/share/keyrings/proxmox-archive-keyring.gpg
+ 136673be77aba35dcce385b28737689ad64fd785a797e57897589aed08db6e45
+/usr/share/keyrings/proxmox-archive-keyring.gpg
 ----
 
 or the `md5sum` CLI tool:
 
 ----
-# md5sum /etc/apt/trusted.gpg.d/proxmox-release-trixie.gpg
-41558dc019ef90bd0f6067644a51cf5b /etc/apt/trusted.gpg.d/proxmox-release-trixie.gpg
+# md5sum /usr/share/keyrings/proxmox-archive-keyring.gpg
+77c8b1166d15ce8350102ab1bca2fcbf /usr/share/keyrings/proxmox-archive-keyring.gpg
 ----
 
+NOTE: Make sure the path you install the key to matches the `Signed-By:` lines
+in your repository stanzas.
 
 ifdef::wiki[]
 
