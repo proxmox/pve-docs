@@ -575,7 +575,7 @@ Loopback Prefix
 ^^^^^^^^^^^^^^^
 
 You can specify a CIDR network range (e.g., 192.0.2.0/24) as a loopback prefix
-for the fabric.  When configured, the system will automatically verify that all
+for the fabric. When configured, the system will automatically verify that all
 router-IDs are contained within this prefix. This ensures consistency in your
 addressing scheme and helps prevent addressing conflicts or errors.
 
@@ -598,6 +598,28 @@ When you communicate with another node (for example, by pinging it), this
 ensures that traffic originates from the local dummy interface's IP address
 rather than from the physical interface. This provides consistent routing
 behavior and proper source address selection throughout the fabric.
+
+[[pvesdn_config_fabrics_ipv6]]
+Notes on IPv6
+^^^^^^^^^^^^^
+
+IPv6 is currently only usable on OpenFabric fabrics. These IPv6 Fabrics need
+global IPv6 forwarding enabled on all nodes contained in the fabric. Without
+IPv6 forwarding, non-full-mesh fabrics won't work because the transit nodes
+don't forward packets to the outer nodes. Currently there isn't an easy way to
+enable IPv6 forwarding per-interface like with IPv4, so it has to be enabled
+globally. This can be accomplished by appending this line:
+
+----
+post-up sysctl -w net.ipv6.conf.all.forwarding=1
+----
+
+to a fabric interface in the `/etc/network/interfaces` file. This will enable
+IPv6 forwarding globally once that interface comes up. Note that this affects
+how your interfaces handle automatic IPv6 setup (SLAAC), Neighbour
+Advertisements, Router Solicitations, and Router Advertisements. More details
+here: https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt under
+`net.ipv6.conf.all.forwarding`.
 
 [[pvesdn_openfabric]]
 OpenFabric
@@ -623,13 +645,8 @@ all router-IDs in the fabric are contained within this prefix.
 IPv6 Prefix:: IPv6 CIDR network range (e.g., 2001:db8::/64) used to verify that
 all router-IDs in the fabric are contained within this prefix.
 
-WARNING: This will turn on IPv6 forwarding for all interfaces on all nodes.
-IPv6 forwarding doesn't have a per-interface switch, it must be turned on
-globally. This affects how your interfaces handle automatic IPv6 setup (SLAAC),
-Neighbour Advertisements, Router Solicitations, and Router Advertisements. More
-details here:
-https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt under
-`net.ipv6.conf.all.forwarding`.
+WARNING: For IPv6 fabrics to work, global forwarding needs to be enabled on all
+nodes. Check xref:pvesdn_config_fabrics_ipv6[Notes on IPv6] for how to do it and additional info.
 
 Hello Interval:: Controls how frequently (in seconds) hello packets are sent to
 discover and maintain connections with neighboring nodes. Lower values detect
