@@ -184,11 +184,19 @@ This ID must only be specified manually if the CLI tool is used.
 Network
 -------
 
-Replication traffic will use the same network as the live guest migration. By
-default, this is the management network. To use a different network for the
-migration, configure the `Migration Network` in the web interface under
-`Datacenter -> Options -> Migration Settings` or in the `datacenter.cfg`. See
-xref:pvecm_migration_network[Migration Network] for more details.
+By default, replication traffic will go through the same network as the guest
+migration traffic. If the migration network is not set, this will in turn
+default to the management network.
+
+To use a different network for the replication traffic, configure the
+`Replication Network` in the web interface under `Datacenter -> Options ->
+Replication Settings` or set the `replication` property in the `datacenter.cfg`
+file:
+
+----
+# use dedicated replication network
+replication: secure,network=10.1.2.0/24
+----
 
 Command-line Interface Examples
 -------------------------------
