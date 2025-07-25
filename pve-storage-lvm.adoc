@@ -8,14 +8,14 @@ endif::wiki[]
 
 Storage pool type: `lvm`
 
-LVM is a light software layer on top of hard disks and partitions. It
-can be used to split available disk space into smaller logical
-volumes. LVM is widely used on Linux and makes managing hard drives
-easier.
+LVM is a lightweight software layer that sits on top of hard disks and
+partitions. It can be used to divide available disk space into smaller logical
+volumes.
 
-Another use case is to put LVM on top of a big iSCSI LUN. That way you
-can easily manage space on that iSCSI LUN, which would not be possible
-otherwise, because the iSCSI specification does not define a
+Another use case is placing LVM on top of a large iSCSI LUN (Logical Unit
+Number) or a SAN (Storage Area Network) connected via Fibre Channel.
+This allows you to easily manage the space on the iSCSI LUN, which would
+otherwise be impossible because the iSCSI specification does not define a
 management interface for space allocation.
 
 
@@ -93,25 +93,31 @@ backend.
 Storage Features
 ~~~~~~~~~~~~~~~~
 
-LVM is a typical block storage, but this backend does not support
-snapshots and clones. Unfortunately, normal LVM snapshots are quite
-inefficient, because they interfere with all writes on the entire volume
-group during snapshot time.
+LVM is a typical block storage system.
+Unfortunately, regular LVM snapshots are inefficient because they interfere with
+all write operations within the entire volume group while the snapshot is
+active, which causes significant I/O degradation.
+This is why LVM does not support linked clones, and why {pve} added support for
+snapshots as volume chains. This feature manages the snapshot volume through the
+storage plugin and uses qcow2 to layer separate volumes as a backing chain. This
+creates a single disk state that is exposed to the guest.
 
-One big advantage is that you can use it on top of a shared storage,
-for example, an iSCSI LUN. The backend itself implements proper cluster-wide
-locking.
+A benefit of LVM is that it can be used with shared storage.
+For example, an iSCSI LUN. The backend implements proper cluster-wide locking if
+the storage is marked as shared in the configuration.
 
-TIP: The newer LVM-thin backend allows snapshots and clones, but does
-not support shared storage.
-
+TIP: You can use the LVM-thin backend for non-shared local storage. It supports
+snapshots and linked clones.
 
 .Storage features for backend `lvm`
 [width="100%",cols="m,m,3*d",options="header"]
-|==============================================================================
-|Content types  |Image formats  |Shared   |Snapshots |Clones
-|images rootdir |raw            |possible |no        |no
-|==============================================================================
+|===============================================================================
+|Content types  |Image formats  |Shared   |Snapshots |Full Clones |Linked Clones
+|images rootdir |raw, qcow2     |possible |yes^1^    |yes         |no
+|===============================================================================
+
+^1^: Since {pve} 9, snapshots as a volume chain have been available for VMs, for
+details see the xref:pvesm_lvm_config[LVM configuration] section.
 
 Examples
 ~~~~~~~~
