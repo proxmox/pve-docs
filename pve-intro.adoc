@@ -122,11 +122,16 @@ Local storage types supported are:
 Integrated Backup and Restore
 -----------------------------
 
-The integrated backup tool (`vzdump`) creates consistent snapshots of
-running Containers and KVM guests. It basically creates an archive of
-the VM or CT data which includes the VM/CT configuration files.
+The integrated backup tool (`vzdump`) creates consistent snapshots of running
+Containers and KVM guests. It basically creates an archive of the VM or CT data
+which includes the VM/CT configuration files.
 
-KVM live backup works for all storage types including VM images on
+Additionally, the xref:storage_pbs[Proxmox Backup Server integration] provides
+advanced features, including the ability to combine full backups and data
+deduplication, perform client-side encryption, back up to tape or S3 object
+storage, and sync with other offsite Proxmox Backup Server installations.
+
+QEMU/KVM live backup works for all storage types including VM images on
 NFS, CIFS, iSCSI LUN, Ceph RBD. The new backup format is optimized for storing
 VM backups fast and effective (sparse files, out of order data, minimized I/O).
 

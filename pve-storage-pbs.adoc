@@ -8,8 +8,10 @@ endif::wiki[]
 
 Storage pool type: `pbs`
 
-This backend allows direct integration of a Proxmox Backup Server into {pve}
-like any other storage.
+This backend allows direct integration of a
+https://www.proxmox.com/en/products/proxmox-backup-server/overview[Proxmox
+Backup Server] into {pve} like any other storage.
+
 A Proxmox Backup storage can be added directly through the {pve} API, CLI or
 the web interface.
 
