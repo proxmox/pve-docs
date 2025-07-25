@@ -10,25 +10,19 @@ Overview
 
 [thumbnail="screenshot/gui-datacenter-notification-overview.png"]
 
-* {pve} emits xref:notification_events[Notification Events] in case of
-  storage replication failures, node fencing, finished/failed backups and other
-  events.
-  These events are handled by the notification system. A notification event has
-  metadata, for example a timestamp, a severity level, a type, and other
-  optional metadata fields.
-* xref:notification_matchers[Notification Matchers] route a notification
-  event to one or more notification targets. A matcher can have match rules to
+* {pve} emits xref:notification_events[Notification Events] in case of storage
+  replication failures, node fencing, finished/failed backups and other events.
+  These events are processed based on the global notification settings. Each
+  notification event includes metadata, such as a timestamp, severity level,
+  type, and additional event-specific fields.
+* xref:notification_matchers[Notification Matchers] route a notification event
+  to one or more notification targets. A matcher can have match rules to
   selectively route based on the metadata of a notification event.
-* xref:notification_targets[Notification Targets] are a destination to
-  which a notification event is routed to by a matcher.  There are multiple
-  types of target, mail-based (Sendmail and SMTP) and Gotify.
+* xref:notification_targets[Notification Targets] are a destination to which a
+  notification event is routed to by a matcher.  There are multiple types of
+  target, mail-based (Sendmail and SMTP) and Gotify.
 
-Backup jobs have a configurable xref:notification_mode[Notification Mode].
-It allows you to choose between the notification system and a legacy mode for
-sending notification emails. The legacy mode is equivalent to the way
-notifications were handled before {pve} 8.1.
-
-The notification system can be configured in the GUI under Datacenter →
+The global notification settings can be configured in the GUI under Datacenter →
 Notifications. The configuration is stored in `/etc/pve/notifications.cfg` and
 `/etc/pve/priv/notifications.cfg` - the latter contains sensitive configuration
 options such as passwords or authentication tokens for notification targets and
@@ -420,9 +414,9 @@ System Mail Forwarding
 ---------------------
 
 Certain local system daemons, such as `smartd`, generate notification emails
-that are initially directed to the local `root` user. {pve} will
-feed these mails into the notification system as a notification of
-type `system-mail` and with severity `unknown`.
+that are initially directed to the local `root` user. These mails are converted
+into notification events with the type `system-mail` and a severity of
+`unknown` and are processed based on the global notification settings.
 
 When the email is forwarded to a sendmail target, the mail's content and headers
 are forwarded as-is. For all other targets,
@@ -443,26 +437,21 @@ permissions on `/mapping/notifications`
 [[notification_mode]]
 Notification Mode
 -----------------
-A backup job configuration has the `notification-mode`
-option which can have one of three values.
+Backup jobs allow to choose between two modes for sending backup related
+notifications. This is controlled by the `notification-mode` option in the
+xref:vzdump_configuration[backup job configuration].
 
-* `auto`: Use the `legacy-sendmail` mode if no email address is entered in the
-  `mailto`/`Send email to` field. If no email address is entered,
-  the `notification-system` mode is used.
+* Send notifications based on the global notification settings
+  (`notification-system`).
 
-* `legacy-sendmail`: Send notification emails via the system's `sendmail` command.
-  The notification system will be bypassed and any configured
-  targets/matchers will be ignored.
-  This mode is equivalent to the notification behavior for version before
-  {pve} 8.1 .
+* Send notification emails via the system's `sendmail` command to the email
+  address configured in the backup job (`legacy-sendmail`). This mode also
+  allows to select whether the email should be sent always or only on failure
+  of the backup. Any targets or matchers from the global notification settings
+  are ignored. This mode is equivalent to the notification behavior for
+  {pve} versions before 8.1. This mode might be removed in a later release of
+  {pve}.
 
-* `notification-system`: Use the new, flexible notification system.
-
-If the `notification-mode` option is not set, {pve} will default
-to `auto`.
-
-The `legacy-sendmail` mode might be removed in a later release of
-{pve}.
 
 Overriding Notification Templates
 ---------------------------------
