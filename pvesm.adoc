@@ -60,8 +60,8 @@ Block level storage::
 Allows to store large 'raw' images. It is usually not possible to store
 other files (ISO, backups, ..) on such storage types. Most modern
 block level storage implementations support snapshots and clones.
-RADOS and GlusterFS are distributed systems, replicating storage
-data to different nodes.
+Ceph RADOS is a distributed systems, replicating storage data to different
+nodes that can be accessed as RBD (RADOS Block Device).
 
 
 .Available storage types
@@ -74,7 +74,6 @@ data to different nodes.
 |NFS            |nfs         |file   |yes   |no^2^    |yes
 |CIFS           |cifs        |file   |yes   |no^2^    |yes
 |Proxmox Backup |pbs         |both   |yes   |n/a      |yes
-|GlusterFS      |glusterfs   |file   |yes   |no^2^    |yes
 |CephFS         |cephfs      |file   |yes   |yes      |yes
 |LVM            |lvm         |block  |no^3^ |yes^4^   |yes
 |LVM-thin       |lvmthin     |block  |no    |yes      |yes
@@ -402,8 +401,6 @@ See Also
 
 * link:/wiki/Storage:_Directory[Storage: Directory]
 
-* link:/wiki/Storage:_GlusterFS[Storage: GlusterFS]
-
 * link:/wiki/Storage:_User_Mode_iSCSI[Storage: User Mode iSCSI]
 
 * link:/wiki/Storage:_iSCSI[Storage: iSCSI]
@@ -439,8 +436,6 @@ include::pve-storage-nfs.adoc[]
 include::pve-storage-cifs.adoc[]
 
 include::pve-storage-pbs.adoc[]
-
-include::pve-storage-glusterfs.adoc[]
 
 include::pve-storage-zfspool.adoc[]
 

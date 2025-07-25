@@ -109,8 +109,8 @@ We currently support the following Network storage types:
 * NFS Share
 * CIFS Share
 * Ceph RBD
-* Directly use iSCSI LUNs
-* GlusterFS
+* CephFS
+* Directly use iSCSI LUNs or Fibre Attached SANs.
 
 Local storage types supported are:
 
