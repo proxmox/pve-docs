@@ -57,8 +57,7 @@ snapshot's name and starts a new volume backed by the snapshot.
 +
 A volume based on a snapshot references its parent snapshot volume as its
 backing volume and records only the differences to that backing volume.
-Snapshot volumes are currently thick-provisioned LVM logical volumes, but the
-underlying block storage may provide thin provisioning.
+Snapshot volumes are currently thick-provisioned LVM logical volumes.
 +
 This design avoids issues with native LVM snapshots, such as significant
 input/output (I/O) penalties and unexpected, dangerous behavior when running out
@@ -74,6 +73,11 @@ functionality.
 The snapshot functionality is managed by the PVE storage system.
 +
 Enabling or disabling this flag only affects newly created virtual disk volumes.
++
+For efficient support of `snapshot-as-volume-chain`, the backing storage must
+support thin-provisioning and discard. Each snapshot will appear to use the
+full volume size on the PVE side, but the actual space usage on the underlying
+storage will be smaller if those requirements are met.
 
 .Configuration Example (`/etc/pve/storage.cfg`)
 ----
