@@ -227,6 +227,24 @@ IP addresses can be specified using any syntax understood by `Net::IP`. The
 name `all` is an alias for `0/0` and `::/0` (meaning all IPv4 and IPv6
 addresses).
 
+[[pveproxy_max_workers]]
+Number of Workers
+-----------------
+
+`pveproxy` delegates handling of incoming requests to worker processes. By
+default, `pveproxy` spawns 3 worker processes, which is sufficient for most
+workloads. For automation-heavy workloads that issue a huge volume of API
+requests and that experience slow request handling or timeouts, the number of
+worker processes can be increased by setting `MAX_WORKERS` in
+`/etc/default/pveproxy`, for example:
+
+ MAX_WORKERS=5
+
+Note that a higher number of worker processes may result in higher CPU usage.
+The number of worker processes must be greater than 0 and smaller than 128.
+
+The same setting exists for xref:pvedaemon_max_workers[pvedaemon].
+
 ifdef::manvolnum[]
 include::pve-copyright.adoc[]
 endif::manvolnum[]
