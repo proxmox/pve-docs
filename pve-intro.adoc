@@ -246,9 +246,9 @@ any storage type.
 The most notable change with version 4.0 was the move from OpenVZ to
 https://linuxcontainers.org/[LXC]. Containers are now deeply integrated, and
 they can use the same storage and network features as virtual machines. At the
-same time we introduced the easy-to-use xref:chapter_ha_manager[High
-Availability (HA) manager], simplifying the configuration and management of
-highly available setups.
+same time we introduced the easy-to-use
+xref:chapter_ha_manager[High Availability (HA) manager], simplifying the
+configuration and management of highly available setups.
 
 During the development of {pve} 5 the asynchronous
 xref:chapter_pvesr[storage replication] as well as automated
