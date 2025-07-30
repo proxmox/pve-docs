@@ -1671,6 +1671,24 @@ For Live Migration to work, there are some things required:
   configured, but it cannot be guaranteed - so please test before deploying
   such a setup in production.
 
+Conntrack State Migration
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+NOTE: Conntrack state migration is considered best-effort only and might not
+work, as it heavily depends on the network setup. For example, setups using
+xref:sysadmin_network_masquerading[source address masquerading (SNAT)] on the
+host will most likely *not* work.
+
+Conntrack is a Linux kernel mechanism to enable a stateful firewall by tracking
+individual connection. When live migrating running VMs, active in- and/or
+outbound connections *might* get interrupted as soon as the VM starts running on
+the target host, as the new host node does not have the same conntrack entries
+and thus the firewall can drop packets.
+
+Conntrack state migration copies all conntrack entries on the host for the
+live-migrated VM to the target node and afterwards flushes the migrated entries
+from the conntrack table on the source node.
+
 Offline Migration
 ~~~~~~~~~~~~~~~~~
 
