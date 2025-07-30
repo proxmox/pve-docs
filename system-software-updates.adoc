@@ -13,6 +13,9 @@ updates use the web-based GUI or the following CLI commands:
 # apt-get dist-upgrade
 ----
 
+For occasionally upgrading Ceph to its succeeding major release, see
+xref:sysadmin_package_repositories_ceph[Ceph Repositories].
+
 NOTE: The APT package management system is very flexible and provides many
 features, see `man apt-get`, or <<Hertzog13>> for additional information.
 

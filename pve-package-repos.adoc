@@ -26,6 +26,7 @@ single-line format and in `.sources` files placed in `/etc/apt/sources.list.d/`
 for the modern deb822 multi-line format, see
 xref:sysadmin_apt_repo_formats[Repository Formats] for details.
 
+[[_repository_management]]
 Repository Management
 ^^^^^^^^^^^^^^^^^^^^^
 
@@ -162,67 +163,131 @@ Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
 WARNING: The `pve-test` repository should (as the name implies) only be used for
 testing new features or bug fixes.
 
-[[sysadmin_package_repositories_ceph]]
-Ceph Squid Enterprise Repository
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This repository holds the enterprise {pve} Ceph 19.2 Squid packages. They are
-suitable for production. Use this repository if you run the Ceph client or a
-full Ceph cluster on {pve}.
+[[sysadmin_package_repositories_ceph]]
+Ceph Repositories
+~~~~~~~~~~~~~~~~~
+
+Ceph-related packages are kept up to date with a preconfigured Ceph enterprise
+repository. Preinstalled packages enable connecting to an external Ceph
+cluster and adding its xref:ceph_rados_block_devices[RBD] or
+xref:storage_cephfs[CephFS] pools as storage. You can also build a
+xref:chapter_hyper_converged_infrastructure[hyper-converged infrastructure (HCI)]
+by running xref:chapter_pveceph[Ceph] on top of the {pve} cluster.
+
+Information from this chapter is helpful in the following cases:
+
+Installing Ceph to build an HCI::
+Decide on a below described repository and recent Ceph release, which you can
+then select in the xref:pve_ceph_install_wizard[web-based wizard or the CLI tool].
+
+Already running the HCI and want to upgrade to the succeeding _Ceph_ major release::
+Please follow the related {webwiki-url}Category:Ceph_Upgrade[Ceph upgrade guide].
+
+Already running the HCI and want to upgrade to the succeeding _{pve}_ major release::
+In an HCI each {pve} major release requires a corresponding minimum Ceph major
+release, please follow the related
+{webwiki-url}Category:Upgrade[{pve} upgrade guide].
+
+Not running an HCI but using an external Ceph cluster::
+To install newer packages used to connect to Ceph, apply available system
+updates, decide on a repository and Ceph release listed below, add it to your
+node via the __xref:_repository_management[Repository]__ panel, apply newly
+available system updates, verify the result by running `ceph --version` and
+disable the old Ceph repository.
+
+//TODO: At Ceph or PVE release changes, update:
+//      - below variables (used in below headings and example ceph.sources files)
+//      - the Ceph release table
+:pve-version: 9
+:ceph-release: ceph-squid
+:suite: trixie
+
+[[ceph_release_table]]
+.Ceph releases available in {pve} {pve-version}
+
+To read the latest version of the admin guide for your {pve} release, make sure
+that all system updates are installed and that this page has been reloaded.
+
+:u: unreleased
+:t: tech preview
+:a: available
+:r: recommended
+
+[caption="", cols="<8,^8,^6,^7,^5"]
+|===
+|                   |{cephdocs-url}/releases/[Estimated End-of-Life]
+                                    |**`enterprise`**|**`no-subscription`**|**`test`**
+|**`ceph-tentacle`**|            {u}|{u}|{u}|{u}
+|**`ceph-squid`**   |2026-09 (v19.2)|{r}|{a}|{a}
+|===
+
+
+.Ceph repositories for {pve} {pve-version}
+
+The content of the `ceph.sources` file below serves as a reference (prior to
+{pve} 9 the file `ceph.list` was used). To make changes, please follow the case
+that applies to your situation as described at the beginning of this
+subchapter. If you have disabled a repository in the web UI and also want to
+delist it, you can manually remove the corresponding entry from the file.
+
+====
+**`enterprise`**
+
+This repository is recommended for production use and contains the most stable
+package versions. It is accessible if the {pve} node has a valid subscription
+of any level. For details and included customer support levels visit:
+
+{pricing-url}
 
 .File `/etc/apt/sources.list.d/ceph.sources`
+[subs="attributes"]
 ----
 Types: deb
-URIs: https://enterprise.proxmox.com/debian/ceph-squid
-Suites: trixie
+URIs: https://enterprise.proxmox.com/debian/{ceph-release}
+Suites: {suite}
 Components: enterprise
 Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
 ----
+====
 
+====
+**`no-subscription`**
 
-Ceph Squid No-Subscription Repository
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This Ceph repository contains the Ceph 19.2 Squid packages before they are moved
-to the enterprise repository and after they where on the test repository.
-
-NOTE: It's recommended to use the enterprise repository for production
-machines.
+This repository is suitable for testing and for non-production use. It is
+freely accessible and does not require a valid subscription. After some time,
+its package versions are also made available in the enterprise repository.
 
 .File `/etc/apt/sources.list.d/ceph.sources`
+[subs="attributes"]
 ----
 Types: deb
-URIs: http://download.proxmox.com/debian/ceph-squid
-Suites: trixie
+URIs: http://download.proxmox.com/debian/{ceph-release}
+Suites: {suite}
 Components: no-subscription
 Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
 ----
+====
 
+====
+**`test`**
 
-Ceph Squid Test Repository
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This Ceph repository contains the Ceph 19.2 Squid packages before they are moved
-to the main repository. It is used to test new Ceph releases on {pve}.
+This repository contains the latest package versions and is primarily used by
+developers to test new features and bug fixes.
 
 .File `/etc/apt/sources.list.d/ceph.sources`
+[subs="attributes"]
 ----
 Types: deb
-URIs: http://download.proxmox.com/debian/ceph-squid
-Suites: trixie
+URIs: http://download.proxmox.com/debian/{ceph-release}
+Suites: {suite}
 Components: test
 Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
 ----
+====
 
-Older Ceph Repositories
-~~~~~~~~~~~~~~~~~~~~~~~
-
-{pve} 9 doesn't support Ceph Reef, Ceph Quincy, or even older releases for
-hyper-converged setups. For those releases, you need to first upgrade Ceph to a
-newer release before upgrading to Proxmox VE 9.
-
-See the respective
-https://pve.proxmox.com/wiki/Category:Ceph_Upgrade[upgrade guide] for details.
+WARNING: The Ceph **`test`** repository should (as the name implies) only be
+used for testing new features or bug fixes.
 
 
 [[sysadmin_debian_firmware_repo]]
@@ -254,7 +319,6 @@ NOTE: Modernizing your package repositories is recommended. Otherwise, `apt` on
 Debian Trixie will complain. You can run `apt modernize-sources` to do so.
 
 [[repos_secure_apt]]
-
 SecureApt
 ~~~~~~~~~
 
