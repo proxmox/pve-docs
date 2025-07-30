@@ -69,10 +69,10 @@ nodes that can be accessed as RBD (RADOS Block Device).
 |========================================================================
 |Description    |Plugin type |Level  |Shared|Snapshots|Stable
 |ZFS (local)    |zfspool     |both^1^|no    |yes      |yes
-|Directory      |dir         |file   |no    |no^2^    |yes
+|Directory      |dir         |file   |no    |yes^2^   |yes
 |BTRFS          |btrfs       |file   |no    |yes      |TP^5^
-|NFS            |nfs         |file   |yes   |no^2^    |yes
-|CIFS           |cifs        |file   |yes   |no^2^    |yes
+|NFS            |nfs         |file   |yes   |yes^2^   |yes
+|CIFS           |cifs        |file   |yes   |yes^2^   |yes
 |Proxmox Backup |pbs         |both   |yes   |n/a      |yes
 |CephFS         |cephfs      |file   |yes   |yes      |yes
 |LVM            |lvm         |block  |no^3^ |yes^4^   |yes
@@ -86,7 +86,8 @@ nodes that can be accessed as RBD (RADOS Block Device).
 ^1^: Disk images for VMs are stored in ZFS volume (zvol) datasets, which provide
 block device functionality.
 
-^2^: On file based storages, snapshots are possible with the 'qcow2' format.
+^2^: On file based storages, snapshots are possible with the 'qcow2' format,
+either using the internal snapshot function, or snapshots as volume chains^4^.
 
 ^3^: It is possible to use LVM on top of an iSCSI or FC-based storage.
 That way you get a `shared` LVM storage
