@@ -1193,6 +1193,16 @@ The CRS is currently used at the following scheduling points:
   new target node for the HA services in that group, matching the adapted
   priority constraints.
 
+- HA rule config changes (always active). If a rule emposes different
+  constraints on the HA resources, the HA stack will use the CRS algorithm to
+  find a new target node for the HA resources affected by these rules depending
+  on the type of the new rules:
+
+** Node affinity rules: If a node affinity rule is created or HA resources/nodes
+   are added to an existing node affinity rule, the HA stack will use the CRS
+   algorithm to ensure that these HA resources are assigned according to their
+   node and priority constraints.
+
 - HA service stopped -> start transition (opt-in). Requesting that a stopped
   service should be started is an good opportunity to check for the best suited
   node as per the CRS algorithm, as moving stopped services is  cheaper to do
