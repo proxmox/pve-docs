@@ -668,6 +668,109 @@ up online again to investigate the cause of failure and check if it runs
 stably again. Setting the `nofailback` flag prevents the recovered services from
 moving straight back to the fenced node.
 
+[[ha_manager_rules]]
+Rules
+~~~~~
+
+HA rules are used to put certain constraints on HA-managed resources, which are
+defined in the HA rules configuration file `/etc/pve/ha/rules.cfg`.
+
+----
+<type>: <rule>
+        resources <resources_list>
+        <property> <value>
+        ...
+----
+
+include::ha-rules-opts.adoc[]
+
+.Available HA Rule Types
+[width="100%",cols="1,3",options="header"]
+|===========================================================
+| HA Rule Type        | Description
+| `node-affinity`     | Places affinity from one or more HA resources to one or
+more nodes.
+|===========================================================
+
+[[ha_manager_node_affinity_rules]]
+Node Affinity Rules
+^^^^^^^^^^^^^^^^^^^
+
+NOTE: HA Node Affinity rules are equivalent to HA Groups and will replace them
+in an upcoming major release.
+
+By default, a HA resource is able to run on any cluster node, but a common
+requirement is that a HA resource should run on a specific node. That can be
+implemented by defining a HA node affinity rule to make the HA resource
+`vm:100` prefer the node `node1`:
+
+----
+# ha-manager rules add node-affinity ha-rule-vm100 --resources vm:100 --nodes node1
+----
+
+By default, node affinity rules are not strict, i.e., if there is none of the
+specified nodes available, the HA resource can also be moved to other nodes.
+If, on the other hand, a HA resource must be restricted to the specified nodes,
+then the node affinity rule must be set to be strict.
+
+In the previous example, the node affinity rule can be modified to restrict the
+resource `vm:100` to be only on `node1`:
+
+----
+# ha-manager rules set node-affinity ha-rule-vm100 --strict 1
+----
+
+For bigger clusters or specific use cases, it makes sense to define a more
+detailed failover behavior. For example, the resources `vm:200` and `ct:300`
+should run on `node1`. If `node1` becomes unavailable, the resources should be
+distributed on `node2` and `node3`. If `node2` and `node3` are also
+unavailable, the resources should run on `node4`.
+
+To implement this behavior in a node affinity rule, nodes can be paired with
+priorities to order the preference for nodes. If two or more nodes have the same
+priority, the resources can run on any of them. For the above example, `node1`
+gets the highest priority, `node2` and `node3` get the same priority, and at
+last `node4` gets the lowest priority, which can be omitted to default to `0`:
+
+----
+# ha-manager rules add node-affinity priority-cascade \
+        --resources vm:200,ct:300 --nodes "node1:2,node2:1,node3:1,node4"
+----
+
+The above commands create the following rules in the rules configuration file:
+
+.Node Affinity Rules Configuration Example (`/etc/pve/ha/rules.cfg`)
+----
+node-affinity: ha-rule-vm100
+        resources vm:100
+        nodes node1
+        strict 1
+
+node-affinity: priority-cascade
+        resources vm:200,ct:300
+        nodes node1:2,node2:1,node3:1,node4
+----
+
+Node Affinity Rule Properties
++++++++++++++++++++++++++++++
+
+include::ha-rules-node-affinity-opts.adoc[]
+
+[[ha_manager_rule_conflicts]]
+Rule Conflicts and Errors
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+HA rules can impose rather complex constraints on the HA resources. To ensure
+that a new or modified HA rule does not introduce uncertainty into the HA
+stack's CRS scheduler, HA rules are tested for feasibility before these are
+applied. If a rule does fail any of these tests, the rule is disabled until the
+conflicts and errors is resolved.
+
+Currently, HA rules are checked for the following feasibility tests:
+
+* A HA resource can only be referenced by a single HA node affinity rule in
+  total. If two or more HA node affinity rules specify the same HA resource,
+  these HA node affinity rules will be disabled.
 
 [[ha_manager_fencing]]
 Fencing

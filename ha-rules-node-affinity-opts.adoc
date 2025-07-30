@@ -1,0 +1,18 @@
+`nodes`: `<node>[:<pri>]{,<node>[:<pri>]}*` ::
+
+List of cluster node members, where a priority can be given to each node. A resource bound to a group will run on the available nodes with the highest priority. If there are more nodes in the highest priority class, the services will get distributed to those nodes. The priorities have a relative meaning only. The higher the number, the higher the priority.
+
+`resources`: `<type>:<name>{,<type>:<name>}*` ::
+
+List of HA resource IDs. This consists of a list of resource types followed by a resource specific name separated with a colon (example: vm:100,ct:101).
+
+`strict`: `<boolean>` ('default =' `0`)::
+
+Describes whether the node affinity rule is strict or non-strict.
++
+A non-strict node affinity rule makes resources prefer to be on the defined nodes.
+If none of the defined nodes are available, the resource may run on any other node.
++
+A strict node affinity rule makes resources be restricted to the defined nodes. If
+none of the defined nodes are available, the resource will be stopped.
+

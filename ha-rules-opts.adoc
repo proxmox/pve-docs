@@ -1,0 +1,12 @@
+`comment`: `<string>` ::
+
+HA rule description.
+
+`disable`: `<boolean>` ::
+
+Whether the HA rule is disabled.
+
+`resources`: `<type>:<name>{,<type>:<name>}*` ::
+
+List of HA resource IDs. This consists of a list of resource types followed by a resource specific name separated with a colon (example: vm:100,ct:101).
+

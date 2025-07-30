@@ -104,6 +104,7 @@ Files
 |`ha/crm_commands`                      | Displays HA operations that are currently being carried out by the CRM
 |`ha/manager_status`                    | JSON-formatted information regarding HA services on the cluster
 |`ha/resources.cfg`                     | Resources managed by high availability, and their current state
+|`ha/rules.cfg`                         | Rules putting constraints on the HA manager's scheduling of HA resources
 |`nodes/<NAME>/config`                  | Node-specific configuration
 |`nodes/<NAME>/lxc/<VMID>.conf`         | VM configuration data for LXC containers
 |`nodes/<NAME>/openvz/`                 | Prior to {pve} 4.0, used for container configuration data (deprecated, removed soon)
