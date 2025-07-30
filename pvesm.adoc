@@ -70,7 +70,7 @@ nodes that can be accessed as RBD (RADOS Block Device).
 |Description    |Plugin type |Level  |Shared|Snapshots|Stable
 |ZFS (local)    |zfspool     |both^1^|no    |yes      |yes
 |Directory      |dir         |file   |no    |no^2^    |yes
-|BTRFS          |btrfs       |file   |no    |yes      |technology preview
+|BTRFS          |btrfs       |file   |no    |yes      |TP^5^
 |NFS            |nfs         |file   |yes   |no^2^    |yes
 |CIFS           |cifs        |file   |yes   |no^2^    |yes
 |Proxmox Backup |pbs         |both   |yes   |n/a      |yes
@@ -95,6 +95,8 @@ That way you get a `shared` LVM storage
 These snapshots use separate volumes for the snapshot data and layer them.  For
 more details, see the description for `snapshot-as-volume-chain` in the
 xref:pvesm_lvm_config[LVM configuration] section.
+
+^5^ Technology preview with best-effort support.
 
 Thin Provisioning
 ~~~~~~~~~~~~~~~~~
