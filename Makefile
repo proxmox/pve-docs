@@ -51,6 +51,7 @@ GEN_SCRIPTS=					\
 	gen-ha-resources-opts.pl		\
 	gen-ha-rules-node-affinity-opts.pl	\
 	gen-ha-rules-opts.pl			\
+	gen-ha-rules-resource-affinity-opts.pl	\
 	gen-datacenter.cfg.5-opts.pl		\
 	gen-pct.conf.5-opts.pl			\
 	gen-pct-network-opts.pl			\

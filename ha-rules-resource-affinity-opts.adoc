@@ -1,0 +1,8 @@
+`affinity`: `<negative | positive>` ::
+
+Describes whether the HA resources are supposed to be kept on the same node ('positive'), or are supposed to be kept on separate nodes ('negative').
+
+`resources`: `<type>:<name>{,<type>:<name>}*` ::
+
+List of HA resource IDs. This consists of a list of resource types followed by a resource specific name separated with a colon (example: vm:100,ct:101).
+

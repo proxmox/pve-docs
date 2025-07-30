@@ -690,6 +690,10 @@ include::ha-rules-opts.adoc[]
 | HA Rule Type        | Description
 | `node-affinity`     | Places affinity from one or more HA resources to one or
 more nodes.
+| `resource-affinity` | Places affinity between two or more HA resources. The
+affinity `positive` specifies that HA resources are to be kept on separate
+nodes, while the affinity `separate` specifies that HA resources are to be kept
+on the same node.
 |===========================================================
 
 [[ha_manager_node_affinity_rules]]
@@ -756,6 +760,88 @@ Node Affinity Rule Properties
 
 include::ha-rules-node-affinity-opts.adoc[]
 
+[[ha_manager_resource_affinity_rules]]
+Resource Affinity Rules
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Another common requirement is that two or more HA resources should run on
+either the same node, or should be distributed on separate nodes. These are
+also commonly called "Affinity/Anti-Affinity constraints".
+
+For example, suppose there is a lot of communication traffic between the HA
+resources `vm:100` and `vm:200`, for example, a web server communicating with a
+database server. If those HA resources are on separate nodes, this could
+potentially result in a higher latency and unnecessary network load. Resource
+affinity rules with the affinity `positive` implement the constraint to keep
+the HA resources on the same node:
+
+----
+# ha-manager rules add resource-affinity keep-together \
+    --affinity positive --resources vm:100,vm:200
+----
+
+NOTE: If there are two or more positive resource affinity rules, which have
+common HA resources, then these are treated as a single positive resource
+affinity rule. For example, if the HA resources `vm:100` and `vm:101` and the
+HA resources `vm:101` and `vm:102` are each in a positive resource affinity
+rule, then it is the same as if `vm:100`, `vm:101` and `vm:102` would have been
+in a single positive resource affinity rule.
+
+However, suppose there are computationally expensive, and/or distributed
+programs running on the HA resources `vm:200` and `ct:300`, for example,
+sharded database instances. In that case, running them on the same node could
+potentially result in pressure on the hardware resources of the node and will
+slow down the operations of these HA resources. Resource affinity rules with
+the affinity `negative` implement the constraint to spread the HA resources on
+separate nodes:
+
+----
+# ha-manager rules add resource-affinity keep-separate \
+    --affinity negative --resources vm:200,ct:300
+----
+
+Other than node affinity rules, resource affinity rules are strict by default,
+i.e., if the constraints imposed by the resource affinity rules cannot be met
+for a HA resource, the HA Manager will put the HA resource in recovery state in
+case of a failover or in error state elsewhere.
+
+The above commands created the following rules in the rules configuration file:
+
+.Resource Affinity Rules Configuration Example (`/etc/pve/ha/rules.cfg`)
+----
+resource-affinity: keep-together
+        resources vm:100,vm:200
+        affinity positive
+
+resource-affinity: keep-separate
+        resources vm:200,ct:300
+        affinity negative
+----
+
+Interactions between Positive and Negative Resource Affinity Rules
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+If there are HA resources in a positive resource affinity rule, which are also
+part of a negative resource affinity rule, then all the other HA resources in
+the positive resource affinity rule are in negative affinity with the HA
+resources of these negative resource affinity rules as well.
+
+For example, if the HA resources `vm:100`, `vm:101`, and `vm:102` are in a
+positive resource affinity rule, and `vm:100` is in a negative resource affinity
+rule with the HA resource `ct:200`, then `vm:101` and `vm:102` are each in
+negative resource affinity with `ct:200` as well.
+
+Note that if there are two or more HA resources in both a positive and negative
+resource affinity rule, then those will be disabled as they cause a conflict:
+Two or more HA resources cannot be kept on the same node and separated on
+different nodes at the same time. For more information on these cases, see the
+section about xref:ha_manager_rule_conflicts[rule conflicts and errors] below.
+
+Resource Affinity Rule Properties
++++++++++++++++++++++++++++++++++
+
+include::ha-rules-resource-affinity-opts.adoc[]
+
 [[ha_manager_rule_conflicts]]
 Rule Conflicts and Errors
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -771,6 +857,26 @@ Currently, HA rules are checked for the following feasibility tests:
 * A HA resource can only be referenced by a single HA node affinity rule in
   total. If two or more HA node affinity rules specify the same HA resource,
   these HA node affinity rules will be disabled.
+
+* A HA resource affinity rule must specify at least two HA resources to be
+  feasible. If a HA resource affinity rule specifies only one HA resource, the
+  HA resource affinity rule will be disabled.
+
+* A HA resource affinity rule must specify no more HA resources than there are
+  nodes in the cluster. If a HA resource affinity rule specifies more HA
+  resources than there are in the cluster, the HA resource affinity rule will
+  be disabled.
+
+* A positive HA resource affinity rule cannot specify the same two or more HA
+  resources as a negative HA resources affinity rule. That is, two or more HA
+  resources cannot be kept together and separate at the same time. If any pair
+  of positive and negative HA resource affinity rules do specify the same two
+  or more HA resources, both HA resource affinity rules will be disabled.
+
+* A HA resource can only be referenced by either a HA node affinity rule or HA
+  resource affinity rules, but not both at the same time. If there is at least
+  one HA node affinity rule and at least one HA resource affinity rule, which
+  specify the same HA resource, these rules will be disabled.
 
 [[ha_manager_fencing]]
 Fencing
@@ -1202,6 +1308,16 @@ The CRS is currently used at the following scheduling points:
    are added to an existing node affinity rule, the HA stack will use the CRS
    algorithm to ensure that these HA resources are assigned according to their
    node and priority constraints.
+
+** Positive resource affinity rules: If a positive resource affinity rule is
+   created or HA resources are added to an existing positive resource affinity
+   rule, the HA stack will use the CRS algorithm to ensure that these HA
+   resources are moved to a common node.
+
+** Negative resource affinity rules: If a negative resource affinity rule is
+   created or HA resources are added to an existing negative resource affinity
+   rule, the HA stack will use the CRS algorithm to ensure that these HA
+   resources are moved to separate nodes.
 
 - HA service stopped -> start transition (opt-in). Requesting that a stopped
   service should be started is an good opportunity to check for the best suited
