@@ -517,7 +517,9 @@ use the active-backup mode.
 
 For the cluster network (Corosync) we recommend configuring it with multiple
 networks. Corosync does not need a bond for network redundancy as it can switch
-between networks by itself, if one becomes unusable.
+between networks by itself, if one becomes unusable. Some bond modes are known
+to be problematic for Corosync, see
+xref:pvecm_corosync_over_bonds[Corosync over Bonds].
 
 The following bond configuration can be used as distributed/shared
 storage network. The benefit would be that you get more speed and the

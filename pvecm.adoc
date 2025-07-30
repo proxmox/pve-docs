@@ -89,10 +89,8 @@ NOTE: To ensure reliable Corosync redundancy, it is essential to have at least
 another link on a different physical network. This enables Corosync to keep the
 cluster communication alive should the dedicated network be down.
 +
-NOTE: A single link backed by a bond is not enough to provide Corosync
-redundancy. When a bonded interface fails and Corosync cannot fall back to
-another link, it can lead to  asymmetric communication in the cluster, which in
-turn can lead to the cluster losing quorum.
+NOTE: A single link backed by a bond can be problematic in certain failure
+scenarios, see xref:pvecm_corosync_over_bonds[Corosync Over Bonds].
 
 * The root password of a cluster node is required for adding nodes.
 
@@ -605,6 +603,68 @@ CAUTION: You can still enable Multicast or legacy unicast by setting your
 transport to `udp` or `udpu` in your xref:pvecm_edit_corosync_conf[corosync.conf],
 but keep in mind that this will disable all cryptography and redundancy support.
 This is therefore not recommended.
+
+[[pvecm_corosync_over_bonds]]
+Corosync Over Bonds
+~~~~~~~~~~~~~~~~~~~
+
+Recommendations
+^^^^^^^^^^^^^^^
+
+We recommend at least one dedicated physical NIC for the primary Corosync link,
+see xref:pvecm_cluster_requirements[Requirements].
+xref:sysadmin_network_bond[Bonds] may be used as additional links for increased
+redundancy. The following caveats apply *whenever a bond is used for Corosync
+traffic*:
+
+* Bond mode *active-backup* may not provide the expected redundancy in certain
+  failure scenarios, see below for details.
+
+* We *advise against* using bond modes *balance-rr*, *balance-xor*,
+  *balance-tlb*, or *balance-alb* for Corosync traffic. They are known to be
+  problematic in certain failure scenarios, see below for details.
+
+* *IEEE 802.3ad (LACP)*: If LACP bonds are used for corosync traffic, we
+  strongly recommend setting `bond-lacp-rate fast` *on the Proxmox VE node and
+  the switch*! With the default setting `bond-lacp-rate slow`, this mode is
+  known to be problematic in certain failure scenarios, see below for details.
+
+Background
+^^^^^^^^^^
+
+Using a xref:sysadmin_network_bond[bond] as a Corosync link can be problematic
+in certain failure scenarios. Consider the failure scenario where one of the
+bonded interfaces fails and stops transmitting packets, but its link state
+stays up, and there are no other Corosync links available. In this scenario,
+some bond modes may cause a state of asymmetric connectivity where cluster
+nodes can only communicate with different subsets of other nodes. Affected are
+bond modes that provide load balancing, as these modes may still try to send
+out a subset of packets via the failed interface. In case of asymmetric
+connectivity, Corosync may not be able to form a stable quorum in the cluster.
+If this state persists and HA is enabled, even nodes whose bond does not have
+any issues may fence themselves. In the worst case, the whole cluster may fence
+itself.
+
+The bond mode *active-backup* will not cause asymmetric connectivity in the
+failure scenario described above. However, the bond with the interface failure
+may not switch over to the backup link. The node may lose connection to the
+cluster and, if HA is enabled, fence itself.
+
+Bond modes *balance-rr*, *balance-xor*, *balance_tlb*, or *balance-alb* may
+cause asymmetric connectivity in the failure scenario above, which can lead to
+unexpected fencing if HA is enabled.
+
+Bond mode *IEEE 802.3ad (LACP)* can cause asymmetric connectivity in the
+failure scenario above, but it can recover from this state, as each side of the
+bond (Proxmox VE node and switch) can stop using a bonded interface if it has
+not received three LACPDUs in a row on it. However, with default settings,
+LACPDUs are only sent every 30 seconds, yielding a failover time of 90 seconds.
+This is too long, as nodes with HA resources will fence themselves already
+after roughly one minute without a stable quorum. If LACP bonds are used for
+corosync traffic, we recommend setting `bond-lacp-rate fast` on the Proxmox VE
+node and the switch! Setting this option on one side requests the other side to
+send an LACPDU every second. Setting this option on both sides can reduce the
+failover time in the scenario above to 3 seconds and thus prevent fencing.
 
 Separate Cluster Network
 ~~~~~~~~~~~~~~~~~~~~~~~~
