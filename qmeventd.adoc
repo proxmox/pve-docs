@@ -20,7 +20,6 @@ endif::manvolnum[]
 ifndef::manvolnum[]
 PVE QEMU Event Daemon
 =====================
-:pve-toplevel:
 endif::manvolnum[]
 
 `qmeventd` is a daemon that listens on PATH for incoming connections from
