@@ -218,9 +218,10 @@ that all system updates are installed and that this page has been reloaded.
 [caption="", cols="<8,^8,^6,^7,^5"]
 |===
 |                   | {eol}         |**`enterprise`**|**`no-subscription`**|**`test`**
-|**`ceph-tentacle`**|            {u}|{u}|{u}|{u}
 |**`ceph-squid`**   |2026-09 (v19.2)|{r}|{a}|{a}
 |===
+
+//|**`ceph-tentacle`**|            {u}|{u}|{u}|{u}
 
 
 .Ceph repositories for {pve} {pve-version}
