@@ -1,3 +1,11 @@
+pve-docs (9.0.6) trixie; urgency=medium
+
+  * ha: add documentation about ha resource affinity rules
+
+  * update static/schema information.
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 31 Jul 2025 11:48:55 +0200
+
 pve-docs (9.0.5) trixie; urgency=medium
 
   * lvm storage: fix spelling of Fibre Channel
