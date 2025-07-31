@@ -74,10 +74,12 @@ sub pop_environment {
 }
 
 sub register_include {
-    my ($filename, $include_filename, $env_list) = @_;
+    my ($filename, $include_filename, $env_list, $include_counter) = @_;
 
     foreach my $e (@$env_list) {
 	$fileinfo->{include}->{$e}->{$filename}->{$include_filename} = 1;
+	$fileinfo->{include_counter}->{$e}->{$filename}->{$include_filename} = $include_counter
+	    if !exists($fileinfo->{include_counter}->{$e}->{$filename}->{$include_filename});
     }
 }
 
@@ -143,6 +145,7 @@ sub scan_adoc_file {
     my $env_last_line = {};
     my $env_last_blockid = {};
 
+    my $include_counter = 0;
     while (defined (my $line = <$fh>)) {
 	if ($line =~ m/^if(n?)def::(\S+)\[(.*)\]\s*$/) {
 	    my ($not, $env, $text) = ($1, $2, $3);
@@ -155,7 +158,8 @@ sub scan_adoc_file {
 	    pop_environment($env);
 	    next;
 	} elsif ($line =~ m/^include::(\S+)\[.*\]\s*$/) {
-	    register_include($filename, $1, $env_stack->[-1]);
+	    $include_counter++ ;
+	    register_include($filename, $1, $env_stack->[-1], $include_counter);
 	    next;
 	}
 
