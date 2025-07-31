@@ -12,6 +12,12 @@
     --pdt-secondary-850: hsl(250deg, 100%, 85%);
 }
 
+/* Avoid serif font and increase font-size from 16px to 18px. Makes it more similar to PBS docs */
+body, p {
+    font-family: Open Sans, sans-serif;
+    font-size: 18px;
+}
+
 /* adjust admonition block spacing. this allows for a background on
  * admonition blocks that doesn't make the elements look to tightly
  * spaced.
