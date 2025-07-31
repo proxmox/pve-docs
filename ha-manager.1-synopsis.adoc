@@ -12,6 +12,10 @@ HA resource ID. This consists of a resource type followed by a resource specific
 
 Description.
 
+`--failback` `<boolean>` ('default =' `1`)::
+
+Automatically migrate HA resource to the node with the highest priority according to their node affinity  rules, if a node with a higher priority than the current node comes online.
+
 `--group` `<string>` ::
 
 The HA group identifier.
@@ -95,7 +99,7 @@ Timeout in seconds. If set to 0 a hard stop will be performed.
 
 *ha-manager groupadd* `<group> --nodes <string>` `[OPTIONS]`
 
-Create a new HA group.
+Create a new HA group. (deprecated in favor of HA rules)
 
 `<group>`: `<string>` ::
 
@@ -123,11 +127,11 @@ Group type.
 
 *ha-manager groupconfig*
 
-Get HA groups.
+Get HA groups. (deprecated in favor of HA rules)
 
 *ha-manager groupremove* `<group>`
 
-Delete ha group configuration.
+Delete ha group configuration. (deprecated in favor of HA rules)
 
 `<group>`: `<string>` ::
 
@@ -135,7 +139,7 @@ The HA group identifier.
 
 *ha-manager groupset* `<group>` `[OPTIONS]`
 
-Update ha group configuration.
+Update ha group configuration. (deprecated in favor of HA rules)
 
 `<group>`: `<string>` ::
 
@@ -193,6 +197,110 @@ Delete resource configuration.
 
 HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).
 
+*ha-manager rules add* `<type> <rule> --resources <string>` `[OPTIONS]`
+
+Create HA rule.
+
+`<type>`: `<node-affinity>` ::
+
+HA rule type.
+
+`<rule>`: `<string>` ::
+
+HA rule identifier.
+
+`--comment` `<string>` ::
+
+HA rule description.
+
+`--disable` `<boolean>` ::
+
+Whether the HA rule is disabled.
+
+`--nodes` `<node>[:<pri>]{,<node>[:<pri>]}*` ::
+
+List of cluster node names with optional priority.
+
+`--resources` `<type>:<name>{,<type>:<name>}*` ::
+
+List of HA resource IDs. This consists of a list of resource types followed by a resource specific name separated with a colon (example: vm:100,ct:101).
+
+`--strict` `<boolean>` ('default =' `0`)::
+
+Describes whether the node affinity rule is strict or non-strict.
+
+*ha-manager rules config* `[OPTIONS]` `[FORMAT_OPTIONS]`
+
+Get HA rules.
+
+`--resource` `<string>` ::
+
+Limit the returned list to rules affecting the specified resource.
+
+`--type` `<node-affinity>` ::
+
+Limit the returned list to the specified rule type.
+
+*ha-manager rules list* `[OPTIONS]` `[FORMAT_OPTIONS]`
+
+Get HA rules.
+
+`--resource` `<string>` ::
+
+Limit the returned list to rules affecting the specified resource.
+
+`--type` `<node-affinity>` ::
+
+Limit the returned list to the specified rule type.
+
+*ha-manager rules remove* `<rule>`
+
+Delete HA rule.
+
+`<rule>`: `<string>` ::
+
+HA rule identifier.
+
+*ha-manager rules set* `<type> <rule>` `[OPTIONS]`
+
+Update HA rule.
+
+`<type>`: `<node-affinity>` ::
+
+HA rule type.
+
+`<rule>`: `<string>` ::
+
+HA rule identifier.
+
+`--comment` `<string>` ::
+
+HA rule description.
+
+`--delete` `<string>` ::
+
+A list of settings you want to delete.
+
+`--digest` `<string>` ::
+
+Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.
+
+`--disable` `<boolean>` ::
+
+Whether the HA rule is disabled.
+
+`--nodes` `<node>[:<pri>]{,<node>[:<pri>]}*` ::
+
+List of cluster node names with optional priority.
+
+`--resources` `<type>:<name>{,<type>:<name>}*` ::
+
+List of HA resource IDs. This consists of a list of resource types followed by a resource specific name separated with a colon (example: vm:100,ct:101).
+
+`--strict` `<boolean>` ('default =' `0`)::
+
+Describes whether the node affinity rule is strict or non-strict.
+
 *ha-manager set* `<sid>` `[OPTIONS]`
 
 Update resource configuration.
@@ -212,6 +320,10 @@ A list of settings you want to delete.
 `--digest` `<string>` ::
 
 Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.
+
+`--failback` `<boolean>` ('default =' `1`)::
+
+Automatically migrate HA resource to the node with the highest priority according to their node affinity  rules, if a node with a higher priority than the current node comes online.
 
 `--group` `<string>` ::
 

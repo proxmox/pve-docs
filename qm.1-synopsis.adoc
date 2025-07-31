@@ -1164,6 +1164,10 @@ Use online/live migration if VM is running. Ignored if VM is stopped.
 
 Mapping from source to target storages. Providing only a single storage ID maps all source storages to that storage. Providing the special value '1' will map each source storage to itself.
 
+`--with-conntrack-state` `<boolean>` ('default =' `0`)::
+
+Whether to migrate conntrack entries for running VMs.
+
 `--with-local-disks` `<boolean>` ::
 
 Enable live storage migration for local disk
@@ -1785,6 +1789,10 @@ Mapping from source to target storages. Providing only a single storage ID maps 
 `--timeout` `<integer> (0 - N)` ('default =' `max(30, vm memory in GiB)`)::
 
 Wait maximal timeout seconds.
+
+`--with-conntrack-state` `<boolean>` ('default =' `0`)::
+
+Whether to migrate conntrack entries for running VMs.
 
 *qm status* `<vmid>` `[OPTIONS]`
 

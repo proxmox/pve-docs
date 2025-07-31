@@ -122,10 +122,6 @@ Base64-encoded, PEM-formatted public RSA key. Used to encrypt a copy of the encr
 
 Maximal number of protected backups per guest. Use '-1' for unlimited.
 
-`--maxfiles` `<integer> (0 - N)` ::
-
-Deprecated: use 'prune-backups' instead. Maximal number of backup files per VM. Use '0' for unlimited.
-
 `--mkdir` `<boolean>` ('default =' `yes`)::
 
 Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.
@@ -667,10 +663,6 @@ Base64-encoded, PEM-formatted public RSA key. Used to encrypt a copy of the encr
 `--max-protected-backups` `<integer> (-1 - N)` ('default =' `Unlimited for users with Datastore.Allocate privilege, 5 for other users`)::
 
 Maximal number of protected backups per guest. Use '-1' for unlimited.
-
-`--maxfiles` `<integer> (0 - N)` ::
-
-Deprecated: use 'prune-backups' instead. Maximal number of backup files per VM. Use '0' for unlimited.
 
 `--mkdir` `<boolean>` ('default =' `yes`)::
 

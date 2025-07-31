@@ -36,13 +36,8 @@ const apiSchema = [
                            }
                         },
                         "permissions" : {
-                           "check" : [
-                              "perm",
-                              "/storage",
-                              [
-                                 "Datastore.Allocate"
-                              ]
-                           ]
+                           "description" : "Requires the VM.Replicate permission on /vms/<vmid>.",
+                           "user" : "all"
                         },
                         "protected" : 1,
                         "returns" : {
@@ -151,13 +146,8 @@ const apiSchema = [
                            "type" : "object"
                         },
                         "permissions" : {
-                           "check" : [
-                              "perm",
-                              "/storage",
-                              [
-                                 "Datastore.Allocate"
-                              ]
-                           ]
+                           "description" : "Requires the VM.Replicate permission on /vms/<vmid>.",
+                           "user" : "all"
                         },
                         "protected" : 1,
                         "returns" : {
@@ -274,13 +264,8 @@ const apiSchema = [
                      "type" : "object"
                   },
                   "permissions" : {
-                     "check" : [
-                        "perm",
-                        "/storage",
-                        [
-                           "Datastore.Allocate"
-                        ]
-                     ]
+                     "description" : "Requires the VM.Replicate permission on /vms/<vmid>.",
+                     "user" : "all"
                   },
                   "protected" : 1,
                   "returns" : {
@@ -420,6 +405,71 @@ const apiSchema = [
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
+                                    "otel-compression" : {
+                                       "default" : "gzip",
+                                       "description" : "Compression algorithm for requests",
+                                       "enum" : [
+                                          "none",
+                                          "gzip"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "otel-headers" : {
+                                       "description" : "Custom HTTP headers (JSON format, base64 encoded)",
+                                       "maxLength" : 1024,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "otel-max-body-size" : {
+                                       "default" : 10000000,
+                                       "description" : "Maximum request body size in bytes",
+                                       "minimum" : 1024,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (1024 - N)"
+                                    },
+                                    "otel-path" : {
+                                       "default" : "/v1/metrics",
+                                       "description" : "OTLP endpoint path",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "otel-protocol" : {
+                                       "default" : "https",
+                                       "description" : "HTTP protocol",
+                                       "enum" : [
+                                          "http",
+                                          "https"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "otel-resource-attributes" : {
+                                       "description" : "Additional resource attributes as JSON, base64 encoded",
+                                       "maxLength" : 1024,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "otel-timeout" : {
+                                       "default" : 5,
+                                       "description" : "HTTP request timeout in seconds",
+                                       "maximum" : 10,
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (1 - 10)"
+                                    },
+                                    "otel-verify-ssl" : {
+                                       "default" : 1,
+                                       "description" : "Verify SSL certificates",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
                                     "path" : {
                                        "description" : "root graphite path (ex: proxmox.mycluster.mykey)",
                                        "format" : "graphite-path",
@@ -467,7 +517,8 @@ const apiSchema = [
                                        "description" : "Plugin type.",
                                        "enum" : [
                                           "graphite",
-                                          "influxdb"
+                                          "influxdb",
+                                          "opentelemetry"
                                        ],
                                        "format" : "pve-configid",
                                        "type" : "string"
@@ -575,6 +626,71 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
+                                    },
+                                    "otel-compression" : {
+                                       "default" : "gzip",
+                                       "description" : "Compression algorithm for requests",
+                                       "enum" : [
+                                          "none",
+                                          "gzip"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "otel-headers" : {
+                                       "description" : "Custom HTTP headers (JSON format, base64 encoded)",
+                                       "maxLength" : 1024,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "otel-max-body-size" : {
+                                       "default" : 10000000,
+                                       "description" : "Maximum request body size in bytes",
+                                       "minimum" : 1024,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (1024 - N)"
+                                    },
+                                    "otel-path" : {
+                                       "default" : "/v1/metrics",
+                                       "description" : "OTLP endpoint path",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "otel-protocol" : {
+                                       "default" : "https",
+                                       "description" : "HTTP protocol",
+                                       "enum" : [
+                                          "http",
+                                          "https"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "otel-resource-attributes" : {
+                                       "description" : "Additional resource attributes as JSON, base64 encoded",
+                                       "maxLength" : 1024,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "otel-timeout" : {
+                                       "default" : 5,
+                                       "description" : "HTTP request timeout in seconds",
+                                       "maximum" : 10,
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (1 - 10)"
+                                    },
+                                    "otel-verify-ssl" : {
+                                       "default" : 1,
+                                       "description" : "Verify SSL certificates",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
                                     },
                                     "path" : {
                                        "description" : "root graphite path (ex: proxmox.mycluster.mykey)",
@@ -7242,6 +7358,12 @@ const apiSchema = [
                                        "description" : "Can be used to prevent concurrent modifications.",
                                        "type" : "string"
                                     },
+                                    "failback" : {
+                                       "default" : 1,
+                                       "description" : "The HA resource is automatically migrated to the node with the highest priority according to their node affinity rule, if a node with a higher priority than the current node comes online.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
                                     "group" : {
                                        "description" : "The HA group identifier.",
                                        "format" : "pve-configid",
@@ -7313,6 +7435,13 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
+                                    },
+                                    "failback" : {
+                                       "default" : 1,
+                                       "description" : "Automatically migrate HA resource to the node with the highest priority according to their node affinity  rules, if a node with a higher priority than the current node comes online.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
                                     },
                                     "group" : {
                                        "description" : "The HA group identifier.",
@@ -7442,6 +7571,13 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "failback" : {
+                                 "default" : 1,
+                                 "description" : "Automatically migrate HA resource to the node with the highest priority according to their node affinity  rules, if a node with a higher priority than the current node comes online.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
                               "group" : {
                                  "description" : "The HA group identifier.",
                                  "format" : "pve-configid",
@@ -7522,7 +7658,7 @@ const apiSchema = [
                         "info" : {
                            "DELETE" : {
                               "allowtoken" : 1,
-                              "description" : "Delete ha group configuration.",
+                              "description" : "Delete ha group configuration. (deprecated in favor of HA rules)",
                               "method" : "DELETE",
                               "name" : "delete",
                               "parameters" : {
@@ -7552,7 +7688,7 @@ const apiSchema = [
                            },
                            "GET" : {
                               "allowtoken" : 1,
-                              "description" : "Read ha group configuration.",
+                              "description" : "Read ha group configuration. (deprecated in favor of HA rules)",
                               "method" : "GET",
                               "name" : "read",
                               "parameters" : {
@@ -7579,7 +7715,7 @@ const apiSchema = [
                            },
                            "PUT" : {
                               "allowtoken" : 1,
-                              "description" : "Update ha group configuration.",
+                              "description" : "Update ha group configuration. (deprecated in favor of HA rules)",
                               "method" : "PUT",
                               "name" : "update",
                               "parameters" : {
@@ -7662,7 +7798,7 @@ const apiSchema = [
                   "info" : {
                      "GET" : {
                         "allowtoken" : 1,
-                        "description" : "Get HA groups.",
+                        "description" : "Get HA groups. (deprecated in favor of HA rules)",
                         "method" : "GET",
                         "name" : "index",
                         "parameters" : {
@@ -7697,7 +7833,7 @@ const apiSchema = [
                      },
                      "POST" : {
                         "allowtoken" : 1,
-                        "description" : "Create a new HA group.",
+                        "description" : "Create a new HA group. (deprecated in favor of HA rules)",
                         "method" : "POST",
                         "name" : "create",
                         "parameters" : {
@@ -7773,6 +7909,307 @@ const apiSchema = [
                   "children" : [
                      {
                         "info" : {
+                           "DELETE" : {
+                              "allowtoken" : 1,
+                              "description" : "Delete HA rule.",
+                              "method" : "DELETE",
+                              "name" : "delete_rule",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "rule" : {
+                                       "description" : "HA rule identifier.",
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Console"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           },
+                           "GET" : {
+                              "allowtoken" : 1,
+                              "description" : "Read HA rule.",
+                              "method" : "GET",
+                              "name" : "read_rule",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "rule" : {
+                                       "description" : "HA rule identifier.",
+                                       "format" : "pve-configid",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Audit"
+                                    ]
+                                 ]
+                              },
+                              "returns" : {
+                                 "properties" : {
+                                    "rule" : {
+                                       "description" : "HA rule identifier.",
+                                       "format" : "pve-configid",
+                                       "type" : "string"
+                                    },
+                                    "type" : {
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              }
+                           },
+                           "PUT" : {
+                              "allowtoken" : 1,
+                              "description" : "Update HA rule.",
+                              "method" : "PUT",
+                              "name" : "update_rule",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "comment" : {
+                                       "description" : "HA rule description.",
+                                       "maxLength" : 4096,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "delete" : {
+                                       "description" : "A list of settings you want to delete.",
+                                       "format" : "pve-configid-list",
+                                       "maxLength" : 4096,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "digest" : {
+                                       "description" : "Prevent changes if current configuration file has a different digest. This can be used to prevent concurrent modifications.",
+                                       "maxLength" : 64,
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "disable" : {
+                                       "description" : "Whether the HA rule is disabled.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>"
+                                    },
+                                    "nodes" : {
+                                       "description" : "List of cluster node names with optional priority.",
+                                       "format" : "pve-ha-group-node-list",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<node>[:<pri>]{,<node>[:<pri>]}*",
+                                       "verbose_description" : "List of cluster node members, where a priority can be given to each node. A resource bound to a group will run on the available nodes with the highest priority. If there are more nodes in the highest priority class, the services will get distributed to those nodes. The priorities have a relative meaning only. The higher the number, the higher the priority."
+                                    },
+                                    "resources" : {
+                                       "description" : "List of HA resource IDs. This consists of a list of resource types followed by a resource specific name separated with a colon (example: vm:100,ct:101).",
+                                       "format" : "pve-ha-resource-id-list",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<type>:<name>{,<type>:<name>}*"
+                                    },
+                                    "rule" : {
+                                       "description" : "HA rule identifier.",
+                                       "format" : "pve-configid",
+                                       "optional" : 0,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "strict" : {
+                                       "default" : 0,
+                                       "description" : "Describes whether the node affinity rule is strict or non-strict.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "typetext" : "<boolean>",
+                                       "verbose_description" : "Describes whether the node affinity rule is strict or non-strict.\n\nA non-strict node affinity rule makes resources prefer to be on the defined nodes.\nIf none of the defined nodes are available, the resource may run on any other node.\n\nA strict node affinity rule makes resources be restricted to the defined nodes. If\nnone of the defined nodes are available, the resource will be stopped.\n"
+                                    },
+                                    "type" : {
+                                       "description" : "HA rule type.",
+                                       "enum" : [
+                                          "node-affinity"
+                                       ],
+                                       "type" : "string"
+                                    }
+                                 },
+                                 "type" : "object"
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Console"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/cluster/ha/rules/{rule}",
+                        "text" : "{rule}"
+                     }
+                  ],
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Get HA rules.",
+                        "method" : "GET",
+                        "name" : "index",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "resource" : {
+                                 "description" : "Limit the returned list to rules affecting the specified resource.",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "type" : {
+                                 "description" : "Limit the returned list to the specified rule type.",
+                                 "enum" : [
+                                    "node-affinity"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Audit"
+                              ]
+                           ]
+                        },
+                        "returns" : {
+                           "items" : {
+                              "links" : [
+                                 {
+                                    "href" : "{rule}",
+                                    "rel" : "child"
+                                 }
+                              ],
+                              "properties" : {
+                                 "rule" : {
+                                    "type" : "string"
+                                 }
+                              },
+                              "type" : "object"
+                           },
+                           "type" : "array"
+                        }
+                     },
+                     "POST" : {
+                        "allowtoken" : 1,
+                        "description" : "Create HA rule.",
+                        "method" : "POST",
+                        "name" : "create_rule",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "comment" : {
+                                 "description" : "HA rule description.",
+                                 "maxLength" : 4096,
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "disable" : {
+                                 "description" : "Whether the HA rule is disabled.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "nodes" : {
+                                 "description" : "List of cluster node names with optional priority.",
+                                 "format" : "pve-ha-group-node-list",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<node>[:<pri>]{,<node>[:<pri>]}*",
+                                 "verbose_description" : "List of cluster node members, where a priority can be given to each node. A resource bound to a group will run on the available nodes with the highest priority. If there are more nodes in the highest priority class, the services will get distributed to those nodes. The priorities have a relative meaning only. The higher the number, the higher the priority."
+                              },
+                              "resources" : {
+                                 "description" : "List of HA resource IDs. This consists of a list of resource types followed by a resource specific name separated with a colon (example: vm:100,ct:101).",
+                                 "format" : "pve-ha-resource-id-list",
+                                 "optional" : 0,
+                                 "type" : "string",
+                                 "typetext" : "<type>:<name>{,<type>:<name>}*"
+                              },
+                              "rule" : {
+                                 "description" : "HA rule identifier.",
+                                 "format" : "pve-configid",
+                                 "optional" : 0,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "strict" : {
+                                 "default" : 0,
+                                 "description" : "Describes whether the node affinity rule is strict or non-strict.",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>",
+                                 "verbose_description" : "Describes whether the node affinity rule is strict or non-strict.\n\nA non-strict node affinity rule makes resources prefer to be on the defined nodes.\nIf none of the defined nodes are available, the resource may run on any other node.\n\nA strict node affinity rule makes resources be restricted to the defined nodes. If\nnone of the defined nodes are available, the resource will be stopped.\n"
+                              },
+                              "type" : {
+                                 "description" : "HA rule type.",
+                                 "enum" : [
+                                    "node-affinity"
+                                 ],
+                                 "type" : "string"
+                              }
+                           },
+                           "type" : "object"
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/",
+                              [
+                                 "Sys.Console"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     }
+                  },
+                  "leaf" : 0,
+                  "path" : "/cluster/ha/rules",
+                  "text" : "rules"
+               },
+               {
+                  "children" : [
+                     {
+                        "info" : {
                            "GET" : {
                               "allowtoken" : 1,
                               "description" : "Get HA manger status.",
@@ -7797,6 +8234,12 @@ const apiSchema = [
                                           "description" : "For type 'service'. Service state as seen by the CRM.",
                                           "optional" : 1,
                                           "type" : "string"
+                                       },
+                                       "failback" : {
+                                          "default" : 1,
+                                          "description" : "The HA resource is automatically migrated to the node with the highest priority according to their node affinity rule, if a node with a higher priority than the current node comes online.",
+                                          "optional" : 1,
+                                          "type" : "boolean"
                                        },
                                        "id" : {
                                           "description" : "Status entry ID (quorum, master, lrm:<node>, service:<sid>).",
@@ -15688,6 +16131,13 @@ const apiSchema = [
                            },
                            "mem" : {
                               "description" : "Used memory in bytes (for types 'node', 'qemu' and 'lxc').",
+                              "minimum" : 0,
+                              "optional" : 1,
+                              "renderer" : "bytes",
+                              "type" : "integer"
+                           },
+                           "memhost" : {
+                              "description" : "Used memory in bytes from the point of view of the host (for types 'qemu').",
                               "minimum" : 0,
                               "optional" : 1,
                               "renderer" : "bytes",
@@ -27845,6 +28295,12 @@ const apiSchema = [
                                                    "renderer" : "bytes",
                                                    "type" : "integer"
                                                 },
+                                                "memhost" : {
+                                                   "description" : "Current memory usage on the host.",
+                                                   "optional" : 1,
+                                                   "renderer" : "bytes",
+                                                   "type" : "integer"
+                                                },
                                                 "name" : {
                                                    "description" : "VM (host)name.",
                                                    "optional" : 1,
@@ -27866,6 +28322,36 @@ const apiSchema = [
                                                    "description" : "PID of the QEMU process, if the VM is running.",
                                                    "optional" : 1,
                                                    "type" : "integer"
+                                                },
+                                                "pressurecpufull" : {
+                                                   "description" : "CPU Full pressure stall average over the last 10 seconds.",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "pressurecpusome" : {
+                                                   "description" : "CPU Some pressure stall average over the last 10 seconds.",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "pressureiofull" : {
+                                                   "description" : "IO Full pressure stall average over the last 10 seconds.",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "pressureiosome" : {
+                                                   "description" : "IO Some pressure stall average over the last 10 seconds.",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "pressurememoryfull" : {
+                                                   "description" : "Memory Full pressure stall average over the last 10 seconds.",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "pressurememorysome" : {
+                                                   "description" : "Memory Some pressure stall average over the last 10 seconds.",
+                                                   "optional" : 1,
+                                                   "type" : "number"
                                                 },
                                                 "qmpstatus" : {
                                                    "description" : "VM run state from the 'query-status' QMP monitor command.",
@@ -28049,6 +28535,13 @@ const apiSchema = [
                                                    "minimum" : 100,
                                                    "type" : "integer",
                                                    "typetext" : "<integer> (100 - 999999999)"
+                                                },
+                                                "with-conntrack-state" : {
+                                                   "default" : 0,
+                                                   "description" : "Whether to migrate conntrack entries for running VMs.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "typetext" : "<boolean>"
                                                 }
                                              }
                                           },
@@ -29586,6 +30079,10 @@ const apiSchema = [
                                              "optional" : 1,
                                              "type" : "array"
                                           },
+                                          "has-dbus-vmstate" : {
+                                             "description" : "Whether the VM host supports migrating additional VM state, such as conntrack entries.",
+                                             "type" : "boolean"
+                                          },
                                           "local_disks" : {
                                              "description" : "List local disks including CD-Rom, unused and not referenced disks",
                                              "items" : {
@@ -29725,6 +30222,13 @@ const apiSchema = [
                                              "minimum" : 100,
                                              "type" : "integer",
                                              "typetext" : "<integer> (100 - 999999999)"
+                                          },
+                                          "with-conntrack-state" : {
+                                             "default" : 0,
+                                             "description" : "Whether to migrate conntrack entries for running VMs.",
+                                             "optional" : 1,
+                                             "type" : "boolean",
+                                             "typetext" : "<boolean>"
                                           },
                                           "with-local-disks" : {
                                              "description" : "Enable live storage migration for local disk",
@@ -30713,6 +31217,60 @@ const apiSchema = [
                               "leaf" : 1,
                               "path" : "/nodes/{node}/qemu/{vmid}/mtunnelwebsocket",
                               "text" : "mtunnelwebsocket"
+                           },
+                           {
+                              "info" : {
+                                 "POST" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Stop the dbus-vmstate helper for the given VM if running.",
+                                    "method" : "POST",
+                                    "name" : "dbus_vmstate",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "action" : {
+                                             "description" : "Action to perform on the DBus VMState helper.",
+                                             "enum" : [
+                                                "start",
+                                                "stop"
+                                             ],
+                                             "optional" : 0,
+                                             "type" : "string"
+                                          },
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (100 - 999999999)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/vms/{vmid}",
+                                          [
+                                             "VM.Migrate"
+                                          ]
+                                       ]
+                                    },
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "null"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/qemu/{vmid}/dbus-vmstate",
+                              "text" : "dbus-vmstate"
                            }
                         ],
                         "info" : {
@@ -30903,6 +31461,12 @@ const apiSchema = [
                                     "renderer" : "bytes",
                                     "type" : "integer"
                                  },
+                                 "memhost" : {
+                                    "description" : "Current memory usage on the host.",
+                                    "optional" : 1,
+                                    "renderer" : "bytes",
+                                    "type" : "integer"
+                                 },
                                  "name" : {
                                     "description" : "VM (host)name.",
                                     "optional" : 1,
@@ -30924,6 +31488,36 @@ const apiSchema = [
                                     "description" : "PID of the QEMU process, if the VM is running.",
                                     "optional" : 1,
                                     "type" : "integer"
+                                 },
+                                 "pressurecpufull" : {
+                                    "description" : "CPU Full pressure stall average over the last 10 seconds.",
+                                    "optional" : 1,
+                                    "type" : "number"
+                                 },
+                                 "pressurecpusome" : {
+                                    "description" : "CPU Some pressure stall average over the last 10 seconds.",
+                                    "optional" : 1,
+                                    "type" : "number"
+                                 },
+                                 "pressureiofull" : {
+                                    "description" : "IO Full pressure stall average over the last 10 seconds.",
+                                    "optional" : 1,
+                                    "type" : "number"
+                                 },
+                                 "pressureiosome" : {
+                                    "description" : "IO Some pressure stall average over the last 10 seconds.",
+                                    "optional" : 1,
+                                    "type" : "number"
+                                 },
+                                 "pressurememoryfull" : {
+                                    "description" : "Memory Full pressure stall average over the last 10 seconds.",
+                                    "optional" : 1,
+                                    "type" : "number"
+                                 },
+                                 "pressurememorysome" : {
+                                    "description" : "Memory Some pressure stall average over the last 10 seconds.",
+                                    "optional" : 1,
+                                    "type" : "number"
                                  },
                                  "qmpstatus" : {
                                     "description" : "VM run state from the 'query-status' QMP monitor command.",
@@ -34750,6 +35344,31 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "renderer" : "bytes",
                                                    "type" : "integer"
+                                                },
+                                                "pressurecpusome" : {
+                                                   "description" : "CPU Some pressure stall average over the last 10 seconds.",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "pressureiofull" : {
+                                                   "description" : "IO Full pressure stall average over the last 10 seconds.",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "pressureiosome" : {
+                                                   "description" : "IO Some pressure stall average over the last 10 seconds.",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "pressurememoryfull" : {
+                                                   "description" : "Memory Full pressure stall average over the last 10 seconds.",
+                                                   "optional" : 1,
+                                                   "type" : "number"
+                                                },
+                                                "pressurememorysome" : {
+                                                   "description" : "Memory Some pressure stall average over the last 10 seconds.",
+                                                   "optional" : 1,
+                                                   "type" : "number"
                                                 },
                                                 "status" : {
                                                    "description" : "LXC Container status.",
@@ -40314,6 +40933,31 @@ const apiSchema = [
                                     "renderer" : "bytes",
                                     "type" : "integer"
                                  },
+                                 "pressurecpusome" : {
+                                    "description" : "CPU Some pressure stall average over the last 10 seconds.",
+                                    "optional" : 1,
+                                    "type" : "number"
+                                 },
+                                 "pressureiofull" : {
+                                    "description" : "IO Full pressure stall average over the last 10 seconds.",
+                                    "optional" : 1,
+                                    "type" : "number"
+                                 },
+                                 "pressureiosome" : {
+                                    "description" : "IO Some pressure stall average over the last 10 seconds.",
+                                    "optional" : 1,
+                                    "type" : "number"
+                                 },
+                                 "pressurememoryfull" : {
+                                    "description" : "Memory Full pressure stall average over the last 10 seconds.",
+                                    "optional" : 1,
+                                    "type" : "number"
+                                 },
+                                 "pressurememorysome" : {
+                                    "description" : "Memory Some pressure stall average over the last 10 seconds.",
+                                    "optional" : 1,
+                                    "type" : "number"
+                                 },
                                  "status" : {
                                     "description" : "LXC Container status.",
                                     "enum" : [
@@ -41000,7 +41644,7 @@ const apiSchema = [
                            }
                         },
                         "permissions" : {
-                           "description" : "You need 'VM.Allocate' permission on /vms/{vmid} or on the VM pool /pool/{pool}. For restore, it is enough if the user has 'VM.Backup' permission and the VM already exists. You also need 'Datastore.AllocateSpace' permissions on the storage.",
+                           "description" : "You need 'VM.Allocate' permission on /vms/{vmid} or on the VM pool /pool/{pool}. For restore, it is enough if the user has 'VM.Backup' permission and the VM already exists. You also need 'Datastore.AllocateSpace' permissions on the storage. For privileged containers, 'Sys.Modify' permissions on '/' are required.",
                            "user" : "all"
                         },
                         "protected" : 1,
@@ -44250,7 +44894,7 @@ const apiSchema = [
                            }
                         },
                         "permissions" : {
-                           "description" : "The user needs 'VM.Backup' permissions on any VM, and 'Datastore.AllocateSpace' on the backup storage (and fleecing storage when fleecing is used). The 'tmpdir', 'dumpdir', 'script' and 'job-id' parameters are restricted to the 'root@pam' user. The 'maxfiles' and 'prune-backups' settings require 'Datastore.Allocate' on the backup storage. The 'bwlimit', 'performance' and 'ionice' parameters require 'Sys.Modify' on '/'.",
+                           "description" : "The user needs 'VM.Backup' permissions on any VM, and 'Datastore.AllocateSpace' on the backup storage (and fleecing storage when fleecing is used). The 'tmpdir', 'dumpdir', 'script' and 'job-id' parameters are restricted to the 'root@pam' user. The 'prune-backups' setting requires 'Datastore.Allocate' on the backup storage. The 'bwlimit', 'performance' and 'ionice' parameters require 'Sys.Modify' on '/'.",
                            "user" : "all"
                         },
                         "protected" : 1,
@@ -47346,6 +47990,50 @@ const apiSchema = [
                               "leaf" : 1,
                               "path" : "/nodes/{node}/capabilities/qemu/machines",
                               "text" : "machines"
+                           },
+                           {
+                              "info" : {
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Get node-specific QEMU migration capabilities of the node. Requires the 'Sys.Audit' permission on '/nodes/<node>'.",
+                                    "method" : "GET",
+                                    "name" : "capabilities",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/nodes/{node}",
+                                          [
+                                             "Sys.Audit"
+                                          ]
+                                       ]
+                                    },
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "dbus-vmstate" : {
+                                             "description" : "Whether the host supports live-migrating additional VM state via the dbus-vmstate helper.",
+                                             "type" : "boolean"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/capabilities/qemu/migration",
+                              "text" : "migration"
                            }
                         ],
                         "info" : {
@@ -47368,6 +48056,7 @@ const apiSchema = [
                               "permissions" : {
                                  "user" : "all"
                               },
+                              "proxyto" : "node",
                               "returns" : {
                                  "items" : {
                                     "properties" : {},
@@ -47408,6 +48097,7 @@ const apiSchema = [
                         "permissions" : {
                            "user" : "all"
                         },
+                        "proxyto" : "node",
                         "returns" : {
                            "items" : {
                               "properties" : {},
@@ -51889,13 +52579,8 @@ const apiSchema = [
                                        }
                                     },
                                     "permissions" : {
-                                       "check" : [
-                                          "perm",
-                                          "/storage",
-                                          [
-                                             "Datastore.Allocate"
-                                          ]
-                                       ]
+                                       "description" : "Requires the VM.Replicate permission on /vms/<vmid>.",
+                                       "user" : "all"
                                     },
                                     "protected" : 1,
                                     "proxyto" : "node",
@@ -53415,7 +54100,8 @@ const apiSchema = [
                                     "day",
                                     "week",
                                     "month",
-                                    "year"
+                                    "year",
+                                    "decade"
                                  ],
                                  "type" : "string"
                               }
@@ -53477,7 +54163,8 @@ const apiSchema = [
                                     "day",
                                     "week",
                                     "month",
-                                    "year"
+                                    "year",
+                                    "decade"
                                  ],
                                  "type" : "string"
                               }
@@ -53677,9 +54364,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "ceph_install",
                                     "login",
-                                    "upgrade"
+                                    "upgrade",
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -53772,9 +54459,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "ceph_install",
                                     "login",
-                                    "upgrade"
+                                    "upgrade",
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -53897,9 +54584,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "ceph_install",
                                     "login",
-                                    "upgrade"
+                                    "upgrade",
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -55059,13 +55746,6 @@ const apiSchema = [
                            "type" : "integer",
                            "typetext" : "<integer> (-1 - N)"
                         },
-                        "maxfiles" : {
-                           "description" : "Deprecated: use 'prune-backups' instead. Maximal number of backup files per VM. Use '0' for unlimited.",
-                           "minimum" : 0,
-                           "optional" : 1,
-                           "type" : "integer",
-                           "typetext" : "<integer> (0 - N)"
-                        },
                         "mkdir" : {
                            "default" : "yes",
                            "description" : "Create the directory if it doesn't exist and populate it with default sub-dirs. NOTE: Deprecated, use the 'create-base-path' and 'create-subdirs' options instead.",
@@ -55591,13 +56271,6 @@ const apiSchema = [
                      "optional" : 1,
                      "type" : "integer",
                      "typetext" : "<integer> (-1 - N)"
-                  },
-                  "maxfiles" : {
-                     "description" : "Deprecated: use 'prune-backups' instead. Maximal number of backup files per VM. Use '0' for unlimited.",
-                     "minimum" : 0,
-                     "optional" : 1,
-                     "type" : "integer",
-                     "typetext" : "<integer> (0 - N)"
                   },
                   "mkdir" : {
                      "default" : "yes",
@@ -57316,6 +57989,10 @@ const apiSchema = [
                                  "type" : "boolean"
                               },
                               "VM.PowerMgmt" : {
+                                 "optional" : 1,
+                                 "type" : "boolean"
+                              },
+                              "VM.Replicate" : {
                                  "optional" : 1,
                                  "type" : "boolean"
                               },

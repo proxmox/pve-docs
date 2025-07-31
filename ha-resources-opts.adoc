@@ -2,6 +2,10 @@
 
 Description.
 
+`failback`: `<boolean>` ('default =' `1`)::
+
+Automatically migrate HA resource to the node with the highest priority according to their node affinity  rules, if a node with a higher priority than the current node comes online.
+
 `group`: `<string>` ::
 
 The HA group identifier.
