@@ -1,3 +1,49 @@
+pve-docs (9.0.5) trixie; urgency=medium
+
+  * lvm storage: fix spelling of Fibre Channel
+
+  * sdn: fabrics: remove duplicate paragraph in OSPF section
+
+  * LVM storage: reword and update to current capabilities
+
+  * remove GlusterFS plugin documentation, see libpve-storage-perl changelog
+    for some more detail.
+
+  * notifications: adapt to latest notification system UI changes-
+
+  * qmeventd: do not make a top-level chapter.
+
+  * make introduction chapter a first-class chapter.
+
+  * css: prefer Open Sans, sans-serif for general text font.
+
+  * css: do not differentiate visited links.
+
+  * css: ensure index image doesn't overflows ovoer the screen.
+
+  * html: make table overflow the x-axis automatically to avoid that whole
+    documentation gets a horizontal scroll-bar just due to one or two wider
+    tables, rather make those tables scrollable.
+
+  * html/css: add toggle menu for TOC on narrow (mobile) screens to have more
+    useable space for reading the actual documentation.
+
+  * html: rework index to order chapters and avoid visual noise from to many
+    table and table columns.
+
+  * package repos, software updates: revise Ceph section.
+
+  * asciidoc-pve scan-exjts: add allow-missing option to make bootstrapping
+    easier.
+
+  * ha: add documentation about ha rules and ha node affinity rules.
+
+  * ha: crs: document effects of HA node affinity rule on the CRS scheduler.
+
+  * update static/schema information
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 31 Jul 2025 08:34:19 +0200
+
 pve-docs (9.0.4) trixie; urgency=medium
 
   * lvm storage: improve wording for snapshot-as-volume-chain option
