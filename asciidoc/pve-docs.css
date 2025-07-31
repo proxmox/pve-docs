@@ -13,6 +13,10 @@
     --pdt-secondary-850: hsl(250deg, 100%, 85%);
 }
 
+#header > h1 > .image > img {
+    max-width: 100%;
+}
+
 /* Avoid serif font and increase font-size from 16px to 18px. Makes it more similar to PBS docs */
 body, p {
     font-family: Open Sans, sans-serif;
