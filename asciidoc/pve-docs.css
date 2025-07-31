@@ -38,6 +38,10 @@ div.admonitionblock td.icon > img {
     padding: 0.15em;
 }
 
+th.tableblock, td.tableblock {
+    border-color: #527bbd80;
+}
+
 /* Fine-tune headings a bit */
 h4 {
   font-size: 1.1em;
