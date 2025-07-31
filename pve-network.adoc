@@ -168,29 +168,51 @@ occurences of the old interface name in the following files:
 * `/etc/network/interfaces`
 * `/etc/pve/nodes/<nodename>/host.fw`
 * `/etc/pve/sdn/controllers.cfg`
+* `/etc/pve/sdn/fabrics.cfg`
 
 NOTE: Since the generated mapping is local to the node it is generated on,
 interface names contained in the Firewall Datacenter configuration
 (`/etc/pve/firewall/cluster.fw`) are **not** automatically updated.
 
-The generated link files are stored in `/usr/local/lib/systemd/network`.
+The generated link files are stored in `/usr/local/lib/systemd/network`. For the
+configuration files a new file will be generated in the same place with a `.new`
+suffix. This way you can inspect the changes made to the configuration by
+using diff (or another diff viewer of your choice):
 
-It is currently only possible to generate names with the prefix `nic`, since
-otherwise the interfaces would not get recognized as a physical interface. When
-auto-generating new interface names, the tool will use `nic0`, `nic1`, ...
+----
+diff -y /etc/network/interfaces /etc/network/interfaces.new
+----
+
+If you see any problematic changes or want to revert the changes made by the
+pinning tool **before rebooting**, simply delete all `.new` files and the
+respective link files from `/usr/local/lib/systemd/network`.
 
 The following command will generate a .link file for all physical network
 interfaces that do not yet have a .link file and update selected Proxmox VE
-configuration files (see above):
+configuration files (see above). The generated names will use the default prefix
+`nic`, so the resulting interface names will be `nic1`, `nic2`, ...
 
 ----
 proxmox-network-interface-pinning generate
+----
+
+You can override the default prefix with the `--prefix` flag:
+
+----
+proxmox-network-interface-pinning generate --prefix myprefix
 ----
 
 It is also possible to pin only a specific interface:
 
 ----
 proxmox-network-interface-pinning generate --interface enp1s0
+----
+
+When pinning a specific interface, you can specify the exact name that the
+interface should be pinned to:
+
+----
+proxmox-network-interface-pinning generate --interface enp1s0 --target-name if42
 ----
 
 In order to apply the changes made by `proxmox-network-interface-pinning` to the
