@@ -9,6 +9,7 @@
     --pdt-primary-850: hsl(205deg, 100%, 85%);
     --pdt-primary-800: hsl(205deg, 100%, 80%);
     --pdt-primary-700: hsl(205deg, 100%, 70%);
+    --pdt-primary-250: hsl(205deg, 100%, 25%);
     --pdt-secondary-850: hsl(250deg, 100%, 85%);
 }
 
@@ -58,6 +59,10 @@ h3 > span {
     border-bottom: 2px solid silver;
 }
 
+a, a:visited {
+    color: var(--pdt-primary-250);
+}
+
 a.headerlink {
     color: var(--pdt-grey-750);
     padding: 0 4px;
@@ -88,7 +93,6 @@ h6:hover > a.headerlink {
         --pdt-text: var(--pdt-grey-950);
         --pdt-headline: var(--pdt-primary-800);
         --pdt-link: var(--pdt-primary-700);
-        --pdt-link-visited: var(--pdt-secondary-850);
         --pdt-highlighted-text: var(--pdt-primary-850);
         --pdt-background-sidebar: var(--pdt-grey-100);
         --pdt-background-listings: var(--pdt-grey-100);
@@ -103,12 +107,8 @@ h6:hover > a.headerlink {
         background-color: var(--pdt-body-background);
     }
 
-    a {
+    a, a:visited {
         color: var(--pdt-link);
-    }
-
-    a:visited {
-        color: var(--pdt-link-visited);
     }
 
     /* style headlines, titles etc. */
