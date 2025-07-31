@@ -7239,7 +7239,46 @@ const apiSchema = [
                                     },
                                     "protected" : 1,
                                     "returns" : {
-                                       "type" : "null"
+                                       "properties" : {
+                                          "blocking-resources" : {
+                                             "description" : "HA resources, which are blocking the given HA resource from being migrated to the requested target node.",
+                                             "items" : {
+                                                "description" : "A blocking HA resource",
+                                                "properties" : {
+                                                   "cause" : {
+                                                      "description" : "The reason why the HA resource is blocking the migration.",
+                                                      "enum" : [
+                                                         "resource-affinity"
+                                                      ],
+                                                      "type" : "string"
+                                                   },
+                                                   "sid" : {
+                                                      "description" : "The blocking HA resource id",
+                                                      "type" : "string"
+                                                   }
+                                                },
+                                                "type" : "object"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array"
+                                          },
+                                          "comigrated-resources" : {
+                                             "description" : "HA resources, which are migrated to the same requested target node as the given HA resource, because these are in positive affinity with the HA resource.",
+                                             "optional" : 1,
+                                             "type" : "array"
+                                          },
+                                          "requested-node" : {
+                                             "description" : "Node, which was requested to be migrated to.",
+                                             "optional" : 0,
+                                             "type" : "string"
+                                          },
+                                          "sid" : {
+                                             "description" : "HA resource, which is requested to be migrated.",
+                                             "optional" : 0,
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "type" : "object"
                                     }
                                  }
                               },
@@ -7282,7 +7321,50 @@ const apiSchema = [
                                     },
                                     "protected" : 1,
                                     "returns" : {
-                                       "type" : "null"
+                                       "properties" : {
+                                          "blocking-resources" : {
+                                             "description" : "HA resources, which are blocking the given HA resource from being relocated to the requested target node.",
+                                             "items" : {
+                                                "description" : "A blocking HA resource",
+                                                "properties" : {
+                                                   "cause" : {
+                                                      "description" : "The reason why the HA resource is blocking the relocation.",
+                                                      "enum" : [
+                                                         "resource-affinity"
+                                                      ],
+                                                      "type" : "string"
+                                                   },
+                                                   "sid" : {
+                                                      "description" : "The blocking HA resource id",
+                                                      "type" : "string"
+                                                   }
+                                                },
+                                                "type" : "object"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array"
+                                          },
+                                          "comigrated-resources" : {
+                                             "description" : "HA resources, which are relocated to the same requested target node as the given HA resource, because these are in positive affinity with the HA resource.",
+                                             "items" : {
+                                                "description" : "A comigrated HA resource",
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array"
+                                          },
+                                          "requested-node" : {
+                                             "description" : "Node, which was requested to be relocated to.",
+                                             "optional" : 0,
+                                             "type" : "string"
+                                          },
+                                          "sid" : {
+                                             "description" : "HA resource, which is requested to be relocated.",
+                                             "optional" : 0,
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "type" : "object"
                                     }
                                  }
                               },
@@ -7986,6 +8068,19 @@ const apiSchema = [
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
+                                    "affinity" : {
+                                       "description" : "Describes whether the HA resources are supposed to be kept on the same node ('positive'), or are supposed to be kept on separate nodes ('negative').",
+                                       "enum" : [
+                                          "positive",
+                                          "negative"
+                                       ],
+                                       "instance-types" : [
+                                          "resource-affinity"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "type-property" : "type"
+                                    },
                                     "comment" : {
                                        "description" : "HA rule description.",
                                        "maxLength" : 4096,
@@ -8017,8 +8112,12 @@ const apiSchema = [
                                     "nodes" : {
                                        "description" : "List of cluster node names with optional priority.",
                                        "format" : "pve-ha-group-node-list",
+                                       "instance-types" : [
+                                          "node-affinity"
+                                       ],
                                        "optional" : 1,
                                        "type" : "string",
+                                       "type-property" : "type",
                                        "typetext" : "<node>[:<pri>]{,<node>[:<pri>]}*",
                                        "verbose_description" : "List of cluster node members, where a priority can be given to each node. A resource bound to a group will run on the available nodes with the highest priority. If there are more nodes in the highest priority class, the services will get distributed to those nodes. The priorities have a relative meaning only. The higher the number, the higher the priority."
                                     },
@@ -8039,15 +8138,20 @@ const apiSchema = [
                                     "strict" : {
                                        "default" : 0,
                                        "description" : "Describes whether the node affinity rule is strict or non-strict.",
+                                       "instance-types" : [
+                                          "node-affinity"
+                                       ],
                                        "optional" : 1,
                                        "type" : "boolean",
+                                       "type-property" : "type",
                                        "typetext" : "<boolean>",
                                        "verbose_description" : "Describes whether the node affinity rule is strict or non-strict.\n\nA non-strict node affinity rule makes resources prefer to be on the defined nodes.\nIf none of the defined nodes are available, the resource may run on any other node.\n\nA strict node affinity rule makes resources be restricted to the defined nodes. If\nnone of the defined nodes are available, the resource will be stopped.\n"
                                     },
                                     "type" : {
                                        "description" : "HA rule type.",
                                        "enum" : [
-                                          "node-affinity"
+                                          "node-affinity",
+                                          "resource-affinity"
                                        ],
                                        "type" : "string"
                                     }
@@ -8092,7 +8196,8 @@ const apiSchema = [
                               "type" : {
                                  "description" : "Limit the returned list to the specified rule type.",
                                  "enum" : [
-                                    "node-affinity"
+                                    "node-affinity",
+                                    "resource-affinity"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -8134,6 +8239,19 @@ const apiSchema = [
                         "parameters" : {
                            "additionalProperties" : 0,
                            "properties" : {
+                              "affinity" : {
+                                 "description" : "Describes whether the HA resources are supposed to be kept on the same node ('positive'), or are supposed to be kept on separate nodes ('negative').",
+                                 "enum" : [
+                                    "positive",
+                                    "negative"
+                                 ],
+                                 "instance-types" : [
+                                    "resource-affinity"
+                                 ],
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "type-property" : "type"
+                              },
                               "comment" : {
                                  "description" : "HA rule description.",
                                  "maxLength" : 4096,
@@ -8150,8 +8268,12 @@ const apiSchema = [
                               "nodes" : {
                                  "description" : "List of cluster node names with optional priority.",
                                  "format" : "pve-ha-group-node-list",
+                                 "instance-types" : [
+                                    "node-affinity"
+                                 ],
                                  "optional" : 1,
                                  "type" : "string",
+                                 "type-property" : "type",
                                  "typetext" : "<node>[:<pri>]{,<node>[:<pri>]}*",
                                  "verbose_description" : "List of cluster node members, where a priority can be given to each node. A resource bound to a group will run on the available nodes with the highest priority. If there are more nodes in the highest priority class, the services will get distributed to those nodes. The priorities have a relative meaning only. The higher the number, the higher the priority."
                               },
@@ -8172,15 +8294,20 @@ const apiSchema = [
                               "strict" : {
                                  "default" : 0,
                                  "description" : "Describes whether the node affinity rule is strict or non-strict.",
+                                 "instance-types" : [
+                                    "node-affinity"
+                                 ],
                                  "optional" : 1,
                                  "type" : "boolean",
+                                 "type-property" : "type",
                                  "typetext" : "<boolean>",
                                  "verbose_description" : "Describes whether the node affinity rule is strict or non-strict.\n\nA non-strict node affinity rule makes resources prefer to be on the defined nodes.\nIf none of the defined nodes are available, the resource may run on any other node.\n\nA strict node affinity rule makes resources be restricted to the defined nodes. If\nnone of the defined nodes are available, the resource will be stopped.\n"
                               },
                               "type" : {
                                  "description" : "HA rule type.",
                                  "enum" : [
-                                    "node-affinity"
+                                    "node-affinity",
+                                    "resource-affinity"
                                  ],
                                  "type" : "string"
                               }
@@ -30079,6 +30206,15 @@ const apiSchema = [
                                              "optional" : 1,
                                              "type" : "array"
                                           },
+                                          "comigrated-ha-resources" : {
+                                             "description" : "HA resources, which will be migrated to the same target node as the VM, because these are in positive affinity with the VM.",
+                                             "items" : {
+                                                "description" : "A comigrated HA resource",
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array"
+                                          },
                                           "has-dbus-vmstate" : {
                                              "description" : "Whether the VM host supports migrating additional VM state, such as conntrack entries.",
                                              "type" : "boolean"
@@ -30132,6 +30268,28 @@ const apiSchema = [
                                              "description" : "List of not allowed nodes with additional information.",
                                              "optional" : 1,
                                              "properties" : {
+                                                "blocking-ha-resources" : {
+                                                   "description" : "HA resources, which are blocking the VM from being migrated to the node.",
+                                                   "items" : {
+                                                      "description" : "A blocking HA resource",
+                                                      "properties" : {
+                                                         "cause" : {
+                                                            "description" : "The reason why the HA resource is blocking the migration.",
+                                                            "enum" : [
+                                                               "resource-affinity"
+                                                            ],
+                                                            "type" : "string"
+                                                         },
+                                                         "sid" : {
+                                                            "description" : "The blocking HA resource id",
+                                                            "type" : "string"
+                                                         }
+                                                      },
+                                                      "type" : "object"
+                                                   },
+                                                   "optional" : 1,
+                                                   "type" : "array"
+                                                },
                                                 "unavailable_storages" : {
                                                    "description" : "A list of not available storages.",
                                                    "items" : {
@@ -38617,6 +38775,105 @@ const apiSchema = [
                            },
                            {
                               "info" : {
+                                 "GET" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Get preconditions for migration.",
+                                    "method" : "GET",
+                                    "name" : "migrate_vm_precondition",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "target" : {
+                                             "description" : "Target node.",
+                                             "format" : "pve-node",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "vmid" : {
+                                             "description" : "The (unique) ID of the VM.",
+                                             "format" : "pve-vmid",
+                                             "maximum" : 999999999,
+                                             "minimum" : 100,
+                                             "type" : "integer",
+                                             "typetext" : "<integer> (100 - 999999999)"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "perm",
+                                          "/vms/{vmid}",
+                                          [
+                                             "VM.Migrate"
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "properties" : {
+                                          "allowed-nodes" : {
+                                             "description" : "List of nodes allowed for migration.",
+                                             "items" : {
+                                                "description" : "An allowed node",
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array"
+                                          },
+                                          "comigrated-ha-resources" : {
+                                             "description" : "HA resources, which will be migrated to the same target node as the container, because these are in positive affinity with the container.",
+                                             "items" : {
+                                                "description" : "A comigrated HA resource",
+                                                "type" : "string"
+                                             },
+                                             "optional" : 1,
+                                             "type" : "array"
+                                          },
+                                          "not-allowed-nodes" : {
+                                             "description" : "List of not allowed nodes with additional information.",
+                                             "optional" : 1,
+                                             "properties" : {
+                                                "blocking-ha-resources" : {
+                                                   "description" : "HA resources, which are blocking the container from being migrated to the node.",
+                                                   "items" : {
+                                                      "description" : "A blocking HA resource",
+                                                      "properties" : {
+                                                         "cause" : {
+                                                            "description" : "The reason why the HA resource is blocking the migration.",
+                                                            "enum" : [
+                                                               "resource-affinity"
+                                                            ],
+                                                            "type" : "string"
+                                                         },
+                                                         "sid" : {
+                                                            "description" : "The blocking HA resource id",
+                                                            "type" : "string"
+                                                         }
+                                                      },
+                                                      "type" : "object"
+                                                   },
+                                                   "optional" : 1,
+                                                   "type" : "array"
+                                                }
+                                             },
+                                             "type" : "object"
+                                          },
+                                          "running" : {
+                                             "description" : "Determines if the container is running.",
+                                             "type" : "boolean"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    }
+                                 },
                                  "POST" : {
                                     "allowtoken" : 1,
                                     "description" : "Migrate the container to another node. Creates a new migration task.",
@@ -54364,8 +54621,8 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "login",
                                     "upgrade",
+                                    "login",
                                     "ceph_install"
                                  ],
                                  "optional" : 1,
@@ -54459,8 +54716,8 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "login",
                                     "upgrade",
+                                    "login",
                                     "ceph_install"
                                  ],
                                  "optional" : 1,
@@ -54584,8 +54841,8 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "login",
                                     "upgrade",
+                                    "login",
                                     "ceph_install"
                                  ],
                                  "optional" : 1,

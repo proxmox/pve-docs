@@ -201,7 +201,7 @@ HA resource ID. This consists of a resource type followed by a resource specific
 
 Create HA rule.
 
-`<type>`: `<node-affinity>` ::
+`<type>`: `<node-affinity | resource-affinity>` ::
 
 HA rule type.
 
@@ -217,17 +217,30 @@ HA rule description.
 
 Whether the HA rule is disabled.
 
-`--nodes` `<node>[:<pri>]{,<node>[:<pri>]}*` ::
-
-List of cluster node names with optional priority.
-
 `--resources` `<type>:<name>{,<type>:<name>}*` ::
 
 List of HA resource IDs. This consists of a list of resource types followed by a resource specific name separated with a colon (example: vm:100,ct:101).
 
+
+
+
+`Conditional options:`
+
+`[type=node-affinity]` ;;
+
+`--nodes` `<node>[:<pri>]{,<node>[:<pri>]}*` ::
+
+List of cluster node names with optional priority.
+
 `--strict` `<boolean>` ('default =' `0`)::
 
 Describes whether the node affinity rule is strict or non-strict.
+
+`[type=resource-affinity]` ;;
+
+`--affinity` `<negative | positive>` ::
+
+Describes whether the HA resources are supposed to be kept on the same node ('positive'), or are supposed to be kept on separate nodes ('negative').
 
 *ha-manager rules config* `[OPTIONS]` `[FORMAT_OPTIONS]`
 
@@ -237,7 +250,7 @@ Get HA rules.
 
 Limit the returned list to rules affecting the specified resource.
 
-`--type` `<node-affinity>` ::
+`--type` `<node-affinity | resource-affinity>` ::
 
 Limit the returned list to the specified rule type.
 
@@ -249,7 +262,7 @@ Get HA rules.
 
 Limit the returned list to rules affecting the specified resource.
 
-`--type` `<node-affinity>` ::
+`--type` `<node-affinity | resource-affinity>` ::
 
 Limit the returned list to the specified rule type.
 
@@ -265,7 +278,7 @@ HA rule identifier.
 
 Update HA rule.
 
-`<type>`: `<node-affinity>` ::
+`<type>`: `<node-affinity | resource-affinity>` ::
 
 HA rule type.
 
@@ -289,17 +302,30 @@ Prevent changes if current configuration file has a different digest. This can b
 
 Whether the HA rule is disabled.
 
-`--nodes` `<node>[:<pri>]{,<node>[:<pri>]}*` ::
-
-List of cluster node names with optional priority.
-
 `--resources` `<type>:<name>{,<type>:<name>}*` ::
 
 List of HA resource IDs. This consists of a list of resource types followed by a resource specific name separated with a colon (example: vm:100,ct:101).
 
+
+
+
+`Conditional options:`
+
+`[type=node-affinity]` ;;
+
+`--nodes` `<node>[:<pri>]{,<node>[:<pri>]}*` ::
+
+List of cluster node names with optional priority.
+
 `--strict` `<boolean>` ('default =' `0`)::
 
 Describes whether the node affinity rule is strict or non-strict.
+
+`[type=resource-affinity]` ;;
+
+`--affinity` `<negative | positive>` ::
+
+Describes whether the HA resources are supposed to be kept on the same node ('positive'), or are supposed to be kept on separate nodes ('negative').
 
 *ha-manager set* `<sid>` `[OPTIONS]`
 
