@@ -1,5 +1,5 @@
 image:./images/proxmox-logo.svg[] pass:[<br>] {pve} Documentation Index
-========================================================================
+=======================================================================
 :data-uri:
 :icons:
 :title: {pve} Documentation Index
@@ -8,13 +8,13 @@ image:./images/proxmox-logo.svg[] pass:[<br>] {pve} Documentation Index
 {pve} Administration Guide
 --------------------------
 
-[width="100%",options="header"]
-|===========================================================
-|Format               |Link
-|Printable version    |link:pve-admin-guide.pdf[]
-|Online HTML version  |link:pve-admin-guide.html[]
-|E-Book version       |link:pve-admin-guide.epub[]
-|===========================================================
+You can browse the link:pve-admin-guide.html[administration guide as a single-page HTML document].
+
+
+You can also download the guide in the following formats:
+
+* link:pve-admin-guide.pdf[PDF file]
+* link:pve-admin-guide.epub[E-book (ePub)]
 
 
 Individual Chapters

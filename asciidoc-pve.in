@@ -580,15 +580,22 @@ if ($clicmd eq 'compile-wiki') {
 
     print '[width="100%",options="header"]' . "\n";
     print "|====\n";
-    print "|Title|Link\n";
+    print "|Chapter\n";
 
     my $filelist = $fileinfo->{outfile}->{default};
-    foreach my $sourcefile (sort keys %$filelist) {
+    my $order = $fileinfo->{include_counter}->{default}->{'pve-admin-guide.adoc'};
+    foreach my $sourcefile (
+        sort { ($order->{$a} // 1e10) <=> ($order->{$b} // 1e10) } keys %$filelist
+    ) {
 	my $target = $filelist->{$sourcefile};
 	next if $target eq 'pve-admin-guide.html';
 	my $title = $fileinfo->{titles}->{default}->{$sourcefile} ||
 	    die "not title for '$sourcefile'";
-	print "|$title|link:$target\[\]\n";
+
+	if (my $chapter_no = $order->{$sourcefile}) {
+	    $title = "${chapter_no}. ${title}"
+        }
+	print "|link:$target\[${title}\]\n";
     }
 
     print "|====\n";
@@ -598,7 +605,7 @@ if ($clicmd eq 'compile-wiki') {
     my $section = $1;
     print '[width="100%",cols="5*d",options="header"]' . "\n";
     print "|====\n";
-    print "|Name 3+|Title|Link\n";
+    print "2+|Name 3+|Title\n";
 
     my $filelist = $fileinfo->{outfile}->{manvolnum};
     foreach my $manpage (sort keys %$filelist) {
@@ -612,7 +619,7 @@ if ($clicmd eq 'compile-wiki') {
 	$title =~ s/^[a-z]+\s*-\s*//;
 	
 	my $target = $filelist->{$manpage};
-	print "|$mantitle 3+|$title|link:$target.html\[$target\]\n";
+	print "2+|link:$target.html\[${mantitle}\] 3+|$title\n";
     }
 
     print "|====\n";
