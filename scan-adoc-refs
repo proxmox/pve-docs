@@ -10,9 +10,8 @@ use Data::Dumper;
 
 my $generate_depends;
 
-GetOptions("depends=s" => \$generate_depends) or
-    die("Error in command line arguments\n");
-
+GetOptions("depends=s" => \$generate_depends)
+    or die("Error in command line arguments\n");
 
 my $environments = {
     default => 1,
@@ -45,16 +44,16 @@ sub push_environment {
     return if !$environments->{$env}; # do not track
 
     if ($not) {
-	my $new_env = [];
-	foreach my $e (@{$env_stack->[-1]}) {
-	    if ($e ne $env) {
-		push @$new_env, $e;
-	    }
-	}
-	die "empty environment" if !scalar($new_env);
-	push @$env_stack, $new_env;
+        my $new_env = [];
+        foreach my $e (@{ $env_stack->[-1] }) {
+            if ($e ne $env) {
+                push @$new_env, $e;
+            }
+        }
+        die "empty environment" if !scalar($new_env);
+        push @$env_stack, $new_env;
     } else {
-	push @$env_stack, [$env];
+        push @$env_stack, [$env];
     }
 
     push @$env_name_stack, $env;
@@ -77,9 +76,9 @@ sub register_include {
     my ($filename, $include_filename, $env_list, $include_counter) = @_;
 
     foreach my $e (@$env_list) {
-	$fileinfo->{include}->{$e}->{$filename}->{$include_filename} = 1;
-	$fileinfo->{include_counter}->{$e}->{$filename}->{$include_filename} = $include_counter
-	    if !exists($fileinfo->{include_counter}->{$e}->{$filename}->{$include_filename});
+        $fileinfo->{include}->{$e}->{$filename}->{$include_filename} = 1;
+        $fileinfo->{include_counter}->{$e}->{$filename}->{$include_filename} = $include_counter
+            if !exists($fileinfo->{include_counter}->{$e}->{$filename}->{$include_filename});
     }
 }
 
@@ -87,12 +86,12 @@ sub register_blockid {
     my ($filename, $blockid, $reftext, $env_list) = @_;
 
     foreach my $e (@$env_list) {
-	my $fn = $fileinfo->{blockid}->{$e}->{$blockid};
-	die "blockid '$blockid' already defined in $fn"
-	    if defined($fn);
-	$fileinfo->{blockid}->{$e}->{$blockid} = $filename;
-	$fileinfo->{reftext}->{$e}->{$blockid} = $reftext
-	    if defined($reftext);
+        my $fn = $fileinfo->{blockid}->{$e}->{$blockid};
+        die "blockid '$blockid' already defined in $fn"
+            if defined($fn);
+        $fileinfo->{blockid}->{$e}->{$blockid} = $filename;
+        $fileinfo->{reftext}->{$e}->{$blockid} = $reftext
+            if defined($reftext);
     }
 }
 
@@ -106,29 +105,29 @@ sub register_title {
     # register document title (onyl once)
     if (!defined($fileinfo->{titles}->{$env}->{$filename})) {
 
-	$fileinfo->{titles}->{$env}->{$filename} = $title;
+        $fileinfo->{titles}->{$env}->{$filename} = $title;
 
-	if (defined($doctype)) {
-	    $fileinfo->{doctype}->{$env}->{$filename} = $doctype;
-	} else {
-	    die "unable to change title (no doctype)"
-		if !defined($fileinfo->{doctype}->{$env}->{$filename});
-	}
+        if (defined($doctype)) {
+            $fileinfo->{doctype}->{$env}->{$filename} = $doctype;
+        } else {
+            die "unable to change title (no doctype)"
+                if !defined($fileinfo->{doctype}->{$env}->{$filename});
+        }
     } elsif (!defined($doctype)) {
-	# change title via :title: attribute
-	$fileinfo->{titles}->{$env}->{$filename} = $title;
+        # change title via :title: attribute
+        $fileinfo->{titles}->{$env}->{$filename} = $title;
     }
 
     if (defined($doctype) && ($env eq 'manvolnum') && ($doctype == 0)) {
-	if ($title =~ m/.*\(([1-8])\)\s*$/) {
-	    $fileinfo->{mansection}->{$env}->{$filename} = $1;
-	}
+        if ($title =~ m/.*\(([1-8])\)\s*$/) {
+            $fileinfo->{mansection}->{$env}->{$filename} = $1;
+        }
     }
 
     if ($blockid) {
-	die "internal error"
-	    if !defined($fileinfo->{blockid}->{$env}->{$blockid});
-	$fileinfo->{reftitle}->{$env}->{$blockid} = $title;
+        die "internal error"
+            if !defined($fileinfo->{blockid}->{$env}->{$blockid});
+        $fileinfo->{reftitle}->{$env}->{$blockid} = $title;
     }
 }
 
@@ -139,98 +138,94 @@ sub scan_adoc_file {
 
     # print "SCAN $filename\n";
 
-    my $fh = IO::File->new("$filename", "r") or
-	die "unable to open file '$filename' - $!\n";
+    my $fh = IO::File->new("$filename", "r")
+        or die "unable to open file '$filename' - $!\n";
 
     my $env_last_line = {};
     my $env_last_blockid = {};
 
     my $include_counter = 0;
-    while (defined (my $line = <$fh>)) {
-	if ($line =~ m/^if(n?)def::(\S+)\[(.*)\]\s*$/) {
-	    my ($not, $env, $text) = ($1, $2, $3);
-	    die "unsuported ifdef usage - implement me" if $text;
-	    push_environment($env, $not);
-	    next;
-	} elsif ($line =~ m/^endif::(\S+)\[(.*)\]\s*$/) {
-	    my ($env, $text) = ($1, $2);
-	    die "unsuported ifdef usage - implement me" if $text;
-	    pop_environment($env);
-	    next;
-	} elsif ($line =~ m/^include::(\S+)\[.*\]\s*$/) {
-	    $include_counter++ ;
-	    register_include($filename, $1, $env_stack->[-1], $include_counter);
-	    next;
-	}
+    while (defined(my $line = <$fh>)) {
+        if ($line =~ m/^if(n?)def::(\S+)\[(.*)\]\s*$/) {
+            my ($not, $env, $text) = ($1, $2, $3);
+            die "unsuported ifdef usage - implement me" if $text;
+            push_environment($env, $not);
+            next;
+        } elsif ($line =~ m/^endif::(\S+)\[(.*)\]\s*$/) {
+            my ($env, $text) = ($1, $2);
+            die "unsuported ifdef usage - implement me" if $text;
+            pop_environment($env);
+            next;
+        } elsif ($line =~ m/^include::(\S+)\[.*\]\s*$/) {
+            $include_counter++;
+            register_include($filename, $1, $env_stack->[-1], $include_counter);
+            next;
+        }
 
-	# try to detect titles
-	foreach my $e (@{$env_stack->[-1]}) {
-	    if ($line =~ m/^===+$/) {
-		register_title($filename, $e, 0, $env_last_line->{$e},
-			       $env_last_blockid->{$e});
-	    } elsif ($line =~ m/^---+$/) {
-		register_title($filename, $e, 1, $env_last_line->{$e},
-			       $env_last_blockid->{$e});
-	    } elsif ($line =~ m/^~~~+$/) {
-		register_title($filename, $e, 2, $env_last_line->{$e},
-			       $env_last_blockid->{$e});
-	    } elsif ($line =~ m/^\^\^\^+$/) {
-		register_title($filename, $e, 3, $env_last_line->{$e},
-			       $env_last_blockid->{$e});
-	    } elsif ($line =~ m/^= +(\S.*?)( +=)?$/) {
-		register_title($filename, $e, 0, $1, $env_last_blockid->{$e});
-	    } elsif ($line =~ m/^== +(\S.*?)( +==)?$/) {
-		register_title($filename, $e, 1, $1, $env_last_blockid->{$e});
-	    } elsif ($line =~ m/^=== +(\S.*?)( +===)?$/) {
-		register_title($filename, $e, 2, $1, $env_last_blockid->{$e});
-	    } elsif ($line =~ m/^==== +(\S.*?)( +====)?$/) {
-		register_title($filename, $e, 3, $1, $env_last_blockid->{$e});
-	    }
+        # try to detect titles
+        foreach my $e (@{ $env_stack->[-1] }) {
+            if ($line =~ m/^===+$/) {
+                register_title($filename, $e, 0, $env_last_line->{$e}, $env_last_blockid->{$e});
+            } elsif ($line =~ m/^---+$/) {
+                register_title($filename, $e, 1, $env_last_line->{$e}, $env_last_blockid->{$e});
+            } elsif ($line =~ m/^~~~+$/) {
+                register_title($filename, $e, 2, $env_last_line->{$e}, $env_last_blockid->{$e});
+            } elsif ($line =~ m/^\^\^\^+$/) {
+                register_title($filename, $e, 3, $env_last_line->{$e}, $env_last_blockid->{$e});
+            } elsif ($line =~ m/^= +(\S.*?)( +=)?$/) {
+                register_title($filename, $e, 0, $1, $env_last_blockid->{$e});
+            } elsif ($line =~ m/^== +(\S.*?)( +==)?$/) {
+                register_title($filename, $e, 1, $1, $env_last_blockid->{$e});
+            } elsif ($line =~ m/^=== +(\S.*?)( +===)?$/) {
+                register_title($filename, $e, 2, $1, $env_last_blockid->{$e});
+            } elsif ($line =~ m/^==== +(\S.*?)( +====)?$/) {
+                register_title($filename, $e, 3, $1, $env_last_blockid->{$e});
+            }
 
-	    $env_last_line->{$e} = $line;
-	    chomp $env_last_line->{$e};
-	}
+            $env_last_line->{$e} = $line;
+            chomp $env_last_line->{$e};
+        }
 
-	if ($line =~ m/^:(\S+?):\s*(.*\S)?\s*$/) {
-	    my ($key, $value) = ($1, $2);
-	    if ($key eq 'pve-toplevel') {
+        if ($line =~ m/^:(\S+?):\s*(.*\S)?\s*$/) {
+            my ($key, $value) = ($1, $2);
+            if ($key eq 'pve-toplevel') {
 
-		foreach my $e (@{$env_stack->[-1]}) {
-		    my $title = $fileinfo->{titles}->{$e}->{$filename};
-		    die "not title for toplevel file '$filename' (env=$e)\n"
-			if !defined($title);
-		    $fileinfo->{toplevel}->{$e}->{$filename} = 1;
-		}
-	    } elsif ($key eq 'title') {
-		foreach my $e (@{$env_stack->[-1]}) {
-		    register_title($filename, $e, undef, $value);
-		}
-	    }
-	}
+                foreach my $e (@{ $env_stack->[-1] }) {
+                    my $title = $fileinfo->{titles}->{$e}->{$filename};
+                    die "not title for toplevel file '$filename' (env=$e)\n"
+                        if !defined($title);
+                    $fileinfo->{toplevel}->{$e}->{$filename} = 1;
+                }
+            } elsif ($key eq 'title') {
+                foreach my $e (@{ $env_stack->[-1] }) {
+                    register_title($filename, $e, undef, $value);
+                }
+            }
+        }
 
-	if ($line =~ m/^\[\[(.*)\]\]\s*$/) {
-	    my $blockid = $1;
-	    die "implement me" if $blockid =~m/,/;
-	    my $reftext = '';
-	    register_blockid($filename, $blockid, $reftext, $env_stack->[-1]);
-	    foreach my $e (@{$env_stack->[-1]}) {
-		$env_last_blockid->{$e} = $blockid;
-	    }
-	}
+        if ($line =~ m/^\[\[(.*)\]\]\s*$/) {
+            my $blockid = $1;
+            die "implement me" if $blockid =~ m/,/;
+            my $reftext = '';
+            register_blockid($filename, $blockid, $reftext, $env_stack->[-1]);
+            foreach my $e (@{ $env_stack->[-1] }) {
+                $env_last_blockid->{$e} = $blockid;
+            }
+        }
 
-	if ($line =~ m/^\s*$/) {
-	    foreach my $e (@{$env_stack->[-1]}) {
-		delete $env_last_blockid->{$e};
-	    }
-	}
+        if ($line =~ m/^\s*$/) {
+            foreach my $e (@{ $env_stack->[-1] }) {
+                delete $env_last_blockid->{$e};
+            }
+        }
 
-	# fixme: "anchor:"
-	# bibliography anchors
-	if ($line =~ m/\[\[\[([^\]]*)\]\]\]/) {
-	    my $blockid = $1;
-	    die "implement me" if $blockid =~m/,/;
-	    register_blockid($filename, $blockid, "&#91;$blockid&#93;", $env_stack->[-1]);
-	}
+        # fixme: "anchor:"
+        # bibliography anchors
+        if ($line =~ m/\[\[\[([^\]]*)\]\]\]/) {
+            my $blockid = $1;
+            die "implement me" if $blockid =~ m/,/;
+            register_blockid($filename, $blockid, "&#91;$blockid&#93;", $env_stack->[-1]);
+        }
     }
 }
 
@@ -252,57 +247,59 @@ sub resolve_link_target {
     my $repeat = 1;
 
     while ($repeat) {
-	$repeat = 0;
-	foreach my $fn (keys %$include_hash) {
-	    if ($include_hash->{$fn}->{$filename}) {
-		next if ($fn eq 'pve-admin-guide.adoc') &&
-		    $fileinfo->{outfile}->{$env}->{$filename};
-		$filename = $fn;
-		$repeat = 1;
-		last;
-	    }
-	}
+        $repeat = 0;
+        foreach my $fn (keys %$include_hash) {
+            if ($include_hash->{$fn}->{$filename}) {
+                next
+                    if ($fn eq 'pve-admin-guide.adoc')
+                    && $fileinfo->{outfile}->{$env}->{$filename};
+                $filename = $fn;
+                $repeat = 1;
+                last;
+            }
+        }
     }
 
     return $filename;
 }
 
-
 # try to generate output file mapping
 foreach my $e (@$start_env) {
     my $toplevel_hash = $fileinfo->{toplevel}->{$e};
     foreach my $fn (sort keys %$toplevel_hash) {
-	my $mansection = $fileinfo->{mansection}->{manvolnum}->{$fn};
-	if ($e eq 'wiki') {
-	    my $realfn = $fn;
-	    $realfn =~ s/\.adoc$//;
-	    if (defined($mansection) && ($mansection == 5)) {
-		$realfn .= ".$mansection";
-	    }
-	    $realfn = "$realfn-plain.html";
-	    $fileinfo->{outfile}->{$e}->{$fn} = $realfn;
-	} elsif ($e eq 'manvolnum') {
-	    my $realfn = $fn;
-	    $realfn =~ s/\.adoc$//;
-	    die "toplevel file '$fn' is not marked as manual page!" if !$mansection;
-	    $realfn .= ".$mansection";
-	    $fileinfo->{outfile}->{$e}->{$fn} = $realfn;
-	} elsif ($e eq 'default') {
-	    my $realfn = $fn;
-	    $realfn =~ s/\.adoc$//;
-	    if (defined($mansection) && ($mansection == 5)) {
-		$realfn .= ".$mansection";
-		$realfn = "$realfn.html";
-	    } else {
-		if (($fn ne 'pve-admin-guide.adoc') &&
-		    $fileinfo->{doctype}->{$e}->{$fn} == 0) {
-		    $realfn = "chapter-$realfn.html";
-		} else {
-		    $realfn = "$realfn.html";
-		}
-	    }
-	    $fileinfo->{outfile}->{$e}->{$fn} = $realfn;
-	}
+        my $mansection = $fileinfo->{mansection}->{manvolnum}->{$fn};
+        if ($e eq 'wiki') {
+            my $realfn = $fn;
+            $realfn =~ s/\.adoc$//;
+            if (defined($mansection) && ($mansection == 5)) {
+                $realfn .= ".$mansection";
+            }
+            $realfn = "$realfn-plain.html";
+            $fileinfo->{outfile}->{$e}->{$fn} = $realfn;
+        } elsif ($e eq 'manvolnum') {
+            my $realfn = $fn;
+            $realfn =~ s/\.adoc$//;
+            die "toplevel file '$fn' is not marked as manual page!" if !$mansection;
+            $realfn .= ".$mansection";
+            $fileinfo->{outfile}->{$e}->{$fn} = $realfn;
+        } elsif ($e eq 'default') {
+            my $realfn = $fn;
+            $realfn =~ s/\.adoc$//;
+            if (defined($mansection) && ($mansection == 5)) {
+                $realfn .= ".$mansection";
+                $realfn = "$realfn.html";
+            } else {
+                if (
+                    ($fn ne 'pve-admin-guide.adoc')
+                    && $fileinfo->{doctype}->{$e}->{$fn} == 0
+                ) {
+                    $realfn = "chapter-$realfn.html";
+                } else {
+                    $realfn = "$realfn.html";
+                }
+            }
+            $fileinfo->{outfile}->{$e}->{$fn} = $realfn;
+        }
     }
 }
 
@@ -310,27 +307,27 @@ foreach my $e (@$start_env) {
 foreach my $e (@$start_env) {
     my $blockid_hash = $fileinfo->{blockid}->{$e};
     foreach my $blockid (keys %$blockid_hash) {
-	my $fn = resolve_link_target($e, $blockid_hash->{$blockid});
-	if ($e eq 'wiki') {
-	    my $title = $fileinfo->{titles}->{$e}->{$fn};
-	    $title =~ s/\s/_/g;
-	    die "found not title for '$fn' in env '$e'" if !$title;
-	    $fileinfo->{blockid_target}->{$e}->{$blockid} = "link:/wiki/$title#$blockid";
+        my $fn = resolve_link_target($e, $blockid_hash->{$blockid});
+        if ($e eq 'wiki') {
+            my $title = $fileinfo->{titles}->{$e}->{$fn};
+            $title =~ s/\s/_/g;
+            die "found not title for '$fn' in env '$e'" if !$title;
+            $fileinfo->{blockid_target}->{$e}->{$blockid} = "link:/wiki/$title#$blockid";
 
-	    # we do not produce wiki pages for all content
-	    #my $realfn = $fileinfo->{outfile}->{$e}->{$fn};
-	    #warn "no output file mapping for '$fn' ($e)\n" if !$realfn;
+            # we do not produce wiki pages for all content
+            #my $realfn = $fileinfo->{outfile}->{$e}->{$fn};
+            #warn "no output file mapping for '$fn' ($e)\n" if !$realfn;
 
-	} elsif ($e eq 'default') {
-	    my $realfn = $fileinfo->{outfile}->{$e}->{$fn} ||
-		die "no output file mapping for '$fn'\n";
-	    $fileinfo->{blockid_target}->{$e}->{$blockid} = "link:/pve-docs/$realfn#$blockid";
-	} elsif ($e eq 'manvolnum') {
-	    # we do not produce manpages for all content
-	    # my $realfn = $fileinfo->{outfile}->{$e}->{$fn} ||
-	    # warn "no output file mapping for '$fn'\n";
-	    $fileinfo->{blockid_target}->{$e}->{$blockid} = $fn;
-	}
+        } elsif ($e eq 'default') {
+            my $realfn = $fileinfo->{outfile}->{$e}->{$fn}
+                || die "no output file mapping for '$fn'\n";
+            $fileinfo->{blockid_target}->{$e}->{$blockid} = "link:/pve-docs/$realfn#$blockid";
+        } elsif ($e eq 'manvolnum') {
+            # we do not produce manpages for all content
+            # my $realfn = $fileinfo->{outfile}->{$e}->{$fn} ||
+            # warn "no output file mapping for '$fn'\n";
+            $fileinfo->{blockid_target}->{$e}->{$blockid} = $fn;
+        }
     }
 }
 
@@ -340,7 +337,7 @@ sub makevar_define {
     my ($varname) = @_;
 
     die "makefile variable '$varname' already defined\n"
-	if exists($makevar_hash->{$varname});
+        if exists($makevar_hash->{$varname});
 
     $makevar_hash->{$varname} = {};
 }
@@ -349,7 +346,7 @@ sub makevar_list_add {
     my ($varname, $value) = @_;
 
     die "makefile variable '$varname' not defined\n"
-	if !exists($makevar_hash->{$varname});
+        if !exists($makevar_hash->{$varname});
 
     $makevar_hash->{$varname}->{$value} = 1;
 }
@@ -358,11 +355,11 @@ sub makevar_dump {
     my $txt = '';
 
     foreach my $varname (sort keys %$makevar_hash) {
-	$txt .= "$varname =";
-	foreach my $value (sort keys %{$makevar_hash->{$varname}}) {
-	    $txt .= " \\\n\t$value";
-	}
-	$txt .= "\n\n";
+        $txt .= "$varname =";
+        foreach my $value (sort keys %{ $makevar_hash->{$varname} }) {
+            $txt .= " \\\n\t$value";
+        }
+        $txt .= "\n\n";
     }
 
     return $txt;
@@ -371,126 +368,126 @@ sub makevar_dump {
 if ($generate_depends) {
 
     my $tmpfilename = "${generate_depends}.tmp";
-    my $outfh = IO::File->new($tmpfilename, "w") ||
-	die "unable to open temporary file '$tmpfilename'\n";
+    my $outfh = IO::File->new($tmpfilename, "w")
+        || die "unable to open temporary file '$tmpfilename'\n";
 
     my $depends = {};
     foreach my $e (@$start_env) {
-	my $env_data = $fileinfo->{include}->{$e};
+        my $env_data = $fileinfo->{include}->{$e};
 
-	my $add_depends;
+        my $add_depends;
 
-	$add_depends = sub {
-	    my ($fn, $dep) = @_;
+        $add_depends = sub {
+            my ($fn, $dep) = @_;
 
-	    $depends->{$fn}->{$dep} = 1;
-	    foreach my $nd (keys %{$env_data->{$dep}}) {
-		&$add_depends($fn, $nd);
-	    }
-	};
+            $depends->{$fn}->{$dep} = 1;
+            foreach my $nd (keys %{ $env_data->{$dep} }) {
+                &$add_depends($fn, $nd);
+            }
+        };
 
-	foreach my $fn (keys %$env_data) {
-	    foreach my $dep (keys %{$env_data->{$fn}}) {
-		&$add_depends($fn, $dep);
-	    }
-	}
+        foreach my $fn (keys %$env_data) {
+            foreach my $dep (keys %{ $env_data->{$fn} }) {
+                &$add_depends($fn, $dep);
+            }
+        }
     }
 
     my $depend_varname_hash = {};
 
     foreach my $fn (sort keys %$depends) {
-	my $basename = uc($fn);
-	$basename =~s/\.adoc$//i;
-	$basename =~s/[^A-Za-z0-9]/_/g;
+        my $basename = uc($fn);
+        $basename =~ s/\.adoc$//i;
+        $basename =~ s/[^A-Za-z0-9]/_/g;
 
-	my $varname1 = "${basename}_ADOCSOURCES";
-	my $varname2 = "${basename}_ADOCDEPENDS";
+        my $varname1 = "${basename}_ADOCSOURCES";
+        my $varname2 = "${basename}_ADOCDEPENDS";
 
-	makevar_define($varname1);
-	makevar_define($varname2);
+        makevar_define($varname1);
+        makevar_define($varname2);
 
-	$depend_varname_hash->{$fn} = $varname2;
+        $depend_varname_hash->{$fn} = $varname2;
 
-	makevar_list_add($varname1, $fn);
-	makevar_list_add($varname2, "\$\{$varname1\}");
+        makevar_list_add($varname1, $fn);
+        makevar_list_add($varname2, "\$\{$varname1\}");
 
-	foreach my $dep (sort keys %{$depends->{$fn}}) {
-	    if ($dep =~ m/-(opts|synopsis).adoc$/) {
-		makevar_list_add($varname2, $dep);
-	    } else {
-		makevar_list_add($varname1, $dep);
-	    }
-	}
+        foreach my $dep (sort keys %{ $depends->{$fn} }) {
+            if ($dep =~ m/-(opts|synopsis).adoc$/) {
+                makevar_list_add($varname2, $dep);
+            } else {
+                makevar_list_add($varname1, $dep);
+            }
+        }
     }
 
     my $man_sources_hash = {};
-    foreach my $sourcefile (keys %{$fileinfo->{outfile}->{manvolnum}}) {
-	$man_sources_hash->{$sourcefile} = 1;
-	my $ihash = $fileinfo->{include}->{manvolnum}->{$sourcefile};
-	foreach my $include (keys %$ihash) {
-	    if ($include !~ m/-(opts|synopsis).adoc$/) {
-		$man_sources_hash->{$include} = 1;
-	    }
-	}
+    foreach my $sourcefile (keys %{ $fileinfo->{outfile}->{manvolnum} }) {
+        $man_sources_hash->{$sourcefile} = 1;
+        my $ihash = $fileinfo->{include}->{manvolnum}->{$sourcefile};
+        foreach my $include (keys %$ihash) {
+            if ($include !~ m/-(opts|synopsis).adoc$/) {
+                $man_sources_hash->{$include} = 1;
+            }
+        }
     }
 
     my $varname = "MANUAL_SOURCES";
     makevar_define($varname);
     foreach my $sourcefile (sort keys %$man_sources_hash) {
-	makevar_list_add($varname, $sourcefile);
+        makevar_list_add($varname, $sourcefile);
     }
 
     $varname = "CHAPTER_LIST";
     makevar_define($varname);
     my $filelist = $fileinfo->{outfile}->{default};
     foreach my $sourcefile (sort keys %$filelist) {
-	my $target = $filelist->{$sourcefile};
-	makevar_list_add($varname, $target);
+        my $target = $filelist->{$sourcefile};
+        makevar_list_add($varname, $target);
     }
 
     $varname = "MANUAL_PAGES";
     makevar_define($varname);
     $filelist = $fileinfo->{outfile}->{manvolnum};
     foreach my $manpage (sort keys %$filelist) {
-	my $target = $filelist->{$manpage};
-	makevar_list_add($varname, $target);
+        my $target = $filelist->{$manpage};
+        makevar_list_add($varname, $target);
     }
 
     $varname = "WIKI_IMPORTS";
     makevar_define($varname);
     $filelist = $fileinfo->{outfile}->{wiki};
     foreach my $sourcefile (sort keys %$filelist) {
-	my $target = $filelist->{$sourcefile};
-	makevar_list_add($varname, $target);
+        my $target = $filelist->{$sourcefile};
+        makevar_list_add($varname, $target);
     }
 
     my $res = makevar_dump();
 
     my $make_targets = {};
     foreach my $e (@$start_env) {
-	my $filelist = $fileinfo->{outfile}->{$e};
-	foreach my $sourcefile (sort keys %$filelist) {
-	    my $varname = $depend_varname_hash->{$sourcefile};
-	    next if !defined($varname);
-	    my $target = $filelist->{$sourcefile};
-	    my $dep = "\$\{$varname\}";
-	    $make_targets->{$target} = $dep;
-	    if ($e eq 'manvolnum') {
-		$make_targets->{"$target.html"} = $dep;
-		$make_targets->{"$target-plain.html"} = $dep;
-	    }
-	}
+        my $filelist = $fileinfo->{outfile}->{$e};
+        foreach my $sourcefile (sort keys %$filelist) {
+            my $varname = $depend_varname_hash->{$sourcefile};
+            next if !defined($varname);
+            my $target = $filelist->{$sourcefile};
+            my $dep = "\$\{$varname\}";
+            $make_targets->{$target} = $dep;
+            if ($e eq 'manvolnum') {
+                $make_targets->{"$target.html"} = $dep;
+                $make_targets->{"$target-plain.html"} = $dep;
+            }
+        }
     }
-    foreach my $target (sort keys%$make_targets) {
-	my $dep = $make_targets->{$target};
-	$res .= "$target: $dep\n\n";
+    foreach my $target (sort keys %$make_targets) {
+        my $dep = $make_targets->{$target};
+        $res .= "$target: $dep\n\n";
     }
 
     print $outfh $res;
     close($outfh);
 
-    rename($tmpfilename, $generate_depends) ||
-	die "rename failed - $!";
+    rename($tmpfilename, $generate_depends)
+        || die "rename failed - $!";
 }
 
-print to_json($fileinfo, { pretty => 1,  canonical => 1 } );
+print to_json($fileinfo, { pretty => 1, canonical => 1 });

@@ -13,8 +13,8 @@ my $installer_images = {
     'pve-setup-network.png' => 1,
 };
 
-my $infile = shift ||
-    die "no input file specified\n";
+my $infile = shift
+    || die "no input file specified\n";
 
 my $basename = basename($infile);
 

@@ -17,8 +17,7 @@ my $typetext = PVE::JSONSchema::schema_get_type_text($rootfs_prop);
 
 print "`rootfs`: `$typetext` ::\n\n";
 
-print $rootfs_prop->{description} .
-    " See below for a detailed description of all options.\n\n";
+print $rootfs_prop->{description} . " See below for a detailed description of all options.\n\n";
 
 $typetext = PVE::JSONSchema::schema_get_type_text($mp_prop);
 

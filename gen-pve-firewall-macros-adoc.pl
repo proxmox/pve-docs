@@ -16,21 +16,21 @@ foreach my $name (sort keys %$pve_fw_parsed_macros) {
     my $descr = $pve_fw_macro_descr->{$name};
     die "no description for macro '$name'" if !defined($descr);
     print "[horizontal]\n'$name':: $descr\n\n";
-    
-    print "[width=\"100%\",options=\"header\"]\n" .
-    "|===========================================================\n" .
-    "|Action|proto|dport|sport\n";
+
+    print "[width=\"100%\",options=\"header\"]\n"
+        . "|===========================================================\n"
+        . "|Action|proto|dport|sport\n";
 
     my $rules = $pve_fw_parsed_macros->{$name};
 
     foreach my $rule (@$rules) {
-	print "|$rule->{action}|";
-	print (($rule->{proto} || '') . '|');
-	print (($rule->{dport} || '') . '|');
-	print (($rule->{sport} || '') . "\n");
+        print "|$rule->{action}|";
+        print(($rule->{proto} || '') . '|');
+        print(($rule->{dport} || '') . '|');
+        print(($rule->{sport} || '') . "\n");
     }
-       
+
     print "|===========================================================\n";
-   
+
     print "\n";
 }

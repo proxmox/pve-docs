@@ -15,15 +15,15 @@ my $keep_artifacts;
 
 my $release = '@RELEASE@';
 
-my $clicmd = shift or
-    die "no command specified\n";
+my $clicmd = shift
+    or die "no command specified\n";
 
 my $data_str = "";
 while (<main::DATA>) { $data_str .= $_; }
 
 my $fileinfo = decode_json($data_str);
 
-my $tmpprefix = '.asciidoc-pve-tmp'.$$.'_';
+my $tmpprefix = '.asciidoc-pve-tmp' . $$ . '_';
 
 my $adoc_source_dir = "/usr/share/pve-doc-generator";
 
@@ -40,16 +40,16 @@ my $env_skip = 0;
 
 my $online_help_links = {
     'pve_service_daemons' => {
-	link => '/pve-docs/index.html#_service_daemons',
-	title => 'Service Daemons',
+        link => '/pve-docs/index.html#_service_daemons',
+        title => 'Service Daemons',
     },
     'pve_documentation_index' => {
-	link => '/pve-docs/index.html',
-	title => 'Proxmox VE Documentation Index',
+        link => '/pve-docs/index.html',
+        title => 'Proxmox VE Documentation Index',
     },
     'pve_admin_guide' => {
-	link => '/pve-docs/pve-admin-guide.html',
-	title => 'Proxmox VE Administration Guide',
+        link => '/pve-docs/pve-admin-guide.html',
+        title => 'Proxmox VE Administration Guide',
     },
 };
 
@@ -82,10 +82,10 @@ sub pop_environment {
     die "environment missmatch (${last_env} != $env)\n" if $last_env ne $env;
 
     if (!scalar(@$env_stack)) {
-	$env_skip = 0;
+        $env_skip = 0;
     } else {
-	my (undef, $skip) = @{$env_stack->[-1]};
-	$env_skip = $skip;
+        my (undef, $skip) = @{ $env_stack->[-1] };
+        $env_skip = $skip;
     }
 }
 
@@ -96,7 +96,7 @@ sub cleanup {
     return if $keep_artifacts;
 
     foreach my $file (@$files_for_cleanup) {
-	unlink $file;
+        unlink $file;
     }
 }
 
@@ -107,7 +107,7 @@ sub replace_wiki_xref {
     my $reftext = $fileinfo->{reftext}->{wiki}->{$blockid};
 
     die "unable to resolve wiki link (xref:$blockid)\n"
-	if !defined($link);
+        if !defined($link);
 
     $text = $reftext if !length($text);
 
@@ -123,7 +123,7 @@ sub replace_default_xref {
     my $reftext = $fileinfo->{reftext}->{default}->{$blockid};
 
     die "unable to resolve chapter link (xref:$blockid)\n"
-	if !defined($link);
+        if !defined($link);
 
     $text = $reftext if !length($text);
 
@@ -139,7 +139,7 @@ sub replace_man_xref {
     my $reftext = $fileinfo->{reftext}->{manvolnum}->{$blockid};
 
     die "unable to resolve man page link (xref:$blockid)\n"
-	if !defined($link);
+        if !defined($link);
 
     $text = $reftext if !length($text);
 
@@ -147,22 +147,21 @@ sub replace_man_xref {
 
     my $section = $fileinfo->{mansection}->{manvolnum}->{$link};
     if (!defined($section)) {
-	warn "link '$blockid' target '$link' is not a manual page, ignoring\n";
-	return "$text";
+        warn "link '$blockid' target '$link' is not a manual page, ignoring\n";
+        return "$text";
     }
 
-
     if ($man_target eq 'html') {
-	my $target = $link;
-	$target =~ s/\.adoc//;
-	$target .= ".$section";
-	return "link:${target}.html#${blockid}\[$text\]";
+        my $target = $link;
+        $target =~ s/\.adoc//;
+        $target .= ".$section";
+        return "link:${target}.html#${blockid}\[$text\]";
     } elsif ($man_target eq 'man') {
-	my $command = $link;
-	$command =~ s/\.adoc//;
-	return "\*${text}\* (man \*${command}\*($section))";
+        my $command = $link;
+        $command =~ s/\.adoc//;
+        return "\*${text}\* (man \*${command}\*($section))";
     } else {
-	die "internal error"
+        die "internal error";
     }
 }
 
@@ -170,19 +169,19 @@ sub replace_xref {
     my ($env, $blockid, $text) = @_;
 
     if ($env eq 'wiki') {
-	return replace_wiki_xref($blockid, $text);
+        return replace_wiki_xref($blockid, $text);
     } elsif ($env eq 'manvolnum') {
-	if (($man_target eq 'man') || ($man_target eq 'html')) {
-	    return replace_man_xref($blockid, $text);
-	} elsif ($man_target eq 'wiki') {
-	    return replace_wiki_xref($blockid, $text);
-	} else {
-	    die "internal error"
-	}
+        if (($man_target eq 'man') || ($man_target eq 'html')) {
+            return replace_man_xref($blockid, $text);
+        } elsif ($man_target eq 'wiki') {
+            return replace_wiki_xref($blockid, $text);
+        } else {
+            die "internal error";
+        }
     } elsif ($env eq 'default') {
-	return replace_default_xref($blockid, $text);
+        return replace_default_xref($blockid, $text);
     } else {
-	die "internal error";
+        die "internal error";
     }
 }
 
@@ -200,55 +199,55 @@ sub prepare_adoc_file {
 
     $prepared_files->{$filename} = $outfilename;
 
-    my $fh = IO::File->new("$filename", "r") or
-	die "unable to open file '$filename' - $!\n";
+    my $fh = IO::File->new("$filename", "r")
+        or die "unable to open file '$filename' - $!\n";
 
-    my $outfh = IO::File->new("$outfilename", "w") or
-	die "unable to open temporary file '$outfilename'\n";
+    my $outfh = IO::File->new("$outfilename", "w")
+        or die "unable to open temporary file '$outfilename'\n";
 
     push @$files_for_cleanup, $outfilename;
 
-    while (defined (my $line = <$fh>)) {
-	chomp $line;
-	if ($line =~ m/^if(n?)def::(\S+)\[(.*)\]\s*$/) {
-	    my ($not, $env, $text) = ($1, $2, $3);
-	    die "unsuported ifdef usage - implement me" if $text;
+    while (defined(my $line = <$fh>)) {
+        chomp $line;
+        if ($line =~ m/^if(n?)def::(\S+)\[(.*)\]\s*$/) {
+            my ($not, $env, $text) = ($1, $2, $3);
+            die "unsuported ifdef usage - implement me" if $text;
 
-	    my $skip = !exists($attributes->{$env}) ? 1 : 0;
-	    $skip = ($skip ? 0 : 1 ) if $not;
+            my $skip = !exists($attributes->{$env}) ? 1 : 0;
+            $skip = ($skip ? 0 : 1) if $not;
 
-	    push_environment($env, $skip);
-	    next;
-	} elsif ($line =~ m/^endif::(\S+)\[(.*)\]\s*$/) {
-	    my ($env, $text) = ($1, $2);
-	    die "unsuported ifdef usage - implement me" if $text;
-	    pop_environment($env);
-	    next;
-	}
+            push_environment($env, $skip);
+            next;
+        } elsif ($line =~ m/^endif::(\S+)\[(.*)\]\s*$/) {
+            my ($env, $text) = ($1, $2);
+            die "unsuported ifdef usage - implement me" if $text;
+            pop_environment($env);
+            next;
+        }
 
-	next if $env_skip;
+        next if $env_skip;
 
-	if ($line =~ m/^include::(\S+)(\[.*\]\s*)$/) {
-	    my ($fn, $rest) = ($1, $2);
-	    debug("include $fn");
-	    my $new_fn = prepare_adoc_file($target_env, $fn, $attributes);
+        if ($line =~ m/^include::(\S+)(\[.*\]\s*)$/) {
+            my ($fn, $rest) = ($1, $2);
+            debug("include $fn");
+            my $new_fn = prepare_adoc_file($target_env, $fn, $attributes);
 
-	    print $outfh "include::${new_fn}$rest\n";
-	    next;
-	}
+            print $outfh "include::${new_fn}$rest\n";
+            next;
+        }
 
-	if ($line =~ m/xref:\S+?\[[^\]]*$/) {
-	    die "possible xref spanning multiple lines in '$filename':\n(line $.): $line\n";
-	}
-	if ($line =~ m/<<((?!\>\>).)*$/) {
-	    die "possible xref spanning multiple lines in '$filename':\n(line $.): $line\n";
-	}
-	# fix xrefs
-	$line =~ s/xref:([^\s\[\]]+)\[([^\]]*)\]/replace_xref(${target_env},$1,$2)/ge;
+        if ($line =~ m/xref:\S+?\[[^\]]*$/) {
+            die "possible xref spanning multiple lines in '$filename':\n(line $.): $line\n";
+        }
+        if ($line =~ m/<<((?!\>\>).)*$/) {
+            die "possible xref spanning multiple lines in '$filename':\n(line $.): $line\n";
+        }
+        # fix xrefs
+        $line =~ s/xref:([^\s\[\]]+)\[([^\]]*)\]/replace_xref(${target_env},$1,$2)/ge;
 
-	$line =~ s/<<([^\s,\[\]]+)(?:,(.*?))?>>/replace_xref(${target_env},$1,$2)/ge;
+        $line =~ s/<<([^\s,\[\]]+)(?:,(.*?))?>>/replace_xref(${target_env},$1,$2)/ge;
 
-	print $outfh $line . "\n";
+        print $outfh $line . "\n";
     }
 
     return $outfilename;
@@ -259,34 +258,34 @@ sub compile_asciidoc {
 
     my $outfile;
 
-    GetOptions (
+    GetOptions(
         "outfile=s" => \$outfile,
         "keep-artifacts" => \$keep_artifacts,
-        "verbose"   => \$verbose
+        "verbose" => \$verbose,
     ) or die("Error in command line arguments\n");
 
     my $infile = shift(@ARGV) or die "no input file specified\n";
     scalar(@ARGV) == 0 or die "too many arguments...\n";
 
-    my $outfilemap = $fileinfo->{outfile}->{$env}->{$infile} ||
-	die "no output file mapping for '$infile' ($env)";
+    my $outfilemap = $fileinfo->{outfile}->{$env}->{$infile}
+        || die "no output file mapping for '$infile' ($env)";
 
     if ($man_target eq 'html') {
-	$outfilemap .= '.html';
+        $outfilemap .= '.html';
     } elsif ($man_target eq 'wiki') {
-	$outfilemap .= '-plain.html';
+        $outfilemap .= '-plain.html';
     }
 
     if (defined($outfile)) {
-	die "wrong output file name '$outfile != $outfilemap' ($env)" if $outfile ne $outfilemap;
+        die "wrong output file name '$outfile != $outfilemap' ($env)" if $outfile ne $outfilemap;
     } else {
-	$outfile = $outfilemap;
+        $outfile = $outfilemap;
     }
 
     defined($fileinfo->{titles}->{$env}) || die "unknown environment '$env'";
 
-    my $title = $fileinfo->{titles}->{$env}->{$infile} or
-	die "unable to get title for '$infile'$env\n";
+    my $title = $fileinfo->{titles}->{$env}->{$infile}
+        or die "unable to get title for '$infile'$env\n";
 
     debug("compile $title");
 
@@ -295,133 +294,138 @@ sub compile_asciidoc {
     my $doctype = $fileinfo->{doctype}->{$env}->{$infile};
 
     die "unable to get document type for '$infile'\n"
-	if !defined($doctype);
+        if !defined($doctype);
 
-    $leveloffset = - $doctype;
+    $leveloffset = -$doctype;
 
     my $date;
     if (defined($ENV{SOURCE_DATE_EPOCH})) {
-	$date = `date -d "\@$ENV{SOURCE_DATE_EPOCH}"`;
+        $date = `date -d "\@$ENV{SOURCE_DATE_EPOCH}"`;
     } else {
-	$date = `date`;
+        $date = `date`;
     }
     chomp $date;
 
     my $attributes = {
-	$env => undef,
-	leveloffset => $leveloffset,
-	revnumber => $release,
-	revdate => $date,
-	'footer-style' => 'revdate',
+        $env => undef,
+        leveloffset => $leveloffset,
+        revnumber => $release,
+        revdate => $date,
+        'footer-style' => 'revdate',
     };
 
     my $mansection = $fileinfo->{mansection}->{$env}->{$infile};
 
     if ($env eq 'wiki') {
     } elsif ($env eq 'manvolnum') {
-	die "undefined man section" if !defined($mansection);
-	$attributes->{manvolnum} = $mansection;
+        die "undefined man section" if !defined($mansection);
+        $attributes->{manvolnum} = $mansection;
     } elsif ($env eq 'default') {
-	die "$infile: wrong doctype\n" if $doctype != 0;
-	$attributes->{toc2} = undef;
+        die "$infile: wrong doctype\n" if $doctype != 0;
+        $attributes->{toc2} = undef;
     }
 
     if (!defined($outfile)) {
-	$outfile = $infile;
-	$outfile =~ s/\.adoc$//;
-	if ($env eq 'manvolnum') {
-	    if (($man_target eq 'html') || ($man_target eq 'wiki')) {
-		$outfile .= ".$mansection.html";
-	    } else {
-		$outfile .= ".$mansection";
-	    }
-	} else {
-	    $outfile .= ".html";
-	}
+        $outfile = $infile;
+        $outfile =~ s/\.adoc$//;
+        if ($env eq 'manvolnum') {
+            if (($man_target eq 'html') || ($man_target eq 'wiki')) {
+                $outfile .= ".$mansection.html";
+            } else {
+                $outfile .= ".$mansection";
+            }
+        } else {
+            $outfile .= ".html";
+        }
     }
 
     if (($env eq 'manvolnum') && ($man_target eq 'man')) {
 
-	# asciidoc /etc/asciidoc/docbook-xsl/manpage.xsl skip REFERENCES
-	# section like footnotes, so we cannot use a2x.
-	# We use xmlto instead.
+        # asciidoc /etc/asciidoc/docbook-xsl/manpage.xsl skip REFERENCES
+        # section like footnotes, so we cannot use a2x.
+        # We use xmlto instead.
 
-	my $cmd = [
-	    'asciidoc',
-	    '-dmanpage',
-	    '-b', "$adoc_source_dir/asciidoc/pve-docbook",
-	    '-f', "$adoc_source_dir/asciidoc/asciidoc-pve.conf",
-	    '-a', 'docinfo1',
-	];
+        my $cmd = [
+            'asciidoc',
+            '-dmanpage',
+            '-b',
+            "$adoc_source_dir/asciidoc/pve-docbook",
+            '-f',
+            "$adoc_source_dir/asciidoc/asciidoc-pve.conf",
+            '-a',
+            'docinfo1',
+        ];
 
-	foreach my $key (keys %$attributes) {
-	    my $value = $attributes->{$key};
-	    if (defined($value)) {
-		push @$cmd, '-a', "$key=$value";
-	    } else {
-		push @$cmd, '-a', $key;
-	    }
-	}
+        foreach my $key (keys %$attributes) {
+            my $value = $attributes->{$key};
+            if (defined($value)) {
+                push @$cmd, '-a', "$key=$value";
+            } else {
+                push @$cmd, '-a', $key;
+            }
+        }
 
-	push @$cmd, '--verbose' if $verbose;
+        push @$cmd, '--verbose' if $verbose;
 
-	my $tmpxmlfile = "${outfile}.xml.tmp";
+        my $tmpxmlfile = "${outfile}.xml.tmp";
 
-	push @$cmd, '--out-file', $tmpxmlfile;
+        push @$cmd, '--out-file', $tmpxmlfile;
 
-	push @$files_for_cleanup, $tmpxmlfile;
+        push @$files_for_cleanup, $tmpxmlfile;
 
-	my $new_infile = prepare_adoc_file($env, $infile, $attributes);
+        my $new_infile = prepare_adoc_file($env, $infile, $attributes);
 
-	push @$cmd, $new_infile;
+        push @$cmd, $new_infile;
 
-	debug("run " . join(' ', @$cmd));
+        debug("run " . join(' ', @$cmd));
 
-	system(@$cmd) == 0 or die "aciidoc error";
+        system(@$cmd) == 0 or die "aciidoc error";
 
-	$cmd = ['xmlto', 'man', $tmpxmlfile];
+        $cmd = ['xmlto', 'man', $tmpxmlfile];
 
-	push @$cmd, '-v' if $verbose;
+        push @$cmd, '-v' if $verbose;
 
-	debug("run " . join(' ', @$cmd));
+        debug("run " . join(' ', @$cmd));
 
-	system(@$cmd) == 0 or die "xmlto error";
+        system(@$cmd) == 0 or die "xmlto error";
 
     } else {
 
-	$attributes->{icons} = undef;
-	$attributes->{'data-uri'} = undef;
+        $attributes->{icons} = undef;
+        $attributes->{'data-uri'} = undef;
 
-	my $cmd = [ 'asciidoc', '-f', "$adoc_source_dir/asciidoc/asciidoc-pve.conf" ];
+        my $cmd = ['asciidoc', '-f', "$adoc_source_dir/asciidoc/asciidoc-pve.conf"];
 
-	if (($env eq 'wiki') ||
-	    (($env eq 'manvolnum') && ($man_target eq 'wiki'))) {
+        if (
+            ($env eq 'wiki')
+            || (($env eq 'manvolnum') && ($man_target eq 'wiki'))
+        ) {
 
-	    push @$cmd, '-b', "$adoc_source_dir/asciidoc/mediawiki";
-	} else {
-	    push @$cmd, '-b', "$adoc_source_dir/asciidoc/pve-html";
-	}
+            push @$cmd, '-b', "$adoc_source_dir/asciidoc/mediawiki";
+        } else {
+            push @$cmd, '-b', "$adoc_source_dir/asciidoc/pve-html";
+        }
 
-	foreach my $key (keys %$attributes) {
-	    my $value = $attributes->{$key};
-	    if (defined($value)) {
-		push @$cmd, '-a', "$key=$value";
-	    } else {
-		push @$cmd, '-a', $key;
-	    }
-	}
+        foreach my $key (keys %$attributes) {
+            my $value = $attributes->{$key};
+            if (defined($value)) {
+                push @$cmd, '-a', "$key=$value";
+            } else {
+                push @$cmd, '-a', $key;
+            }
+        }
 
-	push @$cmd, '--verbose' if $verbose;
+        push @$cmd, '--verbose' if $verbose;
 
-	push @$cmd, '--out-file', $outfile;
+        push @$cmd, '--out-file', $outfile;
 
-	my $new_infile = prepare_adoc_file($env, $infile, $attributes);
+        my $new_infile = prepare_adoc_file($env, $infile, $attributes);
 
-	push @$cmd, $new_infile;
+        push @$cmd, $new_infile;
 
-	debug("run " . join(' ', @$cmd));
+        debug("run " . join(' ', @$cmd));
 
-	system(@$cmd) == 0 or die "aciidoc error";
+        system(@$cmd) == 0 or die "aciidoc error";
     }
 }
 
@@ -429,23 +433,23 @@ sub get_links {
 
     my $data = {};
 
-    foreach my $blockid (sort keys %{$fileinfo->{blockid_target}->{default}}) {
-	my $link = $fileinfo->{blockid_target}->{default}->{$blockid};
-	my $reftitle = $fileinfo->{reftitle}->{default}->{$blockid};
-	my $reftext = $fileinfo->{reftext}->{default}->{$blockid};
-	die "internal error" if $link !~ m/^link:/;
-	$link =~ s/^link://;
+    foreach my $blockid (sort keys %{ $fileinfo->{blockid_target}->{default} }) {
+        my $link = $fileinfo->{blockid_target}->{default}->{$blockid};
+        my $reftitle = $fileinfo->{reftitle}->{default}->{$blockid};
+        my $reftext = $fileinfo->{reftext}->{default}->{$blockid};
+        die "internal error" if $link !~ m/^link:/;
+        $link =~ s/^link://;
 
-	my $file = $fileinfo->{blockid}->{default}->{$blockid};
-	die "internal error - no filename" if ! defined($file);
-	my $title =  $fileinfo->{titles}->{default}->{$file} ||
-	    die "internal error - no title";
+        my $file = $fileinfo->{blockid}->{default}->{$blockid};
+        die "internal error - no filename" if !defined($file);
+        my $title = $fileinfo->{titles}->{default}->{$file}
+            || die "internal error - no title";
 
-	$data->{$blockid}->{title} = $title;
-	$data->{$blockid}->{link} = $link;
-	my $subtitle = $reftitle || $reftext;
-	$data->{$blockid}->{subtitle} = $subtitle
-	    if $subtitle && ($title ne $subtitle);
+        $data->{$blockid}->{title} = $title;
+        $data->{$blockid}->{link} = $link;
+        my $subtitle = $reftitle || $reftext;
+        $data->{$blockid}->{subtitle} = $subtitle
+            if $subtitle && ($title ne $subtitle);
     }
 
     return $data;
@@ -454,12 +458,12 @@ sub get_links {
 sub scan_extjs_file {
     my ($filename, $res_data, $allow_missing) = @_;
 
-    my $fh = IO::File->new($filename, "r") ||
-        die "unable to open '$filename' - $!\n";
+    my $fh = IO::File->new($filename, "r")
+        || die "unable to open '$filename' - $!\n";
 
     debug("scan-extjs $filename");
 
-    while(defined(my $line = <$fh>)) {
+    while (defined(my $line = <$fh>)) {
         if ($line =~ m/\s+onlineHelp:\s*[\'\"]([^{}\[\]\'\"]+)[\'\"]/) {
             my $blockid = $1;
             my $link = $fileinfo->{blockid_target}->{default}->{$blockid};
@@ -468,7 +472,7 @@ sub scan_extjs_file {
                 warn "ignoring undefined blockid '$blockid' ($filename, line $.)\n";
             }
             $res_data->{$blockid} = 1;
-    }
+        }
     }
 }
 
@@ -525,42 +529,43 @@ if ($clicmd eq 'compile-wiki') {
 
     my $outfile;
 
-    GetOptions("outfile=s" => \$outfile,
-	       "verbose"   => \$verbose) or
-		   die("Error in command line arguments\n");
+    GetOptions(
+        "outfile=s" => \$outfile,
+        "verbose" => \$verbose,
+    ) or die("Error in command line arguments\n");
 
-    scalar(@ARGV) == 0 or
-	die "too many arguments...\n";
+    scalar(@ARGV) == 0
+        or die "too many arguments...\n";
 
     my $data = get_links();
 
-    my $res = to_json($data, { pretty => 1,  canonical => 1 } );
+    my $res = to_json($data, { pretty => 1, canonical => 1 });
 
     if (defined($outfile)) {
-	my $outfh = IO::File->new("$outfile", "w") or
-	    die "unable to open temporary file '$outfile'\n";
+        my $outfh = IO::File->new("$outfile", "w")
+            or die "unable to open temporary file '$outfile'\n";
 
-	print $outfh $res;
+        print $outfh $res;
 
     } else {
 
-	print $res;
+        print $res;
     }
 
 } elsif ($clicmd eq 'scan-extjs') {
     my $allow_missing = 0;
-    GetOptions("verbose" => \$verbose, 'allow-missing' => \$allow_missing) or
-	die("Error in command line arguments\n");
+    GetOptions("verbose" => \$verbose, 'allow-missing' => \$allow_missing)
+        or die("Error in command line arguments\n");
 
     my $link_hash = {};
     my $scanned_files = {};
     while (my $filename = shift) {
-	die "got strange file name '$filename'\n"
-	    if $filename !~ m/\.js$/;
-	next if $scanned_files->{$filename};
+        die "got strange file name '$filename'\n"
+            if $filename !~ m/\.js$/;
+        next if $scanned_files->{$filename};
 
-	scan_extjs_file($filename, $link_hash, $allow_missing);
-	$scanned_files->{$filename} = 1;
+        scan_extjs_file($filename, $link_hash, $allow_missing);
+        $scanned_files->{$filename} = 1;
     }
 
     my $data = get_links();
@@ -568,7 +573,7 @@ if ($clicmd eq 'compile-wiki') {
     my $res_data = {};
 
     foreach my $blockid (keys %$link_hash) {
-	$res_data->{$blockid} = $data->{$blockid} || $online_help_links->{$blockid};
+        $res_data->{$blockid} = $data->{$blockid} || $online_help_links->{$blockid};
 
         if (!$res_data->{$blockid}) {
             die "internal error - no data for '$blockid'" if !$allow_missing;
@@ -577,7 +582,7 @@ if ($clicmd eq 'compile-wiki') {
         }
     }
 
-    my $data_str =  to_json($res_data, { pretty => 1,  canonical => 1 });
+    my $data_str = to_json($res_data, { pretty => 1, canonical => 1 });
     chomp $data_str;
 
     print "const pveOnlineHelpInfo = ${data_str};\n";
@@ -593,15 +598,15 @@ if ($clicmd eq 'compile-wiki') {
     foreach my $sourcefile (
         sort { ($order->{$a} // 1e10) <=> ($order->{$b} // 1e10) } keys %$filelist
     ) {
-	my $target = $filelist->{$sourcefile};
-	next if $target eq 'pve-admin-guide.html';
-	my $title = $fileinfo->{titles}->{default}->{$sourcefile} ||
-	    die "not title for '$sourcefile'";
+        my $target = $filelist->{$sourcefile};
+        next if $target eq 'pve-admin-guide.html';
+        my $title = $fileinfo->{titles}->{default}->{$sourcefile}
+            || die "not title for '$sourcefile'";
 
-	if (my $chapter_no = $order->{$sourcefile}) {
-	    $title = "${chapter_no}. ${title}"
+        if (my $chapter_no = $order->{$sourcefile}) {
+            $title = "${chapter_no}. ${title}";
         }
-	print "|link:$target\[${title}\]\n";
+        print "|link:$target\[${title}\]\n";
     }
 
     print "|====\n";
@@ -615,17 +620,17 @@ if ($clicmd eq 'compile-wiki') {
 
     my $filelist = $fileinfo->{outfile}->{manvolnum};
     foreach my $manpage (sort keys %$filelist) {
-	next if $section ne $fileinfo->{mansection}->{manvolnum}->{$manpage};
-	my $mantitle = $fileinfo->{titles}->{manvolnum}->{$manpage} ||
-	    die "not manual title for '$manpage'";
-	my $title = $fileinfo->{titles}->{default}->{$manpage} ||
-	    die "not title for '$manpage'";
+        next if $section ne $fileinfo->{mansection}->{manvolnum}->{$manpage};
+        my $mantitle = $fileinfo->{titles}->{manvolnum}->{$manpage}
+            || die "not manual title for '$manpage'";
+        my $title = $fileinfo->{titles}->{default}->{$manpage}
+            || die "not title for '$manpage'";
 
-	# hack - remove command name prefix from titles
-	$title =~ s/^[a-z]+\s*-\s*//;
-	
-	my $target = $filelist->{$manpage};
-	print "2+|link:$target.html\[${mantitle}\] 3+|$title\n";
+        # hack - remove command name prefix from titles
+        $title =~ s/^[a-z]+\s*-\s*//;
+
+        my $target = $filelist->{$manpage};
+        print "2+|link:$target.html\[${mantitle}\] 3+|$title\n";
     }
 
     print "|====\n";
@@ -635,7 +640,6 @@ if ($clicmd eq 'compile-wiki') {
     die "unknown command '$clicmd'\n";
 
 }
-
 
 exit 0;
 

@@ -9,7 +9,6 @@ use Data::Dumper;
 
 use PVE::HA::Resources;
 
-
 my $private = PVE::HA::Resources::private();
 my $properies = $private->{propertyList};
 delete $properies->{type};
