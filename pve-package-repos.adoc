@@ -213,11 +213,11 @@ that all system updates are installed and that this page has been reloaded.
 :t: tech preview
 :a: available
 :r: recommended
+:eol: {cephdocs-url}/releases/[Estimated End-of-Life]
 
 [caption="", cols="<8,^8,^6,^7,^5"]
 |===
-|                   |{cephdocs-url}/releases/[Estimated End-of-Life]
-                                    |**`enterprise`**|**`no-subscription`**|**`test`**
+|                   | {eol}         |**`enterprise`**|**`no-subscription`**|**`test`**
 |**`ceph-tentacle`**|            {u}|{u}|{u}|{u}
 |**`ceph-squid`**   |2026-09 (v19.2)|{r}|{a}|{a}
 |===
