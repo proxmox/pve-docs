@@ -452,22 +452,23 @@ sub get_links {
 }
 
 sub scan_extjs_file {
-    my ($filename, $res_data) = @_;
+    my ($filename, $res_data, $allow_missing) = @_;
 
     my $fh = IO::File->new($filename, "r") ||
-	die "unable to open '$filename' - $!\n";
+        die "unable to open '$filename' - $!\n";
 
     debug("scan-extjs $filename");
 
     while(defined(my $line = <$fh>)) {
-	if ($line =~ m/\s+onlineHelp:\s*[\'\"]([^{}\[\]\'\"]+)[\'\"]/) {
-	    my $blockid = $1;
-	    my $link = $fileinfo->{blockid_target}->{default}->{$blockid};
-	    die "undefined blockid '$blockid' ($filename, line $.)\n"
-		if !(defined($link) || defined($online_help_links->{$blockid}));
-
-	    $res_data->{$blockid} = 1;
-	}
+        if ($line =~ m/\s+onlineHelp:\s*[\'\"]([^{}\[\]\'\"]+)[\'\"]/) {
+            my $blockid = $1;
+            my $link = $fileinfo->{blockid_target}->{default}->{$blockid};
+            if (!(defined($link) || defined($online_help_links->{$blockid}))) {
+                die "undefined blockid '$blockid' ($filename, line $.)\n" if !$allow_missing;
+                warn "ignoring undefined blockid '$blockid' ($filename, line $.)\n";
+            }
+            $res_data->{$blockid} = 1;
+    }
     }
 }
 
@@ -547,8 +548,8 @@ if ($clicmd eq 'compile-wiki') {
     }
 
 } elsif ($clicmd eq 'scan-extjs') {
-
-    GetOptions("verbose" => \$verbose) or
+    my $allow_missing = 0;
+    GetOptions("verbose" => \$verbose, 'allow-missing' => \$allow_missing) or
 	die("Error in command line arguments\n");
 
     my $link_hash = {};
@@ -558,7 +559,7 @@ if ($clicmd eq 'compile-wiki') {
 	    if $filename !~ m/\.js$/;
 	next if $scanned_files->{$filename};
 
-	scan_extjs_file($filename, $link_hash);
+	scan_extjs_file($filename, $link_hash, $allow_missing);
 	$scanned_files->{$filename} = 1;
     }
 
@@ -567,8 +568,13 @@ if ($clicmd eq 'compile-wiki') {
     my $res_data = {};
 
     foreach my $blockid (keys %$link_hash) {
-	$res_data->{$blockid} = $data->{$blockid} || $online_help_links->{$blockid} ||
-	    die "internal error - no data for '$blockid'";
+	$res_data->{$blockid} = $data->{$blockid} || $online_help_links->{$blockid};
+
+        if (!$res_data->{$blockid}) {
+            die "internal error - no data for '$blockid'" if !$allow_missing;
+            # generic fallback
+            $res_data->{$blockid} = $online_help_links->{'pve_admin_guide'};
+        }
     }
 
     my $data_str =  to_json($res_data, { pretty => 1,  canonical => 1 });
