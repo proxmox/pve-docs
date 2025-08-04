@@ -849,34 +849,25 @@ Rule Conflicts and Errors
 HA rules can impose rather complex constraints on the HA resources. To ensure
 that a new or modified HA rule does not introduce uncertainty into the HA
 stack's CRS scheduler, HA rules are tested for feasibility before these are
-applied. If a rule does fail any of these tests, the rule is disabled until the
-conflicts and errors is resolved.
+applied. For any rules that fail these tests, these rules are disabled until
+the conflicts and errors have been resolved.
 
 Currently, HA rules are checked for the following feasibility tests:
 
-* A HA resource can only be referenced by a single HA node affinity rule in
-  total. If two or more HA node affinity rules specify the same HA resource,
-  these HA node affinity rules will be disabled.
+* An HA resource can only be part of a single HA node affinity rule.
 
-* A HA resource affinity rule must specify at least two HA resources to be
-  feasible. If a HA resource affinity rule specifies only one HA resource, the
-  HA resource affinity rule will be disabled.
+* An HA resource affinity rule must have at least two HA resources.
 
-* A HA resource affinity rule must specify no more HA resources than there are
-  nodes in the cluster. If a HA resource affinity rule specifies more HA
-  resources than there are in the cluster, the HA resource affinity rule will
-  be disabled.
+* A negative HA resource affinity rule cannot specify more HA resources than
+  there are nodes in the cluster. Otherwise, the HA resources do not have
+  enough nodes to be separated.
 
 * A positive HA resource affinity rule cannot specify the same two or more HA
   resources as a negative HA resources affinity rule. That is, two or more HA
-  resources cannot be kept together and separate at the same time. If any pair
-  of positive and negative HA resource affinity rules do specify the same two
-  or more HA resources, both HA resource affinity rules will be disabled.
+  resources cannot be kept together and separate at the same time.
 
-* A HA resource can only be referenced by either a HA node affinity rule or HA
-  resource affinity rules, but not both at the same time. If there is at least
-  one HA node affinity rule and at least one HA resource affinity rule, which
-  specify the same HA resource, these rules will be disabled.
+* A HA resource can only be part of either a HA node affinity rule or HA
+  resource affinity rules, but not both at the same time.
 
 [[ha_manager_fencing]]
 Fencing
