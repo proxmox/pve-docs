@@ -1,3 +1,16 @@
+pve-docs (9.0.7) trixie; urgency=medium
+
+  * network: update documentation for network-interface-pinning.
+
+  * cluster, network: add section on corosync over bonds.
+
+  * update static/schema information.
+
+  * ha: affinity rules: simplify overly verbose rule conflicts and errors
+    section.
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 05 Aug 2025 07:00:00 +0200
+
 pve-docs (9.0.6) trixie; urgency=medium
 
   * ha: add documentation about ha resource affinity rules
