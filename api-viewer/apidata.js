@@ -8054,6 +8054,11 @@ const apiSchema = [
                                        "type" : "string"
                                     },
                                     "type" : {
+                                       "description" : "HA rule type.",
+                                       "enum" : [
+                                          "node-affinity",
+                                          "resource-affinity"
+                                       ],
                                        "type" : "string"
                                     }
                                  },
@@ -12288,6 +12293,12 @@ const apiSchema = [
                                           "parameters" : {
                                              "additionalProperties" : 0,
                                              "properties" : {
+                                                "lock-token" : {
+                                                   "description" : "the token for unlocking the global SDN configuration",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
                                                 "subnet" : {
                                                    "description" : "The SDN subnet object identifier.",
                                                    "format" : "pve-sdn-subnet-id",
@@ -12403,6 +12414,12 @@ const apiSchema = [
                                                 "gateway" : {
                                                    "description" : "Subnet Gateway: Will be assign on vnet for layer3 zones",
                                                    "format" : "ip",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "lock-token" : {
+                                                   "description" : "the token for unlocking the global SDN configuration",
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -12525,6 +12542,12 @@ const apiSchema = [
                                           "gateway" : {
                                              "description" : "Subnet Gateway: Will be assign on vnet for layer3 zones",
                                              "format" : "ip",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "lock-token" : {
+                                             "description" : "the token for unlocking the global SDN configuration",
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -12749,6 +12772,12 @@ const apiSchema = [
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
+                                    "lock-token" : {
+                                       "description" : "the token for unlocking the global SDN configuration",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
                                     "vnet" : {
                                        "description" : "The SDN vnet object identifier.",
                                        "format" : "pve-sdn-vnet-id",
@@ -12837,6 +12866,12 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
+                                    },
+                                    "lock-token" : {
+                                       "description" : "the token for unlocking the global SDN configuration",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
                                     },
                                     "tag" : {
                                        "description" : "vlan or vxlan id",
@@ -12942,6 +12977,12 @@ const apiSchema = [
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
                               },
+                              "lock-token" : {
+                                 "description" : "the token for unlocking the global SDN configuration",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "tag" : {
                                  "description" : "vlan or vxlan id",
                                  "optional" : 1,
@@ -13008,6 +13049,12 @@ const apiSchema = [
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
+                                    "lock-token" : {
+                                       "description" : "the token for unlocking the global SDN configuration",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
                                     "zone" : {
                                        "description" : "The SDN zone object identifier.",
                                        "format" : "pve-sdn-zone-id",
@@ -13179,6 +13226,12 @@ const apiSchema = [
                                     },
                                     "ipam" : {
                                        "description" : "use a specific ipam",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "lock-token" : {
+                                       "description" : "the token for unlocking the global SDN configuration",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -13476,6 +13529,12 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "lock-token" : {
+                                 "description" : "the token for unlocking the global SDN configuration",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "mac" : {
                                  "description" : "Anycast logical router mac address",
                                  "format" : "mac-addr",
@@ -13602,6 +13661,12 @@ const apiSchema = [
                                     "controller" : {
                                        "description" : "The SDN controller object identifier.",
                                        "format" : "pve-sdn-controller-id",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "lock-token" : {
+                                       "description" : "the token for unlocking the global SDN configuration",
+                                       "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     }
@@ -13738,6 +13803,12 @@ const apiSchema = [
                                     "isis-net" : {
                                        "description" : "ISIS network entity title.",
                                        "format" : "pve-sdn-isis-net",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "lock-token" : {
+                                       "description" : "the token for unlocking the global SDN configuration",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -13917,6 +13988,12 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "lock-token" : {
+                                 "description" : "the token for unlocking the global SDN configuration",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "loopback" : {
                                  "description" : "source loopback interface.",
                                  "optional" : 1,
@@ -14021,6 +14098,12 @@ const apiSchema = [
                                        "format" : "pve-sdn-ipam-id",
                                        "type" : "string",
                                        "typetext" : "<string>"
+                                    },
+                                    "lock-token" : {
+                                       "description" : "the token for unlocking the global SDN configuration",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
                                     }
                                  }
                               },
@@ -14099,6 +14182,12 @@ const apiSchema = [
                                     "ipam" : {
                                        "description" : "The SDN ipam object identifier.",
                                        "format" : "pve-sdn-ipam-id",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "lock-token" : {
+                                       "description" : "the token for unlocking the global SDN configuration",
+                                       "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
@@ -14206,6 +14295,12 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
+                              "lock-token" : {
+                                 "description" : "the token for unlocking the global SDN configuration",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
                               "section" : {
                                  "optional" : 1,
                                  "type" : "integer",
@@ -14268,6 +14363,12 @@ const apiSchema = [
                                     "dns" : {
                                        "description" : "The SDN dns object identifier.",
                                        "format" : "pve-sdn-dns-id",
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "lock-token" : {
+                                       "description" : "the token for unlocking the global SDN configuration",
+                                       "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     }
@@ -14352,6 +14453,12 @@ const apiSchema = [
                                        "type" : "string"
                                     },
                                     "key" : {
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "lock-token" : {
+                                       "description" : "the token for unlocking the global SDN configuration",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -14460,6 +14567,12 @@ const apiSchema = [
                               },
                               "key" : {
                                  "optional" : 0,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "lock-token" : {
+                                 "description" : "the token for unlocking the global SDN configuration",
+                                 "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
@@ -14631,6 +14744,11 @@ const apiSchema = [
                                              "optional" : 1,
                                              "type" : "string"
                                           },
+                                          "lock-token" : {
+                                             "description" : "the token for unlocking the global SDN configuration",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
                                           "protocol" : {
                                              "description" : "Type of configuration entry in an SDN Fabric section config",
                                              "enum" : [
@@ -14741,6 +14859,12 @@ const apiSchema = [
                                           "ip_prefix" : {
                                              "description" : "The IP prefix for Node IPs",
                                              "format" : "CIDR",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "lock-token" : {
+                                             "description" : "the token for unlocking the global SDN configuration",
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -14858,6 +14982,11 @@ const apiSchema = [
                                           "optional" : 1,
                                           "type" : "string"
                                        },
+                                       "lock-token" : {
+                                          "description" : "the token for unlocking the global SDN configuration",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
                                        "protocol" : {
                                           "description" : "Type of configuration entry in an SDN Fabric section config",
                                           "enum" : [
@@ -14942,6 +15071,12 @@ const apiSchema = [
                                     "ip_prefix" : {
                                        "description" : "The IP prefix for Node IPs",
                                        "format" : "CIDR",
+                                       "optional" : 1,
+                                       "type" : "string",
+                                       "typetext" : "<string>"
+                                    },
+                                    "lock-token" : {
+                                       "description" : "the token for unlocking the global SDN configuration",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -15164,6 +15299,11 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "lock-token" : {
+                                                   "description" : "the token for unlocking the global SDN configuration",
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
                                                 "node_id" : {
                                                    "description" : "Identifier for nodes in an SDN fabric",
                                                    "format" : "pve-node",
@@ -15291,6 +15431,12 @@ const apiSchema = [
                                                 "ip6" : {
                                                    "description" : "IPv6 address for this node",
                                                    "format" : "ipv6",
+                                                   "optional" : 1,
+                                                   "type" : "string",
+                                                   "typetext" : "<string>"
+                                                },
+                                                "lock-token" : {
+                                                   "description" : "the token for unlocking the global SDN configuration",
                                                    "optional" : 1,
                                                    "type" : "string",
                                                    "typetext" : "<string>"
@@ -15472,6 +15618,11 @@ const apiSchema = [
                                                 "optional" : 1,
                                                 "type" : "string"
                                              },
+                                             "lock-token" : {
+                                                "description" : "the token for unlocking the global SDN configuration",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
                                              "node_id" : {
                                                 "description" : "Identifier for nodes in an SDN fabric",
                                                 "format" : "pve-node",
@@ -15595,6 +15746,12 @@ const apiSchema = [
                                           "ip6" : {
                                              "description" : "IPv6 address for this node",
                                              "format" : "ipv6",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "lock-token" : {
+                                             "description" : "the token for unlocking the global SDN configuration",
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "<string>"
@@ -15764,6 +15921,11 @@ const apiSchema = [
                                           "optional" : 1,
                                           "type" : "string"
                                        },
+                                       "lock-token" : {
+                                          "description" : "the token for unlocking the global SDN configuration",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
                                        "node_id" : {
                                           "description" : "Identifier for nodes in an SDN fabric",
                                           "format" : "pve-node",
@@ -15880,6 +16042,11 @@ const apiSchema = [
                                                 "optional" : 1,
                                                 "type" : "string"
                                              },
+                                             "lock-token" : {
+                                                "description" : "the token for unlocking the global SDN configuration",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
                                              "protocol" : {
                                                 "description" : "Type of configuration entry in an SDN Fabric section config",
                                                 "enum" : [
@@ -15986,6 +16153,11 @@ const apiSchema = [
                                                 "optional" : 1,
                                                 "type" : "string"
                                              },
+                                             "lock-token" : {
+                                                "description" : "the token for unlocking the global SDN configuration",
+                                                "optional" : 1,
+                                                "type" : "string"
+                                             },
                                              "node_id" : {
                                                 "description" : "Identifier for nodes in an SDN fabric",
                                                 "format" : "pve-node",
@@ -16052,6 +16224,125 @@ const apiSchema = [
                   "leaf" : 0,
                   "path" : "/cluster/sdn/fabrics",
                   "text" : "fabrics"
+               },
+               {
+                  "info" : {
+                     "DELETE" : {
+                        "allowtoken" : 1,
+                        "description" : "Release global lock for SDN configuration",
+                        "method" : "DELETE",
+                        "name" : "release_lock",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "force" : {
+                                 "default" : 0,
+                                 "description" : "if true, allow releasing lock without providing the token",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              },
+                              "lock-token" : {
+                                 "description" : "the token for unlocking the global SDN configuration",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/sdn",
+                              [
+                                 "SDN.Allocate"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     },
+                     "POST" : {
+                        "allowtoken" : 1,
+                        "description" : "Acquire global lock for SDN configuration",
+                        "method" : "POST",
+                        "name" : "lock",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "allow-pending" : {
+                                 "default" : 0,
+                                 "description" : "if true, allow acquiring lock even though there are pending changes",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/sdn",
+                              [
+                                 "SDN.Allocate"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "string"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/sdn/lock",
+                  "text" : "lock"
+               },
+               {
+                  "info" : {
+                     "POST" : {
+                        "allowtoken" : 1,
+                        "description" : "Rollback pending changes to SDN configuration",
+                        "method" : "POST",
+                        "name" : "rollback",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "lock-token" : {
+                                 "description" : "the token for unlocking the global SDN configuration",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "release-lock" : {
+                                 "default" : 1,
+                                 "description" : "When lock-token has been provided and configuration successfully rollbacked, release the lock automatically afterwards",
+                                 "optional" : 1,
+                                 "type" : "boolean",
+                                 "typetext" : "<boolean>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/sdn",
+                              [
+                                 "SDN.Allocate"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "returns" : {
+                           "type" : "null"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/sdn/rollback",
+                  "text" : "rollback"
                }
             ],
             "info" : {
@@ -16096,7 +16387,22 @@ const apiSchema = [
                   "method" : "PUT",
                   "name" : "reload",
                   "parameters" : {
-                     "additionalProperties" : 0
+                     "additionalProperties" : 0,
+                     "properties" : {
+                        "lock-token" : {
+                           "description" : "the token for unlocking the global SDN configuration",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
+                        },
+                        "release-lock" : {
+                           "default" : 1,
+                           "description" : "When lock-token has been provided and configuration successfully commited, release the lock automatically afterwards",
+                           "optional" : 1,
+                           "type" : "boolean",
+                           "typetext" : "<boolean>"
+                        }
+                     }
                   },
                   "permissions" : {
                      "check" : [
@@ -30206,10 +30512,10 @@ const apiSchema = [
                                              "optional" : 1,
                                              "type" : "array"
                                           },
-                                          "comigrated-ha-resources" : {
+                                          "dependent-ha-resources" : {
                                              "description" : "HA resources, which will be migrated to the same target node as the VM, because these are in positive affinity with the VM.",
                                              "items" : {
-                                                "description" : "A comigrated HA resource",
+                                                "description" : "The '<ty>:<id>' resource IDs of a HA resource with a positive affinity rule to this VM.",
                                                 "type" : "string"
                                              },
                                              "optional" : 1,
@@ -38828,10 +39134,10 @@ const apiSchema = [
                                              "optional" : 1,
                                              "type" : "array"
                                           },
-                                          "comigrated-ha-resources" : {
-                                             "description" : "HA resources, which will be migrated to the same target node as the container, because these are in positive affinity with the container.",
+                                          "dependent-ha-resources" : {
+                                             "description" : "HA resources, which will be migrated to the same target node as the VM, because these are in positive affinity with the VM.",
                                              "items" : {
-                                                "description" : "A comigrated HA resource",
+                                                "description" : "The '<ty>:<id>' resource IDs of a HA resource with a positive affinity rule to this CT.",
                                                 "type" : "string"
                                              },
                                              "optional" : 1,
@@ -46888,7 +47194,8 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
-                              "skip_frr" : {
+                              "regenerate-frr" : {
+                                 "default" : 0,
                                  "description" : "Whether FRR config generation should get skipped or not.",
                                  "optional" : 1,
                                  "type" : "boolean",
@@ -54111,6 +54418,10 @@ const apiSchema = [
                               },
                               "memory" : {
                                  "properties" : {
+                                    "available" : {
+                                       "description" : "The available memory in bytes.",
+                                       "type" : "integer"
+                                    },
                                     "free" : {
                                        "description" : "The free memory in bytes.",
                                        "type" : "integer"
@@ -54622,8 +54933,8 @@ const apiSchema = [
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
                                     "upgrade",
-                                    "login",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -54717,8 +55028,8 @@ const apiSchema = [
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
                                     "upgrade",
-                                    "login",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -54842,8 +55153,8 @@ const apiSchema = [
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
                                     "upgrade",
-                                    "login",
-                                    "ceph_install"
+                                    "ceph_install",
+                                    "login"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
