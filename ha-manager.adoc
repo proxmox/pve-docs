@@ -837,6 +837,24 @@ Two or more HA resources cannot be kept on the same node and separated on
 different nodes at the same time. For more information on these cases, see the
 section about xref:ha_manager_rule_conflicts[rule conflicts and errors] below.
 
+Interactions between Node and Positive Resource Affinity Rules
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+If there are HA resources in a node affinity rule, which are also part of a
+positive resource affinity rule, then all the other HA resources in the
+positive resource affinity rule inherit the node affinity rule as well.
+
+For example, if the HA resources `vm:100`, `vm:101`, and `vm:102` are in a
+positive resource affinity rule, and `vm:102` is in a node affinity rule, which
+restricts `vm:102` to be only on `node3`, then `vm:100` and `vm:101` are
+restricted to be only on `node3` as well.
+
+Please note that if there are two or more HA resources in a positive resource
+affinity rule and in different node affinity rules, then those rules will cause
+an error and will be disabled as this is currently not supported. For more
+information on these cases, see the section about
+xref:ha_manager_rule_conflicts[rule conflicts and errors] below.
+
 Resource Affinity Rule Properties
 +++++++++++++++++++++++++++++++++
 
@@ -866,8 +884,16 @@ Currently, HA rules are checked for the following feasibility tests:
   resources as a negative HA resources affinity rule. That is, two or more HA
   resources cannot be kept together and separate at the same time.
 
-* A HA resource can only be part of either a HA node affinity rule or HA
-  resource affinity rules, but not both at the same time.
+* An HA resource can only be part of a HA node affinity rule and a HA resource
+  affinity rule at the same time, if the HA node affinity rule has a single
+  priority class.
+
+* The HA resources of a positive HA resource affinity rule can only be part of
+  a single HA node affinity rule at most.
+
+* The HA resources of a negative HA resource affinity rule cannot be restricted
+  to less nodes than HA resources by their node affinity rules. Otherwise, the
+  HA resources do not have enough nodes to be separated.
 
 [[ha_manager_fencing]]
 Fencing
