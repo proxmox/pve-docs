@@ -594,6 +594,9 @@ The above config was generated using the `ha-manager` command-line tool:
 Groups
 ~~~~~~
 
+NOTE: HA Groups are deprecated and migrated to HA Node Affinity rules since
+Proxmox VE 9.0.
+
 [thumbnail="screenshot/gui-ha-manager-groups-view.png"]
 
 The HA group configuration file `/etc/pve/ha/groups.cfg` is used to
@@ -699,9 +702,6 @@ on the same node.
 [[ha_manager_node_affinity_rules]]
 Node Affinity Rules
 ^^^^^^^^^^^^^^^^^^^
-
-NOTE: HA Node Affinity rules are equivalent to HA Groups and will replace them
-in an upcoming major release.
 
 By default, a HA resource is able to run on any cluster node, but a common
 requirement is that a HA resource should run on a specific node. That can be
