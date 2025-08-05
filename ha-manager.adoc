@@ -314,9 +314,8 @@ recovery state.
 recovery::
 
 Wait for recovery of the service. The HA manager tries to find a new node where
-the service can run on. This search depends not only on the list of online and
-quorate nodes, but also if the service is a group member and how such a group
-is limited.
+the service can run on. This search depends on the list of online and quorate
+nodes as well as the affinity rules the service is part of, if any.
 As soon as a new available node is found, the service will be moved there and
 initially placed into stopped state. If it's configured to run the new node
 will do so.
@@ -980,15 +979,19 @@ Recover Fenced Services
 After a node failed and its fencing was successful, the CRM tries to
 move services from the failed node to nodes which are still online.
 
-The selection of nodes, on which those services gets recovered, is
-influenced by the resource `group` settings, the list of currently active
-nodes, and their respective active service count.
+The selection of the recovery nodes is influenced by the list of
+currently active nodes, their respective loads depending on the used
+scheduler, and the affinity rules the service is part of, if any.
 
-The CRM first builds a set out of the intersection between user selected
-nodes (from `group` setting) and available nodes. It then choose the
-subset of nodes with the highest priority, and finally select the node
-with the lowest active service count. This minimizes the possibility
-of an overloaded node.
+First, the CRM builds a set of nodes available to the service. If the
+service is part of a node affinity rule, the set is reduced to the
+highest priority nodes in the node affinity rule. If the service is part
+of a resource affinity rule, the set is further reduced to fulfill their
+constraints, which is either keeping the service on the same node as
+some other services or keeping the service on a different node than some
+other services. Finally, the CRM selects the node with the lowest load
+according to the used scheduler to minimize the possibility of an
+overloaded node.
 
 CAUTION: On node failure, the CRM distributes services to the
 remaining nodes. This increases the service count on those nodes, and
@@ -1103,7 +1106,7 @@ You can use the manual maintenance mode to mark the node as unavailable for HA
 operation, prompting all services managed by HA to migrate to other nodes.
 
 The target nodes for these migrations are selected from the other currently
-available nodes, and determined by the HA group configuration and the configured
+available nodes, and determined by the HA rules configuration and the configured
 cluster resource scheduler (CRS) mode.
 During each migration, the original node will be recorded in the HA managers'
 state, so that the service can be moved back again automatically once the
@@ -1174,14 +1177,12 @@ This triggers a migration of all HA Services currently located on this node.
 The LRM will try to delay the shutdown process, until all running services get
 moved away. But, this expects that the running services *can* be migrated to
 another node. In other words, the service must not be locally bound, for example
-by using hardware passthrough. As non-group member nodes are considered as
-runnable target if no group member is available, this policy can still be used
-when making use of HA groups with only some nodes selected. But, marking a group
-as 'restricted' tells the HA manager that the service cannot run outside of the
-chosen set of nodes. If all of those nodes are unavailable, the shutdown will
-hang until you manually intervene. Once the shut down node comes back online
-again, the previously displaced services will be moved back, if they were not
-already manually migrated in-between.
+by using hardware passthrough. For example, strict node affinity rules tell the
+HA Manager that the service cannot run outside of the chosen set of nodes. If all
+of these nodes are unavailable, the shutdown will hang until you manually
+intervene. Once the shut down node comes back online again, the previously
+displaced services will be moved back, if they were not already manually migrated
+in-between.
 
 NOTE: The watchdog is still active during the migration process on shutdown.
 If the node loses quorum it will be fenced and the services will be recovered.
@@ -1267,8 +1268,8 @@ The change will be in effect starting with the next manager round (after a few
 seconds).
 
 For each service that needs to be recovered or migrated, the scheduler
-iteratively chooses the best node among the nodes with the highest priority in
-the service's group.
+iteratively chooses the best node among the nodes that are available to
+the service according to their HA rules, if any.
 
 NOTE: There are plans to add modes for (static and dynamic) load-balancing in
 the future.
