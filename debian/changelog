@@ -1,3 +1,18 @@
+pve-docs (9.0.8) trixie; urgency=medium
+
+  * network: update name of pinning tool to pve-network-pinning-tool.
+
+  * ha affinity rules: update section for restrictions to current capabilities
+    of mixed usage of node and resource affinity rules, simple cases are
+    allowed now.
+
+  * ha: rules: document CRS behavior for split positive resource affinity.
+
+  * ha: mark ha groups as deprecated and note migration to node affinity
+    rules and replace in-text references to HA groups with HA rules.
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 05 Aug 2025 16:04:45 +0200
+
 pve-docs (9.0.7) trixie; urgency=medium
 
   * network: update documentation for network-interface-pinning.
