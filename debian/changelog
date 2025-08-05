@@ -1,3 +1,19 @@
+pve-docs (8.4.1) bookworm; urgency=medium
+
+  * notifications: add section about how to use custom templates.
+
+  * fix #6360: properly quote tags in example.
+
+  * fix #6361: pvecm: replace wrongly used 'packages' with 'packets'.
+
+  * fix #6362: qm: remove duplicate 'only'.
+
+  * fix #6416: bootloader: update link to open ZFS documentation.
+
+  * network: add documentation for pve-network-interface-pinning.
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 05 Aug 2025 16:55:44 +0200
+
 pve-docs (8.4.0) bookworm; urgency=medium
 
   * qemu: consistently use virtiofs term
