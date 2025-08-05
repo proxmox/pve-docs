@@ -158,8 +158,8 @@ command line. You need to reboot for the changes to take effect.
 Overriding network device names
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Using the proxmox-network-interface-pinning Tool
-++++++++++++++++++++++++++++++++++++++++++++++++
+Using the pve-network-interface-pinning Tool
+++++++++++++++++++++++++++++++++++++++++++++
 
 Proxmox VE provides a tool for automatically generating .link files for
 overriding the name of network devices. It also automatically replaces the
@@ -193,29 +193,29 @@ configuration files (see above). The generated names will use the default prefix
 `nic`, so the resulting interface names will be `nic1`, `nic2`, ...
 
 ----
-proxmox-network-interface-pinning generate
+pve-network-interface-pinning generate
 ----
 
 You can override the default prefix with the `--prefix` flag:
 
 ----
-proxmox-network-interface-pinning generate --prefix myprefix
+pve-network-interface-pinning generate --prefix myprefix
 ----
 
 It is also possible to pin only a specific interface:
 
 ----
-proxmox-network-interface-pinning generate --interface enp1s0
+pve-network-interface-pinning generate --interface enp1s0
 ----
 
 When pinning a specific interface, you can specify the exact name that the
 interface should be pinned to:
 
 ----
-proxmox-network-interface-pinning generate --interface enp1s0 --target-name if42
+pve-network-interface-pinning generate --interface enp1s0 --target-name if42
 ----
 
-In order to apply the changes made by `proxmox-network-interface-pinning` to the
+In order to apply the changes made by `pve-network-interface-pinning` to the
 network configuration, the node needs to be rebooted.
 
 
