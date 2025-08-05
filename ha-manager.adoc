@@ -787,6 +787,11 @@ HA resources `vm:101` and `vm:102` are each in a positive resource affinity
 rule, then it is the same as if `vm:100`, `vm:101` and `vm:102` would have been
 in a single positive resource affinity rule.
 
+NOTE: If the HA resources of a positive resource affinity rule are currently
+running on different nodes, the CRS will move the HA resources to the node,
+where most of them are running already. If there is a tie in the HA resource
+count, the node whose name appears first in alphabetical order is selected.
+
 However, suppose there are computationally expensive, and/or distributed
 programs running on the HA resources `vm:200` and `ct:300`, for example,
 sharded database instances. In that case, running them on the same node could
