@@ -89,7 +89,7 @@ recommended.
 [width="100%",cols="5*d",options="header"]
 |===============================================================================
 | {pve} Version | Debian Version      | First Release | Debian EOL | Proxmox EOL
-| {pve} 9       | Debian 13 (Trixie)  | 2025-0?       | tba        | tba
+| {pve} 9       | Debian 13 (Trixie)  | 2025-08       | tba        | tba
 | {pve} 8       | Debian 12 (Bookworm)| 2023-06       | 2026-08    | 2026-08
 | {pve} 7       | Debian 11 (Bullseye)| 2021-07       | 2024-07    | 2024-07
 | {pve} 6       | Debian 10 (Buster)  | 2019-07       | 2022-09    | 2022-09
