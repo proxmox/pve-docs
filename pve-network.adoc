@@ -155,7 +155,7 @@ See also xref:sysboot_edit_kernel_cmdline[this section] on editing the kernel
 command line. You need to reboot for the changes to take effect.
 
 [[network_override_device_names]]
-Overriding network device names
+Overriding Network Device Names
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Using the pve-network-interface-pinning Tool
@@ -219,8 +219,8 @@ In order to apply the changes made by `pve-network-interface-pinning` to the
 network configuration, the node needs to be rebooted.
 
 
-Manual method
-+++++++++++++
+Manually Creating .Link Files
++++++++++++++++++++++++++++++
 
 You can manually assign a name to a particular network device using a custom
 https://manpages.debian.org/stable/udev/systemd.link.5.en.html[systemd.link
@@ -318,7 +318,7 @@ VLANs (IEEE 802.1q) and network bonding, also known as "link
 aggregation". That way it is possible to build complex and flexible
 virtual networks.
 
-Default Configuration using a Bridge
+Default Configuration Using a Bridge
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 [thumbnail="default-network-setup-bridge.svg"]
