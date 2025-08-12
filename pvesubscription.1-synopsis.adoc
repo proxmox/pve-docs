@@ -1,13 +1,17 @@
+[[cli_pvesubscription]]
 *pvesubscription* `<COMMAND> [ARGS] [OPTIONS]`
 
+[[cli_pvesubscription_delete]]
 *pvesubscription delete*
 
 Delete subscription key of this node.
 
+[[cli_pvesubscription_get]]
 *pvesubscription get*
 
 Read subscription info.
 
+[[cli_pvesubscription_help]]
 *pvesubscription help* `[OPTIONS]`
 
 Get help about specified command.
@@ -20,6 +24,7 @@ Shows help for a specific command
 
 Verbose output format.
 
+[[cli_pvesubscription_set]]
 *pvesubscription set* `<key>`
 
 Set subscription key.
@@ -28,6 +33,7 @@ Set subscription key.
 
 Proxmox VE subscription key
 
+[[cli_pvesubscription_set-offline-key]]
 *pvesubscription set-offline-key* `<data>`
 
 Internal use only! To set an offline key, use the package
@@ -37,6 +43,7 @@ proxmox-offline-mirror-helper instead.
 
 A signed subscription info blob
 
+[[cli_pvesubscription_update]]
 *pvesubscription update* `[OPTIONS]`
 
 Update subscription info.

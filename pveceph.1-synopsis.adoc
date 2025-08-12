@@ -1,37 +1,47 @@
+[[cli_pveceph]]
 *pveceph* `<COMMAND> [ARGS] [OPTIONS]`
 
+[[cli_pveceph_createmgr]]
 *pveceph createmgr*
 
 An alias for 'pveceph mgr create'.
 
+[[cli_pveceph_createmon]]
 *pveceph createmon*
 
 An alias for 'pveceph mon create'.
 
+[[cli_pveceph_createosd]]
 *pveceph createosd*
 
 An alias for 'pveceph osd create'.
 
+[[cli_pveceph_createpool]]
 *pveceph createpool*
 
 An alias for 'pveceph pool create'.
 
+[[cli_pveceph_destroymgr]]
 *pveceph destroymgr*
 
 An alias for 'pveceph mgr destroy'.
 
+[[cli_pveceph_destroymon]]
 *pveceph destroymon*
 
 An alias for 'pveceph mon destroy'.
 
+[[cli_pveceph_destroyosd]]
 *pveceph destroyosd*
 
 An alias for 'pveceph osd destroy'.
 
+[[cli_pveceph_destroypool]]
 *pveceph destroypool*
 
 An alias for 'pveceph pool destroy'.
 
+[[cli_pveceph_fs_create]]
 *pveceph fs create* `[OPTIONS]`
 
 Create a Ceph filesystem
@@ -48,6 +58,7 @@ The ceph filesystem name.
 
 Number of placement groups for the backing data pool. The metadata pool will use a quarter of this.
 
+[[cli_pveceph_fs_destroy]]
 *pveceph fs destroy* `<name>` `[OPTIONS]`
 
 Destroy a Ceph filesystem
@@ -64,6 +75,7 @@ Remove data and metadata pools configured for this fs.
 
 Remove all pveceph-managed storages configured for this fs.
 
+[[cli_pveceph_help]]
 *pveceph help* `[OPTIONS]`
 
 Get help about specified command.
@@ -76,6 +88,7 @@ Shows help for a specific command
 
 Verbose output format.
 
+[[cli_pveceph_init]]
 *pveceph init* `[OPTIONS]`
 
 Create initial ceph default configuration and setup symlinks.
@@ -110,6 +123,7 @@ Depreacted. This setting was deprecated in recent Ceph versions.
 
 Targeted number of replicas per object
 
+[[cli_pveceph_install]]
 *pveceph install* `[OPTIONS]`
 
 Install ceph related packages.
@@ -126,10 +140,12 @@ Ceph repository to use.
 
 Ceph version to install.
 
+[[cli_pveceph_lspools]]
 *pveceph lspools*
 
 An alias for 'pveceph pool ls'.
 
+[[cli_pveceph_mds_create]]
 *pveceph mds create* `[OPTIONS]`
 
 Create Ceph Metadata Server (MDS)
@@ -142,6 +158,7 @@ Determines whether a ceph-mds daemon should poll and replay the log of an active
 
 The ID for the mds, when omitted the same as the nodename
 
+[[cli_pveceph_mds_destroy]]
 *pveceph mds destroy* `<name>`
 
 Destroy Ceph Metadata Server
@@ -150,6 +167,7 @@ Destroy Ceph Metadata Server
 
 The name (ID) of the mds
 
+[[cli_pveceph_mgr_create]]
 *pveceph mgr create* `[OPTIONS]`
 
 Create Ceph Manager
@@ -158,6 +176,7 @@ Create Ceph Manager
 
 The ID for the manager, when omitted the same as the nodename
 
+[[cli_pveceph_mgr_destroy]]
 *pveceph mgr destroy* `<id>`
 
 Destroy Ceph Manager.
@@ -166,6 +185,7 @@ Destroy Ceph Manager.
 
 The ID of the manager
 
+[[cli_pveceph_mon_create]]
 *pveceph mon create* `[OPTIONS]`
 
 Create Ceph Monitor and Manager
@@ -178,6 +198,7 @@ Overwrites autodetected monitor IP address(es). Must be in the public network(s)
 
 The ID for the monitor, when omitted the same as the nodename
 
+[[cli_pveceph_mon_destroy]]
 *pveceph mon destroy* `<monid>`
 
 Destroy Ceph Monitor and Manager.
@@ -186,6 +207,7 @@ Destroy Ceph Monitor and Manager.
 
 Monitor ID
 
+[[cli_pveceph_osd_create]]
 *pveceph osd create* `<dev>` `[OPTIONS]`
 
 Create OSD
@@ -227,6 +249,7 @@ Size in GiB for block.wal.
 +
 NOTE: Requires option(s): `wal_dev`
 
+[[cli_pveceph_osd_destroy]]
 *pveceph osd destroy* `<osdid>` `[OPTIONS]`
 
 Destroy OSD
@@ -239,6 +262,7 @@ OSD ID
 
 If set, we remove partition table entries.
 
+[[cli_pveceph_osd_details]]
 *pveceph osd details* `<osdid>` `[OPTIONS]` `[FORMAT_OPTIONS]`
 
 Get OSD details.
@@ -251,6 +275,7 @@ ID of the OSD
 
 Print verbose information, same as json-pretty output format.
 
+[[cli_pveceph_pool_create]]
 *pveceph pool create* `<name>` `[OPTIONS]`
 
 Create Ceph pool
@@ -303,6 +328,7 @@ The estimated target size of the pool for the PG autoscaler.
 
 The estimated target ratio of the pool for the PG autoscaler.
 
+[[cli_pveceph_pool_destroy]]
 *pveceph pool destroy* `<name>` `[OPTIONS]`
 
 Destroy pool
@@ -323,6 +349,7 @@ Remove the erasure code profile. Defaults to true, if applicable.
 
 Remove all pveceph-managed storages configured for this pool
 
+[[cli_pveceph_pool_get]]
 *pveceph pool get* `<name>` `[OPTIONS]` `[FORMAT_OPTIONS]`
 
 Show the current pool status.
@@ -335,11 +362,13 @@ The name of the pool. It must be unique.
 
 If enabled, will display additional data(eg. statistics).
 
+[[cli_pveceph_pool_ls]]
 *pveceph pool ls* `[FORMAT_OPTIONS]`
 
 List all pools and their settings (which are settable by the POST/PUT
 endpoints).
 
+[[cli_pveceph_pool_set]]
 *pveceph pool set* `<name>` `[OPTIONS]`
 
 Change POOL settings
@@ -384,6 +413,7 @@ The estimated target size of the pool for the PG autoscaler.
 
 The estimated target ratio of the pool for the PG autoscaler.
 
+[[cli_pveceph_purge]]
 *pveceph purge* `[OPTIONS]`
 
 Destroy ceph related data and configuration files.
@@ -396,6 +426,7 @@ Additionally purge Ceph crash logs, /var/lib/ceph/crash.
 
 Additionally purge Ceph logs, /var/log/ceph.
 
+[[cli_pveceph_start]]
 *pveceph start* `[OPTIONS]`
 
 Start ceph services.
@@ -404,10 +435,12 @@ Start ceph services.
 
 Ceph service name.
 
+[[cli_pveceph_status]]
 *pveceph status*
 
 Get Ceph Status.
 
+[[cli_pveceph_stop]]
 *pveceph stop* `[OPTIONS]`
 
 Stop ceph services.

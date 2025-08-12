@@ -1,5 +1,7 @@
+[[cli_ha-manager]]
 *ha-manager* `<COMMAND> [ARGS] [OPTIONS]`
 
+[[cli_ha-manager_add]]
 *ha-manager add* `<sid>` `[OPTIONS]`
 
 Create a new HA resource.
@@ -36,6 +38,7 @@ Requested resource state.
 
 Resource type.
 
+[[cli_ha-manager_config]]
 *ha-manager config* `[OPTIONS]`
 
 List HA resources.
@@ -44,6 +47,7 @@ List HA resources.
 
 Only list resources of specific type
 
+[[cli_ha-manager_crm-command_migrate]]
 *ha-manager crm-command migrate* `<sid> <node>`
 
 Request resource migration (online) to another node.
@@ -56,6 +60,7 @@ HA resource ID. This consists of a resource type followed by a resource specific
 
 Target node.
 
+[[cli_ha-manager_crm-command_node-maintenance_disable]]
 *ha-manager crm-command node-maintenance disable* `<node>`
 
 Change the node-maintenance request state.
@@ -64,6 +69,7 @@ Change the node-maintenance request state.
 
 The cluster node name.
 
+[[cli_ha-manager_crm-command_node-maintenance_enable]]
 *ha-manager crm-command node-maintenance enable* `<node>`
 
 Change the node-maintenance request state.
@@ -72,6 +78,7 @@ Change the node-maintenance request state.
 
 The cluster node name.
 
+[[cli_ha-manager_crm-command_relocate]]
 *ha-manager crm-command relocate* `<sid> <node>`
 
 Request resource relocatzion to another node. This stops the service on the
@@ -85,6 +92,7 @@ HA resource ID. This consists of a resource type followed by a resource specific
 
 Target node.
 
+[[cli_ha-manager_crm-command_stop]]
 *ha-manager crm-command stop* `<sid> <timeout>`
 
 Request the service to be stopped.
@@ -97,6 +105,7 @@ HA resource ID. This consists of a resource type followed by a resource specific
 
 Timeout in seconds. If set to 0 a hard stop will be performed.
 
+[[cli_ha-manager_groupadd]]
 *ha-manager groupadd* `<group> --nodes <string>` `[OPTIONS]`
 
 Create a new HA group. (deprecated in favor of HA rules)
@@ -125,10 +134,12 @@ Resources bound to restricted groups may only run on nodes defined by the group.
 
 Group type.
 
+[[cli_ha-manager_groupconfig]]
 *ha-manager groupconfig*
 
 Get HA groups. (deprecated in favor of HA rules)
 
+[[cli_ha-manager_groupremove]]
 *ha-manager groupremove* `<group>`
 
 Delete ha group configuration. (deprecated in favor of HA rules)
@@ -137,6 +148,7 @@ Delete ha group configuration. (deprecated in favor of HA rules)
 
 The HA group identifier.
 
+[[cli_ha-manager_groupset]]
 *ha-manager groupset* `<group>` `[OPTIONS]`
 
 Update ha group configuration. (deprecated in favor of HA rules)
@@ -169,6 +181,7 @@ The CRM tries to run services on the node with the highest priority. If a node w
 
 Resources bound to restricted groups may only run on nodes defined by the group.
 
+[[cli_ha-manager_help]]
 *ha-manager help* `[OPTIONS]`
 
 Get help about specified command.
@@ -181,14 +194,17 @@ Shows help for a specific command
 
 Verbose output format.
 
+[[cli_ha-manager_migrate]]
 *ha-manager migrate*
 
 An alias for 'ha-manager crm-command migrate'.
 
+[[cli_ha-manager_relocate]]
 *ha-manager relocate*
 
 An alias for 'ha-manager crm-command relocate'.
 
+[[cli_ha-manager_remove]]
 *ha-manager remove* `<sid>`
 
 Delete resource configuration.
@@ -197,6 +213,7 @@ Delete resource configuration.
 
 HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).
 
+[[cli_ha-manager_rules_add]]
 *ha-manager rules add* `<type> <rule> --resources <string>` `[OPTIONS]`
 
 Create HA rule.
@@ -242,6 +259,7 @@ Describes whether the node affinity rule is strict or non-strict.
 
 Describes whether the HA resources are supposed to be kept on the same node ('positive'), or are supposed to be kept on separate nodes ('negative').
 
+[[cli_ha-manager_rules_config]]
 *ha-manager rules config* `[OPTIONS]` `[FORMAT_OPTIONS]`
 
 Get HA rules.
@@ -254,6 +272,7 @@ Limit the returned list to rules affecting the specified resource.
 
 Limit the returned list to the specified rule type.
 
+[[cli_ha-manager_rules_list]]
 *ha-manager rules list* `[OPTIONS]` `[FORMAT_OPTIONS]`
 
 Get HA rules.
@@ -266,6 +285,7 @@ Limit the returned list to rules affecting the specified resource.
 
 Limit the returned list to the specified rule type.
 
+[[cli_ha-manager_rules_remove]]
 *ha-manager rules remove* `<rule>`
 
 Delete HA rule.
@@ -274,6 +294,7 @@ Delete HA rule.
 
 HA rule identifier.
 
+[[cli_ha-manager_rules_set]]
 *ha-manager rules set* `<type> <rule>` `[OPTIONS]`
 
 Update HA rule.
@@ -327,6 +348,7 @@ Describes whether the node affinity rule is strict or non-strict.
 
 Describes whether the HA resources are supposed to be kept on the same node ('positive'), or are supposed to be kept on separate nodes ('negative').
 
+[[cli_ha-manager_set]]
 *ha-manager set* `<sid>` `[OPTIONS]`
 
 Update resource configuration.
@@ -367,6 +389,7 @@ Maximal number of tries to restart the service on a node after its start failed.
 
 Requested resource state.
 
+[[cli_ha-manager_status]]
 *ha-manager status* `[OPTIONS]`
 
 Display HA manger status.

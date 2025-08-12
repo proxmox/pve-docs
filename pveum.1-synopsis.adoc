@@ -1,5 +1,7 @@
+[[cli_pveum]]
 *pveum* `<COMMAND> [ARGS] [OPTIONS]`
 
+[[cli_pveum_acl_delete]]
 *pveum acl delete* `<path> --roles <string>` `[OPTIONS]`
 
 Update Access Control List (add or remove permissions).
@@ -28,10 +30,12 @@ List of API tokens.
 
 List of users.
 
+[[cli_pveum_acl_list]]
 *pveum acl list* `[FORMAT_OPTIONS]`
 
 Get Access Control List (ACLs).
 
+[[cli_pveum_acl_modify]]
 *pveum acl modify* `<path> --roles <string>` `[OPTIONS]`
 
 Update Access Control List (add or remove permissions).
@@ -60,14 +64,17 @@ List of API tokens.
 
 List of users.
 
+[[cli_pveum_acldel]]
 *pveum acldel*
 
 An alias for 'pveum acl delete'.
 
+[[cli_pveum_aclmod]]
 *pveum aclmod*
 
 An alias for 'pveum acl modify'.
 
+[[cli_pveum_group_add]]
 *pveum group add* `<groupid>` `[OPTIONS]`
 
 Create new group.
@@ -80,6 +87,7 @@ no description available
 
 no description available
 
+[[cli_pveum_group_delete]]
 *pveum group delete* `<groupid>`
 
 Delete group.
@@ -88,10 +96,12 @@ Delete group.
 
 no description available
 
+[[cli_pveum_group_list]]
 *pveum group list* `[FORMAT_OPTIONS]`
 
 Group index.
 
+[[cli_pveum_group_modify]]
 *pveum group modify* `<groupid>` `[OPTIONS]`
 
 Update group data.
@@ -104,18 +114,22 @@ no description available
 
 no description available
 
+[[cli_pveum_groupadd]]
 *pveum groupadd*
 
 An alias for 'pveum group add'.
 
+[[cli_pveum_groupdel]]
 *pveum groupdel*
 
 An alias for 'pveum group delete'.
 
+[[cli_pveum_groupmod]]
 *pveum groupmod*
 
 An alias for 'pveum group modify'.
 
+[[cli_pveum_help]]
 *pveum help* `[OPTIONS]`
 
 Get help about specified command.
@@ -128,6 +142,7 @@ Shows help for a specific command
 
 Verbose output format.
 
+[[cli_pveum_passwd]]
 *pveum passwd* `<userid>` `[OPTIONS]`
 
 Change user password.
@@ -140,6 +155,7 @@ Full User ID, in the `name@realm` format.
 
 The current password of the user performing the change.
 
+[[cli_pveum_pool_add]]
 *pveum pool add* `<poolid>` `[OPTIONS]`
 
 Create new pool.
@@ -152,6 +168,7 @@ no description available
 
 no description available
 
+[[cli_pveum_pool_delete]]
 *pveum pool delete* `<poolid>`
 
 Delete pool.
@@ -160,6 +177,7 @@ Delete pool.
 
 no description available
 
+[[cli_pveum_pool_list]]
 *pveum pool list* `[OPTIONS]` `[FORMAT_OPTIONS]`
 
 List pools or get pool configuration.
@@ -174,6 +192,7 @@ no description available
 +
 NOTE: Requires option(s): `poolid`
 
+[[cli_pveum_pool_modify]]
 *pveum pool modify* `<poolid>` `[OPTIONS]`
 
 Update pool.
@@ -202,6 +221,7 @@ List of storage IDs to add or remove from this pool.
 
 List of guest VMIDs to add or remove from this pool.
 
+[[cli_pveum_realm_add]]
 *pveum realm add* `<realm> --type <string>` `[OPTIONS]`
 
 Add an authentication server.
@@ -374,6 +394,7 @@ OpenID claim used to generate the unique username.
 
 Verify the server's SSL certificate
 
+[[cli_pveum_realm_delete]]
 *pveum realm delete* `<realm>`
 
 Delete an authentication server.
@@ -382,10 +403,12 @@ Delete an authentication server.
 
 Authentication domain ID
 
+[[cli_pveum_realm_list]]
 *pveum realm list* `[FORMAT_OPTIONS]`
 
 Authentication domain index.
 
+[[cli_pveum_realm_modify]]
 *pveum realm modify* `<realm>` `[OPTIONS]`
 
 Update authentication server settings.
@@ -558,6 +581,7 @@ The objectclasses for users.
 
 Verify the server's SSL certificate
 
+[[cli_pveum_realm_sync]]
 *pveum realm sync* `<realm>` `[OPTIONS]`
 
 Syncs users and/or groups from the configured LDAP to user.cfg. NOTE:
@@ -592,6 +616,7 @@ A semicolon-separated list of things to remove when they or the user vanishes du
 
 Select what to sync.
 
+[[cli_pveum_role_add]]
 *pveum role add* `<roleid>` `[OPTIONS]`
 
 Create new role.
@@ -604,6 +629,7 @@ no description available
 
 no description available
 
+[[cli_pveum_role_delete]]
 *pveum role delete* `<roleid>`
 
 Delete role.
@@ -612,10 +638,12 @@ Delete role.
 
 no description available
 
+[[cli_pveum_role_list]]
 *pveum role list* `[FORMAT_OPTIONS]`
 
 Role index.
 
+[[cli_pveum_role_modify]]
 *pveum role modify* `<roleid>` `[OPTIONS]`
 
 Update an existing role.
@@ -634,18 +662,22 @@ NOTE: Requires option(s): `privs`
 
 no description available
 
+[[cli_pveum_roleadd]]
 *pveum roleadd*
 
 An alias for 'pveum role add'.
 
+[[cli_pveum_roledel]]
 *pveum roledel*
 
 An alias for 'pveum role delete'.
 
+[[cli_pveum_rolemod]]
 *pveum rolemod*
 
 An alias for 'pveum role modify'.
 
+[[cli_pveum_ticket]]
 *pveum ticket* `<username>` `[OPTIONS]`
 
 Create or verify authentication ticket.
@@ -682,6 +714,7 @@ You can optionally pass the realm using this parameter. Normally the realm is si
 
 The signed TFA challenge string the user wants to respond to.
 
+[[cli_pveum_user_add]]
 *pveum user add* `<userid>` `[OPTIONS]`
 
 Create new user.
@@ -726,6 +759,7 @@ no description available
 
 Initial password.
 
+[[cli_pveum_user_delete]]
 *pveum user delete* `<userid>`
 
 Delete user.
@@ -734,6 +768,7 @@ Delete user.
 
 Full User ID, in the `name@realm` format.
 
+[[cli_pveum_user_list]]
 *pveum user list* `[OPTIONS]` `[FORMAT_OPTIONS]`
 
 User index.
@@ -746,6 +781,7 @@ Optional filter for enable property.
 
 Include group and token information.
 
+[[cli_pveum_user_modify]]
 *pveum user modify* `<userid>` `[OPTIONS]`
 
 Update user configuration.
@@ -792,6 +828,7 @@ Keys for two factor auth (yubico).
 
 no description available
 
+[[cli_pveum_user_permissions]]
 *pveum user permissions* `[<userid>]` `[OPTIONS]` `[FORMAT_OPTIONS]`
 
 Retrieve effective permissions of given user/token.
@@ -804,6 +841,7 @@ User ID or full API token ID
 
 Only dump this specific path, not the whole tree.
 
+[[cli_pveum_user_tfa_delete]]
 *pveum user tfa delete* `<userid>` `[OPTIONS]`
 
 Delete TFA entries from a user.
@@ -816,6 +854,7 @@ Full User ID, in the `name@realm` format.
 
 The TFA ID, if none provided, all TFA entries will be deleted.
 
+[[cli_pveum_user_tfa_list]]
 *pveum user tfa list* `[<userid>]`
 
 List TFA entries.
@@ -824,6 +863,7 @@ List TFA entries.
 
 Full User ID, in the `name@realm` format.
 
+[[cli_pveum_user_tfa_unlock]]
 *pveum user tfa unlock* `<userid>`
 
 Unlock a user's TFA authentication.
@@ -832,6 +872,7 @@ Unlock a user's TFA authentication.
 
 Full User ID, in the `name@realm` format.
 
+[[cli_pveum_user_token_add]]
 *pveum user token add* `<userid> <tokenid>` `[OPTIONS]` `[FORMAT_OPTIONS]`
 
 Generate a new API token for a specific user. NOTE: returns API token
@@ -857,6 +898,7 @@ API token expiration date (seconds since epoch). '0' means no expiration date.
 
 Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.
 
+[[cli_pveum_user_token_delete]]
 *pveum user token delete* `<userid> <tokenid>` `[FORMAT_OPTIONS]`
 
 Remove API token for a specific user.
@@ -869,6 +911,7 @@ Full User ID, in the `name@realm` format.
 
 User-specific token identifier.
 
+[[cli_pveum_user_token_list]]
 *pveum user token list* `<userid>` `[FORMAT_OPTIONS]`
 
 Get user API tokens.
@@ -877,6 +920,7 @@ Get user API tokens.
 
 Full User ID, in the `name@realm` format.
 
+[[cli_pveum_user_token_modify]]
 *pveum user token modify* `<userid> <tokenid>` `[OPTIONS]` `[FORMAT_OPTIONS]`
 
 Update API token for a specific user.
@@ -901,6 +945,7 @@ API token expiration date (seconds since epoch). '0' means no expiration date.
 
 Restrict API token privileges with separate ACLs (default), or give full privileges of corresponding user.
 
+[[cli_pveum_user_token_permissions]]
 *pveum user token permissions* `<userid> <tokenid>` `[OPTIONS]` `[FORMAT_OPTIONS]`
 
 Retrieve effective permissions of given token.
@@ -917,18 +962,22 @@ User-specific token identifier.
 
 Only dump this specific path, not the whole tree.
 
+[[cli_pveum_user_token_remove]]
 *pveum user token remove*
 
 An alias for 'pveum user token delete'.
 
+[[cli_pveum_useradd]]
 *pveum useradd*
 
 An alias for 'pveum user add'.
 
+[[cli_pveum_userdel]]
 *pveum userdel*
 
 An alias for 'pveum user delete'.
 
+[[cli_pveum_usermod]]
 *pveum usermod*
 
 An alias for 'pveum user modify'.

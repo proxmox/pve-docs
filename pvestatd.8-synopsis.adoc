@@ -1,5 +1,7 @@
+[[cli_pvestatd]]
 *pvestatd* `<COMMAND> [ARGS] [OPTIONS]`
 
+[[cli_pvestatd_help]]
 *pvestatd help* `[OPTIONS]`
 
 Get help about specified command.
@@ -12,10 +14,12 @@ Shows help for a specific command
 
 Verbose output format.
 
+[[cli_pvestatd_restart]]
 *pvestatd restart*
 
 Restart the daemon (or start if not running).
 
+[[cli_pvestatd_start]]
 *pvestatd start* `[OPTIONS]`
 
 Start the daemon.
@@ -24,10 +28,12 @@ Start the daemon.
 
 Debug mode - stay in foreground
 
+[[cli_pvestatd_status]]
 *pvestatd status*
 
 Get daemon status.
 
+[[cli_pvestatd_stop]]
 *pvestatd stop*
 
 Stop the daemon.

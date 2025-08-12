@@ -1,5 +1,7 @@
+[[cli_pvenode]]
 *pvenode* `<COMMAND> [ARGS] [OPTIONS]`
 
+[[cli_pvenode_acme_account_deactivate]]
 *pvenode acme account deactivate* `[<name>]`
 
 Deactivate existing ACME account at CA.
@@ -8,6 +10,7 @@ Deactivate existing ACME account at CA.
 
 ACME account config file name.
 
+[[cli_pvenode_acme_account_info]]
 *pvenode acme account info* `[<name>]` `[FORMAT_OPTIONS]`
 
 Return existing ACME account information.
@@ -16,10 +19,12 @@ Return existing ACME account information.
 
 ACME account config file name.
 
+[[cli_pvenode_acme_account_list]]
 *pvenode acme account list*
 
 ACMEAccount index.
 
+[[cli_pvenode_acme_account_register]]
 *pvenode acme account register* `[<name>] {<contact>}` `[OPTIONS]`
 
 Register a new ACME account with a compatible CA.
@@ -36,6 +41,7 @@ Contact email addresses.
 
 URL of ACME CA directory endpoint.
 
+[[cli_pvenode_acme_account_update]]
 *pvenode acme account update* `[<name>]` `[OPTIONS]`
 
 Update existing ACME account information with CA. Note: not specifying any
@@ -49,6 +55,7 @@ ACME account config file name.
 
 Contact email addresses.
 
+[[cli_pvenode_acme_cert_order]]
 *pvenode acme cert order* `[OPTIONS]`
 
 Order a new certificate from ACME-compatible CA.
@@ -57,6 +64,7 @@ Order a new certificate from ACME-compatible CA.
 
 Overwrite existing custom certificate.
 
+[[cli_pvenode_acme_cert_renew]]
 *pvenode acme cert renew* `[OPTIONS]`
 
 Renew existing certificate from CA.
@@ -65,10 +73,12 @@ Renew existing certificate from CA.
 
 Force renewal even if expiry is more than 30 days away.
 
+[[cli_pvenode_acme_cert_revoke]]
 *pvenode acme cert revoke*
 
 Revoke existing certificate from CA.
 
+[[cli_pvenode_acme_plugin_add]]
 *pvenode acme plugin add* `<type> <id>` `[OPTIONS]`
 
 Add ACME plugin configuration.
@@ -101,6 +111,7 @@ List of cluster node names.
 
 Extra delay in seconds to wait before requesting validation. Allows to cope with a long TTL of DNS records.
 
+[[cli_pvenode_acme_plugin_config]]
 *pvenode acme plugin config* `<id>` `[FORMAT_OPTIONS]`
 
 Get ACME plugin configuration.
@@ -109,6 +120,7 @@ Get ACME plugin configuration.
 
 Unique identifier for ACME plugin instance.
 
+[[cli_pvenode_acme_plugin_list]]
 *pvenode acme plugin list* `[OPTIONS]` `[FORMAT_OPTIONS]`
 
 ACME plugin index.
@@ -117,6 +129,7 @@ ACME plugin index.
 
 Only list ACME plugins of a specific type
 
+[[cli_pvenode_acme_plugin_remove]]
 *pvenode acme plugin remove* `<id>`
 
 Delete ACME plugin configuration.
@@ -125,6 +138,7 @@ Delete ACME plugin configuration.
 
 Unique identifier for ACME plugin instance.
 
+[[cli_pvenode_acme_plugin_set]]
 *pvenode acme plugin set* `<id>` `[OPTIONS]`
 
 Update ACME plugin configuration.
@@ -161,6 +175,7 @@ List of cluster node names.
 
 Extra delay in seconds to wait before requesting validation. Allows to cope with a long TTL of DNS records.
 
+[[cli_pvenode_cert_delete]]
 *pvenode cert delete* `[<restart>]`
 
 DELETE custom certificate chain and key.
@@ -169,10 +184,12 @@ DELETE custom certificate chain and key.
 
 Restart pveproxy.
 
+[[cli_pvenode_cert_info]]
 *pvenode cert info* `[FORMAT_OPTIONS]`
 
 Get information about node's certificates.
 
+[[cli_pvenode_cert_set]]
 *pvenode cert set* `<certificates> [<key>]` `[OPTIONS]` `[FORMAT_OPTIONS]`
 
 Upload or update custom certificate chain and key.
@@ -193,6 +210,7 @@ Overwrite existing custom or ACME certificate files.
 
 Restart pveproxy.
 
+[[cli_pvenode_config_get]]
 *pvenode config get* `[OPTIONS]`
 
 Get node configuration options.
@@ -201,6 +219,7 @@ Get node configuration options.
 
 Return only a specific property from the node configuration.
 
+[[cli_pvenode_config_set]]
 *pvenode config set* `[OPTIONS]`
 
 Set node configuration options.
@@ -237,6 +256,7 @@ Initial delay in seconds, before starting all the Virtual Guests with on-boot en
 
 Node specific wake on LAN settings.
 
+[[cli_pvenode_help]]
 *pvenode help* `[OPTIONS]`
 
 Get help about specified command.
@@ -249,6 +269,7 @@ Shows help for a specific command
 
 Verbose output format.
 
+[[cli_pvenode_migrateall]]
 *pvenode migrateall* `<target>` `[OPTIONS]`
 
 Migrate all VMs and Containers.
@@ -269,6 +290,7 @@ Only consider Guests with these IDs.
 
 Enable live storage migration for local disk
 
+[[cli_pvenode_startall]]
 *pvenode startall* `[OPTIONS]`
 
 Start all VMs and containers located on this node (by default only those
@@ -282,6 +304,7 @@ Issue start command even if virtual guest have 'onboot' not set or set to off.
 
 Only consider guests from this comma separated list of VMIDs.
 
+[[cli_pvenode_stopall]]
 *pvenode stopall* `[OPTIONS]`
 
 Stop all VMs and Containers.
@@ -298,6 +321,7 @@ Timeout for each guest shutdown task. Depending on `force-stop`, the shutdown ge
 
 Only consider Guests with these IDs.
 
+[[cli_pvenode_task_list]]
 *pvenode task list* `[OPTIONS]` `[FORMAT_OPTIONS]`
 
 Read task list for one node (finished tasks).
@@ -342,6 +366,7 @@ Only list tasks from this user.
 
 Only list tasks for this VM.
 
+[[cli_pvenode_task_log]]
 *pvenode task log* `<upid>` `[OPTIONS]`
 
 Read task log.
@@ -358,6 +383,7 @@ Whether the tasklog file should be downloaded. This parameter can't be used in c
 
 Start at this line when reading the tasklog
 
+[[cli_pvenode_task_status]]
 *pvenode task status* `<upid>` `[FORMAT_OPTIONS]`
 
 Read task status.
@@ -366,6 +392,7 @@ Read task status.
 
 The task's unique ID.
 
+[[cli_pvenode_wakeonlan]]
 *pvenode wakeonlan* `<node>`
 
 Try to wake a node via 'wake on LAN' network packet.

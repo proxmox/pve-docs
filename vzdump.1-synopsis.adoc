@@ -1,5 +1,7 @@
+[[cli_vzdump_help]]
 *vzdump* `help`
 
+[[cli_vzdump]]
 *vzdump* `{<vmid>}` `[OPTIONS]`
 
 Create backup.

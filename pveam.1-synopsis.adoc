@@ -1,5 +1,7 @@
+[[cli_pveam]]
 *pveam* `<COMMAND> [ARGS] [OPTIONS]`
 
+[[cli_pveam_available]]
 *pveam available* `[OPTIONS]`
 
 List available templates.
@@ -8,6 +10,7 @@ List available templates.
 
 Restrict list to specified section.
 
+[[cli_pveam_download]]
 *pveam download* `<storage> <template>`
 
 Download appliance templates.
@@ -20,6 +23,7 @@ The storage where the template will be stored
 
 The template which will downloaded
 
+[[cli_pveam_help]]
 *pveam help* `[OPTIONS]`
 
 Get help about specified command.
@@ -32,6 +36,7 @@ Shows help for a specific command
 
 Verbose output format.
 
+[[cli_pveam_list]]
 *pveam list* `<storage>`
 
 Get list of all templates on storage
@@ -40,6 +45,7 @@ Get list of all templates on storage
 
 Only list templates on specified storage
 
+[[cli_pveam_remove]]
 *pveam remove* `<template_path>`
 
 Remove a template.
@@ -48,6 +54,7 @@ Remove a template.
 
 The template to remove.
 
+[[cli_pveam_update]]
 *pveam update*
 
 Update Container Template Database.

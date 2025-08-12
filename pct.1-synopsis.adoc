@@ -1,5 +1,7 @@
+[[cli_pct]]
 *pct* `<COMMAND> [ARGS] [OPTIONS]`
 
+[[cli_pct_clone]]
 *pct clone* `<vmid> <newid>` `[OPTIONS]`
 
 Create a container clone/copy
@@ -44,6 +46,7 @@ Target storage for full clone.
 
 Target node. Only allowed if the original VM is on shared storage.
 
+[[cli_pct_config]]
 *pct config* `<vmid>` `[OPTIONS]`
 
 Get container configuration.
@@ -60,6 +63,7 @@ Get current values (instead of pending values).
 
 Fetch config values from given snapshot.
 
+[[cli_pct_console]]
 *pct console* `<vmid>` `[OPTIONS]`
 
 Launch a console for the specified container.
@@ -72,10 +76,12 @@ The (unique) ID of the VM.
 
 Escape sequence prefix. For example to use <Ctrl+b q> as the escape sequence pass '^b'.
 
+[[cli_pct_cpusets]]
 *pct cpusets*
 
 Print the list of assigned CPU sets.
 
+[[cli_pct_create]]
 *pct create* `<vmid> <ostemplate>` `[OPTIONS]`
 
 Create or restore a container.
@@ -252,6 +258,7 @@ Makes the container run as unprivileged user. (Should not be modified manually.)
 
 Reference to unused volumes. This is used internally, and should not be modified manually.
 
+[[cli_pct_delsnapshot]]
 *pct delsnapshot* `<vmid> <snapname>` `[OPTIONS]`
 
 Delete a LXC snapshot.
@@ -268,6 +275,7 @@ The name of the snapshot.
 
 For removal from config file, even if removing disk snapshots fails.
 
+[[cli_pct_destroy]]
 *pct destroy* `<vmid>` `[OPTIONS]`
 
 Destroy the container (also delete all uses files).
@@ -288,6 +296,7 @@ Force destroy, even if running.
 
 Remove container from all related configurations. For example, backup jobs, replication jobs or HA. Related ACLs and Firewall entries will *always* be removed.
 
+[[cli_pct_df]]
 *pct df* `<vmid>`
 
 Get the container's current disk usage.
@@ -296,6 +305,7 @@ Get the container's current disk usage.
 
 The (unique) ID of the VM.
 
+[[cli_pct_enter]]
 *pct enter* `<vmid>` `[OPTIONS]`
 
 Launch a shell for the specified container.
@@ -308,6 +318,7 @@ The (unique) ID of the VM.
 
 Keep the current environment. This option will disabled by default with PVE 9. If you rely on a preserved environment, please use this option to be future-proof.
 
+[[cli_pct_exec]]
 *pct exec* `<vmid> [<extra-args>]` `[OPTIONS]`
 
 Launch a command inside the specified container.
@@ -324,6 +335,7 @@ Extra arguments as array
 
 Keep the current environment. This option will disabled by default with PVE 9. If you rely on a preserved environment, please use this option to be future-proof.
 
+[[cli_pct_fsck]]
 *pct fsck* `<vmid>` `[OPTIONS]`
 
 Run a filesystem check (fsck) on a container volume.
@@ -340,6 +352,7 @@ A volume on which to run the filesystem check
 
 Force checking, even if the filesystem seems clean
 
+[[cli_pct_fstrim]]
 *pct fstrim* `<vmid>` `[OPTIONS]`
 
 Run fstrim on a chosen CT and its mountpoints, except bind or read-only
@@ -353,6 +366,7 @@ The (unique) ID of the VM.
 
 Skip all mountpoints, only do fstrim on the container root.
 
+[[cli_pct_help]]
 *pct help* `[OPTIONS]`
 
 Get help about specified command.
@@ -365,10 +379,12 @@ Shows help for a specific command
 
 Verbose output format.
 
+[[cli_pct_list]]
 *pct list*
 
 LXC container index (per node).
 
+[[cli_pct_listsnapshot]]
 *pct listsnapshot* `<vmid>`
 
 List all snapshots.
@@ -377,6 +393,7 @@ List all snapshots.
 
 The (unique) ID of the VM.
 
+[[cli_pct_migrate]]
 *pct migrate* `<vmid> <target>` `[OPTIONS]`
 
 Migrate the container to another node. Creates a new migration task.
@@ -409,6 +426,7 @@ Mapping from source to target storages. Providing only a single storage ID maps 
 
 Timeout in seconds for shutdown for restart migration
 
+[[cli_pct_mount]]
 *pct mount* `<vmid>`
 
 Mount the container's filesystem on the host. This will hold a lock on the
@@ -419,6 +437,7 @@ further operations on the container other than start and stop.
 
 The (unique) ID of the VM.
 
+[[cli_pct_move-volume]]
 *pct move-volume* `<vmid> <volume> [<storage>] [<target-vmid>] [<target-volume>]` `[OPTIONS]`
 
 Move a rootfs-/mp-volume to a different storage or to a different
@@ -463,10 +482,12 @@ Prevent changes if current configuration file of the target " .
 		    "container has a different SHA1 digest. This can be used to prevent " .
 		    "concurrent modifications.
 
+[[cli_pct_move_volume]]
 *pct move_volume*
 
 An alias for 'pct move-volume'.
 
+[[cli_pct_pending]]
 *pct pending* `<vmid>`
 
 Get container configuration, including pending changes.
@@ -475,6 +496,7 @@ Get container configuration, including pending changes.
 
 The (unique) ID of the VM.
 
+[[cli_pct_pull]]
 *pct pull* `<vmid> <path> <destination>` `[OPTIONS]`
 
 Copy a file from the container to the local system.
@@ -503,6 +525,7 @@ File permissions to use (octal by default, prefix with '0x' for hexadecimal).
 
 Owner user name or id.
 
+[[cli_pct_push]]
 *pct push* `<vmid> <file> <destination>` `[OPTIONS]`
 
 Copy a local file to the container.
@@ -531,6 +554,7 @@ File permissions to use (octal by default, prefix with '0x' for hexadecimal).
 
 Owner user name or id. When using a name it must exist inside the container.
 
+[[cli_pct_reboot]]
 *pct reboot* `<vmid>` `[OPTIONS]`
 
 Reboot the container by shutting it down, and starting it again. Applies
@@ -544,6 +568,7 @@ The (unique) ID of the VM.
 
 Wait maximal timeout seconds for the shutdown.
 
+[[cli_pct_remote-migrate]]
 *pct remote-migrate* `<vmid> [<target-vmid>] <target-endpoint> --target-bridge <string> --target-storage <string>` `[OPTIONS]`
 
 Migrate container to a remote cluster. Creates a new migration task.
@@ -589,6 +614,7 @@ Mapping from source to target storages. Providing only a single storage ID maps 
 
 Timeout in seconds for shutdown for restart migration
 
+[[cli_pct_rescan]]
 *pct rescan* `[OPTIONS]`
 
 Rescan all storages and update disk sizes and unused disk images.
@@ -601,6 +627,7 @@ Do not actually write changes to the configuration.
 
 The (unique) ID of the VM.
 
+[[cli_pct_resize]]
 *pct resize* `<vmid> <disk> <size>` `[OPTIONS]`
 
 Resize a container mount point.
@@ -621,6 +648,7 @@ The new size. With the '+' sign the value is added to the actual size of the vol
 
 Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
 
+[[cli_pct_restore]]
 *pct restore* `<vmid> <ostemplate>` `[OPTIONS]`
 
 Create or restore a container.
@@ -793,6 +821,7 @@ Makes the container run as unprivileged user. (Should not be modified manually.)
 
 Reference to unused volumes. This is used internally, and should not be modified manually.
 
+[[cli_pct_resume]]
 *pct resume* `<vmid>`
 
 Resume the container.
@@ -801,6 +830,7 @@ Resume the container.
 
 The (unique) ID of the VM.
 
+[[cli_pct_rollback]]
 *pct rollback* `<vmid> <snapname>` `[OPTIONS]`
 
 Rollback LXC state to specified snapshot.
@@ -817,6 +847,7 @@ The name of the snapshot.
 
 Whether the container should get started after rolling back successfully
 
+[[cli_pct_set]]
 *pct set* `<vmid>` `[OPTIONS]`
 
 Set container options.
@@ -959,6 +990,7 @@ Makes the container run as unprivileged user. (Should not be modified manually.)
 
 Reference to unused volumes. This is used internally, and should not be modified manually.
 
+[[cli_pct_shutdown]]
 *pct shutdown* `<vmid>` `[OPTIONS]`
 
 Shutdown the container. This will trigger a clean shutdown of the
@@ -976,6 +1008,7 @@ Make sure the Container stops.
 
 Wait maximal timeout seconds.
 
+[[cli_pct_snapshot]]
 *pct snapshot* `<vmid> <snapname>` `[OPTIONS]`
 
 Snapshot a container.
@@ -992,6 +1025,7 @@ The name of the snapshot.
 
 A textual description or comment.
 
+[[cli_pct_start]]
 *pct start* `<vmid>` `[OPTIONS]`
 
 Start the container.
@@ -1008,6 +1042,7 @@ If set, enables very verbose debug log-level on start.
 
 Ignore locks - only root is allowed to use this option.
 
+[[cli_pct_status]]
 *pct status* `<vmid>` `[OPTIONS]`
 
 Show CT status.
@@ -1020,6 +1055,7 @@ The (unique) ID of the VM.
 
 Verbose output format
 
+[[cli_pct_stop]]
 *pct stop* `<vmid>` `[OPTIONS]`
 
 Stop the container. This will abruptly stop all processes running in the
@@ -1037,6 +1073,7 @@ Try to abort active 'vzshutdown' tasks before stopping.
 
 Ignore locks - only root is allowed to use this option.
 
+[[cli_pct_suspend]]
 *pct suspend* `<vmid>`
 
 Suspend the container. This is experimental.
@@ -1045,6 +1082,7 @@ Suspend the container. This is experimental.
 
 The (unique) ID of the VM.
 
+[[cli_pct_template]]
 *pct template* `<vmid>`
 
 Create a Template.
@@ -1053,6 +1091,7 @@ Create a Template.
 
 The (unique) ID of the VM.
 
+[[cli_pct_unlock]]
 *pct unlock* `<vmid>`
 
 Unlock the VM.
@@ -1061,6 +1100,7 @@ Unlock the VM.
 
 The (unique) ID of the VM.
 
+[[cli_pct_unmount]]
 *pct unmount* `<vmid>`
 
 Unmount the container's filesystem.

@@ -1,5 +1,7 @@
+[[cli_pvesm]]
 *pvesm* `<COMMAND> [ARGS] [OPTIONS]`
 
+[[cli_pvesm_add]]
 *pvesm add* `<type> <storage>` `[OPTIONS]`
 
 Create a new storage.
@@ -246,6 +248,7 @@ Volume group name.
 
 Base path where to look for the created ZFS block devices. Set automatically during creation if not specified. Usually '/dev/zvol'.
 
+[[cli_pvesm_alloc]]
 *pvesm alloc* `<storage> <vmid> <filename> <size>` `[OPTIONS]`
 
 Allocate disk images.
@@ -272,14 +275,17 @@ Format of the image.
 +
 NOTE: Requires option(s): `size`
 
+[[cli_pvesm_apiinfo]]
 *pvesm apiinfo*
 
 Returns APIVER and APIAGE.
 
+[[cli_pvesm_cifsscan]]
 *pvesm cifsscan*
 
 An alias for 'pvesm scan cifs'.
 
+[[cli_pvesm_export]]
 *pvesm export* `<volume> <format> <filename>` `[OPTIONS]`
 
 Used internally to export a volume.
@@ -312,6 +318,7 @@ Ordered list of snapshots to transfer
 
 Whether to include intermediate snapshots in the stream
 
+[[cli_pvesm_extractconfig]]
 *pvesm extractconfig* `<volume>`
 
 Extract configuration from vzdump backup archive.
@@ -320,6 +327,7 @@ Extract configuration from vzdump backup archive.
 
 Volume identifier
 
+[[cli_pvesm_free]]
 *pvesm free* `<volume>` `[OPTIONS]`
 
 Delete volume
@@ -336,6 +344,7 @@ Time to wait for the task to finish. We return 'null' if the task finish within 
 
 The storage identifier.
 
+[[cli_pvesm_help]]
 *pvesm help* `[OPTIONS]`
 
 Get help about specified command.
@@ -348,6 +357,7 @@ Shows help for a specific command
 
 Verbose output format.
 
+[[cli_pvesm_import]]
 *pvesm import* `<volume> <format> <filename>` `[OPTIONS]`
 
 Used internally to import a volume.
@@ -384,10 +394,12 @@ The current-state snapshot if the stream contains snapshots
 
 Whether the stream includes intermediate snapshots
 
+[[cli_pvesm_iscsiscan]]
 *pvesm iscsiscan*
 
 An alias for 'pvesm scan iscsi'.
 
+[[cli_pvesm_list]]
 *pvesm list* `<storage>` `[OPTIONS]`
 
 List storage content.
@@ -404,18 +416,22 @@ Only list content of this type.
 
 Only list images for this VM
 
+[[cli_pvesm_lvmscan]]
 *pvesm lvmscan*
 
 An alias for 'pvesm scan lvm'.
 
+[[cli_pvesm_lvmthinscan]]
 *pvesm lvmthinscan*
 
 An alias for 'pvesm scan lvmthin'.
 
+[[cli_pvesm_nfsscan]]
 *pvesm nfsscan*
 
 An alias for 'pvesm scan nfs'.
 
+[[cli_pvesm_path]]
 *pvesm path* `<volume>`
 
 Get filesystem path for specified volume
@@ -424,6 +440,7 @@ Get filesystem path for specified volume
 
 Volume identifier
 
+[[cli_pvesm_prune-backups]]
 *pvesm prune-backups* `<storage>` `[OPTIONS]`
 
 Prune backups. Only those using the standard naming scheme are considered.
@@ -474,6 +491,7 @@ Either 'qemu' or 'lxc'. Only consider backups for guests of this type.
 
 Only consider backups for this guest.
 
+[[cli_pvesm_remove]]
 *pvesm remove* `<storage>`
 
 Delete storage configuration.
@@ -482,6 +500,7 @@ Delete storage configuration.
 
 The storage identifier.
 
+[[cli_pvesm_scan_cifs]]
 *pvesm scan cifs* `<server>` `[OPTIONS]`
 
 Scan remote CIFS server.
@@ -502,6 +521,7 @@ User password.
 
 User name.
 
+[[cli_pvesm_scan_iscsi]]
 *pvesm scan iscsi* `<portal>`
 
 Scan remote iSCSI server.
@@ -510,10 +530,12 @@ Scan remote iSCSI server.
 
 The iSCSI portal (IP or DNS name with optional port).
 
+[[cli_pvesm_scan_lvm]]
 *pvesm scan lvm*
 
 List local LVM volume groups.
 
+[[cli_pvesm_scan_lvmthin]]
 *pvesm scan lvmthin* `<vg>`
 
 List local LVM Thin Pools.
@@ -522,6 +544,7 @@ List local LVM Thin Pools.
 
 no description available
 
+[[cli_pvesm_scan_nfs]]
 *pvesm scan nfs* `<server>`
 
 Scan remote NFS server.
@@ -530,6 +553,7 @@ Scan remote NFS server.
 
 The server address (name or IP).
 
+[[cli_pvesm_scan_pbs]]
 *pvesm scan pbs* `<server> <username> --password <string>` `[OPTIONS]` `[FORMAT_OPTIONS]`
 
 Scan remote Proxmox Backup Server.
@@ -554,10 +578,12 @@ User password or API token secret.
 
 Optional port.
 
+[[cli_pvesm_scan_zfs]]
 *pvesm scan zfs*
 
 Scan zfs pool list on local node.
 
+[[cli_pvesm_set]]
 *pvesm set* `<storage>` `[OPTIONS]`
 
 Update storage configuration.
@@ -764,6 +790,7 @@ RBD Id.
 
 Base path where to look for the created ZFS block devices. Set automatically during creation if not specified. Usually '/dev/zvol'.
 
+[[cli_pvesm_status]]
 *pvesm status* `[OPTIONS]`
 
 Get status for all datastores.
@@ -788,6 +815,7 @@ Only list status for  specified storage
 
 If target is different to 'node', we only lists shared storages which content is accessible on this 'node' and the specified 'target' node.
 
+[[cli_pvesm_zfsscan]]
 *pvesm zfsscan*
 
 An alias for 'pvesm scan zfs'.

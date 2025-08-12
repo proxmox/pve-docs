@@ -1,5 +1,7 @@
+[[cli_pvecm]]
 *pvecm* `<COMMAND> [ARGS] [OPTIONS]`
 
+[[cli_pvecm_add]]
 *pvecm add* `<hostname>` `[OPTIONS]`
 
 Adds the current node to an existing cluster.
@@ -32,6 +34,7 @@ Always use SSH to join, even if peer may do it over API.
 
 Number of votes for this node
 
+[[cli_pvecm_addnode]]
 *pvecm addnode* `<node>` `[OPTIONS]`
 
 Adds a node to the cluster configuration. This call is for internal use.
@@ -64,10 +67,12 @@ Node id for this node.
 
 Number of votes for this node
 
+[[cli_pvecm_apiver]]
 *pvecm apiver*
 
 Return the version of the cluster join API available on this node.
 
+[[cli_pvecm_create]]
 *pvecm create* `<clustername>` `[OPTIONS]`
 
 Generate new cluster configuration. If no links given, default to local IP
@@ -89,6 +94,7 @@ Node id for this node.
 
 Number of votes for this node.
 
+[[cli_pvecm_delnode]]
 *pvecm delnode* `<node>`
 
 Removes a node from the cluster configuration.
@@ -97,6 +103,7 @@ Removes a node from the cluster configuration.
 
 The cluster node name.
 
+[[cli_pvecm_expected]]
 *pvecm expected* `<expected>`
 
 Tells corosync a new value of expected votes.
@@ -105,6 +112,7 @@ Tells corosync a new value of expected votes.
 
 Expected votes
 
+[[cli_pvecm_help]]
 *pvecm help* `[OPTIONS]`
 
 Get help about specified command.
@@ -117,6 +125,7 @@ Shows help for a specific command
 
 Verbose output format.
 
+[[cli_pvecm_keygen]]
 *pvecm keygen* `<filename>`
 
 Generate new cryptographic key for corosync.
@@ -125,6 +134,7 @@ Generate new cryptographic key for corosync.
 
 Output file name
 
+[[cli_pvecm_mtunnel]]
 *pvecm mtunnel* `[<extra-args>]` `[OPTIONS]`
 
 Used by VM/CT migration - do not use manually.
@@ -145,14 +155,17 @@ the migration network used to detect the local migration IP
 
 Run a command with a tcp socket as standard input. The IP address and port are printed via this command's stdandard output first, each on a separate line.
 
+[[cli_pvecm_nodes]]
 *pvecm nodes*
 
 Displays the local view of the cluster nodes.
 
+[[cli_pvecm_qdevice_remove]]
 *pvecm qdevice remove*
 
 Remove a configured QDevice
 
+[[cli_pvecm_qdevice_setup]]
 *pvecm qdevice setup* `<address>` `[OPTIONS]`
 
 Setup the use of a QDevice
@@ -169,10 +182,12 @@ Do not throw error on possible dangerous operations.
 
 The network which should be used to connect to the external qdevice
 
+[[cli_pvecm_status]]
 *pvecm status*
 
 Displays the local view of the cluster status.
 
+[[cli_pvecm_updatecerts]]
 *pvecm updatecerts* `[OPTIONS]`
 
 Update node certificates (and generate all needed files/directories).

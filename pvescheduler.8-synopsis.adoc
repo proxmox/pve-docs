@@ -1,5 +1,7 @@
+[[cli_pvescheduler]]
 *pvescheduler* `<COMMAND> [ARGS] [OPTIONS]`
 
+[[cli_pvescheduler_help]]
 *pvescheduler help* `[OPTIONS]`
 
 Get help about specified command.
@@ -12,10 +14,12 @@ Shows help for a specific command
 
 Verbose output format.
 
+[[cli_pvescheduler_restart]]
 *pvescheduler restart*
 
 Restart the daemon (or start if not running).
 
+[[cli_pvescheduler_start]]
 *pvescheduler start* `[OPTIONS]`
 
 Start the daemon.
@@ -24,10 +28,12 @@ Start the daemon.
 
 Debug mode - stay in foreground
 
+[[cli_pvescheduler_status]]
 *pvescheduler status*
 
 Get daemon status.
 
+[[cli_pvescheduler_stop]]
 *pvescheduler stop*
 
 Stop the daemon.

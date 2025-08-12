@@ -1,5 +1,7 @@
+[[cli_qmrestore_help]]
 *qmrestore* `help`
 
+[[cli_qmrestore]]
 *qmrestore* `<archive> <vmid>` `[OPTIONS]`
 
 Restore QemuServer vzdump backups.

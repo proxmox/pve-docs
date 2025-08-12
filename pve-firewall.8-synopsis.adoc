@@ -1,9 +1,12 @@
+[[cli_pve-firewall]]
 *pve-firewall* `<COMMAND> [ARGS] [OPTIONS]`
 
+[[cli_pve-firewall_compile]]
 *pve-firewall compile*
 
 Compile and print firewall rules. This is useful for testing.
 
+[[cli_pve-firewall_help]]
 *pve-firewall help* `[OPTIONS]`
 
 Get help about specified command.
@@ -16,14 +19,17 @@ Shows help for a specific command
 
 Verbose output format.
 
+[[cli_pve-firewall_localnet]]
 *pve-firewall localnet*
 
 Print information about local network.
 
+[[cli_pve-firewall_restart]]
 *pve-firewall restart*
 
 Restart the Proxmox VE firewall service.
 
+[[cli_pve-firewall_simulate]]
 *pve-firewall simulate* `[OPTIONS]`
 
 Simulate firewall rules. This does not simulates the kernel 'routing'
@@ -62,6 +68,7 @@ Destination zone.
 
 Verbose output.
 
+[[cli_pve-firewall_start]]
 *pve-firewall start* `[OPTIONS]`
 
 Start the Proxmox VE firewall service.
@@ -70,10 +77,12 @@ Start the Proxmox VE firewall service.
 
 Debug mode - stay in foreground
 
+[[cli_pve-firewall_status]]
 *pve-firewall status*
 
 Get firewall status.
 
+[[cli_pve-firewall_stop]]
 *pve-firewall stop*
 
 Stop the Proxmox VE firewall service. Note, stopping actively removes all

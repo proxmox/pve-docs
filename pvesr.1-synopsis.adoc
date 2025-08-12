@@ -1,5 +1,7 @@
+[[cli_pvesr]]
 *pvesr* `<COMMAND> [ARGS] [OPTIONS]`
 
+[[cli_pvesr_create-local-job]]
 *pvesr create-local-job* `<id> <target>` `[OPTIONS]`
 
 Create a new replication job
@@ -36,6 +38,7 @@ Storage replication schedule. The format is a subset of `systemd` calendar event
 
 For internal use, to detect if the guest was stolen.
 
+[[cli_pvesr_delete]]
 *pvesr delete* `<id>` `[OPTIONS]`
 
 Mark replication job for removal.
@@ -52,6 +55,7 @@ Will remove the jobconfig entry, but will not cleanup.
 
 Keep replicated data at target (do not remove).
 
+[[cli_pvesr_disable]]
 *pvesr disable* `<id>`
 
 Disable a replication job.
@@ -60,6 +64,7 @@ Disable a replication job.
 
 Replication Job ID. The ID is composed of a Guest ID and a job number, separated by a hyphen, i.e. '<GUEST>-<JOBNUM>'.
 
+[[cli_pvesr_enable]]
 *pvesr enable* `<id>`
 
 Enable a replication job.
@@ -68,6 +73,7 @@ Enable a replication job.
 
 Replication Job ID. The ID is composed of a Guest ID and a job number, separated by a hyphen, i.e. '<GUEST>-<JOBNUM>'.
 
+[[cli_pvesr_finalize-local-job]]
 *pvesr finalize-local-job* `<id> [<extra-args>]` `[OPTIONS]`
 
 Finalize a replication job. This removes all replications snapshots with
@@ -85,6 +91,7 @@ The list of volume IDs to consider.
 
 Time (UNIX epoch) of last successful sync. If not specified, all replication snapshots gets removed.
 
+[[cli_pvesr_help]]
 *pvesr help* `[OPTIONS]`
 
 Get help about specified command.
@@ -97,10 +104,12 @@ Shows help for a specific command
 
 Verbose output format.
 
+[[cli_pvesr_list]]
 *pvesr list*
 
 List replication jobs.
 
+[[cli_pvesr_prepare-local-job]]
 *pvesr prepare-local-job* `<id> [<extra-args>]` `[OPTIONS]`
 
 Prepare for starting a replication job. This is called on the target node
@@ -136,6 +145,7 @@ The name of the snapshot.
 
 List of storage IDs to scan for stale volumes.
 
+[[cli_pvesr_read]]
 *pvesr read* `<id>`
 
 Read replication job configuration.
@@ -144,6 +154,7 @@ Read replication job configuration.
 
 Replication Job ID. The ID is composed of a Guest ID and a job number, separated by a hyphen, i.e. '<GUEST>-<JOBNUM>'.
 
+[[cli_pvesr_run]]
 *pvesr run* `[OPTIONS]`
 
 This method is called by the systemd-timer and executes all (or a specific)
@@ -161,6 +172,7 @@ Send an email notification in case of a failure.
 
 Print more verbose logs to stdout.
 
+[[cli_pvesr_schedule-now]]
 *pvesr schedule-now* `<id>`
 
 Schedule replication job to start as soon as possible.
@@ -169,6 +181,7 @@ Schedule replication job to start as soon as possible.
 
 Replication Job ID. The ID is composed of a Guest ID and a job number, separated by a hyphen, i.e. '<GUEST>-<JOBNUM>'.
 
+[[cli_pvesr_set-state]]
 *pvesr set-state* `<vmid> <state>`
 
 Set the job replication state on migration. This call is for internal use.
@@ -182,6 +195,7 @@ The (unique) ID of the VM.
 
 Job state as JSON decoded string.
 
+[[cli_pvesr_status]]
 *pvesr status* `[OPTIONS]`
 
 List status of all replication jobs on this node.
@@ -190,6 +204,7 @@ List status of all replication jobs on this node.
 
 Only list replication jobs for this guest.
 
+[[cli_pvesr_update]]
 *pvesr update* `<id>` `[OPTIONS]`
 
 Update replication job configuration.
