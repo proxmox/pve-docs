@@ -1506,11 +1506,20 @@ run as expected. Subsequent ones, until the next reboot, will only consider
 parts of the filesystem that changed since then.
 
 [[qm_qga_fsfreeze]]
-Filesystem Freeze & Thaw on Backup
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Filesystem Freeze & Thaw
+^^^^^^^^^^^^^^^^^^^^^^^^
 
-By default, guest filesystems are synced via the 'fs-freeze' QEMU Guest Agent
-Command when a backup is performed, to provide consistency.
+By default, if the QEMU Guest Agent is enabled in the guest's config and if the
+agent is available inside of the guest, then the virtual machine's filesystems
+are synced via the 'fs-freeze' QEMU Guest Agent command when certain operations
+are performed. This is done to provide data consistency.
+
+An 'fs-freeze' will be issued for any of the following operations on a VM:
+
+* Performing a backup in snapshot mode
+* Creating a clone of a VM while it is running
+* Replicating a VM while it is running
+* Taking a snapshot without RAM of a running VM
 
 On Windows guests, some applications might handle consistent backups themselves
 by hooking into the Windows VSS (Volume Shadow Copy Service) layer, a
