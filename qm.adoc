@@ -1136,6 +1136,10 @@ you need to set the client resolution in the OVMF menu (which you can reach
 with a press of the ESC button during boot), or you have to choose
 SPICE as the display type.
 
+When using OVMF with PXE boot, you have to add an xref:qm_virtio_rng[RNG device]
+to the VM. For security reasons, the OVMF firmware disables PXE boot for guests
+without a random number generator.
+
 [[qm_tpm]]
 Trusted Platform Module (TPM)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
