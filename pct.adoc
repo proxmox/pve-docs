@@ -672,17 +672,11 @@ The main resources controlled via 'cgroups' are CPU time, memory and swap
 limits, and access to device nodes. 'cgroups' are also used to "freeze" a
 container before taking snapshots.
 
-There are 2 versions of 'cgroups' currently available,
-https://www.kernel.org/doc/html/v5.11/admin-guide/cgroup-v1/index.html[legacy]
-and
-https://www.kernel.org/doc/html/v5.11/admin-guide/cgroup-v2.html['cgroupv2'].
-
-Since {pve} 7.0, the default is a pure 'cgroupv2' environment. Previously a
-"hybrid" setup was used, where resource control was mainly done in 'cgroupv1'
-with an additional 'cgroupv2' controller which could take over some subsystems
-via the 'cgroup_no_v1' kernel command-line parameter. (See the
-https://www.kernel.org/doc/html/latest/admin-guide/kernel-parameters.html[kernel
-parameter documentation] for details.)
+The current version of 'cgroups' is
+https://www.kernel.org/doc/html/v6.14/admin-guide/cgroup-v2.html['cgroupv2'].
+The https://www.kernel.org/doc/html/v6.14/admin-guide/cgroup-v1/index.html[v1 version]
+of the cgroup subsystem was deprecated with the release of {pve} 7.0 and removed
+entirely with {pve} 9.0. Before {pve} 7.0, a "hybrid" mode was the default.
 
 [[pct_cgroup_compat]]
 CGroup Version Compatibility
@@ -720,21 +714,14 @@ environment, you can either
 * Move the container, or its services, to a Virtual Machine. Virtual Machines
   have a much less interaction with the host, that's why one can install
   decades old OS versions just fine there.
-
-* Switch back to the legacy 'cgroup' controller. Note that while it can be a
-  valid solution, it's not a permanent one. Starting from {pve} 9.0, the legacy
-  controller will not be supported anymore.
 ====
 
 [[pct_cgroup_change_version]]
 Changing CGroup Version
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-TIP: If file system quotas are not required and all containers support 'cgroupv2',
-it is recommended to stick to the new default.
-
-To switch back to the previous version the following kernel command-line
-parameter can be used:
+Before {pve} 9.0, you could switch back to the previous version with the
+following kernel command-line parameter:
 
 ----
 systemd.unified_cgroup_hierarchy=0
