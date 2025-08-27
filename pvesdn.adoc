@@ -153,8 +153,9 @@ in your SDN setup.
 * xref:pvesdn_config_controllers[Controllers]: For controlling layer 3 routing
   in complex setups
 
-* DHCP: Define a DHCP server for a zone that automatically allocates IPs for
-  guests in the IPAM and leases them to the guests via DHCP.
+* xref:pvesdn_config_dhcp[DHCP]: Define a DHCP server for a zone that
+  automatically allocates IPs for guests in the IPAM and leases them to the
+  guests via DHCP.
 
 * xref:pvesdn_config_ipam[IPAM]: Enables external for IP address management for
   guests
