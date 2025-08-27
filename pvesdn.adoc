@@ -138,13 +138,13 @@ Configuration Overview
 Configuration is done at the web UI at datacenter level, separated into the
 following sections:
 
-* SDN:: Here you get an overview of the current active SDN state, and you can
+* SDN: Here you get an overview of the current active SDN state, and you can
   apply all pending changes to the whole cluster.
 
 * xref:pvesdn_config_zone[Zones]: Create and manage the virtually separated
   network zones
 
-* xref:pvesdn_config_vnet[VNets] VNets: Create virtual network bridges and
+* xref:pvesdn_config_vnet[VNets]: Create virtual network bridges and
   manage subnets
 
 The Options category allows adding and managing additional services to be used
