@@ -693,8 +693,8 @@ include::ha-rules-opts.adoc[]
 | `node-affinity`     | Places affinity from one or more HA resources to one or
 more nodes.
 | `resource-affinity` | Places affinity between two or more HA resources. The
-affinity `positive` specifies that HA resources are to be kept on separate
-nodes, while the affinity `separate` specifies that HA resources are to be kept
+affinity `negative` specifies that HA resources are to be kept on separate
+nodes, while the affinity `positive` specifies that HA resources are to be kept
 on the same node.
 |===========================================================
 
