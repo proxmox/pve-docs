@@ -207,7 +207,7 @@ cloud-init: User name to change ssh keys and password for instead of the image's
 
 The number of cores per socket.
 
-`--cpu` `[[cputype=]<string>] [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>] [,phys-bits=<8-64|host>] [,reported-model=<enum>]` ::
+`--cpu` `[[cputype=]<string>] [,flags=<+FLAG[;-FLAG...]>] [,guest-phys-bits=<integer>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>] [,phys-bits=<8-64|host>] [,reported-model=<enum>]` ::
 
 Emulated CPU type.
 
@@ -814,7 +814,7 @@ cloud-init: User name to change ssh keys and password for instead of the image's
 
 The number of cores per socket.
 
-`--cpu` `[[cputype=]<string>] [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>] [,phys-bits=<8-64|host>] [,reported-model=<enum>]` ::
+`--cpu` `[[cputype=]<string>] [,flags=<+FLAG[;-FLAG...]>] [,guest-phys-bits=<integer>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>] [,phys-bits=<8-64|host>] [,reported-model=<enum>]` ::
 
 Emulated CPU type.
 
@@ -1412,7 +1412,7 @@ cloud-init: User name to change ssh keys and password for instead of the image's
 
 The number of cores per socket.
 
-`--cpu` `[[cputype=]<string>] [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>] [,phys-bits=<8-64|host>] [,reported-model=<enum>]` ::
+`--cpu` `[[cputype=]<string>] [,flags=<+FLAG[;-FLAG...]>] [,guest-phys-bits=<integer>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>] [,phys-bits=<8-64|host>] [,reported-model=<enum>]` ::
 
 Emulated CPU type.
 

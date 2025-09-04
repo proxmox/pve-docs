@@ -308,7 +308,7 @@ Only list tasks with a status of ERROR.
 
 `--limit` `<integer> (0 - N)` ('default =' `50`)::
 
-Only list this amount of tasks.
+Only list this number of tasks.
 
 `--since` `<integer>` ::
 

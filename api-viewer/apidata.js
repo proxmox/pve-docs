@@ -12828,7 +12828,101 @@ const apiSchema = [
                                  "user" : "all"
                               },
                               "returns" : {
-                                 "type" : "object"
+                                 "properties" : {
+                                    "alias" : {
+                                       "description" : "Alias name of the VNet.",
+                                       "maxLength" : 256,
+                                       "optional" : 1,
+                                       "pattern" : "(?^i:[\\(\\)-_.\\w\\d\\s]{0,256})",
+                                       "type" : "string"
+                                    },
+                                    "digest" : {
+                                       "description" : "Digest of the VNet section.",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "isolate-ports" : {
+                                       "description" : "If true, sets the isolated property for all interfaces on the bridge of this VNet.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "pending" : {
+                                       "description" : "Changes that have not yet been applied to the running configuration.",
+                                       "optional" : 1,
+                                       "properties" : {
+                                          "alias" : {
+                                             "description" : "Alias name of the VNet.",
+                                             "maxLength" : 256,
+                                             "optional" : 1,
+                                             "pattern" : "(?^i:[\\(\\)-_.\\w\\d\\s]{0,256})",
+                                             "type" : "string"
+                                          },
+                                          "isolate-ports" : {
+                                             "description" : "If true, sets the isolated property for all interfaces on the bridge of this VNet.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "tag" : {
+                                             "description" : "VLAN Tag (for VLAN or QinQ zones) or VXLAN VNI (for VXLAN or EVPN zones).",
+                                             "maximum" : 16777215,
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "vlanaware" : {
+                                             "description" : "Allow VLANs to pass through this VNet.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "zone" : {
+                                             "description" : "Name of the zone this VNet belongs to.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    },
+                                    "state" : {
+                                       "description" : "State of the SDN configuration object.",
+                                       "enum" : [
+                                          "new",
+                                          "changed",
+                                          "deleted"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "tag" : {
+                                       "description" : "VLAN Tag (for VLAN or QinQ zones) or VXLAN VNI (for VXLAN or EVPN zones).",
+                                       "maximum" : 16777215,
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "type" : {
+                                       "description" : "Type of the VNet.",
+                                       "enum" : [
+                                          "vnet"
+                                       ],
+                                       "optional" : 0,
+                                       "type" : "string"
+                                    },
+                                    "vlanaware" : {
+                                       "description" : "Allow VLANs to pass through this VNet.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "vnet" : {
+                                       "description" : "Name of the VNet.",
+                                       "optional" : 0,
+                                       "type" : "string"
+                                    },
+                                    "zone" : {
+                                       "description" : "Name of the zone this VNet belongs to.",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    }
+                                 }
                               }
                            },
                            "PUT" : {
@@ -12840,7 +12934,7 @@ const apiSchema = [
                                  "additionalProperties" : 0,
                                  "properties" : {
                                     "alias" : {
-                                       "description" : "alias name of the vnet",
+                                       "description" : "Alias name of the VNet.",
                                        "maxLength" : 256,
                                        "optional" : 1,
                                        "pattern" : "(?^i:[\\(\\)-_.\\w\\d\\s]{0,256})",
@@ -12862,7 +12956,7 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "isolate-ports" : {
-                                       "description" : "If true, sets the isolated property for all members of this VNet",
+                                       "description" : "If true, sets the isolated property for all interfaces on the bridge of this VNet.",
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
@@ -12874,13 +12968,15 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "tag" : {
-                                       "description" : "vlan or vxlan id",
+                                       "description" : "VLAN Tag (for VLAN or QinQ zones) or VXLAN VNI (for VXLAN or EVPN zones).",
+                                       "maximum" : 16777215,
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "<integer>"
+                                       "typetext" : "<integer> (1 - 16777215)"
                                     },
                                     "vlanaware" : {
-                                       "description" : "Allow vm VLANs to pass through this vnet.",
+                                       "description" : "Allow VLANs to pass through this vnet.",
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
@@ -12892,7 +12988,7 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "zone" : {
-                                       "description" : "zone id",
+                                       "description" : "Name of the zone this VNet belongs to.",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -12944,7 +13040,101 @@ const apiSchema = [
                         },
                         "returns" : {
                            "items" : {
-                              "properties" : {},
+                              "properties" : {
+                                 "alias" : {
+                                    "description" : "Alias name of the VNet.",
+                                    "maxLength" : 256,
+                                    "optional" : 1,
+                                    "pattern" : "(?^i:[\\(\\)-_.\\w\\d\\s]{0,256})",
+                                    "type" : "string"
+                                 },
+                                 "digest" : {
+                                    "description" : "Digest of the VNet section.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "isolate-ports" : {
+                                    "description" : "If true, sets the isolated property for all interfaces on the bridge of this VNet.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
+                                 "pending" : {
+                                    "description" : "Changes that have not yet been applied to the running configuration.",
+                                    "optional" : 1,
+                                    "properties" : {
+                                       "alias" : {
+                                          "description" : "Alias name of the VNet.",
+                                          "maxLength" : 256,
+                                          "optional" : 1,
+                                          "pattern" : "(?^i:[\\(\\)-_.\\w\\d\\s]{0,256})",
+                                          "type" : "string"
+                                       },
+                                       "isolate-ports" : {
+                                          "description" : "If true, sets the isolated property for all interfaces on the bridge of this VNet.",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       },
+                                       "tag" : {
+                                          "description" : "VLAN Tag (for VLAN or QinQ zones) or VXLAN VNI (for VXLAN or EVPN zones).",
+                                          "maximum" : 16777215,
+                                          "minimum" : 1,
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "vlanaware" : {
+                                          "description" : "Allow VLANs to pass through this VNet.",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       },
+                                       "zone" : {
+                                          "description" : "Name of the zone this VNet belongs to.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
+                                 "state" : {
+                                    "description" : "State of the SDN configuration object.",
+                                    "enum" : [
+                                       "new",
+                                       "changed",
+                                       "deleted"
+                                    ],
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "tag" : {
+                                    "description" : "VLAN Tag (for VLAN or QinQ zones) or VXLAN VNI (for VXLAN or EVPN zones).",
+                                    "maximum" : 16777215,
+                                    "minimum" : 1,
+                                    "optional" : 1,
+                                    "type" : "integer"
+                                 },
+                                 "type" : {
+                                    "description" : "Type of the VNet.",
+                                    "enum" : [
+                                       "vnet"
+                                    ],
+                                    "optional" : 0,
+                                    "type" : "string"
+                                 },
+                                 "vlanaware" : {
+                                    "description" : "Allow VLANs to pass through this VNet.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
+                                 "vnet" : {
+                                    "description" : "Name of the VNet.",
+                                    "optional" : 0,
+                                    "type" : "string"
+                                 },
+                                 "zone" : {
+                                    "description" : "Name of the zone this VNet belongs to.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 }
+                              },
                               "type" : "object"
                            },
                            "links" : [
@@ -12965,14 +13155,14 @@ const apiSchema = [
                            "additionalProperties" : 0,
                            "properties" : {
                               "alias" : {
-                                 "description" : "alias name of the vnet",
+                                 "description" : "Alias name of the VNet.",
                                  "maxLength" : 256,
                                  "optional" : 1,
                                  "pattern" : "(?^i:[\\(\\)-_.\\w\\d\\s]{0,256})",
                                  "type" : "string"
                               },
                               "isolate-ports" : {
-                                 "description" : "If true, sets the isolated property for all members of this VNet",
+                                 "description" : "If true, sets the isolated property for all interfaces on the bridge of this VNet.",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
@@ -12984,13 +13174,15 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "tag" : {
-                                 "description" : "vlan or vxlan id",
+                                 "description" : "VLAN Tag (for VLAN or QinQ zones) or VXLAN VNI (for VXLAN or EVPN zones).",
+                                 "maximum" : 16777215,
+                                 "minimum" : 1,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "<integer>"
+                                 "typetext" : "<integer> (1 - 16777215)"
                               },
                               "type" : {
-                                 "description" : "Type",
+                                 "description" : "Type of the VNet.",
                                  "enum" : [
                                     "vnet"
                                  ],
@@ -12998,7 +13190,7 @@ const apiSchema = [
                                  "type" : "string"
                               },
                               "vlanaware" : {
-                                 "description" : "Allow vm VLANs to pass through this vnet.",
+                                 "description" : "Allow VLANs to pass through this vnet.",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
@@ -13010,7 +13202,7 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "zone" : {
-                                 "description" : "zone id",
+                                 "description" : "Name of the zone this VNet belongs to.",
                                  "optional" : 0,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -13115,7 +13307,302 @@ const apiSchema = [
                                  ]
                               },
                               "returns" : {
-                                 "type" : "object"
+                                 "properties" : {
+                                    "advertise-subnets" : {
+                                       "description" : "Advertise IP prefixes (Type-5 routes) instead of MAC/IP pairs (Type-2 routes). EVPN zone only.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "bridge" : {
+                                       "description" : "the bridge for which VLANs should be managed. VLAN & QinQ zone only.",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "bridge-disable-mac-learning" : {
+                                       "description" : "Disable auto mac learning. VLAN zone only.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "controller" : {
+                                       "description" : "ID of the controller for this zone. EVPN zone only.",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "dhcp" : {
+                                       "description" : "Name of DHCP server backend for this zone.",
+                                       "enum" : [
+                                          "dnsmasq"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "digest" : {
+                                       "description" : "Digest of the controller section.",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "disable-arp-nd-suppression" : {
+                                       "description" : "Suppress IPv4 ARP && IPv6 Neighbour Discovery messages. EVPN zone only.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "dns" : {
+                                       "description" : "ID of the DNS server for this zone.",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "dnszone" : {
+                                       "description" : "Domain name for this zone.",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "exitnodes" : {
+                                       "description" : "List of PVE Nodes that should act as exit node for this zone. EVPN zone only.",
+                                       "format" : "pve-node-list",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "exitnodes-local-routing" : {
+                                       "description" : "Create routes on the exit nodes, so they can connect to EVPN guests. EVPN zone only.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "exitnodes-primary" : {
+                                       "description" : "Force traffic through this exitnode first. EVPN zone only.",
+                                       "format" : "pve-node",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "ipam" : {
+                                       "description" : "ID of the IPAM for this zone.",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "mac" : {
+                                       "description" : "MAC address of the anycast router for this zone.",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "mtu" : {
+                                       "description" : "MTU of the zone, will be used for the created VNet bridges.",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "nodes" : {
+                                       "description" : "Nodes where this zone should be created.",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "peers" : {
+                                       "description" : "Comma-separated list of peers, that are part of the VXLAN zone. Usually the IPs of the nodes. VXLAN zone only.",
+                                       "format" : "ip-list",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "pending" : {
+                                       "description" : "Changes that have not yet been applied to the running configuration.",
+                                       "optional" : 1,
+                                       "properties" : {
+                                          "advertise-subnets" : {
+                                             "description" : "Advertise IP prefixes (Type-5 routes) instead of MAC/IP pairs (Type-2 routes). EVPN zone only.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "bridge" : {
+                                             "description" : "the bridge for which VLANs should be managed. VLAN & QinQ zone only.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "bridge-disable-mac-learning" : {
+                                             "description" : "Disable auto mac learning. VLAN zone only.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "controller" : {
+                                             "description" : "ID of the controller for this zone. EVPN zone only.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "dhcp" : {
+                                             "description" : "Name of DHCP server backend for this zone.",
+                                             "enum" : [
+                                                "dnsmasq"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "disable-arp-nd-suppression" : {
+                                             "description" : "Suppress IPv4 ARP && IPv6 Neighbour Discovery messages. EVPN zone only.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "dns" : {
+                                             "description" : "ID of the DNS server for this zone.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "dnszone" : {
+                                             "description" : "Domain name for this zone.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "exitnodes" : {
+                                             "description" : "List of PVE Nodes that should act as exit node for this zone. EVPN zone only.",
+                                             "format" : "pve-node-list",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "exitnodes-local-routing" : {
+                                             "description" : "Create routes on the exit nodes, so they can connect to EVPN guests. EVPN zone only.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "exitnodes-primary" : {
+                                             "description" : "Force traffic through this exitnode first. EVPN zone only.",
+                                             "format" : "pve-node",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "ipam" : {
+                                             "description" : "ID of the IPAM for this zone.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "mac" : {
+                                             "description" : "MAC address of the anycast router for this zone.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "mtu" : {
+                                             "description" : "MTU of the zone, will be used for the created VNet bridges.",
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "nodes" : {
+                                             "description" : "Nodes where this zone should be created.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "peers" : {
+                                             "description" : "Comma-separated list of peers, that are part of the VXLAN zone. Usually the IPs of the nodes. VXLAN zone only.",
+                                             "format" : "ip-list",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "reversedns" : {
+                                             "description" : "ID of the reverse DNS server for this zone.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "rt-import" : {
+                                             "description" : "Route-Targets that should be imported into the VRF of this zone via BGP. EVPN zone only.",
+                                             "format" : "pve-sdn-bgp-rt-list",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "tag" : {
+                                             "description" : "Service-VLAN Tag (outer VLAN). QinQ zone only",
+                                             "minimum" : 0,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "vlan-protocol" : {
+                                             "default" : "802.1q",
+                                             "description" : "VLAN protocol for the creation of the QinQ zone. QinQ zone only.",
+                                             "enum" : [
+                                                "802.1q",
+                                                "802.1ad"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "vrf-vxlan" : {
+                                             "description" : "VNI for the zone VRF. EVPN zone only.",
+                                             "maximum" : 16777215,
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "vxlan-port" : {
+                                             "default" : 4789,
+                                             "description" : "UDP port that should be used for the VXLAN tunnel (default 4789). VXLAN zone only.",
+                                             "maximum" : 65536,
+                                             "minimum" : 1,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    },
+                                    "reversedns" : {
+                                       "description" : "ID of the reverse DNS server for this zone.",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "rt-import" : {
+                                       "description" : "Route-Targets that should be imported into the VRF of this zone via BGP. EVPN zone only.",
+                                       "format" : "pve-sdn-bgp-rt-list",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "state" : {
+                                       "description" : "State of the SDN configuration object.",
+                                       "enum" : [
+                                          "new",
+                                          "changed",
+                                          "deleted"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "tag" : {
+                                       "description" : "Service-VLAN Tag (outer VLAN). QinQ zone only",
+                                       "minimum" : 0,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "type" : {
+                                       "description" : "Type of the zone.",
+                                       "enum" : [
+                                          "evpn",
+                                          "faucet",
+                                          "qinq",
+                                          "simple",
+                                          "vlan",
+                                          "vxlan"
+                                       ],
+                                       "type" : "string"
+                                    },
+                                    "vlan-protocol" : {
+                                       "default" : "802.1q",
+                                       "description" : "VLAN protocol for the creation of the QinQ zone. QinQ zone only.",
+                                       "enum" : [
+                                          "802.1q",
+                                          "802.1ad"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "vrf-vxlan" : {
+                                       "description" : "VNI for the zone VRF. EVPN zone only.",
+                                       "maximum" : 16777215,
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "vxlan-port" : {
+                                       "default" : 4789,
+                                       "description" : "UDP port that should be used for the VXLAN tunnel (default 4789). VXLAN zone only.",
+                                       "maximum" : 65536,
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "zone" : {
+                                       "description" : "Name of the zone.",
+                                       "type" : "string"
+                                    }
+                                 }
                               }
                            },
                            "PUT" : {
@@ -13127,12 +13614,13 @@ const apiSchema = [
                                  "additionalProperties" : 0,
                                  "properties" : {
                                     "advertise-subnets" : {
-                                       "description" : "Advertise evpn subnets if you have silent hosts",
+                                       "description" : "Advertise IP prefixes (Type-5 routes) instead of MAC/IP pairs (Type-2 routes).",
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
                                     },
                                     "bridge" : {
+                                       "description" : "The bridge for which VLANs should be managed.",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -13144,7 +13632,7 @@ const apiSchema = [
                                        "typetext" : "<boolean>"
                                     },
                                     "controller" : {
-                                       "description" : "Frr router name",
+                                       "description" : "Controller for this zone.",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -13173,7 +13661,7 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "disable-arp-nd-suppression" : {
-                                       "description" : "Disable ipv4 arp && ipv6 neighbour discovery suppression",
+                                       "description" : "Suppress IPv4 ARP && IPv6 Neighbour Discovery messages.",
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
@@ -13205,13 +13693,13 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "exitnodes-local-routing" : {
-                                       "description" : "Allow exitnodes to connect to evpn guests",
+                                       "description" : "Allow exitnodes to connect to EVPN guests.",
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
                                     },
                                     "exitnodes-primary" : {
-                                       "description" : "Force traffic to this exitnode first.",
+                                       "description" : "Force traffic through this exitnode first.",
                                        "format" : "pve-node",
                                        "optional" : 1,
                                        "type" : "string",
@@ -13237,14 +13725,14 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "mac" : {
-                                       "description" : "Anycast logical router mac address",
+                                       "description" : "Anycast logical router mac address.",
                                        "format" : "mac-addr",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
                                     "mtu" : {
-                                       "description" : "MTU",
+                                       "description" : "MTU of the zone, will be used for the created VNet bridges.",
                                        "optional" : 1,
                                        "type" : "integer",
                                        "typetext" : "<integer>"
@@ -13257,7 +13745,7 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "peers" : {
-                                       "description" : "peers address list.",
+                                       "description" : "Comma-separated list of peers, that are part of the VXLAN zone. Usually the IPs of the nodes.",
                                        "format" : "ip-list",
                                        "optional" : 1,
                                        "type" : "string",
@@ -13270,14 +13758,14 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "rt-import" : {
-                                       "description" : "Route-Target import",
+                                       "description" : "List of Route Targets that should be imported into the VRF of the zone.",
                                        "format" : "pve-sdn-bgp-rt-list",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
                                     "tag" : {
-                                       "description" : "Service-VLAN Tag",
+                                       "description" : "Service-VLAN Tag (outer VLAN)",
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
@@ -13285,6 +13773,7 @@ const apiSchema = [
                                     },
                                     "vlan-protocol" : {
                                        "default" : "802.1q",
+                                       "description" : "Which VLAN protocol should be used for the creation of the QinQ zone.",
                                        "enum" : [
                                           "802.1q",
                                           "802.1ad"
@@ -13293,13 +13782,16 @@ const apiSchema = [
                                        "type" : "string"
                                     },
                                     "vrf-vxlan" : {
-                                       "description" : "l3vni.",
+                                       "description" : "VNI for the zone VRF.",
+                                       "maximum" : 16777215,
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "<integer>"
+                                       "typetext" : "<integer> (1 - 16777215)"
                                     },
                                     "vxlan-port" : {
-                                       "description" : "Vxlan tunnel udp port (default 4789).",
+                                       "default" : 4789,
+                                       "description" : "UDP port that should be used for the VXLAN tunnel (default 4789).",
                                        "maximum" : 65536,
                                        "minimum" : 1,
                                        "optional" : 1,
@@ -13378,46 +13870,298 @@ const apiSchema = [
                         "returns" : {
                            "items" : {
                               "properties" : {
-                                 "dhcp" : {
+                                 "advertise-subnets" : {
+                                    "description" : "Advertise IP prefixes (Type-5 routes) instead of MAC/IP pairs (Type-2 routes). EVPN zone only.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
+                                 "bridge" : {
+                                    "description" : "the bridge for which VLANs should be managed. VLAN & QinQ zone only.",
                                     "optional" : 1,
                                     "type" : "string"
                                  },
+                                 "bridge-disable-mac-learning" : {
+                                    "description" : "Disable auto mac learning. VLAN zone only.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
+                                 "controller" : {
+                                    "description" : "ID of the controller for this zone. EVPN zone only.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "dhcp" : {
+                                    "description" : "Name of DHCP server backend for this zone.",
+                                    "enum" : [
+                                       "dnsmasq"
+                                    ],
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "digest" : {
+                                    "description" : "Digest of the controller section.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "disable-arp-nd-suppression" : {
+                                    "description" : "Suppress IPv4 ARP && IPv6 Neighbour Discovery messages. EVPN zone only.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
                                  "dns" : {
+                                    "description" : "ID of the DNS server for this zone.",
                                     "optional" : 1,
                                     "type" : "string"
                                  },
                                  "dnszone" : {
+                                    "description" : "Domain name for this zone.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "exitnodes" : {
+                                    "description" : "List of PVE Nodes that should act as exit node for this zone. EVPN zone only.",
+                                    "format" : "pve-node-list",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "exitnodes-local-routing" : {
+                                    "description" : "Create routes on the exit nodes, so they can connect to EVPN guests. EVPN zone only.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
+                                 "exitnodes-primary" : {
+                                    "description" : "Force traffic through this exitnode first. EVPN zone only.",
+                                    "format" : "pve-node",
                                     "optional" : 1,
                                     "type" : "string"
                                  },
                                  "ipam" : {
+                                    "description" : "ID of the IPAM for this zone.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "mac" : {
+                                    "description" : "MAC address of the anycast router for this zone.",
                                     "optional" : 1,
                                     "type" : "string"
                                  },
                                  "mtu" : {
+                                    "description" : "MTU of the zone, will be used for the created VNet bridges.",
                                     "optional" : 1,
                                     "type" : "integer"
                                  },
                                  "nodes" : {
+                                    "description" : "Nodes where this zone should be created.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "peers" : {
+                                    "description" : "Comma-separated list of peers, that are part of the VXLAN zone. Usually the IPs of the nodes. VXLAN zone only.",
+                                    "format" : "ip-list",
                                     "optional" : 1,
                                     "type" : "string"
                                  },
                                  "pending" : {
+                                    "description" : "Changes that have not yet been applied to the running configuration.",
                                     "optional" : 1,
-                                    "type" : "boolean"
+                                    "properties" : {
+                                       "advertise-subnets" : {
+                                          "description" : "Advertise IP prefixes (Type-5 routes) instead of MAC/IP pairs (Type-2 routes). EVPN zone only.",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       },
+                                       "bridge" : {
+                                          "description" : "the bridge for which VLANs should be managed. VLAN & QinQ zone only.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "bridge-disable-mac-learning" : {
+                                          "description" : "Disable auto mac learning. VLAN zone only.",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       },
+                                       "controller" : {
+                                          "description" : "ID of the controller for this zone. EVPN zone only.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "dhcp" : {
+                                          "description" : "Name of DHCP server backend for this zone.",
+                                          "enum" : [
+                                             "dnsmasq"
+                                          ],
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "disable-arp-nd-suppression" : {
+                                          "description" : "Suppress IPv4 ARP && IPv6 Neighbour Discovery messages. EVPN zone only.",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       },
+                                       "dns" : {
+                                          "description" : "ID of the DNS server for this zone.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "dnszone" : {
+                                          "description" : "Domain name for this zone.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "exitnodes" : {
+                                          "description" : "List of PVE Nodes that should act as exit node for this zone. EVPN zone only.",
+                                          "format" : "pve-node-list",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "exitnodes-local-routing" : {
+                                          "description" : "Create routes on the exit nodes, so they can connect to EVPN guests. EVPN zone only.",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       },
+                                       "exitnodes-primary" : {
+                                          "description" : "Force traffic through this exitnode first. EVPN zone only.",
+                                          "format" : "pve-node",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "ipam" : {
+                                          "description" : "ID of the IPAM for this zone.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "mac" : {
+                                          "description" : "MAC address of the anycast router for this zone.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "mtu" : {
+                                          "description" : "MTU of the zone, will be used for the created VNet bridges.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "nodes" : {
+                                          "description" : "Nodes where this zone should be created.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "peers" : {
+                                          "description" : "Comma-separated list of peers, that are part of the VXLAN zone. Usually the IPs of the nodes. VXLAN zone only.",
+                                          "format" : "ip-list",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "reversedns" : {
+                                          "description" : "ID of the reverse DNS server for this zone.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "rt-import" : {
+                                          "description" : "Route-Targets that should be imported into the VRF of this zone via BGP. EVPN zone only.",
+                                          "format" : "pve-sdn-bgp-rt-list",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "tag" : {
+                                          "description" : "Service-VLAN Tag (outer VLAN). QinQ zone only",
+                                          "minimum" : 0,
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "vlan-protocol" : {
+                                          "default" : "802.1q",
+                                          "description" : "VLAN protocol for the creation of the QinQ zone. QinQ zone only.",
+                                          "enum" : [
+                                             "802.1q",
+                                             "802.1ad"
+                                          ],
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "vrf-vxlan" : {
+                                          "description" : "VNI for the zone VRF. EVPN zone only.",
+                                          "maximum" : 16777215,
+                                          "minimum" : 1,
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "vxlan-port" : {
+                                          "default" : 4789,
+                                          "description" : "UDP port that should be used for the VXLAN tunnel (default 4789). VXLAN zone only.",
+                                          "maximum" : 65536,
+                                          "minimum" : 1,
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       }
+                                    },
+                                    "type" : "object"
                                  },
                                  "reversedns" : {
+                                    "description" : "ID of the reverse DNS server for this zone.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "rt-import" : {
+                                    "description" : "Route-Targets that should be imported into the VRF of this zone via BGP. EVPN zone only.",
+                                    "format" : "pve-sdn-bgp-rt-list",
                                     "optional" : 1,
                                     "type" : "string"
                                  },
                                  "state" : {
+                                    "description" : "State of the SDN configuration object.",
+                                    "enum" : [
+                                       "new",
+                                       "changed",
+                                       "deleted"
+                                    ],
                                     "optional" : 1,
                                     "type" : "string"
                                  },
+                                 "tag" : {
+                                    "description" : "Service-VLAN Tag (outer VLAN). QinQ zone only",
+                                    "minimum" : 0,
+                                    "optional" : 1,
+                                    "type" : "integer"
+                                 },
                                  "type" : {
+                                    "description" : "Type of the zone.",
+                                    "enum" : [
+                                       "evpn",
+                                       "faucet",
+                                       "qinq",
+                                       "simple",
+                                       "vlan",
+                                       "vxlan"
+                                    ],
                                     "type" : "string"
                                  },
+                                 "vlan-protocol" : {
+                                    "default" : "802.1q",
+                                    "description" : "VLAN protocol for the creation of the QinQ zone. QinQ zone only.",
+                                    "enum" : [
+                                       "802.1q",
+                                       "802.1ad"
+                                    ],
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "vrf-vxlan" : {
+                                    "description" : "VNI for the zone VRF. EVPN zone only.",
+                                    "maximum" : 16777215,
+                                    "minimum" : 1,
+                                    "optional" : 1,
+                                    "type" : "integer"
+                                 },
+                                 "vxlan-port" : {
+                                    "default" : 4789,
+                                    "description" : "UDP port that should be used for the VXLAN tunnel (default 4789). VXLAN zone only.",
+                                    "maximum" : 65536,
+                                    "minimum" : 1,
+                                    "optional" : 1,
+                                    "type" : "integer"
+                                 },
                                  "zone" : {
+                                    "description" : "Name of the zone.",
                                     "type" : "string"
                                  }
                               },
@@ -13441,12 +14185,13 @@ const apiSchema = [
                            "additionalProperties" : 0,
                            "properties" : {
                               "advertise-subnets" : {
-                                 "description" : "Advertise evpn subnets if you have silent hosts",
+                                 "description" : "Advertise IP prefixes (Type-5 routes) instead of MAC/IP pairs (Type-2 routes).",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
                               },
                               "bridge" : {
+                                 "description" : "The bridge for which VLANs should be managed.",
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -13458,7 +14203,7 @@ const apiSchema = [
                                  "typetext" : "<boolean>"
                               },
                               "controller" : {
-                                 "description" : "Frr router name",
+                                 "description" : "Controller for this zone.",
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -13472,7 +14217,7 @@ const apiSchema = [
                                  "type" : "string"
                               },
                               "disable-arp-nd-suppression" : {
-                                 "description" : "Disable ipv4 arp && ipv6 neighbour discovery suppression",
+                                 "description" : "Suppress IPv4 ARP && IPv6 Neighbour Discovery messages.",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
@@ -13504,13 +14249,13 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "exitnodes-local-routing" : {
-                                 "description" : "Allow exitnodes to connect to evpn guests",
+                                 "description" : "Allow exitnodes to connect to EVPN guests.",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
                               },
                               "exitnodes-primary" : {
-                                 "description" : "Force traffic to this exitnode first.",
+                                 "description" : "Force traffic through this exitnode first.",
                                  "format" : "pve-node",
                                  "optional" : 1,
                                  "type" : "string",
@@ -13536,14 +14281,14 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "mac" : {
-                                 "description" : "Anycast logical router mac address",
+                                 "description" : "Anycast logical router mac address.",
                                  "format" : "mac-addr",
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
                               "mtu" : {
-                                 "description" : "MTU",
+                                 "description" : "MTU of the zone, will be used for the created VNet bridges.",
                                  "optional" : 1,
                                  "type" : "integer",
                                  "typetext" : "<integer>"
@@ -13556,7 +14301,7 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "peers" : {
-                                 "description" : "peers address list.",
+                                 "description" : "Comma-separated list of peers, that are part of the VXLAN zone. Usually the IPs of the nodes.",
                                  "format" : "ip-list",
                                  "optional" : 1,
                                  "type" : "string",
@@ -13569,14 +14314,14 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "rt-import" : {
-                                 "description" : "Route-Target import",
+                                 "description" : "List of Route Targets that should be imported into the VRF of the zone.",
                                  "format" : "pve-sdn-bgp-rt-list",
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
                               "tag" : {
-                                 "description" : "Service-VLAN Tag",
+                                 "description" : "Service-VLAN Tag (outer VLAN)",
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
@@ -13597,6 +14342,7 @@ const apiSchema = [
                               },
                               "vlan-protocol" : {
                                  "default" : "802.1q",
+                                 "description" : "Which VLAN protocol should be used for the creation of the QinQ zone.",
                                  "enum" : [
                                     "802.1q",
                                     "802.1ad"
@@ -13605,13 +14351,16 @@ const apiSchema = [
                                  "type" : "string"
                               },
                               "vrf-vxlan" : {
-                                 "description" : "l3vni.",
+                                 "description" : "VNI for the zone VRF.",
+                                 "maximum" : 16777215,
+                                 "minimum" : 1,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "<integer>"
+                                 "typetext" : "<integer> (1 - 16777215)"
                               },
                               "vxlan-port" : {
-                                 "description" : "Vxlan tunnel udp port (default 4789).",
+                                 "default" : 4789,
+                                 "description" : "UDP port that should be used for the VXLAN tunnel (default 4789).",
                                  "maximum" : 65536,
                                  "minimum" : 1,
                                  "optional" : 1,
@@ -13724,7 +14473,152 @@ const apiSchema = [
                                  ]
                               },
                               "returns" : {
-                                 "type" : "object"
+                                 "properties" : {
+                                    "asn" : {
+                                       "description" : "The local ASN of the controller. BGP & EVPN only.",
+                                       "maximum" : 4294967295,
+                                       "minimum" : 0,
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "bgp-multipath-as-relax" : {
+                                       "description" : "Consider different AS paths of equal length for multipath computation. BGP only.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "controller" : {
+                                       "description" : "Name of the controller.",
+                                       "type" : "string"
+                                    },
+                                    "digest" : {
+                                       "description" : "Digest of the controller section.",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "ebgp" : {
+                                       "description" : "Enable eBGP (remote-as external). BGP only.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
+                                    "ebgp-multihop" : {
+                                       "description" : "Set maximum amount of hops for eBGP peers. Needs ebgp set to 1. BGP only.",
+                                       "optional" : 1,
+                                       "type" : "integer"
+                                    },
+                                    "isis-domain" : {
+                                       "description" : "Name of the IS-IS domain. IS-IS only.",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "isis-ifaces" : {
+                                       "description" : "Comma-separated list of interfaces where IS-IS should be active. IS-IS only.",
+                                       "format" : "pve-iface-list",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "isis-net" : {
+                                       "description" : "Network Entity title for this node in the IS-IS network. IS-IS only.",
+                                       "format" : "pve-sdn-isis-net",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "loopback" : {
+                                       "description" : "Name of the loopback/dummy interface that provides the Router-IP. BGP only.",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "node" : {
+                                       "description" : "Node(s) where this controller is active.",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "peers" : {
+                                       "description" : "Comma-separated list of the peers IP addresses.",
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "pending" : {
+                                       "description" : "Changes that have not yet been applied to the running configuration.",
+                                       "optional" : 1,
+                                       "properties" : {
+                                          "asn" : {
+                                             "description" : "The local ASN of the controller. BGP & EVPN only.",
+                                             "maximum" : 4294967295,
+                                             "minimum" : 0,
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "bgp-multipath-as-relax" : {
+                                             "description" : "Consider different AS paths of equal length for multipath computation. BGP only.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "ebgp" : {
+                                             "description" : "Enable eBGP (remote-as external). BGP only.",
+                                             "optional" : 1,
+                                             "type" : "boolean"
+                                          },
+                                          "ebgp-multihop" : {
+                                             "description" : "Set maximum amount of hops for eBGP peers. Needs ebgp set to 1. BGP only.",
+                                             "optional" : 1,
+                                             "type" : "integer"
+                                          },
+                                          "isis-domain" : {
+                                             "description" : "Name of the IS-IS domain. IS-IS only.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "isis-ifaces" : {
+                                             "description" : "Comma-separated list of interfaces where IS-IS should be active. IS-IS only.",
+                                             "format" : "pve-iface-list",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "isis-net" : {
+                                             "description" : "Network Entity title for this node in the IS-IS network. IS-IS only.",
+                                             "format" : "pve-sdn-isis-net",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "loopback" : {
+                                             "description" : "Name of the loopback/dummy interface that provides the Router-IP. BGP only.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "node" : {
+                                             "description" : "Node(s) where this controller is active.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "peers" : {
+                                             "description" : "Comma-separated list of the peers IP addresses.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          }
+                                       },
+                                       "type" : "object"
+                                    },
+                                    "state" : {
+                                       "description" : "State of the SDN configuration object.",
+                                       "enum" : [
+                                          "new",
+                                          "changed",
+                                          "deleted"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
+                                    "type" : {
+                                       "description" : "Type of the controller",
+                                       "enum" : [
+                                          "bgp",
+                                          "evpn",
+                                          "faucet",
+                                          "isis"
+                                       ],
+                                       "type" : "string"
+                                    }
+                                 }
                               }
                            },
                            "PUT" : {
@@ -13737,13 +14631,14 @@ const apiSchema = [
                                  "properties" : {
                                     "asn" : {
                                        "description" : "autonomous system number",
-                                       "maximum" : 4294967296,
+                                       "maximum" : 4294967295,
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "<integer> (0 - 4294967296)"
+                                       "typetext" : "<integer> (0 - 4294967295)"
                                     },
                                     "bgp-multipath-as-path-relax" : {
+                                       "description" : "Consider different AS paths of equal length for multipath computation.",
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
@@ -13770,12 +14665,13 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "ebgp" : {
-                                       "description" : "Enable ebgp. (remote-as external)",
+                                       "description" : "Enable eBGP (remote-as external).",
                                        "optional" : 1,
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
                                     },
                                     "ebgp-multihop" : {
+                                       "description" : "Set maximum amount of hops for eBGP peers.",
                                        "optional" : 1,
                                        "type" : "integer",
                                        "typetext" : "<integer>"
@@ -13788,20 +14684,20 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "isis-domain" : {
-                                       "description" : "ISIS domain.",
+                                       "description" : "Name of the IS-IS domain.",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
                                     "isis-ifaces" : {
-                                       "description" : "ISIS interface.",
+                                       "description" : "Comma-separated list of interfaces where IS-IS should be active.",
                                        "format" : "pve-iface-list",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
                                     },
                                     "isis-net" : {
-                                       "description" : "ISIS network entity title.",
+                                       "description" : "Network Entity title for this node in the IS-IS network.",
                                        "format" : "pve-sdn-isis-net",
                                        "optional" : 1,
                                        "type" : "string",
@@ -13814,7 +14710,7 @@ const apiSchema = [
                                        "typetext" : "<string>"
                                     },
                                     "loopback" : {
-                                       "description" : "source loopback interface.",
+                                       "description" : "Name of the loopback/dummy interface that provides the Router-IP.",
                                        "optional" : 1,
                                        "type" : "string",
                                        "typetext" : "<string>"
@@ -13897,18 +14793,148 @@ const apiSchema = [
                         "returns" : {
                            "items" : {
                               "properties" : {
-                                 "controller" : {
-                                    "type" : "string"
+                                 "asn" : {
+                                    "description" : "The local ASN of the controller. BGP & EVPN only.",
+                                    "maximum" : 4294967295,
+                                    "minimum" : 0,
+                                    "optional" : 1,
+                                    "type" : "integer"
                                  },
-                                 "pending" : {
+                                 "bgp-multipath-as-relax" : {
+                                    "description" : "Consider different AS paths of equal length for multipath computation. BGP only.",
                                     "optional" : 1,
                                     "type" : "boolean"
                                  },
+                                 "controller" : {
+                                    "description" : "Name of the controller.",
+                                    "type" : "string"
+                                 },
+                                 "digest" : {
+                                    "description" : "Digest of the controller section.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "ebgp" : {
+                                    "description" : "Enable eBGP (remote-as external). BGP only.",
+                                    "optional" : 1,
+                                    "type" : "boolean"
+                                 },
+                                 "ebgp-multihop" : {
+                                    "description" : "Set maximum amount of hops for eBGP peers. Needs ebgp set to 1. BGP only.",
+                                    "optional" : 1,
+                                    "type" : "integer"
+                                 },
+                                 "isis-domain" : {
+                                    "description" : "Name of the IS-IS domain. IS-IS only.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "isis-ifaces" : {
+                                    "description" : "Comma-separated list of interfaces where IS-IS should be active. IS-IS only.",
+                                    "format" : "pve-iface-list",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "isis-net" : {
+                                    "description" : "Network Entity title for this node in the IS-IS network. IS-IS only.",
+                                    "format" : "pve-sdn-isis-net",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "loopback" : {
+                                    "description" : "Name of the loopback/dummy interface that provides the Router-IP. BGP only.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "node" : {
+                                    "description" : "Node(s) where this controller is active.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "peers" : {
+                                    "description" : "Comma-separated list of the peers IP addresses.",
+                                    "optional" : 1,
+                                    "type" : "string"
+                                 },
+                                 "pending" : {
+                                    "description" : "Changes that have not yet been applied to the running configuration.",
+                                    "optional" : 1,
+                                    "properties" : {
+                                       "asn" : {
+                                          "description" : "The local ASN of the controller. BGP & EVPN only.",
+                                          "maximum" : 4294967295,
+                                          "minimum" : 0,
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "bgp-multipath-as-relax" : {
+                                          "description" : "Consider different AS paths of equal length for multipath computation. BGP only.",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       },
+                                       "ebgp" : {
+                                          "description" : "Enable eBGP (remote-as external). BGP only.",
+                                          "optional" : 1,
+                                          "type" : "boolean"
+                                       },
+                                       "ebgp-multihop" : {
+                                          "description" : "Set maximum amount of hops for eBGP peers. Needs ebgp set to 1. BGP only.",
+                                          "optional" : 1,
+                                          "type" : "integer"
+                                       },
+                                       "isis-domain" : {
+                                          "description" : "Name of the IS-IS domain. IS-IS only.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "isis-ifaces" : {
+                                          "description" : "Comma-separated list of interfaces where IS-IS should be active. IS-IS only.",
+                                          "format" : "pve-iface-list",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "isis-net" : {
+                                          "description" : "Network Entity title for this node in the IS-IS network. IS-IS only.",
+                                          "format" : "pve-sdn-isis-net",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "loopback" : {
+                                          "description" : "Name of the loopback/dummy interface that provides the Router-IP. BGP only.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "node" : {
+                                          "description" : "Node(s) where this controller is active.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "peers" : {
+                                          "description" : "Comma-separated list of the peers IP addresses.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       }
+                                    },
+                                    "type" : "object"
+                                 },
                                  "state" : {
+                                    "description" : "State of the SDN configuration object.",
+                                    "enum" : [
+                                       "new",
+                                       "changed",
+                                       "deleted"
+                                    ],
                                     "optional" : 1,
                                     "type" : "string"
                                  },
                                  "type" : {
+                                    "description" : "Type of the controller",
+                                    "enum" : [
+                                       "bgp",
+                                       "evpn",
+                                       "faucet",
+                                       "isis"
+                                    ],
                                     "type" : "string"
                                  }
                               },
@@ -13933,13 +14959,14 @@ const apiSchema = [
                            "properties" : {
                               "asn" : {
                                  "description" : "autonomous system number",
-                                 "maximum" : 4294967296,
+                                 "maximum" : 4294967295,
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "<integer> (0 - 4294967296)"
+                                 "typetext" : "<integer> (0 - 4294967295)"
                               },
                               "bgp-multipath-as-path-relax" : {
+                                 "description" : "Consider different AS paths of equal length for multipath computation.",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
@@ -13951,12 +14978,13 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "ebgp" : {
-                                 "description" : "Enable ebgp. (remote-as external)",
+                                 "description" : "Enable eBGP (remote-as external).",
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
                               },
                               "ebgp-multihop" : {
+                                 "description" : "Set maximum amount of hops for eBGP peers.",
                                  "optional" : 1,
                                  "type" : "integer",
                                  "typetext" : "<integer>"
@@ -13969,20 +14997,20 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "isis-domain" : {
-                                 "description" : "ISIS domain.",
+                                 "description" : "Name of the IS-IS domain.",
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
                               "isis-ifaces" : {
-                                 "description" : "ISIS interface.",
+                                 "description" : "Comma-separated list of interfaces where IS-IS should be active.",
                                  "format" : "pve-iface-list",
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
                               },
                               "isis-net" : {
-                                 "description" : "ISIS network entity title.",
+                                 "description" : "Network Entity title for this node in the IS-IS network.",
                                  "format" : "pve-sdn-isis-net",
                                  "optional" : 1,
                                  "type" : "string",
@@ -13995,7 +15023,7 @@ const apiSchema = [
                                  "typetext" : "<string>"
                               },
                               "loopback" : {
-                                 "description" : "source loopback interface.",
+                                 "description" : "Name of the loopback/dummy interface that provides the Router-IP.",
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "<string>"
@@ -16513,13 +17541,13 @@ const apiSchema = [
                               "type" : "integer"
                            },
                            "diskread" : {
-                              "description" : "The amount of bytes the guest read from its block devices since the guest was started. This info is not available for all storage types. (for types 'qemu' and 'lxc')",
+                              "description" : "The number of bytes the guest read from its block devices since the guest was started. This info is not available for all storage types. (for types 'qemu' and 'lxc')",
                               "optional" : 1,
                               "renderer" : "bytes",
                               "type" : "integer"
                            },
                            "diskwrite" : {
-                              "description" : "The amount of bytes the guest wrote to its block devices since the guest was started. This info is not available for all storage types. (for types 'qemu' and 'lxc')",
+                              "description" : "The number of bytes the guest wrote to its block devices since the guest was started. This info is not available for all storage types. (for types 'qemu' and 'lxc')",
                               "optional" : 1,
                               "renderer" : "bytes",
                               "type" : "integer"
@@ -23408,7 +24436,7 @@ const apiSchema = [
                                              "format" : "pve-vm-cpu-conf",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[[cputype=]<string>] [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>] [,phys-bits=<8-64|host>] [,reported-model=<enum>]"
+                                             "typetext" : "[[cputype=]<string>] [,flags=<+FLAG[;-FLAG...]>] [,guest-phys-bits=<integer>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>] [,phys-bits=<8-64|host>] [,reported-model=<enum>]"
                                           },
                                           "cpulimit" : {
                                              "default" : 0,
@@ -25830,7 +26858,7 @@ const apiSchema = [
                                              "format" : "pve-vm-cpu-conf",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[[cputype=]<string>] [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>] [,phys-bits=<8-64|host>] [,reported-model=<enum>]"
+                                             "typetext" : "[[cputype=]<string>] [,flags=<+FLAG[;-FLAG...]>] [,guest-phys-bits=<integer>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>] [,phys-bits=<8-64|host>] [,reported-model=<enum>]"
                                           },
                                           "cpulimit" : {
                                              "default" : 0,
@@ -31686,7 +32714,7 @@ const apiSchema = [
                               "info" : {
                                  "POST" : {
                                     "allowtoken" : 1,
-                                    "description" : "Stop the dbus-vmstate helper for the given VM if running.",
+                                    "description" : "Control the dbus-vmstate helper for a given running VM.",
                                     "method" : "POST",
                                     "name" : "dbus_vmstate",
                                     "parameters" : {
@@ -32264,7 +33292,7 @@ const apiSchema = [
                                  "format" : "pve-vm-cpu-conf",
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[[cputype=]<string>] [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>] [,phys-bits=<8-64|host>] [,reported-model=<enum>]"
+                                 "typetext" : "[[cputype=]<string>] [,flags=<+FLAG[;-FLAG...]>] [,guest-phys-bits=<integer>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>] [,phys-bits=<8-64|host>] [,reported-model=<enum>]"
                               },
                               "cpulimit" : {
                                  "default" : 0,
@@ -43117,7 +44145,8 @@ const apiSchema = [
                                           "type" : "string"
                                        },
                                        "name" : {
-                                          "description" : "The name (ID) for the MDS"
+                                          "description" : "The name (ID) for the MDS",
+                                          "type" : "string"
                                        },
                                        "rank" : {
                                           "optional" : 1,
@@ -43276,7 +44305,8 @@ const apiSchema = [
                                           "type" : "string"
                                        },
                                        "name" : {
-                                          "description" : "The name (ID) for the MGR"
+                                          "description" : "The name (ID) for the MGR",
+                                          "type" : "string"
                                        },
                                        "state" : {
                                           "description" : "State of the MGR",
@@ -47246,7 +48276,7 @@ const apiSchema = [
                                           },
                                           "limit" : {
                                              "default" : 50,
-                                             "description" : "The amount of lines to read from the tasklog.",
+                                             "description" : "The number of lines to read from the tasklog.",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
@@ -47469,7 +48499,7 @@ const apiSchema = [
                               },
                               "limit" : {
                                  "default" : 50,
-                                 "description" : "Only list this amount of tasks.",
+                                 "description" : "Only list this number of tasks.",
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
@@ -51422,7 +52452,50 @@ const apiSchema = [
                               "proxyto" : "node",
                               "returns" : {
                                  "items" : {
-                                    "properties" : {},
+                                    "properties" : {
+                                       "Arch" : {
+                                          "description" : "Package Architecture.",
+                                          "type" : "string"
+                                       },
+                                       "Description" : {
+                                          "description" : "Human-readable package description.",
+                                          "type" : "string"
+                                       },
+                                       "NotifyStatus" : {
+                                          "description" : "Version for which PVE has already sent an update notification for.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "OldVersion" : {
+                                          "description" : "Old version currently installed.",
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
+                                       "Origin" : {
+                                          "description" : "Package origin.",
+                                          "type" : "string"
+                                       },
+                                       "Package" : {
+                                          "description" : "Package name.",
+                                          "type" : "string"
+                                       },
+                                       "Priority" : {
+                                          "description" : "Package priority in human-readable form.",
+                                          "type" : "string"
+                                       },
+                                       "Section" : {
+                                          "description" : "Package section.",
+                                          "type" : "string"
+                                       },
+                                       "Title" : {
+                                          "description" : "Package title.",
+                                          "type" : "string"
+                                       },
+                                       "Version" : {
+                                          "description" : "New version to be updated to.",
+                                          "type" : "string"
+                                       }
+                                    },
                                     "type" : "object"
                                  },
                                  "type" : "array"
@@ -54932,9 +56005,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "upgrade",
                                     "ceph_install",
-                                    "login"
+                                    "login",
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -55027,9 +56100,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "upgrade",
                                     "ceph_install",
-                                    "login"
+                                    "login",
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -55152,9 +56225,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "upgrade",
                                     "ceph_install",
-                                    "login"
+                                    "login",
+                                    "upgrade"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"

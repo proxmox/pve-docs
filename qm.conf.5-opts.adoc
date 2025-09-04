@@ -157,7 +157,7 @@ cloud-init: User name to change ssh keys and password for instead of the image's
 
 The number of cores per socket.
 
-`cpu`: `[[cputype=]<string>] [,flags=<+FLAG[;-FLAG...]>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>] [,phys-bits=<8-64|host>] [,reported-model=<enum>]` ::
+`cpu`: `[[cputype=]<string>] [,flags=<+FLAG[;-FLAG...]>] [,guest-phys-bits=<integer>] [,hidden=<1|0>] [,hv-vendor-id=<vendor-id>] [,phys-bits=<8-64|host>] [,reported-model=<enum>]` ::
 
 Emulated CPU type.
 
@@ -168,6 +168,10 @@ Emulated CPU type. Can be default or custom name (custom model names must be pre
 `flags`=`<+FLAG[;-FLAG...]>` ;;
 
 List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Custom CPU models can specify any flag supported by QEMU/KVM, VM-specific flags must be from the following set for security reasons: pcid, spec-ctrl, ibpb, ssbd, virt-ssbd, amd-ssbd, amd-no-ssb, pdpe1gb, md-clear, hv-tlbflush, hv-evmcs, aes
+
+`guest-phys-bits`=`<integer> (32 - 64)` ;;
+
+Number of physical address bits available to the guest.
 
 `hidden`=`<boolean>` ('default =' `0`);;
 
