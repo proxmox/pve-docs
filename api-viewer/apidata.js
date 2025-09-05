@@ -21401,7 +21401,7 @@ const apiSchema = [
                                                    "description" : "The command as a list of program + arguments.",
                                                    "items" : {
                                                       "description" : "A single part of the program + arguments.",
-                                                      "format" : "string"
+                                                      "type" : "string"
                                                    },
                                                    "type" : "array",
                                                    "typetext" : "<array>"
@@ -22989,6 +22989,12 @@ const apiSchema = [
                                              "description" : "Configure a VirtIO-based Random Number Generator.",
                                              "format" : "pve-qm-rng",
                                              "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "running-nets-host-mtu" : {
+                                             "description" : "List of VirtIO network devices and their effective host_mtu setting. A value of 0 means that the host_mtu parameter is to be avoided for the corresponding device. This is used internally for snapshots.",
+                                             "optional" : 1,
+                                             "pattern" : "net\\d+=\\d+(,net\\d+=\\d+)*",
                                              "type" : "string"
                                           },
                                           "sata[n]" : {
@@ -25333,6 +25339,12 @@ const apiSchema = [
                                              "optional" : 1,
                                              "type" : "string",
                                              "typetext" : "[source=]</dev/urandom|/dev/random|/dev/hwrng> [,max_bytes=<integer>] [,period=<integer>]"
+                                          },
+                                          "running-nets-host-mtu" : {
+                                             "description" : "List of VirtIO network devices and their effective host_mtu setting. A value of 0 means that the host_mtu parameter is to be avoided for the corresponding device. This is used internally for snapshots.",
+                                             "optional" : 1,
+                                             "pattern" : "net\\d+=\\d+(,net\\d+=\\d+)*",
+                                             "type" : "string"
                                           },
                                           "sata[n]" : {
                                              "description" : "Use volume as SATA hard disk or CD-ROM (n is 0 to 5). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
@@ -27748,6 +27760,12 @@ const apiSchema = [
                                              "type" : "string",
                                              "typetext" : "[source=]</dev/urandom|/dev/random|/dev/hwrng> [,max_bytes=<integer>] [,period=<integer>]"
                                           },
+                                          "running-nets-host-mtu" : {
+                                             "description" : "List of VirtIO network devices and their effective host_mtu setting. A value of 0 means that the host_mtu parameter is to be avoided for the corresponding device. This is used internally for snapshots.",
+                                             "optional" : 1,
+                                             "pattern" : "net\\d+=\\d+(,net\\d+=\\d+)*",
+                                             "type" : "string"
+                                          },
                                           "sata[n]" : {
                                              "description" : "Use volume as SATA hard disk or CD-ROM (n is 0 to 5). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
                                              "format" : {
@@ -29953,6 +29971,12 @@ const apiSchema = [
                                                       "insecure"
                                                    ],
                                                    "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "nets-host-mtu" : {
+                                                   "description" : "Used for migration compat. List of VirtIO network devices and their effective host_mtu setting according to the QEMU object model on the source side of the migration. A value of 0 means that the host_mtu parameter is to be avoided for the corresponding device.",
+                                                   "optional" : 1,
+                                                   "pattern" : "net\\d+=\\d+(,net\\d+=\\d+)*",
                                                    "type" : "string"
                                                 },
                                                 "node" : {
@@ -34181,6 +34205,12 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "string",
                                  "typetext" : "[source=]</dev/urandom|/dev/random|/dev/hwrng> [,max_bytes=<integer>] [,period=<integer>]"
+                              },
+                              "running-nets-host-mtu" : {
+                                 "description" : "List of VirtIO network devices and their effective host_mtu setting. A value of 0 means that the host_mtu parameter is to be avoided for the corresponding device. This is used internally for snapshots.",
+                                 "optional" : 1,
+                                 "pattern" : "net\\d+=\\d+(,net\\d+=\\d+)*",
+                                 "type" : "string"
                               },
                               "sata[n]" : {
                                  "description" : "Use volume as SATA hard disk or CD-ROM (n is 0 to 5). Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.",
@@ -45110,6 +45140,7 @@ const apiSchema = [
                                           "type" : "object"
                                        },
                                        "bytes_used" : {
+                                          "renderer" : "bytes",
                                           "title" : "Used",
                                           "type" : "integer"
                                        },
