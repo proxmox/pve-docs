@@ -908,6 +908,9 @@ adding a new node) or by specifying more than one 'ringX_addr' in
 NOTE: To provide useful failover, every link should be on its own
 physical network connection.
 
+The following examples assume that each cluster node has one static address in
+10.10.10.0/25 and one static address in 10.20.20.0/25 configured.
+
 Links are used according to a priority setting. You can configure this priority
 by setting 'knet_link_priority' in the corresponding interface section in
 `corosync.conf`, or, preferably, using the 'priority' parameter when creating
