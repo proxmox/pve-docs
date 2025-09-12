@@ -79,6 +79,8 @@ support thin-provisioning and discard. Each snapshot will appear to use the
 full volume size on the PVE side, but the actual space usage on the underlying
 storage will be smaller if those requirements are met.
 
+WARNING: Snapshots as volume chains are currently a **technology preview** in {pve}.
+
 .Configuration Example (`/etc/pve/storage.cfg`)
 ----
 lvm: myspace
