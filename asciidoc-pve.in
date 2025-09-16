@@ -79,7 +79,7 @@ sub pop_environment {
     die "unable to pop env '$env'" if !defined($last_stack_entry);
 
     my ($last_env, $skip) = @$last_stack_entry;
-    die "environment missmatch (${last_env} != $env)\n" if $last_env ne $env;
+    die "environment mismatch (${last_env} != $env)\n" if $last_env ne $env;
 
     if (!scalar(@$env_stack)) {
         $env_skip = 0;
@@ -211,7 +211,7 @@ sub prepare_adoc_file {
         chomp $line;
         if ($line =~ m/^if(n?)def::(\S+)\[(.*)\]\s*$/) {
             my ($not, $env, $text) = ($1, $2, $3);
-            die "unsuported ifdef usage - implement me" if $text;
+            die "unsupported ifdef usage - implement me" if $text;
 
             my $skip = !exists($attributes->{$env}) ? 1 : 0;
             $skip = ($skip ? 0 : 1) if $not;
@@ -220,7 +220,7 @@ sub prepare_adoc_file {
             next;
         } elsif ($line =~ m/^endif::(\S+)\[(.*)\]\s*$/) {
             my ($env, $text) = ($1, $2);
-            die "unsuported ifdef usage - implement me" if $text;
+            die "unsupported ifdef usage - implement me" if $text;
             pop_environment($env);
             next;
         }
