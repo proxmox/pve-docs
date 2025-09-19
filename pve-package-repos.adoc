@@ -114,10 +114,10 @@ Please note that you need a valid subscription key to access the
 `pve-enterprise` repository. We offer different support levels, which you can
 find further details about at {pricing-url}.
 
-NOTE: You can disable this repository by adding `Enabled: False` in a line of
-of its own to the file. This prevents error messages if your host does
-not have a subscription key. Please configure the `pve-no-subscription`
-repository in that case.
+NOTE: You can disable this repository by adding an `Enabled: no` line to the
+relevant entry in the file. This will prevent error messages if your host does
+not have a subscription key. In that case, please configure the
+`pve-no-subscription` repository.
 
 [[sysadmin_no_subscription_repo]]
 {pve} No-Subscription Repository
