@@ -2208,6 +2208,9 @@ removes the firewall configuration of the VM. You have to activate
 '--purge', if you want to additionally remove the VM from replication jobs,
 backup jobs and HA resource configurations.
 
+NOTE: Activating purge will also remove the HA resource from any affinity rules
+referencing it and will remove rules that have only this one remaining resource.
+
 ----
 # qm destroy 300 --purge
 ----

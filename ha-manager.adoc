@@ -220,6 +220,10 @@ the following command:
 # ha-manager remove vm:100
 ----
 
+By default, this will also remove the resource from any rule that references it
+and will delete rules that only reference this resource. You can override this
+behavior using '--purge 0'.
+
 NOTE: This does not start or stop the resource.
 
 But all HA related tasks can be done in the GUI, so there is no need to
