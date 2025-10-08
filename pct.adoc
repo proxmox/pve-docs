@@ -54,15 +54,22 @@ the cluster setup, and they can use the same network and storage resources as
 virtual machines. You can also use the {pve} firewall, or manage containers
 using the HA framework.
 
-Our primary goal is to offer an environment that provides the benefits of using a
-VM, but without the additional overhead. This means that Proxmox Containers can
-be categorized as ``System Containers'', rather than ``Application Containers''.
+Our primary goal has traditionally been to offer an environment that provides
+the benefits of using a VM, but without the additional overhead. This means that
+Proxmox Containers have been primarily categorized as ``System Containers''.
 
-NOTE: If you want to run application containers, for example, 'Docker' images, it
-is recommended that you run them inside a Proxmox QEMU VM. This will give you
-all the advantages of application containerization, while also providing the
-benefits that VMs offer, such as strong isolation from the host and the ability
-to live-migrate, which otherwise isn't possible with containers. 
+With the introduction of OCI (**O**pen **C**ontainer **I**nitiative) image support,
+Proxmox VE now also integrates ``Application Containers''. When creating a
+container from an OCI image, the image is automatically converted to the
+LXC stack that Proxmox VE uses.
+
+This approach allows users to benefit from a wide ecosystem of pre-packaged
+applications while retaining the robust management features of Proxmox VE.
+
+While running lightweight ``Application Containers'' directly offers significant
+advantages over a full VM, for use cases demanding maximum isolation and
+the ability to live-migrate, nesting containers inside a Proxmox QEMU VM remains
+a recommended practice.
 
 
 Technology Overview
@@ -256,6 +263,12 @@ Container Images
 
 Container images, sometimes also referred to as ``templates'' or
 ``appliances'', are `tar` archives which contain everything to run a container.
+Proxmox VE can utilize two main types of images: *System Container Templates*
+for creating full virtual environments, and *Application Container Images* based
+on the OCI standard for running specific applications.
+
+System Container Templates
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 {pve} itself provides a variety of basic templates for the
 xref:pct_supported_distributions[most common Linux distributions].  They can be
@@ -336,6 +349,21 @@ delete that image later with:
 # pveam remove local:vztmpl/debian-10.0-standard_10.0-1_amd64.tar.gz
 ----
 
+Open Container Initiative (OCI) Images (technology preview)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Proxmox VE can also use OCI images to create containers. This makes it easy to
+run pre-packaged applications. A container created from an OCI image still uses
+the existing LXC framework.
+
+Obtaining OCI Images
+~~~~~~~~~~~~~~~~~~~~
+
+In the web interface an OCI image can be pulled from a registry using the *Pull
+from OCI registry* button on the container template view of a storage.
+
+Once the template is on a storage, you can create the container with
+`pct create` or use the wizard in the web interface.
 
 [[pct_settings]]
 Container Settings
