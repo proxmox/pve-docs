@@ -358,6 +358,8 @@ General settings of a container include
 * *SSH Public Key*: a public key for connecting to the root account over SSH
 * *Unprivileged container*: this option allows to choose at creation time
   if you want to create a privileged or unprivileged container.
+* *Nesting*: expose procfs and sysfs to allow nested containers. Note that
+  systemd also uses this to isolate services.
 
 Unprivileged Containers
 ^^^^^^^^^^^^^^^^^^^^^^^
