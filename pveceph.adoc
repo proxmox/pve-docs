@@ -567,6 +567,36 @@ The CLI command to destroy the OSD is:
 pveceph osd destroy <id> [--cleanup]
 ----
 
+[[pve_ceph_configuration]]
+Ceph Configuration
+------------------
+
+Ceph daemon and clients pull their configuration from one or more sources
+footnote:[Ceph config sources https://docs.ceph.com/en/latest/rados/configuration/ceph-conf/#config-sources].
+In {PVE}, a minimal ceph.conf file is used to hold bootstrap settings. Most of
+the configuration is held in the central configuration database maintained by
+the MON services.
+
+To persistently change configuration values use the bellow commands
+footnote:[Ceph MON DB commands https://docs.ceph.com/en/latest/rados/configuration/ceph-conf/#commands]:
+
+[frame="none",grid="none", align="left", cols="30%,70%"]
+|===
+|ceph config dump|Show all configuration option(s)
+|ceph config get <who> <name>|Show configuration option(s) for an entity
+|ceph config set <who> <name> <value>|Set a configuration option for one or more entities
+|ceph config rm <who> <name>| Clear a configuration option for one or more entities
+|===
+
+.Example for increasing the osd_memory_target for all OSD daemons
+[source,bash]
+----
+ceph config set osd osd_memory_target 8G
+----
+
+NOTE: If an option exists in a local configuration file, the configuration in
+the MON DB will be ignored because it has a lower precedence.
+
 
 [[pve_ceph_pools]]
 Ceph Pools
