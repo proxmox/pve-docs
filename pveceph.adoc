@@ -131,14 +131,17 @@ carefully planned out and monitored. In addition to the predicted memory usage
 of virtual machines and containers, you must also account for having enough
 memory available for Ceph to provide excellent and stable performance.
 
-As a rule of thumb, for roughly **1 TiB of data, 1 GiB of memory** will be used
-by an OSD. While the usage might be less under normal conditions, it will use
-most during critical operations like recovery, re-balancing or backfilling.
-That means that you should avoid maxing out your available memory already on
-normal operation, but rather leave some headroom to cope with outages.
+While usage may be less under normal conditions, it will consume more memory
+during critical operations, such as recovery, rebalancing, or backfilling. That
+means you should avoid maxing out your available memory already on regular
+operation, but rather leave some headroom to cope with outages.
 
-The OSD service itself will use additional memory. The Ceph BlueStore backend of
-the daemon requires by default **3-5 GiB of memory** (adjustable).
+The current recommendation is to configure OSDs with at least **8 GiB of
+memory** for good performance. The OSD daemon requires 4 GiB by default.
+
+NOTE: Total memory consumption is primarily determined by the number of OSD
+daemons. However, for critical operations, all Ceph services may require
+additional memory.
 
 [[pve_ceph_recommendation_network]]
 .Network
