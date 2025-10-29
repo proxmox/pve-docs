@@ -46,7 +46,7 @@ measure in certain environments.
 
 `saferemove_throughput`::
 
-Wipe throughput (`cstream -t` parameter value).
+Wipe throughput (`cstream -t` parameter value), up to 10 MiB/s by default.
 
 `snapshot-as-volume-chain`::
 
