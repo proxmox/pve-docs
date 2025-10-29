@@ -136,8 +136,9 @@ during critical operations, such as recovery, rebalancing, or backfilling. That
 means you should avoid maxing out your available memory already on regular
 operation, but rather leave some headroom to cope with outages.
 
-The current recommendation is to configure OSDs with at least **8 GiB of
-memory** for good performance. The OSD daemon requires 4 GiB by default.
+The current recommendation is to xref:pve_ceph_configuration[configure] OSDs
+with at least **8 GiB of memory** for good performance. The OSD daemon requires
+4 GiB by default.
 
 NOTE: Total memory consumption is primarily determined by the number of OSD
 daemons. However, for critical operations, all Ceph services may require
