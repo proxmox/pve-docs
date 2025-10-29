@@ -43,6 +43,15 @@ When removing a volume, this makes sure that all data gets erased and cannot be
 accessed by other LVs created later (which happen to be assigned the same
 physical extents). This is a costly operation, but may be required as a security
 measure in certain environments.
++
+Storage devices that support the "write zeroes" operation will use `blkdiscard`
+to zero blocks. Otherwise, a fallback to `cstream` is performed.
+
+`saferemove-stepsize`::
+
+Wipe step size in MiB (`blkdiscard -p` paramater value), capped to the maximum
+step size supported by the underlying storage. Up to 32 MiB (maximum) by
+default.
 
 `saferemove_throughput`::
 
