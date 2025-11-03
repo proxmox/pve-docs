@@ -81,8 +81,9 @@ to run.
 How long will my {pve} version be supported?::
 
 {pve} versions are supported at least as long as the corresponding
-Debian Version is
-https://wiki.debian.org/DebianOldStable[oldstable]. {pve} uses a
+Debian version, i.e. approximately 3 years after its initial release,
+see https://www.debian.org/security/faq#lifespan[Debian lifespan].
+{pve} uses a
 rolling release model and using the latest stable version is always
 recommended.
 +
