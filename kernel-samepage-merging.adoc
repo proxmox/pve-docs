@@ -34,7 +34,11 @@ be a legal requirement.
 Disabling KSM
 ~~~~~~~~~~~~~
 
-To see if KSM is active, you can check the output of:
+KSM can be disabled on a node or on a per-VM basis.
+
+.Disabe KSM on a Node
+
+To see if KSM is active on a node, you can check the output of:
 
 ----
 # systemctl status ksmtuned
@@ -52,3 +56,11 @@ Finally, to unmerge all the currently merged pages, run:
 # echo 2 > /sys/kernel/mm/ksm/run
 ----
 
+.Disabe KSM for a Specific VM
+
+The `allow-ksm` VM configuration option controls whether memory page merging is
+allowed for a given VM. The option defaults to true and can be disabled with:
+
+----
+# qm set <vmid> --allow-ksm 0
+----
