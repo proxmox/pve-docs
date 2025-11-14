@@ -132,9 +132,9 @@ Install ceph related packages.
 
 Allow experimental versions. Use with care!
 
-`--repository` `<enterprise | no-subscription | test>` ('default =' `enterprise`)::
+`--repository` `<enterprise | manual | no-subscription | test>` ('default =' `enterprise`)::
 
-Ceph repository to use.
+Ceph repository to use. The 'manual' option will not configure any repositories. Use it if the host cannot access the public repositories, for example if Proxmox Offline Mirror is used. A repository that contains the Ceph packages for the version needs to be manually configured before starting the installation!
 
 `--version` `<squid>` ('default =' `squid`)::
 

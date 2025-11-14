@@ -22,7 +22,7 @@ Log level for outgoing traffic.
 
 Enable/disable MAC address filter.
 
-`ndp`: `<boolean>` ('default =' `0`)::
+`ndp`: `<boolean>` ('default =' `1`)::
 
 Enable NDP (Neighbor Discovery Protocol).
 

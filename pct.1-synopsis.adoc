@@ -144,6 +144,10 @@ Allow containers access to advanced features.
 
 Allow to overwrite existing container.
 
+`--ha-managed` `<boolean>` ('default =' `0`)::
+
+Add the CT as a HA resource after it was created.
+
 `--hookscript` `<string>` ::
 
 Script that will be executed during various steps in the containers lifetime.
@@ -252,7 +256,7 @@ NOTE: Requires option(s): `restore`
 
 `--unprivileged` `<boolean>` ('default =' `0`)::
 
-Makes the container run as unprivileged user. (Should not be modified manually.)
+Makes the container run as unprivileged user. For creation, the default is 1. For restore, the default is the value from the backup. (Should not be modified manually.)
 
 `--unused[n]` `[volume=]<volume>` ::
 
@@ -711,6 +715,10 @@ Allow containers access to advanced features.
 
 Allow to overwrite existing container.
 
+`--ha-managed` `<boolean>` ('default =' `0`)::
+
+Add the CT as a HA resource after it was created.
+
 `--hookscript` `<string>` ::
 
 Script that will be executed during various steps in the containers lifetime.
@@ -815,7 +823,7 @@ NOTE: Requires option(s): `restore`
 
 `--unprivileged` `<boolean>` ('default =' `0`)::
 
-Makes the container run as unprivileged user. (Should not be modified manually.)
+Makes the container run as unprivileged user. For creation, the default is 1. For restore, the default is the value from the backup. (Should not be modified manually.)
 
 `--unused[n]` `[volume=]<volume>` ::
 
@@ -984,7 +992,7 @@ Specify the number of tty available to the container
 
 `--unprivileged` `<boolean>` ('default =' `0`)::
 
-Makes the container run as unprivileged user. (Should not be modified manually.)
+Makes the container run as unprivileged user. For creation, the default is 1. For restore, the default is the value from the backup. (Should not be modified manually.)
 
 `--unused[n]` `[volume=]<volume>` ::
 

@@ -2,7 +2,7 @@
 
 Enable ebtables rules cluster wide.
 
-`enable`: `<integer> (0 - N)` ::
+`enable`: `<integer> (0 - N)` ('default =' `0`)::
 
 Enable or disable the firewall cluster wide.
 

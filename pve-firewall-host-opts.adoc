@@ -1,4 +1,4 @@
-`enable`: `<boolean>` ::
+`enable`: `<boolean>` ('default =' `1`)::
 
 Enable host firewall rules.
 
@@ -18,7 +18,7 @@ Log level for outgoing traffic.
 
 Enable logging of conntrack information.
 
-`ndp`: `<boolean>` ('default =' `0`)::
+`ndp`: `<boolean>` ('default =' `1`)::
 
 Enable NDP (Neighbor Discovery Protocol).
 

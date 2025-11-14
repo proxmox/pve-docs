@@ -205,13 +205,17 @@ An alias for 'ha-manager crm-command migrate'.
 An alias for 'ha-manager crm-command relocate'.
 
 [[cli_ha-manager_remove]]
-*ha-manager remove* `<sid>`
+*ha-manager remove* `<sid>` `[OPTIONS]`
 
 Delete resource configuration.
 
 `<sid>`: `<type>:<name>` ::
 
 HA resource ID. This consists of a resource type followed by a resource specific name, separated with colon (example: vm:100 / ct:100). For virtual machines and containers, you can simply use the VM or CT id as a shortcut (example: 100).
+
+`--purge` `<boolean>` ('default =' `1`)::
+
+Remove this resource from rules that reference it, deleting the rule if this resource is the only resource in the rule
 
 [[cli_ha-manager_rules_add]]
 *ha-manager rules add* `<type> <rule> --resources <string>` `[OPTIONS]`

@@ -1,6 +1,6 @@
 `flags`: `<+FLAG[;-FLAG...]>` ::
 
-List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. Custom CPU models can specify any flag supported by QEMU/KVM, VM-specific flags must be from the following set for security reasons: pcid, spec-ctrl, ibpb, ssbd, virt-ssbd, amd-ssbd, amd-no-ssb, pdpe1gb, md-clear, hv-tlbflush, hv-evmcs, aes
+List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. There is a special 'nested-virt' shorthand which controls nested virtualization for the current CPU ('svm' for AMD and 'vmx' for Intel). Custom CPU models can specify any flag supported by QEMU/KVM, VM-specific flags must be from the following set for security reasons: nested-virt, md-clear, pcid, spec-ctrl, ssbd, ibpb, virt-ssbd, amd-ssbd, amd-no-ssb, pdpe1gb, hv-tlbflush, hv-evmcs, aes
 
 `guest-phys-bits`: `<integer> (32 - 64)` ::
 

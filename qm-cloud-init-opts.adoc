@@ -4,8 +4,7 @@ Specify custom files to replace the automatically generated ones at start.
 
 `meta`=`<volume>` ;;
 
-Specify a custom file containing all meta data passed to the VM via"
-	    ." cloud-init. This is provider specific meaning configdrive2 and nocloud differ.
+Specify a custom file containing all meta data passed to the VM via cloud-init. This is provider specific meaning configdrive2 and nocloud differ.
 
 `network`=`<volume>` ;;
 

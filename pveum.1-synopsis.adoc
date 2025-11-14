@@ -937,6 +937,10 @@ User-specific token identifier.
 
 no description available
 
+`--delete` `<string>` ::
+
+A list of settings you want to delete.
+
 `--expire` `<integer> (0 - N)` ('default =' `same as user`)::
 
 API token expiration date (seconds since epoch). '0' means no expiration date.

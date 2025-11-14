@@ -188,6 +188,10 @@ The retention options with shorter intervals are processed first with --keep-las
 
 Zero-out data when removing LVs.
 
+`--saferemove-stepsize` `<1 | 16 | 2 | 32 | 4 | 8>` ('default =' `32`)::
+
+Wipe step size in MiB. It will be capped to the maximum supported by the storage.
+
 `--saferemove_throughput` `<string>` ::
 
 Wipe throughput (cstream -t parameter value).
@@ -745,6 +749,10 @@ The retention options with shorter intervals are processed first with --keep-las
 `--saferemove` `<boolean>` ::
 
 Zero-out data when removing LVs.
+
+`--saferemove-stepsize` `<1 | 16 | 2 | 32 | 4 | 8>` ('default =' `32`)::
+
+Wipe step size in MiB. It will be capped to the maximum supported by the storage.
 
 `--saferemove_throughput` `<string>` ::
 
