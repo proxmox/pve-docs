@@ -1,4 +1,4 @@
-`net[n]`: `name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<(IPv4/CIDR|dhcp|manual)>] [,ip6=<(IPv6/CIDR|auto|dhcp|manual)>] [,link_down=<1|0>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]` ::
+`net[n]`: `name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,host-managed=<1|0>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<(IPv4/CIDR|dhcp|manual)>] [,ip6=<(IPv6/CIDR|auto|dhcp|manual)>] [,link_down=<1|0>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]` ::
 
 Specifies network interfaces for the container.
 
@@ -17,6 +17,10 @@ Default gateway for IPv4 traffic.
 `gw6`=`<GatewayIPv6>` ;;
 
 Default gateway for IPv6 traffic.
+
+`host-managed`=`<boolean>` ;;
+
+Whether this interface's IP configuration should be managed by the host.
 
 `hwaddr`=`<XX:XX:XX:XX:XX:XX>` ;;
 

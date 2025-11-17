@@ -56,6 +56,14 @@ Path to the device to pass through to the container
 
 User ID to be assigned to the device node
 
+`entrypoint`: `<string>` ('default =' `/sbin/init`)::
+
+Absolute path from container rootfs to the binary to use as init.
+
+`env`: `(?^:(?:\w+=[^\0]+)(?:\0\w+=[^\0]+)*)` ::
+
+The container runtime environment as NUL-separated list. Replaces any lxc.environment.runtime entries in the config.
+
 `features`: `[force_rw_sys=<1|0>] [,fuse=<1|0>] [,keyctl=<1|0>] [,mknod=<1|0>] [,mount=<fstype;fstype;...>] [,nesting=<1|0>]` ::
 
 Allow containers access to advanced features.
@@ -152,7 +160,7 @@ Volume, device or directory to mount into the container.
 
 Sets DNS server IP address for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.
 
-`net[n]`: `name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<(IPv4/CIDR|dhcp|manual)>] [,ip6=<(IPv6/CIDR|auto|dhcp|manual)>] [,link_down=<1|0>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]` ::
+`net[n]`: `name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,host-managed=<1|0>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<(IPv4/CIDR|dhcp|manual)>] [,ip6=<(IPv6/CIDR|auto|dhcp|manual)>] [,link_down=<1|0>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]` ::
 
 Specifies network interfaces for the container.
 
@@ -171,6 +179,10 @@ Default gateway for IPv4 traffic.
 `gw6`=`<GatewayIPv6>` ;;
 
 Default gateway for IPv6 traffic.
+
+`host-managed`=`<boolean>` ;;
+
+Whether this interface's IP configuration should be managed by the host.
 
 `hwaddr`=`<XX:XX:XX:XX:XX:XX>` ;;
 

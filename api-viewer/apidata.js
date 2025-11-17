@@ -12397,6 +12397,7 @@ const apiSchema = [
                                  "description" : "The 'VM.PowerMgmt' permission is required on '/' or on '/vms/<ID>' for each ID passed via the 'vms' parameter.",
                                  "user" : "all"
                               },
+                              "protected" : 1,
                               "returns" : {
                                  "description" : "UPID of the worker",
                                  "type" : "string"
@@ -12458,6 +12459,7 @@ const apiSchema = [
                                  "description" : "The 'VM.PowerMgmt' permission is required on '/' or on '/vms/<ID>' for each ID passed via the 'vms' parameter.",
                                  "user" : "all"
                               },
+                              "protected" : 1,
                               "returns" : {
                                  "description" : "UPID of the worker",
                                  "type" : "string"
@@ -12521,6 +12523,7 @@ const apiSchema = [
                                  "description" : "The 'VM.PowerMgmt' permission is required on '/' or on '/vms/<ID>' for each ID passed via the 'vms' parameter. Additionally, you need 'VM.Config.Disk' on the '/vms/{vmid}' path and 'Datastore.AllocateSpace' for the configured state-storage(s)",
                                  "user" : "all"
                               },
+                              "protected" : 1,
                               "returns" : {
                                  "description" : "UPID of the worker",
                                  "type" : "string"
@@ -12586,6 +12589,7 @@ const apiSchema = [
                                  "description" : "The 'VM.Migrate' permission is required on '/' or on '/vms/<ID>' for each ID passed via the 'vms' parameter.",
                                  "user" : "all"
                               },
+                              "protected" : 1,
                               "returns" : {
                                  "description" : "UPID of the worker",
                                  "type" : "string"
@@ -37249,6 +37253,18 @@ const apiSchema = [
                                              "description" : "SHA1 digest of configuration file. This can be used to prevent concurrent modifications.",
                                              "type" : "string"
                                           },
+                                          "entrypoint" : {
+                                             "default" : "/sbin/init",
+                                             "description" : "Absolute path from container rootfs to the binary to use as init.",
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
+                                          "env" : {
+                                             "description" : "The container runtime environment as NUL-separated list. Replaces any lxc.environment.runtime entries in the config.",
+                                             "optional" : 1,
+                                             "pattern" : "(?^:(?:\\w+=[^\\0]+)(?:\\0\\w+=[^\\0]+)*)",
+                                             "type" : "string"
+                                          },
                                           "features" : {
                                              "description" : "Allow containers access to advanced features.",
                                              "format" : {
@@ -37444,6 +37460,11 @@ const apiSchema = [
                                                    "format_description" : "GatewayIPv6",
                                                    "optional" : 1,
                                                    "type" : "string"
+                                                },
+                                                "host-managed" : {
+                                                   "description" : "Whether this interface's IP configuration should be managed by the host.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
                                                 },
                                                 "hwaddr" : {
                                                    "description" : "The interface MAC address. This is dynamically allocated by default, but you can set that statically if needed, for example to always have the same link-local IPv6 address. (lxc.network.hwaddr)",
@@ -37810,6 +37831,19 @@ const apiSchema = [
                                              "type" : "string",
                                              "typetext" : "<string>"
                                           },
+                                          "entrypoint" : {
+                                             "default" : "/sbin/init",
+                                             "description" : "Absolute path from container rootfs to the binary to use as init.",
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "env" : {
+                                             "description" : "The container runtime environment as NUL-separated list. Replaces any lxc.environment.runtime entries in the config.",
+                                             "optional" : 1,
+                                             "pattern" : "(?^:(?:\\w+=[^\\0]+)(?:\\0\\w+=[^\\0]+)*)",
+                                             "type" : "string"
+                                          },
                                           "features" : {
                                              "description" : "Allow containers access to advanced features.",
                                              "format" : {
@@ -38001,6 +38035,11 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "host-managed" : {
+                                                   "description" : "Whether this interface's IP configuration should be managed by the host.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean"
+                                                },
                                                 "hwaddr" : {
                                                    "description" : "The interface MAC address. This is dynamically allocated by default, but you can set that statically if needed, for example to always have the same link-local IPv6 address. (lxc.network.hwaddr)",
                                                    "format" : "mac-addr",
@@ -38072,7 +38111,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<(IPv4/CIDR|dhcp|manual)>] [,ip6=<(IPv6/CIDR|auto|dhcp|manual)>] [,link_down=<1|0>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]"
+                                             "typetext" : "name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,host-managed=<1|0>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<(IPv4/CIDR|dhcp|manual)>] [,ip6=<(IPv6/CIDR|auto|dhcp|manual)>] [,link_down=<1|0>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]"
                                           },
                                           "node" : {
                                              "description" : "The cluster node name.",
@@ -44388,6 +44427,19 @@ const apiSchema = [
                                  "type" : "string",
                                  "typetext" : "[[path=]<Path>] [,deny-write=<1|0>] [,gid=<integer>] [,mode=<Octal access mode>] [,uid=<integer>]"
                               },
+                              "entrypoint" : {
+                                 "default" : "/sbin/init",
+                                 "description" : "Absolute path from container rootfs to the binary to use as init.",
+                                 "optional" : 1,
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "env" : {
+                                 "description" : "The container runtime environment as NUL-separated list. Replaces any lxc.environment.runtime entries in the config.",
+                                 "optional" : 1,
+                                 "pattern" : "(?^:(?:\\w+=[^\\0]+)(?:\\0\\w+=[^\\0]+)*)",
+                                 "type" : "string"
+                              },
                               "features" : {
                                  "description" : "Allow containers access to advanced features.",
                                  "format" : {
@@ -44598,6 +44650,11 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
+                                    "host-managed" : {
+                                       "description" : "Whether this interface's IP configuration should be managed by the host.",
+                                       "optional" : 1,
+                                       "type" : "boolean"
+                                    },
                                     "hwaddr" : {
                                        "description" : "The interface MAC address. This is dynamically allocated by default, but you can set that statically if needed, for example to always have the same link-local IPv6 address. (lxc.network.hwaddr)",
                                        "format" : "mac-addr",
@@ -44669,7 +44726,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<(IPv4/CIDR|dhcp|manual)>] [,ip6=<(IPv6/CIDR|auto|dhcp|manual)>] [,link_down=<1|0>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]"
+                                 "typetext" : "name=<string> [,bridge=<bridge>] [,firewall=<1|0>] [,gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,host-managed=<1|0>] [,hwaddr=<XX:XX:XX:XX:XX:XX>] [,ip=<(IPv4/CIDR|dhcp|manual)>] [,ip6=<(IPv6/CIDR|auto|dhcp|manual)>] [,link_down=<1|0>] [,mtu=<integer>] [,rate=<mbps>] [,tag=<integer>] [,trunks=<vlanid[;vlanid...]>] [,type=<veth>]"
                               },
                               "node" : {
                                  "description" : "The cluster node name.",
@@ -52792,6 +52849,66 @@ const apiSchema = [
                            },
                            {
                               "info" : {
+                                 "POST" : {
+                                    "allowtoken" : 1,
+                                    "description" : "Pull an OCI image from a registry.",
+                                    "method" : "POST",
+                                    "name" : "oci_registry_pull",
+                                    "parameters" : {
+                                       "additionalProperties" : 0,
+                                       "properties" : {
+                                          "node" : {
+                                             "description" : "The cluster node name.",
+                                             "format" : "pve-node",
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
+                                          "reference" : {
+                                             "description" : "The reference to the OCI image to download.",
+                                             "pattern" : "^(?:(?:[a-zA-Z\\d]|[a-zA-Z\\d][a-zA-Z\\d-]*[a-zA-Z\\d])(?:\\.(?:[a-zA-Z\\d]|[a-zA-Z\\d][a-zA-Z\\d-]*[a-zA-Z\\d]))*(?::\\d+)?/)?[a-z\\d]+(?:/[a-z\\d]+(?:(?:(?:[._]|__|[-]*)[a-z\\d]+)+)?)*:\\w[\\w.-]{0,127}$",
+                                             "type" : "string"
+                                          },
+                                          "storage" : {
+                                             "description" : "The storage identifier.",
+                                             "format" : "pve-storage-id",
+                                             "format_description" : "storage ID",
+                                             "type" : "string",
+                                             "typetext" : "<storage ID>"
+                                          }
+                                       }
+                                    },
+                                    "permissions" : {
+                                       "check" : [
+                                          "and",
+                                          [
+                                             "perm",
+                                             "/storage/{storage}",
+                                             [
+                                                "Datastore.AllocateTemplate"
+                                             ]
+                                          ],
+                                          [
+                                             "perm",
+                                             "/nodes/{node}",
+                                             [
+                                                "Sys.AccessNetwork"
+                                             ]
+                                          ]
+                                       ]
+                                    },
+                                    "protected" : 1,
+                                    "proxyto" : "node",
+                                    "returns" : {
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "leaf" : 1,
+                              "path" : "/nodes/{node}/storage/{storage}/oci-registry-pull",
+                              "text" : "oci-registry-pull"
+                           },
+                           {
+                              "info" : {
                                  "GET" : {
                                     "allowtoken" : 1,
                                     "description" : "Get the base parameters for creating a guest which imports data from a foreign importable guest, like an ESXi VM",
@@ -59252,6 +59369,51 @@ const apiSchema = [
                   "leaf" : 1,
                   "path" : "/nodes/{node}/aplinfo",
                   "text" : "aplinfo"
+               },
+               {
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "List all tags for an OCI repository reference.",
+                        "method" : "GET",
+                        "name" : "query_oci_repo_tags",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              },
+                              "reference" : {
+                                 "description" : "The reference to the repository to query tags from.",
+                                 "pattern" : "^(?:(?:[a-zA-Z\\d]|[a-zA-Z\\d][a-zA-Z\\d-]*[a-zA-Z\\d])(?:\\.(?:[a-zA-Z\\d]|[a-zA-Z\\d][a-zA-Z\\d-]*[a-zA-Z\\d]))*(?::\\d+)?/)?[a-z\\d]+(?:(?:[._]|__|[-]*)[a-z\\d]+)*(?:/[a-z\\d]+(?:(?:[._]|__|[-]*)[a-z\\d]+)*)*$",
+                                 "type" : "string"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/nodes/{node}",
+                              [
+                                 "Sys.AccessNetwork"
+                              ]
+                           ]
+                        },
+                        "proxyto" : "node",
+                        "returns" : {
+                           "items" : {
+                              "type" : "string"
+                           },
+                           "type" : "array"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/nodes/{node}/query-oci-repo-tags",
+                  "text" : "query-oci-repo-tags"
                },
                {
                   "info" : {
