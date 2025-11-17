@@ -484,13 +484,25 @@ Write error action.
 
 The drive's worldwide name, encoded as 16 bytes hex string, prefixed by '0x'.
 
-`intel-tdx`: `[type=]<tdx-type>` ::
+`intel-tdx`: `[type=]<tdx-type> ,attestation=<1|0> [,vsock-cid=<integer>] [,vsock-port=<integer>]` ::
 
 Trusted Domain Extension (TDX) features by Intel CPUs
+
+`attestation`=`<boolean>` ('default =' `1`);;
+
+Enable TDX attestation by including quote-generation-socket
 
 `type`=`<tdx-type>` ;;
 
 Enable TDX
+
+`vsock-cid`=`<integer> (2 - N)` ('default =' `2`);;
+
+CID for vsock of Quote Generation Service
+
+`vsock-port`=`<integer> (0 - N)` ('default =' `4050`);;
+
+Port for vsock of Quote Generation Service
 
 `ipconfig[n]`: `[gw=<GatewayIPv4>] [,gw6=<GatewayIPv6>] [,ip=<IPv4Format/CIDR>] [,ip6=<IPv6Format/CIDR>]` ::
 

@@ -56,11 +56,11 @@ Path to the device to pass through to the container
 
 User ID to be assigned to the device node
 
-`entrypoint`: `<string>` ('default =' `/sbin/init`)::
+`entrypoint`: `(?^:[^\x00-\x1F\x7F]+)` ('default =' `/sbin/init`)::
 
 Absolute path from container rootfs to the binary to use as init.
 
-`env`: `(?^:(?:\w+=[^\0]+)(?:\0\w+=[^\0]+)*)` ::
+`env`: `(?^:(?:\w+=[^\x00-\x1F\x7F]*)(?:\0\w+=[^\x00-\x1F\x7F]*)*)` ::
 
 The container runtime environment as NUL-separated list. Replaces any lxc.environment.runtime entries in the config.
 

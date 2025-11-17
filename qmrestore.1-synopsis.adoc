@@ -22,6 +22,10 @@ Override I/O bandwidth limit (in KiB/s).
 
 Allow to overwrite existing VM.
 
+`--ha-managed` `<boolean>` ('default =' `0`)::
+
+Add the VM as a HA resource after it was restored.
+
 `--live-restore` `<boolean>` ::
 
 Start the VM immediately from the backup and restore in background. PBS only.
@@ -29,6 +33,10 @@ Start the VM immediately from the backup and restore in background. PBS only.
 `--pool` `<string>` ::
 
 Add the VM to the specified pool.
+
+`--start` `<boolean>` ('default =' `0`)::
+
+Start VM after it was restored successfully.
 
 `--storage` `<storage ID>` ::
 

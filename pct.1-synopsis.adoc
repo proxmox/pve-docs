@@ -136,11 +136,11 @@ Description for the Container. Shown in the web-interface CT's summary. This is 
 
 Device to pass through to the container
 
-`--entrypoint` `<string>` ('default =' `/sbin/init`)::
+`--entrypoint` `(?^:[^\x00-\x1F\x7F]+)` ('default =' `/sbin/init`)::
 
 Absolute path from container rootfs to the binary to use as init.
 
-`--env` `(?^:(?:\w+=[^\0]+)(?:\0\w+=[^\0]+)*)` ::
+`--env` `(?^:(?:\w+=[^\x00-\x1F\x7F]*)(?:\0\w+=[^\x00-\x1F\x7F]*)*)` ::
 
 The container runtime environment as NUL-separated list. Replaces any lxc.environment.runtime entries in the config.
 
@@ -715,11 +715,11 @@ Description for the Container. Shown in the web-interface CT's summary. This is 
 
 Device to pass through to the container
 
-`--entrypoint` `<string>` ('default =' `/sbin/init`)::
+`--entrypoint` `(?^:[^\x00-\x1F\x7F]+)` ('default =' `/sbin/init`)::
 
 Absolute path from container rootfs to the binary to use as init.
 
-`--env` `(?^:(?:\w+=[^\0]+)(?:\0\w+=[^\0]+)*)` ::
+`--env` `(?^:(?:\w+=[^\x00-\x1F\x7F]*)(?:\0\w+=[^\x00-\x1F\x7F]*)*)` ::
 
 The container runtime environment as NUL-separated list. Replaces any lxc.environment.runtime entries in the config.
 
@@ -926,11 +926,11 @@ Device to pass through to the container
 
 Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
 
-`--entrypoint` `<string>` ('default =' `/sbin/init`)::
+`--entrypoint` `(?^:[^\x00-\x1F\x7F]+)` ('default =' `/sbin/init`)::
 
 Absolute path from container rootfs to the binary to use as init.
 
-`--env` `(?^:(?:\w+=[^\0]+)(?:\0\w+=[^\0]+)*)` ::
+`--env` `(?^:(?:\w+=[^\x00-\x1F\x7F]*)(?:\0\w+=[^\x00-\x1F\x7F]*)*)` ::
 
 The container runtime environment as NUL-separated list. Replaces any lxc.environment.runtime entries in the config.
 

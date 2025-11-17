@@ -26347,7 +26347,7 @@ const apiSchema = [
                                              "format" : "pve-qemu-tdx-fmt",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[type=]<tdx-type>"
+                                             "typetext" : "[type=]<tdx-type> ,attestation=<1|0> [,vsock-cid=<integer>] [,vsock-port=<integer>]"
                                           },
                                           "ipconfig[n]" : {
                                              "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit\ngateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration. This requires\ncloud-init 19.4 or newer.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using\ndhcp on IPv4.\n",
@@ -28804,7 +28804,7 @@ const apiSchema = [
                                              "format" : "pve-qemu-tdx-fmt",
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[type=]<tdx-type>"
+                                             "typetext" : "[type=]<tdx-type> ,attestation=<1|0> [,vsock-cid=<integer>] [,vsock-port=<integer>]"
                                           },
                                           "ipconfig[n]" : {
                                              "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit\ngateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration. This requires\ncloud-init 19.4 or newer.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using\ndhcp on IPv4.\n",
@@ -31033,7 +31033,7 @@ const apiSchema = [
                               "info" : {
                                  "GET" : {
                                     "allowtoken" : 1,
-                                    "description" : "Opens a weksocket for VNC traffic.",
+                                    "description" : "Opens a websocket for VNC traffic.",
                                     "method" : "GET",
                                     "name" : "vncwebsocket",
                                     "parameters" : {
@@ -35296,7 +35296,7 @@ const apiSchema = [
                                  "format" : "pve-qemu-tdx-fmt",
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[type=]<tdx-type>"
+                                 "typetext" : "[type=]<tdx-type> ,attestation=<1|0> [,vsock-cid=<integer>] [,vsock-port=<integer>]"
                               },
                               "ipconfig[n]" : {
                                  "description" : "cloud-init: Specify IP addresses and gateways for the corresponding interface.\n\nIP addresses use CIDR notation, gateways are optional but need an IP of the same type specified.\n\nThe special string 'dhcp' can be used for IP addresses to use DHCP, in which case no explicit\ngateway should be provided.\nFor IPv6 the special string 'auto' can be used to use stateless autoconfiguration. This requires\ncloud-init 19.4 or newer.\n\nIf cloud-init is enabled and neither an IPv4 nor an IPv6 address is specified, it defaults to using\ndhcp on IPv4.\n",
@@ -37257,12 +37257,13 @@ const apiSchema = [
                                              "default" : "/sbin/init",
                                              "description" : "Absolute path from container rootfs to the binary to use as init.",
                                              "optional" : 1,
+                                             "pattern" : "(?^:[^\\x00-\\x1F\\x7F]+)",
                                              "type" : "string"
                                           },
                                           "env" : {
                                              "description" : "The container runtime environment as NUL-separated list. Replaces any lxc.environment.runtime entries in the config.",
                                              "optional" : 1,
-                                             "pattern" : "(?^:(?:\\w+=[^\\0]+)(?:\\0\\w+=[^\\0]+)*)",
+                                             "pattern" : "(?^:(?:\\w+=[^\\x00-\\x1F\\x7F]*)(?:\\0\\w+=[^\\x00-\\x1F\\x7F]*)*)",
                                              "type" : "string"
                                           },
                                           "features" : {
@@ -37835,13 +37836,13 @@ const apiSchema = [
                                              "default" : "/sbin/init",
                                              "description" : "Absolute path from container rootfs to the binary to use as init.",
                                              "optional" : 1,
-                                             "type" : "string",
-                                             "typetext" : "<string>"
+                                             "pattern" : "(?^:[^\\x00-\\x1F\\x7F]+)",
+                                             "type" : "string"
                                           },
                                           "env" : {
                                              "description" : "The container runtime environment as NUL-separated list. Replaces any lxc.environment.runtime entries in the config.",
                                              "optional" : 1,
-                                             "pattern" : "(?^:(?:\\w+=[^\\0]+)(?:\\0\\w+=[^\\0]+)*)",
+                                             "pattern" : "(?^:(?:\\w+=[^\\x00-\\x1F\\x7F]*)(?:\\0\\w+=[^\\x00-\\x1F\\x7F]*)*)",
                                              "type" : "string"
                                           },
                                           "features" : {
@@ -41571,7 +41572,7 @@ const apiSchema = [
                               "info" : {
                                  "GET" : {
                                     "allowtoken" : 1,
-                                    "description" : "Opens a weksocket for VNC traffic.",
+                                    "description" : "Opens a websocket for VNC traffic.",
                                     "method" : "GET",
                                     "name" : "vncwebsocket",
                                     "parameters" : {
@@ -44431,13 +44432,13 @@ const apiSchema = [
                                  "default" : "/sbin/init",
                                  "description" : "Absolute path from container rootfs to the binary to use as init.",
                                  "optional" : 1,
-                                 "type" : "string",
-                                 "typetext" : "<string>"
+                                 "pattern" : "(?^:[^\\x00-\\x1F\\x7F]+)",
+                                 "type" : "string"
                               },
                               "env" : {
                                  "description" : "The container runtime environment as NUL-separated list. Replaces any lxc.environment.runtime entries in the config.",
                                  "optional" : 1,
-                                 "pattern" : "(?^:(?:\\w+=[^\\0]+)(?:\\0\\w+=[^\\0]+)*)",
+                                 "pattern" : "(?^:(?:\\w+=[^\\x00-\\x1F\\x7F]*)(?:\\0\\w+=[^\\x00-\\x1F\\x7F]*)*)",
                                  "type" : "string"
                               },
                               "features" : {
@@ -52857,6 +52858,14 @@ const apiSchema = [
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
+                                          "filename" : {
+                                             "description" : "Custom destination file name of the OCI image. Caution: This will be normalized!",
+                                             "maxLength" : 255,
+                                             "minLength" : 1,
+                                             "optional" : 1,
+                                             "type" : "string",
+                                             "typetext" : "<string>"
+                                          },
                                           "node" : {
                                              "description" : "The cluster node name.",
                                              "format" : "pve-node",
@@ -52865,7 +52874,7 @@ const apiSchema = [
                                           },
                                           "reference" : {
                                              "description" : "The reference to the OCI image to download.",
-                                             "pattern" : "^(?:(?:[a-zA-Z\\d]|[a-zA-Z\\d][a-zA-Z\\d-]*[a-zA-Z\\d])(?:\\.(?:[a-zA-Z\\d]|[a-zA-Z\\d][a-zA-Z\\d-]*[a-zA-Z\\d]))*(?::\\d+)?/)?[a-z\\d]+(?:/[a-z\\d]+(?:(?:(?:[._]|__|[-]*)[a-z\\d]+)+)?)*:\\w[\\w.-]{0,127}$",
+                                             "pattern" : "^(?:(?:[a-zA-Z\\d]|[a-zA-Z\\d][a-zA-Z\\d-]*[a-zA-Z\\d])(?:\\.(?:[a-zA-Z\\d]|[a-zA-Z\\d][a-zA-Z\\d-]*[a-zA-Z\\d]))*(?::\\d+)?/)?[a-z\\d]+(?:(?:[._]|__|[-]*)[a-z\\d]+)*(?:/[a-z\\d]+(?:(?:[._]|__|[-]*)[a-z\\d]+)*)*:\\w[\\w.-]{0,127}$",
                                              "type" : "string"
                                           },
                                           "storage" : {
@@ -57734,7 +57743,7 @@ const apiSchema = [
                                                             "index" : {
                                                                "description" : "The index of the guests network device that this interface belongs to.",
                                                                "optional" : 1,
-                                                               "type" : "number"
+                                                               "type" : "string"
                                                             },
                                                             "name" : {
                                                                "description" : "The name of the bridge port.",
