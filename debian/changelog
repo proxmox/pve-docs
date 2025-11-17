@@ -1,3 +1,45 @@
+pve-docs (9.0.9) trixie; urgency=medium
+
+  * network: improve title wording and casing.
+
+  * storage replication: document replication-specific network setting.
+
+  * containers: update to cgroupv2 being the only supported mode for PE 9
+    onwards
+
+  * fix #6656: asciidoc: add anchor links for paragraphs with IDs.
+
+  * cluster: network redundancy: explicitly mention subnets.
+
+  * qm: ovmf: mention that an RNG device is required for PXE boot.
+
+  * lvm: add note about requirements of snapshot-as-volume-chains.
+
+  * package-repos: fix disabling deb822 repository instructions.
+
+  * qemu: document the situations in when a QGA fs-freeze is issued for VMs.
+
+  * fix #6897: document that systemd requires LXC nesting.
+
+  * pve ceph: update OSD memory considerations.
+
+  * pve ceph: add section about the ceph configuration architecture and
+    tooling.
+
+  * fix #6728: remove mention of oldstable to clarify support/EOL policy.
+
+  * add notes about effects of purge flag for resource and guest removal.
+
+  * kernel samepage merging: describe how to disable for a specific VM.
+
+  * container: add basic documentations for OCI images and OCI containers.
+
+  * various small typo fixes and language improvements.
+
+  * update static/schema information for API viewer and generated synopsis.
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 17 Nov 2025 22:52:16 +0100
+
 pve-docs (9.0.8) trixie; urgency=medium
 
   * network: update name of pinning tool to pve-network-pinning-tool.
