@@ -1,3 +1,15 @@
+pve-docs (9.1.0) trixie; urgency=medium
+
+  * container: mention about possibility to upload OCI images from the browser.
+
+  * faq: mention OCI support in container technology comparison.
+
+  * container: clarify what part is a tech preview in the OCI section.
+
+  * screenshots: update UI overview ones that had more significant changes.
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 18 Nov 2025 19:57:15 +0100
+
 pve-docs (9.0.9) trixie; urgency=medium
 
   * network: improve title wording and casing.
