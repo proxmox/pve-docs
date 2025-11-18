@@ -163,12 +163,13 @@ Proxmox Containers are how we refer to containers that are created and managed
 using the Proxmox Container Toolkit (`pct`). They also target *system
 virtualization* and use LXC as the basis of the container offering. With the
 addition of OCI image support (technology preview), Proxmox VE can also create
-containers from *application-focused* OCI images. The Poxmox Container Toolkit
-(`pct`) is tightly coupled with {pve}. This means that it is aware of cluster
-setups, and it can use the same network and storage resources as QEMU virtual
-machines (VMs). You can even use the {pve} firewall, create and restore backups,
-or manage containers using the HA framework. Everything can be controlled over
-the network using the {pve} API.
+containers from OCI images, including full system containers but also
+application containers (tech preview).
+The Poxmox Container Toolkit (`pct`) is tightly coupled with {pve}. This means
+that it is aware of cluster setups, and it can use the same network and storage
+resources as QEMU virtual machines (VMs). You can even use the {pve} firewall,
+create and restore backups, or manage containers using the HA framework.
+Everything can be controlled over the network using the {pve} API.
 +
 Docker aims at running a *single* application in an isolated, self-contained
 environment. These are generally referred to as ``Application Containers'', rather
@@ -176,7 +177,7 @@ than ``System Containers''. You manage a Docker instance from the host, using th
 Docker Engine command-line interface. It is not recommended to run docker
 directly on your {pve} host.
 +
-NOTE: While it is convenient to run ``Application Containers'' directly as
-Proxmox Containers, for use cases requiring container orchestration or live
-migration, it is still recommended to run them inside a Proxmox QEMU virtual
-machine.
+NOTE: While it can be convenient to run ``Application Containers'' directly as
+Proxmox Containers, doing so is currently a tech preview. For use cases
+requiring container orchestration or live migration, it is still recommended to
+run them inside a Proxmox QEMU virtual machine.
