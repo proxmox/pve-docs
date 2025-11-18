@@ -349,18 +349,21 @@ delete that image later with:
 # pveam remove local:vztmpl/debian-10.0-standard_10.0-1_amd64.tar.gz
 ----
 
-Open Container Initiative (OCI) Images (technology preview)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Open Container Initiative (OCI) Images
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Proxmox VE can also use OCI images to create containers. This makes it easy to
-run pre-packaged applications. A container created from an OCI image still uses
-the existing LXC framework.
+{pve} can also use OCI images to create containers, both system containers but
+also application containers. Note that running application in {pve} is currently
+considered a (technology preview.
+
+A container created from an OCI image still uses the existing LXC framework.
 
 Obtaining OCI Images
 ~~~~~~~~~~~~~~~~~~~~
 
-In the web interface an OCI image can be uploaded manually or pulled from a registry using the *Pull
-from OCI registry* button on the container template view of a storage.
+In the web interface an OCI image can be uploaded manually or pulled from a
+registry using the *Pull from OCI registry* button on the container template
+view of a storage.
 
 Once the template is on a storage, you can create the container with
 `pct create` or use the wizard in the web interface.
