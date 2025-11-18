@@ -359,7 +359,7 @@ the existing LXC framework.
 Obtaining OCI Images
 ~~~~~~~~~~~~~~~~~~~~
 
-In the web interface an OCI image can be pulled from a registry using the *Pull
+In the web interface an OCI image can be uploaded manually or pulled from a registry using the *Pull
 from OCI registry* button on the container template view of a storage.
 
 Once the template is on a storage, you can create the container with
