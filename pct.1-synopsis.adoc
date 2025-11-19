@@ -136,11 +136,11 @@ Description for the Container. Shown in the web-interface CT's summary. This is 
 
 Device to pass through to the container
 
-`--entrypoint` `(?^:[^\x00-\x1F\x7F]+)` ('default =' `/sbin/init`)::
+`--entrypoint` `(?^:[^\x00-\x08\x10-\x1F\x7F]+)` ('default =' `/sbin/init`)::
 
-Absolute path from container rootfs to the binary to use as init.
+Command to run as init, optionally with arguments; may start with an absolute path, relative path, or a binary in $PATH.
 
-`--env` `(?^:(?:\w+=[^\x00-\x1F\x7F]*)(?:\0\w+=[^\x00-\x1F\x7F]*)*)` ::
+`--env` `(?^:(?:\w+=[^\x00-\x08\x10-\x1F\x7F]*)(?:\0\w+=[^\x00-\x08\x10-\x1F\x7F]*)*)` ::
 
 The container runtime environment as NUL-separated list. Replaces any lxc.environment.runtime entries in the config.
 
@@ -715,11 +715,11 @@ Description for the Container. Shown in the web-interface CT's summary. This is 
 
 Device to pass through to the container
 
-`--entrypoint` `(?^:[^\x00-\x1F\x7F]+)` ('default =' `/sbin/init`)::
+`--entrypoint` `(?^:[^\x00-\x08\x10-\x1F\x7F]+)` ('default =' `/sbin/init`)::
 
-Absolute path from container rootfs to the binary to use as init.
+Command to run as init, optionally with arguments; may start with an absolute path, relative path, or a binary in $PATH.
 
-`--env` `(?^:(?:\w+=[^\x00-\x1F\x7F]*)(?:\0\w+=[^\x00-\x1F\x7F]*)*)` ::
+`--env` `(?^:(?:\w+=[^\x00-\x08\x10-\x1F\x7F]*)(?:\0\w+=[^\x00-\x08\x10-\x1F\x7F]*)*)` ::
 
 The container runtime environment as NUL-separated list. Replaces any lxc.environment.runtime entries in the config.
 
@@ -926,11 +926,11 @@ Device to pass through to the container
 
 Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
 
-`--entrypoint` `(?^:[^\x00-\x1F\x7F]+)` ('default =' `/sbin/init`)::
+`--entrypoint` `(?^:[^\x00-\x08\x10-\x1F\x7F]+)` ('default =' `/sbin/init`)::
 
-Absolute path from container rootfs to the binary to use as init.
+Command to run as init, optionally with arguments; may start with an absolute path, relative path, or a binary in $PATH.
 
-`--env` `(?^:(?:\w+=[^\x00-\x1F\x7F]*)(?:\0\w+=[^\x00-\x1F\x7F]*)*)` ::
+`--env` `(?^:(?:\w+=[^\x00-\x08\x10-\x1F\x7F]*)(?:\0\w+=[^\x00-\x08\x10-\x1F\x7F]*)*)` ::
 
 The container runtime environment as NUL-separated list. Replaces any lxc.environment.runtime entries in the config.
 

@@ -37255,15 +37255,15 @@ const apiSchema = [
                                           },
                                           "entrypoint" : {
                                              "default" : "/sbin/init",
-                                             "description" : "Absolute path from container rootfs to the binary to use as init.",
+                                             "description" : "Command to run as init, optionally with arguments; may start with an absolute path, relative path, or a binary in $PATH.",
                                              "optional" : 1,
-                                             "pattern" : "(?^:[^\\x00-\\x1F\\x7F]+)",
+                                             "pattern" : "(?^:[^\\x00-\\x08\\x10-\\x1F\\x7F]+)",
                                              "type" : "string"
                                           },
                                           "env" : {
                                              "description" : "The container runtime environment as NUL-separated list. Replaces any lxc.environment.runtime entries in the config.",
                                              "optional" : 1,
-                                             "pattern" : "(?^:(?:\\w+=[^\\x00-\\x1F\\x7F]*)(?:\\0\\w+=[^\\x00-\\x1F\\x7F]*)*)",
+                                             "pattern" : "(?^:(?:\\w+=[^\\x00-\\x08\\x10-\\x1F\\x7F]*)(?:\\0\\w+=[^\\x00-\\x08\\x10-\\x1F\\x7F]*)*)",
                                              "type" : "string"
                                           },
                                           "features" : {
@@ -37834,15 +37834,15 @@ const apiSchema = [
                                           },
                                           "entrypoint" : {
                                              "default" : "/sbin/init",
-                                             "description" : "Absolute path from container rootfs to the binary to use as init.",
+                                             "description" : "Command to run as init, optionally with arguments; may start with an absolute path, relative path, or a binary in $PATH.",
                                              "optional" : 1,
-                                             "pattern" : "(?^:[^\\x00-\\x1F\\x7F]+)",
+                                             "pattern" : "(?^:[^\\x00-\\x08\\x10-\\x1F\\x7F]+)",
                                              "type" : "string"
                                           },
                                           "env" : {
                                              "description" : "The container runtime environment as NUL-separated list. Replaces any lxc.environment.runtime entries in the config.",
                                              "optional" : 1,
-                                             "pattern" : "(?^:(?:\\w+=[^\\x00-\\x1F\\x7F]*)(?:\\0\\w+=[^\\x00-\\x1F\\x7F]*)*)",
+                                             "pattern" : "(?^:(?:\\w+=[^\\x00-\\x08\\x10-\\x1F\\x7F]*)(?:\\0\\w+=[^\\x00-\\x08\\x10-\\x1F\\x7F]*)*)",
                                              "type" : "string"
                                           },
                                           "features" : {
@@ -44430,15 +44430,15 @@ const apiSchema = [
                               },
                               "entrypoint" : {
                                  "default" : "/sbin/init",
-                                 "description" : "Absolute path from container rootfs to the binary to use as init.",
+                                 "description" : "Command to run as init, optionally with arguments; may start with an absolute path, relative path, or a binary in $PATH.",
                                  "optional" : 1,
-                                 "pattern" : "(?^:[^\\x00-\\x1F\\x7F]+)",
+                                 "pattern" : "(?^:[^\\x00-\\x08\\x10-\\x1F\\x7F]+)",
                                  "type" : "string"
                               },
                               "env" : {
                                  "description" : "The container runtime environment as NUL-separated list. Replaces any lxc.environment.runtime entries in the config.",
                                  "optional" : 1,
-                                 "pattern" : "(?^:(?:\\w+=[^\\x00-\\x1F\\x7F]*)(?:\\0\\w+=[^\\x00-\\x1F\\x7F]*)*)",
+                                 "pattern" : "(?^:(?:\\w+=[^\\x00-\\x08\\x10-\\x1F\\x7F]*)(?:\\0\\w+=[^\\x00-\\x08\\x10-\\x1F\\x7F]*)*)",
                                  "type" : "string"
                               },
                               "features" : {
