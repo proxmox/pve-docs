@@ -1,3 +1,11 @@
+pve-docs (9.1.1) trixie; urgency=medium
+
+  * pct: application containers: fix classification as technology preview.
+
+  * update static/schema information for API viewer and generated synopsis.
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 19 Nov 2025 13:02:23 +0100
+
 pve-docs (9.1.0) trixie; urgency=medium
 
   * container: mention about possibility to upload OCI images from the browser.
