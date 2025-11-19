@@ -58,10 +58,10 @@ Our primary goal has traditionally been to offer an environment that provides
 the benefits of using a VM, but without the additional overhead. This means that
 Proxmox Containers have been primarily categorized as ``System Containers''.
 
-With the introduction of OCI (**O**pen **C**ontainer **I**nitiative) image support,
-Proxmox VE now also integrates ``Application Containers''. When creating a
-container from an OCI image, the image is automatically converted to the
-LXC stack that Proxmox VE uses.
+With the introduction of OCI (**O**pen **C**ontainer **I**nitiative) image
+support, Proxmox VE now also integrates ``Application Containers'' as a
+technology preview. When creating a container from an OCI image, the image is
+automatically converted to the LXC stack that Proxmox VE uses.
 
 This approach allows users to benefit from a wide ecosystem of pre-packaged
 applications while retaining the robust management features of Proxmox VE.
@@ -353,8 +353,8 @@ Open Container Initiative (OCI) Images
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 {pve} can also use OCI images to create containers, both system containers but
-also application containers. Note that running application in {pve} is currently
-considered a (technology preview.
+also application containers. Note that running application containers in {pve}
+is currently considered a technology preview.
 
 A container created from an OCI image still uses the existing LXC framework.
 
