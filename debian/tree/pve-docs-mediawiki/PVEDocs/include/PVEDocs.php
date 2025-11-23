@@ -29,9 +29,9 @@ class PVEDocs {
     public static function efPvedocsParserFunction_Render(Parser $parser, $doc = '') {
         $parser->getOutput()->updateCacheExpiry(0); // disableCache() was dropped in MW 1.34
 
-        // only allow simple names, so that jist files from within "/usr/share/pve-docs/" can be included
-        if (!preg_match("/[a-z0-9.-]+\.html/i", $doc)) {
-            die("no such manual page");
+        // only allow simple names, so that just files from within "/usr/share/pve-docs/" can be included
+        if (!preg_match("/^(?:\.?[a-z0-9-]+)+\.html$/i", $doc)) {
+            return array("Error: tried to include bad file name '$doc'", 'noparse' => true, 'isHTML' => false);
         }
 
         // load JS helper for TOC/footnote generation and load actual HTML content fom docs
