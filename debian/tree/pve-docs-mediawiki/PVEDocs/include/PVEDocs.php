@@ -34,10 +34,15 @@ class PVEDocs {
             return array("Error: tried to include bad file name '$doc'", 'noparse' => true, 'isHTML' => false);
         }
 
+        $docPath = "/usr/share/pve-docs/$doc";
+        if (!file_exists($docPath)) {
+            return array("File not found: $doc", 'noparse' => true, 'isHTML' => false);
+        }
+
         // load JS helper for TOC/footnote generation and load actual HTML content fom docs
         $content = "\n<script type=\"text/javascript\">\n".file_get_contents("/usr/lib/pve-docs/PVEDocs/mw-asciidoc.js") ."</script>";
 
-        $content .= file_get_contents("/usr/share/pve-docs/$doc");
+        $content .= file_get_contents($docPath);
 
         // from https://gerrit.wikimedia.org/r/plugins/gitiles/mediawiki/extensions/HTMLets/+/11e5ef1ea2820319458dc67174ca76d6e00b10cc/HTMLets.php#140
         $output = '<!--- @PVEDOCS_BASE64@ '.base64_encode($content).' @PVEDOCS_BASE64@ -->';
