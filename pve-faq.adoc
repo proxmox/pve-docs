@@ -130,7 +130,7 @@ They must be carefully planned and tested and should *never* be started without
 having a current backup ready.
 +
 Although the specific upgrade steps depend on your respective setup, we provide
-general instructions and advice of how a upgrade should be performed:
+general instructions and advice on how an upgrade should be performed:
 +
 * https://pve.proxmox.com/wiki/Upgrade_from_8_to_9[Upgrade from {pve} 8 to 9]
 
@@ -165,7 +165,7 @@ virtualization* and use LXC as the basis of the container offering. With the
 addition of OCI image support (technology preview), Proxmox VE can also create
 containers from OCI images, including full system containers but also
 application containers (tech preview).
-The Poxmox Container Toolkit (`pct`) is tightly coupled with {pve}. This means
+The Proxmox Container Toolkit (`pct`) is tightly coupled with {pve}. This means
 that it is aware of cluster setups, and it can use the same network and storage
 resources as QEMU virtual machines (VMs). You can even use the {pve} firewall,
 create and restore backups, or manage containers using the HA framework.
