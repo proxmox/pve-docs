@@ -3,7 +3,7 @@ Proxmox VE Documentation
 
 We try to generate high quality documentation for
 {website}[{pve}], and choose to use
-http://www.methods.co.nz/asciidoc/[AsciiDoc] as base format.
+https://asciidoc.org/[AsciiDoc] as base format.
 
 The basic idea is to generate high quality manual pages, and assemble
 them into a complete book, called link:pve-admin-guide.adoc[Proxmox VE
