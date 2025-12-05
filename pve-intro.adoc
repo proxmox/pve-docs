@@ -232,7 +232,7 @@ infrastructure, and made it easy to provide additional services.
 Also, the new REST API made it possible to replace the original user interface
 with a modern client side single-page application using JavaScript. We also
 replaced the old Java based VNC console code with
-https://kanaka.github.io/noVNC/[noVNC]. So you only need a web browser to manage
+https://novnc.com/info.html[noVNC]. So you only need a web browser to manage
 your VMs.
 
 The support for various storage types is another big task. Notably, {pve} was
