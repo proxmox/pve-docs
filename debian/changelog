@@ -1,3 +1,19 @@
+pve-docs (9.1.2) trixie; urgency=medium
+
+  * mediawiki: return an error page to the user instead of triggering an
+    exception for bad names.
+
+  * mediawiki: explicitly test if the docs file exists. This avoids misleading
+    entries in the apache error log.
+
+  * fix #7106: intro: replace broken link to noVNC site.
+
+  * readme: replace broken link to AsciiDoc site.
+
+  * faq: minor typo and grammar fixes.
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 12 Dec 2025 14:18:26 +0100
+
 pve-docs (9.1.1) trixie; urgency=medium
 
   * pct: application containers: fix classification as technology preview.
