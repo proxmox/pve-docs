@@ -447,16 +447,26 @@ deb http://download.proxmox.com/debian/pve buster pvetest
 |===========================================================
 
 
-Outdated: {pve} VE 1 to 5 Repositories
+Outdated: {pve} VE 1 to 6 Repositories
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-{pve} releases 1 (based on Debian 5.0 ``lenny''), 2 (based on Debian 6
-``squeeze''), 3 (based on Debian 7 ``wheezy''), 4 (based on Debian 6
-``jessie''), and 5 (based on Debian 8 ``stretch'') are very outdated.
+The following {pve} releases are very outdated and are archived:
 
-For {pve} 3 and newer repositories are still available, but they might be
-archived at any time. See the shipped version of the reference documentation on
-your installation for details about the repositories.
+* {pve} 1, based on Debian 5 ``lenny''
+* {pve} 2, based on Debian 6 ``squeeze''
+* {pve} 3, based on Debian 7 ``wheezy''
+* {pve} 4, based on Debian 6 ``jessie''
+* {pve} 5, based on Debian 8 ``stretch''
+* {pve} 6, based on Debian 9 ``buster''
+
+For {pve} 3 and newer from above list, repositories are still available on our
+archive CDN.
+
+See the shipped version of the reference documentation on your installation of
+such legacy releases for details about the repositories.
+
+NOTE: You will need to change the repo domain from  ``enterprise.proxmox.com'' or
+``download.proxmox.com'' to ``archive.proxmox.com''.
 
 Please upgrade to latest version as soon as possible!
 
