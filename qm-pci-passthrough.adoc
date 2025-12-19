@@ -253,8 +253,8 @@ For both methods you need to
 xref:qm_pci_passthrough_update_initramfs[update the `initramfs`] again and
 reboot after that.
 
-Should this not work, you might need to set a soft dependency to load the gpu
-modules before loading 'vfio-pci'. This can be done with the 'softdep' flag, see
+Should this not work, you might need to set a soft dependency to load 'vfio-pci'
+before loading the GPU modules. This can be done with the 'softdep' flag, see
 also the manpages on 'modprobe.d' for more information.
 
 For example, if you are using drivers named <some-module>:
