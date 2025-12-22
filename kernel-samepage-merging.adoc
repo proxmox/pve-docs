@@ -36,7 +36,7 @@ Disabling KSM
 
 KSM can be disabled on a node or on a per-VM basis.
 
-.Disabe KSM on a Node
+.Disable KSM on a Node
 
 To see if KSM is active on a node, you can check the output of:
 

@@ -49,7 +49,7 @@ to zero blocks. Otherwise, a fallback to `cstream` is performed.
 
 `saferemove-stepsize`::
 
-Wipe step size in MiB (`blkdiscard -p` paramater value), capped to the maximum
+Wipe step size in MiB (`blkdiscard -p` parameter value), capped to the maximum
 step size supported by the underlying storage. Up to 32 MiB (maximum) by
 default.
 
