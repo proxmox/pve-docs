@@ -1192,6 +1192,203 @@ ceph osd unset noout
 You can now start up the guests. Highly available guests will change their state
 to 'started' when they power on.
 
+
+[[pveceph_network_change]]
+Network Changes
+~~~~~~~~~~~~~~~
+
+It is possible to change the networks used by Ceph in a HCI setup without any
+downtime if *both the old and new networks can be configured at the same time*.
+
+The procedure differs depending on which network you want to change.
+
+NOTE: A word of caution! It is critical that the change of the used networks by
+Ceph is being done carefully. Otherwise it could lead to a broken Ceph cluster
+with downtime to get it back into a working state! We recommend doing a trial
+run of the procedure in a (virtual) test cluster before changing the production
+infrastructure.
+
+After the new network has been configured on all hosts, make sure you test it
+before proceeding with the changes. One way is to ping all hosts on the new
+network. If you use a large MTU, make sure to also test that it works. For
+example by sending ping packets that will result in a final packet at the max
+MTU size.
+
+To test an MTU of 9000, you will need the following packet sizes:
+
+NOTE: We assume a simple network configuration. In more complicated setups, you
+might need to configure a lower MTU to account for any headers that might be
+added once a packet leaves the host.
+
+[horizontal]
+IPv4:: The overhead of IP and ICMP is '28' bytes; the resulting packet size for
+the ping then is '8972' bytes.
+IPv6:: The overhead is '48' bytes and the resulting packet size is
+'8952' bytes.
+
+The resulting ping command will look like this for an IPv4:
+[source,bash]
+----
+ping -M do -s 8972 {target IP}
+----
+
+When you are switching between IPv4 and IPv6 networks, you need to make sure
+that the following options in the `ceph.conf` file are correctly set to `true`
+or `false`. These config options configure if Ceph services should bind to IPv4
+or IPv6 addresses.
+----
+ms_bind_ipv4 = true
+ms_bind_ipv6 = false
+----
+
+[[pveceph_network_change_public]]
+Change the Ceph Public Network
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Ceph Public network is the main communication channel in a Ceph cluster
+between the different services and clients (for example, a VM). Changing it to
+a different network is not as simple as changing the Ceph Cluster network. The
+main reason is that besides the configuration in the `ceph.conf` file, the Ceph
+MONs (monitors) have an internal configuration where they keep track of all the
+other MONs that are part of the cluster, the 'monmap'.
+
+Therefore, the procedure to change the Ceph Public network is a bit more
+involved:
+
+1. Change `public_network` in the `/etc/pve/ceph.conf` file (do not change any
+other value)
+2. Restart non MON services: OSDs, MGRs and MDS on one host
+3. Wait until Ceph is back to 'HEALTH_OK'
+4. Verify services are using the new network
+5. Continue restarting services on the next host
+6. Destroy one MON
+7. Recreate MON
+8. Wait until Ceph is back to 'HEALTH_OK'
+9. Continue destroying and recreating MONs
+
+You first need to edit the `/etc/pve/ceph.conf` file. Change the
+`public_network` line to match the new subnet.
+
+----
+public_network = 10.9.9.30/24
+----
+
+WARNING: Do not change the `mon_host` line or any `[mon.HOSTNAME]` sections.
+These will be updated automatically when the MONs are destroyed and recreated.
+
+NOTE: Don't worry if the host bits (for example, the last octet) are set by
+default, the netmask in CIDR notation defines the network part.
+
+After you have changed the network, you need to restart the non MON services in
+the cluster for the changes to take effect. Do so one node at a time! To restart all
+non MON services on one node, you can use the following commands on that node.
+Ceph has `systemd` targets for each type of service.
+
+[source,bash]
+----
+systemctl restart ceph-osd.target
+systemctl restart ceph-mgr.target
+systemctl restart ceph-mds.target
+----
+NOTE: You will only have MDS' (Metadata Server) if you use CephFS.
+
+NOTE: After the first OSD service got restarted, the GUI will complain that
+the OSD is not reachable anymore. This is not an issue; VMs can still reach
+them. The reason for the message is that the MGR service cannot reach the OSD
+anymore. The error will vanish after the MGR services get restarted.
+
+WARNING: Do not restart OSDs on multiple hosts at the same time. Chances are
+that for some PGs (placement groups), 2 out of the (default) 3 replicas will
+be down. This will result in I/O being halted until the minimum required number
+(`min_size`) of replicas is available again.
+
+To verify that the services are listening on the new network, you can run the
+following command on each node:
+
+[source,bash]
+----
+ss -tulpn | grep ceph
+----
+
+NOTE: Since OSDs will also listen on the Ceph Cluster network, expect to see that
+network too in the output of `ss -tulpn`.
+
+Once the Ceph cluster is back in a fully healthy state ('HEALTH_OK'), and the
+services are listening on the new network, continue to restart the services on
+the host.
+
+The last services that need to be moved to the new network are the Ceph MONs
+themselves. The easiest way is to destroy and recreate each monitor one by
+one. This way, any mention of it in the `ceph.conf` and the monitor internal
+`monmap` is handled automatically.
+
+Destroy the first MON and create it again. Wait a few moments before you
+continue on to the next MON in the cluster, and make sure the cluster reports
+'HEALTH_OK' before proceeding.
+
+Once all MONs are recreated, you can verify that any mention of MONs in the
+`ceph.conf` file references the new network. That means mainly the `mon_host`
+line and the `[mon.HOSTNAME]` sections.
+
+One final `ss -tulpn | grep ceph` should show that the old network is not used
+by any Ceph service anymore.
+
+[[pveceph_network_change_cluster]]
+Change the Ceph Cluster Network
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Ceph Cluster network is used for the replication traffic between the OSDs.
+Therefore, it can be beneficial to place it on its own fast physical network.
+
+The overall procedure is:
+
+1. Change `cluster_network` in the `/etc/pve/ceph.conf` file
+2. Restart OSDs on one host
+3. Wait until Ceph is back to 'HEALTH_OK'
+4. Verify OSDs are using the new network
+5. Continue restarting OSDs on the next host
+
+You first need to edit the `/etc/pve/ceph.conf` file. Change the
+`cluster_network` line to match the new subnet.
+
+----
+cluster_network = 10.9.9.30/24
+----
+
+NOTE: Don't worry if the host bits (for example, the last octet) are set by
+default; the netmask in CIDR notation defines the network part.
+
+After you have changed the network, you need to restart the OSDs in the cluster
+for the changes to take effect. Do so one node at a time!
+To restart all OSDs on one node, you can use the following command on the CLI on
+that node:
+
+[source,bash]
+----
+systemctl restart ceph-osd.target
+----
+
+WARNING: Do not restart OSDs on multiple hosts at the same time. Chances are
+that for some PGs (placement groups), 2 out of the (default) 3 replicas will
+be down. This will result in I/O being halted until the minimum required number
+(`min_size`) of replicas is available again.
+
+To verify that the OSD services are listening on the new network, you can either
+check the *OSD Details -> Network* tab in the *Ceph -> OSD* panel or by running
+the following command on the host:
+[source,bash]
+----
+ss -tulpn | grep ceph-osd
+----
+
+NOTE: Since OSDs will also listen on the Ceph Public network, expect to see that
+network too in the output of `ss -tulpn`.
+
+Once the Ceph cluster is back in a fully healthy state ('HEALTH_OK'), and the
+OSDs are listening on the new network, continue to restart the OSDs on the next
+host.
+
+
 [[pve_ceph_mon_and_ts]]
 Ceph Monitoring and Troubleshooting
 -----------------------------------
