@@ -232,6 +232,10 @@ snippets:::
 
 Snippet files, for example guest hook scripts
 
+import:::
+
+OVAs and VM disk images that can be imported from this storage
+
 shared::
 
 Indicate that this is a single storage with the same contents on all nodes (or
