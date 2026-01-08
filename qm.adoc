@@ -1030,13 +1030,10 @@ SPICE, virtio or virgl, you'll need to choose which clipboard to use.
 This is because the default *SPICE* clipboard will be replaced by the
 *VNC* clipboard, if `clipboard` is set to `vnc`.
 
-// TODO: Change NOTE below when live-migration patch is packaged in pve-qemu:
-// https://lists.gnu.org/archive/html/qemu-devel/2025-05/msg05656.html
 NOTE: In order to enable the VNC clipboard, QEMU is configured to use the
-qemu-vdagent device.
-https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg05393.html[Currently,
-the qemu-vdagent device does not support live migration.] This means that a VM
-with an enabled VNC clipboard cannot be live-migrated at the moment.
+qemu-vdagent device. Live migration support for this device was added with
+QEMU version 10.1. VMs running on a QEMU or machine version below 10.1 with an
+enabled VNC clipboard cannot be live-migrated.
 
 [[qm_usb_passthrough]]
 USB Passthrough
