@@ -505,7 +505,7 @@ killall pmxcfs
 systemctl start pve-cluster
 ----
 
-The node is now separated from the cluster. You can deleted it from any
+The node is now separated from the cluster. You can delete it from any
 remaining node of the cluster with:
 [source,bash]
 ----
@@ -582,7 +582,7 @@ is not guaranteed and gets rather unlikely with more than three nodes and
 latencies above around 10 ms.
 
 The network should not be used heavily by other members, as while corosync does
-not uses much bandwidth it is sensitive to latency jitters; ideally corosync
+not use much bandwidth, it is sensitive to latency jitters; ideally corosync
 runs on its own physically separated network.  Especially do not use a shared
 network for corosync and storage (except as a potential low-priority fallback
 in a xref:pvecm_redundancy[redundant] configuration).
