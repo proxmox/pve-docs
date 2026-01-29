@@ -94,6 +94,39 @@ div[class="paragraph"][id]:hover a.headerlink {
   visibility: visible;
 }
 
+.to-top {
+    display: none;
+}
+@media only screen {
+    .to-top {
+        position: fixed;
+        bottom: 15px;
+        right: 10px;
+        width: 25px;
+        height: 30px;
+
+        opacity: 0.75;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: #333;
+        font-size: 20px;
+        z-index: 1000;
+        transition: opacity 0.3s, background-color 0.3s;
+    }
+    .to-top:hover {
+        background-color: #e0e0e0;
+        opacity: 0.9;
+    }
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
 /* Hide the TOC menu toggler by default */
 .menu-toggler, .nav-toggle, .menu-overlay {
     display: none;
@@ -348,5 +381,12 @@ div[class="paragraph"][id]:hover a.headerlink {
     .nav-toggle {
         background-color: var(--pdt-grey-250);
         color: var(--pdt-grey-950);
+    }
+    .to-top {
+        background-color: var(--pdt-grey-250);
+        color: var(--pdt-grey-950);
+    }
+    .to-top:hover {
+        background-color: var(--pdt-grey-100);
     }
 }
