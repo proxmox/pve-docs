@@ -136,7 +136,7 @@ Allow experimental versions. Use with care!
 
 Ceph repository to use. The 'manual' option will not configure any repositories. Use it if the host cannot access the public repositories, for example if Proxmox Offline Mirror is used. A repository that contains the Ceph packages for the version needs to be manually configured before starting the installation!
 
-`--version` `<squid>` ('default =' `squid`)::
+`--version` `<squid | tentacle>` ('default =' `squid`)::
 
 Ceph version to install.
 

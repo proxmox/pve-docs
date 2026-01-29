@@ -236,7 +236,7 @@ CPU weight for a VM, will be clamped to [1, 10000] in cgroup v2.
 
 Description for the VM. Shown in the web-interface VM's summary. This is saved as comment inside the configuration file.
 
-`--efidisk0` `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<2011|2023>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
+`--efidisk0` `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<2011|2023|2023w>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
 
 Configure a disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.
 
@@ -336,7 +336,7 @@ Memory properties.
 
 `--migrate_downtime` `<number> (0 - N)` ('default =' `0.1`)::
 
-Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge.
+Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge. Will be capped to 2000 seconds (maximum in QEMU).
 
 `--migrate_speed` `<integer> (0 - N)` ('default =' `0`)::
 
@@ -887,7 +887,7 @@ Description for the VM. Shown in the web-interface VM's summary. This is saved a
 
 Show the create command and exit without doing anything.
 
-`--efidisk0` `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<2011|2023>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
+`--efidisk0` `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<2011|2023|2023w>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
 
 Configure a disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.
 
@@ -977,7 +977,7 @@ Memory properties.
 
 `--migrate_downtime` `<number> (0 - N)` ('default =' `0.1`)::
 
-Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge.
+Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge. Will be capped to 2000 seconds (maximum in QEMU).
 
 `--migrate_speed` `<integer> (0 - N)` ('default =' `0`)::
 
@@ -1515,7 +1515,7 @@ Description for the VM. Shown in the web-interface VM's summary. This is saved a
 
 Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
 
-`--efidisk0` `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<2011|2023>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
+`--efidisk0` `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<2011|2023|2023w>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
 
 Configure a disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.
 
@@ -1603,7 +1603,7 @@ Memory properties.
 
 `--migrate_downtime` `<number> (0 - N)` ('default =' `0.1`)::
 
-Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge.
+Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge. Will be capped to 2000 seconds (maximum in QEMU).
 
 `--migrate_speed` `<integer> (0 - N)` ('default =' `0`)::
 

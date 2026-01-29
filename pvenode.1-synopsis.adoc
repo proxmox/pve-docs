@@ -278,9 +278,13 @@ Migrate all VMs and Containers.
 
 Target node.
 
-`--maxworkers` `<integer> (1 - N)` ::
+`--max-workers` `<integer> (1 - 64)` ::
 
 Maximal number of parallel migration job. If not set, uses'max_workers' from datacenter.cfg. One of both must be set!
+
+`--maxworkers` `<integer> (1 - 64)` ::
+
+Maximal number of parallel migration job. If not set, uses'max_workers' from datacenter.cfg. One of both must be set!Deprecated, use 'max-workers' instead.
 
 `--vms` `<string>` ::
 
@@ -300,6 +304,10 @@ with onboot=1).
 
 Issue start command even if virtual guest have 'onboot' not set or set to off.
 
+`--max-workers` `<integer> (1 - 64)` ::
+
+Defines the maximum number of tasks running concurrently. If not set, uses 'max_workers' from datacenter.cfg, and if that's not set, the available CPU threads, clamped to a maximum of 8, are used.
+
 `--vms` `<string>` ::
 
 Only consider guests from this comma separated list of VMIDs.
@@ -312,6 +320,10 @@ Stop all VMs and Containers.
 `--force-stop` `<boolean>` ('default =' `1`)::
 
 Force a hard-stop after the timeout.
+
+`--max-workers` `<integer> (1 - 64)` ::
+
+Defines the maximum number of tasks running concurrently. If  not set, uses 'max_workers' from datacenter.cfg, and if that's not set, the available CPU threads, clamped to a maximum of 8, are used.
 
 `--timeout` `<integer> (0 - 7200)` ('default =' `180`)::
 

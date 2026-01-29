@@ -188,7 +188,7 @@ The Hyper-V vendor ID. Some drivers or programs inside Windows guests need a spe
 
 The physical memory address bits that are reported to the guest OS. Should be smaller or equal to the host's. Set to 'host' to use value from host CPU, but note that doing so will break live migration to CPUs with other values.
 
-`reported-model`=`<486 | Broadwell | Broadwell-IBRS | Broadwell-noTSX | Broadwell-noTSX-IBRS | Cascadelake-Server | Cascadelake-Server-noTSX | Cascadelake-Server-v2 | Cascadelake-Server-v4 | Cascadelake-Server-v5 | Conroe | Cooperlake | Cooperlake-v2 | EPYC | EPYC-Genoa | EPYC-IBPB | EPYC-Milan | EPYC-Milan-v2 | EPYC-Rome | EPYC-Rome-v2 | EPYC-Rome-v3 | EPYC-Rome-v4 | EPYC-v3 | EPYC-v4 | GraniteRapids | Haswell | Haswell-IBRS | Haswell-noTSX | Haswell-noTSX-IBRS | Icelake-Client | Icelake-Client-noTSX | Icelake-Server | Icelake-Server-noTSX | Icelake-Server-v3 | Icelake-Server-v4 | Icelake-Server-v5 | Icelake-Server-v6 | IvyBridge | IvyBridge-IBRS | KnightsMill | Nehalem | Nehalem-IBRS | Opteron_G1 | Opteron_G2 | Opteron_G3 | Opteron_G4 | Opteron_G5 | Penryn | SandyBridge | SandyBridge-IBRS | SapphireRapids | SapphireRapids-v2 | Skylake-Client | Skylake-Client-IBRS | Skylake-Client-noTSX-IBRS | Skylake-Client-v4 | Skylake-Server | Skylake-Server-IBRS | Skylake-Server-noTSX-IBRS | Skylake-Server-v4 | Skylake-Server-v5 | Westmere | Westmere-IBRS | athlon | core2duo | coreduo | host | kvm32 | kvm64 | max | pentium | pentium2 | pentium3 | phenom | qemu32 | qemu64>` ('default =' `kvm64`);;
+`reported-model`=`<486 | Broadwell | Broadwell-IBRS | Broadwell-noTSX | Broadwell-noTSX-IBRS | Cascadelake-Server | Cascadelake-Server-noTSX | Cascadelake-Server-v2 | Cascadelake-Server-v4 | Cascadelake-Server-v5 | ClearwaterForest | Conroe | Cooperlake | Cooperlake-v2 | EPYC | EPYC-Genoa | EPYC-Genoa-v2 | EPYC-IBPB | EPYC-Milan | EPYC-Milan-v2 | EPYC-Milan-v3 | EPYC-Rome | EPYC-Rome-v2 | EPYC-Rome-v3 | EPYC-Rome-v4 | EPYC-Rome-v5 | EPYC-Turin | EPYC-v3 | EPYC-v4 | EPYC-v5 | GraniteRapids | GraniteRapids-v2 | GraniteRapids-v3 | Haswell | Haswell-IBRS | Haswell-noTSX | Haswell-noTSX-IBRS | Icelake-Client | Icelake-Client-noTSX | Icelake-Server | Icelake-Server-noTSX | Icelake-Server-v3 | Icelake-Server-v4 | Icelake-Server-v5 | Icelake-Server-v6 | Icelake-Server-v7 | IvyBridge | IvyBridge-IBRS | KnightsMill | Nehalem | Nehalem-IBRS | Opteron_G1 | Opteron_G2 | Opteron_G3 | Opteron_G4 | Opteron_G5 | Penryn | SandyBridge | SandyBridge-IBRS | SapphireRapids | SapphireRapids-v2 | SapphireRapids-v3 | SapphireRapids-v4 | SierraForest | SierraForest-v2 | SierraForest-v3 | Skylake-Client | Skylake-Client-IBRS | Skylake-Client-noTSX-IBRS | Skylake-Client-v4 | Skylake-Server | Skylake-Server-IBRS | Skylake-Server-noTSX-IBRS | Skylake-Server-v4 | Skylake-Server-v5 | Westmere | Westmere-IBRS | athlon | core2duo | coreduo | host | kvm32 | kvm64 | max | pentium | pentium2 | pentium3 | phenom | qemu32 | qemu64>` ('default =' `kvm64`);;
 
 CPU model and vendor to report to the guest. Must be a QEMU/KVM supported model. Only valid for custom CPU model definitions, default models will always report themselves to the guest OS.
 
@@ -206,7 +206,7 @@ CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger t
 
 Description for the VM. Shown in the web-interface VM's summary. This is saved as comment inside the configuration file.
 
-`efidisk0`: `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,ms-cert=<2011|2023>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
+`efidisk0`: `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,ms-cert=<2011|2023|2023w>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
 
 Configure a disk for storing EFI vars.
 
@@ -222,9 +222,9 @@ The drive's backing volume.
 
 The drive's backing file's data format.
 
-`ms-cert`=`<2011 | 2023>` ('default =' `2011`);;
+`ms-cert`=`<2011 | 2023 | 2023w>` ('default =' `2011`);;
 
-Informational marker indicating the version of the latest Microsof UEFI certificate that has been enrolled by Proxmox VE.
+Informational marker indicating the version of the latest Microsoft UEFI certificate that has been enrolled by Proxmox VE. The value '2023w' means that both the 'Microsoft UEFI CA 2023' and the 'Windows UEFI CA 2023' certificates are included. The value '2023' is deprecated and for compatibility only.
 
 `pre-enrolled-keys`=`<boolean>` ('default =' `0`);;
 
@@ -606,7 +606,7 @@ Current amount of online RAM for the VM in MiB. This is the maximum available me
 
 `migrate_downtime`: `<number> (0 - N)` ('default =' `0.1`)::
 
-Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge.
+Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge. Will be capped to 2000 seconds (maximum in QEMU).
 
 `migrate_speed`: `<integer> (0 - N)` ('default =' `0`)::
 
@@ -1273,7 +1273,7 @@ You can also run without any graphic card, using a serial device as terminal.
 
 `clipboard`=`<vnc>` ;;
 
-Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added. Migration with VNC clipboard is not yet supported!
+Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added. Live migration with a VNC clipboard is not possible with QEMU machine version < 10.1.
 
 `memory`=`<integer> (4 - 512)` ;;
 

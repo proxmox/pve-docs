@@ -12365,12 +12365,23 @@ const apiSchema = [
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
-                                    "maxworkers" : {
-                                       "default" : 1,
-                                       "description" : "How many parallel tasks at maximum should be started.",
+                                    "max-workers" : {
+                                       "default" : 4,
+                                       "description" : "Defines the maximum number of tasks running concurrently.",
+                                       "maximum" : 64,
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "<integer>"
+                                       "typetext" : "<integer> (1 - 64)"
+                                    },
+                                    "maxworkers" : {
+                                       "default" : 4,
+                                       "description" : "Defines the maximum number of tasks running concurrently. Deprecated, use 'max-workers' instead.",
+                                       "maximum" : 64,
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (1 - 64)"
                                     },
                                     "timeout" : {
                                        "description" : "Default start timeout in seconds. Only valid for VMs. (default depends on the guest configuration).",
@@ -12426,12 +12437,23 @@ const apiSchema = [
                                        "type" : "boolean",
                                        "typetext" : "<boolean>"
                                     },
-                                    "maxworkers" : {
-                                       "default" : 1,
-                                       "description" : "How many parallel tasks at maximum should be started.",
+                                    "max-workers" : {
+                                       "default" : 4,
+                                       "description" : "Defines the maximum number of tasks running concurrently.",
+                                       "maximum" : 64,
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "<integer>"
+                                       "typetext" : "<integer> (1 - 64)"
+                                    },
+                                    "maxworkers" : {
+                                       "default" : 4,
+                                       "description" : "Defines the maximum number of tasks running concurrently. Deprecated, use 'max-workers' instead.",
+                                       "maximum" : 64,
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (1 - 64)"
                                     },
                                     "timeout" : {
                                        "default" : 180,
@@ -12481,12 +12503,23 @@ const apiSchema = [
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
-                                    "maxworkers" : {
-                                       "default" : 1,
-                                       "description" : "How many parallel tasks at maximum should be started.",
+                                    "max-workers" : {
+                                       "default" : 4,
+                                       "description" : "Defines the maximum number of tasks running concurrently.",
+                                       "maximum" : 64,
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "<integer>"
+                                       "typetext" : "<integer> (1 - 64)"
+                                    },
+                                    "maxworkers" : {
+                                       "default" : 4,
+                                       "description" : "Defines the maximum number of tasks running concurrently. Deprecated, use 'max-workers' instead.",
+                                       "maximum" : 64,
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (1 - 64)"
                                     },
                                     "statestorage" : {
                                        "description" : "The storage for the VM state.",
@@ -12545,12 +12578,23 @@ const apiSchema = [
                               "parameters" : {
                                  "additionalProperties" : 0,
                                  "properties" : {
-                                    "maxworkers" : {
+                                    "max-workers" : {
                                        "default" : 1,
-                                       "description" : "How many parallel tasks at maximum should be started.",
+                                       "description" : "Defines the maximum number of tasks running concurrently.",
+                                       "maximum" : 64,
+                                       "minimum" : 1,
                                        "optional" : 1,
                                        "type" : "integer",
-                                       "typetext" : "<integer>"
+                                       "typetext" : "<integer> (1 - 64)"
+                                    },
+                                    "maxworkers" : {
+                                       "default" : 1,
+                                       "description" : "Defines the maximum number of tasks running concurrently. Deprecated, use 'max-workers' instead.",
+                                       "maximum" : 64,
+                                       "minimum" : 1,
+                                       "optional" : 1,
+                                       "type" : "integer",
+                                       "typetext" : "<integer> (1 - 64)"
                                     },
                                     "online" : {
                                        "description" : "Enable live migration for VMs and restart migration for CTs.",
@@ -23532,10 +23576,11 @@ const apiSchema = [
                                                 },
                                                 "ms-cert" : {
                                                    "default" : "2011",
-                                                   "description" : "Informational marker indicating the version of the latest Microsof UEFI certificate that has been enrolled by Proxmox VE.",
+                                                   "description" : "Informational marker indicating the version of the latest Microsoft UEFI certificate that has been enrolled by Proxmox VE. The value '2023w' means that both the 'Microsoft UEFI CA 2023' and the 'Windows UEFI CA 2023' certificates are included. The value '2023' is deprecated and for compatibility only.",
                                                    "enum" : [
                                                       "2011",
-                                                      "2023"
+                                                      "2023",
+                                                      "2023w"
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
@@ -24069,7 +24114,7 @@ const apiSchema = [
                                           },
                                           "migrate_downtime" : {
                                              "default" : 0.1,
-                                             "description" : "Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge.",
+                                             "description" : "Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge. Will be capped to 2000 seconds (maximum in QEMU).",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "number"
@@ -25242,7 +25287,7 @@ const apiSchema = [
                                              "description" : "Configure the VGA hardware.",
                                              "format" : {
                                                 "clipboard" : {
-                                                   "description" : "Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added. Migration with VNC clipboard is not yet supported!",
+                                                   "description" : "Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added. Live migration with a VNC clipboard is not possible with QEMU machine version < 10.1.",
                                                    "enum" : [
                                                       "vnc"
                                                    ],
@@ -25952,10 +25997,11 @@ const apiSchema = [
                                                 },
                                                 "ms-cert" : {
                                                    "default" : "2011",
-                                                   "description" : "Informational marker indicating the version of the latest Microsof UEFI certificate that has been enrolled by Proxmox VE.",
+                                                   "description" : "Informational marker indicating the version of the latest Microsoft UEFI certificate that has been enrolled by Proxmox VE. The value '2023w' means that both the 'Microsoft UEFI CA 2023' and the 'Windows UEFI CA 2023' certificates are included. The value '2023' is deprecated and for compatibility only.",
                                                    "enum" : [
                                                       "2011",
-                                                      "2023"
+                                                      "2023",
+                                                      "2023w"
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
@@ -25979,7 +26025,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<2011|2023>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
+                                             "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<2011|2023|2023w>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
                                           },
                                           "force" : {
                                              "description" : "Force physical removal. Without this, we simple remove the disk from the config file and create an additional configuration entry called 'unused[n]', which contains the volume ID. Unlink of unused[n] always cause physical removal.",
@@ -26506,7 +26552,7 @@ const apiSchema = [
                                           },
                                           "migrate_downtime" : {
                                              "default" : 0.1,
-                                             "description" : "Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge.",
+                                             "description" : "Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge. Will be capped to 2000 seconds (maximum in QEMU).",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "number",
@@ -27678,7 +27724,7 @@ const apiSchema = [
                                              "description" : "Configure the VGA hardware.",
                                              "format" : {
                                                 "clipboard" : {
-                                                   "description" : "Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added. Migration with VNC clipboard is not yet supported!",
+                                                   "description" : "Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added. Live migration with a VNC clipboard is not possible with QEMU machine version < 10.1.",
                                                    "enum" : [
                                                       "vnc"
                                                    ],
@@ -28417,10 +28463,11 @@ const apiSchema = [
                                                 },
                                                 "ms-cert" : {
                                                    "default" : "2011",
-                                                   "description" : "Informational marker indicating the version of the latest Microsof UEFI certificate that has been enrolled by Proxmox VE.",
+                                                   "description" : "Informational marker indicating the version of the latest Microsoft UEFI certificate that has been enrolled by Proxmox VE. The value '2023w' means that both the 'Microsoft UEFI CA 2023' and the 'Windows UEFI CA 2023' certificates are included. The value '2023' is deprecated and for compatibility only.",
                                                    "enum" : [
                                                       "2011",
-                                                      "2023"
+                                                      "2023",
+                                                      "2023w"
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
@@ -28444,7 +28491,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<2011|2023>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
+                                             "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<2011|2023|2023w>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
                                           },
                                           "force" : {
                                              "description" : "Force physical removal. Without this, we simple remove the disk from the config file and create an additional configuration entry called 'unused[n]', which contains the volume ID. Unlink of unused[n] always cause physical removal.",
@@ -28963,7 +29010,7 @@ const apiSchema = [
                                           },
                                           "migrate_downtime" : {
                                              "default" : 0.1,
-                                             "description" : "Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge.",
+                                             "description" : "Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge. Will be capped to 2000 seconds (maximum in QEMU).",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "number",
@@ -30135,7 +30182,7 @@ const apiSchema = [
                                              "description" : "Configure the VGA hardware.",
                                              "format" : {
                                                 "clipboard" : {
-                                                   "description" : "Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added. Migration with VNC clipboard is not yet supported!",
+                                                   "description" : "Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added. Live migration with a VNC clipboard is not possible with QEMU machine version < 10.1.",
                                                    "enum" : [
                                                       "vnc"
                                                    ],
@@ -31261,13 +31308,13 @@ const apiSchema = [
                                                    "type" : "integer"
                                                 },
                                                 "mem" : {
-                                                   "description" : "Currently used memory in bytes.",
+                                                   "description" : "Currently used memory in bytes. Does not take into account kernel same-page merging (KSM). Uses information from ballooning when available.",
                                                    "optional" : 1,
                                                    "renderer" : "bytes",
                                                    "type" : "integer"
                                                 },
                                                 "memhost" : {
-                                                   "description" : "Current memory usage on the host.",
+                                                   "description" : "Current memory usage on the host. Does not take into account kernel same-page merging (KSM).",
                                                    "optional" : 1,
                                                    "renderer" : "bytes",
                                                    "type" : "integer"
@@ -34472,13 +34519,13 @@ const apiSchema = [
                                     "type" : "integer"
                                  },
                                  "mem" : {
-                                    "description" : "Currently used memory in bytes.",
+                                    "description" : "Currently used memory in bytes. Does not take into account kernel same-page merging (KSM). Uses information from ballooning when available.",
                                     "optional" : 1,
                                     "renderer" : "bytes",
                                     "type" : "integer"
                                  },
                                  "memhost" : {
-                                    "description" : "Current memory usage on the host.",
+                                    "description" : "Current memory usage on the host. Does not take into account kernel same-page merging (KSM).",
                                     "optional" : 1,
                                     "renderer" : "bytes",
                                     "type" : "integer"
@@ -34894,10 +34941,11 @@ const apiSchema = [
                                     },
                                     "ms-cert" : {
                                        "default" : "2011",
-                                       "description" : "Informational marker indicating the version of the latest Microsof UEFI certificate that has been enrolled by Proxmox VE.",
+                                       "description" : "Informational marker indicating the version of the latest Microsoft UEFI certificate that has been enrolled by Proxmox VE. The value '2023w' means that both the 'Microsoft UEFI CA 2023' and the 'Windows UEFI CA 2023' certificates are included. The value '2023' is deprecated and for compatibility only.",
                                        "enum" : [
                                           "2011",
-                                          "2023"
+                                          "2023",
+                                          "2023w"
                                        ],
                                        "optional" : 1,
                                        "type" : "string"
@@ -34921,7 +34969,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<2011|2023>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
+                                 "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<2011|2023|2023w>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
                               },
                               "force" : {
                                  "description" : "Allow to overwrite existing VM.",
@@ -35461,7 +35509,7 @@ const apiSchema = [
                               },
                               "migrate_downtime" : {
                                  "default" : 0.1,
-                                 "description" : "Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge.",
+                                 "description" : "Set maximum tolerated downtime (in seconds) for migrations. Should the migration not be able to converge in the very end, because too much newly dirtied RAM needs to be transferred, the limit will be increased automatically step-by-step until migration can converge. Will be capped to 2000 seconds (maximum in QEMU).",
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "number",
@@ -36649,7 +36697,7 @@ const apiSchema = [
                                  "description" : "Configure the VGA hardware.",
                                  "format" : {
                                     "clipboard" : {
-                                       "description" : "Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added. Migration with VNC clipboard is not yet supported!",
+                                       "description" : "Enable a specific clipboard. If not set, depending on the display type the SPICE one will be added. Live migration with a VNC clipboard is not possible with QEMU machine version < 10.1.",
                                        "enum" : [
                                           "vnc"
                                        ],
@@ -37463,7 +37511,7 @@ const apiSchema = [
                                                    "type" : "string"
                                                 },
                                                 "host-managed" : {
-                                                   "description" : "Whether this interface's IP configuration should be managed by the host.",
+                                                   "description" : "Whether this interface's IP configuration should be managed by the host. When enabled, the host (rather than the container) is responsible for the interface's IP configuration. The container should not run its own DHCP client or network manager on this interface. This is useful for containers that lack an internal network management stack, like many application containers.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -38037,7 +38085,7 @@ const apiSchema = [
                                                    "type" : "string"
                                                 },
                                                 "host-managed" : {
-                                                   "description" : "Whether this interface's IP configuration should be managed by the host.",
+                                                   "description" : "Whether this interface's IP configuration should be managed by the host. When enabled, the host (rather than the container) is responsible for the interface's IP configuration. The container should not run its own DHCP client or network manager on this interface. This is useful for containers that lack an internal network management stack, like many application containers.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 },
@@ -44652,7 +44700,7 @@ const apiSchema = [
                                        "type" : "string"
                                     },
                                     "host-managed" : {
-                                       "description" : "Whether this interface's IP configuration should be managed by the host.",
+                                       "description" : "Whether this interface's IP configuration should be managed by the host. When enabled, the host (rather than the container) is responsible for the interface's IP configuration. The container should not run its own DHCP client or network manager on this interface. This is useful for containers that lack an internal network management stack, like many application containers.",
                                        "optional" : 1,
                                        "type" : "boolean"
                                     },
@@ -50477,6 +50525,7 @@ const apiSchema = [
                               "properties" : {
                                  "endtime" : {
                                     "optional" : 1,
+                                    "renderer" : "timestamp",
                                     "title" : "Endtime",
                                     "type" : "integer"
                                  },
@@ -50496,6 +50545,7 @@ const apiSchema = [
                                     "type" : "integer"
                                  },
                                  "starttime" : {
+                                    "renderer" : "timestamp",
                                     "title" : "Starttime",
                                     "type" : "integer"
                                  },
@@ -54657,8 +54707,8 @@ const apiSchema = [
                                  "properties" : {
                                     "name" : {
                                        "description" : "Package name.",
-                                       "type" : "string",
-                                       "typetext" : "<string>"
+                                       "pattern" : "(?^:[a-z0-9][-+.a-z0-9:]+)",
+                                       "type" : "string"
                                     },
                                     "node" : {
                                        "description" : "The cluster node name.",
@@ -59554,6 +59604,14 @@ const apiSchema = [
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
                               },
+                              "max-workers" : {
+                                 "description" : "Defines the maximum number of tasks running concurrently. If not set, uses 'max_workers' from datacenter.cfg, and if that's not set, the available CPU threads, clamped to a maximum of 8, are used.",
+                                 "maximum" : 64,
+                                 "minimum" : 1,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (1 - 64)"
+                              },
                               "node" : {
                                  "description" : "The cluster node name.",
                                  "format" : "pve-node",
@@ -59600,6 +59658,14 @@ const apiSchema = [
                                  "optional" : 1,
                                  "type" : "boolean",
                                  "typetext" : "<boolean>"
+                              },
+                              "max-workers" : {
+                                 "description" : "Defines the maximum number of tasks running concurrently. If  not set, uses 'max_workers' from datacenter.cfg, and if that's not set, the available CPU threads, clamped to a maximum of 8, are used.",
+                                 "maximum" : 64,
+                                 "minimum" : 1,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (1 - 64)"
                               },
                               "node" : {
                                  "description" : "The cluster node name.",
@@ -59650,6 +59716,14 @@ const apiSchema = [
                         "parameters" : {
                            "additionalProperties" : 0,
                            "properties" : {
+                              "max-workers" : {
+                                 "description" : "Maximal number of parallel migration job. If not set, uses'max_workers' from datacenter.cfg, and if that's not set the available'\n                    .' CPU threads, clamped to a maximum of 8, are used.",
+                                 "maximum" : 64,
+                                 "minimum" : 1,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (1 - 64)"
+                              },
                               "node" : {
                                  "description" : "The cluster node name.",
                                  "format" : "pve-node",
@@ -59690,12 +59764,21 @@ const apiSchema = [
                         "parameters" : {
                            "additionalProperties" : 0,
                            "properties" : {
-                              "maxworkers" : {
+                              "max-workers" : {
                                  "description" : "Maximal number of parallel migration job. If not set, uses'max_workers' from datacenter.cfg. One of both must be set!",
+                                 "maximum" : 64,
                                  "minimum" : 1,
                                  "optional" : 1,
                                  "type" : "integer",
-                                 "typetext" : "<integer> (1 - N)"
+                                 "typetext" : "<integer> (1 - 64)"
+                              },
+                              "maxworkers" : {
+                                 "description" : "Maximal number of parallel migration job. If not set, uses'max_workers' from datacenter.cfg. One of both must be set!Deprecated, use 'max-workers' instead.",
+                                 "maximum" : 64,
+                                 "minimum" : 1,
+                                 "optional" : 1,
+                                 "type" : "integer",
+                                 "typetext" : "<integer> (1 - 64)"
                               },
                               "node" : {
                                  "description" : "The cluster node name.",
