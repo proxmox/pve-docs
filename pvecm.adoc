@@ -318,22 +318,30 @@ Remove a Cluster Node
 CAUTION: Read the procedure carefully before proceeding, as it may
 not be what you want or need.
 
-Move all virtual machines from the node. Ensure that you have made copies of any
-local data or backups that you want to keep. In addition, make sure to remove
-any scheduled replication jobs to the node to be removed.
+The following steps explain how to remove a node from a cluster that
+was also part of a xref:chapter_pveceph[Ceph] cluster.
+If Ceph was not installed on your node, you can simply ignore the
+steps that mention it.
 
-CAUTION: Failure to remove replication jobs to a node before removing said node
-will result in the replication job becoming irremovable. Especially note that
-replication automatically switches direction if a replicated VM is migrated, so
-by migrating a replicated VM from a node to be deleted, replication jobs will be
-set up to that node automatically.
+.Prerequisites:
 
-If the node to be removed has been configured for
-xref:chapter_pveceph[Ceph]:
+* Move all virtual machines and containers away from the node.
+* Back up all local data on the node to be deleted.
+* Make sure the node to be deleted is not part of any replication job
+  anymore.
 
-. Ensure that sufficient {pve} nodes with running OSDs (`up` and `in`)
-continue to exist.
-+
+CAUTION: If you fail to remove replication jobs from a node before
+removing the node itself, the replication job will become irremovable.
+Note that replication automatically switches direction when a
+replicated VM is migrated. Therefore, migrating a replicated VM from a
+node that is going to be deleted will set up replication jobs to that
+node automatically.
+
+* Ensure that the remaining Ceph cluster has sufficient storage space
+  and that the OSDs are running (i.e. `up` and `in`). The destruction
+  of any OSD, especially the last one on a node, will trigger a data
+  rebalance in Ceph.
+
 NOTE: By default, Ceph pools have a `size/min_size` of `3/2` and a
 full node as `failure domain` at the object balancer
 xref:pve_ceph_device_classes[CRUSH]. So if less than `size` (`3`)
@@ -341,118 +349,107 @@ nodes with running OSDs are online, data redundancy will be degraded.
 If less than `min_size` are online, pool I/O will be blocked and
 affected guests may crash.
 
-. Ensure that sufficient xref:pve_ceph_monitors[monitors],
-xref:pve_ceph_manager[managers] and, if using CephFS,
-xref:pveceph_fs_mds[metadata servers] remain available.
+* Ensure that sufficient xref:pve_ceph_monitors[monitors],
+  xref:pve_ceph_manager[managers] and, if using CephFS,
+  xref:pveceph_fs_mds[metadata servers] remain available in the Ceph
+  cluster.
 
-. To maintain data redundancy, each destruction of an OSD, especially
-the last one on a node, will trigger a data rebalance. Therefore,
-ensure that the OSDs on the remaining nodes have sufficient free space
-left.
+.Remove the cluster node:
 
-. To remove Ceph from the node to be deleted, start by
-xref:pve_ceph_osd_destroy[destroying] its OSDs, one after the other.
-
-. Once the xref:pve_ceph_mon_and_ts[CEPH status] is `HEALTH_OK` again,
-proceed by:
-
-[arabic]
-.. destroying its xref:pveceph_fs_mds[metadata server] via web
-interface at __Ceph -> CephFS__ or by running:
-+
-----
-# pveceph mds destroy <local hostname>
-----
-
-.. xref:pveceph_destroy_mon[destroying its monitor]
-
-.. xref:pveceph_destroy_mgr[destroying its manager]
-
-. Finally, remove the now empty bucket ({pve} node to be removed) from
-the CRUSH hierarchy by running:
-+
-----
-# ceph osd crush remove <hostname>
-----
-
-In the following example, we will remove the node hp4 from the cluster.
-
-Log in to a *different* cluster node (not hp4), and issue a `pvecm nodes`
-command to identify the node ID to remove:
+Before a node can be removed from a cluster, you must ensure that it
+is no longer part of the Ceph cluster and that no Ceph resources or
+services are residing on it.
+In the following the cluster node `node4` will be removed from the
+cluster
 
 ----
- hp1# pvecm nodes
+node4# pvecm nodes
 
 Membership information
 ~~~~~~~~~~~~~~~~~~~~~~
     Nodeid      Votes Name
-         1          1 hp1 (local)
-         2          1 hp2
-         3          1 hp3
-         4          1 hp4
+         1          1 node1
+         2          1 node2
+         3          1 node3
+         4          1 node4 (local)
 ----
 
 
-At this point, you must power off hp4 and ensure that it will not power on
-again (in the network) with its current configuration.
+. Start by xref:pve_ceph_osd_destroy[destroying] the remaining OSDs on
+  the node to be deleted, one after another.
 
+. Wait until the xref:pve_ceph_mon_and_ts[CEPH status] reaches
+  `HEALTH_OK` again.
+
+. If it exists, destroy the remaining xref:pveceph_fs_mds[metadata server]
+  via the web interface at __Ceph -> CephFS__ or by running:
++
+----
+node4# pveceph mds destroy node4
+----
+
+. xref:pveceph_destroy_mon[Destroy the remaining monitor.]
+
+. xref:pveceph_destroy_mgr[Destroy the remaining manager.]
+
+. Finally, remove the now empty bucket ({pve} node to be removed) from
+  the CRUSH hierarchy.
++
+----
+node4# ceph osd crush remove node4
+----
+
+. Power off `node4` and make sure that it will not power on again
+  in this network with its current configuration.
++
 IMPORTANT: As mentioned above, it is critical to power off the node
 *before* removal, and make sure that it will *not* power on again
 (in the existing cluster network) with its current configuration.
 If you power on the node as it is, the cluster could end up broken,
 and it could be difficult to restore it to a functioning state.
 
-After powering off the node hp4, we can safely remove it from the cluster.
-
+. Log into one of the remaining cluster node and remove the node
+  `node4` from the cluster.
++
 ----
- hp1# pvecm delnode hp4
- Killing node 4
+node1# pvecm delnode node4
 ----
-
-NOTE: At this point, it is possible that you will receive an error message
-stating `Could not kill node (error = CS_ERR_NOT_EXIST)`. This does not
-signify an actual failure in the deletion of the node, but rather a failure in
-corosync trying to kill an offline node. Thus, it can be safely ignored.
-
-Use `pvecm nodes` or `pvecm status` to check the node list again. It should
-look something like:
-
+. Verify the node was successfully removed from the cluster
 ----
-hp1# pvecm status
-
-...
-
-Votequorum information
-~~~~~~~~~~~~~~~~~~~~~~
-Expected votes:   3
-Highest expected: 3
-Total votes:      3
-Quorum:           2
-Flags:            Quorate
+node1# pvecm nodes
 
 Membership information
 ~~~~~~~~~~~~~~~~~~~~~~
     Nodeid      Votes Name
-0x00000001          1 192.168.15.90 (local)
-0x00000002          1 192.168.15.91
-0x00000003          1 192.168.15.92
+         1          1 node1 (local)
+         2          1 node2
+         3          1 node3
 ----
 
-If, for whatever reason, you want this server to join the same cluster again,
-you have to:
++
+NOTE: It is possible that you will receive an error message stating
+`could not kill node (error = cs_err_not_exist)`. This does not
+signify an actual failure in the deletion of the node, but rather a
+failure in Corosync trying to kill an offline node. thus, it can be
+safely ignored.
 
-* do a fresh install of {pve} on it,
+.Cleanup steps after removing the cluster node.
+* The configuration files of the removed node will still reside in
+  '/etc/pve/nodes/node4' in the cluster filesystem. Recover any
+  configuration you still need and remove the directory afterwards.
+* The SSH fingerprint of the removed node will still reside in the
+  'known_hosts' file on the other nodes. If you receive an SSH error
+  after rejoining a node with the same IP or hostname, run `pvecm
+  updatecerts` once on the re-added node to update its fingerprint
+  cluster wide.
 
-* then join it, as explained in the previous section.
+.Rejoin the same node again:
 
-The configuration files for the removed node will still reside in
-'/etc/pve/nodes/hp4'. Recover any configuration you still need and remove the
-directory afterwards.
+If you want the same server to join the same cluster again, you have to:
 
-NOTE: After removal of the node, its SSH fingerprint will still reside in the
-'known_hosts' of the other nodes. If you receive an SSH error after rejoining
-a node with the same IP or hostname, run `pvecm updatecerts` once on the
-re-added node to update its fingerprint cluster wide.
+* Reinstall {pve} on the server,
+
+* then xref:pvecm_join_node_to_cluster[rejoin the node to the cluster]
 
 [[pvecm_separate_node_without_reinstall]]
 Separate a Node Without Reinstalling
