@@ -442,6 +442,9 @@ safely ignored.
   after rejoining a node with the same IP or hostname, run `pvecm
   updatecerts` once on the re-added node to update its fingerprint
   cluster wide.
+* Existing xref:ha_manager_rules[high availability rules] will still
+  reference the deleted node, therefore remove the node from any
+  existing rules
 
 .Rejoin the same node again:
 
