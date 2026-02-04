@@ -445,6 +445,9 @@ safely ignored.
 * Existing xref:ha_manager_rules[high availability rules] will still
   reference the deleted node, therefore remove the node from any
   existing rules
+* The public key of the removed node will still be listed in
+  '/etc/pve/priv/authorized_keys' and should be deleted if it is no
+  longer needed.
 
 .Rejoin the same node again:
 
