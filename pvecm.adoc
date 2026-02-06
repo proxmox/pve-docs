@@ -359,11 +359,11 @@ Remove the Cluster Node
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Before a node can be removed from a cluster, you must ensure that it
-is no longer part of the Ceph cluster and that no Ceph resources or
+is no longer part of a Ceph cluster and that no Ceph resources or
 services are residing on it.
 
-In the following example, the cluster node `node4` will be removed from the
-cluster
+In the following example, the cluster node `node4` will be removed from both,
+the Ceph and the Proxmox VE corosync cluster.
 
 ----
 node4# pvecm nodes
@@ -378,32 +378,35 @@ Membership information
 ----
 
 
-. Start by xref:pve_ceph_osd_destroy[destroying] the remaining OSDs on
-  the node to be deleted, one after another.
+. Start by removing the node from the Ceph cluster, this consists of multiple
+  steps:
 
-. Wait until the xref:pve_ceph_mon_and_ts[CEPH status] reaches
-  `HEALTH_OK` again.
+.. Start by xref:pve_ceph_osd_destroy[destroying] the remaining Ceph OSDs on the
+   node to be deleted, one after another.
 
-. If it exists, destroy the remaining xref:pveceph_fs_mds[metadata server]
-  via the web interface at __Ceph -> CephFS__ or by running:
+.. Wait until the xref:pve_ceph_mon_and_ts[CEPH status] reaches `HEALTH_OK`
+   again.
+
+.. If any exists, destroy the remaining xref:pveceph_fs_mds[Ceph metadata servers]
+   via the web interface at __Ceph -> CephFS__ or by running:
 +
 ----
 node4# pveceph mds destroy node4
 ----
 
-. xref:pveceph_destroy_mon[Destroy the remaining monitor.]
+.. xref:pveceph_destroy_mon[Destroy the remaining Ceph monitor.]
 
-. xref:pveceph_destroy_mgr[Destroy the remaining manager.]
+.. xref:pveceph_destroy_mgr[Destroy the remaining Ceph manager.]
 
-. Finally, remove the now empty bucket ({pve} node to be removed) from
-  the CRUSH hierarchy.
+.. Finally, remove the now empty Ceph bucket ({pve} node to be removed) from the
+   CRUSH hierarchy.
 +
 ----
 node4# ceph osd crush remove node4
 ----
 
-. Power off `node4` and make sure that it will not power on again
-  in this network with its current configuration.
+. Now, power off `node4` and ensure that it will not power on again in this
+  network with its current configuration.
 +
 IMPORTANT: As mentioned above, it is critical to power off the node
 *before* removal, and make sure that it will *not* power on again
