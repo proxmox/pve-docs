@@ -323,7 +323,8 @@ was also part of a xref:chapter_pveceph[Ceph] cluster.
 If Ceph was not installed on your node, you can simply ignore the
 steps that mention it.
 
-.Prerequisites:
+Prerequisites
+~~~~~~~~~~~~~
 
 * Move all virtual machines and containers away from the node.
 * Back up all local data on the node to be deleted.
@@ -354,7 +355,8 @@ affected guests may crash.
   xref:pveceph_fs_mds[metadata servers] remain available in the Ceph
   cluster.
 
-.Remove the cluster node:
+Remove the Cluster Node
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Before a node can be removed from a cluster, you must ensure that it
 is no longer part of the Ceph cluster and that no Ceph resources or
@@ -435,7 +437,9 @@ Membership information
          3          1 node3
 ----
 
-.Cleanup steps after removing the cluster node.
+Cleanup Steps After Node Removal
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 * The configuration files of the removed node will still reside in
   '/etc/pve/nodes/node4' in the cluster filesystem. Recover any
   configuration you still need and remove the directory afterwards.
@@ -461,7 +465,7 @@ If you want the same server to join the same cluster again, you have to:
 
 [[pvecm_separate_node_without_reinstall]]
 Separate a Node Without Reinstalling
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------
 
 CAUTION: This is *not* the recommended method, proceed with caution. Use the
 previous method if you're unsure.
