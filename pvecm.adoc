@@ -346,7 +346,7 @@ Prerequisites
 * Back up all local data on the node to be deleted.
 * Make sure the node to be deleted is not part of any replication job
   anymore.
-
++
 CAUTION: If you fail to remove replication jobs from a node before
 removing the node itself, the replication job will become irremovable.
 Note that replication automatically switches direction when a
@@ -358,7 +358,7 @@ node automatically.
   and that the OSDs are running (i.e. `up` and `in`). The destruction
   of any OSD, especially the last one on a node, will trigger a data
   rebalance in Ceph.
-
++
 NOTE: Make sure that there are still enough nodes with OSDs available to satisfy
 the `size/min_size` parameters configured for the Ceph pools. If there are fewer
 than `size` (default: 3) nodes available, data redundancy will be degraded. If
