@@ -359,12 +359,12 @@ node automatically.
   of any OSD, especially the last one on a node, will trigger a data
   rebalance in Ceph.
 
-NOTE: By default, Ceph pools have a `size/min_size` of `3/2` and a
-full node as `failure domain` at the object balancer
-xref:pve_ceph_device_classes[CRUSH]. So if less than `size` (`3`)
-nodes with running OSDs are online, data redundancy will be degraded.
-If less than `min_size` are online, pool I/O will be blocked and
-affected guests may crash.
+NOTE: Make sure that there are still enough nodes with OSDs available to satisfy
+the `size/min_size` parameters configured for the Ceph pools. If there are fewer
+than `size` (default: 3) nodes available, data redundancy will be degraded. If
+there are fewer than `min_size` (default: 2) nodes available, the I/O of the
+pools will be blocked until there are enough replicas available. Affected guests
+may crash if their I/O is blocked.
 
 * Ensure that sufficient xref:pve_ceph_monitors[monitors],
   xref:pve_ceph_manager[managers] and, if using CephFS,
