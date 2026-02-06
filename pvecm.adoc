@@ -415,7 +415,15 @@ and it could be difficult to restore it to a functioning state.
 ----
 node1# pvecm delnode node4
 ----
++
+NOTE: It is possible that you will receive an error message stating
+`could not kill node (error = cs_err_not_exist)`. This does not
+signify an actual failure in the deletion of the node, but rather a
+failure in Corosync trying to kill an offline node. Thus, it can be
+safely ignored.
+
 . Verify the node was successfully removed from the cluster
++
 ----
 node1# pvecm nodes
 
@@ -426,13 +434,6 @@ Membership information
          2          1 node2
          3          1 node3
 ----
-
-+
-NOTE: It is possible that you will receive an error message stating
-`could not kill node (error = cs_err_not_exist)`. This does not
-signify an actual failure in the deletion of the node, but rather a
-failure in Corosync trying to kill an offline node. Thus, it can be
-safely ignored.
 
 .Cleanup steps after removing the cluster node.
 * The configuration files of the removed node will still reside in
