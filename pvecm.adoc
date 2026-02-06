@@ -359,7 +359,8 @@ affected guests may crash.
 Before a node can be removed from a cluster, you must ensure that it
 is no longer part of the Ceph cluster and that no Ceph resources or
 services are residing on it.
-In the following the cluster node `node4` will be removed from the
+
+In the following example, the cluster node `node4` will be removed from the
 cluster
 
 ----
@@ -408,7 +409,7 @@ IMPORTANT: As mentioned above, it is critical to power off the node
 If you power on the node as it is, the cluster could end up broken,
 and it could be difficult to restore it to a functioning state.
 
-. Log into one of the remaining cluster node and remove the node
+. Log into one of the remaining cluster nodes and remove the node
   `node4` from the cluster.
 +
 ----
@@ -430,7 +431,7 @@ Membership information
 NOTE: It is possible that you will receive an error message stating
 `could not kill node (error = cs_err_not_exist)`. This does not
 signify an actual failure in the deletion of the node, but rather a
-failure in Corosync trying to kill an offline node. thus, it can be
+failure in Corosync trying to kill an offline node. Thus, it can be
 safely ignored.
 
 .Cleanup steps after removing the cluster node.
@@ -444,7 +445,7 @@ safely ignored.
   cluster wide.
 * Existing xref:ha_manager_rules[high availability rules] will still
   reference the deleted node, therefore remove the node from any
-  existing rules
+  existing rules.
 * The public key of the removed node will still be listed in
   '/etc/pve/priv/authorized_keys' and should be deleted if it is no
   longer needed.
