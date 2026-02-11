@@ -115,9 +115,9 @@ The configuration for SMTP target plugins has the following options:
 * `mode`: Sets the encryption mode (`insecure`, `starttls` or `tls`). Defaults
   to `tls`.
 * `server`: Address/IP of the SMTP relay.
-* `port`: The port to connect to. If not set, the used port .
-   Defaults to 25 (`insecure`), 465 (`tls`) or 587 (`starttls`), depending on
-   the value of `mode`.
+* `port`: The port to connect to. If not set, the used port defaults to 25
+  (`insecure`), 465 (`tls`) or 587 (`starttls`), depending on the value of
+  `mode`.
 * `comment`: Comment for this target
 
 Example configuration (`/etc/pve/notifications.cfg`):
@@ -133,7 +133,7 @@ smtp: example
 ----
 
 The matching entry in `/etc/pve/priv/notifications.cfg`, containing the
-secret token:
+password:
 
 ----
 smtp: example
