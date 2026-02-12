@@ -1379,6 +1379,23 @@ systemctl restart corosync
 
 On errors, check the troubleshooting section below.
 
+Changing the Token Coefficient
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The token coefficient can be configured in the `totem` section in
+`/etc/pve/corosync.conf`. corosync uses the token coefficient to calculate
+several timeouts in relation to the cluster size.footnote:[
+`token_coefficient` in the corosync manual page
+https://manpages.debian.org/stable/corosync/corosync.conf.5.en.html#token_coefficient]
+
+If the token coefficient is not explicitly set, it defaults to 650 milliseconds.
+New clusters are created with a lower token coefficient of 125 milliseconds that
+is explicitly set in `/etc/pve/corosync.conf`.
+
+You can change the token coefficient of an existing cluster by
+xref:pvecm_edit_corosync_conf[editing corosync.conf]. Corosync will then
+automatically adopt the new value for the cluster.
+
 Troubleshooting
 ~~~~~~~~~~~~~~~
 
