@@ -362,8 +362,8 @@ Before a node can be removed from a cluster, you must ensure that it
 is no longer part of a Ceph cluster and that no Ceph resources or
 services are residing on it.
 
-In the following example, the cluster node `node4` will be removed from both,
-the Ceph and the Proxmox VE corosync cluster.
+In the following example, the cluster node `node4` will be removed from both
+the Ceph-, and {pve} corosync-cluster.
 
 ----
 node4# pvecm nodes
