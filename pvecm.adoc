@@ -323,6 +323,10 @@ was also part of a xref:chapter_pveceph[Ceph] cluster.
 If Ceph was not installed on your node, you can simply ignore the
 steps that mention it.
 
+NOTE: If your configuration contains a QDevice, you will need to remove it
+before removing the cluster node, as outlined in the FAQ
+xref:_adding_deleting_nodes_after_qdevice_setup[here].
+
 Prerequisites
 ~~~~~~~~~~~~~
 
@@ -376,7 +380,6 @@ Membership information
          3          1 node3
          4          1 node4 (local)
 ----
-
 
 . Start by removing the node from the Ceph cluster, this consists of multiple
   steps:
@@ -486,6 +489,10 @@ pool, to name a few examples. It's just important that the exact same storage
 does not get accessed by multiple clusters. After setting up this storage, move
 all data and VMs from the node to it. Then you are ready to separate the
 node from the cluster.
+
+NOTE: If your configuration contains a QDevice, you will need to remove it
+before removing the cluster node, as outlined in the FAQ
+xref:_adding_deleting_nodes_after_qdevice_setup[here].
 
 WARNING: Ensure that all shared resources are cleanly separated! Otherwise you
 will run into conflicts and problems.
