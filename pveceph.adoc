@@ -258,7 +258,7 @@ The configuration step includes the following settings:
   required.
   +
   Separating your Ceph traffic from the {pve} cluster communication (corosync),
-  and possible the front-facing (public) networks of your virtual guests, is
+  and possibly the front-facing (public) networks of your virtual guests, is
   highly recommended. Otherwise, Ceph's high-bandwidth IO-traffic could cause
   interference with other low-latency dependent services.
 
