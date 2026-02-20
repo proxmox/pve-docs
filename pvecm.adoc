@@ -1273,8 +1273,10 @@ Tie Breaking
 ^^^^^^^^^^^^
 
 In case of a tie, where two same-sized cluster partitions cannot see each other
-but can see the QDevice, the QDevice chooses one of those partitions randomly
-and provides a vote to it.
+but can see the QDevice, the QDevice chooses the partition which has
+the lowest node id and provides a vote to it. This behavior can be tuned with
+the configuration option `tie_breaker` (see `man corosync-qdevice` for more
+information) and requires a restart of `corosync-qdevice.service` on all nodes.
 
 Possible Negative Implications
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
