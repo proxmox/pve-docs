@@ -325,7 +325,7 @@ steps that mention it.
 
 NOTE: If your configuration contains a QDevice, you will need to remove it
 before removing the cluster node, as outlined in the FAQ
-xref:pvecm_adding_deleting_nodes_after_qdevice_setup[here].
+xref:_adding_deleting_nodes_after_qdevice_setup[here].
 
 Prerequisites
 ~~~~~~~~~~~~~
@@ -492,7 +492,7 @@ node from the cluster.
 
 NOTE: If your configuration contains a QDevice, you will need to remove it
 before removing the cluster node, as outlined in the FAQ
-xref:pvecm_adding_deleting_nodes_after_qdevice_setup[here].
+xref:_adding_deleting_nodes_after_qdevice_setup[here].
 
 WARNING: Ensure that all shared resources are cleanly separated! Otherwise you
 will run into conflicts and problems.
@@ -1283,7 +1283,7 @@ For clusters with an even node count, there are no negative implications when
 using a QDevice. If it fails to work, it is the same as not having a QDevice
 at all.
 
-[[pvecm_adding_deleting_nodes_after_qdevice_setup]]
+[[_adding_deleting_nodes_after_qdevice_setup]]
 Adding/Deleting Nodes After QDevice Setup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
