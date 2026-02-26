@@ -50,8 +50,9 @@ Sets the user domain (workgroup) for this storage. Optional.
 
 smbversion::
 
-SMB protocol Version. Optional, default is `3`.
-SMB1 is not supported due to security issues.
+SMB protocol version. Optional, when set to `default` or when unset, negotiates
+the highest SMB2+ version supported by both the client and server. SMB1 is not
+supported due to security issues.
 
 path::
 
