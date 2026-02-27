@@ -86,10 +86,14 @@ API Tokens
 ----------
 
 API tokens allow stateless access to most parts of the REST API from another
-system, software or API client. Tokens can be generated for individual users
-and can be given separate permissions and expiration dates to limit the scope
-and duration of the access. Should the API token get compromised, it can be
-revoked without disabling the user itself.
+system, software, or API client. Exceptions are endpoints that provide access to
+the virtual machine or system console. These endpoints require user privileges
+and cannot be accessed via an API token.
+
+Tokens can be generated for individual users and can be given separate
+permissions and expiration dates to limit the scope and duration of the access.
+Should the API token get compromised, it can be revoked without disabling the
+user itself.
 
 API tokens come in two basic types:
 
