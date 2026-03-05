@@ -12,7 +12,7 @@ pvescheduler - PVE Scheduler Daemon
 SYNOPSIS
 --------
 
-include::pvescheduler.8-synopsis.adoc[]
+include::generated/pvescheduler.8-synopsis.adoc[]
 
 DESCRIPTION
 -----------

@@ -61,7 +61,7 @@ Blank lines and those starting with a `#` are ignored.
 Options
 -------
 
-include::cpu-models.conf.5-opts.adoc[]
+include::generated/cpu-models.conf.5-opts.adoc[]
 
 
 Example File

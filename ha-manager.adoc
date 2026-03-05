@@ -12,7 +12,7 @@ ha-manager - Proxmox VE HA Manager
 SYNOPSIS
 --------
 
-include::ha-manager.1-synopsis.adoc[]
+include::generated/ha-manager.1-synopsis.adoc[]
 
 DESCRIPTION
 -----------
@@ -567,7 +567,7 @@ used by all `ha-manager` commands to uniquely identify a resource
 (example: `vm:100` or `ct:101`). The next lines contain additional
 properties:
 
-include::ha-resources-opts.adoc[]
+include::generated/ha-resources-opts.adoc[]
 
 Here is a real world example with one VM and one container. As you see,
 the syntax of those files is really simple, so it is even possible to
@@ -614,7 +614,7 @@ group: <group>
        ...
 ----
 
-include::ha-groups-opts.adoc[]
+include::generated/ha-groups-opts.adoc[]
 
 [thumbnail="screenshot/gui-ha-manager-add-group.png"]
 
@@ -688,7 +688,7 @@ defined in the HA rules configuration file `/etc/pve/ha/rules.cfg`.
         ...
 ----
 
-include::ha-rules-opts.adoc[]
+include::generated/ha-rules-opts.adoc[]
 
 .Available HA Rule Types
 [width="100%",cols="1,3",options="header"]
@@ -761,7 +761,7 @@ node-affinity: priority-cascade
 Node Affinity Rule Properties
 +++++++++++++++++++++++++++++
 
-include::ha-rules-node-affinity-opts.adoc[]
+include::generated/ha-rules-node-affinity-opts.adoc[]
 
 [[ha_manager_resource_affinity_rules]]
 Resource Affinity Rules
@@ -866,7 +866,7 @@ xref:ha_manager_rule_conflicts[rule conflicts and errors] below.
 Resource Affinity Rule Properties
 +++++++++++++++++++++++++++++++++
 
-include::ha-rules-resource-affinity-opts.adoc[]
+include::generated/ha-rules-resource-affinity-opts.adoc[]
 
 [[ha_manager_rule_conflicts]]
 Rule Conflicts and Errors

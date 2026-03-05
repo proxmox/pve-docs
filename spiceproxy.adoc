@@ -12,7 +12,7 @@ spiceproxy - SPICE Proxy Service
 SYNOPSIS
 --------
 
-include::spiceproxy.8-synopsis.adoc[]
+include::generated/spiceproxy.8-synopsis.adoc[]
 
 DESCRIPTION
 -----------

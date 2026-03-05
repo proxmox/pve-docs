@@ -12,7 +12,7 @@ pmxcfs - Proxmox Cluster File System
 SYNOPSIS
 --------
 
-include::pmxcfs.8-synopsis.adoc[]
+include::generated/pmxcfs.8-synopsis.adoc[]
 
 DESCRIPTION
 -----------

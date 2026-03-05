@@ -12,7 +12,7 @@ pveperf - the Proxmox benchmark
 SYNOPSIS
 --------
 
-include::pveperf.1-synopsis.adoc[]
+include::generated/pveperf.1-synopsis.adoc[]
 
 DESCRIPTION
 -----------

@@ -51,7 +51,7 @@ One can use the `qm` command to generate and modify those files.
 Options
 -------
 
-include::qm.conf.5-opts.adoc[]
+include::generated/qm.conf.5-opts.adoc[]
 
 
 ifdef::manvolnum[]

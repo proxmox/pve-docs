@@ -13,7 +13,7 @@ vzdump - Backup Utility for VMs and Containers
 SYNOPSIS
 --------
 
-include::vzdump.1-synopsis.adoc[]
+include::generated/vzdump.1-synopsis.adoc[]
 
 
 DESCRIPTION
@@ -580,7 +580,7 @@ line.
 
 We currently support the following options:
 
-include::vzdump.conf.5-opts.adoc[]
+include::generated/vzdump.conf.5-opts.adoc[]
 
 
 .Example `vzdump.conf` Configuration

@@ -12,7 +12,7 @@ pvesr - Proxmox VE Storage Replication
 SYNOPSIS
 --------
 
-include::pvesr.1-synopsis.adoc[]
+include::generated/pvesr.1-synopsis.adoc[]
 
 DESCRIPTION
 -----------

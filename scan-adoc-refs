@@ -412,7 +412,7 @@ if ($generate_depends) {
         makevar_list_add($varname2, "\$\{$varname1\}");
 
         foreach my $dep (sort keys %{ $depends->{$fn} }) {
-            if ($dep =~ m/-(opts|synopsis).adoc$/) {
+            if ($dep =~ m/^generated\//) {
                 makevar_list_add($varname2, $dep);
             } else {
                 makevar_list_add($varname1, $dep);
@@ -425,7 +425,7 @@ if ($generate_depends) {
         $man_sources_hash->{$sourcefile} = 1;
         my $ihash = $fileinfo->{include}->{manvolnum}->{$sourcefile};
         foreach my $include (keys %$ihash) {
-            if ($include !~ m/-(opts|synopsis).adoc$/) {
+            if ($include !~ m/^generated\//) {
                 $man_sources_hash->{$include} = 1;
             }
         }

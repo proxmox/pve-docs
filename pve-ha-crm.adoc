@@ -12,7 +12,7 @@ pve-ha-crm - PVE Cluster Resource Manager Daemon
 SYNOPSIS
 --------
 
-include::pve-ha-crm.8-synopsis.adoc[]
+include::generated/pve-ha-crm.8-synopsis.adoc[]
 
 DESCRIPTION
 -----------

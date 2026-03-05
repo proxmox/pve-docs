@@ -12,7 +12,7 @@ pvedaemon - PVE API Daemon
 SYNOPSIS
 --------
 
-include::pvedaemon.8-synopsis.adoc[]
+include::generated/pvedaemon.8-synopsis.adoc[]
 
 DESCRIPTION
 -----------

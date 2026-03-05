@@ -109,7 +109,7 @@ include::output-format.adoc[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pvesm.1-synopsis.adoc[]
+include::generated/pvesm.1-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -117,7 +117,7 @@ include::pvesm.1-synopsis.adoc[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pvesubscription.1-synopsis.adoc[]
+include::generated/pvesubscription.1-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -125,7 +125,7 @@ include::pvesubscription.1-synopsis.adoc[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pveperf.1-synopsis.adoc[]
+include::generated/pveperf.1-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -133,7 +133,7 @@ include::pveperf.1-synopsis.adoc[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pveceph.1-synopsis.adoc[]
+include::generated/pveceph.1-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -141,7 +141,7 @@ include::pveceph.1-synopsis.adoc[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pvenode.1-synopsis.adoc[]
+include::generated/pvenode.1-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -149,7 +149,7 @@ include::pvenode.1-synopsis.adoc[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pvesh.1-synopsis.adoc[]
+include::generated/pvesh.1-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -157,7 +157,7 @@ include::pvesh.1-synopsis.adoc[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::qm.1-synopsis.adoc[]
+include::generated/qm.1-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -165,7 +165,7 @@ include::qm.1-synopsis.adoc[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::qmrestore.1-synopsis.adoc[]
+include::generated/qmrestore.1-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -173,7 +173,7 @@ include::qmrestore.1-synopsis.adoc[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pct.1-synopsis.adoc[]
+include::generated/pct.1-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -181,7 +181,7 @@ include::pct.1-synopsis.adoc[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pveam.1-synopsis.adoc[]
+include::generated/pveam.1-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -189,7 +189,7 @@ include::pveam.1-synopsis.adoc[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pvecm.1-synopsis.adoc[]
+include::generated/pvecm.1-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -197,7 +197,7 @@ include::pvecm.1-synopsis.adoc[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pvesr.1-synopsis.adoc[]
+include::generated/pvesr.1-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -206,7 +206,7 @@ include::pvesr.1-synopsis.adoc[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pveum.1-synopsis.adoc[]
+include::generated/pveum.1-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -214,7 +214,7 @@ include::pveum.1-synopsis.adoc[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::vzdump.1-synopsis.adoc[]
+include::generated/vzdump.1-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -222,7 +222,7 @@ include::vzdump.1-synopsis.adoc[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::ha-manager.1-synopsis.adoc[]
+include::generated/ha-manager.1-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -235,7 +235,7 @@ Service Daemons
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pve-firewall.8-synopsis.adoc[]
+include::generated/pve-firewall.8-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -243,7 +243,7 @@ include::pve-firewall.8-synopsis.adoc[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pvedaemon.8-synopsis.adoc[]
+include::generated/pvedaemon.8-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -252,7 +252,7 @@ include::pvedaemon.8-synopsis.adoc[]
 
 :leveloffset: 1
 
-include::pveproxy.8-synopsis.adoc[]
+include::generated/pveproxy.8-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -260,7 +260,7 @@ include::pveproxy.8-synopsis.adoc[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pvestatd.8-synopsis.adoc[]
+include::generated/pvestatd.8-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -269,7 +269,7 @@ include::pvestatd.8-synopsis.adoc[]
 
 :leveloffset: 1
 
-include::spiceproxy.8-synopsis.adoc[]
+include::generated/spiceproxy.8-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -277,7 +277,7 @@ include::spiceproxy.8-synopsis.adoc[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pmxcfs.8-synopsis.adoc[]
+include::generated/pmxcfs.8-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -285,7 +285,7 @@ include::pmxcfs.8-synopsis.adoc[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pve-ha-crm.8-synopsis.adoc[]
+include::generated/pve-ha-crm.8-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -293,7 +293,7 @@ include::pve-ha-crm.8-synopsis.adoc[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pve-ha-lrm.8-synopsis.adoc[]
+include::generated/pve-ha-lrm.8-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -301,7 +301,7 @@ include::pve-ha-lrm.8-synopsis.adoc[]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :leveloffset: 1
-include::pvescheduler.8-synopsis.adoc[]
+include::generated/pvescheduler.8-synopsis.adoc[]
 
 :leveloffset: 0
 
@@ -336,7 +336,7 @@ include::qm-vcpu-list.adoc[]
 Firewall Macro Definitions
 --------------------------
 
-include::pve-firewall-macros.adoc[]
+include::generated/pve-firewall-macros.adoc[]
 
 :leveloffset: 1
 [appendix]

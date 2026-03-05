@@ -20,4 +20,4 @@ values into human-readable text, for example:
 You can also completely suppress output using option `--quiet`.
 
 
-include::output-format-opts.adoc[]
+include::generated/output-format-opts.adoc[]

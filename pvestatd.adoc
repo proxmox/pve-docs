@@ -11,7 +11,7 @@ pvestatd - PVE Status Daemon
 SYNOPSIS
 --------
 
-include::pvestatd.8-synopsis.adoc[]
+include::generated/pvestatd.8-synopsis.adoc[]
 
 DESCRIPTION
 -----------

@@ -12,7 +12,7 @@ pvecm - Proxmox VE Cluster Manager
 SYNOPSIS
 --------
 
-include::pvecm.1-synopsis.adoc[]
+include::generated/pvecm.1-synopsis.adoc[]
 
 DESCRIPTION
 -----------

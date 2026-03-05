@@ -12,7 +12,7 @@ pve-ha-lrm - PVE Local Resource Manager Daemon
 SYNOPSIS
 --------
 
-include::pve-ha-lrm.8-synopsis.adoc[]
+include::generated/pve-ha-lrm.8-synopsis.adoc[]
 
 DESCRIPTION
 -----------

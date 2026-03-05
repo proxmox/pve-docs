@@ -13,7 +13,7 @@ pvesm - Proxmox VE Storage Manager
 SYNOPSIS
 --------
 
-include::pvesm.1-synopsis.adoc[]
+include::generated/pvesm.1-synopsis.adoc[]
 
 DESCRIPTION
 -----------

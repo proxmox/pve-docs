@@ -16,7 +16,7 @@ pveum - Proxmox VE User Manager
 SYNOPSIS
 --------
 
-include::pveum.1-synopsis.adoc[]
+include::generated/pveum.1-synopsis.adoc[]
 
 
 DESCRIPTION

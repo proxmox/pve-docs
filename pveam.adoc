@@ -12,7 +12,7 @@ pveam - Proxmox VE Appliance Manager
 SYNOPSIS
 --------
 
-include::pveam.1-synopsis.adoc[]
+include::generated/pveam.1-synopsis.adoc[]
 
 DESCRIPTION
 -----------

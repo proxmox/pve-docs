@@ -12,7 +12,7 @@ pveceph - Manage Ceph Services on Proxmox VE Nodes
 SYNOPSIS
 --------
 
-include::pveceph.1-synopsis.adoc[]
+include::generated/pveceph.1-synopsis.adoc[]
 
 DESCRIPTION
 -----------

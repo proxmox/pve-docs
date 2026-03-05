@@ -13,7 +13,7 @@ pve-firewall - PVE Firewall Daemon
 SYNOPSIS
 --------
 
-include::pve-firewall.8-synopsis.adoc[]
+include::generated/pve-firewall.8-synopsis.adoc[]
 
 
 DESCRIPTION
@@ -141,7 +141,7 @@ The configuration can contain the following sections:
 
 This is used to set cluster-wide firewall options.
 
-include::pve-firewall-cluster-opts.adoc[]
+include::generated/pve-firewall-cluster-opts.adoc[]
 
 `[RULES]`::
 
@@ -206,7 +206,7 @@ options. The configuration can contain the following sections:
 
 This is used to set host related firewall options.
 
-include::pve-firewall-host-opts.adoc[]
+include::generated/pve-firewall-host-opts.adoc[]
 
 `[RULES]`::
 
@@ -226,7 +226,7 @@ and contains the following data:
 
 This is used to set VM/Container related firewall options.
 
-include::pve-firewall-vm-opts.adoc[]
+include::generated/pve-firewall-vm-opts.adoc[]
 
 `[RULES]`::
 
@@ -279,7 +279,7 @@ FORWARD ACCEPT -source 10.0.0.1 -sport 80
 
 This is used to set VNet related firewall options.
 
-include::pve-firewall-vnet-opts.adoc[]
+include::generated/pve-firewall-vnet-opts.adoc[]
 
 `[RULES]`::
 
@@ -305,7 +305,7 @@ DIRECTION MACRO(ACTION) [OPTIONS] # use predefined macro
 
 The following options can be used to refine rule matches. 
 
-include::pve-firewall-rules-opts.adoc[]
+include::generated/pve-firewall-rules-opts.adoc[]
 
 Here are some examples:
 
@@ -919,7 +919,7 @@ ifdef::manvolnum[]
 Macro Definitions
 -----------------
 
-include::pve-firewall-macros.adoc[]
+include::generated/pve-firewall-macros.adoc[]
 
 
 include::pve-copyright.adoc[]

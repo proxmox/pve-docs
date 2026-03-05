@@ -11,7 +11,7 @@ pvesh - Shell interface for the Proxmox VE API
 SYNOPSIS
 --------
 
-include::pvesh.1-synopsis.adoc[]
+include::generated/pvesh.1-synopsis.adoc[]
 
 DESCRIPTION
 -----------

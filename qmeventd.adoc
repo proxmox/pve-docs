@@ -11,7 +11,7 @@ qmeventd - PVE QEMU Eventd Daemon
 SYNOPSIS
 --------
 
-include::qmeventd.8-synopsis.adoc[]
+include::generated/qmeventd.8-synopsis.adoc[]
 
 DESCRIPTION
 -----------

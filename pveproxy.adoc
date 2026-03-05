@@ -12,7 +12,7 @@ pveproxy - PVE API Proxy Daemon
 SYNOPSIS
 --------
 
-include::pveproxy.8-synopsis.adoc[]
+include::generated/pveproxy.8-synopsis.adoc[]
 
 DESCRIPTION
 -----------

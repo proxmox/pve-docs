@@ -13,7 +13,7 @@ pct - Tool to manage Linux Containers (LXC) on Proxmox VE
 SYNOPSIS
 --------
 
-include::pct.1-synopsis.adoc[]
+include::generated/pct.1-synopsis.adoc[]
 
 DESCRIPTION
 -----------
@@ -493,7 +493,7 @@ The root mount point is configured with the `rootfs` property. You can
 configure up to 256 additional mount points. The corresponding options are
 called `mp0` to `mp255`. They can contain the following settings:
 
-include::pct-mountpoint-opts.adoc[]
+include::generated/pct-mountpoint-opts.adoc[]
 
 Currently there are three types of mount points: storage backed mount points,
 bind mounts, and device mounts.
@@ -597,7 +597,7 @@ You can configure up to 10 network interfaces for a single container.
 The corresponding options are called `net0` to `net9`, and they can contain the
 following setting:
 
-include::pct-network-opts.adoc[]
+include::generated/pct-network-opts.adoc[]
 
 
 [[pct_startup_and_shutdown]]
@@ -1253,7 +1253,7 @@ snapshots. `snaptime` is the snapshot creation time stamp (Unix epoch).
 Options
 ~~~~~~~
 
-include::pct.conf.5-opts.adoc[]
+include::generated/pct.conf.5-opts.adoc[]
 
 
 Locks

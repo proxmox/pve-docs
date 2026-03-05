@@ -13,7 +13,7 @@ qm - QEMU/KVM Virtual Machine Manager
 SYNOPSIS
 --------
 
-include::qm.1-synopsis.adoc[]
+include::generated/qm.1-synopsis.adoc[]
 
 DESCRIPTION
 -----------
@@ -2317,7 +2317,7 @@ xref:qm_hibernate[Hibernation].
 Options
 ~~~~~~~
 
-include::qm.conf.5-opts.adoc[]
+include::generated/qm.conf.5-opts.adoc[]
 
 
 Locks

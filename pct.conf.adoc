@@ -62,7 +62,7 @@ Those settings are directly passed to the LXC low-level tools.
 Options
 -------
 
-include::pct.conf.5-opts.adoc[]
+include::generated/pct.conf.5-opts.adoc[]
 
 
 ifdef::manvolnum[]

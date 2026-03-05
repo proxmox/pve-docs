@@ -11,7 +11,7 @@ pvesubscription - Proxmox VE Subscription Manager
 SYNOPSIS
 --------
 
-include::pvesubscription.1-synopsis.adoc[]
+include::generated/pvesubscription.1-synopsis.adoc[]
 
 DESCRIPTION
 -----------

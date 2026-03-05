@@ -326,7 +326,7 @@ it as needed.
 Cloud-Init specific Options
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-include::qm-cloud-init-opts.adoc[]
+include::generated/qm-cloud-init-opts.adoc[]
 
 
 ifdef::wiki[]

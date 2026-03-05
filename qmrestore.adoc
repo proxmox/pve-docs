@@ -11,7 +11,7 @@ qmrestore - Restore QemuServer `vzdump` Backups
 SYNOPSIS
 --------
 
-include::qmrestore.1-synopsis.adoc[]
+include::generated/qmrestore.1-synopsis.adoc[]
 
 DESCRIPTION
 -----------

@@ -26,7 +26,7 @@ all: index.html
 verify-images:
 	for i in ./images/screenshot/*.png; do ./png-verify.pl $$i; done
 
-ADOC_SOURCES_GUESS=$(filter-out %-synopsis.adoc %-opts.adoc %-table.adoc, $(wildcard *.adoc))
+ADOC_SOURCES_GUESS=$(filter-out %-table.adoc, $(wildcard *.adoc))
 .pve-doc-depends link-refs.json: $(ADOC_SOURCES_GUESS) scan-adoc-refs
 	./scan-adoc-refs *.adoc --depends .pve-doc-depends.tmp > link-refs.json.tmp
 	@cmp --quiet .pve-doc-depends .pve-doc-depends.tmp || mv .pve-doc-depends.tmp .pve-doc-depends
@@ -42,8 +42,8 @@ pve-doc-generator.mk: .pve-doc-depends pve-doc-generator.mk.in
 GEN_DEB_SOURCES=				\
 	pve-doc-generator.mk			\
 	$(MANUAL_SOURCES)			\
-	pmxcfs.8-synopsis.adoc			\
-	qmeventd.8-synopsis.adoc		\
+	generated/pmxcfs.8-synopsis.adoc	\
+	generated/qmeventd.8-synopsis.adoc	\
 	docinfo.xml
 
 GEN_SCRIPTS=					\
@@ -251,13 +251,13 @@ update:
 .PHONY: update-static
 update-static:
 	make clean-static
-	make $(filter %-synopsis.adoc %-opts.adoc, $(PVE_ADMIN_GUIDE_ADOCDEPENDS)) pve-firewall-macros.adoc api-viewer/apidata.js
+	make $(filter generated/%, $(PVE_ADMIN_GUIDE_ADOCDEPENDS)) api-viewer/apidata.js
 
 .PHONY: clean-static
 clean-static:
-	find . -regex '.*-\(opts\|synopsis\)\.adoc' -not -name pmxcfs.8-synopsis.adoc -not -name qmeventd.8-synopsis.adoc -exec rm -f \{\} \;
+	find generated -regex '.*-\(opts\|synopsis\)\.adoc' -not -name pmxcfs.8-synopsis.adoc -not -name qmeventd.8-synopsis.adoc -exec rm -f \{\} \;
+	rm -f generated/pve-firewall-macros.adoc
 	rm -f api-viewer/apidata.js
-	rm -f pve-firewall-macros.adoc pct-network-opts.adoc pct-mountpoint-opts.adoc
 
 clean:
 	rm -rf *.html *.pdf *.epub *.tmp *.1 *.5 *.8
