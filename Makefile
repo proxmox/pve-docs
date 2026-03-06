@@ -2,6 +2,7 @@ include /usr/share/dpkg/pkg-info.mk
 
 # overwriting below ensures that we can build without full PVE installed
 DGDIR=.
+GENSCRIPTDIR=./scripts
 ASCIIDOC_PVE=./asciidoc-pve
 
 BUILDDIR ?= $(DEB_SOURCE)-$(DEB_VERSION)
@@ -24,11 +25,11 @@ all: index.html
 
 .PHONY: verify-images
 verify-images:
-	for i in ./images/screenshot/*.png; do ./png-verify.pl $$i; done
+	for i in ./images/screenshot/*.png; do ./scripts/png-verify.pl $$i; done
 
 ADOC_SOURCES_GUESS=$(filter-out %-table.adoc, $(wildcard *.adoc))
-.pve-doc-depends link-refs.json: $(ADOC_SOURCES_GUESS) scan-adoc-refs
-	./scan-adoc-refs *.adoc --depends .pve-doc-depends.tmp > link-refs.json.tmp
+.pve-doc-depends link-refs.json: $(ADOC_SOURCES_GUESS) scripts/scan-adoc-refs
+	./scripts/scan-adoc-refs *.adoc --depends .pve-doc-depends.tmp > link-refs.json.tmp
 	@cmp --quiet .pve-doc-depends .pve-doc-depends.tmp || mv .pve-doc-depends.tmp .pve-doc-depends
 	@cmp --quiet link-refs.json link-refs.json.tmp || mv link-refs.json.tmp link-refs.json
 
@@ -46,27 +47,27 @@ GEN_DEB_SOURCES=				\
 	generated/qmeventd.8-synopsis.adoc	\
 	docinfo.xml
 
-GEN_SCRIPTS=					\
-	gen-ha-groups-opts.pl			\
-	gen-ha-resources-opts.pl		\
-	gen-ha-rules-node-affinity-opts.pl	\
-	gen-ha-rules-opts.pl			\
-	gen-ha-rules-resource-affinity-opts.pl	\
-	gen-datacenter.cfg.5-opts.pl		\
-	gen-pct.conf.5-opts.pl			\
-	gen-pct-network-opts.pl			\
-	gen-pct-mountpoint-opts.pl		\
-	gen-qm.conf.5-opts.pl			\
-	gen-cpu-models.conf.5-opts.pl 		\
-	gen-qm-cloud-init-opts.pl		\
-	gen-vzdump.conf.5-opts.pl		\
-	gen-pve-firewall-cluster-opts.pl	\
-	gen-pve-firewall-host-opts.pl		\
-	gen-pve-firewall-macros-adoc.pl		\
-	gen-pve-firewall-rules-opts.pl		\
-	gen-pve-firewall-vm-opts.pl		\
-	gen-pve-firewall-vnet-opts.pl		\
-	gen-output-format-opts.pl
+GEN_SCRIPTS=						\
+	scripts/gen-ha-groups-opts.pl			\
+	scripts/gen-ha-resources-opts.pl		\
+	scripts/gen-ha-rules-node-affinity-opts.pl	\
+	scripts/gen-ha-rules-opts.pl			\
+	scripts/gen-ha-rules-resource-affinity-opts.pl	\
+	scripts/gen-datacenter.cfg.5-opts.pl		\
+	scripts/gen-pct.conf.5-opts.pl			\
+	scripts/gen-pct-network-opts.pl			\
+	scripts/gen-pct-mountpoint-opts.pl		\
+	scripts/gen-qm.conf.5-opts.pl			\
+	scripts/gen-cpu-models.conf.5-opts.pl 		\
+	scripts/gen-qm-cloud-init-opts.pl		\
+	scripts/gen-vzdump.conf.5-opts.pl		\
+	scripts/gen-pve-firewall-cluster-opts.pl	\
+	scripts/gen-pve-firewall-host-opts.pl		\
+	scripts/gen-pve-firewall-macros-adoc.pl		\
+	scripts/gen-pve-firewall-rules-opts.pl		\
+	scripts/gen-pve-firewall-vm-opts.pl		\
+	scripts/gen-pve-firewall-vnet-opts.pl		\
+	scripts/gen-output-format-opts.pl
 
 API_VIEWER_FILES=							\
 	api-viewer/apidata.js						\
@@ -77,14 +78,14 @@ API_VIEWER_SOURCES=				\
 	api-viewer/index.html			\
 	api-viewer/apidoc.js
 
-asciidoc-pve: asciidoc-pve.in link-refs.json
-	cat asciidoc-pve.in link-refs.json >asciidoc-pve.tmp
+asciidoc-pve: scripts/asciidoc-pve.in link-refs.json
+	cat scripts/asciidoc-pve.in link-refs.json >asciidoc-pve.tmp
 	sed -e s/@RELEASE@/$(DOCRELEASE)/ -i asciidoc-pve.tmp
 	chmod +x asciidoc-pve.tmp
 	mv asciidoc-pve.tmp asciidoc-pve
 
-pve-docs-mediawiki-import: pve-docs-mediawiki-import.in link-refs.json
-	cat pve-docs-mediawiki-import.in link-refs.json >  pve-docs-mediawiki-import.tmp
+pve-docs-mediawiki-import: scripts/pve-docs-mediawiki-import.in link-refs.json
+	cat scripts/pve-docs-mediawiki-import.in link-refs.json >  pve-docs-mediawiki-import.tmp
 	chmod +x pve-docs-mediawiki-import.tmp
 	mv pve-docs-mediawiki-import.tmp pve-docs-mediawiki-import
 
@@ -150,8 +151,8 @@ pve-admin-guide.epub: $(PVE_ADMIN_GUIDE_ADOCDEPENDS)
 	a2x -D $@.tmp -f epub --asciidoc-opts="$(PVE_DOCBOOK_CONF)" pve-admin-guide.adoc
 	mv $@.tmp/$@ $@
 
-api-viewer/apidata.js: extractapi.pl
-	./extractapi.pl >$@
+api-viewer/apidata.js: scripts/extractapi.pl
+	./scripts/extractapi.pl >$@
 
 api-viewer/apidoc.js: $(API_VIEWER_FILES)
 	cat $(API_VIEWER_FILES) >$@.tmp

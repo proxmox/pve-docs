@@ -1,6 +1,7 @@
 DOCRELEASE=@RELEASE@
 
 DGDIR?=/usr/share/pve-doc-generator
+GENSCRIPTDIR?=${DGDIR}
 
 ASCIIDOC_PVE?=/usr/bin/asciidoc-pve
 
@@ -24,14 +25,14 @@ generated/pmxcfs.8-synopsis.adoc generated/qmeventd.8-synopsis.adoc:
 	cp ${DGDIR}/$(notdir $@) $@.tmp
 	mv $@.tmp $@
 
-generated/%-opts.adoc: ${DGDIR}/gen-%-opts.pl
+generated/%-opts.adoc: ${GENSCRIPTDIR}/gen-%-opts.pl
 	@mkdir -p generated
-	$(PERL_DOC_ENV) perl ${PERL_DOC_INC} ${DGDIR}/gen-$*-opts.pl >$@.tmp
+	$(PERL_DOC_ENV) perl ${PERL_DOC_INC} ${GENSCRIPTDIR}/gen-$*-opts.pl >$@.tmp
 	mv $@.tmp $@
 
-generated/%.adoc: ${DGDIR}/gen-%-adoc.pl
+generated/%.adoc: ${GENSCRIPTDIR}/gen-%-adoc.pl
 	@mkdir -p generated
-	$(PERL_DOC_ENV) perl ${PERL_DOC_INC} ${DGDIR}/gen-$*-adoc.pl >$@.tmp
+	$(PERL_DOC_ENV) perl ${PERL_DOC_INC} ${GENSCRIPTDIR}/gen-$*-adoc.pl >$@.tmp
 	mv $@.tmp $@
 
 generated/pveperf.1-synopsis.adoc:

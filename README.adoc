@@ -313,12 +313,12 @@ the same density. We currently require the density set to 146 DPI, so
 that we can display a 1024 pixels wide image. You should not include
 larger screenshots (although it is possible).
 
-You can use the `./png-cleanup.pl` script to set the correct
+You can use the `./scripts/png-cleanup.pl` script to set the correct
 density. Simply use the following command to import a screenshot
 image:
 
 ----
-# ./png-cleanup.pl screenshot.png images/screenshot/screenshot.png
+# ./scripts/png-cleanup.pl screenshot.png images/screenshot/screenshot.png
 ----
 
 TIP: You can use `identify -verbose screenshot.png` command to show

@@ -28,7 +28,7 @@ my $tmpprefix = '.asciidoc-pve-tmp' . $$ . '_';
 my $adoc_source_dir = "/usr/share/pve-doc-generator";
 
 # inside pve-docs source dir?
-if (-f "asciidoc-pve.in" && -f "pve-admin-guide.adoc") {
+if (-f "scripts/asciidoc-pve.in" && -f "pve-admin-guide.adoc") {
     $adoc_source_dir = getcwd();
 }
 
