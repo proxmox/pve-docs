@@ -1142,50 +1142,53 @@ without a random number generator.
 Secure Boot Certificate Expiration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The expiration date for the original set of Microsoft certificates from 2011,
-which are used for secure boot for Windows and common Linux distributions, is
-June 2026. New certificates were created in 2023
+The original set of Microsoft certificates from 2011, which Windows and common
+Linux distributions use for secure boot, expires in June 2026. Microsoft created
+replacement certificates in 2023
 footnote:[Microsoft support article about the issue
 https://support.microsoft.com/en-us/topic/windows-secure-boot-certificate-expiration-and-ca-updates-7ff40d33-95dc-4c3c-8725-a9b95457578e].
 
-When secure boot is used, only bootloaders signed with certificates present on
-the EFI disk will be allowed by the firmware. In particular, when an EFI disk
-has only the 2011 certificates, bootloaders signed with the 2023 certificates
-will be rejected. The presence of the `ms-cert=2023k` marker in the VM
-configuration for an EFI disk indicates that the new certificates are enrolled.
+The firmware only allows bootloaders signed with certificates present on the EFI
+disk. In particular, an EFI disk with only the 2011 certificates will reject
+bootloaders signed with the 2023 certificates. The `ms-cert=2023k` marker in the
+VM configuration for an EFI disk indicates that the new certificates are
+enrolled.
 
 If the `pve-edk2-firmware` package version is at least `4.2025.05-1`, newly
 created EFI disks contain both the 2011 and 2023 certificates and will have the
 `ms-cert=2023k` marker. For EFI disks created before that, select the EFI disk
 in the 'Hardware' view in the UI and use 'Disk Action > Enroll Updated
-Certificates'. Alternatively, the marker can be set via the
-`/nodes/{node}/qemu/{vmid}/config` API endpoint or via the
+Certificates'. Alternatively, enroll the certificates via the
+`/nodes/{node}/qemu/{vmid}/config` API endpoint. The enrollment takes effect
+when the VM is next started. The
 
 ----
 qm enroll-efi-keys <vmid>
 ----
 
-CLI command. The latter works if the VM is shut down.
+CLI command achieves the same, but requires the VM to be shut down.
 
-For Windows with BitLocker, run the following command inside Powershell:
+For Windows with BitLocker, run the following command inside PowerShell:
 
 ----
 manage-bde -protectors -disable <drive>
 ----
 
 For example, `<drive>` could be `C:`. This is required for each drive with
-BitLocker before proceeding! Otherwise, you will be prompted for the BitLocker
+BitLocker before proceeding. Otherwise, you will be prompted for the BitLocker
 recovery key on the next boot!
 
-For proceeding with updating secure boot within Windows and signing the
-bootloader with the new 2023 certificate, see
-footnote:[Microsoft support article regarding CVE-2023-24932
-https://support.microsoft.com/en-us/topic/enterprise-deployment-guidance-for-cve-2023-24932-88b8f034-20b7-4a45-80cb-c6049b0f9967]
-footnote:[Related Windows security update which needs to be installed first
-https://msrc.microsoft.com/update-guide/vulnerability/CVE-2023-24932].
+For further steps on updating secure boot within Windows and signing the
+bootloader with the new 2023 certificates, refer to the Microsoft support
+articles about
+https://support.microsoft.com/en-us/topic/enterprise-deployment-guidance-for-cve-2023-24932-88b8f034-20b7-4a45-80cb-c6049b0f9967[enterprise deployment guidance for CVE-2023-24932]
+and the
+https://msrc.microsoft.com/update-guide/vulnerability/CVE-2023-24932[related security update]
+which needs to be installed first.
 
 NOTE: The markers `ms-cert=2023` and `ms-cert=2023w` may indicate partial
-enrollment. You should apply the enrollment procedure for such EFI drives too.
+enrollment. The VM start task log will warn about this. You should apply the
+enrollment procedure for such EFI disks too.
 
 [[qm_tpm]]
 Trusted Platform Module (TPM)
