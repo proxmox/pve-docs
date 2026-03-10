@@ -1024,6 +1024,19 @@ when no HA resources are configured yet or the cluster just started. The CRM
 watchdog is not open. Fencing automatically transitions to `armed` once a CRM
 takes over as master.
 
+disarming::
+
+A `disarm-ha` command was issued. The CRM is freezing or suspending services
+from tracking and waiting for all LRMs to release their watchdogs. The CRM
+watchdog is still active during this phase. Each LRM entry's watchdog status
+changes to `released` as it acknowledges the disarm.
+
+disarmed::
+
+All watchdogs have been released cluster-wide. No automatic fencing, failover,
+or recovery takes place.
+See xref:ha_manager_disarm[Disarming HA for Cluster Maintenance].
+
 NOTE: The `watchdog-mux` service keeps the underlying `/dev/watchdog` device
 open for its entire lifetime, even when no HA client is connected. This
 prevents other processes from claiming the device and ensures the HA stack can
@@ -1279,6 +1292,120 @@ and you can decide if you want to use online migration or not.
 NOTE: Please do not 'kill' services like `pve-ha-crm`, `pve-ha-lrm` or
 `watchdog-mux`. They manage and use the watchdog, so this can result in an
 immediate node reboot or even reset.
+
+
+[[ha_manager_disarm]]
+Disarming HA for Cluster Maintenance
+-------------------------------------
+
+Certain cluster maintenance tasks, such as reconfiguring the network or the
+cluster communication stack (corosync), can cause temporary quorum loss or
+network partitions. Normally, HA would interpret this as a node failure and
+trigger self-fencing, disrupting services unnecessarily.
+
+The disarm mechanism releases all CRM and LRM watchdogs cluster-wide, allowing
+you to perform such maintenance safely without the risk of nodes being fenced.
+
+IMPORTANT: While disarmed, HA does not protect your services. Failures during
+this period are not automatically recovered. Keep the disarm window as short as
+possible.
+
+.Resource Modes
+
+When disarming HA, you must choose a resource mode that controls how HA managed
+resources are handled while disarmed. The current state of resources is not
+affected.
+
+freeze::
+
+New commands and state changes are not applied. Services stay in their current
+state, but the HA stack does not react to failures or process new requests.
+This is the safest choice when you expect all nodes to remain running.
+
+ignore::
+
+Resources are suspended from HA tracking and can be managed as if they were not
+HA managed. This allows you to manually start, stop, or migrate services while
+HA is disarmed. Use this when you need to manually relocate services during
+maintenance. When re-arming, the CRM rechecks service locations against the
+configuration to pick up any manual migrations.
+
+.Disarming and Re-Arming
+
+To disarm HA with the desired resource mode:
+
+----
+# ha-manager crm-command disarm-ha freeze
+----
+
+or:
+
+----
+# ha-manager crm-command disarm-ha ignore
+----
+
+To re-arm HA after maintenance is complete:
+
+----
+# ha-manager crm-command arm-ha
+----
+
+You can monitor the current state with:
+
+----
+# ha-manager status
+----
+
+The fencing status line shows the current state of the fencing mechanism (see
+xref:ha_manager_fencing_status[Fencing Status]), including the CRM and LRM
+watchdog states.
+
+.The Disarm Process
+
+After you request disarm, the following sequence happens:
+
+. The CRM freezes all services or suspends them from tracking, depending on the
+  chosen resource mode.
+. Each LRM finishes its active workers, then releases its agent lock and
+  watchdog.
+. Once all online LRMs are idle, the CRM releases its own watchdog too.
+
+The CRM keeps the manager lock throughout this process, so it can accept and
+process the `arm-ha` command to reverse it.
+
+If any services are currently being fenced, recovered, or migrated, the disarm
+is deferred until these operations complete. This ensures that services in the
+middle of a transition do not end up in an inconsistent state.
+
+.Nodes Offline During Disarm
+
+If a node is offline when HA is disarmed, its LRM cannot process the disarm
+request. The CRM proceeds to the disarmed state once all *online* LRMs have
+completed their part. The offline node does not block this.
+
+When the offline node comes back online while HA is still disarmed, its LRM
+picks up the disarm state and releases its watchdog without attempting any
+service recovery.
+
+When you re-arm HA, any services that were on the offline node are handled
+according to normal HA recovery rules: they are fenced and recovered if the node
+is still unreachable, or restarted on the node if it has come back online.
+
+.Interaction with Maintenance Mode
+
+If a node is already in maintenance mode when disarm is requested, the
+maintenance migration continues until all services have been moved away. Once no
+active services and workers remain, the LRM releases its lock and watchdog as
+part of the disarm process.
+
+When HA is re-armed, the maintenance mode state is preserved. The node remains
+in maintenance and services are not moved back until maintenance mode is
+explicitly disabled.
+
+CAUTION: While the HA stack is disarmed, no automatic recovery, failover, or
+fencing takes place. A node failure during this window is not detected or
+handled by HA. Keep the disarm window as short as possible and ensure that the
+cluster is in a healthy state before re-arming.
 
 
 [[ha_manager_crs]]
