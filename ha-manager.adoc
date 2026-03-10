@@ -1003,6 +1003,34 @@ can lead to high load, especially on small clusters. Please design
 your cluster so that it can handle such worst case scenarios.
 
 
+[[ha_manager_fencing_status]]
+Fencing & Watchdog Status
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The `ha-manager status` output includes a fencing entry that shows the CRM
+watchdog state. Each LRM entry additionally shows its own watchdog state.
+
+armed::
+
+The CRM is actively managing services and has its watchdog open. Each node's
+LRM also holds a watchdog while it has its agent lock. On quorum loss or
+daemon failure, the respective watchdog triggers a node reset to ensure safe
+failover.
+
+standby::
+
+The HA stack is ready but no CRM is actively running as master, for example
+when no HA resources are configured yet or the cluster just started. The CRM
+watchdog is not open. Fencing automatically transitions to `armed` once a CRM
+takes over as master.
+
+NOTE: The `watchdog-mux` service keeps the underlying `/dev/watchdog` device
+open for its entire lifetime, even when no HA client is connected. This
+prevents other processes from claiming the device and ensures the HA stack can
+always re-acquire it. Not all hardware watchdog drivers support magic close, so
+closing the device could trigger an unintended reset.
+
+
 [[ha_manager_start_failure_policy]]
 Start Failure Policy
 ---------------------
