@@ -52,14 +52,7 @@ booted via UEFI.
 {pve} ships its own version of the `fwupd` package to enable Secure Boot
 Support with the Proxmox signing key. This package consciously dropped the
 dependency recommendation for the `udisks2` package, due to observed issues with
-its use on hypervisors. That means you must explicitly configure the correct
-mount point of the EFI partition in `/etc/fwupd/daemon.conf`, for example:
-
-.File `/etc/fwupd/daemon.conf`
-----
-# Override the location used for the EFI system partition (ESP) path.
-EspLocation=/boot/efi
-----
+its use on hypervisors.
 
 TIP: If the update instructions require a host reboot, make sure that it can be
 done safely. See also xref:ha_manager_node_maintenance[Node Maintenance].
