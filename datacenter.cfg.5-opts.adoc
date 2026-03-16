@@ -95,7 +95,7 @@ For cluster wide migration settings.
 
 `network`=`<CIDR>` ;;
 
-CIDR of the (sub) network that is used for migration.
+CIDR of the (sub) network that is used for migration and replication.
 
 `type`=`<insecure | secure>` ('default =' `secure`);;
 

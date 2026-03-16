@@ -256,6 +256,10 @@ Volume group name.
 
 Glusterfs Volume.
 
+`--zfs-base-path` `<string>` ::
+
+Base path where to look for the created ZFS block devices. Set automatically during creation if not specified. Usually '/dev/zvol'.
+
 *pvesm alloc* `<storage> <vmid> <filename> <size>` `[OPTIONS]`
 
 Allocate disk images.
@@ -791,6 +795,10 @@ Gluster transport: tcp or rdma
 `--username` `<string>` ::
 
 RBD Id.
+
+`--zfs-base-path` `<string>` ::
+
+Base path where to look for the created ZFS block devices. Set automatically during creation if not specified. Usually '/dev/zvol'.
 
 *pvesm status* `[OPTIONS]`
 

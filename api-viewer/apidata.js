@@ -14537,7 +14537,7 @@ const apiSchema = [
                            "description" : "For cluster wide migration settings.",
                            "format" : {
                               "network" : {
-                                 "description" : "CIDR of the (sub) network that is used for migration.",
+                                 "description" : "CIDR of the (sub) network that is used for migration and replication.",
                                  "format" : "CIDR",
                                  "format_description" : "CIDR",
                                  "optional" : 1,
@@ -18687,6 +18687,18 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "ms-cert" : {
+                                                   "default" : "2011",
+                                                   "description" : "Informational marker indicating the version of the latest Microsoft UEFI certificates that have been enrolled by Proxmox VE. The value '2023k' means that the 'Microsoft UEFI CA 2023', the 'Windows UEFI CA 2023' and the 'Microsoft Corporation KEK 2K CA 2023' certificates are included. The values '2023' and '2023w' are deprecated and for compatibility only.",
+                                                   "enum" : [
+                                                      "2011",
+                                                      "2023",
+                                                      "2023w",
+                                                      "2023k"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
                                                 "pre-enrolled-keys" : {
                                                    "default" : 0,
                                                    "description" : "Use am EFI vars template with distribution-specific and Microsoft Standard keys enrolled, if used with 'efitype=4m'. Note that this will enable Secure Boot by default, though it can still be turned off from within the VM.",
@@ -21071,6 +21083,18 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "ms-cert" : {
+                                                   "default" : "2011",
+                                                   "description" : "Informational marker indicating the version of the latest Microsoft UEFI certificates that have been enrolled by Proxmox VE. The value '2023k' means that the 'Microsoft UEFI CA 2023', the 'Windows UEFI CA 2023' and the 'Microsoft Corporation KEK 2K CA 2023' certificates are included. The values '2023' and '2023w' are deprecated and for compatibility only.",
+                                                   "enum" : [
+                                                      "2011",
+                                                      "2023",
+                                                      "2023w",
+                                                      "2023k"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
                                                 "pre-enrolled-keys" : {
                                                    "default" : 0,
                                                    "description" : "Use am EFI vars template with distribution-specific and Microsoft Standard keys enrolled, if used with 'efitype=4m'. Note that this will enable Secure Boot by default, though it can still be turned off from within the VM.",
@@ -21090,7 +21114,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
+                                             "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
                                           },
                                           "force" : {
                                              "description" : "Force physical removal. Without this, we simple remove the disk from the config file and create an additional configuration entry called 'unused[n]', which contains the volume ID. Unlink of unused[n] always cause physical removal.",
@@ -23593,6 +23617,18 @@ const apiSchema = [
                                                    "optional" : 1,
                                                    "type" : "string"
                                                 },
+                                                "ms-cert" : {
+                                                   "default" : "2011",
+                                                   "description" : "Informational marker indicating the version of the latest Microsoft UEFI certificates that have been enrolled by Proxmox VE. The value '2023k' means that the 'Microsoft UEFI CA 2023', the 'Windows UEFI CA 2023' and the 'Microsoft Corporation KEK 2K CA 2023' certificates are included. The values '2023' and '2023w' are deprecated and for compatibility only.",
+                                                   "enum" : [
+                                                      "2011",
+                                                      "2023",
+                                                      "2023w",
+                                                      "2023k"
+                                                   ],
+                                                   "optional" : 1,
+                                                   "type" : "string"
+                                                },
                                                 "pre-enrolled-keys" : {
                                                    "default" : 0,
                                                    "description" : "Use am EFI vars template with distribution-specific and Microsoft Standard keys enrolled, if used with 'efitype=4m'. Note that this will enable Secure Boot by default, though it can still be turned off from within the VM.",
@@ -23612,7 +23648,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
+                                             "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
                                           },
                                           "force" : {
                                              "description" : "Force physical removal. Without this, we simple remove the disk from the config file and create an additional configuration entry called 'unused[n]', which contains the volume ID. Unlink of unused[n] always cause physical removal.",
@@ -26669,6 +26705,12 @@ const apiSchema = [
                                                       "insecure"
                                                    ],
                                                    "optional" : 1,
+                                                   "type" : "string"
+                                                },
+                                                "nets-host-mtu" : {
+                                                   "description" : "Used for migration compat. List of VirtIO network devices and their effective host_mtu setting according to the QEMU object model on the source side of the migration. A value of 0 means that the host_mtu parameter is to be avoided for the corresponding device.",
+                                                   "optional" : 1,
+                                                   "pattern" : "net\\d+=\\d+(,net\\d+=\\d+)*",
                                                    "type" : "string"
                                                 },
                                                 "node" : {
@@ -29935,6 +29977,18 @@ const apiSchema = [
                                        "optional" : 1,
                                        "type" : "string"
                                     },
+                                    "ms-cert" : {
+                                       "default" : "2011",
+                                       "description" : "Informational marker indicating the version of the latest Microsoft UEFI certificates that have been enrolled by Proxmox VE. The value '2023k' means that the 'Microsoft UEFI CA 2023', the 'Windows UEFI CA 2023' and the 'Microsoft Corporation KEK 2K CA 2023' certificates are included. The values '2023' and '2023w' are deprecated and for compatibility only.",
+                                       "enum" : [
+                                          "2011",
+                                          "2023",
+                                          "2023w",
+                                          "2023k"
+                                       ],
+                                       "optional" : 1,
+                                       "type" : "string"
+                                    },
                                     "pre-enrolled-keys" : {
                                        "default" : 0,
                                        "description" : "Use am EFI vars template with distribution-specific and Microsoft Standard keys enrolled, if used with 'efitype=4m'. Note that this will enable Secure Boot by default, though it can still be turned off from within the VM.",
@@ -29954,7 +30008,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
+                                 "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
                               },
                               "force" : {
                                  "description" : "Allow to overwrite existing VM.",
@@ -49049,8 +49103,8 @@ const apiSchema = [
                                  "properties" : {
                                     "name" : {
                                        "description" : "Package name.",
-                                       "type" : "string",
-                                       "typetext" : "<string>"
+                                       "pattern" : "(?^:[a-z0-9][-+.a-z0-9:]+)",
+                                       "type" : "string"
                                     },
                                     "node" : {
                                        "description" : "The cluster node name.",
@@ -52490,9 +52544,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "ceph_install",
                                     "upgrade",
-                                    "login"
+                                    "login",
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -52585,9 +52639,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "ceph_install",
                                     "upgrade",
-                                    "login"
+                                    "login",
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -52710,9 +52764,9 @@ const apiSchema = [
                                  "default" : "login",
                                  "description" : "Run specific command or default to login (requires 'root@pam')",
                                  "enum" : [
-                                    "ceph_install",
                                     "upgrade",
-                                    "login"
+                                    "login",
+                                    "ceph_install"
                                  ],
                                  "optional" : 1,
                                  "type" : "string"
@@ -54068,6 +54122,13 @@ const apiSchema = [
                            "optional" : 1,
                            "type" : "string",
                            "typetext" : "<string>"
+                        },
+                        "zfs-base-path" : {
+                           "description" : "Base path where to look for the created ZFS block devices. Set automatically during creation if not specified. Usually '/dev/zvol'.",
+                           "format" : "pve-storage-path",
+                           "optional" : 1,
+                           "type" : "string",
+                           "typetext" : "<string>"
                         }
                      },
                      "type" : "object"
@@ -54671,6 +54732,13 @@ const apiSchema = [
                   },
                   "volume" : {
                      "description" : "Glusterfs Volume.",
+                     "optional" : 1,
+                     "type" : "string",
+                     "typetext" : "<string>"
+                  },
+                  "zfs-base-path" : {
+                     "description" : "Base path where to look for the created ZFS block devices. Set automatically during creation if not specified. Usually '/dev/zvol'.",
+                     "format" : "pve-storage-path",
                      "optional" : 1,
                      "type" : "string",
                      "typetext" : "<string>"

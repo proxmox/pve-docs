@@ -199,7 +199,7 @@ CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger t
 
 Description for the VM. Shown in the web-interface VM's summary. This is saved as comment inside the configuration file.
 
-`efidisk0`: `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
+`efidisk0`: `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,ms-cert=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
 
 Configure a disk for storing EFI vars.
 
@@ -214,6 +214,10 @@ The drive's backing volume.
 `format`=`<cloop | qcow | qcow2 | qed | raw | vmdk>` ;;
 
 The drive's backing file's data format.
+
+`ms-cert`=`<2011 | 2023 | 2023k | 2023w>` ('default =' `2011`);;
+
+Informational marker indicating the version of the latest Microsoft UEFI certificates that have been enrolled by Proxmox VE. The value '2023k' means that the 'Microsoft UEFI CA 2023', the 'Windows UEFI CA 2023' and the 'Microsoft Corporation KEK 2K CA 2023' certificates are included. The values '2023' and '2023w' are deprecated and for compatibility only.
 
 `pre-enrolled-keys`=`<boolean>` ('default =' `0`);;
 

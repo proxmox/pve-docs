@@ -223,7 +223,7 @@ CPU weight for a VM, will be clamped to [1, 10000] in cgroup v2.
 
 Description for the VM. Shown in the web-interface VM's summary. This is saved as comment inside the configuration file.
 
-`--efidisk0` `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
+`--efidisk0` `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
 
 Configure a disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.
 
@@ -649,6 +649,16 @@ Force physical removal. Without this, we simple remove the disk from the config 
 
 A list of disk IDs you want to delete.
 
+*qm enroll-efi-keys* `<vmid>`
+
+Enroll important updated certificates to the EFI disk with
+pre-enrolled-keys. Currently, these are UEFI 2023 certificates from
+Microsoft. Must be called while the VM is shut down.
+
+`<vmid>`: `<integer> (100 - 999999999)` ::
+
+The (unique) ID of the VM.
+
 *qm guest cmd* `<vmid> <command>`
 
 Execute QEMU Guest Agent commands.
@@ -838,7 +848,7 @@ Description for the VM. Shown in the web-interface VM's summary. This is saved a
 
 Show the create command and exit without doing anything.
 
-`--efidisk0` `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
+`--efidisk0` `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,ms-cert=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
 
 Configure a disk for storing EFI vars.
 
@@ -1432,7 +1442,7 @@ Description for the VM. Shown in the web-interface VM's summary. This is saved a
 
 Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
 
-`--efidisk0` `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
+`--efidisk0` `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
 
 Configure a disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.
 
@@ -1769,6 +1779,10 @@ CIDR of the (sub) network that is used for migration.
 `--migration_type` `<insecure | secure>` ::
 
 Migration traffic is encrypted using an SSH tunnel by default. On secure, completely private networks this can be disabled to increase performance.
+
+`--nets-host-mtu` `net\d+=\d+(,net\d+=\d+)*` ::
+
+Used for migration compat. List of VirtIO network devices and their effective host_mtu setting according to the QEMU object model on the source side of the migration. A value of 0 means that the host_mtu parameter is to be avoided for the corresponding device.
 
 `--skiplock` `<boolean>` ::
 
