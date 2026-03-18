@@ -1156,17 +1156,8 @@ enrolled.
 
 If the `pve-edk2-firmware` package version is at least `4.2025.05-1`, newly
 created EFI disks contain both the 2011 and 2023 certificates and will have the
-`ms-cert=2023k` marker. For EFI disks created before that, select the EFI disk
-in the 'Hardware' view in the UI and use 'Disk Action > Enroll Updated
-Certificates'. Alternatively, enroll the certificates via the
-`/nodes/{node}/qemu/{vmid}/config` API endpoint. The enrollment takes effect
-when the VM is next started. The
-
-----
-qm enroll-efi-keys <vmid>
-----
-
-CLI command achieves the same, but requires the VM to be shut down.
+`ms-cert=2023k` marker. For EFI disks created before that, you need to enroll
+the certificates:
 
 For Windows with BitLocker, run the following command inside PowerShell:
 
@@ -1177,6 +1168,17 @@ manage-bde -protectors -disable <drive>
 For example, `<drive>` could be `C:`. This is required for each drive with
 BitLocker before proceeding. Otherwise, you will be prompted for the BitLocker
 recovery key on the next boot!
+
+Select the EFI disk in the 'Hardware' view in the UI and use
+'Disk Action > Enroll Updated Certificates'. Alternatively, enroll the
+certificates via the `/nodes/{node}/qemu/{vmid}/config` API endpoint. The
+enrollment takes effect when the VM is next started. The
+
+----
+qm enroll-efi-keys <vmid>
+----
+
+CLI command achieves the same, but requires the VM to be shut down.
 
 For further steps on updating secure boot within Windows and signing the
 bootloader with the new 2023 certificates, refer to the Microsoft support
