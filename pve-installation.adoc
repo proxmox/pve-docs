@@ -8,16 +8,16 @@ ifdef::wiki[]
 :title: Installation
 endif::wiki[]
 
-{pve} is based on Debian. This is why the install disk images (ISO files)
+{pve} is based on Debian GNU/Linux. The install disk images (ISO files)
 provided by Proxmox include a complete Debian system as well as all necessary
 {pve} packages.
 
 TIP: See the xref:faq-support-table[support table in the FAQ] for the
 relationship between {pve} releases and Debian releases.
 
-The installer will guide you through the setup, allowing you to partition the
+The installer guides you through the setup, allowing you to partition the
 local disk(s), apply basic system configurations (for example, timezone,
-language, network) and install all required packages. This process should not
+language, network), and install all required packages. This process should not
 take more than a few minutes. Installing with the provided ISO is the
 recommended method for new and existing users.
 
@@ -40,7 +40,7 @@ Using the {pve} Installer
 
 The installer ISO image includes the following:
 
-* Complete operating system (Debian Linux, 64-bit)
+* Complete operating system (Debian GNU/Linux, 64-bit)
 
 * The {pve} installer, which partitions the local disk(s) with ext4, XFS,
   BTRFS (technology preview), or ZFS and installs the operating system
@@ -48,7 +48,7 @@ The installer ISO image includes the following:
 * {pve} Linux kernel with KVM and LXC support
 
 * Complete toolset for administering virtual machines, containers, the host
-  system, clusters and all necessary resources
+  system, clusters, and all necessary resources
 
 * Web-based management interface
 
@@ -65,8 +65,8 @@ when booting an installer prior to {pve} version 8.1.
 
 [thumbnail="screenshot/pve-grub-menu.png"]
 
-After choosing the correct entry (for example, 'Boot from USB') the {pve} menu
-will be displayed, and one of the following options can be selected:
+After choosing the correct entry (for example, 'Boot from USB'), the {pve} menu
+appears and you can select one of the following options:
 
 Install {pve} (Graphical)::
 
@@ -95,7 +95,7 @@ Both modes use the same code base for the actual installation process to
 benefit from more than a decade of bug fixes and ensure feature parity.
 
 TIP: The 'Terminal UI' option can be used in case the graphical installer does
-not work correctly, due to e.g. driver issues. See also
+not work correctly, for example due to driver issues. See also
 xref:nomodeset_kernel_param[adding the `nomodeset` kernel parameter].
 
 Advanced Options: Install {pve} (Graphical, Debug Mode)::
@@ -114,8 +114,8 @@ terminal-based installer instead.
 
 Advanced Options: Install {pve} (Serial Console Debug Mode)::
 
-Same the terminal-based debug mode, but additionally sets up the Linux kernel to
-use the (first) serial port of the machine for in- and output.
+Same as the terminal-based debug mode, but additionally sets up the Linux kernel
+to use the (first) serial port of the machine for in- and output.
 
 Advanced Options: Install {pve} (Automated)::
 
@@ -143,7 +143,7 @@ You normally select *Install {pve} (Graphical)* to start the installation.
 
 [thumbnail="screenshot/pve-select-target-disk.png"]
 
-The first step is to read our EULA (End User License Agreement). Following this,
+The first step is to read the EULA (End User License Agreement). Following this,
 you can select the target hard disk(s) for the installation.
 
 CAUTION: By default, the whole server is used and all existing data is removed.
@@ -157,7 +157,7 @@ restrict LVM space (see xref:advanced_lvm_options[below]).
 
 {pve} can also be installed on ZFS. As ZFS offers several software RAID levels,
 this is an option for systems that don't have a hardware RAID controller. The
-target disks must be selected in the `Options` dialog. More ZFS specific
+target disks must be selected in the `Options` dialog. More ZFS-specific
 settings can be changed under xref:advanced_zfs_options[`Advanced Options`].
 
 WARNING: ZFS on top of any hardware RAID is not supported and can result in data
@@ -174,8 +174,8 @@ not commonly used in your country.
 
 [thumbnail="screenshot/pve-set-password.png", float="left"]
 
-Next the password of the superuser (`root`) and an email address needs to be
-specified. The password must consist of at least 8 characters. It's highly
+You must also specify the password of the superuser (`root`) and an email
+address. The password must consist of at least 8 characters. It's highly
 recommended to use a stronger password. Some guidelines are:
 
 - Use a minimum password length of at least 12 characters.
@@ -196,12 +196,12 @@ For example:
 
 [thumbnail="screenshot/pve-setup-network.png"]
 
-All those notification mails will be sent to the specified email address.
+The system sends all notification emails to the specified address.
 
 The last step is the network configuration. Network interfaces that are 'UP'
-show a filled circle in front of their name in the drop down menu. Please note
+show a filled circle in front of their name in the drop-down menu. Please note
 that during installation you can either specify an IPv4 or IPv6 address, but not
-both. To configure a dual stack node, add additional IP addresses after the
+both. To configure a dual-stack node, add additional IP addresses after the
 installation.
 
 [thumbnail="screenshot/pve-installation.png", float="left"]
@@ -210,7 +210,7 @@ The next step shows a summary of the previously selected options. Please
 re-check every setting and use the `Previous` button if a setting needs to be
 changed.
 
-After clicking `Install`, the installer will begin to format the disks and copy
+After clicking `Install`, the installer begins to format the disks and copy
 packages to the target disk(s). Please wait until this step has finished; then
 remove the installation medium and restart your system.
 
@@ -225,7 +225,7 @@ server. This will be done automatically after a few seconds by default.
 .Installation Failure
 
 If the installation failed, check out specific errors on the second TTY
-('CTRL + ALT + F2') and ensure that the systems meets the
+('CTRL + ALT + F2') and ensure that the system meets the
 xref:install_minimal_requirements[minimum requirements].
 
 If the installation is still not working, look at the
@@ -274,15 +274,15 @@ VG on the same hard disk that can be used for LVM storage).
 
 Defines the size of the `swap` volume. The default is the size of the installed
 memory, minimum 4 GB and maximum 8 GB. The resulting value cannot be greater
-than one eight of the size of the hard drive (`hdsize / 8`).
+than one eighth of the size of the hard drive (`hdsize / 8`).
 +
 NOTE: If set to `0`, no `swap` volume will be created.
 
 `maxroot`::
 
-Defines the maximum size of the `root` volume, which stores the operation
+Defines the maximum size of the `root` volume, which stores the operating
 system. With more than 48 GiB storage available, the default is a quarter of
-the the size of the hard drive (`hdsize / 4`) with a maximum of 96 GiB.
+the size of the hard drive (`hdsize / 4`) with a maximum of 96 GiB.
 With less than 48 GiB of storage available, the root volume size is at least
 half the size of the hard drive (`hdsize / 2`).
 
@@ -419,15 +419,15 @@ The necessary options for the installer must be provided in an answer
 file. This file allows using filter rules to determine which disks and
 network cards should be used.
 
-To use the automated installation, it is first necessary to choose a
-source from which the answer file is fetched from and then prepare an
-installation ISO with that choice.
+To use the automated installation, first choose a source from which to
+fetch the answer file and then prepare an installation ISO with that
+choice.
 
 Once the ISO is prepared, its initial boot menu will show a new boot
 entry named 'Automated Installation' which gets automatically selected
 after a 10-second timeout.
 
-https://pve.proxmox.com/wiki/Automated_Installation[Visit our wiki] for more
+https://pve.proxmox.com/wiki/Automated_Installation[Visit the wiki] for more
 details and information on the unattended installation.
 
 ifndef::wiki[]
@@ -452,7 +452,7 @@ manually.
 
 In general, this is not trivial, especially when LVM or ZFS is used.
 
-A detailed step by step how-to can be found on the
+A detailed step-by-step how-to can be found on the
 {webwiki-url}Install_Proxmox_VE_on_Debian_12_Bookworm[wiki].
 
 
@@ -463,7 +463,7 @@ ifdef::wiki[]
 Video Tutorials
 ---------------
 
-See the list of all official tutorials on our
+See the list of all official tutorials on the
 https://www.youtube.com/proxmoxve[{pve} YouTube Channel]
 
 
