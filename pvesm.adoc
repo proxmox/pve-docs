@@ -88,6 +88,12 @@ block device functionality.
 
 ^2^: On file based storages, snapshots are possible with the 'qcow2' format,
 either using the internal snapshot function, or snapshots as volume chains^4^.
+Creating and deleting internal 'qcow2' snapshots will block a running VM and
+is not an efficient operation. The performance is particularly bad with network
+storages like NFS. On some setups and for large disks (multiple hundred GiB or
+TiB sized), these operations may take several minutes, or in extreme cases, even
+hours. If your setup is affected, create and remove snapshots while the VM is
+shut down, expecting a long task duration.
 
 ^3^: It is possible to use LVM on top of an iSCSI or FC-based storage.
 That way you get a `shared` LVM storage
