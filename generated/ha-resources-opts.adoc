@@ -12,11 +12,11 @@ The HA group identifier.
 
 `max_relocate`: `<integer> (0 - N)` ('default =' `1`)::
 
-Maximal number of service relocate tries when a service failes to start.
+Maximal number of resource relocate tries when a resource fails to start.
 
 `max_restart`: `<integer> (0 - N)` ('default =' `1`)::
 
-Maximal number of tries to restart the service on a node after its start failed.
+Maximal number of tries to restart the resource on a node after its start failed. When reached, the HA manager will try to relocate the resource to an eligible node.
 
 `state`: `<disabled | enabled | ignored | started | stopped>` ('default =' `started`)::
 
@@ -47,6 +47,6 @@ of the `error` state.
 The resource gets removed from the manager status and so the CRM and the LRM do
 not touch the resource anymore. All \{pve\} API calls affecting this resource
 will be executed, directly bypassing the HA stack. CRM commands will be thrown
-away while there source is in this state. The resource will not get relocated
+away while the resource is in this state. The resource will not get relocated
 on node failures.
 

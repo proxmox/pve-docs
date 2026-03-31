@@ -140,7 +140,7 @@ Enable/disable ACPI.
 
 List of host cores used to execute guest processes, for example: 0,5,8-11
 
-`--agent` `[enabled=]<1|0> [,freeze-fs-on-backup=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
+`--agent` `[enabled=]<1|0> [,freeze-fs=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
 
 Enable/disable communication with the QEMU Guest Agent and its properties.
 
@@ -154,7 +154,7 @@ Secure Encrypted Virtualization (SEV) features by AMD CPUs
 
 `--arch` `<aarch64 | x86_64>` ::
 
-Virtual processor architecture. Defaults to the host.
+Virtual processor architecture. Defaults to the host architecture.
 
 `--archive` `<string>` ::
 
@@ -174,7 +174,7 @@ Automatic restart after crash (currently ignored).
 
 `--balloon` `<integer> (0 - N)` ::
 
-Amount of target RAM for the VM in MiB. Using zero disables the ballon driver.
+Amount of target RAM for the VM in MiB. The balloon driver is enabled by default, unless it is explicitly disabled by setting the value to zero.
 
 `--bios` `<ovmf | seabios>` ('default =' `seabios`)::
 
@@ -236,7 +236,7 @@ CPU weight for a VM, will be clamped to [1, 10000] in cgroup v2.
 
 Description for the VM. Shown in the web-interface VM's summary. This is saved as comment inside the configuration file.
 
-`--efidisk0` `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<2011|2023|2023w>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
+`--efidisk0` `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
 
 Configure a disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.
 
@@ -681,8 +681,8 @@ A list of disk IDs you want to delete.
 *qm enroll-efi-keys* `<vmid>`
 
 Enroll important updated certificates to the EFI disk with
-pre-enrolled-keys. Currently, this is only the Microsoft UEFI CA 2023. Must
-be called while the VM is shut down.
+pre-enrolled-keys. Currently, these are UEFI 2023 certificates from
+Microsoft. Must be called while the VM is shut down.
 
 `<vmid>`: `<integer> (100 - 999999999)` ::
 
@@ -791,7 +791,7 @@ Enable/disable ACPI.
 
 List of host cores used to execute guest processes, for example: 0,5,8-11
 
-`--agent` `[enabled=]<1|0> [,freeze-fs-on-backup=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
+`--agent` `[enabled=]<1|0> [,freeze-fs=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
 
 Enable/disable communication with the QEMU Guest Agent and its properties.
 
@@ -805,7 +805,7 @@ Secure Encrypted Virtualization (SEV) features by AMD CPUs
 
 `--arch` `<aarch64 | x86_64>` ::
 
-Virtual processor architecture. Defaults to the host.
+Virtual processor architecture. Defaults to the host architecture.
 
 `--args` `<string>` ::
 
@@ -821,7 +821,7 @@ Automatic restart after crash (currently ignored).
 
 `--balloon` `<integer> (0 - N)` ::
 
-Amount of target RAM for the VM in MiB. Using zero disables the ballon driver.
+Amount of target RAM for the VM in MiB. The balloon driver is enabled by default, unless it is explicitly disabled by setting the value to zero.
 
 `--bios` `<ovmf | seabios>` ('default =' `seabios`)::
 
@@ -887,7 +887,7 @@ Description for the VM. Shown in the web-interface VM's summary. This is saved a
 
 Show the create command and exit without doing anything.
 
-`--efidisk0` `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<2011|2023|2023w>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
+`--efidisk0` `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
 
 Configure a disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.
 
@@ -1419,7 +1419,7 @@ Enable/disable ACPI.
 
 List of host cores used to execute guest processes, for example: 0,5,8-11
 
-`--agent` `[enabled=]<1|0> [,freeze-fs-on-backup=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
+`--agent` `[enabled=]<1|0> [,freeze-fs=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
 
 Enable/disable communication with the QEMU Guest Agent and its properties.
 
@@ -1433,7 +1433,7 @@ Secure Encrypted Virtualization (SEV) features by AMD CPUs
 
 `--arch` `<aarch64 | x86_64>` ::
 
-Virtual processor architecture. Defaults to the host.
+Virtual processor architecture. Defaults to the host architecture.
 
 `--args` `<string>` ::
 
@@ -1449,7 +1449,7 @@ Automatic restart after crash (currently ignored).
 
 `--balloon` `<integer> (0 - N)` ::
 
-Amount of target RAM for the VM in MiB. Using zero disables the ballon driver.
+Amount of target RAM for the VM in MiB. The balloon driver is enabled by default, unless it is explicitly disabled by setting the value to zero.
 
 `--bios` `<ovmf | seabios>` ('default =' `seabios`)::
 
@@ -1515,7 +1515,7 @@ Description for the VM. Shown in the web-interface VM's summary. This is saved a
 
 Prevent changes if current configuration file has different SHA1 digest. This can be used to prevent concurrent modifications.
 
-`--efidisk0` `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<2011|2023|2023w>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
+`--efidisk0` `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
 
 Configure a disk for storing EFI vars. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume. Note that SIZE_IN_GiB is ignored here and that the default EFI vars are copied to the volume instead. Use STORAGE_ID:0 and the 'import-from' parameter to import from an existing volume.
 

@@ -4225,6 +4225,14 @@ const apiSchema = [
                            "type" : "integer",
                            "typetext" : "<integer> (1 - N)"
                         },
+                        "token-coefficient" : {
+                           "default" : 125,
+                           "description" : "Coefficient used to determine Corosync's token timeout. See the corosync.conf(5) manual for more details.",
+                           "minimum" : 0,
+                           "optional" : 1,
+                           "type" : "integer",
+                           "typetext" : "<integer> (0 - N)"
+                        },
                         "votes" : {
                            "description" : "Number of votes for this node.",
                            "minimum" : 1,
@@ -7629,7 +7637,7 @@ const apiSchema = [
                               "info" : {
                                  "POST" : {
                                     "allowtoken" : 1,
-                                    "description" : "Request resource relocatzion to another node. This stops the service on the old node, and restarts it on the target node.",
+                                    "description" : "Request resource relocation to another node. This stops the service on the old node, and restarts it on the target node.",
                                     "method" : "POST",
                                     "name" : "relocate",
                                     "parameters" : {
@@ -7799,7 +7807,7 @@ const apiSchema = [
                                        "type" : "string"
                                     },
                                     "max_relocate" : {
-                                       "description" : "Maximal number of service relocate tries when a service failes to start.",
+                                       "description" : "Maximal number of service relocate tries when a service fails to start.",
                                        "optional" : 1,
                                        "type" : "integer"
                                     },
@@ -7880,7 +7888,7 @@ const apiSchema = [
                                     },
                                     "max_relocate" : {
                                        "default" : 1,
-                                       "description" : "Maximal number of service relocate tries when a service failes to start.",
+                                       "description" : "Maximal number of resource relocate tries when a resource fails to start.",
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
@@ -7888,7 +7896,7 @@ const apiSchema = [
                                     },
                                     "max_restart" : {
                                        "default" : 1,
-                                       "description" : "Maximal number of tries to restart the service on a node after its start failed.",
+                                       "description" : "Maximal number of tries to restart the resource on a node after its start failed. When reached, the HA manager will try to relocate the resource to an eligible node.",
                                        "minimum" : 0,
                                        "optional" : 1,
                                        "type" : "integer",
@@ -7912,7 +7920,7 @@ const apiSchema = [
                                        ],
                                        "optional" : 1,
                                        "type" : "string",
-                                       "verbose_description" : "Requested resource state. The CRM reads this state and acts accordingly.\nPlease note that `enabled` is just an alias for `started`.\n\n`started`;;\n\nThe CRM tries to start the resource. Service state is\nset to `started` after successful start. On node failures, or when start\nfails, it tries to recover the resource.  If everything fails, service\nstate it set to `error`.\n\n`stopped`;;\n\nThe CRM tries to keep the resource in `stopped` state, but it\nstill tries to relocate the resources on node failures.\n\n`disabled`;;\n\nThe CRM tries to put the resource in `stopped` state, but does not try\nto relocate the resources on node failures. The main purpose of this\nstate is error recovery, because it is the only way to move a resource out\nof the `error` state.\n\n`ignored`;;\n\nThe resource gets removed from the manager status and so the CRM and the LRM do\nnot touch the resource anymore. All {pve} API calls affecting this resource\nwill be executed, directly bypassing the HA stack. CRM commands will be thrown\naway while there source is in this state. The resource will not get relocated\non node failures.\n\n"
+                                       "verbose_description" : "Requested resource state. The CRM reads this state and acts accordingly.\nPlease note that `enabled` is just an alias for `started`.\n\n`started`;;\n\nThe CRM tries to start the resource. Service state is\nset to `started` after successful start. On node failures, or when start\nfails, it tries to recover the resource.  If everything fails, service\nstate it set to `error`.\n\n`stopped`;;\n\nThe CRM tries to keep the resource in `stopped` state, but it\nstill tries to relocate the resources on node failures.\n\n`disabled`;;\n\nThe CRM tries to put the resource in `stopped` state, but does not try\nto relocate the resources on node failures. The main purpose of this\nstate is error recovery, because it is the only way to move a resource out\nof the `error` state.\n\n`ignored`;;\n\nThe resource gets removed from the manager status and so the CRM and the LRM do\nnot touch the resource anymore. All {pve} API calls affecting this resource\nwill be executed, directly bypassing the HA stack. CRM commands will be thrown\naway while the resource is in this state. The resource will not get relocated\non node failures.\n\n"
                                     }
                                  },
                                  "type" : "object"
@@ -8015,7 +8023,7 @@ const apiSchema = [
                               },
                               "max_relocate" : {
                                  "default" : 1,
-                                 "description" : "Maximal number of service relocate tries when a service failes to start.",
+                                 "description" : "Maximal number of resource relocate tries when a resource fails to start.",
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
@@ -8023,7 +8031,7 @@ const apiSchema = [
                               },
                               "max_restart" : {
                                  "default" : 1,
-                                 "description" : "Maximal number of tries to restart the service on a node after its start failed.",
+                                 "description" : "Maximal number of tries to restart the resource on a node after its start failed. When reached, the HA manager will try to relocate the resource to an eligible node.",
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
@@ -8047,7 +8055,7 @@ const apiSchema = [
                                  ],
                                  "optional" : 1,
                                  "type" : "string",
-                                 "verbose_description" : "Requested resource state. The CRM reads this state and acts accordingly.\nPlease note that `enabled` is just an alias for `started`.\n\n`started`;;\n\nThe CRM tries to start the resource. Service state is\nset to `started` after successful start. On node failures, or when start\nfails, it tries to recover the resource.  If everything fails, service\nstate it set to `error`.\n\n`stopped`;;\n\nThe CRM tries to keep the resource in `stopped` state, but it\nstill tries to relocate the resources on node failures.\n\n`disabled`;;\n\nThe CRM tries to put the resource in `stopped` state, but does not try\nto relocate the resources on node failures. The main purpose of this\nstate is error recovery, because it is the only way to move a resource out\nof the `error` state.\n\n`ignored`;;\n\nThe resource gets removed from the manager status and so the CRM and the LRM do\nnot touch the resource anymore. All {pve} API calls affecting this resource\nwill be executed, directly bypassing the HA stack. CRM commands will be thrown\naway while there source is in this state. The resource will not get relocated\non node failures.\n\n"
+                                 "verbose_description" : "Requested resource state. The CRM reads this state and acts accordingly.\nPlease note that `enabled` is just an alias for `started`.\n\n`started`;;\n\nThe CRM tries to start the resource. Service state is\nset to `started` after successful start. On node failures, or when start\nfails, it tries to recover the resource.  If everything fails, service\nstate it set to `error`.\n\n`stopped`;;\n\nThe CRM tries to keep the resource in `stopped` state, but it\nstill tries to relocate the resources on node failures.\n\n`disabled`;;\n\nThe CRM tries to put the resource in `stopped` state, but does not try\nto relocate the resources on node failures. The main purpose of this\nstate is error recovery, because it is the only way to move a resource out\nof the `error` state.\n\n`ignored`;;\n\nThe resource gets removed from the manager status and so the CRM and the LRM do\nnot touch the resource anymore. All {pve} API calls affecting this resource\nwill be executed, directly bypassing the HA stack. CRM commands will be thrown\naway while the resource is in this state. The resource will not get relocated\non node failures.\n\n"
                               },
                               "type" : {
                                  "description" : "Resource type.",
@@ -8690,7 +8698,7 @@ const apiSchema = [
                         "info" : {
                            "GET" : {
                               "allowtoken" : 1,
-                              "description" : "Get HA manger status.",
+                              "description" : "Get HA manager status.",
                               "method" : "GET",
                               "name" : "status",
                               "parameters" : {
@@ -8708,6 +8716,17 @@ const apiSchema = [
                               "returns" : {
                                  "items" : {
                                     "properties" : {
+                                       "armed-state" : {
+                                          "description" : "For type 'fencing'. Whether HA is armed, on standby, disarming or disarmed.",
+                                          "enum" : [
+                                             "armed",
+                                             "standby",
+                                             "disarming",
+                                             "disarmed"
+                                          ],
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
                                        "crm_state" : {
                                           "description" : "For type 'service'. Service state as seen by the CRM.",
                                           "optional" : 1,
@@ -8747,6 +8766,15 @@ const apiSchema = [
                                           "optional" : 1,
                                           "type" : "string"
                                        },
+                                       "resource_mode" : {
+                                          "description" : "For type 'fencing'. How resources are handled while disarmed.",
+                                          "enum" : [
+                                             "freeze",
+                                             "ignore"
+                                          ],
+                                          "optional" : 1,
+                                          "type" : "string"
+                                       },
                                        "sid" : {
                                           "description" : "For type 'service'. Service ID.",
                                           "optional" : 1,
@@ -8772,7 +8800,8 @@ const apiSchema = [
                                              "quorum",
                                              "master",
                                              "lrm",
-                                             "service"
+                                             "service",
+                                             "fencing"
                                           ]
                                        }
                                     },
@@ -8790,7 +8819,7 @@ const apiSchema = [
                         "info" : {
                            "GET" : {
                               "allowtoken" : 1,
-                              "description" : "Get full HA manger status, including LRM status.",
+                              "description" : "Get full HA manager status, including LRM status.",
                               "method" : "GET",
                               "name" : "manager_status",
                               "parameters" : {
@@ -8813,6 +8842,74 @@ const apiSchema = [
                         "leaf" : 1,
                         "path" : "/cluster/ha/status/manager_status",
                         "text" : "manager_status"
+                     },
+                     {
+                        "info" : {
+                           "POST" : {
+                              "allowtoken" : 1,
+                              "description" : "Request disarming the HA stack, releasing all watchdogs cluster-wide.",
+                              "method" : "POST",
+                              "name" : "disarm-ha",
+                              "parameters" : {
+                                 "additionalProperties" : 0,
+                                 "properties" : {
+                                    "resource-mode" : {
+                                       "description" : "Controls how HA managed resources are handled while disarmed. The current state of resources is not affected. 'freeze': new commands and state changes are not applied. 'ignore': resources are removed from HA tracking and can be managed as if they were not HA managed.",
+                                       "enum" : [
+                                          "freeze",
+                                          "ignore"
+                                       ],
+                                       "type" : "string"
+                                    }
+                                 }
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Console"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/cluster/ha/status/disarm-ha",
+                        "text" : "disarm-ha"
+                     },
+                     {
+                        "info" : {
+                           "POST" : {
+                              "allowtoken" : 1,
+                              "description" : "Request re-arming the HA stack after it was disarmed.",
+                              "method" : "POST",
+                              "name" : "arm-ha",
+                              "parameters" : {
+                                 "additionalProperties" : 0
+                              },
+                              "permissions" : {
+                                 "check" : [
+                                    "perm",
+                                    "/",
+                                    [
+                                       "Sys.Console"
+                                    ]
+                                 ]
+                              },
+                              "protected" : 1,
+                              "returns" : {
+                                 "type" : "null"
+                              }
+                           }
+                        },
+                        "leaf" : 1,
+                        "path" : "/cluster/ha/status/arm-ha",
+                        "text" : "arm-ha"
                      }
                   ],
                   "info" : {
@@ -9018,6 +9115,7 @@ const apiSchema = [
                                           "he",
                                           "he_ddns",
                                           "hetzner",
+                                          "hetznercloud",
                                           "hexonet",
                                           "hostingde",
                                           "huaweicloud",
@@ -9072,6 +9170,7 @@ const apiSchema = [
                                           "one",
                                           "online",
                                           "openprovider",
+                                          "openprovider_rest",
                                           "openstack",
                                           "opnsense",
                                           "ovh",
@@ -9090,6 +9189,7 @@ const apiSchema = [
                                           "selfhost",
                                           "servercow",
                                           "simply",
+                                          "spaceship",
                                           "technitium",
                                           "tele3",
                                           "tencent",
@@ -9237,6 +9337,7 @@ const apiSchema = [
                                           "he",
                                           "he_ddns",
                                           "hetzner",
+                                          "hetznercloud",
                                           "hexonet",
                                           "hostingde",
                                           "huaweicloud",
@@ -9291,6 +9392,7 @@ const apiSchema = [
                                           "one",
                                           "online",
                                           "openprovider",
+                                          "openprovider_rest",
                                           "openstack",
                                           "opnsense",
                                           "ovh",
@@ -9309,6 +9411,7 @@ const apiSchema = [
                                           "selfhost",
                                           "servercow",
                                           "simply",
+                                          "spaceship",
                                           "technitium",
                                           "tele3",
                                           "tencent",
@@ -9506,6 +9609,7 @@ const apiSchema = [
                                        "he",
                                        "he_ddns",
                                        "hetzner",
+                                       "hetznercloud",
                                        "hexonet",
                                        "hostingde",
                                        "huaweicloud",
@@ -9560,6 +9664,7 @@ const apiSchema = [
                                        "one",
                                        "online",
                                        "openprovider",
+                                       "openprovider_rest",
                                        "openstack",
                                        "opnsense",
                                        "ovh",
@@ -9578,6 +9683,7 @@ const apiSchema = [
                                        "selfhost",
                                        "servercow",
                                        "simply",
+                                       "spaceship",
                                        "technitium",
                                        "tele3",
                                        "tencent",
@@ -9733,6 +9839,7 @@ const apiSchema = [
                                     "he",
                                     "he_ddns",
                                     "hetzner",
+                                    "hetznercloud",
                                     "hexonet",
                                     "hostingde",
                                     "huaweicloud",
@@ -9787,6 +9894,7 @@ const apiSchema = [
                                     "one",
                                     "online",
                                     "openprovider",
+                                    "openprovider_rest",
                                     "openstack",
                                     "opnsense",
                                     "ovh",
@@ -9805,6 +9913,7 @@ const apiSchema = [
                                     "selfhost",
                                     "servercow",
                                     "simply",
+                                    "spaceship",
                                     "technitium",
                                     "tele3",
                                     "tencent",
@@ -18579,6 +18688,56 @@ const apiSchema = [
                   "leaf" : 1,
                   "path" : "/cluster/sdn/rollback",
                   "text" : "rollback"
+               },
+               {
+                  "info" : {
+                     "GET" : {
+                        "allowtoken" : 1,
+                        "description" : "Dry-run the SDN apply action and return the difference between the current configuration and the pending configuration",
+                        "method" : "GET",
+                        "name" : "dry-run",
+                        "parameters" : {
+                           "additionalProperties" : 0,
+                           "properties" : {
+                              "node" : {
+                                 "description" : "The cluster node name.",
+                                 "format" : "pve-node",
+                                 "type" : "string",
+                                 "typetext" : "<string>"
+                              }
+                           }
+                        },
+                        "permissions" : {
+                           "check" : [
+                              "perm",
+                              "/nodes/{node}",
+                              [
+                                 "Sys.Audit"
+                              ]
+                           ]
+                        },
+                        "protected" : 1,
+                        "proxyto" : "node",
+                        "returns" : {
+                           "properties" : {
+                              "frr-diff" : {
+                                 "description" : "The difference between the current and pending FRR configuration.",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              },
+                              "interfaces-diff" : {
+                                 "description" : "The difference between the current and pending /etc/network/interfaces.d/sdn configuration.",
+                                 "optional" : 1,
+                                 "type" : "string"
+                              }
+                           },
+                           "type" : "object"
+                        }
+                     }
+                  },
+                  "leaf" : 1,
+                  "path" : "/cluster/sdn/dry-run",
+                  "text" : "dry-run"
                }
             ],
             "info" : {
@@ -18633,7 +18792,7 @@ const apiSchema = [
                         },
                         "release-lock" : {
                            "default" : 1,
-                           "description" : "When lock-token has been provided and configuration successfully commited, release the lock automatically afterwards",
+                           "description" : "When lock-token has been provided and configuration successfully committed, release the lock automatically afterwards",
                            "optional" : 1,
                            "type" : "boolean",
                            "typetext" : "<boolean>"
@@ -18869,6 +19028,11 @@ const apiSchema = [
                               "description" : "The name of an SDN entity (for type 'sdn')",
                               "optional" : 1,
                               "type" : "string"
+                           },
+                           "shared" : {
+                              "description" : "Determines whether the storage is shared",
+                              "optional" : 1,
+                              "type" : "boolean"
                            },
                            "status" : {
                               "description" : "Resource type dependent status.",
@@ -22885,6 +23049,22 @@ const apiSchema = [
                                           "parameters" : {
                                              "additionalProperties" : 0,
                                              "properties" : {
+                                                "count" : {
+                                                   "default" : "16777216",
+                                                   "description" : "Number of bytes to read.",
+                                                   "maximum" : "16777216",
+                                                   "minimum" : 1,
+                                                   "optional" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (1 - 16777216)"
+                                                },
+                                                "decode" : {
+                                                   "default" : 1,
+                                                   "description" : "Data received from the QEMU Guest-Agent is base64 encoded. If this is set to true, the data is decoded. Otherwise the content is forwarded with base64 encoding. Defaults to true.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "typetext" : "<boolean>"
+                                                },
                                                 "file" : {
                                                    "description" : "The path to the file",
                                                    "type" : "string",
@@ -22895,6 +23075,14 @@ const apiSchema = [
                                                    "format" : "pve-node",
                                                    "type" : "string",
                                                    "typetext" : "<string>"
+                                                },
+                                                "offset" : {
+                                                   "default" : 0,
+                                                   "description" : "Offset to start reading at",
+                                                   "minimum" : 0,
+                                                   "optional" : 1,
+                                                   "type" : "integer",
+                                                   "typetext" : "<integer> (0 - N)"
                                                 },
                                                 "vmid" : {
                                                    "description" : "The (unique) ID of the VM.",
@@ -22928,7 +23116,7 @@ const apiSchema = [
                                                    "type" : "string"
                                                 },
                                                 "truncated" : {
-                                                   "description" : "If set to 1, the output is truncated and not complete",
+                                                   "description" : "If set to 1, the read did not reach the end of the file.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
                                                 }
@@ -23347,17 +23535,24 @@ const apiSchema = [
                                                    "description" : "Enable/disable communication with a QEMU Guest Agent (QGA) running in the VM.",
                                                    "type" : "boolean"
                                                 },
-                                                "freeze-fs-on-backup" : {
+                                                "freeze-fs" : {
                                                    "default" : 1,
-                                                   "description" : "Freeze/thaw guest filesystems on backup for consistency.",
+                                                   "description" : "Freeze guest filesystems through QGA for consistent disk state on operations such as snapshots, backups, replications and clones.",
                                                    "optional" : 1,
-                                                   "type" : "boolean"
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Whether to issue the guest-fsfreeze-freeze and guest-fsfreeze-thaw QEMU guest agent commands. Backups in snapshot mode, clones, snapshots without RAM, importing disks from a running guest, and replications normally issue a guest-fsfreeze-freeze and a respective thaw command when the QEMU Guest agent option is enabled in the guest's configuration and the agent is running inside of the guest.\n\nThe deprecated 'freeze-fs-on-backup' setting is treated as an alias for this setting."
+                                                },
+                                                "freeze-fs-on-backup" : {
+                                                   "alias" : "freeze-fs"
                                                 },
                                                 "fstrim_cloned_disks" : {
                                                    "default" : 0,
                                                    "description" : "Run fstrim after moving a disk or migrating the VM.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
+                                                },
+                                                "guest-fsfreeze" : {
+                                                   "alias" : "freeze-fs"
                                                 },
                                                 "type" : {
                                                    "default" : "virtio",
@@ -23386,7 +23581,7 @@ const apiSchema = [
                                              "type" : "string"
                                           },
                                           "arch" : {
-                                             "description" : "Virtual processor architecture. Defaults to the host.",
+                                             "description" : "Virtual processor architecture. Defaults to the host architecture.",
                                              "enum" : [
                                                 "x86_64",
                                                 "aarch64"
@@ -23433,7 +23628,7 @@ const apiSchema = [
                                              "type" : "boolean"
                                           },
                                           "balloon" : {
-                                             "description" : "Amount of target RAM for the VM in MiB. Using zero disables the ballon driver.",
+                                             "description" : "Amount of target RAM for the VM in MiB. The balloon driver is enabled by default, unless it is explicitly disabled by setting the value to zero.",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer"
@@ -23576,11 +23771,12 @@ const apiSchema = [
                                                 },
                                                 "ms-cert" : {
                                                    "default" : "2011",
-                                                   "description" : "Informational marker indicating the version of the latest Microsoft UEFI certificate that has been enrolled by Proxmox VE. The value '2023w' means that both the 'Microsoft UEFI CA 2023' and the 'Windows UEFI CA 2023' certificates are included. The value '2023' is deprecated and for compatibility only.",
+                                                   "description" : "Informational marker indicating the version of the latest Microsoft UEFI certificates that have been enrolled by Proxmox VE. The value '2023k' means that the 'Microsoft UEFI CA 2023', the 'Windows UEFI CA 2023' and the 'Microsoft Corporation KEK 2K CA 2023' certificates are included. The values '2023' and '2023w' are deprecated and for compatibility only.",
                                                    "enum" : [
                                                       "2011",
                                                       "2023",
-                                                      "2023w"
+                                                      "2023w",
+                                                      "2023k"
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
@@ -25726,17 +25922,24 @@ const apiSchema = [
                                                    "description" : "Enable/disable communication with a QEMU Guest Agent (QGA) running in the VM.",
                                                    "type" : "boolean"
                                                 },
-                                                "freeze-fs-on-backup" : {
+                                                "freeze-fs" : {
                                                    "default" : 1,
-                                                   "description" : "Freeze/thaw guest filesystems on backup for consistency.",
+                                                   "description" : "Freeze guest filesystems through QGA for consistent disk state on operations such as snapshots, backups, replications and clones.",
                                                    "optional" : 1,
-                                                   "type" : "boolean"
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Whether to issue the guest-fsfreeze-freeze and guest-fsfreeze-thaw QEMU guest agent commands. Backups in snapshot mode, clones, snapshots without RAM, importing disks from a running guest, and replications normally issue a guest-fsfreeze-freeze and a respective thaw command when the QEMU Guest agent option is enabled in the guest's configuration and the agent is running inside of the guest.\n\nThe deprecated 'freeze-fs-on-backup' setting is treated as an alias for this setting."
+                                                },
+                                                "freeze-fs-on-backup" : {
+                                                   "alias" : "freeze-fs"
                                                 },
                                                 "fstrim_cloned_disks" : {
                                                    "default" : 0,
                                                    "description" : "Run fstrim after moving a disk or migrating the VM.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
+                                                },
+                                                "guest-fsfreeze" : {
+                                                   "alias" : "freeze-fs"
                                                 },
                                                 "type" : {
                                                    "default" : "virtio",
@@ -25751,7 +25954,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[enabled=]<1|0> [,freeze-fs-on-backup=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]"
+                                             "typetext" : "[enabled=]<1|0> [,freeze-fs=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]"
                                           },
                                           "allow-ksm" : {
                                              "default" : 1,
@@ -25768,7 +25971,7 @@ const apiSchema = [
                                              "typetext" : "[type=]<sev-type> [,allow-smt=<1|0>] [,kernel-hashes=<1|0>] [,no-debug=<1|0>] [,no-key-sharing=<1|0>]"
                                           },
                                           "arch" : {
-                                             "description" : "Virtual processor architecture. Defaults to the host.",
+                                             "description" : "Virtual processor architecture. Defaults to the host architecture.",
                                              "enum" : [
                                                 "x86_64",
                                                 "aarch64"
@@ -25826,7 +26029,7 @@ const apiSchema = [
                                              "typetext" : "<integer> (1 - 30)"
                                           },
                                           "balloon" : {
-                                             "description" : "Amount of target RAM for the VM in MiB. Using zero disables the ballon driver.",
+                                             "description" : "Amount of target RAM for the VM in MiB. The balloon driver is enabled by default, unless it is explicitly disabled by setting the value to zero.",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
@@ -25997,11 +26200,12 @@ const apiSchema = [
                                                 },
                                                 "ms-cert" : {
                                                    "default" : "2011",
-                                                   "description" : "Informational marker indicating the version of the latest Microsoft UEFI certificate that has been enrolled by Proxmox VE. The value '2023w' means that both the 'Microsoft UEFI CA 2023' and the 'Windows UEFI CA 2023' certificates are included. The value '2023' is deprecated and for compatibility only.",
+                                                   "description" : "Informational marker indicating the version of the latest Microsoft UEFI certificates that have been enrolled by Proxmox VE. The value '2023k' means that the 'Microsoft UEFI CA 2023', the 'Windows UEFI CA 2023' and the 'Microsoft Corporation KEK 2K CA 2023' certificates are included. The values '2023' and '2023w' are deprecated and for compatibility only.",
                                                    "enum" : [
                                                       "2011",
                                                       "2023",
-                                                      "2023w"
+                                                      "2023w",
+                                                      "2023k"
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
@@ -26025,7 +26229,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<2011|2023|2023w>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
+                                             "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
                                           },
                                           "force" : {
                                              "description" : "Force physical removal. Without this, we simple remove the disk from the config file and create an additional configuration entry called 'unused[n]', which contains the volume ID. Unlink of unused[n] always cause physical removal.",
@@ -28200,17 +28404,24 @@ const apiSchema = [
                                                    "description" : "Enable/disable communication with a QEMU Guest Agent (QGA) running in the VM.",
                                                    "type" : "boolean"
                                                 },
-                                                "freeze-fs-on-backup" : {
+                                                "freeze-fs" : {
                                                    "default" : 1,
-                                                   "description" : "Freeze/thaw guest filesystems on backup for consistency.",
+                                                   "description" : "Freeze guest filesystems through QGA for consistent disk state on operations such as snapshots, backups, replications and clones.",
                                                    "optional" : 1,
-                                                   "type" : "boolean"
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Whether to issue the guest-fsfreeze-freeze and guest-fsfreeze-thaw QEMU guest agent commands. Backups in snapshot mode, clones, snapshots without RAM, importing disks from a running guest, and replications normally issue a guest-fsfreeze-freeze and a respective thaw command when the QEMU Guest agent option is enabled in the guest's configuration and the agent is running inside of the guest.\n\nThe deprecated 'freeze-fs-on-backup' setting is treated as an alias for this setting."
+                                                },
+                                                "freeze-fs-on-backup" : {
+                                                   "alias" : "freeze-fs"
                                                 },
                                                 "fstrim_cloned_disks" : {
                                                    "default" : 0,
                                                    "description" : "Run fstrim after moving a disk or migrating the VM.",
                                                    "optional" : 1,
                                                    "type" : "boolean"
+                                                },
+                                                "guest-fsfreeze" : {
+                                                   "alias" : "freeze-fs"
                                                 },
                                                 "type" : {
                                                    "default" : "virtio",
@@ -28225,7 +28436,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[enabled=]<1|0> [,freeze-fs-on-backup=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]"
+                                             "typetext" : "[enabled=]<1|0> [,freeze-fs=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]"
                                           },
                                           "allow-ksm" : {
                                              "default" : 1,
@@ -28242,7 +28453,7 @@ const apiSchema = [
                                              "typetext" : "[type=]<sev-type> [,allow-smt=<1|0>] [,kernel-hashes=<1|0>] [,no-debug=<1|0>] [,no-key-sharing=<1|0>]"
                                           },
                                           "arch" : {
-                                             "description" : "Virtual processor architecture. Defaults to the host.",
+                                             "description" : "Virtual processor architecture. Defaults to the host architecture.",
                                              "enum" : [
                                                 "x86_64",
                                                 "aarch64"
@@ -28292,7 +28503,7 @@ const apiSchema = [
                                              "typetext" : "<boolean>"
                                           },
                                           "balloon" : {
-                                             "description" : "Amount of target RAM for the VM in MiB. Using zero disables the ballon driver.",
+                                             "description" : "Amount of target RAM for the VM in MiB. The balloon driver is enabled by default, unless it is explicitly disabled by setting the value to zero.",
                                              "minimum" : 0,
                                              "optional" : 1,
                                              "type" : "integer",
@@ -28463,11 +28674,12 @@ const apiSchema = [
                                                 },
                                                 "ms-cert" : {
                                                    "default" : "2011",
-                                                   "description" : "Informational marker indicating the version of the latest Microsoft UEFI certificate that has been enrolled by Proxmox VE. The value '2023w' means that both the 'Microsoft UEFI CA 2023' and the 'Windows UEFI CA 2023' certificates are included. The value '2023' is deprecated and for compatibility only.",
+                                                   "description" : "Informational marker indicating the version of the latest Microsoft UEFI certificates that have been enrolled by Proxmox VE. The value '2023k' means that the 'Microsoft UEFI CA 2023', the 'Windows UEFI CA 2023' and the 'Microsoft Corporation KEK 2K CA 2023' certificates are included. The values '2023' and '2023w' are deprecated and for compatibility only.",
                                                    "enum" : [
                                                       "2011",
                                                       "2023",
-                                                      "2023w"
+                                                      "2023w",
+                                                      "2023k"
                                                    ],
                                                    "optional" : 1,
                                                    "type" : "string"
@@ -28491,7 +28703,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<2011|2023|2023w>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
+                                             "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
                                           },
                                           "force" : {
                                              "description" : "Force physical removal. Without this, we simple remove the disk from the config file and create an additional configuration entry called 'unused[n]', which contains the volume ID. Unlink of unused[n] always cause physical removal.",
@@ -34677,17 +34889,24 @@ const apiSchema = [
                                        "description" : "Enable/disable communication with a QEMU Guest Agent (QGA) running in the VM.",
                                        "type" : "boolean"
                                     },
-                                    "freeze-fs-on-backup" : {
+                                    "freeze-fs" : {
                                        "default" : 1,
-                                       "description" : "Freeze/thaw guest filesystems on backup for consistency.",
+                                       "description" : "Freeze guest filesystems through QGA for consistent disk state on operations such as snapshots, backups, replications and clones.",
                                        "optional" : 1,
-                                       "type" : "boolean"
+                                       "type" : "boolean",
+                                       "verbose_description" : "Whether to issue the guest-fsfreeze-freeze and guest-fsfreeze-thaw QEMU guest agent commands. Backups in snapshot mode, clones, snapshots without RAM, importing disks from a running guest, and replications normally issue a guest-fsfreeze-freeze and a respective thaw command when the QEMU Guest agent option is enabled in the guest's configuration and the agent is running inside of the guest.\n\nThe deprecated 'freeze-fs-on-backup' setting is treated as an alias for this setting."
+                                    },
+                                    "freeze-fs-on-backup" : {
+                                       "alias" : "freeze-fs"
                                     },
                                     "fstrim_cloned_disks" : {
                                        "default" : 0,
                                        "description" : "Run fstrim after moving a disk or migrating the VM.",
                                        "optional" : 1,
                                        "type" : "boolean"
+                                    },
+                                    "guest-fsfreeze" : {
+                                       "alias" : "freeze-fs"
                                     },
                                     "type" : {
                                        "default" : "virtio",
@@ -34702,7 +34921,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[enabled=]<1|0> [,freeze-fs-on-backup=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]"
+                                 "typetext" : "[enabled=]<1|0> [,freeze-fs=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]"
                               },
                               "allow-ksm" : {
                                  "default" : 1,
@@ -34719,7 +34938,7 @@ const apiSchema = [
                                  "typetext" : "[type=]<sev-type> [,allow-smt=<1|0>] [,kernel-hashes=<1|0>] [,no-debug=<1|0>] [,no-key-sharing=<1|0>]"
                               },
                               "arch" : {
-                                 "description" : "Virtual processor architecture. Defaults to the host.",
+                                 "description" : "Virtual processor architecture. Defaults to the host architecture.",
                                  "enum" : [
                                     "x86_64",
                                     "aarch64"
@@ -34776,7 +34995,7 @@ const apiSchema = [
                                  "typetext" : "<boolean>"
                               },
                               "balloon" : {
-                                 "description" : "Amount of target RAM for the VM in MiB. Using zero disables the ballon driver.",
+                                 "description" : "Amount of target RAM for the VM in MiB. The balloon driver is enabled by default, unless it is explicitly disabled by setting the value to zero.",
                                  "minimum" : 0,
                                  "optional" : 1,
                                  "type" : "integer",
@@ -34941,11 +35160,12 @@ const apiSchema = [
                                     },
                                     "ms-cert" : {
                                        "default" : "2011",
-                                       "description" : "Informational marker indicating the version of the latest Microsoft UEFI certificate that has been enrolled by Proxmox VE. The value '2023w' means that both the 'Microsoft UEFI CA 2023' and the 'Windows UEFI CA 2023' certificates are included. The value '2023' is deprecated and for compatibility only.",
+                                       "description" : "Informational marker indicating the version of the latest Microsoft UEFI certificates that have been enrolled by Proxmox VE. The value '2023k' means that the 'Microsoft UEFI CA 2023', the 'Windows UEFI CA 2023' and the 'Microsoft Corporation KEK 2K CA 2023' certificates are included. The values '2023' and '2023w' are deprecated and for compatibility only.",
                                        "enum" : [
                                           "2011",
                                           "2023",
-                                          "2023w"
+                                          "2023w",
+                                          "2023k"
                                        ],
                                        "optional" : 1,
                                        "type" : "string"
@@ -34969,7 +35189,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<2011|2023|2023w>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
+                                 "typetext" : "[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,import-from=<source volume>] [,ms-cert=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]"
                               },
                               "force" : {
                                  "description" : "Allow to overwrite existing VM.",
@@ -37420,6 +37640,13 @@ const apiSchema = [
                                                    "type" : "boolean",
                                                    "verbose_description" : "Whether to include the mount point in backups (only used for volume mount points)."
                                                 },
+                                                "keepattrs" : {
+                                                   "default" : 0,
+                                                   "description" : "Inherit ownership and permissions from the mount point directory.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Inherit UID, GID and access mode from the mount point directory, if it exists already."
+                                                },
                                                 "mountoptions" : {
                                                    "description" : "Extra mount options for rootfs/mps.",
                                                    "format_description" : "opt[;opt...]",
@@ -37992,6 +38219,13 @@ const apiSchema = [
                                                    "type" : "boolean",
                                                    "verbose_description" : "Whether to include the mount point in backups (only used for volume mount points)."
                                                 },
+                                                "keepattrs" : {
+                                                   "default" : 0,
+                                                   "description" : "Inherit ownership and permissions from the mount point directory.",
+                                                   "optional" : 1,
+                                                   "type" : "boolean",
+                                                   "verbose_description" : "Inherit UID, GID and access mode from the mount point directory, if it exists already."
+                                                },
                                                 "mountoptions" : {
                                                    "description" : "Extra mount options for rootfs/mps.",
                                                    "format_description" : "opt[;opt...]",
@@ -38046,7 +38280,7 @@ const apiSchema = [
                                              },
                                              "optional" : 1,
                                              "type" : "string",
-                                             "typetext" : "[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
+                                             "typetext" : "[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,keepattrs=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
                                           },
                                           "nameserver" : {
                                              "description" : "Sets DNS server IP address for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.",
@@ -44607,6 +44841,13 @@ const apiSchema = [
                                        "type" : "boolean",
                                        "verbose_description" : "Whether to include the mount point in backups (only used for volume mount points)."
                                     },
+                                    "keepattrs" : {
+                                       "default" : 0,
+                                       "description" : "Inherit ownership and permissions from the mount point directory.",
+                                       "optional" : 1,
+                                       "type" : "boolean",
+                                       "verbose_description" : "Inherit UID, GID and access mode from the mount point directory, if it exists already."
+                                    },
                                     "mountoptions" : {
                                        "description" : "Extra mount options for rootfs/mps.",
                                        "format_description" : "opt[;opt...]",
@@ -44661,7 +44902,7 @@ const apiSchema = [
                                  },
                                  "optional" : 1,
                                  "type" : "string",
-                                 "typetext" : "[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
+                                 "typetext" : "[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,keepattrs=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]"
                               },
                               "nameserver" : {
                                  "description" : "Sets DNS server IP address for a container. Create will automatically use the setting from the host if you neither set searchdomain nor nameserver.",
@@ -51428,6 +51669,15 @@ const apiSchema = [
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
+                                          "arch" : {
+                                             "description" : "Virtual processor architecture. Defaults to the host architecture.",
+                                             "enum" : [
+                                                "x86_64",
+                                                "aarch64"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
                                           "node" : {
                                              "description" : "The cluster node name.",
                                              "format" : "pve-node",
@@ -51482,6 +51732,15 @@ const apiSchema = [
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
+                                          "arch" : {
+                                             "description" : "Virtual processor architecture. Defaults to the host architecture.",
+                                             "enum" : [
+                                                "x86_64",
+                                                "aarch64"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
                                           "node" : {
                                              "description" : "The cluster node name.",
                                              "format" : "pve-node",
@@ -51525,6 +51784,15 @@ const apiSchema = [
                                     "parameters" : {
                                        "additionalProperties" : 0,
                                        "properties" : {
+                                          "arch" : {
+                                             "description" : "Virtual processor architecture. Defaults to the host architecture.",
+                                             "enum" : [
+                                                "x86_64",
+                                                "aarch64"
+                                             ],
+                                             "optional" : 1,
+                                             "type" : "string"
+                                          },
                                           "node" : {
                                              "description" : "The cluster node name.",
                                              "format" : "pve-node",

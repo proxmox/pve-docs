@@ -24,11 +24,11 @@ The HA group identifier.
 
 `--max_relocate` `<integer> (0 - N)` ('default =' `1`)::
 
-Maximal number of service relocate tries when a service failes to start.
+Maximal number of resource relocate tries when a resource fails to start.
 
 `--max_restart` `<integer> (0 - N)` ('default =' `1`)::
 
-Maximal number of tries to restart the service on a node after its start failed.
+Maximal number of tries to restart the resource on a node after its start failed. When reached, the HA manager will try to relocate the resource to an eligible node.
 
 `--state` `<disabled | enabled | ignored | started | stopped>` ('default =' `started`)::
 
@@ -46,6 +46,20 @@ List HA resources.
 `--type` `<ct | vm>` ::
 
 Only list resources of specific type
+
+[[cli_ha-manager_crm-command_arm-ha]]
+*ha-manager crm-command arm-ha*
+
+Request re-arming the HA stack after it was disarmed.
+
+[[cli_ha-manager_crm-command_disarm-ha]]
+*ha-manager crm-command disarm-ha* `<resource-mode>`
+
+Request disarming the HA stack, releasing all watchdogs cluster-wide.
+
+`<resource-mode>`: `<freeze | ignore>` ::
+
+Controls how HA managed resources are handled while disarmed. The current state of resources is not affected. 'freeze': new commands and state changes are not applied. 'ignore': resources are removed from HA tracking and can be managed as if they were not HA managed.
 
 [[cli_ha-manager_crm-command_migrate]]
 *ha-manager crm-command migrate* `<sid> <node>`
@@ -81,7 +95,7 @@ The cluster node name.
 [[cli_ha-manager_crm-command_relocate]]
 *ha-manager crm-command relocate* `<sid> <node>`
 
-Request resource relocatzion to another node. This stops the service on the
+Request resource relocation to another node. This stops the service on the
 old node, and restarts it on the target node.
 
 `<sid>`: `<type>:<name>` ::
@@ -383,11 +397,11 @@ The HA group identifier.
 
 `--max_relocate` `<integer> (0 - N)` ('default =' `1`)::
 
-Maximal number of service relocate tries when a service failes to start.
+Maximal number of resource relocate tries when a resource fails to start.
 
 `--max_restart` `<integer> (0 - N)` ('default =' `1`)::
 
-Maximal number of tries to restart the service on a node after its start failed.
+Maximal number of tries to restart the resource on a node after its start failed. When reached, the HA manager will try to relocate the resource to an eligible node.
 
 `--state` `<disabled | enabled | ignored | started | stopped>` ('default =' `started`)::
 
@@ -396,7 +410,7 @@ Requested resource state.
 [[cli_ha-manager_status]]
 *ha-manager status* `[OPTIONS]`
 
-Display HA manger status.
+Display HA manager status.
 
 `--verbose` `<boolean>` ('default =' `0`)::
 

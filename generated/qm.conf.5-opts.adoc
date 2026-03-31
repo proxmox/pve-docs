@@ -6,7 +6,7 @@ Enable/disable ACPI.
 
 List of host cores used to execute guest processes, for example: 0,5,8-11
 
-`agent`: `[enabled=]<1|0> [,freeze-fs-on-backup=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
+`agent`: `[enabled=]<1|0> [,freeze-fs=<1|0>] [,fstrim_cloned_disks=<1|0>] [,type=<virtio|isa>]` ::
 
 Enable/disable communication with the QEMU Guest Agent and its properties.
 
@@ -14,9 +14,11 @@ Enable/disable communication with the QEMU Guest Agent and its properties.
 
 Enable/disable communication with a QEMU Guest Agent (QGA) running in the VM.
 
-`freeze-fs-on-backup`=`<boolean>` ('default =' `1`);;
+`freeze-fs`=`<boolean>` ('default =' `1`);;
 
-Freeze/thaw guest filesystems on backup for consistency.
+Whether to issue the guest-fsfreeze-freeze and guest-fsfreeze-thaw QEMU guest agent commands. Backups in snapshot mode, clones, snapshots without RAM, importing disks from a running guest, and replications normally issue a guest-fsfreeze-freeze and a respective thaw command when the QEMU Guest agent option is enabled in the guest's configuration and the agent is running inside of the guest.
++
+The deprecated 'freeze-fs-on-backup' setting is treated as an alias for this setting.
 
 `fstrim_cloned_disks`=`<boolean>` ('default =' `0`);;
 
@@ -56,7 +58,7 @@ Enable standard SEV with type='std' or enable experimental SEV-ES with the 'es' 
 
 `arch`: `<aarch64 | x86_64>` ::
 
-Virtual processor architecture. Defaults to the host.
+Virtual processor architecture. Defaults to the host architecture.
 
 `args`: `<string>` ::
 
@@ -84,7 +86,7 @@ Automatic restart after crash (currently ignored).
 
 `balloon`: `<integer> (0 - N)` ::
 
-Amount of target RAM for the VM in MiB. Using zero disables the ballon driver.
+Amount of target RAM for the VM in MiB. The balloon driver is enabled by default, unless it is explicitly disabled by setting the value to zero.
 
 `bios`: `<ovmf | seabios>` ('default =' `seabios`)::
 
@@ -170,7 +172,7 @@ Emulated CPU type. Can be default or custom name (custom model names must be pre
 
 `flags`=`<+FLAG[;-FLAG...]>` ;;
 
-List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. There is a special 'nested-virt' shorthand which controls nested virtualization for the current CPU ('svm' for AMD and 'vmx' for Intel). Custom CPU models can specify any flag supported by QEMU/KVM, VM-specific flags must be from the following set for security reasons: nested-virt, md-clear, pcid, spec-ctrl, ssbd, ibpb, virt-ssbd, amd-ssbd, amd-no-ssb, pdpe1gb, hv-tlbflush, hv-evmcs, aes
+List of additional CPU flags separated by ';'. Use '+FLAG' to enable, '-FLAG' to disable a flag. There is a special 'nested-virt' shorthand which controls nested virtualization for the current CPU ('svm' for AMD and 'vmx' for Intel). Custom CPU models can specify any flag supported by QEMU/KVM, VM-specific flags must be from the following set for security reasons: aes, amd-no-ssb, amd-ssbd, hv-evmcs, hv-tlbflush, ibpb, md-clear, nested-virt, pcid, pdpe1gb, spec-ctrl, ssbd, virt-ssbd
 
 `guest-phys-bits`=`<integer> (32 - 64)` ;;
 
@@ -178,7 +180,7 @@ Number of physical address bits available to the guest.
 
 `hidden`=`<boolean>` ('default =' `0`);;
 
-Do not identify as a KVM virtual machine.
+Do not identify as a KVM virtual machine. Only affects vCPUs with x86-64 architecture.
 
 `hv-vendor-id`=`<vendor-id>` ;;
 
@@ -188,7 +190,7 @@ The Hyper-V vendor ID. Some drivers or programs inside Windows guests need a spe
 
 The physical memory address bits that are reported to the guest OS. Should be smaller or equal to the host's. Set to 'host' to use value from host CPU, but note that doing so will break live migration to CPUs with other values.
 
-`reported-model`=`<486 | Broadwell | Broadwell-IBRS | Broadwell-noTSX | Broadwell-noTSX-IBRS | Cascadelake-Server | Cascadelake-Server-noTSX | Cascadelake-Server-v2 | Cascadelake-Server-v4 | Cascadelake-Server-v5 | ClearwaterForest | Conroe | Cooperlake | Cooperlake-v2 | EPYC | EPYC-Genoa | EPYC-Genoa-v2 | EPYC-IBPB | EPYC-Milan | EPYC-Milan-v2 | EPYC-Milan-v3 | EPYC-Rome | EPYC-Rome-v2 | EPYC-Rome-v3 | EPYC-Rome-v4 | EPYC-Rome-v5 | EPYC-Turin | EPYC-v3 | EPYC-v4 | EPYC-v5 | GraniteRapids | GraniteRapids-v2 | GraniteRapids-v3 | Haswell | Haswell-IBRS | Haswell-noTSX | Haswell-noTSX-IBRS | Icelake-Client | Icelake-Client-noTSX | Icelake-Server | Icelake-Server-noTSX | Icelake-Server-v3 | Icelake-Server-v4 | Icelake-Server-v5 | Icelake-Server-v6 | Icelake-Server-v7 | IvyBridge | IvyBridge-IBRS | KnightsMill | Nehalem | Nehalem-IBRS | Opteron_G1 | Opteron_G2 | Opteron_G3 | Opteron_G4 | Opteron_G5 | Penryn | SandyBridge | SandyBridge-IBRS | SapphireRapids | SapphireRapids-v2 | SapphireRapids-v3 | SapphireRapids-v4 | SierraForest | SierraForest-v2 | SierraForest-v3 | Skylake-Client | Skylake-Client-IBRS | Skylake-Client-noTSX-IBRS | Skylake-Client-v4 | Skylake-Server | Skylake-Server-IBRS | Skylake-Server-noTSX-IBRS | Skylake-Server-v4 | Skylake-Server-v5 | Westmere | Westmere-IBRS | athlon | core2duo | coreduo | host | kvm32 | kvm64 | max | pentium | pentium2 | pentium3 | phenom | qemu32 | qemu64>` ('default =' `kvm64`);;
+`reported-model`=`<486 | Broadwell | Broadwell-IBRS | Broadwell-noTSX | Broadwell-noTSX-IBRS | Cascadelake-Server | Cascadelake-Server-noTSX | Cascadelake-Server-v2 | Cascadelake-Server-v4 | Cascadelake-Server-v5 | ClearwaterForest | Conroe | Cooperlake | Cooperlake-v2 | EPYC | EPYC-Genoa | EPYC-Genoa-v2 | EPYC-IBPB | EPYC-Milan | EPYC-Milan-v2 | EPYC-Milan-v3 | EPYC-Rome | EPYC-Rome-v2 | EPYC-Rome-v3 | EPYC-Rome-v4 | EPYC-Rome-v5 | EPYC-Turin | EPYC-v3 | EPYC-v4 | EPYC-v5 | GraniteRapids | GraniteRapids-v2 | GraniteRapids-v3 | Haswell | Haswell-IBRS | Haswell-noTSX | Haswell-noTSX-IBRS | Icelake-Client | Icelake-Client-noTSX | Icelake-Server | Icelake-Server-noTSX | Icelake-Server-v3 | Icelake-Server-v4 | Icelake-Server-v5 | Icelake-Server-v6 | Icelake-Server-v7 | IvyBridge | IvyBridge-IBRS | KnightsMill | Nehalem | Nehalem-IBRS | Opteron_G1 | Opteron_G2 | Opteron_G3 | Opteron_G4 | Opteron_G5 | Penryn | SandyBridge | SandyBridge-IBRS | SapphireRapids | SapphireRapids-v2 | SapphireRapids-v3 | SapphireRapids-v4 | SierraForest | SierraForest-v2 | SierraForest-v3 | Skylake-Client | Skylake-Client-IBRS | Skylake-Client-noTSX-IBRS | Skylake-Client-v4 | Skylake-Server | Skylake-Server-IBRS | Skylake-Server-noTSX-IBRS | Skylake-Server-v4 | Skylake-Server-v5 | Westmere | Westmere-IBRS | a64fx | athlon | core2duo | coreduo | cortex-a35 | cortex-a53 | cortex-a55 | cortex-a57 | cortex-a710 | cortex-a72 | cortex-a76 | host | kvm32 | kvm64 | max | neoverse-n1 | neoverse-n2 | neoverse-v1 | pentium | pentium2 | pentium3 | phenom | qemu32 | qemu64>` ('default =' `kvm64`);;
 
 CPU model and vendor to report to the guest. Must be a QEMU/KVM supported model. Only valid for custom CPU model definitions, default models will always report themselves to the guest OS.
 
@@ -206,7 +208,7 @@ CPU weight for a VM. Argument is used in the kernel fair scheduler. The larger t
 
 Description for the VM. Shown in the web-interface VM's summary. This is saved as comment inside the configuration file.
 
-`efidisk0`: `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,ms-cert=<2011|2023|2023w>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
+`efidisk0`: `[file=]<volume> [,efitype=<2m|4m>] [,format=<enum>] [,ms-cert=<enum>] [,pre-enrolled-keys=<1|0>] [,size=<DiskSize>]` ::
 
 Configure a disk for storing EFI vars.
 
@@ -222,9 +224,9 @@ The drive's backing volume.
 
 The drive's backing file's data format.
 
-`ms-cert`=`<2011 | 2023 | 2023w>` ('default =' `2011`);;
+`ms-cert`=`<2011 | 2023 | 2023k | 2023w>` ('default =' `2011`);;
 
-Informational marker indicating the version of the latest Microsoft UEFI certificate that has been enrolled by Proxmox VE. The value '2023w' means that both the 'Microsoft UEFI CA 2023' and the 'Windows UEFI CA 2023' certificates are included. The value '2023' is deprecated and for compatibility only.
+Informational marker indicating the version of the latest Microsoft UEFI certificates that have been enrolled by Proxmox VE. The value '2023k' means that the 'Microsoft UEFI CA 2023', the 'Windows UEFI CA 2023' and the 'Microsoft Corporation KEK 2K CA 2023' certificates are included. The values '2023' and '2023w' are deprecated and for compatibility only.
 
 `pre-enrolled-keys`=`<boolean>` ('default =' `0`);;
 

@@ -90,6 +90,10 @@ Address and priority information of a single corosync link. (up to 8 links suppo
 
 Node id for this node.
 
+`--token-coefficient` `<integer> (0 - N)` ('default =' `125`)::
+
+Coefficient used to determine Corosync's token timeout. See the corosync.conf(5) manual for more details.
+
 `--votes` `<integer> (1 - N)` ::
 
 Number of votes for this node.

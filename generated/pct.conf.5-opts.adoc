@@ -108,7 +108,7 @@ Lock/unlock the container.
 
 Amount of RAM for the container in MB.
 
-`mp[n]`: `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
+`mp[n]`: `[volume=]<volume> ,mp=<Path> [,acl=<1|0>] [,backup=<1|0>] [,keepattrs=<1|0>] [,mountoptions=<opt[;opt...]>] [,quota=<1|0>] [,replicate=<1|0>] [,ro=<1|0>] [,shared=<1|0>] [,size=<DiskSize>]` ::
 
 Use volume as container mount point. Use the special syntax STORAGE_ID:SIZE_IN_GiB to allocate a new volume.
 
@@ -119,6 +119,10 @@ Explicitly enable or disable ACL support.
 `backup`=`<boolean>` ;;
 
 Whether to include the mount point in backups (only used for volume mount points).
+
+`keepattrs`=`<boolean>` ('default =' `0`);;
+
+Inherit UID, GID and access mode from the mount point directory, if it exists already.
 
 `mountoptions`=`<opt[;opt...]>` ;;
 
