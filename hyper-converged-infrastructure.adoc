@@ -48,8 +48,8 @@ Hyper-Converged Infrastructure: Storage
 infrastructure. You can, for example, deploy and manage the following two
 storage technologies by using the web interface only:
 
-- *Ceph*: a both self-healing and self-managing shared, reliable and highly
-  scalable storage system. Checkout
+- *Ceph*: a self-healing and self-managing shared, reliable and highly
+  scalable storage system. Check out
   xref:chapter_pveceph[how to manage Ceph services on {pve} nodes]
 
 - *ZFS*: a combined file system and logical volume manager with extensive

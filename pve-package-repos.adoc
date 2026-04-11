@@ -10,7 +10,7 @@ package management tool like any other Debian-based system.
 
 {pve} automatically checks for package updates on a daily basis. The `root@pam`
 user is notified via email about available updates. From the GUI, the
-'Changelog' button can be used to see more details about an selected update.
+'Changelog' button can be used to see more details about a selected update.
 
 Repositories in {pve}
 ~~~~~~~~~~~~~~~~~~~~~

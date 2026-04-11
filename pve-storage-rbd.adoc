@@ -102,7 +102,7 @@ The keyring will be stored at
 # /etc/pve/priv/ceph/<STORAGE_ID>.keyring
 ----
 
-TIP: Creating a keyring with only the needed capabilities is recommend when
+TIP: Creating a keyring with only the needed capabilities is recommended when
 connecting to an external cluster. For further information on Ceph user
 management, see the Ceph docs.footnoteref:[cephusermgmt,{cephdocs-url}/rados/operations/user-management/[Ceph User Management]]
 
