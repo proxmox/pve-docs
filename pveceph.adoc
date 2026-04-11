@@ -70,7 +70,7 @@ Terminology
 // TODO: extend and also describe basic architecture here.
 .Ceph consists of multiple Daemons, for use as an RBD storage:
 - Ceph Monitor (ceph-mon, or MON)
-- Ceph Manager (ceph-mgr, or MGS)
+- Ceph Manager (ceph-mgr, or MGR)
 - Ceph Metadata Service (ceph-mds, or MDS)
 - Ceph Object Storage Daemon (ceph-osd, or OSD)
 
