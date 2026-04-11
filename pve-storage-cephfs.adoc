@@ -91,16 +91,16 @@ copy it to the `/root` directory of the node on which we run it:
 # scp <external cephserver>:/etc/ceph/cephfs.secret /root/cephfs.secret
 ----
 
-Then use the `pvesm` CLI tool to configure the external RBD storage, use the
-`--keyring` parameter, which needs to be a path to the secret file that you
-copied.  For example:
+Then use the `pvesm` CLI tool to configure the external CephFS storage, use
+the `--keyring` parameter, which needs to be a path to the secret file that
+you copied.  For example:
 
 ----
 # pvesm add cephfs <name> --monhost "10.1.1.20 10.1.1.21 10.1.1.22" --content backup --keyring /root/cephfs.secret
 ----
 
-When configuring an external RBD storage via the GUI, you can copy and paste
-the secret into the appropriate field.
+When configuring an external CephFS storage via the GUI, you can copy and
+paste the secret into the appropriate field.
 
 The secret is only the key itself, as opposed to the `rbd` backend which also
 contains a `[client.userid]` section.
