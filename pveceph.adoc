@@ -116,10 +116,10 @@ For example, if you plan to run a Ceph monitor, a Ceph manager and 6 Ceph OSDs
 services on a node you should reserve 8 CPU cores purely for Ceph when targeting
 basic and stable performance.
 
-Note that OSDs CPU usage depend mostly from the disks performance. The higher
-the possible IOPS (**IO** **O**perations per **S**econd) of a disk, the more CPU
-can be utilized by a OSD service.
-For modern enterprise SSD disks, like NVMe's that can permanently sustain a high
+Note that an OSD's CPU usage depends mostly on the disk's performance. The
+higher the possible IOPS (**IO** **O**perations per **S**econd) of a disk, the
+more CPU can be utilized by an OSD service.
+For modern enterprise SSD disks, like NVMes that can permanently sustain a high
 IOPS load over 100'000 with sub millisecond latency, each OSD can use multiple
 CPU threads, e.g., four to six CPU threads utilized per NVMe backed OSD is
 likely for very high performance disks.
@@ -211,7 +211,7 @@ failure forces Ceph to recover more data at once.
 As Ceph handles data object redundancy and multiple parallel writes to disks
 (OSDs) on its own, using a RAID controller normally doesn’t improve
 performance or availability. On the contrary, Ceph is designed to handle whole
-disks on it's own, without any abstraction in between. RAID controllers are not
+disks on its own, without any abstraction in between. RAID controllers are not
 designed for the Ceph workload and may complicate things and sometimes even
 reduce performance, as their write and caching algorithms may interfere with
 the ones from Ceph.
@@ -235,7 +235,7 @@ prompt offering to do so.
 The wizard is divided into multiple sections, where each needs to
 finish successfully, in order to use Ceph.
 
-First you need to chose which Ceph version you want to install. Prefer the one
+First you need to choose which Ceph version you want to install. Prefer the one
 from your other nodes, or the newest if this is the first node you install
 Ceph.
 
@@ -275,7 +275,7 @@ The configuration step includes the following settings:
   separated network at a later time.
 
 You have two more options which are considered advanced and therefore should
-only changed if you know what you are doing.
+only be changed if you know what you are doing.
 
 * *Number of replicas*: Defines how often an object is replicated.
 * *Minimum replicas*: Defines the minimum number of required replicas for I/O to
@@ -297,7 +297,7 @@ new Ceph cluster.
 CLI Installation of Ceph Packages
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Alternatively to the the recommended {pve}  Ceph installation wizard available
+Alternatively to the recommended {pve}  Ceph installation wizard available
 in the web interface, you can use the following CLI command on each node:
 
 [source,bash]
@@ -1290,7 +1290,7 @@ systemctl restart ceph-osd.target
 systemctl restart ceph-mgr.target
 systemctl restart ceph-mds.target
 ----
-NOTE: You will only have MDS' (Metadata Server) if you use CephFS.
+NOTE: You will only have MDS daemons (Metadata Servers) if you use CephFS.
 
 NOTE: After the first OSD service got restarted, the GUI will complain that
 the OSD is not reachable anymore. This is not an issue; VMs can still reach
