@@ -19,7 +19,7 @@ the faster option.
 Prepare a USB Flash Drive as Installation Medium
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The flash drive needs to have at least 1 GB of storage available.
+The flash drive needs to be larger than the ISO image.
 
 NOTE: Do not use UNetbootin. It does not work with the {pve} installation image.
 
