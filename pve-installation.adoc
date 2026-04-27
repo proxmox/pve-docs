@@ -204,7 +204,7 @@ that during installation you can either specify an IPv4 or IPv6 address, but not
 both. To configure a dual-stack node, add additional IP addresses after the
 installation.
 
-[thumbnail="screenshot/pve-installation.png", float="left"]
+[thumbnail="screenshot/pve-install-summary.png", float="left"]
 
 The next step shows a summary of the previously selected options. Please
 re-check every setting and use the `Previous` button if a setting needs to be
@@ -214,7 +214,7 @@ After clicking `Install`, the installer begins to format the disks and copy
 packages to the target disk(s). Please wait until this step has finished; then
 remove the installation medium and restart your system.
 
-[thumbnail="screenshot/pve-install-summary.png"]
+[thumbnail="screenshot/pve-installation.png"]
 
 Copying the packages usually takes several minutes, mostly depending on the
 speed of the installation medium and the target disk performance.
