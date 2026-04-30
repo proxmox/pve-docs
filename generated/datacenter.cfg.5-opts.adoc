@@ -30,13 +30,45 @@ Consent text that is displayed before logging in.
 
 Select the default Console viewer. You can either use the builtin java applet (VNC; deprecated and maps to html5), an external virt-viewer comtatible application (SPICE), an HTML5 based vnc viewer (noVNC), or an HTML5 based console client (xtermjs). If the selected viewer is not available (e.g. SPICE not activated for the VM), the fallback is noVNC.
 
-`crs`: `[ha=<basic|static>] [,ha-rebalance-on-start=<1|0>]` ::
+`crs`: `[ha=<basic|static|dynamic>] [,ha-auto-rebalance=<1|0>] [,ha-auto-rebalance-hold-duration=<number>] [,ha-auto-rebalance-margin=<number>] [,ha-auto-rebalance-method=<bruteforce|topsis>] [,ha-auto-rebalance-threshold=<number>] [,ha-rebalance-on-start=<1|0>]` ::
 
 Cluster resource scheduling settings.
 
-`ha`=`<basic | static>` ('default =' `basic`);;
+`ha`=`<basic | dynamic | static>` ('default =' `basic`);;
 
-Configures how the HA manager should select nodes to start or recover services. With 'basic', only the number of services is used, with 'static', static CPU and memory configuration of services is considered.
+Configures how the HA Manager should select nodes to start or recover services:
++
+- with 'basic', only the number of services is used,
+- with 'static', static CPU and memory configuration of services are considered,
+- with 'dynamic', static and dynamic CPU and memory usage of services are considered.
+
+`ha-auto-rebalance`=`<boolean>` ('default =' `0`);;
+
+Whether to use CRS for balancing HA resources automatically depending on the current node imbalance.
+
+`ha-auto-rebalance-hold-duration`=`<number> (0 - N)` ('default =' `3`);;
+
+The number of HA rounds for which the cluster node imbalance threshold must be exceeded before triggering an automatic resource balancing migration.
++
+NOTE: Requires option(s): `ha-auto-rebalance`
+
+`ha-auto-rebalance-margin`=`<number> (0 - N)` ('default =' `0.1`);;
+
+The minimum relative improvement in cluster node imbalance to commit to a resource balancing migration.
++
+NOTE: Requires option(s): `ha-auto-rebalance`
+
+`ha-auto-rebalance-method`=`<bruteforce | topsis>` ('default =' `bruteforce`);;
+
+The method to use for the scoring of balancing migrations.
++
+NOTE: Requires option(s): `ha-auto-rebalance`
+
+`ha-auto-rebalance-threshold`=`<number> (0 - N)` ('default =' `0.3`);;
+
+The threshold for the cluster node imbalance, which will trigger the automatic resource balancing system if its value is exceeded.
++
+NOTE: Requires option(s): `ha-auto-rebalance`
 
 `ha-rebalance-on-start`=`<boolean>` ('default =' `0`);;
 
