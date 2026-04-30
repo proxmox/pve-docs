@@ -1,3 +1,83 @@
+pve-docs (9.1.3) trixie; urgency=medium
+
+  * pvecm: restructure the "remove a cluster node" section into clear
+    prerequisites, removal steps, and rejoin instructions, group Ceph related
+    steps into their own sub-list, and use first-class headings over block
+    titles for better readability.
+
+  * partially-fix #4670: pvecm: cover authorized_keys cleanup, removal from HA
+    rules, and removing a QDevice as part of the cluster node removal cleanup
+    steps, so they are not missed when working from the main section instead
+    of the FAQ.
+
+  * pvecm: document how to change the corosync token coefficient, useful for
+    existing clusters that were created with the previous, higher default.
+
+  * ha-manager: document the new disarm-ha and arm-ha commands and their
+    interaction with other operations.
+
+  * ha-manager: document the explicit fencing and watchdog status that the
+    status API endpoint now exposes.
+
+  * qm: bios/uefi: add a section on Secure Boot certificate expiration,
+    including the steps required for guests using BitLocker.
+
+  * pveceph: document how to change the Ceph public and cluster networks on a
+    running cluster, to reduce issues users run into when attempting such a
+    change on their own.
+
+  * pve-storage-cephfs: describe CephFS, not RBD, in the external cluster
+    setup section, fixing a copy-paste leftover from the RBD chapter.
+
+  * storage: document the new 'import' content type and its directory storage
+    layout.
+
+  * storage: note that taking or removing qcow2 internal snapshots on
+    file-based network storages can be slow for large images.
+
+  * metric server: mention the recently added OpenTelemetry support.
+
+  * fix #7527: installation: correctly order the screenshots so that the
+    summary precedes the actual installation progress.
+
+  * installation media: drop the fixed size requirement and just require that
+    the medium is large enough to fit the ISO.
+
+  * package repos: drop repository configuration for the archived Proxmox VE 6
+    release, mark it as very outdated, and point users at archive.proxmox.com.
+
+  * firmware-updates: drop documentation for the obsolete fwupd daemon.conf
+    location, as fwupd uses /etc/fwupd/fwupd.conf since Trixie.
+
+  * html: add a scroll-to-top anchor rendered as an arrow box, so users can
+    return to the top of long pages with a single click or tap.
+
+  * cluster: restore the previously available 'Adding/Deleting Nodes After
+    QDevice Setup' anchor to avoid breaking pre-existing deep links into the
+    HTML documentation.
+
+  * qm: document that the import-from disk import can issue a guest agent
+    fs-freeze.
+
+  * qm: pci passthrough: correct the softdep example, which had the load order
+    between vfio-pci and the GPU driver inverted.
+
+  * zfs: update the swap recommendations to match Debian Trixie, which no
+    longer reads /etc/sysctl.conf.
+
+  * vnc-clipboard: drop the 'live-migration not working' note, as this is
+    supported since QEMU 10.1.
+
+  * qdevice: correct the partition tie-breaking section: the partition
+    receiving the QDevice vote is determined by corosync.conf, not chosen
+    randomly.
+
+  * various small typo, grammar, and language fixes across the documentation.
+
+  * update static/schema information for API viewer and generated synopsis.
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 30 Apr 2026 15:44:52 +0200
+
 pve-docs (9.1.2) trixie; urgency=medium
 
   * mediawiki: return an error page to the user instead of triggering an
