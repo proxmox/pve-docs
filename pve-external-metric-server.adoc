@@ -14,6 +14,7 @@ Currently supported are:
 
  * Graphite (see https://graphiteapp.org )
  * InfluxDB (see https://www.influxdata.com/time-series-platform/influxdb/ )
+ * OpenTelemetry (see https://opentelemetry.io/ )
 
 The external metric server definitions are saved in '/etc/pve/status.cfg', and
 can be edited through the web interface.
