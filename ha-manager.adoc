@@ -1538,8 +1538,6 @@ you have thousands of HA resources.
 CRS Load Balancer
 ~~~~~~~~~~~~~~~~~
 
-IMPORTANT: This feature is still in technology preview.
-
 The utilization of individual cluster nodes can vary greatly depending on where
 guests are currently running and how much load these exert at any moment. This
 can cause the node utilizations to become imbalanced over time, where HA
