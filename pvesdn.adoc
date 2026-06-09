@@ -390,7 +390,7 @@ VNet configuration options:
 
 ID:: An up to 8 character ID to identify a VNet
 
-Comment:: More descriptive identifier. Assigned as an alias on the interface. Optional
+Alias:: More descriptive identifier. Assigned as an alias on the interface. Optional
 
 Zone:: The associated zone for this VNet
 
