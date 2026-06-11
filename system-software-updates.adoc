@@ -13,6 +13,11 @@ updates use the web-based GUI or the following CLI commands:
 # apt full-upgrade
 ----
 
+WARNING: As {pve} uses a rolling release model on top of Debian, performing an
+`apt upgrade` may result in a partially upgraded or broken package state. This
+is because `apt full-upgrade` can also remove existing packages to satisfy
+dependencies if needed, while `apt upgrade` cannot.
+
 For occasionally upgrading Ceph to its succeeding major release, see
 xref:sysadmin_package_repositories_ceph[Ceph Repositories].
 
