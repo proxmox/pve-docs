@@ -453,7 +453,7 @@ manually.
 In general, this is not trivial, especially when LVM or ZFS is used.
 
 A detailed step-by-step how-to can be found on the
-{webwiki-url}Install_Proxmox_VE_on_Debian_12_Bookworm[wiki].
+{webwiki-url}Install_Proxmox_VE_on_Debian_13_Trixie[wiki].
 
 
 endif::wiki[]
@@ -472,7 +472,7 @@ See Also
 
 * link:/wiki/Prepare_Installation_Media[Prepare Installation Media]
 
-* link:/wiki/Install_Proxmox_VE_on_Debian_12_Bookworm[Install Proxmox VE on Debian 12 Bookworm]
+* link:/wiki/Install_Proxmox_VE_on_Debian_13_Trixie[Install Proxmox VE on Debian 13 Trixie]
 
 * link:/wiki/System_Requirements[System Requirements]
 
