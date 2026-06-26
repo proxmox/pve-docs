@@ -1553,7 +1553,8 @@ For example, the IP addresses in the VM summary panel are fetched via the guest
 agent.
 
 Or when starting a backup, the guest is told via the guest agent to sync
-outstanding writes via the 'fs-freeze' and 'fs-thaw' commands.
+outstanding writes via the `guest-fsfreeze-freeze` and `guest-fsfreeze-thaw`
+commands.
 
 For the guest agent to work properly the following steps must be taken:
 
@@ -1603,10 +1604,14 @@ Filesystem Freeze & Thaw
 
 By default, if the QEMU Guest Agent is enabled in the guest's config and if the
 agent is available inside of the guest, then the virtual machine's filesystems
-are synced via the 'fs-freeze' QEMU Guest Agent command when certain operations
-are performed. This is done to provide data consistency.
+are synced via the `guest-fsfreeze-freeze` QEMU Guest Agent command when certain
+operations are performed. This is done to provide data consistency.
 
-An 'fs-freeze' will be issued for any of the following operations on a VM:
+See the
+https://www.qemu.org/docs/master/interop/qemu-ga-ref.html[QEMU Guest Agent Protocol Reference]
+for more details.
+
+A freeze will be issued for any of the following operations on a VM:
 
 * Performing a backup in snapshot mode
 * Creating a clone of a VM while it is running
@@ -1616,9 +1621,9 @@ An 'fs-freeze' will be issued for any of the following operations on a VM:
   running guest
 
 On Windows guests, some applications might handle consistent backups themselves
-by hooking into the Windows VSS (Volume Shadow Copy Service) layer, a
-'fs-freeze' then might interfere with that. For example, it has been observed
-that calling 'fs-freeze' with some SQL Servers triggers VSS to call the SQL
+by hooking into the Windows VSS (Volume Shadow Copy Service) layer, a freeze
+then might interfere with that. For example, it has been observed that calling
+`guest-fsfreeze-freeze` with some SQL Servers triggers VSS to call the SQL
 Writer VSS module in a mode that breaks the SQL Server backup chain for
 differential backups.
 
@@ -1627,10 +1632,11 @@ There are two options on how to handle such a situation.
 1. Configure the QEMU Guest Agent to use a different VSS variant that does not
 interfere with other VSS users. The https://pve.proxmox.com/wiki/VM_Backup_Consistency[{pve} wiki]
 has more details.
-2. Alternatively, you can configure {pve} to not issue a freeze-and-thaw cycle on
-backup by setting the `freeze-fs-on-backup` QGA option to `0`. This can also be
-done via the GUI with the 'Freeze/thaw guest filesystems on backup for
-consistency' option.
+2. Alternatively, you can configure {pve} to not issue a freeze-and-thaw cycle
+by disabling the `freeze-fs` guest agent option. This can also be done in the
+GUI: open the 'Options' panel of the virtual machine, then the 'QEMU Guest
+Agent' dialog, and disable the 'Freeze/thaw guest filesystems during certain
+operations for consistency' option.
 +
 IMPORTANT: Disabling this option can potentially lead to backups with
 inconsistent filesystems. Therefore, adapting the QEMU Guest Agent
