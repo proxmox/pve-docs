@@ -209,6 +209,13 @@ used in UEFI mode.
 Boot0005* proxmox	[...] File(\EFI\proxmox\grubx64.efi)
 ----
 
+If the active boot entry points to `\EFI\proxmox\shimx64.efi` like in the
+following example, GRUB is used in UEFI mode with Secure Boot enabled.
+
+----
+Boot0005* proxmox	[...] File(\EFI\proxmox\shimx64.efi)
+----
+
 If the output contains a line similar to the following, `systemd-boot` is used.
 
 ----
