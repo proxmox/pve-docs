@@ -79,6 +79,7 @@ nodes that can be accessed as RBD (RADOS Block Device).
 |LVM-thin       |lvmthin     |block  |no    |yes      |yes
 |iSCSI/kernel   |iscsi       |block  |yes   |no       |yes
 |iSCSI/libiscsi |iscsidirect |block  |yes   |no       |yes
+|FC/SAS         |native^6^   |block  |yes   |yes^4^   |yes
 |Ceph/RBD       |rbd         |block  |yes   |yes      |yes
 |ZFS over iSCSI |zfs         |block  |yes   |yes      |yes
 |========================================================================
@@ -104,6 +105,12 @@ more details, see the description for `snapshot-as-volume-chain` in the
 xref:pvesm_lvm_config[LVM configuration] section.
 
 ^5^ Technology preview with best-effort support.
+
+^6^ Fibre Channel (FC) and SAS block storage is handled directly by the host
+without a dedicated storage plugin. The
+https://pve.proxmox.com/wiki/Multipath[Multipath Guide] explains how to set it
+up in a cluster.
+
 
 Thin Provisioning
 ~~~~~~~~~~~~~~~~~
