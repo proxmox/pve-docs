@@ -77,9 +77,9 @@ nodes that can be accessed as RBD (RADOS Block Device).
 |CephFS         |cephfs      |file   |yes   |yes      |yes
 |LVM            |lvm         |block  |no^3^ |yes^4^   |yes
 |LVM-thin       |lvmthin     |block  |no    |yes      |yes
-|iSCSI/kernel   |iscsi       |block  |yes   |no       |yes
-|iSCSI/libiscsi |iscsidirect |block  |yes   |no       |yes
-|FC/SAS         |native^6^   |block  |yes   |yes^4^   |yes
+|iSCSI/kernel   |iscsi       |block  |yes^3^|yes^4^   |yes
+|iSCSI/libiscsi |iscsidirect |block  |yes^3^|yes^4^   |yes
+|FC/SAS         |native^6^   |block  |yes^3^|yes^4^   |yes
 |Ceph/RBD       |rbd         |block  |yes   |yes      |yes
 |ZFS over iSCSI |zfs         |block  |yes   |yes      |yes
 |========================================================================
@@ -96,8 +96,11 @@ TiB sized), these operations may take several minutes, or in extreme cases, even
 hours. If your setup is affected, create and remove snapshots while the VM is
 shut down, expecting a long task duration.
 
-^3^: It is possible to use LVM on top of an iSCSI or FC-based storage.
-That way you get a `shared` LVM storage
+^3^: With iSCSI, FibreChannel (FC), or SAS block storage as shared storage in a
+cluster, LVM is used to split the LUN into virtual disks. The
+https://pve.proxmox.com/wiki/Multipath[Multipath Guide] explains how to
+configure it in a cluster, including multipathing which is usually a
+requirement in these scenarios.
 
 ^4^: Since {pve} 9, snapshots as a volume chain have been available for VMs.
 These snapshots use separate volumes for the snapshot data and layer them.  For
@@ -107,9 +110,7 @@ xref:pvesm_lvm_config[LVM configuration] section.
 ^5^ Technology preview with best-effort support.
 
 ^6^ Fibre Channel (FC) and SAS block storage is handled directly by the host
-without a dedicated storage plugin. The
-https://pve.proxmox.com/wiki/Multipath[Multipath Guide] explains how to set it
-up in a cluster.
+without a dedicated storage plugin.
 
 
 Thin Provisioning
