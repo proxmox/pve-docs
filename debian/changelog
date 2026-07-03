@@ -1,3 +1,53 @@
+pve-docs (9.2.3) trixie; urgency=medium
+
+  * ha-manager: drop the technology preview status from the CRS load balancer.
+    It was stabilized over the Proxmox VE 9.2 release cycle without critical
+    issues reported and is now a regular feature.
+
+  * pvesm: document that Fibre Channel (FC) and SAS attached block storage can
+    be used with LVM on top, including the snapshots as a volume chain feature,
+    and mark it in the storage feature overview. Point to the Multipath Guide
+    for the cluster setup details.
+
+  * sdn: fabrics: wireguard: add a step-by-step example with screenshots that
+    walks through a concrete setup, clarifying which UI field expects which
+    value.
+
+  * qm: update the QEMU Guest Agent filesystem freeze and thaw section to use
+    the current `guest-fsfreeze-*` command names, note that a freeze is issued
+    for several operations beyond backups, reflect the renamed `freeze-fs`
+    option and its GUI label, and link the upstream guest agent protocol
+    reference.
+
+  * pveum: note that API tokens cannot access endpoints that expose a guest or
+    host console, as those require full user privileges.
+
+  * system-software-updates: use `apt` and `apt full-upgrade` in the upgrade
+    examples and warn that a plain `apt upgrade` can leave a partially upgraded
+    package state on the rolling release, as it never removes packages to
+    satisfy dependencies.
+
+  * sdn: correct the VNet documentation, the field is labeled 'Alias' and not
+    'Comment'.
+
+  * pvecm: clarify the node removal prerequisites, in particular the note about
+    keeping enough OSD nodes online to satisfy the configured Ceph pool
+    `size`/`min_size`.
+
+  * bootloaders: add the shimx64.efi entry to the secure boot example, so that
+    systems migrated from systemd-boot to grub2 are not misidentified as still
+    using systemd-boot.
+
+  * system requirements: clarify that PCI(e) passthrough also requires
+    motherboard and firmware IOMMU support, which usually has to be enabled in
+    the BIOS/UEFI, and mention the correct vendor CPU flags.
+
+  * network: clarify that in the routed configuration example the bridge uses
+    the first usable host address, not the network address of the routed
+    subnet.
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 03 Jul 2026 11:08:20 +0200
+
 pve-docs (9.2.2) trixie; urgency=medium
 
   * faq: make EOL description more explicit and fix Debian Bookworm EOL date,
