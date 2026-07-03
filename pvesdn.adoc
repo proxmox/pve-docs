@@ -1871,28 +1871,28 @@ and 10.0.2.0/24 in this example), will be announced dynamically.
 WireGuard Setup Example
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-The examples assumes a 3-node Proxmox cluster ('sdn1', 'sdn2' and 'sdn3') with
+The example assumes a 3-node Proxmox cluster ('sdn1', 'sdn2' and 'sdn3') with
 the IP addresses `192.0.2.1`, `192.0.2.2` and `192.0.2.3`, as well as an
 external WireGuard peer ('sdn-router') with IP address `192.0.2.10`.
 
 In this example the Proxmox nodes as well as the external peer will be connected
 full-mesh via WireGuard in the `198.51.100.0/24` subnet and additionally the
-`203.0.113.0/24` subnet will allowed to be sent via the external WireGuard peer,
+`203.0.113.0/24` subnet will be routed via the external WireGuard peer,
 `198.51.100.10`.
 
-Setup WireGuard Fabric
-^^^^^^^^^^^^^^^^^^^^^^
+Set Up WireGuard Fabric
+^^^^^^^^^^^^^^^^^^^^^^^
 
 [thumbnail="screenshot/gui-datacenter-create-fabric-wireguard.png"]
 
 Click on 'Datacenter' in the left-hand resource tree then navigate to 'SDN' >
-'Fabrics' and create new WireGuard fabric by clicking 'Create' and selecting
+'Fabrics' and create a new WireGuard fabric by clicking 'Create' and selecting
 'WireGuard'.
 
 Choose a name for the fabric, in this case 'example' has been chosen.
 
-Setup WireGuard Interfaces
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+Set Up WireGuard Interfaces
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 [thumbnail="screenshot/gui-datacenter-create-internal-node-wireguard.png"]
 
@@ -1901,31 +1901,30 @@ by adding a new node with type 'Internal' to the WireGuard fabric, selecting the
 respective node and then creating a new WireGuard interface.
 
 On the node itself, two properties can be configured: 'Endpoint' and 'Allowed
-IPs'. 'Endpoint' refers to the IP / hostname that will be used for connecting to
-this node, `192.0.2.1` in the case of sdn1. Since we do not want to route
-additional subnets via this node in our example, leave the 'Allowed IPs' field
-empty.
+IPs'. 'Endpoint' refers to the IP/hostname that will be used for connecting to
+this node, `192.0.2.1` in the case of sdn1. Since no additional subnets should
+be routed via this node in this example, leave the 'Allowed IPs' field empty.
 
 Create a new WireGuard interface, `wg0`, and configure the IP address that
 should be configured on the WireGuard interface, `198.51.100.1/24` in the case
 of sdn1. The default listen port is `51820`, but can be manually changed via the
-'Listen Port' field. A public / private key pair will be automatically created
+'Listen Port' field. A public/private key pair will be automatically created
 for every new WireGuard interface.
 
-Setup External Node
-^^^^^^^^^^^^^^^^^^^
+Set Up External Node
+^^^^^^^^^^^^^^^^^^^^
 
 [thumbnail="screenshot/gui-datacenter-create-external-node-wireguard.png"]
 
 In order to add an external node, add another node to the WireGuard fabric, but
-select type 'External' in the Node creation dialogue. Enter the public key of
-the interface of the external node, as well as the IP / hostname + port that can
+select type 'External' in the node creation dialog. Enter the public key of
+the interface of the external node, as well as the IP/hostname + port that can
 be used to reach this external peer (`192.0.2.10:51820` in this example). Add
 the IP of the node, `198.51.100.10/32`, as well as the `203.0.113.0/24` subnet
 to the allowed IPs field.
 
-Setup WireGuard Peerings
-^^^^^^^^^^^^^^^^^^^^^^^^
+Set Up WireGuard Peerings
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 [thumbnail="screenshot/gui-datacenter-select-peers-wireguard.png"]
 
