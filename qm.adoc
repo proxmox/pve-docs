@@ -922,10 +922,9 @@ Links:
 * https://developer.amd.com/sev/
 * https://github.com/AMDESE/AMDSEV
 * https://www.qemu.org/docs/master/system/i386/amd-memory-encryption.html
-* https://www.amd.com/system/files/TechDocs/55766_SEV-KM_API_Specification.pdf
-* https://documentation.suse.com/sles/15-SP1/html/SLES-amd-sev/index.html
-* https://www.amd.com/content/dam/amd/en/documents/epyc-technical-docs/specifications/56860.pdf[
-SEV Secure Nested Paging Firmware ABI Specification]
+* https://docs.amd.com/v/u/en-US/55766_PUB_3.24_SEV_API
+* https://documentation.suse.com/sles/15-SP7/single-html/SLES-amd-sev/article-amd-sev.html
+* https://www.amd.com/content/dam/amd/en/documents/developer/56860.pdf[SEV Secure Nested Paging Firmware ABI Specification]
 
 [[qm_network_device]]
 Network Device
