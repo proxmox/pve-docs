@@ -1585,9 +1585,9 @@ Install Guest Agent
 For most Linux distributions, the guest agent is available. The package is
 usually named `qemu-guest-agent`.
 
-For Windows, it can be installed from the
-https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso[Fedora
-VirtIO driver ISO].
+For Windows, see our https://pve.proxmox.com/wiki/Windows_VirtIO_Drivers[Windows
+VirtIO Drivers] article for more information on how to acquire and install the
+drivers.
 
 [[qm_qga_enable]]
 Enable Guest Agent Communication
