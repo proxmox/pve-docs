@@ -496,6 +496,10 @@ cluster, choose the lowest compatible virtual QEMU CPU type.
 
 NOTE: Live migrations between Intel and AMD host CPUs have no guarantee to work.
 
+WARNING: The 'host' CPU type can potentially enable new CPU features for the
+guest when the guest is restarted after a system upgrade. This can result in
+unexpected consequences.
+
 See also
 xref:chapter_qm_vcpu_list[List of AMD and Intel CPU Types as Defined in QEMU].
 
