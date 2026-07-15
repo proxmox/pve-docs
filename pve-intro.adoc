@@ -42,7 +42,7 @@ database-driven file system for storing configuration files. It can
 store the configuration of thousands of virtual machines. Corosync
 replicates these files in real time to all cluster nodes. The file
 system stores all data inside a persistent database on disk, while a
-copy resides in RAM, providing a maximum storage size of 30 MB—more
+copy resides in RAM, providing a maximum storage size of 128 MiB—more
 than enough for thousands of VMs.
 +
 {pve} is the only virtualization platform using this cluster file
