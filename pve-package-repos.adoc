@@ -164,6 +164,30 @@ WARNING: The `pve-test` repository should (as the name implies) only be used for
 testing new features or bug fixes.
 
 
+[[sysadmin_dbgsym_repo]]
+{pve} Debug Symbol Repository
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Debug symbol packages, named `<package>-dbgsym`, contain the detached debug
+information for the matching binary package. They are not needed for normal
+operation, but let tools such as `gdb`, `systemd-coredump` or `crash` produce
+useful backtraces when analyzing a crash or hang. They are provided in a
+dedicated repository, separate from the regular ones, for the Debian Bookworm
+and Trixie based {pve} releases (and newer).
+
+.File `/etc/apt/sources.list.d/pve-dbgsym.sources`
+----
+Types: deb
+URIs: https://dbgsym.proxmox.com/debian/pve
+Suites: trixie
+Components: pve-dbgsym
+Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
+----
+
+After enabling the repository, install the `-dbgsym` package that matches the
+binary you want to debug.
+
+
 [[sysadmin_package_repositories_ceph]]
 Ceph Repositories
 ~~~~~~~~~~~~~~~~~
