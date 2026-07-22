@@ -763,13 +763,13 @@ The above commands create the following rules in the rules configuration file:
 .Node Affinity Rules Configuration Example (`/etc/pve/ha/rules.cfg`)
 ----
 node-affinity: ha-rule-vm100
-        resources vm:100
         nodes node1
+        resources vm:100
         strict 1
 
 node-affinity: priority-cascade
-        resources vm:200,ct:300
         nodes node1:2,node2:1,node3:1,node4
+        resources vm:200,ct:300
 ----
 
 Node Affinity Rule Properties
@@ -832,12 +832,12 @@ The above commands created the following rules in the rules configuration file:
 .Resource Affinity Rules Configuration Example (`/etc/pve/ha/rules.cfg`)
 ----
 resource-affinity: keep-together
-        resources vm:100,vm:200
         affinity positive
+        resources vm:100,vm:200
 
 resource-affinity: keep-separate
-        resources vm:200,ct:300
         affinity negative
+        resources vm:200,ct:300
 ----
 
 Interactions between Positive and Negative Resource Affinity Rules
