@@ -709,6 +709,13 @@ include::generated/ha-rules-opts.adoc[]
 | HA Rule Type        | Description
 | `node-affinity`     | Places affinity from one or more HA resources to one or
 more nodes.
+
+The affinity `positive` specifies that HA resources should or must be kept on
+one of the specified nodes, while the affinity `negative` specifies that the HA
+resources should or must avoid the specified nodes.
+
+The strictness attribute `strict` specifies whether it is a soft constraint
+("should") or whether it is a hard constraint ("must").
 | `resource-affinity` | Places affinity between two or more HA resources.
 
 The affinity `positive` specifies that HA resources must be kept on the same
@@ -741,11 +748,23 @@ resource `vm:100` to be only on `node1`:
 # ha-manager rules set node-affinity ha-rule-vm100 --strict 1
 ----
 
-For bigger clusters or specific use cases, it makes sense to define a more
-detailed failover behavior. For example, the resources `vm:200` and `ct:300`
-should run on `node1`. If `node1` becomes unavailable, the resources should be
-distributed on `node2` and `node3`. If `node2` and `node3` are also
-unavailable, the resources should run on `node4`.
+Furthermore, node affinity rules use positive affinity by default, meaning that
+the preferred cluster nodes must be explicitly specified. However, in larger
+clusters, it is often more practical to define node affinity using an opt-out
+approach to avoid long and verbose lists of cluster nodes. For example, the
+following command defines an HA node affinity rule that makes the HA resources
+`ct:200` and `vm:300` avoid the node `node3`:
+
+----
+# ha-manager rules add node-affinity ha-rule-negative \
+        --affinity negative --resources ct:200,vm:300 --nodes node3
+----
+
+Moreover, specific use cases might require defining a more detailed failover
+behavior. For example, the resources `vm:400` and `ct:500` should run on
+`node1`. If `node1` becomes unavailable, the resources should be distributed on
+`node2` and `node3`. If `node2` and `node3` are also unavailable, the resources
+should run on `node4`.
 
 To implement this behavior in a node affinity rule, nodes can be paired with
 priorities to order the preference for nodes. If two or more nodes have the same
@@ -755,7 +774,7 @@ last `node4` gets the lowest priority, which can be omitted to default to `0`:
 
 ----
 # ha-manager rules add node-affinity priority-cascade \
-        --resources vm:200,ct:300 --nodes "node1:2,node2:1,node3:1,node4"
+        --resources vm:400,ct:500 --nodes "node1:2,node2:1,node3:1,node4"
 ----
 
 The above commands create the following rules in the rules configuration file:
@@ -767,9 +786,14 @@ node-affinity: ha-rule-vm100
         resources vm:100
         strict 1
 
+node-affinity: ha-rule-negative
+        nodes node3
+        resources ct:200,vm:300
+        affinity negative
+
 node-affinity: priority-cascade
         nodes node1:2,node2:1,node3:1,node4
-        resources vm:200,ct:300
+        resources vm:400,ct:500
 ----
 
 Node Affinity Rule Properties
@@ -895,6 +919,10 @@ the conflicts and errors have been resolved.
 Currently, HA rules are checked for the following feasibility tests:
 
 * An HA resource can only be part of a single HA node affinity rule.
+
+* Negative HA node affinity rules cannot specify node priorities.
+
+* Negative HA node affinity rules cannot specify all cluster nodes.
 
 * An HA resource affinity rule must have at least two HA resources.
 
