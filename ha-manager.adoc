@@ -719,9 +719,9 @@ on the same node.
 Node Affinity Rules
 ^^^^^^^^^^^^^^^^^^^
 
-By default, a HA resource is able to run on any cluster node, but a common
-requirement is that a HA resource should run on a specific node. That can be
-implemented by defining a HA node affinity rule to make the HA resource
+By default, an HA resource is able to run on any cluster node, but a common
+requirement is that an HA resource should run on a specific node. That can be
+implemented by defining an HA node affinity rule to make the HA resource
 `vm:100` prefer the node `node1`:
 
 ----
@@ -730,8 +730,8 @@ implemented by defining a HA node affinity rule to make the HA resource
 
 By default, node affinity rules are not strict, i.e., if there is none of the
 specified nodes available, the HA resource can also be moved to other nodes.
-If, on the other hand, a HA resource must be restricted to the specified nodes,
-then the node affinity rule must be set to be strict.
+If, on the other hand, an HA resource must be restricted to the specified
+nodes, then the node affinity rule must be set to be strict.
 
 In the previous example, the node affinity rule can be modified to restrict the
 resource `vm:100` to be only on `node1`:
@@ -823,8 +823,8 @@ separate nodes:
 
 Other than node affinity rules, resource affinity rules are strict by default,
 i.e., if the constraints imposed by the resource affinity rules cannot be met
-for a HA resource, the HA Manager will put the HA resource in recovery state in
-case of a failover or in error state elsewhere.
+for an HA resource, the HA Manager will put the HA resource in recovery state
+in case of a failover or in error state elsewhere.
 
 The above commands created the following rules in the rules configuration file:
 
@@ -905,9 +905,9 @@ Currently, HA rules are checked for the following feasibility tests:
   resources as a negative HA resources affinity rule. That is, two or more HA
   resources cannot be kept together and separate at the same time.
 
-* An HA resource can only be part of a HA node affinity rule and a HA resource
-  affinity rule at the same time, if the HA node affinity rule has a single
-  priority class.
+* An HA resource can only be part of an HA node affinity rule and an HA
+  resource affinity rule at the same time, if the HA node affinity rule has a
+  single priority class.
 
 * The HA resources of a positive HA resource affinity rule can only be part of
   a single HA node affinity rule at most.
