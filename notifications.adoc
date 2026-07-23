@@ -319,8 +319,8 @@ configurable schedule.
 
 * `match-calendar 8-12`
 * `match-calendar 8:00-15:30`
-* `match-calendar mon-fri 9:00-17:00`
-* `match-calendar sun,tue-wed,fri 9-17`
+* `match-calendar mon..fri 9:00-17:00`
+* `match-calendar sun,tue..wed,fri 9-17`
 
 [[notification_matchers_field]]
 Field Matching Rules
@@ -359,12 +359,12 @@ Examples
 ~~~~~~~~
 ----
 matcher: workday
-        match-calendar mon-fri 9-17
+        match-calendar mon..fri 9-17
         target admin
         comment Notify admins during working hours
 
 matcher: night-and-weekend
-        match-calendar mon-fri 9-17
+        match-calendar mon..fri 9-17
         invert-match true
         target on-call-admins
         comment Separate target for non-working hours
