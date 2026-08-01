@@ -18,9 +18,13 @@ Minimum Requirements, for Evaluation
 These minimum requirements are for evaluation purposes only and should not be
 used in production.
 
-* CPU: 64bit (Intel 64 or AMD64)
+* CPU: 64-bit x86 (Intel 64 or AMD64). Alternatively, 64-bit ARM (arm64,
+  aarch64) with an ARMv8-A or newer CPU, see
+  xref:install_arm64_support[64-bit ARM (arm64) Support].
 
-* Intel VT/AMD-V capable CPU/motherboard for KVM full virtualization support
+* For x86 hosts, an Intel VT or AMD-V capable CPU and motherboard for KVM full
+  virtualization support. On the supported arm64 platforms, KVM
+  hardware-assisted virtualization needs no equivalent CPU flag.
 
 * RAM: 1 GB RAM, plus additional RAM needed for guests
 
@@ -33,7 +37,9 @@ used in production.
 Recommended System Requirements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* Intel 64 or AMD64 with Intel VT/AMD-V CPU flag.
+* Intel 64 or AMD64 with an Intel VT or AMD-V CPU flag. Alternatively, a 64-bit
+  ARM host with an ARMv9-A or newer CPU, see
+  xref:install_arm64_support[64-bit ARM (arm64) Support].
 
 * Memory: Minimum 2 GB for the OS and {pve} services, plus designated memory for
   guests. For Ceph and ZFS, additional memory is required; approximately 1GB of
@@ -55,11 +61,50 @@ Recommended System Requirements
 * Redundant (Multi-)Gbit NICs, with additional NICs depending on the preferred
   storage technology and cluster setup.
 
-* For PCI(e) passthrough, the CPU and motherboard need to support IOMMU
-  (Intel VT-d, AMD-Vi).
+* For PCI(e) passthrough, the CPU and motherboard need to support an
+  input/output memory management unit (IOMMU): Intel VT-d or AMD-Vi on x86, or a
+  System Memory Management Unit (SMMU) on arm64.
 
 TIP: IOMMU usually also needs to be enabled in the BIOS/UEFI. See the
 xref:qm_pci_passthrough[PCI(e) Passthrough] chapter for details.
+
+
+[[install_arm64_support]]
+64-bit ARM (arm64) Support
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+{pve} supports native 64-bit ARM (arm64, aarch64) on the NVIDIA Grace Hopper
+and NVIDIA Vera platforms. On other UEFI-based ARMv9-A or newer hardware,
+support is best-effort. Device-tree-only single-board computers, such as the
+Raspberry Pi, are not supported.
+
+An arm64 host must boot through UEFI and describe its hardware through ACPI
+(Advanced Configuration and Power Interface). {pve} does not support
+device-tree-only or legacy BIOS boot on arm64.
+
+Several x86-specific features are not available on arm64:
+
+* Virtual machines cannot use SeaBIOS. On arm64, guests always boot through
+  UEFI, provided by the ARM build of OVMF, also known as AAVMF.
+
+* AMD SEV (Secure Encrypted Virtualization) memory encryption and Intel's
+  GVT-g mediated vGPUs are x86-only.
+
+* There is no operating-system-level CPU microcode package, unlike
+  `intel-microcode` and `amd64-microcode` on x86.
+
+A cluster can contain both x86 and arm64 nodes, but guests cannot move between
+nodes of different architectures while running:
+
+* Live migration is only possible between nodes of the same architecture,
+  because a running guest's CPU state cannot be transferred across
+  architectures.
+
+* A guest, whether a virtual machine or a container, only runs on a node whose
+  architecture matches the guest. Offline migration, backup and restore, or
+  shared storage can move a guest's data to a node of a different architecture,
+  but the guest still needs to be reinstalled or reconfigured for that
+  architecture before it starts.
 
 
 Simple Performance Overview

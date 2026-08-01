@@ -26,8 +26,9 @@ version 3.
 
 Will {pve} run on a 32bit processor?::
 
-{pve} works only on 64-bit CPUs (AMD or Intel). There is no plan
-for 32-bit for the platform.
+{pve} works only on 64-bit CPUs. The supported architectures are x86_64 (AMD64
+or Intel 64) and aarch64 on the NVIDIA Grace Hopper and NVIDIA Vera platforms.
+There is no plan to support 32-bit hosts.
 +
 NOTE: VMs and Containers can be both 32-bit and 64-bit.
 
@@ -39,6 +40,10 @@ or `svm` tag in this command output:
 ----
 egrep '(vmx|svm)' /proc/cpuinfo
 ----
++
+NOTE: This check applies to x86 hosts only. On the supported arm64 platforms,
+KVM hardware-assisted virtualization is available and reports no equivalent CPU
+flag.
 
 Supported Intel CPUs::
 
@@ -52,6 +57,11 @@ Supported AMD CPUs::
 64-bit processors with
 https://en.wikipedia.org/wiki/Virtualization_Technology#AMD_virtualization_.28AMD-V.29[AMD
 Virtualization Technology (AMD-V)] support.
+
+Supported arm64 platforms::
+
+The NVIDIA Grace Hopper and NVIDIA Vera platforms. See
+xref:install_arm64_support[64-bit ARM (arm64) Support] for details.
 
 What is a container/virtual environment (VE)/virtual private server (VPS)?::
 
