@@ -81,6 +81,10 @@ another way.
 [[sysadmin_firmware_cpu]]
 CPU Microcode Updates
 ~~~~~~~~~~~~~~~~~~~~~
+NOTE: CPU microcode updates as described in this section are specific to x86
+hosts. There is no equivalent operating-system-level microcode package for
+arm64.
+
 Microcode updates are intended to fix found security vulnerabilities and other
 serious CPU bugs. While the CPU performance can be affected, a patched microcode
 is usually still more performant than an unpatched microcode where the kernel

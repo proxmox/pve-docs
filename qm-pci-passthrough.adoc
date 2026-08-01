@@ -33,9 +33,11 @@ Hardware
 Your hardware needs to support `IOMMU` (*I*/*O* **M**emory **M**anagement
 **U**nit) interrupt remapping, this includes the CPU and the motherboard.
 
-Generally, Intel systems with VT-d and AMD systems with AMD-Vi support this.
-But it is not guaranteed that everything will work out of the box, due
-to bad hardware implementation and missing or low quality drivers.
+Generally, Intel systems with VT-d and AMD systems with AMD-Vi support this. On
+arm64, the equivalent is the System Memory Management Unit (SMMU), provided by
+the supported platforms. But it is not guaranteed that everything will work out
+of the box, due to bad hardware implementation and missing or low quality
+drivers.
 
 Further, server grade hardware has often better support than consumer grade
 hardware, but even then, many modern system can support this.
@@ -75,6 +77,10 @@ xref:sysboot_edit_kernel_cmdline[kernel command line] by adding:
 ----
  intel_iommu=on
 ----
+
+NOTE: The `intel_iommu=on` parameter applies to x86 hosts. On arm64, the SMMU is
+enabled through firmware and ACPI, so no such kernel command line parameter is
+needed.
 
 .IOMMU Passthrough Mode
 

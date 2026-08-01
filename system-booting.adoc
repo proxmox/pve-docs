@@ -41,6 +41,10 @@ Partition of all selected disks on all systems booted with GRUB
 footnote:[These are all installs with root on `ext4` or `xfs` and installs
 with root on ZFS on non-EFI systems].
 
+NOTE: This applies to x86 hosts. On arm64, {pve} boots through UEFI only, so
+there is no BIOS Boot Partition and no `i386-pc` GRUB target; GRUB is installed
+in EFI mode using the `arm64-efi` target instead.
+
 
 [[sysboot_proxmox_boot_tool]]
 Synchronizing the content of the ESP with `proxmox-boot-tool`
@@ -222,6 +226,9 @@ If the output contains a line similar to the following, `systemd-boot` is used.
 Boot0006* Linux Boot Manager	[...] File(\EFI\systemd\systemd-bootx64.efi)
 ----
 
+NOTE: The file names above are for x86 hosts. On arm64, the equivalent binaries
+are named `grubaa64.efi`, `shimaa64.efi`, and `systemd-bootaa64.efi`.
+
 By running:
 
 ----
@@ -394,6 +401,10 @@ meta-package.
   Proxmox)
 - `grub-efi-amd64-signed` (GRUB EFI bootloader, signed by Proxmox)
 - `proxmox-kernel-6.X.Y-Z-pve-signed` (Kernel image, signed by Proxmox)
+
+NOTE: The `shim-helpers-amd64-signed` and `grub-efi-amd64-signed` package names
+are for x86 hosts. On arm64, the corresponding packages are
+`shim-helpers-arm64-signed` and `grub-efi-arm64-signed`.
 
 Only GRUB is supported as bootloader out of the box, since other bootloader are
 currently not eligible for secure boot code-signing.

@@ -138,6 +138,9 @@ Advanced Options: Test Memory (memtest86+)::
 Runs `memtest86+`. This is useful to check if the memory is functional and free
 of errors. Secure Boot must be turned off in the UEFI firmware setup utility to
 run this option.
++
+NOTE: This entry is available on x86 installation media only, as `memtest86+`
+does not support arm64.
 
 You normally select *Install {pve} (Graphical)* to start the installation.
 
