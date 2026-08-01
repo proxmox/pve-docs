@@ -40,12 +40,12 @@ devices, and runs as if it were running on real hardware. For instance, you can 
 an ISO image as a parameter to QEMU, and the OS running in the emulated computer
 will see a real CD-ROM inserted into a CD drive.
 
-QEMU can emulate a great variety of hardware from ARM to Sparc, but {pve} is
-only concerned with 32 and 64 bits PC clone emulation, since it represents the
-overwhelming majority of server hardware. The emulation of PC clones is also one
-of the fastest due to the availability of processor extensions which greatly
-speed up QEMU when the emulated architecture is the same as the host
-architecture.
+QEMU can emulate a great variety of hardware, from ARM to Sparc. On x86 hosts,
+{pve} is concerned with 32-bit and 64-bit PC clone emulation, since it
+represents the overwhelming majority of server hardware. On arm64 hosts, {pve}
+emulates 64-bit ARM (aarch64) machines instead. Emulating the same architecture as the host is also one of the
+fastest options, due to the availability of processor extensions which greatly
+speed up QEMU when the emulated architecture matches the host architecture.
 
 NOTE: You may sometimes encounter the term _KVM_ (Kernel-based Virtual Machine).
 It means that QEMU is running with the support of the virtualization processor
@@ -139,7 +139,8 @@ snapshots) more intelligently.
 {pve} allows to boot VMs with different firmware and machine types, namely
 xref:qm_bios_and_uefi[SeaBIOS and OVMF]. In most cases you want to switch from
 the default SeaBIOS to OVMF only if you plan to use
-xref:qm_pci_passthrough[PCIe passthrough].
+xref:qm_pci_passthrough[PCIe passthrough]. On arm64 hosts OVMF is the default
+and only option, as SeaBIOS is x86-only.
 
 [[qm_machine_type]]
 
@@ -153,6 +154,10 @@ https://ark.intel.com/content/www/us/en/ark/products/31918/intel-82q35-graphics-
 chipset, which also provides a virtual PCIe bus, and thus may be
 desired if you want to pass through PCIe hardware.
 Additionally, you can select a xref:qm_pci_viommu[vIOMMU] implementation.
+
+NOTE: The Intel 440FX and Q35 chipsets are specific to x86 guests. On arm64
+hosts, virtual machines use the `virt` machine type, which models a generic,
+UEFI-based ARM machine.
 
 Machine Version
 +++++++++++++++
@@ -467,6 +472,11 @@ The backend default is 'kvm64' which works on essentially all x86_64 host CPUs
 and the UI default when creating a new VM is 'x86-64-v2-AES', which requires a
 host CPU starting from Westmere for Intel or at least a fourth generation
 Opteron for AMD.
+
+NOTE: The 'kvm64' and 'x86-64-v*' CPU models described here are x86-only. On
+arm64 hosts, guests use ARM CPU models: 'host' to expose the physical CPU
+(recommended on the supported hardware), or a generic model such as 'max',
+together with the `virt` machine type.
 
 In short:
 
@@ -1128,6 +1138,10 @@ the operating system. By default QEMU uses *SeaBIOS* for this, which is an
 open-source, x86 BIOS implementation. SeaBIOS is a good choice for most
 standard setups.
 
+NOTE: SeaBIOS, and thus `bios=seabios`, is available for x86 guests only. On
+arm64 hosts, virtual machines always boot through UEFI, using the ARM build of
+OVMF (AAVMF), so `bios=ovmf` is the only supported setting there.
+
 Some operating systems (such as Windows 11) may require use of an UEFI
 compatible implementation. In such cases, you must use *OVMF* instead,
 which is an open-source UEFI implementation. footnote:[See the OVMF Project https://github.com/tianocore/tianocore.github.io/wiki/OVMF]
@@ -1742,6 +1756,10 @@ If your VM is running and no locally bound resources are configured (such as
 devices that are passed through), you can initiate a live migration with the `--online`
 flag in the `qm migration` command evocation. The web interface defaults to
 live migration when the VM is running.
+
+NOTE: Live migration is only possible between hosts of the same CPU
+architecture. A running guest's CPU state cannot be transferred between an x86
+and an arm64 host.
 
 How it works
 ^^^^^^^^^^^^
