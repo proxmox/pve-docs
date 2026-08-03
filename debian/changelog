@@ -1,3 +1,24 @@
+pve-docs (9.2.4) trixie; urgency=medium
+
+  * ha-manager: document the node and resource affinity rules, including
+    negative node affinity, and refine the rule configuration examples and
+    wording.
+
+  * qm: expand the memory-encryption documentation to cover Intel TDX and fix
+    the dead links in the AMD SEV section.
+
+  * package repos: document the debug symbol repository.
+
+  * document 64-bit ARM (arm64) support: the system requirements, aarch64
+    VM guests, the x86-only boot, firmware, and passthrough details, and that
+    subscription keys are architecture-bound.
+
+  * notifications: fix the broken calendar match examples.
+
+  * intro: correct the outdated pmxcfs maximum storage size.
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 04 Aug 2026 00:30:32 +0200
+
 pve-docs (9.2.3) trixie; urgency=medium
 
   * ha-manager: drop the technology preview status from the CRS load balancer.
